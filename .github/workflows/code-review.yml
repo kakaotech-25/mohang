@@ -25,10 +25,10 @@ jobs:
           OPENAI_API_ENDPOINT: https://api.openai.com/v1
           MODEL: gpt-4o # https://platform.openai.com/docs/models
           PROMPT: >
-            Please perform a comprehensive code review on the following code diff. Specifically, focus on:
-            1. Correctness: Are there any logical errors or bugs?
-            2. Performance: Are there any inefficiencies?
-            3. Security: Are there any vulnerabilities?
+            Please review the following code diff and focus on
+            1. Correctness: Any logical errors or bugs?
+            2. Performance: Any inefficiencies?
+            3. Security: Any vulnerabilities?
             4. Readability: Is the code easy to read? Are comments sufficient?
             5. Maintainability: Is the code maintainable? Any refactoring suggestions?
           top_p: 1 # https://platform.openai.com/docs/api-reference/chat/create#chat/create-top_p
