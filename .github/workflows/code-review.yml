@@ -25,12 +25,10 @@ jobs:
           OPENAI_API_ENDPOINT: https://api.openai.com/v1
           MODEL: gpt-4o # https://platform.openai.com/docs/models
           PROMPT: >
-            Please review the following code diff and focus on
-            1. Correctness: Any logical errors or bugs?
-            2. Performance: Any inefficiencies?
-            3. Security: Any vulnerabilities?
-            4. Readability: Is the code easy to read? Are comments sufficient?
-            5. Maintainability: Is the code maintainable? Any refactoring suggestions?
+            Conduct a code review focusing on the changed parts.
+            The output format should be smooth and natural, as if a senior developer were explaining it.
+            You must write the review as if you were having a conversation.
+            Review only one topic in 3 lines or less.
           top_p: 1 # https://platform.openai.com/docs/api-reference/chat/create#chat/create-top_p
           temperature: 0.7 # https://platform.openai.com/docs/api-reference/chat/create#chat/create-temperature
           max_tokens: 4096 # gpt-3.5-turbo model's maximum token count
