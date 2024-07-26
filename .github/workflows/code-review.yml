@@ -26,12 +26,11 @@ jobs:
           MODEL: gpt-3.5-turbo # https://platform.openai.com/docs/models
           PROMPT: >
             Please perform a comprehensive code review on the following code diff. Specifically, focus on:
-            1. Correctness: Are there any logical errors or bugs in the code?
-            2. Code Style: Does the code follow best practices and coding standards? Are there any style issues?
-            3. Performance: Are there any potential performance bottlenecks or inefficiencies?
-            4. Security: Are there any security vulnerabilities or potential risks in the code?
-            5. Readability: Is the code easy to read and understand? Are there any comments or documentation that could be improved?
-            6. Maintainability: Is the code modular and maintainable? Are there any refactoring suggestions?
+            1. Correctness: Are there any logical errors or bugs?
+            2. Performance: Are there any inefficiencies?
+            3. Security: Are there any vulnerabilities?
+            4. Readability: Is the code easy to read? Are comments sufficient?
+            5. Maintainability: Is the code maintainable? Any refactoring suggestions?
           top_p: 1 # https://platform.openai.com/docs/api-reference/chat/create#chat/create-top_p
           temperature: 0.7 # https://platform.openai.com/docs/api-reference/chat/create#chat/create-temperature
           max_tokens: 4096 # gpt-3.5-turbo model's maximum token count
