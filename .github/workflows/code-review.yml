@@ -23,7 +23,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           LANGUAGE: Korean
           OPENAI_API_ENDPOINT: https://api.openai.com/v1
-          MODEL: gpt-3.5-turbo # https://platform.openai.com/docs/models
+          MODEL: gpt-4o # https://platform.openai.com/docs/models
           PROMPT: >
             Please perform a comprehensive code review on the following code diff. Specifically, focus on:
             1. Correctness: Are there any logical errors or bugs?
