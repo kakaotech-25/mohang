@@ -32,7 +32,7 @@ public class AuthService {
             memberService.save(generateMember(oAuthMember));
         }
         final Member foundMember = memberService.findByEmail(email);
-        final MemberToken memberToken = jwtTokenProvider.createMemberToken(String.valueOf(foundMember.getId()));
+        final MemberToken memberToken = jwtTokenProvider.createMemberToken(foundMember.getId());
         return memberToken;
     }
 
