@@ -1,5 +1,6 @@
 package moheng.auth.application;
 
+import moheng.auth.domain.MemberToken;
 import moheng.auth.dto.TokenResponse;
 import moheng.config.TestConfig;
 import moheng.member.domain.Member;
@@ -42,7 +43,7 @@ class AuthServiceTest {
         String code = "authorization code";
 
         // when
-        TokenResponse actual = authService.generateTokenWithCode(code);
+        MemberToken actual = authService.generateTokenWithCode(code);
 
         // then
         assertThat(actual.getAccessToken()).isNotEmpty();
