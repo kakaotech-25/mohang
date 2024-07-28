@@ -28,14 +28,14 @@ public class AuthService {
 
     @Transactional
     public TokenResponse generateTokenWithCode(final String code) {
-        OAuthMember oAuthMember = oAuthClient.getOAuthMember(code);
-        String email = oAuthMember.getEmail();
+        final OAuthMember oAuthMember = oAuthClient.getOAuthMember(code);
+        final String email = oAuthMember.getEmail();
 
         if(!memberService.existsByEmail(email)) {
             memberService.save(generateMember(oAuthMember));
         }
-        Member foundMember = memberService.findByEmail(email);
-        String accessToken = jwtTokenProvider.createToken(String.valueOf(foundMember.getId()));
+        final Member foundMember = memberService.findByEmail(email);
+        final String accessToken = jwtTokenProvider.createToken(String.valueOf(foundMember.getId()));
 
         return new TokenResponse(accessToken);
     }
