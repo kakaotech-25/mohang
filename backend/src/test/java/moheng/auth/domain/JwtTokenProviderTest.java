@@ -10,8 +10,9 @@ import org.junit.jupiter.api.Test;
 
 public class JwtTokenProviderTest {
     private static final String SECRET_KEY = "secret_secret_secret_secret_secret_secret_secret_";
-    private static final int EXPIRE_TIME = 3600;
-    private final JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(SECRET_KEY, EXPIRE_TIME);
+    private static final int ACCESS_TOKEN_EXPIRE_TIME = 3600;
+    private static final int REFRESH_TOKEN_EXPIRE_TIME = 3600;
+    private final JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(SECRET_KEY, ACCESS_TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME);
 
     @DisplayName("JWT 토큰을 생성한다.")
     @Test
@@ -20,7 +21,7 @@ public class JwtTokenProviderTest {
         String payload = "hello";
 
         // when
-        String actual = jwtTokenProvider.createToken(payload);
+        String actual = jwtTokenProvider.createAccessToken(payload);
 
         // then
         assertThat(actual.split("\\.")).hasSize(3);
@@ -31,7 +32,7 @@ public class JwtTokenProviderTest {
     void JWT_토큰의_Payload_를_조회한다() {
         // given
         String exptected = "hello";
-        String token = jwtTokenProvider.createToken(exptected);
+        String token = jwtTokenProvider.createAccessToken(exptected);
 
         // when
         String actual = jwtTokenProvider.getPayload(token);
@@ -44,8 +45,8 @@ public class JwtTokenProviderTest {
     @Test
     void 만료된_토큰을_전달받으면_예외가_발생한다() {
         // given
-        JwtTokenProvider expiredJwtTokenProvider = new JwtTokenProvider(SECRET_KEY, 0);
-        String expiredToken = expiredJwtTokenProvider.createToken("payload");
+        JwtTokenProvider expiredJwtTokenProvider = new JwtTokenProvider(SECRET_KEY, 0, 0);
+        String expiredToken = expiredJwtTokenProvider.createAccessToken("payload");
 
         // when & then
         assertThatThrownBy(() -> jwtTokenProvider.validateToken(expiredToken))
