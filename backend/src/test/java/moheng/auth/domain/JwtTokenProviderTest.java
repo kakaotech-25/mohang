@@ -112,7 +112,7 @@ public class JwtTokenProviderTest {
     @Test
     void a() {
         // given
-        long memberId = 1L;
+        long newMemberId = 1L;
         InMemoryRefreshTokenRepository refreshTokenRepository = new InMemoryRefreshTokenRepository();
         JwtTokenProvider tokenProvider = new JwtTokenProvider(
                 refreshTokenRepository,  SECRET_KEY,
@@ -120,9 +120,9 @@ public class JwtTokenProviderTest {
         );
 
         // when
-        tokenProvider.createRefreshToken(memberId);
+        tokenProvider.createRefreshToken(newMemberId);
 
         // then
-        assertThat(refreshTokenRepository.findById(memberId)).isNotEmpty();
+        assertThat(refreshTokenRepository.findById(newMemberId)).isNotEmpty();
     }
 }
