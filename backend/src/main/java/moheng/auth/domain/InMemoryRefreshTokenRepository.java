@@ -3,6 +3,7 @@ package moheng.auth.domain;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
@@ -15,5 +16,10 @@ public class InMemoryRefreshTokenRepository {
 
     public boolean existsById(final long memberId) {
         return repository.containsKey(memberId);
+    }
+
+    public String findById(long memberId) {
+        String refreshToken = repository.get(memberId);
+        return refreshToken;
     }
 }

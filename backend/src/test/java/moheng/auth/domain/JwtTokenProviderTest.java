@@ -107,4 +107,22 @@ public class JwtTokenProviderTest {
         assertThatThrownBy(() -> jwtTokenProvider.validateToken(invalidToken))
                 .isInstanceOf(InvalidTokenException.class);
     }
+
+    @DisplayName("리프레시 토큰 저장소에 유저의 토큰이 존재하지 않으면 새로운 토큰을 생성하고 저장한다.")
+    @Test
+    void a() {
+        // given
+        long memberId = 1L;
+        InMemoryRefreshTokenRepository refreshTokenRepository = new InMemoryRefreshTokenRepository();
+        JwtTokenProvider tokenProvider = new JwtTokenProvider(
+                refreshTokenRepository,  SECRET_KEY,
+                ACCESS_TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME
+        );
+
+        // when
+        tokenProvider.createRefreshToken(memberId);
+
+        // then
+        assertThat(refreshTokenRepository.findById(memberId)).isNotEmpty();
+    }
 }
