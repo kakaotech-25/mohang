@@ -110,7 +110,7 @@ public class JwtTokenProviderTest {
 
     @DisplayName("리프레시 토큰 저장소에 유저의 토큰이 존재하지 않으면 새로운 토큰을 생성하고 저장한다.")
     @Test
-    void a() {
+    void 리프레시_토큰_저장소에_유저의_토큰이_존재하지_않으면_새로운_토큰을_생성하고_저장한다() {
         // given
         long newMemberId = 1L;
         InMemoryRefreshTokenRepository refreshTokenRepository = new InMemoryRefreshTokenRepository();
@@ -125,4 +125,6 @@ public class JwtTokenProviderTest {
         // then
         assertThat(refreshTokenRepository.findById(newMemberId)).isNotEmpty();
     }
+
+
 }
