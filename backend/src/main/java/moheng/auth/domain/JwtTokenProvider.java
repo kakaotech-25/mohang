@@ -18,7 +18,7 @@ public class JwtTokenProvider {
     private final long refreshTokenValidityInSeconds;
 
     public JwtTokenProvider(
-            RefreshTokenRepository inMemoryRefreshTokenRepository,
+            final RefreshTokenRepository inMemoryRefreshTokenRepository,
             @Value("${security.jwt.token.secret_key}") final String secretKey,
             @Value("${security.jwt.token.expire_length.access_token}") final long accessTokenValidityInSeconds,
             @Value("${security.jwt.token.expire_length.refresh_token}") final long refreshTokenValidityInSeconds) {
@@ -59,7 +59,7 @@ public class JwtTokenProvider {
         return createToken(String.valueOf(memberId), refreshTokenValidityInSeconds);
     }
 
-    public String getPayload(String token) {
+    public String getPayload(final String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(secretKey)
                 .build()
@@ -68,7 +68,7 @@ public class JwtTokenProvider {
                 .getSubject();
     }
 
-    public void validateToken(String token) {
+    public void validateToken(final String token) {
         try {
             Jws<Claims> claims = Jwts.parserBuilder()
                     .setSigningKey(secretKey)
