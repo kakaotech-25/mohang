@@ -14,18 +14,16 @@ public class JwtTokenProviderTest {
     private static final int REFRESH_TOKEN_EXPIRE_TIME = 3600;
     private final JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(SECRET_KEY, ACCESS_TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME);
 
-    @DisplayName("JWT 토큰을 생성한다.")
+    @DisplayName("엑세스 토큰을 생성한다.")
     @Test
-    void JWT_토큰을_생성한다() {
-        // given
-        String payload = "hello";
-
-        // when
-        String actual = jwtTokenProvider.createAccessToken(payload);
+    void 엑세스_토큰을_생성한다() {
+        // given, when
+        String actual = jwtTokenProvider.createAccessToken("1L");
 
         // then
         assertThat(actual.split("\\.")).hasSize(3);
     }
+
 
     @DisplayName("JWT 토큰의 Payload 를 조회한다.")
     @Test
