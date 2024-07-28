@@ -24,14 +24,32 @@ public class JwtTokenProvider {
         this.refreshTokenValidityInSeconds = refreshTokenValidityInSeconds;
     }
 
-    public String createToken(String payload) {
+    public MemberToken createMemberToken(String payload) {
+        String accessToken = createAccessToken(payload);
+        String refreshToken = createRefreshToken(payload);
+        return new MemberToken(accessToken, refreshToken);
+    }
+
+    public String createAccessToken(String payload) {
         Date now = new Date();
-        Date validity = new Date(now.getTime() + accessTokenValidityInSeconds);
+        Date expireDate = new Date(now.getTime() + accessTokenValidityInSeconds);
 
         return Jwts.builder()
                 .setSubject(payload)
                 .setIssuedAt(now)
-                .setExpiration(validity)
+                .setExpiration(expireDate)
+                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public String createRefreshToken(String payload) {
+        Date now = new Date();
+        Date expireDate = new Date(now.getTime() + refreshTokenValidityInSeconds);
+
+        return Jwts.builder()
+                .setSubject(payload)
+                .setIssuedAt(now)
+                .setExpiration(expireDate)
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
