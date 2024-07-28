@@ -13,7 +13,10 @@ public class JwtTokenProviderTest {
     private static final int ACCESS_TOKEN_EXPIRE_TIME = 3600;
     private static final int REFRESH_TOKEN_EXPIRE_TIME = 3600;
     private static final int EXPIRED_TOKEN_TIME = 0;
-    private final JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(SECRET_KEY, ACCESS_TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME);
+    private final JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(
+            new InMemoryRefreshTokenRepository(), SECRET_KEY,
+            ACCESS_TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME
+    );
 
     @DisplayName("엑세스 토큰을 생성한다.")
     @Test
@@ -53,7 +56,10 @@ public class JwtTokenProviderTest {
     @Test
     void 만료된_토큰을_전달받으면_예외가_발생한다() {
         // given
-        JwtTokenProvider expiredJwtTokenProvider = new JwtTokenProvider(SECRET_KEY, ACCESS_TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME);
+        JwtTokenProvider expiredJwtTokenProvider = new JwtTokenProvider(
+                new InMemoryRefreshTokenRepository(), SECRET_KEY,
+                ACCESS_TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME
+        );
         String expiredToken = expiredJwtTokenProvider.createToken("payload", EXPIRED_TOKEN_TIME);
 
         // when & then
@@ -65,7 +71,10 @@ public class JwtTokenProviderTest {
     @Test
     void 만료된_리프레시_토큰을_전달받으면_예외를_발생시킨다() {
         // given
-        JwtTokenProvider expiredJwtTokenProvider = new JwtTokenProvider(SECRET_KEY, EXPIRED_TOKEN_TIME, EXPIRED_TOKEN_TIME);
+        JwtTokenProvider expiredJwtTokenProvider = new JwtTokenProvider(
+                new InMemoryRefreshTokenRepository(), SECRET_KEY,
+                EXPIRED_TOKEN_TIME, EXPIRED_TOKEN_TIME
+        );
         String expiredToken = expiredJwtTokenProvider.createRefreshToken(1L);
 
         // when, then
@@ -77,7 +86,10 @@ public class JwtTokenProviderTest {
     @Test
     void 만료된_엑세스_토큰을_전달받으면_예외를_발생시킨다() {
         // given
-        JwtTokenProvider expiredJwtTokenProvider = new JwtTokenProvider(SECRET_KEY, EXPIRED_TOKEN_TIME, EXPIRED_TOKEN_TIME);
+        JwtTokenProvider expiredJwtTokenProvider = new JwtTokenProvider(
+                new InMemoryRefreshTokenRepository(), SECRET_KEY,
+                EXPIRED_TOKEN_TIME, EXPIRED_TOKEN_TIME
+        );
         String expiredToken = expiredJwtTokenProvider.createAccessToken(1L);
 
         // when, then
