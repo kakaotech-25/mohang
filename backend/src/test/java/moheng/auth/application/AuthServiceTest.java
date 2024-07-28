@@ -83,7 +83,7 @@ class AuthServiceTest {
 
     @DisplayName("Authorization Code 로 토큰을 생성시 리프레시 토큰, 엑세스 토큰을 모두 발급한다.")
     @Test
-    void a() {
+    void Authorization_Code_로_토큰을_생성시_리프레시_토큰_엑세스_토큰을_모두_발급한다() {
         // given
         String code = "authorization code";
 
