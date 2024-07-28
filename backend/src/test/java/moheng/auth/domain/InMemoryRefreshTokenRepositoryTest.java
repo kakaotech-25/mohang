@@ -11,4 +11,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class InMemoryRefreshTokenRepositoryTest {
     private final InMemoryRefreshTokenRepository refreshTokenRepository = new InMemoryRefreshTokenRepository();
+
+    @DisplayName("리프레시 토큰을 저장한다.")
+    @Test
+    void 리프레시_토큰을_저장한다() {
+        // given
+        long memberId = 1L;
+        String refreshToken = "refresh token";
+
+        // when, then
+        assertDoesNotThrow(() -> refreshTokenRepository.save(memberId, refreshToken));
+    }
+
 }
