@@ -13,17 +13,20 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
     private final SecretKey secretKey;
-    private final long tokenValidityInSeconds;
+    private final long accessTokenValidityInSeconds;
+    private final long refreshTokenValidityInSeconds;
 
     public JwtTokenProvider(@Value("${security.jwt.token.secret_key}") final String secretKey,
-                            @Value("${security.jwt.token.expire_length}") final long tokenValidityInSeconds) {
+                            @Value("${security.jwt.token.expire_length.access_token}") final long accessTokenValidityInSeconds,
+                            @Value("${security.jwt.token.expire_length.refresh_token}") final long refreshTokenValidityInSeconds) {
         this.secretKey = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
-        this.tokenValidityInSeconds = tokenValidityInSeconds;
+        this.accessTokenValidityInSeconds = accessTokenValidityInSeconds;
+        this.refreshTokenValidityInSeconds = refreshTokenValidityInSeconds;
     }
 
     public String createToken(String payload) {
         Date now = new Date();
-        Date validity = new Date(now.getTime() + tokenValidityInSeconds);
+        Date validity = new Date(now.getTime() + accessTokenValidityInSeconds);
 
         return Jwts.builder()
                 .setSubject(payload)
