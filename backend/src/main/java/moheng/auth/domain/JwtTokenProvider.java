@@ -12,13 +12,13 @@ import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
-    private final InMemoryRefreshTokenRepository inMemoryRefreshTokenRepository;
+    private final RefreshTokenRepository inMemoryRefreshTokenRepository;
     private final SecretKey secretKey;
     private final long accessTokenValidityInSeconds;
     private final long refreshTokenValidityInSeconds;
 
     public JwtTokenProvider(
-            InMemoryRefreshTokenRepository inMemoryRefreshTokenRepository,
+            RefreshTokenRepository inMemoryRefreshTokenRepository,
             @Value("${security.jwt.token.secret_key}") final String secretKey,
             @Value("${security.jwt.token.expire_length.access_token}") final long accessTokenValidityInSeconds,
             @Value("${security.jwt.token.expire_length.refresh_token}") final long refreshTokenValidityInSeconds) {
