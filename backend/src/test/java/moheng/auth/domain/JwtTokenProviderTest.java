@@ -54,7 +54,7 @@ public class JwtTokenProviderTest {
     void 만료된_토큰을_전달받으면_예외가_발생한다() {
         // given
         JwtTokenProvider expiredJwtTokenProvider = new JwtTokenProvider(SECRET_KEY, ACCESS_TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME);
-        String expiredToken = expiredJwtTokenProvider.createAccessToken(1L);
+        String expiredToken = expiredJwtTokenProvider.createToken("payload", EXPIRED_TOKEN_TIME);
 
         // when & then
         assertThatThrownBy(() -> jwtTokenProvider.validateToken(expiredToken))
