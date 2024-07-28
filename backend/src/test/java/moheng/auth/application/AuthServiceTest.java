@@ -25,6 +25,7 @@ class AuthServiceTest {
     @Autowired
     private MemberRepository memberRepository;
 
+
     @DisplayName("카카오 로그인을 위한 링크를 생성한다.")
     @Test
     void 카카오_로그인을_위한_링크를_생성한다() {
@@ -78,5 +79,19 @@ class AuthServiceTest {
 
         // then
         assertThat(actual).hasSize(1);
+    }
+
+    @DisplayName("Authorization Code 로 토큰을 생성시 리프레시 토큰, 엑세스 토큰을 모두 발급한다.")
+    @Test
+    void a() {
+        // given
+        String code = "authorization code";
+
+        // when
+        MemberToken actual = authService.generateTokenWithCode(code);
+
+        // then
+        assertThat(actual.getAccessToken()).isNotEmpty();
+        assertThat(actual.getRefreshToken()).isNotEmpty();
     }
 }
