@@ -21,7 +21,7 @@ public class InMemoryRefreshTokenRepository implements RefreshTokenRepository {
     }
 
     @Override
-    public String findById(long memberId) {
+    public String findById(final long memberId) {
         String refreshToken = repository.get(memberId);
         return refreshToken;
     }
