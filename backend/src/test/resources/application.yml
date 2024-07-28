@@ -34,6 +34,8 @@ security:
   jwt:
     token:
       secret_key: secretsecretsecretsecretsecretsecret
-      expire_length: 3600
+      expire_length:
+        access_token: 3600
+        refresh_token: 3600
 
 
