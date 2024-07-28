@@ -24,30 +24,30 @@ public class JwtTokenProvider {
         this.refreshTokenValidityInSeconds = refreshTokenValidityInSeconds;
     }
 
-    public MemberToken createMemberToken(final String payload) {
-        String accessToken = createAccessToken(payload);
-        String refreshToken = createRefreshToken(payload);
+    public MemberToken createMemberToken(final long memberId) {
+        String accessToken = createAccessToken(memberId);
+        String refreshToken = createRefreshToken(memberId);
         return new MemberToken(accessToken, refreshToken);
     }
 
-    public String createToken(final String payload, final long tokenValidityInSeconds) {
+    public String createToken(final long memberId, final long tokenValidityInSeconds) {
         Date now = new Date();
         Date expireDate = new Date(now.getTime() + tokenValidityInSeconds);
 
         return Jwts.builder()
-                .setSubject(payload)
+                .setSubject(String.valueOf(memberId))
                 .setIssuedAt(now)
                 .setExpiration(expireDate)
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public String createAccessToken(final String payload) {
-        return createToken(payload, accessTokenValidityInSeconds);
+    public String createAccessToken(final long memberId) {
+        return createToken(memberId, accessTokenValidityInSeconds);
     }
 
-    public String createRefreshToken(final String payload) {
-        return createToken(payload, refreshTokenValidityInSeconds);
+    public String createRefreshToken(final long memberId) {
+        return createToken(memberId, refreshTokenValidityInSeconds);
     }
 
     public String getPayload(String token) {
