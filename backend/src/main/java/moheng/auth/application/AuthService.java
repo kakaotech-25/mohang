@@ -1,9 +1,6 @@
 package moheng.auth.application;
 
-import moheng.auth.domain.JwtTokenProvider;
-import moheng.auth.domain.OAuthClient;
-import moheng.auth.domain.OAuthMember;
-import moheng.auth.domain.OAuthUriProvider;
+import moheng.auth.domain.*;
 import moheng.auth.dto.TokenResponse;
 import moheng.member.application.MemberService;
 import moheng.member.domain.Member;
@@ -27,7 +24,7 @@ public class AuthService {
     }
 
     @Transactional
-    public TokenResponse generateTokenWithCode(final String code) {
+    public MemberToken generateTokenWithCode(final String code) {
         final OAuthMember oAuthMember = oAuthClient.getOAuthMember(code);
         final String email = oAuthMember.getEmail();
 
@@ -35,9 +32,8 @@ public class AuthService {
             memberService.save(generateMember(oAuthMember));
         }
         final Member foundMember = memberService.findByEmail(email);
-        final String accessToken = jwtTokenProvider.createToken(String.valueOf(foundMember.getId()));
-
-        return new TokenResponse(accessToken);
+        final MemberToken memberToken = jwtTokenProvider.createMemberToken(String.valueOf(foundMember.getId()));
+        return memberToken;
     }
 
     @Transactional(readOnly = true)
