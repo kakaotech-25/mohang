@@ -3,8 +3,12 @@ package moheng.auth.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import moheng.auth.dto.RenewalAccessTokenRequest;
+import moheng.auth.dto.RenewalAccessTokenResponse;
 import moheng.auth.exception.InvalidTokenException;
+import moheng.auth.exception.NoExistMemberTokenException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -127,4 +131,14 @@ public class JwtTokenProviderTest {
         assertThat(newToken).isEqualTo(savedToken);
     }
 
+    @DisplayName("리프레시 토큰 저장소에 없는 리프레시 토큰으로 새로운 엑세스 토큰 발급을 요청하면 예외가 발생한다.")
+    @Test
+    void 리프레시_토큰_저장소에_없는_리프레시_토큰으로_새로운_엑세스_토큰_발급을_요청하면_예외가_발생한다() {
+        // given
+        String refreshToken = jwtTokenProvider.createToken("1", 3600);
+
+        // when, then
+        assertThatThrownBy(() -> jwtTokenProvider.generateRenewalAccessToken(refreshToken))
+                .isInstanceOf(NoExistMemberTokenException.class);
+    }
 }
