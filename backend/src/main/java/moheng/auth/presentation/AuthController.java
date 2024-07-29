@@ -2,9 +2,7 @@ package moheng.auth.presentation;
 
 import moheng.auth.application.AuthService;
 import moheng.auth.domain.MemberToken;
-import moheng.auth.dto.OAuthUriResponse;
-import moheng.auth.dto.TokenRequest;
-import moheng.auth.dto.TokenResponse;
+import moheng.auth.dto.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +22,15 @@ public class AuthController {
 
     @PostMapping("/{provider}/login")
     public ResponseEntity<MemberToken> login(@PathVariable final String provider,
-                                                     @RequestBody final TokenRequest tokenRequest) {
+                                             @RequestBody final TokenRequest tokenRequest) {
         MemberToken tokenResponse = authService.generateTokenWithCode(tokenRequest.getCode());
         return ResponseEntity.ok(tokenResponse);
+    }
+
+    @PostMapping("/extend/login")
+    public ResponseEntity<RenewalAccessTokenResponse> extendLogin(final RenewalAccessTokenRequest renewalAccessTokenRequest) {
+        final RenewalAccessTokenResponse renewalAccessTokenResponse =
+                authService.generateRenewalAccessToken(renewalAccessTokenRequest);
+        return ResponseEntity.ok(renewalAccessTokenResponse);
     }
 }
