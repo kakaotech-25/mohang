@@ -29,14 +29,15 @@ public class AuthController {
     }
 
     @PostMapping("/extend/login")
-    public ResponseEntity<RenewalAccessTokenResponse> extendLogin(final RenewalAccessTokenRequest renewalAccessTokenRequest) {
+    public ResponseEntity<RenewalAccessTokenResponse> extendLogin(@RequestBody final RenewalAccessTokenRequest renewalAccessTokenRequest) {
         final RenewalAccessTokenResponse renewalAccessTokenResponse =
                 authService.generateRenewalAccessToken(renewalAccessTokenRequest);
         return ResponseEntity.ok(renewalAccessTokenResponse);
     }
 
     @DeleteMapping("/logout")
-    public ResponseEntity<Void> logout(@RequestBody final LogoutRequest logoutRequest) {
+    public ResponseEntity<Void> logout(@Authentication final Accessor accessor,
+                                       @RequestBody final LogoutRequest logoutRequest) {
         authService.removeRefreshToken(logoutRequest);
         return ResponseEntity.noContent().build();
     }
