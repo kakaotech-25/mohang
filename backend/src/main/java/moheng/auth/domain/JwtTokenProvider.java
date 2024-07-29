@@ -80,6 +80,23 @@ public class JwtTokenProvider {
             throw new InvalidTokenException("변조되었거나 만료된 토큰 입니다.");
         }
     }
+
+    public String generateRenewalAccessToken(String refreshToken) {
+        validateToken(refreshToken);
+        Long memberId = Long.valueOf(getMemberId(refreshToken));
+        return createAccessToken(memberId);
+    }
+
+    public String getMemberId(String token) {
+        validateToken(token);
+
+        return Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+    }
 }
 
 
