@@ -9,8 +9,14 @@ import moheng.auth.dto.RenewalAccessTokenRequest;
 import moheng.auth.dto.RenewalAccessTokenResponse;
 import moheng.auth.exception.InvalidTokenException;
 import moheng.auth.exception.NoExistMemberTokenException;
+import moheng.member.domain.GenderType;
+import moheng.member.domain.Member;
+import moheng.member.domain.SocialType;
+import moheng.member.exception.InvalidBirthdayException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
 
 public class JwtTokenProviderTest {
     private static final String SECRET_KEY = "secret_secret_secret_secret_secret_secret_secret_";
@@ -164,5 +170,16 @@ public class JwtTokenProviderTest {
 
         // when, then
         assertDoesNotThrow(() -> jwtTokenProvider.removeRefreshToken(refreshToken));
+    }
+
+    @DisplayName("리프레시 토큰 저장소에 존재하지 않는 토큰을 삭제하면 예외가 발생한다.")
+    @Test
+    void 리프레시_토큰_저장소에_존재하지_않는_토큰을_삭제하면_예외가_발생한다() {
+        // given
+        String refreshToken = jwtTokenProvider.createToken("2", 3600);
+
+        // when, then
+        assertThatThrownBy(() -> jwtTokenProvider.removeRefreshToken(refreshToken))
+                .isInstanceOf(NoExistMemberTokenException.class);
     }
 }
