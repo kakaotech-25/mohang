@@ -1,6 +1,7 @@
 package moheng.auth.application;
 
 import moheng.auth.domain.*;
+import moheng.auth.dto.LogoutRequest;
 import moheng.auth.dto.RenewalAccessTokenRequest;
 import moheng.auth.dto.RenewalAccessTokenResponse;
 import moheng.auth.dto.TokenResponse;
@@ -53,5 +54,10 @@ public class AuthService {
         String refreshToken = renewalAccessTokenRequest.getRefreshToken();
         String renewalAccessToken = jwtTokenProvider.generateRenewalAccessToken(refreshToken);
         return new RenewalAccessTokenResponse(renewalAccessToken);
+    }
+
+    @Transactional
+    public void removeRefreshToken(final LogoutRequest logoutRequest) {
+        jwtTokenProvider.removeRefreshToken(logoutRequest.getRefreshToken());
     }
 }

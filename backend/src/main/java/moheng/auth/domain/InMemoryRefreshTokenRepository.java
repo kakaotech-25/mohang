@@ -30,4 +30,9 @@ public class InMemoryRefreshTokenRepository implements RefreshTokenRepository {
     public void deleteAll() {
         repository.clear();
     }
+
+    @Override
+    public void deleteById(final long memberId) {
+        repository.remove(memberId);
+    }
 }

@@ -103,6 +103,16 @@ public class JwtTokenProvider {
                 .getBody()
                 .getSubject();
     }
+
+    public void removeRefreshToken(final String refreshToken) {
+        validateToken(refreshToken);
+        long memberId = Long.parseLong(getMemberId(refreshToken));
+
+        if(!refreshTokenRepository.existsById(memberId)) {
+            throw new NoExistMemberTokenException("존재하지 않는 유저의 토큰입니다.");
+        }
+        refreshTokenRepository.deleteById(memberId);
+    }
 }
 
 
