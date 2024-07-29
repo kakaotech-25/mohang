@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
+
 
 @SpringBootTest(classes = TestConfig.class)
 public class MemberRepositoryTest {
@@ -44,5 +46,18 @@ public class MemberRepositoryTest {
 
         // when & then
         assertThat(memberRepository.existsByEmail(email)).isTrue();
+    }
+
+    @DisplayName("중복된 닉네임이 존재하면 참을 리턴한다.")
+    @Test
+    void 중복된_닉네임이_존재하면_참을_리턴한다() {
+        // given
+        String nickname = "msung99";
+        Member member = new Member(1L, "msung6924@naver.com", nickname,
+                "image_url", SocialType.KAKAO, LocalDate.now(), GenderType.MEN);
+        memberRepository.save(member);
+
+        // when & then
+        assertThat(memberRepository.existsByNickName(nickname)).isTrue();
     }
 }
