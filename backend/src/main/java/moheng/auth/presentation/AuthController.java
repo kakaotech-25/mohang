@@ -36,7 +36,7 @@ public class AuthController {
     }
 
     @DeleteMapping("/logout")
-    public ResponseEntity<Void> logout(@RequestBody LogoutRequest logoutRequest) {
+    public ResponseEntity<Void> logout(@RequestBody final LogoutRequest logoutRequest) {
         authService.removeRefreshToken(logoutRequest);
         return ResponseEntity.noContent().build();
     }
