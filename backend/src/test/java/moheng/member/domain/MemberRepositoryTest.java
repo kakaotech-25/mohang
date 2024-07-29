@@ -24,7 +24,7 @@ public class MemberRepositoryTest {
     @Test
     void 이메일을_통해_회원을_찾는다() {
         // given
-        String email = "msung6924@naver.com";
+        String email = "msung69241@naver.com";
         String nickname = "msung99";
         String profile_image_url = "https://msung99";
         Member member = new Member(email, SocialType.KAKAO);
