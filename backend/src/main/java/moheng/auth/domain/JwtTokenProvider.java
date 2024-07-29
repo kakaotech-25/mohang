@@ -12,28 +12,54 @@ import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
+    private final RefreshTokenRepository inMemoryRefreshTokenRepository;
     private final SecretKey secretKey;
-    private final long tokenValidityInSeconds;
+    private final long accessTokenValidityInSeconds;
+    private final long refreshTokenValidityInSeconds;
 
-    public JwtTokenProvider(@Value("${security.jwt.token.secret_key}") final String secretKey,
-                            @Value("${security.jwt.token.expire_length}") final long tokenValidityInSeconds) {
+    public JwtTokenProvider(
+            final RefreshTokenRepository inMemoryRefreshTokenRepository,
+            @Value("${security.jwt.token.secret_key}") final String secretKey,
+            @Value("${security.jwt.token.expire_length.access_token}") final long accessTokenValidityInSeconds,
+            @Value("${security.jwt.token.expire_length.refresh_token}") final long refreshTokenValidityInSeconds) {
+        this.inMemoryRefreshTokenRepository = inMemoryRefreshTokenRepository;
         this.secretKey = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
-        this.tokenValidityInSeconds = tokenValidityInSeconds;
+        this.accessTokenValidityInSeconds = accessTokenValidityInSeconds;
+        this.refreshTokenValidityInSeconds = refreshTokenValidityInSeconds;
     }
 
-    public String createToken(String payload) {
+    public MemberToken createMemberToken(final long memberId) {
+        String accessToken = createAccessToken(memberId);
+        String refreshToken = createRefreshToken(memberId);
+        return new MemberToken(accessToken, refreshToken);
+    }
+
+    public String createToken(final String payload, final long tokenValidityInSeconds) {
         Date now = new Date();
-        Date validity = new Date(now.getTime() + tokenValidityInSeconds);
+        Date expireDate = new Date(now.getTime() + tokenValidityInSeconds);
 
         return Jwts.builder()
                 .setSubject(payload)
                 .setIssuedAt(now)
-                .setExpiration(validity)
+                .setExpiration(expireDate)
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public String getPayload(String token) {
+    public String createAccessToken(final long memberId) {
+        return createToken(String.valueOf(memberId), accessTokenValidityInSeconds);
+    }
+
+    public String createRefreshToken(final long memberId) {
+        if(!inMemoryRefreshTokenRepository.existsById(memberId)) {
+            String newRefreshToken = createToken(String.valueOf(memberId), refreshTokenValidityInSeconds);
+            inMemoryRefreshTokenRepository.save(memberId, newRefreshToken);
+            return newRefreshToken;
+        }
+        return createToken(String.valueOf(memberId), refreshTokenValidityInSeconds);
+    }
+
+    public String getPayload(final String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(secretKey)
                 .build()
@@ -42,7 +68,7 @@ public class JwtTokenProvider {
                 .getSubject();
     }
 
-    public void validateToken(String token) {
+    public void validateToken(final String token) {
         try {
             Jws<Claims> claims = Jwts.parserBuilder()
                     .setSigningKey(secretKey)

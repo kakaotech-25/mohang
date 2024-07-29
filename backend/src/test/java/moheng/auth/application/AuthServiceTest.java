@@ -1,5 +1,6 @@
 package moheng.auth.application;
 
+import moheng.auth.domain.MemberToken;
 import moheng.auth.dto.TokenResponse;
 import moheng.config.TestConfig;
 import moheng.member.domain.Member;
@@ -24,6 +25,7 @@ class AuthServiceTest {
     @Autowired
     private MemberRepository memberRepository;
 
+
     @DisplayName("카카오 로그인을 위한 링크를 생성한다.")
     @Test
     void 카카오_로그인을_위한_링크를_생성한다() {
@@ -42,7 +44,7 @@ class AuthServiceTest {
         String code = "authorization code";
 
         // when
-        TokenResponse actual = authService.generateTokenWithCode(code);
+        MemberToken actual = authService.generateTokenWithCode(code);
 
         // then
         assertThat(actual.getAccessToken()).isNotEmpty();
@@ -77,5 +79,19 @@ class AuthServiceTest {
 
         // then
         assertThat(actual).hasSize(1);
+    }
+
+    @DisplayName("Authorization Code 로 토큰을 생성시 리프레시 토큰, 엑세스 토큰을 모두 발급한다.")
+    @Test
+    void Authorization_Code_로_토큰을_생성시_리프레시_토큰_엑세스_토큰을_모두_발급한다() {
+        // given
+        String code = "authorization code";
+
+        // when
+        MemberToken actual = authService.generateTokenWithCode(code);
+
+        // then
+        assertThat(actual.getAccessToken()).isNotEmpty();
+        assertThat(actual.getRefreshToken()).isNotEmpty();
     }
 }
