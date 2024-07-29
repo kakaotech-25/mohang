@@ -155,4 +155,14 @@ public class JwtTokenProviderTest {
         // then
         assertThat(memberId).isEqualTo(expected);
     }
+
+    @DisplayName("리프레시 토큰 저장소에 저장된 토큰을 제거한다.")
+    @Test
+    void 리프레시_토큰_저장소에_저장된_토큰을_제거한다() {
+        // given
+        String refreshToken = jwtTokenProvider.createRefreshToken(1L);
+
+        // when, then
+        assertDoesNotThrow(() -> jwtTokenProvider.removeRefreshToken(refreshToken));
+    }
 }
