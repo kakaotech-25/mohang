@@ -10,6 +10,7 @@ import moheng.member.domain.SocialType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Transactional(readOnly = true)
 @Service
 public class AuthService {
     private final OAuthUriProvider oAuthUriProvider;
@@ -38,15 +39,16 @@ public class AuthService {
         return memberToken;
     }
 
-    @Transactional(readOnly = true)
     public String generateUri() {
         return oAuthUriProvider.generateUri();
     }
+
 
     private Member generateMember(final OAuthMember oAuthMember) {
         return new Member(oAuthMember.getEmail(), SocialType.KAKAO);
     }
 
+    @Transactional
     public RenewalAccessTokenResponse generateRenewalAccessToken(final RenewalAccessTokenRequest renewalAccessTokenRequest) {
         String refreshToken = renewalAccessTokenRequest.getRefreshToken();
         String renewalAccessToken = jwtTokenProvider.generateRenewalAccessToken(refreshToken);
