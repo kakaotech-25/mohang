@@ -1,6 +1,9 @@
 package moheng.auth.application;
 
+import moheng.auth.domain.JwtTokenProvider;
 import moheng.auth.domain.MemberToken;
+import moheng.auth.dto.RenewalAccessTokenRequest;
+import moheng.auth.dto.RenewalAccessTokenResponse;
 import moheng.auth.dto.TokenResponse;
 import moheng.config.TestConfig;
 import moheng.member.domain.Member;
@@ -24,6 +27,8 @@ class AuthServiceTest {
 
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
 
     @DisplayName("카카오 로그인을 위한 링크를 생성한다.")
@@ -93,5 +98,36 @@ class AuthServiceTest {
         // then
         assertThat(actual.getAccessToken()).isNotEmpty();
         assertThat(actual.getRefreshToken()).isNotEmpty();
+    }
+
+    @DisplayName("리프레시 토큰으로 새로운 엑세스 토큰을 발급받는다.")
+    @Test
+    void 리프레시_토큰으로_새로운_엑세스_토큰을_발급받는다() {
+        // given
+        String refreshToken = jwtTokenProvider.createRefreshToken(3L);
+        RenewalAccessTokenRequest renewalAccessTokenRequest
+                = new RenewalAccessTokenRequest(refreshToken);
+
+        // when
+        RenewalAccessTokenResponse renewalAccessTokenResponse
+                = authService.generateRenewalAccessToken(renewalAccessTokenRequest);
+
+        // then
+        assertThat(renewalAccessTokenResponse.getAccessToken()).isNotEmpty();
+    }
+
+    @DisplayName("리프레시 토큰으로 새로운 엑세스 토큰을 발급받는다.")
+    @Test
+    void 리프레시_토큰으로_새로운_엑세스_토큰을_갱신한다() {
+        // given
+        String testRefreshToken = jwtTokenProvider.createRefreshToken(10L);
+
+        RenewalAccessTokenRequest renewalAccessTokenRequest
+                = new RenewalAccessTokenRequest(testRefreshToken);
+        RenewalAccessTokenResponse renewalAccessTokenResponse
+                = authService.generateRenewalAccessToken(renewalAccessTokenRequest);
+
+        // when, then
+        assertThat(renewalAccessTokenResponse.getAccessToken()).isNotEmpty();
     }
 }
