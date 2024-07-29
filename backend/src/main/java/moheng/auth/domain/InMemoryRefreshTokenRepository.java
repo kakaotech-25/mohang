@@ -25,4 +25,15 @@ public class InMemoryRefreshTokenRepository implements RefreshTokenRepository {
         String refreshToken = repository.get(memberId);
         return refreshToken;
     }
+
+    @Override
+    public void deleteAll() {
+        repository.clear();
+    }
+
+    @Override
+    public long deleteById(final long memberId) {
+        repository.remove(memberId);
+        return memberId;
+    }
 }

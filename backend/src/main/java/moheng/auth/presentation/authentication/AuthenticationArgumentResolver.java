@@ -2,7 +2,8 @@ package moheng.auth.presentation.authentication;
 
 import jakarta.servlet.http.HttpServletRequest;
 import moheng.auth.domain.JwtTokenProvider;
-import moheng.auth.dto.LoginMember;
+import moheng.auth.dto.Accessor;
+import moheng.auth.exception.BadRequestException;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -24,10 +25,16 @@ public class AuthenticationArgumentResolver implements HandlerMethodArgumentReso
     public Object resolveArgument(final MethodParameter methodParameter, final ModelAndViewContainer modelAndViewContainer,
                                   final NativeWebRequest nativeWebRequest, final WebDataBinderFactory webDataBinderFactory) {
         HttpServletRequest request = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
+
+        if (request == null) {
+            throw new BadRequestException("잘못된 HTTP 요청입니다.");
+        }
+
         String accessToken = authenticationBearerExtractor.extract(request);
         jwtTokenProvider.validateToken(accessToken);
         Long id = Long.parseLong(jwtTokenProvider.getPayload(accessToken));
-        return new LoginMember(id);
+
+        return new Accessor(id);
     }
 
     @Override
