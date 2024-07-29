@@ -3,6 +3,7 @@ package moheng.auth.domain;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import moheng.auth.exception.InvalidTokenException;
+import moheng.auth.exception.NoExistMemberTokenException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -84,6 +85,11 @@ public class JwtTokenProvider {
     public String generateRenewalAccessToken(String refreshToken) {
         validateToken(refreshToken);
         Long memberId = Long.valueOf(getMemberId(refreshToken));
+
+        if(!refreshTokenRepository.existsById(memberId)) {
+            throw new NoExistMemberTokenException("존재하지 않는 유저의 토큰입니다.");
+        }
+
         return createAccessToken(memberId);
     }
 
