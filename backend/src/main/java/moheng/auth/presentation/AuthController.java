@@ -23,7 +23,7 @@ public class AuthController {
     }
 
     @PostMapping("/{oauthProvider}/token")
-    public ResponseEntity<MemberToken> generateToken(@PathVariable final String oauthProvider,
+    public ResponseEntity<MemberToken> login(@PathVariable final String oauthProvider,
                                                      @RequestBody final TokenRequest tokenRequest) {
         MemberToken tokenResponse = authService.generateTokenWithCode(tokenRequest.getCode());
         return ResponseEntity.ok(tokenResponse);
