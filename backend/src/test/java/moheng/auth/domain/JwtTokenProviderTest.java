@@ -135,7 +135,7 @@ public class JwtTokenProviderTest {
     @Test
     void 리프레시_토큰_저장소에_없는_리프레시_토큰으로_새로운_엑세스_토큰_발급을_요청하면_예외가_발생한다() {
         // given
-        String refreshToken = jwtTokenProvider.createToken("1", 3600);
+        String refreshToken = jwtTokenProvider.createToken("2", 3600);
 
         // when, then
         assertThatThrownBy(() -> jwtTokenProvider.generateRenewalAccessToken(refreshToken))
