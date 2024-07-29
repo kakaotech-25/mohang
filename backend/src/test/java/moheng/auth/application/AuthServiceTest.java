@@ -6,6 +6,7 @@ import moheng.auth.dto.RenewalAccessTokenRequest;
 import moheng.auth.dto.RenewalAccessTokenResponse;
 import moheng.auth.dto.TokenResponse;
 import moheng.auth.exception.InvalidTokenException;
+import moheng.config.ServiceTestConfig;
 import moheng.config.TestConfig;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
@@ -21,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @SpringBootTest(classes = TestConfig.class)
-class AuthServiceTest {
+class AuthServiceTest extends ServiceTestConfig {
 
     @Autowired
     private AuthService authService;
