@@ -1,0 +1,26 @@
+services:
+  frontend:
+    container_name: react
+    image: react-dev:moheng
+    build:
+      context: frontend/
+      dockerfile: Dockerfile.dev
+    volumes:
+      - front_repo:/usr/app/src
+    networks:
+      - moheng_network
+    ports:
+      - "3000:3000"
+    restart: always
+
+volumes:
+  front_repo:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "${PWD}/frontend"
+
+networks:
+  moheng_network:
+    driver: bridge
