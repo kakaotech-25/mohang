@@ -1,12 +1,12 @@
 package moheng.auth.dto;
 
-public class LoginMember {
+public class Accessor {
     private Long id;
 
-    private LoginMember() {
+    private Accessor() {
     }
 
-    public LoginMember(Long id) {
+    public Accessor(Long id) {
         this.id = id;
     }
 

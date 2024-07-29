@@ -1,6 +1,6 @@
 package moheng.member.presentation;
 
-import moheng.auth.dto.LoginMember;
+import moheng.auth.dto.Accessor;
 import moheng.auth.presentation.authentication.Authentication;
 import moheng.member.application.MemberService;
 import moheng.member.dto.response.MemberResponse;
@@ -19,8 +19,8 @@ public class MemberController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<MemberResponse> getUserInfo(@Authentication LoginMember loginMember) {
-        MemberResponse response = memberService.findById(loginMember.getId());
+    public ResponseEntity<MemberResponse> getUserInfo(@Authentication Accessor accessor) {
+        MemberResponse response = memberService.findById(accessor.getId());
         return ResponseEntity.ok(response);
     }
 }
