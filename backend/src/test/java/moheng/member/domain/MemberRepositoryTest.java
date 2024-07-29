@@ -4,12 +4,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import moheng.config.RepositoryTestConfig;
 import moheng.config.TestConfig;
 import moheng.member.domain.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 
 @SpringBootTest(classes = TestConfig.class)
 public class MemberRepositoryTest {
@@ -31,5 +33,16 @@ public class MemberRepositoryTest {
 
         // then
         assertThat(savedMember.getId()).isEqualTo(foundMember.getId());
+    }
+
+    @DisplayName("중복된 이메일이 존재하면 참을 리턴한다.")
+    @Test
+    void 중복된_이메일이_존재하면_true를_반환한다() {
+        // given
+        String email = "msung6924@naver.com";
+        memberRepository.save(new Member(email, SocialType.KAKAO));
+
+        // when & then
+        assertThat(memberRepository.existsByEmail(email)).isTrue();
     }
 }
