@@ -80,6 +80,10 @@ public class JwtTokenProvider {
             throw new InvalidTokenException("변조되었거나 만료된 토큰 입니다.");
         }
     }
+
+    public String generateRenewalAccessToken(String refreshToken) {
+        return null;
+    }
 }
 
 
