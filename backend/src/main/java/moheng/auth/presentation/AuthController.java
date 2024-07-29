@@ -3,6 +3,7 @@ package moheng.auth.presentation;
 import moheng.auth.application.AuthService;
 import moheng.auth.domain.MemberToken;
 import moheng.auth.dto.*;
+import moheng.auth.presentation.authentication.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,5 +33,11 @@ public class AuthController {
         final RenewalAccessTokenResponse renewalAccessTokenResponse =
                 authService.generateRenewalAccessToken(renewalAccessTokenRequest);
         return ResponseEntity.ok(renewalAccessTokenResponse);
+    }
+
+    @DeleteMapping("/logout")
+    public ResponseEntity<Void> logout(@RequestBody LogoutRequest logoutRequest) {
+        authService.removeRefreshToken(logoutRequest);
+        return ResponseEntity.noContent().build();
     }
 }
