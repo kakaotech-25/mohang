@@ -1,6 +1,8 @@
 package moheng.auth.application;
 
 import moheng.auth.domain.*;
+import moheng.auth.dto.RenewalAccessTokenRequest;
+import moheng.auth.dto.RenewalAccessTokenResponse;
 import moheng.auth.dto.TokenResponse;
 import moheng.member.application.MemberService;
 import moheng.member.domain.Member;
@@ -43,5 +45,11 @@ public class AuthService {
 
     private Member generateMember(final OAuthMember oAuthMember) {
         return new Member(oAuthMember.getEmail(), SocialType.KAKAO);
+    }
+
+    public RenewalAccessTokenResponse generateRenewalAccessToken(final RenewalAccessTokenRequest renewalAccessTokenRequest) {
+        String refreshToken = renewalAccessTokenRequest.getRefreshToken();
+        String renewalAccessToken = jwtTokenProvider.generateRenewalAccessToken(refreshToken);
+        return new RenewalAccessTokenResponse(renewalAccessToken);
     }
 }
