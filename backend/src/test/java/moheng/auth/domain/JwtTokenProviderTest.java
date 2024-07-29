@@ -144,7 +144,7 @@ public class JwtTokenProviderTest {
 
     @DisplayName("getMemberId 메소드는 입력받은 토큰의 payload 를 읽어내어 memberId 를 추출한다.")
     @Test
-    void a() {
+    void getMemberId_메소드는_입력받은_토큰의_payload_를_읽어내어_memberId_를_추출한다() {
         // given
         long expected = 1L;
         String token = jwtTokenProvider.createToken(String.valueOf(expected), 3600);
