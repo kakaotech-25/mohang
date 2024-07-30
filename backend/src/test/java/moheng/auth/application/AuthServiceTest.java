@@ -68,7 +68,7 @@ class AuthServiceTest extends ServiceTestConfig {
         authService.generateTokenWithCode(code, oAuthProvider);
 
         // when
-        boolean actual = memberRepository.existsByEmail("stub@naver.com");
+        boolean actual = memberRepository.existsByEmail("stub@kakao.com");
 
         // then
         assertThat(actual).isTrue();
