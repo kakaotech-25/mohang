@@ -1,7 +1,7 @@
 package moheng.config;
 
-import moheng.auth.domain.OAuthClient;
-import moheng.auth.domain.OAuthMember;
+import moheng.auth.domain.oauth.OAuthClient;
+import moheng.auth.domain.oauth.OAuthMember;
 
 
 public class KakaoStubOAuthClient implements OAuthClient {

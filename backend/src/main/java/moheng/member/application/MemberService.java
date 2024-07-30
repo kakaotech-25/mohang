@@ -1,6 +1,5 @@
 package moheng.member.application;
 
-import moheng.auth.domain.OAuthMember;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.dto.response.MemberResponse;

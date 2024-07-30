@@ -1,11 +1,9 @@
 package moheng.auth.application;
 
-import moheng.auth.domain.JwtTokenManager;
-import moheng.auth.domain.JwtTokenProvider;
-import moheng.auth.domain.MemberToken;
+import moheng.auth.domain.token.JwtTokenManager;
+import moheng.auth.domain.token.MemberToken;
 import moheng.auth.dto.RenewalAccessTokenRequest;
 import moheng.auth.dto.RenewalAccessTokenResponse;
-import moheng.auth.dto.TokenResponse;
 import moheng.auth.exception.InvalidTokenException;
 import moheng.config.ServiceTestConfig;
 import moheng.config.TestConfig;

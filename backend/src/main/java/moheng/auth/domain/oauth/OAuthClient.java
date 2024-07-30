@@ -1,4 +1,4 @@
-package moheng.auth.domain;
+package moheng.auth.domain.oauth;
 
 
 public interface OAuthClient {

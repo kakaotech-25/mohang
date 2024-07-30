@@ -5,18 +5,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import moheng.auth.dto.RenewalAccessTokenRequest;
-import moheng.auth.dto.RenewalAccessTokenResponse;
+import moheng.auth.domain.token.JwtTokenProvider;
 import moheng.auth.exception.InvalidTokenException;
-import moheng.auth.exception.NoExistMemberTokenException;
-import moheng.member.domain.GenderType;
-import moheng.member.domain.Member;
-import moheng.member.domain.SocialType;
-import moheng.member.exception.InvalidBirthdayException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDate;
 
 public class JwtTokenProviderTest {
     private static final String SECRET_KEY = "secret_secret_secret_secret_secret_secret_secret_";

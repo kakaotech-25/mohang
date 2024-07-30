@@ -1,6 +1,9 @@
 package moheng.config;
 
-import moheng.auth.domain.*;
+import moheng.auth.domain.oauth.KakaoUriProvider;
+import moheng.auth.domain.oauth.OAuthClient;
+import moheng.auth.domain.oauth.OAuthProvider;
+import moheng.auth.domain.oauth.OAuthUriProvider;
 
 public class StubKakaoOAuthClientProvider implements OAuthProvider {
     @Override

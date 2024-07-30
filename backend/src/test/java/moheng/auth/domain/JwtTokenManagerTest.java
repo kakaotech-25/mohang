@@ -4,6 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
+import moheng.auth.domain.token.InMemoryRefreshTokenRepository;
+import moheng.auth.domain.token.JwtTokenManager;
+import moheng.auth.domain.token.JwtTokenProvider;
+import moheng.auth.domain.token.MemberToken;
 import moheng.auth.exception.NoExistMemberTokenException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,7 +41,7 @@ public class JwtTokenManagerTest {
     @Test
     void 리프레시_토큰으로_새로운_엑세스_토큰을_발급받는다() {
         // given
-        long memberId = 1L;
+        long memberId = 8L;
         MemberToken memberToken = jwtTokenManager.createMemberToken(memberId);
         String refreshToken = memberToken.getRefreshToken();
 

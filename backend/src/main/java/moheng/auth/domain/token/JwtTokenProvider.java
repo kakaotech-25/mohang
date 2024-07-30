@@ -1,9 +1,8 @@
-package moheng.auth.domain;
+package moheng.auth.domain.token;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import moheng.auth.exception.InvalidTokenException;
-import moheng.auth.exception.NoExistMemberTokenException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package moheng.auth.domain;
+package moheng.auth.domain.token;
 
 public interface TokenManager {
     MemberToken createMemberToken(final long memberId);

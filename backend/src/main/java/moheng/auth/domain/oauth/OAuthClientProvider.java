@@ -1,4 +1,4 @@
-package moheng.auth.domain;
+package moheng.auth.domain.oauth;
 
 import moheng.auth.exception.NoExistOAuthClientException;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,7 @@
 package moheng.auth.presentation.authentication;
 
 import jakarta.servlet.http.HttpServletRequest;
-import moheng.auth.domain.JwtTokenProvider;
+import moheng.auth.domain.token.JwtTokenProvider;
 import moheng.auth.dto.Accessor;
 import moheng.auth.exception.BadRequestException;
 import org.springframework.core.MethodParameter;

@@ -1,7 +1,7 @@
 package moheng.auth.presentation;
 
 import moheng.auth.application.AuthService;
-import moheng.auth.domain.MemberToken;
+import moheng.auth.domain.token.MemberToken;
 import moheng.auth.dto.*;
 import moheng.auth.presentation.authentication.Authentication;
 import org.springframework.http.ResponseEntity;
