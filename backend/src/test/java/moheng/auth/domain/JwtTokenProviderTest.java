@@ -1,9 +1,10 @@
 package moheng.auth.domain;
 
+import static moheng.fixture.JwtTokenFixtures.*;
+import static moheng.fixture.MemberFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 import moheng.auth.domain.token.JwtTokenProvider;
 import moheng.auth.exception.InvalidTokenException;
@@ -11,10 +12,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class JwtTokenProviderTest {
-    private static final String SECRET_KEY = "secret_secret_secret_secret_secret_secret_secret_";
-    private static final int ACCESS_TOKEN_EXPIRE_TIME = 3600;
-    private static final int REFRESH_TOKEN_EXPIRE_TIME = 3600;
-    private static final int EXPIRED_TOKEN_TIME = 0;
     private final JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(
             SECRET_KEY, ACCESS_TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME
     );
@@ -23,7 +20,7 @@ public class JwtTokenProviderTest {
     @Test
     void 주어진_payload_와_만료시간으로_토큰을_생성한다() {
         // given, when
-        String actual = jwtTokenProvider.createToken("payload", ACCESS_TOKEN_EXPIRE_TIME);
+        String actual = jwtTokenProvider.createToken(PAYLOAD, ACCESS_TOKEN_EXPIRE_TIME);
 
         // then
         assertThat(actual.split("\\.")).hasSize(3);
@@ -33,7 +30,7 @@ public class JwtTokenProviderTest {
     @Test
     void 엑세스_토큰을_생성한다() {
         // given, when
-        String actual = jwtTokenProvider.createAccessToken(1L);
+        String actual = jwtTokenProvider.createAccessToken(MEMBER_ID_1);
 
         // then
         assertThat(actual.split("\\.")).hasSize(3);
@@ -43,7 +40,7 @@ public class JwtTokenProviderTest {
     @Test
     void 리프레시_토큰을_생성한다() {
         // given, when
-        String actual = jwtTokenProvider.createRefreshToken(1L);
+        String actual = jwtTokenProvider.createRefreshToken(MEMBER_ID_2);
 
         // then
         assertThat(actual.split("\\.")).hasSize(3);
@@ -53,14 +50,13 @@ public class JwtTokenProviderTest {
     @Test
     void JWT_토큰에서_memberId_를_추출한다() {
         // given
-        String exptected = "1";
-        String token = jwtTokenProvider.createToken(exptected, ACCESS_TOKEN_EXPIRE_TIME);
+        String token = jwtTokenProvider.createToken(String.valueOf(MEMBER_ID_3), ACCESS_TOKEN_EXPIRE_TIME);
 
         // when
         Long actual = jwtTokenProvider.getMemberId(token);
 
         // then
-        assertThat(actual).isEqualTo(Long.parseLong(exptected));
+        assertThat(actual).isEqualTo(MEMBER_ID_3);
     }
 
     @DisplayName("만료된 토큰을 전달받으면 예외가 발생한다.")
@@ -70,7 +66,7 @@ public class JwtTokenProviderTest {
         JwtTokenProvider expiredJwtTokenProvider = new JwtTokenProvider(
                 SECRET_KEY, ACCESS_TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME
         );
-        String expiredToken = expiredJwtTokenProvider.createToken("payload", EXPIRED_TOKEN_TIME);
+        String expiredToken = expiredJwtTokenProvider.createToken(PAYLOAD, EXPIRED_TOKEN_TIME);
 
         // when & then
         assertThatThrownBy(() -> jwtTokenProvider.validateToken(expiredToken))
@@ -84,7 +80,7 @@ public class JwtTokenProviderTest {
         JwtTokenProvider expiredJwtTokenProvider = new JwtTokenProvider(
                 SECRET_KEY, EXPIRED_TOKEN_TIME, EXPIRED_TOKEN_TIME
         );
-        String expiredToken = expiredJwtTokenProvider.createRefreshToken(1L);
+        String expiredToken = expiredJwtTokenProvider.createRefreshToken(MEMBER_ID_4);
 
         // when, then
         assertThatThrownBy(() -> jwtTokenProvider.validateToken(expiredToken))
@@ -98,7 +94,7 @@ public class JwtTokenProviderTest {
         JwtTokenProvider expiredJwtTokenProvider = new JwtTokenProvider(
                 SECRET_KEY, EXPIRED_TOKEN_TIME, EXPIRED_TOKEN_TIME
         );
-        String expiredToken = expiredJwtTokenProvider.createAccessToken(1L);
+        String expiredToken = expiredJwtTokenProvider.createAccessToken(MEMBER_ID_5);
 
         // when, then
         assertThatThrownBy(() -> jwtTokenProvider.validateToken(expiredToken))
@@ -108,11 +104,8 @@ public class JwtTokenProviderTest {
     @DisplayName("변조되었거나 문제가 발생한 토큰을 전달받으면 예외가 발생한다.")
     @Test
     void 변조되었거나_문제가_발생한_토큰을_전달받으면_예외가_발생한다() {
-        // given
-        String invalidToken = "invalid_token";
-
-        // when & then
-        assertThatThrownBy(() -> jwtTokenProvider.validateToken(invalidToken))
+        // given, when, then
+        assertThatThrownBy(() -> jwtTokenProvider.validateToken(INVALID_PAYLOAD))
                 .isInstanceOf(InvalidTokenException.class);
     }
 
@@ -120,14 +113,13 @@ public class JwtTokenProviderTest {
     @Test
     void 리프레시_토큰_저장소에_유저의_토큰이_존재하면_이미_저장된_해당_토큰을_리턴한다() {
         // given
-        long memberId = 1L;
         JwtTokenProvider tokenProvider = new JwtTokenProvider(
                 SECRET_KEY, ACCESS_TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME
         );
-        String savedToken = tokenProvider.createRefreshToken(memberId);
+        String savedToken = tokenProvider.createRefreshToken(MEMBER_ID_6);
 
         // when
-        String newToken = tokenProvider.createRefreshToken(memberId);
+        String newToken = tokenProvider.createRefreshToken(MEMBER_ID_6);
 
         // then
         assertThat(newToken).isEqualTo(savedToken);
