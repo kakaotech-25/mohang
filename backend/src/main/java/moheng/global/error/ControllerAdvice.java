@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import org.slf4j.Logger;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @RestControllerAdvice
 public class ControllerAdvice {
@@ -30,7 +31,7 @@ public class ControllerAdvice {
             NoExistMemberTokenException.class,
             NoExistSocialTypeException.class
     })
-    public ResponseEntity<ExceptionResponse> handleInvalidData(final RuntimeException e) {
+    public ResponseEntity<ExceptionResponse> handleIBadRequestException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
         ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage());
         return ResponseEntity.badRequest().body(exceptionResponse);
@@ -65,6 +66,12 @@ public class ControllerAdvice {
     public ResponseEntity<ExceptionResponse> handleNotSupportedMethod() {
         ExceptionResponse errorResponse = new ExceptionResponse("잘못된 HTTP 메소드 요청입니다.");
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(errorResponse);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ExceptionResponse> handleTypeMismatch() {
+        ExceptionResponse exceptionResponse = new ExceptionResponse("잘못된 타입을 가진 데이터가 포함되어 있습니다.");
+        return ResponseEntity.badRequest().body(exceptionResponse);
     }
 
     @ExceptionHandler(Exception.class)
