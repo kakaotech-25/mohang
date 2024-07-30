@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
     private final OAuthProvider oAuthProvider;
     private final MemberService memberService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final TokenProvider jwtTokenProvider;
 
     public AuthService(final OAuthProvider oAuthProvider,
                        final MemberService memberService, JwtTokenProvider jwtTokenProvider) {

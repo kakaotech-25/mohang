@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
-public class JwtTokenProvider {
+public class JwtTokenProvider implements TokenProvider {
     private final RefreshTokenRepository refreshTokenRepository;
     private final SecretKey secretKey;
     private final long accessTokenValidityInSeconds;
@@ -29,6 +29,7 @@ public class JwtTokenProvider {
         this.refreshTokenValidityInSeconds = refreshTokenValidityInSeconds;
     }
 
+    @Override
     public MemberToken createMemberToken(final long memberId) {
         String accessToken = createAccessToken(memberId);
         String refreshToken = createRefreshToken(memberId);
@@ -82,6 +83,7 @@ public class JwtTokenProvider {
         }
     }
 
+    @Override
     public String generateRenewalAccessToken(String refreshToken) {
         validateToken(refreshToken);
         Long memberId = Long.valueOf(getMemberId(refreshToken));
@@ -93,6 +95,7 @@ public class JwtTokenProvider {
         return createAccessToken(memberId);
     }
 
+    @Override
     public String getMemberId(String token) {
         validateToken(token);
 
@@ -104,6 +107,7 @@ public class JwtTokenProvider {
                 .getSubject();
     }
 
+    @Override
     public void removeRefreshToken(final String refreshToken) {
         validateToken(refreshToken);
         long memberId = Long.parseLong(getMemberId(refreshToken));
