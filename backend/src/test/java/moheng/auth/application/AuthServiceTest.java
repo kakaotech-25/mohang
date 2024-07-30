@@ -49,9 +49,10 @@ class AuthServiceTest extends ServiceTestConfig {
     void 토큰_생성을_하면_OAuth_서버에서_인증_후_토큰을_반환한다() {
         // given
         String code = "authorization code";
+        String oAuthProvider = "kakao";
 
         // when
-        MemberToken actual = authService.generateTokenWithCode(code);
+        MemberToken actual = authService.generateTokenWithCode(code, oAuthProvider);
 
         // then
         assertThat(actual.getAccessToken()).isNotEmpty();
@@ -62,7 +63,8 @@ class AuthServiceTest extends ServiceTestConfig {
     void Authorization_Code_를_전달받으면_회원_정보가_데이터베이스에_저장된다() {
         // given
         String code = "authorization code";
-        authService.generateTokenWithCode(code);
+        String oAuthProvider = "kakao";
+        authService.generateTokenWithCode(code, oAuthProvider);
 
         // when
         boolean actual = memberRepository.existsByEmail("stub@naver.com");
@@ -76,12 +78,13 @@ class AuthServiceTest extends ServiceTestConfig {
     void 이미_가입된_회원에_대한_Authorization_Code를_전달받으면_유저가_추가로_생성되지_않는다() {
         // given
         String code = "authorization code";
-        authService.generateTokenWithCode(code);
+        String oAuthProvider = "kakao";
+        authService.generateTokenWithCode(code, oAuthProvider);
 
         // when, then
-        authService.generateTokenWithCode(code);
-        authService.generateTokenWithCode(code);
-        authService.generateTokenWithCode(code);
+        authService.generateTokenWithCode(code, oAuthProvider);
+        authService.generateTokenWithCode(code, oAuthProvider);
+        authService.generateTokenWithCode(code, oAuthProvider);
         List<Member> actual = memberRepository.findAll();
 
         // then
@@ -93,9 +96,10 @@ class AuthServiceTest extends ServiceTestConfig {
     void Authorization_Code_로_토큰을_생성시_리프레시_토큰_엑세스_토큰을_모두_발급한다() {
         // given
         String code = "authorization code";
+        String oAuthProvider = "kakao";
 
         // when
-        MemberToken actual = authService.generateTokenWithCode(code);
+        MemberToken actual = authService.generateTokenWithCode(code, oAuthProvider);
 
         // then
         assertThat(actual.getAccessToken()).isNotEmpty();
