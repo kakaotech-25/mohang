@@ -30,16 +30,21 @@ public class AuthService {
 
     @Transactional
     public MemberToken generateTokenWithCode(final String code, final String oAuthProvider) {
-        OAuthClient oAuthClient = oAuthClientProvider.getOauthClient(oAuthProvider);
+        final OAuthClient oAuthClient = oAuthClientProvider.getOauthClient(oAuthProvider);
         final OAuthMember oAuthMember = oAuthClient.getOAuthMember(code);
-        final String email = oAuthMember.getEmail();
+        final Member foundMember = findOrCreateMember(oAuthMember);
+        final MemberToken memberToken = jwtTokenProvider.createMemberToken(foundMember.getId());
+        return memberToken;
+    }
 
-        if(!memberService.existsByEmail(email)) {
+    private Member findOrCreateMember(OAuthMember oAuthMember) {
+        String email = oAuthMember.getEmail();
+
+        if (!memberService.existsByEmail(email)) {
             memberService.save(generateMember(oAuthMember));
         }
         final Member foundMember = memberService.findByEmail(email);
-        final MemberToken memberToken = jwtTokenProvider.createMemberToken(foundMember.getId());
-        return memberToken;
+        return foundMember;
     }
 
     public String generateUri() {
