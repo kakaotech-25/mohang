@@ -1,5 +1,6 @@
 package moheng.auth.application;
 
+import moheng.auth.domain.JwtTokenManager;
 import moheng.auth.domain.JwtTokenProvider;
 import moheng.auth.domain.MemberToken;
 import moheng.auth.dto.RenewalAccessTokenRequest;
@@ -30,7 +31,7 @@ class AuthServiceTest extends ServiceTestConfig {
     @Autowired
     private MemberRepository memberRepository;
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    private JwtTokenManager jwtTokenManager;
 
 
     @DisplayName("카카오 로그인을 위한 링크를 생성한다.")
@@ -111,7 +112,8 @@ class AuthServiceTest extends ServiceTestConfig {
     @Test
     void 리프레시_토큰으로_새로운_엑세스_토큰을_발급받는다() {
         // given
-        String refreshToken = jwtTokenProvider.createRefreshToken(3L);
+        MemberToken memberToken = jwtTokenManager.createMemberToken(5L);
+        String refreshToken = memberToken.getRefreshToken();
         RenewalAccessTokenRequest renewalAccessTokenRequest
                 = new RenewalAccessTokenRequest(refreshToken);
 
@@ -127,10 +129,11 @@ class AuthServiceTest extends ServiceTestConfig {
     @Test
     void 리프레시_토큰으로_새로운_엑세스_토큰을_갱신한다() {
         // given
-        String testRefreshToken = jwtTokenProvider.createRefreshToken(10L);
+        MemberToken memberToken = jwtTokenManager.createMemberToken(5L);
+        String refreshToken = memberToken.getRefreshToken();
 
         RenewalAccessTokenRequest renewalAccessTokenRequest
-                = new RenewalAccessTokenRequest(testRefreshToken);
+                = new RenewalAccessTokenRequest(refreshToken);
         RenewalAccessTokenResponse renewalAccessTokenResponse
                 = authService.generateRenewalAccessToken(renewalAccessTokenRequest);
 

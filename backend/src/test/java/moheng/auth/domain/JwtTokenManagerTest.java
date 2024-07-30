@@ -77,7 +77,7 @@ public class JwtTokenManagerTest {
     @Test
     void 리프레시_토큰_저장소에_저장된_토큰을_제거한다() {
         // given
-        MemberToken memberToken = jwtTokenManager.createMemberToken(1L);
+        MemberToken memberToken = jwtTokenManager.createMemberToken(3L);
         String refreshToken = memberToken.getRefreshToken();
 
         // when, then
@@ -88,7 +88,7 @@ public class JwtTokenManagerTest {
     @Test
     void 리프레시_토큰_저장소에_존재하지_않는_토큰을_삭제하면_예외가_발생한다() {
         // given
-        String refreshToken = jwtTokenProvider.createRefreshToken(1);
+        String refreshToken = jwtTokenProvider.createRefreshToken(-1L);
 
         // when, then
         assertThatThrownBy(() -> jwtTokenManager.removeRefreshToken(refreshToken))
