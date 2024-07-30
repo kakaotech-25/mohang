@@ -1,12 +1,12 @@
 package moheng.member.domain;
 
+import moheng.auth.exception.NoMatchingSocialTypeException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class SocialTypeTest {
@@ -23,6 +23,17 @@ public class SocialTypeTest {
     void 구글_소셜_계정_타입을_찾는다() {
         assertEquals(SocialType.GOOGLE, SocialType.findByName("GOOGLE"));
         assertEquals(SocialType.GOOGLE, SocialType.findByName("google"));
+    }
+
+    @DisplayName("입력에 매핑되는 소셜 타입이 없다면 예외가 발생한다.")
+    @Test
+    void 입력에_매핑되는_소셜_타입이_없다면_예외가_발생한다() {
+        // given
+        String providerName = null;
+
+        // when, then
+        assertThatThrownBy(() -> SocialType.findByName(providerName))
+                .isInstanceOf(NoMatchingSocialTypeException.class);
     }
 
     @DisplayName("일치하는 소셜 타입이 있다면 참을 리턴한다.")

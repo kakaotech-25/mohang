@@ -1,5 +1,7 @@
 package moheng.member.domain;
 
+import moheng.auth.exception.NoMatchingSocialTypeException;
+
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -17,6 +19,6 @@ public enum SocialType {
         return Arrays.stream(SocialType.values())
                 .filter(type -> type.name().equalsIgnoreCase(input))
                 .findFirst()
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(NoMatchingSocialTypeException::new);
     }
 }
