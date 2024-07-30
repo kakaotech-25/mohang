@@ -11,6 +11,7 @@ public class MemberFixtures {
     public static final String 하온_닉네임 = "haon";
     public static final String 하온_프로필_경로 = "/haon.png";
     public static final SocialType 하온_소셜_타입_카카오 = SocialType.KAKAO;
+    public static final SocialType 하온_소셜_타입_구글 = SocialType.GOOGLE;
     public static final LocalDate 하온_생년월일 = LocalDate.of(1999, 9, 20);
     public static final GenderType 하온_성별 = GenderType.MEN;
 
