@@ -4,7 +4,6 @@ import moheng.auth.domain.*;
 import moheng.auth.dto.LogoutRequest;
 import moheng.auth.dto.RenewalAccessTokenRequest;
 import moheng.auth.dto.RenewalAccessTokenResponse;
-import moheng.auth.dto.TokenResponse;
 import moheng.member.application.MemberService;
 import moheng.member.domain.Member;
 import moheng.member.domain.SocialType;
@@ -16,13 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
     private final OAuthProvider oAuthProvider;
     private final MemberService memberService;
-    private final TokenProvider jwtTokenProvider;
+    private final TokenManager tokenManager;
 
     public AuthService(final OAuthProvider oAuthProvider,
-                       final MemberService memberService, JwtTokenProvider jwtTokenProvider) {
+                       final MemberService memberService, TokenManager tokenManager) {
         this.oAuthProvider = oAuthProvider;
         this.memberService = memberService;
-        this.jwtTokenProvider = jwtTokenProvider;
+        this.tokenManager = tokenManager;
     }
 
     @Transactional
@@ -30,7 +29,7 @@ public class AuthService {
         final OAuthClient oAuthClient = oAuthProvider.getOauthClient(providerName);
         final OAuthMember oAuthMember = oAuthClient.getOAuthMember(code);
         final Member foundMember = findOrCreateMember(oAuthMember);
-        final MemberToken memberToken = jwtTokenProvider.createMemberToken(foundMember.getId());
+        final MemberToken memberToken = tokenManager.createMemberToken(foundMember.getId());
         return memberToken;
     }
 
@@ -57,12 +56,12 @@ public class AuthService {
     @Transactional
     public RenewalAccessTokenResponse generateRenewalAccessToken(final RenewalAccessTokenRequest renewalAccessTokenRequest) {
         String refreshToken = renewalAccessTokenRequest.getRefreshToken();
-        String renewalAccessToken = jwtTokenProvider.generateRenewalAccessToken(refreshToken);
+        String renewalAccessToken = tokenManager.generateRenewalAccessToken(refreshToken);
         return new RenewalAccessTokenResponse(renewalAccessToken);
     }
 
     @Transactional
     public void removeRefreshToken(final LogoutRequest logoutRequest) {
-        jwtTokenProvider.removeRefreshToken(logoutRequest.getRefreshToken());
+        tokenManager.removeRefreshToken(logoutRequest.getRefreshToken());
     }
 }
