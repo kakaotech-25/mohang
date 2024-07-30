@@ -21,10 +21,10 @@ public class AuthController {
         return ResponseEntity.ok(new OAuthUriResponse(authService.generateUri()));
     }
 
-    @PostMapping("/{provider}/login")
-    public ResponseEntity<MemberToken> login(@PathVariable final String provider,
+    @PostMapping("/{oauthProvider}/login")
+    public ResponseEntity<MemberToken> login(@PathVariable("oauthProvider") final String oAuthProvider,
                                              @RequestBody final TokenRequest tokenRequest) {
-        MemberToken tokenResponse = authService.generateTokenWithCode(tokenRequest.getCode());
+        MemberToken tokenResponse = authService.generateTokenWithCode(tokenRequest.getCode(), oAuthProvider);
         return ResponseEntity.ok(tokenResponse);
     }
 

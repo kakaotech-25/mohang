@@ -14,21 +14,23 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @Service
 public class AuthService {
+    private final OAuthClientProvider oAuthClientProvider;
     private final OAuthUriProvider oAuthUriProvider;
-    private final OAuthClient oAuthClient;
     private final MemberService memberService;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public AuthService(final OAuthUriProvider oAuthUriProvider, final OAuthClient oAuthClient,
+    public AuthService(final OAuthClientProvider oAuthClientProvider,
+                       final OAuthUriProvider oAuthUriProvider,
                        final MemberService memberService, JwtTokenProvider jwtTokenProvider) {
+        this.oAuthClientProvider = oAuthClientProvider;
         this.oAuthUriProvider = oAuthUriProvider;
-        this.oAuthClient = oAuthClient;
         this.memberService = memberService;
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Transactional
-    public MemberToken generateTokenWithCode(final String code) {
+    public MemberToken generateTokenWithCode(final String code, final String oAuthProvider) {
+        OAuthClient oAuthClient = oAuthClientProvider.getOauthClient(oAuthProvider);
         final OAuthMember oAuthMember = oAuthClient.getOAuthMember(code);
         final String email = oAuthMember.getEmail();
 
