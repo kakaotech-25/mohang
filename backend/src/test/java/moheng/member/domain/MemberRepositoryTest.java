@@ -1,8 +1,20 @@
 package moheng.member.domain;
 
+import static moheng.fixture.MemberFixtures.래오_이메일;
+import static moheng.fixture.MemberFixtures.래오_소셜_타입_카카오;
+import static moheng.fixture.MemberFixtures.리안_이메일;
+import static moheng.fixture.MemberFixtures.리안_소셜_타입_카카오;
+import static moheng.fixture.MemberFixtures.하온_이메일;
+import static moheng.fixture.MemberFixtures.하온_닉네임;
+import static moheng.fixture.MemberFixtures.하온_프로필_경로;
+import static moheng.fixture.MemberFixtures.하온_소셜_타입_카카오;
+import static moheng.fixture.MemberFixtures.하온_소셜_타입_구글;
+import static moheng.fixture.MemberFixtures.하온_생년월일;
+import static moheng.fixture.MemberFixtures.하온_성별;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import moheng.config.RepositoryTestConfig;
 import moheng.config.TestConfig;
@@ -24,14 +36,11 @@ public class MemberRepositoryTest {
     @Test
     void 이메일을_통해_회원을_찾는다() {
         // given
-        String email = "msung69241@naver.com";
-        String nickname = "msung99";
-        String profile_image_url = "https://msung99";
-        Member member = new Member(email, SocialType.KAKAO);
+        Member member = new Member(래오_이메일, 래오_소셜_타입_카카오);
         Member savedMember = memberRepository.save(member);
 
         // when
-        Member foundMember = memberRepository.findByEmail(email).get();
+        Member foundMember = memberRepository.findByEmail(래오_이메일).get();
 
         // then
         assertThat(savedMember.getId()).isEqualTo(foundMember.getId());
@@ -41,11 +50,10 @@ public class MemberRepositoryTest {
     @Test
     void 중복된_이메일이_존재하면_true를_반환한다() {
         // given
-        String email = "msung6924@naver.com";
-        memberRepository.save(new Member(email, SocialType.KAKAO));
+        memberRepository.save(new Member(리안_이메일, 리안_소셜_타입_카카오));
 
         // when & then
-        assertThat(memberRepository.existsByEmail(email)).isTrue();
+        assertTrue(memberRepository.existsByEmail(리안_이메일));
     }
 
     @DisplayName("중복된 닉네임이 존재하면 참을 리턴한다.")
@@ -53,8 +61,8 @@ public class MemberRepositoryTest {
     void 중복된_닉네임이_존재하면_참을_리턴한다() {
         // given
         String nickname = "msung99";
-        Member member = new Member(1L, "msung6924@naver.com", nickname,
-                "image_url", SocialType.KAKAO, LocalDate.now(), GenderType.MEN);
+        Member member = new Member(1L, 하온_이메일, nickname,
+                하온_프로필_경로, 하온_소셜_타입_카카오, 하온_생년월일, 하온_성별);
         memberRepository.save(member);
 
         // when & then

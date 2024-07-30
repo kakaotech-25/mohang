@@ -1,5 +1,12 @@
 package moheng.auth.application;
 
+import static moheng.fixture.JwtTokenFixtures.INVALID_REFRESH_TOKEN;
+import static moheng.fixture.MemberFixtures.MEMBER_ID_1;
+import static moheng.fixture.MemberFixtures.스텁_이메일;
+import static moheng.fixture.AuthFixtures.AUHTORIZATION_CODE;
+import static moheng.fixture.AuthFixtures.KAKAO_PROVIDER_NAME;
+import static moheng.fixture.AuthFixtures.GOOGLE_PROVIDER_NAME;
+
 import moheng.auth.domain.token.JwtTokenManager;
 import moheng.auth.domain.token.MemberToken;
 import moheng.auth.dto.RenewalAccessTokenRequest;
@@ -36,9 +43,7 @@ class AuthServiceTest extends ServiceTestConfig {
     @Test
     void 카카오_로그인을_위한_링크를_생성한다() {
         // given
-        String code = "authorization_code";
-        String oAuthProvider = "kakao";
-        String link = authService.generateUri(oAuthProvider);
+        String link = authService.generateUri(KAKAO_PROVIDER_NAME);
 
         // when, then
         assertThat(link).isNotEmpty();
@@ -48,11 +53,9 @@ class AuthServiceTest extends ServiceTestConfig {
     @Test
     void 토큰_생성을_하면_OAuth_서버에서_인증_후_토큰을_반환한다() {
         // given
-        String code = "authorization code";
-        String oAuthProvider = "kakao";
 
         // when
-        MemberToken actual = authService.generateTokenWithCode(code, oAuthProvider);
+        MemberToken actual = authService.generateTokenWithCode(AUHTORIZATION_CODE, KAKAO_PROVIDER_NAME);
 
         // then
         assertThat(actual.getAccessToken()).isNotEmpty();
@@ -62,12 +65,10 @@ class AuthServiceTest extends ServiceTestConfig {
     @Test
     void Authorization_Code_를_전달받으면_회원_정보가_데이터베이스에_저장된다() {
         // given
-        String code = "authorization code";
-        String oAuthProvider = "kakao";
-        authService.generateTokenWithCode(code, oAuthProvider);
+        authService.generateTokenWithCode(AUHTORIZATION_CODE, KAKAO_PROVIDER_NAME);
 
         // when
-        boolean actual = memberRepository.existsByEmail("stub@kakao.com");
+        boolean actual = memberRepository.existsByEmail(스텁_이메일);
 
         // then
         assertThat(actual).isTrue();
@@ -77,14 +78,12 @@ class AuthServiceTest extends ServiceTestConfig {
     @Test
     void 이미_가입된_회원에_대한_Authorization_Code를_전달받으면_유저가_추가로_생성되지_않는다() {
         // given
-        String code = "authorization code";
-        String oAuthProvider = "kakao";
-        authService.generateTokenWithCode(code, oAuthProvider);
+        authService.generateTokenWithCode(AUHTORIZATION_CODE, KAKAO_PROVIDER_NAME);
 
         // when, then
-        authService.generateTokenWithCode(code, oAuthProvider);
-        authService.generateTokenWithCode(code, oAuthProvider);
-        authService.generateTokenWithCode(code, oAuthProvider);
+        authService.generateTokenWithCode(AUHTORIZATION_CODE, KAKAO_PROVIDER_NAME);
+        authService.generateTokenWithCode(AUHTORIZATION_CODE, KAKAO_PROVIDER_NAME);
+        authService.generateTokenWithCode(AUHTORIZATION_CODE, KAKAO_PROVIDER_NAME);
         List<Member> actual = memberRepository.findAll();
 
         // then
@@ -94,12 +93,8 @@ class AuthServiceTest extends ServiceTestConfig {
     @DisplayName("Authorization Code 로 토큰을 생성시 리프레시 토큰, 엑세스 토큰을 모두 발급한다.")
     @Test
     void Authorization_Code_로_토큰을_생성시_리프레시_토큰_엑세스_토큰을_모두_발급한다() {
-        // given
-        String code = "authorization code";
-        String oAuthProvider = "kakao";
-
-        // when
-        MemberToken actual = authService.generateTokenWithCode(code, oAuthProvider);
+        // given, when
+        MemberToken actual = authService.generateTokenWithCode(AUHTORIZATION_CODE, KAKAO_PROVIDER_NAME);
 
         // then
         assertThat(actual.getAccessToken()).isNotEmpty();
@@ -127,7 +122,7 @@ class AuthServiceTest extends ServiceTestConfig {
     @Test
     void 리프레시_토큰으로_새로운_엑세스_토큰을_갱신한다() {
         // given
-        MemberToken memberToken = jwtTokenManager.createMemberToken(5L);
+        MemberToken memberToken = jwtTokenManager.createMemberToken(MEMBER_ID_1);
         String refreshToken = memberToken.getRefreshToken();
 
         RenewalAccessTokenRequest renewalAccessTokenRequest
@@ -143,8 +138,7 @@ class AuthServiceTest extends ServiceTestConfig {
     @Test
     void 리프레시_토큰으로_새로운_엑세스_토큰을_발급_할_때_리프레시_토큰이_유효하지_않으면_예외를_던진다() {
         // given
-        String testRefreshToken = "invalid-refresh-token";
-        RenewalAccessTokenRequest renewalAccessTokenRequest = new RenewalAccessTokenRequest(testRefreshToken);
+        RenewalAccessTokenRequest renewalAccessTokenRequest = new RenewalAccessTokenRequest(INVALID_REFRESH_TOKEN);
 
         // when, then
         assertThatThrownBy(() -> authService.generateRenewalAccessToken(renewalAccessTokenRequest))
