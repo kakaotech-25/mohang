@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Component
 public class KakaoOAuthClient implements OAuthClient {
-    private final String PROVIDER_NAME = "kakao";
+    private final String PROVIDER_NAME = "KAKAO";
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
     private final String redirectUri;
@@ -93,5 +93,9 @@ public class KakaoOAuthClient implements OAuthClient {
         return Optional.ofNullable(accessToken.getBody())
                 .orElseThrow(IllegalArgumentException::new)
                 .getAccessToken();
+    }
+
+    public String getPROVIDER_NAME() {
+        return PROVIDER_NAME;
     }
 }

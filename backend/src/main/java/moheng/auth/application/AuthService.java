@@ -33,16 +33,16 @@ public class AuthService {
     public MemberToken generateTokenWithCode(final String code, final String providerName) {
         final OAuthClient oAuthClient = oAuthProvider.getOauthClient(providerName);
         final OAuthMember oAuthMember = oAuthClient.getOAuthMember(code);
-        final Member foundMember = findOrCreateMember(oAuthMember);
+        final Member foundMember = findOrCreateMember(oAuthMember, providerName);
         final MemberToken memberToken = tokenManager.createMemberToken(foundMember.getId());
         return memberToken;
     }
 
-    private Member findOrCreateMember(final OAuthMember oAuthMember) {
+    private Member findOrCreateMember(final OAuthMember oAuthMember, final String providerName) {
         final String email = oAuthMember.getEmail();
 
         if (!memberService.existsByEmail(email)) {
-            memberService.save(generateMember(oAuthMember));
+            memberService.save(generateMember(oAuthMember, providerName));
         }
         final Member foundMember = memberService.findByEmail(email);
         return foundMember;
@@ -54,8 +54,8 @@ public class AuthService {
     }
 
 
-    private Member generateMember(final OAuthMember oAuthMember) {
-        return new Member(oAuthMember.getEmail(), SocialType.KAKAO);
+    private Member generateMember(final OAuthMember oAuthMember, final String providerName) {
+        return new Member(oAuthMember.getEmail(), oAuthProvider.getSocialType(providerName));
     }
 
     @Transactional

@@ -1,9 +1,11 @@
 package moheng.auth.domain.oauth;
 
 import moheng.auth.exception.NoExistOAuthClientException;
+import moheng.member.domain.SocialType;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class OAuthClientProvider implements OAuthProvider {
@@ -29,5 +31,10 @@ public class OAuthClientProvider implements OAuthProvider {
                 .filter(oAuthUriProvider -> oAuthUriProvider.isSame(provider))
                 .findFirst()
                 .orElseThrow(NoExistOAuthClientException::new);
+    }
+
+    @Override
+    public SocialType getSocialType(final String provider) {
+        return SocialType.findByName(provider);
     }
 }

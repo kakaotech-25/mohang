@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class KakaoUriProvider implements OAuthUriProvider {
-    private final String PROVIDER_NAME = "kakao";
+    private final String PROVIDER_NAME = "KAKAO";
     private static final String KAKAO_OAUTH_END_POINT = "";
     private final String redirectUri;
     private final String clientId;

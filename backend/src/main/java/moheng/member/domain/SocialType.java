@@ -1,5 +1,8 @@
 package moheng.member.domain;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 public enum SocialType {
     KAKAO, GOOGLE;
 
@@ -8,5 +11,12 @@ public enum SocialType {
             if(type == input) return true;
         }
         return false;
+    }
+
+    public static SocialType findByName(String input) {
+        return Arrays.stream(SocialType.values())
+                .filter(type -> type.name().equalsIgnoreCase(input))
+                .findFirst()
+                .orElseThrow(RuntimeException::new);
     }
 }
