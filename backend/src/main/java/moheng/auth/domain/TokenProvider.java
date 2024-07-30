@@ -1,8 +1,11 @@
 package moheng.auth.domain;
 
 public interface TokenProvider {
-    MemberToken createMemberToken(final long memberId);
-    String generateRenewalAccessToken(final String refreshToken);
-    String getMemberId(final String accessToken);
-    void removeRefreshToken(final String refreshToken);
+    String createAccessToken(final long memberId);
+
+    String createRefreshToken(final long memberId);
+
+    Long getMemberId(final String token);
+
+    void validateToken(final String token);
 }

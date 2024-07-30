@@ -32,7 +32,7 @@ public class AuthenticationArgumentResolver implements HandlerMethodArgumentReso
 
         String accessToken = authenticationBearerExtractor.extract(request);
         jwtTokenProvider.validateToken(accessToken);
-        Long id = Long.parseLong(jwtTokenProvider.getPayload(accessToken));
+        Long id = jwtTokenProvider.getMemberId(accessToken);
 
         return new Accessor(id);
     }
