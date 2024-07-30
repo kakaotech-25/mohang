@@ -18,7 +18,7 @@ public class AuthController {
 
     @GetMapping("/{provider}/link")
     public ResponseEntity<OAuthUriResponse> generateUri(@PathVariable final String provider) {
-        return ResponseEntity.ok(new OAuthUriResponse(authService.generateUri()));
+        return ResponseEntity.ok(new OAuthUriResponse(authService.generateUri(provider)));
     }
 
     @PostMapping("/{oauthProvider}/login")

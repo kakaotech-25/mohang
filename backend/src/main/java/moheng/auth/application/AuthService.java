@@ -44,7 +44,8 @@ public class AuthService {
         return foundMember;
     }
 
-    public String generateUri() {
+    public String generateUri(String oAuthProvider) {
+        final OAuthUriProvider oAuthUriProvider = oAuthClientProvider.getOAuthUriProvider(oAuthProvider);
         return oAuthUriProvider.generateUri();
     }
 
