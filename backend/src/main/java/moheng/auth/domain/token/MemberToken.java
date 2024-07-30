@@ -1,4 +1,4 @@
-package moheng.auth.domain;
+package moheng.auth.domain.token;
 
 public class MemberToken {
     private final String accessToken;

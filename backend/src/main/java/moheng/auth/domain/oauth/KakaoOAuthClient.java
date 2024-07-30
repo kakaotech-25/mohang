@@ -1,6 +1,7 @@
-package moheng.auth.domain;
+package moheng.auth.domain.oauth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import moheng.auth.exception.InvalidOAuthServiceException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import java.util.Optional;
 
 @Component
 public class KakaoOAuthClient implements OAuthClient {
+    private final String PROVIDER_NAME = "KAKAO";
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
     private final String redirectUri;
@@ -40,6 +42,11 @@ public class KakaoOAuthClient implements OAuthClient {
     }
 
     @Override
+    public boolean isSame(String providerName) {
+        return PROVIDER_NAME.equals(providerName);
+    }
+
+    @Override
     public OAuthMember getOAuthMember(final String code) {
         final String accessToken = requestKakaoAccessToken(code);
         final HttpHeaders httpHeaders = new HttpHeaders();
@@ -57,7 +64,10 @@ public class KakaoOAuthClient implements OAuthClient {
                 queryParam
         );
 
-        return kakaoOAuthMember.getBody();
+        if(kakaoOAuthMember.getStatusCode().is2xxSuccessful()) {
+            return kakaoOAuthMember.getBody();
+        }
+        throw new InvalidOAuthServiceException("카카오 OAuth 소셜 로그인 서버에 예기치 못한 오류가 발생했습니다.");
     }
 
     private String requestKakaoAccessToken(String code) {
@@ -83,5 +93,9 @@ public class KakaoOAuthClient implements OAuthClient {
         return Optional.ofNullable(accessToken.getBody())
                 .orElseThrow(IllegalArgumentException::new)
                 .getAccessToken();
+    }
+
+    public String getPROVIDER_NAME() {
+        return PROVIDER_NAME;
     }
 }

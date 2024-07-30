@@ -1,7 +1,7 @@
 package moheng.auth.presentation;
 
 import moheng.auth.application.AuthService;
-import moheng.auth.domain.MemberToken;
+import moheng.auth.domain.token.MemberToken;
 import moheng.auth.dto.*;
 import moheng.auth.presentation.authentication.Authentication;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +18,13 @@ public class AuthController {
 
     @GetMapping("/{provider}/link")
     public ResponseEntity<OAuthUriResponse> generateUri(@PathVariable final String provider) {
-        return ResponseEntity.ok(new OAuthUriResponse(authService.generateUri()));
+        return ResponseEntity.ok(new OAuthUriResponse(authService.generateUri(provider)));
     }
 
-    @PostMapping("/{provider}/login")
-    public ResponseEntity<MemberToken> login(@PathVariable final String provider,
+    @PostMapping("/{oauthProvider}/login")
+    public ResponseEntity<MemberToken> login(@PathVariable("oauthProvider") final String oAuthProvider,
                                              @RequestBody final TokenRequest tokenRequest) {
-        MemberToken tokenResponse = authService.generateTokenWithCode(tokenRequest.getCode());
+        MemberToken tokenResponse = authService.generateTokenWithCode(tokenRequest.getCode(), oAuthProvider);
         return ResponseEntity.ok(tokenResponse);
     }
 

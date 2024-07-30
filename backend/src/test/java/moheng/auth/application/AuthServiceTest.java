@@ -1,10 +1,9 @@
 package moheng.auth.application;
 
-import moheng.auth.domain.JwtTokenProvider;
-import moheng.auth.domain.MemberToken;
+import moheng.auth.domain.token.JwtTokenManager;
+import moheng.auth.domain.token.MemberToken;
 import moheng.auth.dto.RenewalAccessTokenRequest;
 import moheng.auth.dto.RenewalAccessTokenResponse;
-import moheng.auth.dto.TokenResponse;
 import moheng.auth.exception.InvalidTokenException;
 import moheng.config.ServiceTestConfig;
 import moheng.config.TestConfig;
@@ -30,7 +29,7 @@ class AuthServiceTest extends ServiceTestConfig {
     @Autowired
     private MemberRepository memberRepository;
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    private JwtTokenManager jwtTokenManager;
 
 
     @DisplayName("카카오 로그인을 위한 링크를 생성한다.")
@@ -38,7 +37,8 @@ class AuthServiceTest extends ServiceTestConfig {
     void 카카오_로그인을_위한_링크를_생성한다() {
         // given
         String code = "authorization_code";
-        String link = authService.generateUri();
+        String oAuthProvider = "kakao";
+        String link = authService.generateUri(oAuthProvider);
 
         // when, then
         assertThat(link).isNotEmpty();
@@ -49,9 +49,10 @@ class AuthServiceTest extends ServiceTestConfig {
     void 토큰_생성을_하면_OAuth_서버에서_인증_후_토큰을_반환한다() {
         // given
         String code = "authorization code";
+        String oAuthProvider = "kakao";
 
         // when
-        MemberToken actual = authService.generateTokenWithCode(code);
+        MemberToken actual = authService.generateTokenWithCode(code, oAuthProvider);
 
         // then
         assertThat(actual.getAccessToken()).isNotEmpty();
@@ -62,10 +63,11 @@ class AuthServiceTest extends ServiceTestConfig {
     void Authorization_Code_를_전달받으면_회원_정보가_데이터베이스에_저장된다() {
         // given
         String code = "authorization code";
-        authService.generateTokenWithCode(code);
+        String oAuthProvider = "kakao";
+        authService.generateTokenWithCode(code, oAuthProvider);
 
         // when
-        boolean actual = memberRepository.existsByEmail("stub@naver.com");
+        boolean actual = memberRepository.existsByEmail("stub@kakao.com");
 
         // then
         assertThat(actual).isTrue();
@@ -76,12 +78,13 @@ class AuthServiceTest extends ServiceTestConfig {
     void 이미_가입된_회원에_대한_Authorization_Code를_전달받으면_유저가_추가로_생성되지_않는다() {
         // given
         String code = "authorization code";
-        authService.generateTokenWithCode(code);
+        String oAuthProvider = "kakao";
+        authService.generateTokenWithCode(code, oAuthProvider);
 
         // when, then
-        authService.generateTokenWithCode(code);
-        authService.generateTokenWithCode(code);
-        authService.generateTokenWithCode(code);
+        authService.generateTokenWithCode(code, oAuthProvider);
+        authService.generateTokenWithCode(code, oAuthProvider);
+        authService.generateTokenWithCode(code, oAuthProvider);
         List<Member> actual = memberRepository.findAll();
 
         // then
@@ -93,9 +96,10 @@ class AuthServiceTest extends ServiceTestConfig {
     void Authorization_Code_로_토큰을_생성시_리프레시_토큰_엑세스_토큰을_모두_발급한다() {
         // given
         String code = "authorization code";
+        String oAuthProvider = "kakao";
 
         // when
-        MemberToken actual = authService.generateTokenWithCode(code);
+        MemberToken actual = authService.generateTokenWithCode(code, oAuthProvider);
 
         // then
         assertThat(actual.getAccessToken()).isNotEmpty();
@@ -106,7 +110,8 @@ class AuthServiceTest extends ServiceTestConfig {
     @Test
     void 리프레시_토큰으로_새로운_엑세스_토큰을_발급받는다() {
         // given
-        String refreshToken = jwtTokenProvider.createRefreshToken(3L);
+        MemberToken memberToken = jwtTokenManager.createMemberToken(5L);
+        String refreshToken = memberToken.getRefreshToken();
         RenewalAccessTokenRequest renewalAccessTokenRequest
                 = new RenewalAccessTokenRequest(refreshToken);
 
@@ -122,10 +127,11 @@ class AuthServiceTest extends ServiceTestConfig {
     @Test
     void 리프레시_토큰으로_새로운_엑세스_토큰을_갱신한다() {
         // given
-        String testRefreshToken = jwtTokenProvider.createRefreshToken(10L);
+        MemberToken memberToken = jwtTokenManager.createMemberToken(5L);
+        String refreshToken = memberToken.getRefreshToken();
 
         RenewalAccessTokenRequest renewalAccessTokenRequest
-                = new RenewalAccessTokenRequest(testRefreshToken);
+                = new RenewalAccessTokenRequest(refreshToken);
         RenewalAccessTokenResponse renewalAccessTokenResponse
                 = authService.generateRenewalAccessToken(renewalAccessTokenRequest);
 

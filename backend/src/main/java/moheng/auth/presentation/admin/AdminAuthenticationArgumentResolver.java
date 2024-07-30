@@ -1,7 +1,7 @@
 package moheng.auth.presentation.admin;
 
 import jakarta.servlet.http.HttpServletRequest;
-import moheng.auth.domain.JwtTokenProvider;
+import moheng.auth.domain.token.JwtTokenProvider;
 import moheng.auth.dto.Accessor;
 import moheng.auth.presentation.authentication.AuthenticationBearerExtractor;
 import org.springframework.core.MethodParameter;
@@ -27,7 +27,7 @@ public class AdminAuthenticationArgumentResolver implements HandlerMethodArgumen
         HttpServletRequest request = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
         String accessToken = authenticationBearerExtractor.extract(request);
         jwtTokenProvider.validateToken(accessToken);
-        Long id = Long.parseLong(jwtTokenProvider.getPayload(accessToken));
+        Long id = jwtTokenProvider.getMemberId(accessToken);
         return new Accessor(id);
     }
 

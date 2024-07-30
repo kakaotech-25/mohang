@@ -1,7 +1,7 @@
 package moheng.auth.presentation.authentication;
 
 import jakarta.servlet.http.HttpServletRequest;
-import moheng.auth.domain.JwtTokenProvider;
+import moheng.auth.domain.token.JwtTokenProvider;
 import moheng.auth.dto.Accessor;
 import moheng.auth.exception.BadRequestException;
 import org.springframework.core.MethodParameter;
@@ -32,7 +32,7 @@ public class AuthenticationArgumentResolver implements HandlerMethodArgumentReso
 
         String accessToken = authenticationBearerExtractor.extract(request);
         jwtTokenProvider.validateToken(accessToken);
-        Long id = Long.parseLong(jwtTokenProvider.getPayload(accessToken));
+        Long id = jwtTokenProvider.getMemberId(accessToken);
 
         return new Accessor(id);
     }

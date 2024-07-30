@@ -1,4 +1,4 @@
-package moheng.auth.domain;
+package moheng.auth.domain.token;
 
 public interface RefreshTokenRepository {
     void save(final long memberId, final String refreshToken);
