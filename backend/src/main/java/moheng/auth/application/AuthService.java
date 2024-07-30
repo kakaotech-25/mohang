@@ -15,15 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AuthService {
     private final OAuthClientProvider oAuthClientProvider;
-    private final OAuthUriProvider oAuthUriProvider;
     private final MemberService memberService;
     private final JwtTokenProvider jwtTokenProvider;
 
     public AuthService(final OAuthClientProvider oAuthClientProvider,
-                       final OAuthUriProvider oAuthUriProvider,
                        final MemberService memberService, JwtTokenProvider jwtTokenProvider) {
         this.oAuthClientProvider = oAuthClientProvider;
-        this.oAuthUriProvider = oAuthUriProvider;
         this.memberService = memberService;
         this.jwtTokenProvider = jwtTokenProvider;
     }
@@ -38,7 +35,7 @@ public class AuthService {
     }
 
     private Member findOrCreateMember(OAuthMember oAuthMember) {
-        String email = oAuthMember.getEmail();
+        final String email = oAuthMember.getEmail();
 
         if (!memberService.existsByEmail(email)) {
             memberService.save(generateMember(oAuthMember));
