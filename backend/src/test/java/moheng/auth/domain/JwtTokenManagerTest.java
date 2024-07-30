@@ -33,6 +33,21 @@ public class JwtTokenManagerTest {
         );
     }
 
+    @DisplayName("리프레시 토큰으로 새로운 엑세스 토큰을 발급받는다.")
+    @Test
+    void 리프레시_토큰으로_새로운_엑세스_토큰을_발급받는다() {
+        // given
+        long memberId = 1L;
+        MemberToken memberToken = jwtTokenManager.createMemberToken(memberId);
+        String refreshToken = memberToken.getRefreshToken();
+
+        // when
+        String accessToken = jwtTokenManager.generateRenewalAccessToken(refreshToken);
+
+        // then
+        assertThat(accessToken).isNotEmpty();
+    }
+
     @DisplayName("리프레시 토큰 저장소에 없는 리프레시 토큰으로 새로운 엑세스 토큰 발급을 요청하면 예외가 발생한다.")
     @Test
     void 리프레시_토큰_저장소에_없는_리프레시_토큰으로_새로운_엑세스_토큰_발급을_요청하면_예외가_발생한다() {
