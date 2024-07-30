@@ -63,9 +63,20 @@ public class JwtTokenManagerTest {
     void 리프레시_토큰_저장소에_저장된_토큰을_제거한다() {
         // given
         MemberToken memberToken = jwtTokenManager.createMemberToken(1L);
-        String refeshToken = memberToken.getRefreshToken();
+        String refreshToken = memberToken.getRefreshToken();
 
         // when, then
-        assertDoesNotThrow(() -> jwtTokenManager.removeRefreshToken(refeshToken));
+        assertDoesNotThrow(() -> jwtTokenManager.removeRefreshToken(refreshToken));
+    }
+
+    @DisplayName("리프레시 토큰 저장소에 존재하지 않는 토큰을 삭제하면 예외가 발생한다.")
+    @Test
+    void 리프레시_토큰_저장소에_존재하지_않는_토큰을_삭제하면_예외가_발생한다() {
+        // given
+        String refreshToken = jwtTokenProvider.createRefreshToken(1);
+
+        // when, then
+        assertThatThrownBy(() -> jwtTokenManager.removeRefreshToken(refreshToken))
+                .isInstanceOf(NoExistMemberTokenException.class);
     }
 }

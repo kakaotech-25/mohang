@@ -140,15 +140,4 @@ public class JwtTokenProviderTest {
         // then
         assertThat(newToken).isEqualTo(savedToken);
     }
-
-    /* @DisplayName("리프레시 토큰 저장소에 존재하지 않는 토큰을 삭제하면 예외가 발생한다.")
-    @Test
-    void 리프레시_토큰_저장소에_존재하지_않는_토큰을_삭제하면_예외가_발생한다() {
-        // given
-        String refreshToken = jwtTokenProvider.createToken("2", 3600);
-
-        // when, then
-        assertThatThrownBy(() -> jwtTokenProvider.removeRefreshToken(refreshToken))
-                .isInstanceOf(NoExistMemberTokenException.class);
-    } */
 }
