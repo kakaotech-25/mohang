@@ -1,5 +1,10 @@
 package moheng.auth.domain;
 
+import static moheng.fixture.MemberFixtures.MEMBER_ID_1;
+import static moheng.fixture.MemberFixtures.MEMBER_ID_2;
+import static moheng.fixture.MemberFixtures.MEMBER_ID_3;
+import static moheng.fixture.MemberFixtures.MEMBER_ID_4;
+import static moheng.fixture.MemberFixtures.MEMBER_ID_5;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -17,11 +22,10 @@ public class InMemoryRefreshTokenRepositoryTest {
     @Test
     void 리프레시_토큰을_저장한다() {
         // given
-        long memberId = 1L;
         String refreshToken = "refresh token";
 
         // when, then
-        assertDoesNotThrow(() -> refreshTokenRepository.save(memberId, refreshToken));
+        assertDoesNotThrow(() -> refreshTokenRepository.save(MEMBER_ID_1, refreshToken));
     }
 
     @DisplayName("유효하지 않은 멤버 id 로 리프레시 토큰을 조회하면 거짓을 리턴한다.")
@@ -38,12 +42,11 @@ public class InMemoryRefreshTokenRepositoryTest {
     @Test
     void 유효한_멤버_id로_리프레시_토큰을_조회하면_참을_리턴한다() {
         // given
-        long memberId = 1L;
         String refreshToken = "refresh token";
-        refreshTokenRepository.save(memberId, refreshToken);
+        refreshTokenRepository.save(MEMBER_ID_2, refreshToken);
 
         // when
-        boolean actual = refreshTokenRepository.existsById(memberId);
+        boolean actual = refreshTokenRepository.existsById(MEMBER_ID_2);
 
         // then
         assertThat(actual).isTrue();
