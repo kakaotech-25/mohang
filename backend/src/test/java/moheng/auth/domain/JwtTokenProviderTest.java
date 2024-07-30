@@ -141,31 +141,6 @@ public class JwtTokenProviderTest {
         assertThat(newToken).isEqualTo(savedToken);
     }
 
-    /* @DisplayName("리프레시 토큰 저장소에 없는 리프레시 토큰으로 새로운 엑세스 토큰 발급을 요청하면 예외가 발생한다.")
-    @Test
-    void 리프레시_토큰_저장소에_없는_리프레시_토큰으로_새로운_엑세스_토큰_발급을_요청하면_예외가_발생한다() {
-        // given
-        String refreshToken = jwtTokenProvider.createToken("2", 3600);
-
-        // when, then
-        assertThatThrownBy(() -> jwtTokenProvider.generateRenewalAccessToken(refreshToken))
-                .isInstanceOf(NoExistMemberTokenException.class);
-    } */
-
-    /* @DisplayName("getMemberId 메소드는 입력받은 토큰의 payload 를 읽어내어 memberId 를 추출한다.")
-    @Test
-    void getMemberId_메소드는_입력받은_토큰의_payload_를_읽어내어_memberId_를_추출한다() {
-        // given
-        long expected = 1L;
-        String token = jwtTokenProvider.createToken(String.valueOf(expected), 3600);
-
-        // when
-        long memberId = Long.parseLong(jwtTokenProvider.getMemberId(token));
-
-        // then
-        assertThat(memberId).isEqualTo(expected);
-    } */
-
     /* @DisplayName("리프레시 토큰 저장소에 저장된 토큰을 제거한다.")
     @Test
     void 리프레시_토큰_저장소에_저장된_토큰을_제거한다() {
