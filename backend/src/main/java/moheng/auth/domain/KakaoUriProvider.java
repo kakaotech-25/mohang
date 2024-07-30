@@ -20,8 +20,8 @@ public class KakaoUriProvider implements OAuthUriProvider {
     }
 
     @Override
-    public boolean isSame(String oAuthProviderName) {
-        return PROVIDER_NAME.equals(oAuthProviderName);
+    public boolean isSame(String providerName) {
+        return PROVIDER_NAME.equals(providerName);
     }
 
     @Override
