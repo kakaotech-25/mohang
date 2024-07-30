@@ -14,20 +14,20 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @Service
 public class AuthService {
-    private final OAuthClientProvider oAuthClientProvider;
+    private final OAuthProvider oAuthProvider;
     private final MemberService memberService;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public AuthService(final OAuthClientProvider oAuthClientProvider,
+    public AuthService(final OAuthProvider oAuthProvider,
                        final MemberService memberService, JwtTokenProvider jwtTokenProvider) {
-        this.oAuthClientProvider = oAuthClientProvider;
+        this.oAuthProvider = oAuthProvider;
         this.memberService = memberService;
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Transactional
-    public MemberToken generateTokenWithCode(final String code, final String oAuthProvider) {
-        final OAuthClient oAuthClient = oAuthClientProvider.getOauthClient(oAuthProvider);
+    public MemberToken generateTokenWithCode(final String code, final String providerName) {
+        final OAuthClient oAuthClient = oAuthProvider.getOauthClient(providerName);
         final OAuthMember oAuthMember = oAuthClient.getOAuthMember(code);
         final Member foundMember = findOrCreateMember(oAuthMember);
         final MemberToken memberToken = jwtTokenProvider.createMemberToken(foundMember.getId());
@@ -44,8 +44,8 @@ public class AuthService {
         return foundMember;
     }
 
-    public String generateUri(String oAuthProvider) {
-        final OAuthUriProvider oAuthUriProvider = oAuthClientProvider.getOAuthUriProvider(oAuthProvider);
+    public String generateUri(String providerName) {
+        final OAuthUriProvider oAuthUriProvider = oAuthProvider.getOAuthUriProvider(providerName);
         return oAuthUriProvider.generateUri();
     }
 

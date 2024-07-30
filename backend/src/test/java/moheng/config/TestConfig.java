@@ -1,6 +1,7 @@
 package moheng.config;
 
 import moheng.auth.domain.OAuthClient;
+import moheng.auth.domain.OAuthClientProvider;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 

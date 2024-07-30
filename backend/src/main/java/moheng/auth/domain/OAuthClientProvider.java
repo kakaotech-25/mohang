@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class OAuthClientProvider {
+public class OAuthClientProvider implements OAuthProvider {
     private final List<OAuthClient> oAuthClients;
     private final List<OAuthUriProvider> oAuthUriProviders;
 
@@ -15,6 +15,7 @@ public class OAuthClientProvider {
         this.oAuthUriProviders = oAuthUriProviders;
     }
 
+    @Override
     public OAuthClient getOauthClient(final String provider) {
         return oAuthClients.stream()
                 .filter(oAuthClient -> oAuthClient.isSame(provider))
@@ -22,6 +23,7 @@ public class OAuthClientProvider {
                 .orElseThrow(NoExistOAuthClientException::new);
     }
 
+    @Override
     public OAuthUriProvider getOAuthUriProvider(final String provider) {
         return oAuthUriProviders.stream()
                 .filter(oAuthUriProvider -> oAuthUriProvider.isSame(provider))
