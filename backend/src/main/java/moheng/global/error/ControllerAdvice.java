@@ -1,6 +1,7 @@
 package moheng.global.error;
 
 import moheng.auth.exception.EmptyBearerHeaderException;
+import moheng.auth.exception.InvalidOAuthServiceException;
 import moheng.auth.exception.InvalidTokenFormatException;
 import moheng.global.error.dto.ExceptionResponse;
 import org.slf4j.LoggerFactory;
@@ -16,17 +17,21 @@ import org.slf4j.Logger;
 public class ControllerAdvice {
     private static final Logger logger = LoggerFactory.getLogger(ControllerAdvice.class);
 
-
+    @ExceptionHandler(InvalidOAuthServiceException.class)
+    public ResponseEntity<ExceptionResponse> handleOAuthException(final RuntimeException e) {
+        logger.error(e.getMessage(), e);
+        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage());
+        return ResponseEntity.internalServerError().body(exceptionResponse);
+    }
 
     @ExceptionHandler({
             EmptyBearerHeaderException.class,
             InvalidTokenFormatException.class})
-    public ResponseEntity<ExceptionResponse> handleAuthorizationException(RuntimeException e) {
+    public ResponseEntity<ExceptionResponse> handleUnAuthorizedException(RuntimeException e) {
         logger.error(e.getMessage(), e);
         ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
 
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(errorResponse);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 
 
