@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @Component
 public class KakaoOAuthClient implements OAuthClient {
+    private final String PROVIDER_NAME = "kakao";
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
     private final String redirectUri;
@@ -37,6 +38,11 @@ public class KakaoOAuthClient implements OAuthClient {
         this.clientSecret = clientSecret;
         this.tokenUri = tokenUri;
         this.userUri = userUri;
+    }
+
+    @Override
+    public boolean isSame(String oAuthProviderName) {
+        return PROVIDER_NAME.equals(oAuthProviderName);
     }
 
     @Override
