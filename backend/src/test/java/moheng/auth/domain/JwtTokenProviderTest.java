@@ -27,6 +27,16 @@ public class JwtTokenProviderTest {
             SECRET_KEY, ACCESS_TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME
     );
 
+    @DisplayName("주어진 payload 와 만료시간으로 토큰을 생성한다.")
+    @Test
+    void 주어진_payload_와_만료시간으로_토큰을_생성한다() {
+        // given, when
+        String actual = jwtTokenProvider.createToken("payload", ACCESS_TOKEN_EXPIRE_TIME);
+
+        // then
+        assertThat(actual.split("\\.")).hasSize(3);
+    }
+
     @DisplayName("엑세스 토큰을 생성한다.")
     @Test
     void 엑세스_토큰을_생성한다() {
@@ -60,20 +70,6 @@ public class JwtTokenProviderTest {
         // then
         assertThat(actual).isEqualTo(Long.parseLong(exptected));
     }
-
-    /* @DisplayName("JWT 토큰의 Payload를 가져온다.")
-    @Test
-    void JWT_토큰의_Payload를_가져온다() {
-        // given
-        String expected = "payload";
-        String token = jwtTokenProvider.createToken(expected, ACCESS_TOKEN_EXPIRE_TIME);
-
-        // when
-        String actual = jwtTokenProvider.getPayload(token);
-
-        // then
-        assertThat(actual).isEqualTo(expected);
-    } */
 
     @DisplayName("만료된 토큰을 전달받으면 예외가 발생한다.")
     @Test
