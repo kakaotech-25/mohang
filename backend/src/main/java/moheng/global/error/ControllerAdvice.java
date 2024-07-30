@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.ErrorResponse;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -58,6 +59,12 @@ public class ControllerAdvice {
     public ResponseEntity<ExceptionResponse> handleInvalidRequestBody() {
         ExceptionResponse exceptionResponse = new ExceptionResponse("잘못된 Request Body 형식 입니다.");
         return ResponseEntity.badRequest().body(exceptionResponse);
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ExceptionResponse> handleNotSupportedMethod() {
+        ExceptionResponse errorResponse = new ExceptionResponse("잘못된 HTTP 메소드 요청입니다.");
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(errorResponse);
     }
 
     @ExceptionHandler(Exception.class)
