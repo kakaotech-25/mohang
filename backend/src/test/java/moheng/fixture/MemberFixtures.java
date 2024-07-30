@@ -16,11 +16,11 @@ public class MemberFixtures {
     public static final LocalDate 하온_생년월일 = LocalDate.of(1999, 9, 20);
     public static final GenderType 하온_성별 = GenderType.MEN;
 
-    public static Member 하온_신규() {
+    public static Member 하온_기존() {
         return new Member(1L, 하온_이메일, 하온_닉네임, 하온_프로필_경로, 하온_소셜_타입_카카오, 하온_생년월일, 하온_성별);
     }
 
-    public static Member 하온_기존() {
+    public static Member 하온_신규() {
         return new Member(하온_이메일, 하온_소셜_타입_카카오);
     }
 
