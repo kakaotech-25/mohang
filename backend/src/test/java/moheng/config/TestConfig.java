@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Bean;
 public class TestConfig {
     @Bean
     public OAuthClient oAuthClient() {
-        return new StubOAuthClient();
+        return new KakaoStubOAuthClient();
     }
 }

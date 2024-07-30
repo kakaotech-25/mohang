@@ -38,7 +38,8 @@ class AuthServiceTest extends ServiceTestConfig {
     void 카카오_로그인을_위한_링크를_생성한다() {
         // given
         String code = "authorization_code";
-        String link = authService.generateUri();
+        String oAuthProvider = "kakao";
+        String link = authService.generateUri(oAuthProvider);
 
         // when, then
         assertThat(link).isNotEmpty();
