@@ -1,9 +1,9 @@
 package moheng.global.error;
 
-import moheng.auth.exception.EmptyBearerHeaderException;
-import moheng.auth.exception.InvalidOAuthServiceException;
-import moheng.auth.exception.InvalidTokenFormatException;
+import moheng.auth.exception.*;
 import moheng.global.error.dto.ExceptionResponse;
+import moheng.member.exception.*;
+import org.apache.coyote.Response;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +17,24 @@ import org.slf4j.Logger;
 public class ControllerAdvice {
     private static final Logger logger = LoggerFactory.getLogger(ControllerAdvice.class);
 
+    @ExceptionHandler({
+            BadRequestException.class,
+            NoExistOAuthClientException.class,
+            NoExistOAuthClientException.class,
+            InvalidBirthdayException.class,
+            InvalidEmailFormatException.class,
+            InvalidGenderFormatException.class,
+            InvalidNicknameFormatException.class,
+            NoExistMemberTokenException.class,
+            NoExistSocialTypeException.class
+    })
+    public ResponseEntity<ExceptionResponse> handleInvalidData(final RuntimeException e) {
+        logger.error(e.getMessage(), e);
+        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage());
+        return ResponseEntity.badRequest().body(exceptionResponse);
+    }
+
+
     @ExceptionHandler(InvalidOAuthServiceException.class)
     public ResponseEntity<ExceptionResponse> handleOAuthException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
@@ -26,8 +44,9 @@ public class ControllerAdvice {
 
     @ExceptionHandler({
             EmptyBearerHeaderException.class,
-            InvalidTokenFormatException.class})
-    public ResponseEntity<ExceptionResponse> handleUnAuthorizedException(RuntimeException e) {
+            InvalidTokenFormatException.class,
+            InvalidTokenException.class})
+    public ResponseEntity<ExceptionResponse> handleUnAuthorizedException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
         ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
 
@@ -36,7 +55,7 @@ public class ControllerAdvice {
 
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ExceptionResponse> handleRuntimeException(RuntimeException e) {
+    public ResponseEntity<ExceptionResponse> handleRuntimeException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
 
         return ResponseEntity.badRequest()
