@@ -47,6 +47,20 @@ public class JwtTokenProviderTest {
         assertThat(actual.split("\\.")).hasSize(3);
     }
 
+    @DisplayName("JWT 토큰에서 memberId 를 추출한다.")
+    @Test
+    void JWT_토큰에서_memberId_를_추출한다() {
+        // given
+        String exptected = "1";
+        String token = jwtTokenProvider.createToken(exptected, ACCESS_TOKEN_EXPIRE_TIME);
+
+        // when
+        Long actual = jwtTokenProvider.getMemberId(token);
+
+        // then
+        assertThat(actual).isEqualTo(Long.parseLong(exptected));
+    }
+
     /* @DisplayName("JWT 토큰의 Payload를 가져온다.")
     @Test
     void JWT_토큰의_Payload를_가져온다() {
