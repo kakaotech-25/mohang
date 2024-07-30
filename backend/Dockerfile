@@ -1,4 +1,5 @@
-FROM openjdk:21-slim
+# 빌드 스테이지
+FROM openjdk:22-slim AS build
 
 WORKDIR /app
 
@@ -7,17 +8,29 @@ COPY gradlew gradle build.gradle settings.gradle /app/
 COPY gradle/wrapper /app/gradle/wrapper
 
 # 실행권한 부여 & build.gradle 의존성 다운로드
-RUN chmod +x gradlew \
+RUN chmod +x ./gradlew \
     && ./gradlew dependencies
 
 # 소스코드 복사
 COPY src /app/src
 
+# 소스코드 빌드
+RUN ./gradlew build
+
+# 최종 이미지
+FROM openjdk:22-slim
+
+WORKDIR /app
+
+# 빌드된 결과물 복사
+COPY --from=build /app/build/libs /app/libs
+
 # 최소권한 설정
 RUN groupadd -r appgroup && useradd -r -g appgroup appuser \
     && mkdir -p /home/appuser/.gradle \
-    && chown -R appuser:appgroup /app /home/appuser/.gradle gradlew
+    && chown -R appuser:appgroup /app /home/appuser/.gradle
 
 USER appuser
 
-CMD ["./gradlew", "bootRun"]
+CMD ["tail", "-f"]
+# CMD ["java", "-jar", “직접 들어가서 어떤 파일로 실행하면 될지 찾아보기” ]

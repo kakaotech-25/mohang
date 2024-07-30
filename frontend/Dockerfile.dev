@@ -1,0 +1,15 @@
+FROM node:current-slim
+
+WORKDIR /usr/app/
+
+RUN		apt-get update \
+		&& apt-get install -y dumb-init \
+		&& npm install -g pnpm
+
+COPY	. .
+
+RUN		chmod +x install_package.sh
+
+ENTRYPOINT	["/usr/bin/dumb-init", "--"]
+
+CMD ["sh", "install_package.sh"]
