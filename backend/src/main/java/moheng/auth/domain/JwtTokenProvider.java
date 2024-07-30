@@ -60,12 +60,6 @@ public class JwtTokenProvider implements TokenProvider {
         }
     }
 
-    public MemberToken createMemberToken(final long memberId) {
-        String accessToken = createAccessToken(memberId);
-        String refreshToken = createRefreshToken(memberId);
-        return new MemberToken(accessToken, refreshToken);
-    }
-
     public String createToken(final String payload, final long tokenValidityInSeconds) {
         Date now = new Date();
         Date expireDate = new Date(now.getTime() + tokenValidityInSeconds);

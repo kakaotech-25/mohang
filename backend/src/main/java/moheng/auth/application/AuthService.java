@@ -18,7 +18,7 @@ public class AuthService {
     private final TokenManager tokenManager;
 
     public AuthService(final OAuthProvider oAuthProvider,
-                       final MemberService memberService, TokenManager tokenManager) {
+                       final MemberService memberService, final TokenManager tokenManager) {
         this.oAuthProvider = oAuthProvider;
         this.memberService = memberService;
         this.tokenManager = tokenManager;
@@ -33,7 +33,7 @@ public class AuthService {
         return memberToken;
     }
 
-    private Member findOrCreateMember(OAuthMember oAuthMember) {
+    private Member findOrCreateMember(final OAuthMember oAuthMember) {
         final String email = oAuthMember.getEmail();
 
         if (!memberService.existsByEmail(email)) {
@@ -43,7 +43,7 @@ public class AuthService {
         return foundMember;
     }
 
-    public String generateUri(String providerName) {
+    public String generateUri(final String providerName) {
         final OAuthUriProvider oAuthUriProvider = oAuthProvider.getOAuthUriProvider(providerName);
         return oAuthUriProvider.generateUri();
     }
