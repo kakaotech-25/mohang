@@ -141,16 +141,6 @@ public class JwtTokenProviderTest {
         assertThat(newToken).isEqualTo(savedToken);
     }
 
-    /* @DisplayName("리프레시 토큰 저장소에 저장된 토큰을 제거한다.")
-    @Test
-    void 리프레시_토큰_저장소에_저장된_토큰을_제거한다() {
-        // given
-        String refreshToken = jwtTokenProvider.createRefreshToken(1L);
-
-        // when, then
-        assertDoesNotThrow(() -> jwtTokenProvider.removeRefreshToken(refreshToken));
-    } */
-
     /* @DisplayName("리프레시 토큰 저장소에 존재하지 않는 토큰을 삭제하면 예외가 발생한다.")
     @Test
     void 리프레시_토큰_저장소에_존재하지_않는_토큰을_삭제하면_예외가_발생한다() {

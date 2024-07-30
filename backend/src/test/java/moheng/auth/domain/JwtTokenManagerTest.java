@@ -57,4 +57,15 @@ public class JwtTokenManagerTest {
         // then
         assertThat(memberId).isEqualTo(expected);
     }
+
+    @DisplayName("리프레시 토큰 저장소에 저장된 토큰을 제거한다.")
+    @Test
+    void 리프레시_토큰_저장소에_저장된_토큰을_제거한다() {
+        // given
+        MemberToken memberToken = jwtTokenManager.createMemberToken(1L);
+        String refeshToken = memberToken.getRefreshToken();
+
+        // when, then
+        assertDoesNotThrow(() -> jwtTokenManager.removeRefreshToken(refeshToken));
+    }
 }
