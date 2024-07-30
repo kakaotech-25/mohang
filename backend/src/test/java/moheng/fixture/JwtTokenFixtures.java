@@ -7,4 +7,5 @@ public class JwtTokenFixtures {
     public static final int EXPIRED_TOKEN_TIME = 0;
     public static final String PAYLOAD = "payload";
     public static final String INVALID_PAYLOAD = "invalid payload";
+    public static final String INVALID_REFRESH_TOKEN = "expired payload";
 }

@@ -67,4 +67,7 @@ public class MemberFixtures {
     public static Member 래오_기존() {
         return new Member(래오_이메일, 래오_소셜_타입_카카오);
     }
+
+    // 스텁(가짜) 회원
+    public static final String 스텁_이메일 = "stub@kakao.com";
 }
