@@ -19,7 +19,7 @@ public class JwtTokenManagerTest {
 
     @DisplayName("memberId 로 엑세스 토큰과 리프레시 토큰을 생성한다.")
     @Test
-    void memberId_로_엑세스_토큰을_생성한다() {
+    void memberId_로_엑세스_토큰과_리프레시_토큰을_생성한다() {
         // given
         long memberId = 1L;
 
