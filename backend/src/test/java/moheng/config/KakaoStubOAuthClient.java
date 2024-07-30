@@ -1,5 +1,6 @@
 package moheng.config;
 
+import moheng.auth.domain.oauth.KakaoOAuthMember;
 import moheng.auth.domain.oauth.OAuthClient;
 import moheng.auth.domain.oauth.OAuthMember;
 
@@ -9,7 +10,7 @@ public class KakaoStubOAuthClient implements OAuthClient {
 
     @Override
     public OAuthMember getOAuthMember(String code) {
-        return new OAuthMember("stub@kakao.com", "kakao_login_id", "kakao_nickname", "kakao_image_url");
+        return new KakaoOAuthMember("stub@kakao.com", "kakao_login_id", "kakao_nickname", "kakao_image_url");
     }
 
     @Override
