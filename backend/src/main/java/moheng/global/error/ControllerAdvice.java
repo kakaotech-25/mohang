@@ -1,5 +1,7 @@
 package moheng.global.error;
 
+import moheng.auth.exception.EmptyBearerHeaderException;
+import moheng.auth.exception.InvalidTokenFormatException;
 import moheng.global.error.dto.ExceptionResponse;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,16 @@ import org.slf4j.Logger;
 @RestControllerAdvice
 public class ControllerAdvice {
     private static final Logger logger = LoggerFactory.getLogger(ControllerAdvice.class);
+
+    @ExceptionHandler({
+            EmptyBearerHeaderException.class,
+            InvalidTokenFormatException.class})
+    public ResponseEntity<ExceptionResponse> handleAuthorizationException(RuntimeException e) {
+        logger.error(e.getMessage(), e);
+
+        return ResponseEntity.badRequest()
+                .body(new ExceptionResponse(e.getMessage()));
+    }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ExceptionResponse> handleRuntimeException(RuntimeException e) {
