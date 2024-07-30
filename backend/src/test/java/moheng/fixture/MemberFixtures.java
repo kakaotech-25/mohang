@@ -7,6 +7,16 @@ import moheng.member.domain.SocialType;
 import java.time.LocalDate;
 
 public class MemberFixtures {
+    // memberId
+    public static final long MEMBER_ID_1 = 1L;
+    public static final long MEMBER_ID_2 = 2L;
+    public static final long MEMBER_ID_3 = 3L;
+    public static final long MEMBER_ID_4 = 4L;
+    public static final long MEMBER_ID_5 = 5L;
+    public static final long MEMBER_ID_6 = 6L;
+    public static final long MEMBER_ID_7 = 7L;
+    public static final long MEMBER_ID_8 = 8L;
+
     // 하온
     public static final String 하온_이메일 = "haon1234@kakao.com";
     public static final String 하온_닉네임 = "haon";
