@@ -12,6 +12,14 @@ import org.slf4j.Logger;
 public class ControllerAdvice {
     private static final Logger logger = LoggerFactory.getLogger(ControllerAdvice.class);
 
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ExceptionResponse> handleRuntimeException(RuntimeException e) {
+        logger.error(e.getMessage(), e);
+
+        return ResponseEntity.badRequest()
+                .body(new ExceptionResponse(e.getMessage()));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleOverflowException(final Exception e) {
         logger.error(e.getMessage(), e);
