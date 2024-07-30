@@ -25,6 +25,14 @@ public class SocialTypeTest {
         assertEquals(SocialType.GOOGLE, SocialType.findByName("google"));
     }
 
+    @DisplayName("일치하는 소셜 타입이 있다면 참을 리턴한다.")
+    @Test
+    void 일치하는_소셜_타입이_있다면_거짓을_리턴한다() {
+        assertThat(SocialType.isMatches(SocialType.KAKAO)).isTrue();
+        assertThat(SocialType.isMatches(SocialType.GOOGLE)).isTrue();
+
+    }
+
     @DisplayName("일치하는 소셜 타입이 없다면 거짓을 리턴한다.")
     @Test
     void 일치하는_소셜_타입이_없다면_거짓을_리턴한다() {
