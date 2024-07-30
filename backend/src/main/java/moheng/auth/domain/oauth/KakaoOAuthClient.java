@@ -1,6 +1,7 @@
 package moheng.auth.domain.oauth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import moheng.auth.exception.InvalidOAuthServiceException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -63,7 +64,10 @@ public class KakaoOAuthClient implements OAuthClient {
                 queryParam
         );
 
-        return kakaoOAuthMember.getBody();
+        if(kakaoOAuthMember.getStatusCode().is2xxSuccessful()) {
+            return kakaoOAuthMember.getBody();
+        }
+        throw new InvalidOAuthServiceException("카카오 OAuth 소셜 로그인 서버에 예기치 못한 오류가 발생했습니다.");
     }
 
     private String requestKakaoAccessToken(String code) {
