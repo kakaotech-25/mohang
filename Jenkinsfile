@@ -7,6 +7,11 @@ pipeline {
         jdk 'JDK_22'
     }
 
+    environment {
+        JAVA_HOME = "${tool 'JDK_22'}"
+        PATH = "${env.PATH}:${env.JAVA_HOME}/bin"
+    }
+
     stages {
         stage ('Checkout') {
             steps {
