@@ -44,10 +44,11 @@ public class AuthController {
     }
 
     @PostMapping("/extend/login")
-    public ResponseEntity<RenewalAccessTokenResponse> extendLogin(@RequestBody final RenewalAccessTokenRequest renewalAccessTokenRequest) {
+    public ResponseEntity<RenewalAccessTokenResponse> extendLogin(
+            @CookieValue("refresh-token") final String refreshToken) {
         final RenewalAccessTokenResponse renewalAccessTokenResponse =
-                authService.generateRenewalAccessToken(renewalAccessTokenRequest);
-        return ResponseEntity.ok(renewalAccessTokenResponse);
+                authService.generateRenewalAccessToken(new RenewalAccessTokenRequest(refreshToken));
+        return ResponseEntity.status(CREATED).body(renewalAccessTokenResponse);
     }
 
     @DeleteMapping("/logout")
