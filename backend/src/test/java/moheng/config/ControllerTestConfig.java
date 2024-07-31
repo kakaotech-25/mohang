@@ -3,6 +3,8 @@ package moheng.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import moheng.auth.application.AuthService;
 import moheng.auth.domain.token.JwtTokenProvider;
+import moheng.auth.presentation.authentication.AuthenticationArgumentResolver;
+import moheng.auth.presentation.authentication.AuthenticationBearerExtractor;
 import moheng.member.application.MemberService;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -14,7 +16,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-@SpringBootTest
+@SpringBootTest(classes = TestConfig.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 public abstract class ControllerTestConfig {
@@ -32,4 +34,11 @@ public abstract class ControllerTestConfig {
 
     @MockBean
     protected MemberService memberService;
+
+    @Autowired
+    protected AuthenticationArgumentResolver authenticationArgumentResolver;
+
+    @Autowired
+    protected AuthenticationBearerExtractor authenticationBearerExtractor;
+
 }

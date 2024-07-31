@@ -22,23 +22,25 @@ public class AuthenticationArgumentResolver implements HandlerMethodArgumentReso
     }
 
     @Override
+    public boolean supportsParameter(final MethodParameter methodParameter) {
+        return methodParameter.hasMethodAnnotation(Authentication.class);
+    }
+
+    @Override
     public Object resolveArgument(final MethodParameter methodParameter, final ModelAndViewContainer modelAndViewContainer,
                                   final NativeWebRequest nativeWebRequest, final WebDataBinderFactory webDataBinderFactory) {
-        HttpServletRequest request = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
+
+        System.out.println("nqweqwekqwenqwleknqwen");
+        final HttpServletRequest request = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
 
         if (request == null) {
             throw new BadRequestException("잘못된 HTTP 요청입니다.");
         }
 
-        String accessToken = authenticationBearerExtractor.extract(request);
+        final String accessToken = authenticationBearerExtractor.extract(request);
         jwtTokenProvider.validateToken(accessToken);
-        Long id = jwtTokenProvider.getMemberId(accessToken);
+        final Long id = jwtTokenProvider.getMemberId(accessToken);
 
         return new Accessor(id);
-    }
-
-    @Override
-    public boolean supportsParameter(final MethodParameter methodParameter) {
-        return methodParameter.hasMethodAnnotation(Authentication.class);
     }
 }
