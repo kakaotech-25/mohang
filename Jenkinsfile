@@ -3,6 +3,8 @@ pipeline {
 
     tools {
         nodejs 'MyNode'
+        gradle 'MyGradle'
+        jdk 'JDK_22'
     }
 
     stages {
