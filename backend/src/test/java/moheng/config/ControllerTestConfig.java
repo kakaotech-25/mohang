@@ -2,6 +2,8 @@ package moheng.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import moheng.auth.application.AuthService;
+import moheng.auth.domain.token.JwtTokenProvider;
+import moheng.member.application.MemberService;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,4 +26,10 @@ public abstract class ControllerTestConfig {
 
     @MockBean
     protected AuthService authService;
+
+    @MockBean
+    protected JwtTokenProvider jwtTokenProvider;
+
+    @MockBean
+    protected MemberService memberService;
 }
