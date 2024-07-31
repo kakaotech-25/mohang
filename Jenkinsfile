@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs 'MyNode'
+    }
+
     stages {
         stage ('Checkout') {
             steps {
@@ -13,9 +17,15 @@ pipeline {
             steps {
                 script {
                     echo 'Starting Frontend Build...'
-                    echo 'Installing Frontend Dependencies...'
-                    echo 'Running Frontend Tests...'
-                    echo 'Building Frontend...'
+                    
+                    dir('frontend') {
+                        echo 'Installing Frontend Dependencies...'
+                        sh 'npm install'
+                        
+                        echo 'Building Frontend...'
+                        sh 'npm run build'
+                    }
+                    
                     echo 'Frontend Build Completed!'
                 }
             }
