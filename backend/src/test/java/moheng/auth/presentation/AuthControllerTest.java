@@ -23,6 +23,7 @@ import moheng.auth.domain.token.MemberToken;
 import moheng.auth.dto.RenewalAccessTokenResponse;
 import moheng.auth.dto.TokenRequest;
 import moheng.auth.dto.TokenResponse;
+import moheng.auth.exception.InvalidTokenException;
 import moheng.config.ControllerTestConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -69,5 +70,21 @@ public class AuthControllerTest extends ControllerTestConfig {
                 .contentType(MediaType.APPLICATION_JSON)
                 .cookie(토큰_갱신_요청())
         ).andDo(print()).andExpect(status().isCreated());
+    }
+
+    @DisplayName("만료되었거나 잘못 변형된 리프레시 토큰으로 새로운 엑세스 토큰을 재발급하려 하면 상태코드 401을 리턴한다.")
+    @Test
+    void 만료되었거나_잘못_변형된_리프레시_토큰으로_새로운_엑세스_토큰을_발급하려_하면_상태코드_401을_리턴한다() throws Exception {
+        // given
+        given(authService.generateRenewalAccessToken(any())).willThrow(new InvalidTokenException("변조되었거나 만료된 토큰 입니다."));
+
+        // when, then
+        mockMvc.perform(post("/auth/extend/login")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .cookie(토큰_갱신_요청())
+                )
+                .andDo(print())
+                .andExpect(status().isUnauthorized());
     }
 }
