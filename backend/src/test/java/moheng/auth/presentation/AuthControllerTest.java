@@ -23,6 +23,7 @@ import moheng.auth.domain.token.MemberToken;
 import moheng.auth.dto.RenewalAccessTokenResponse;
 import moheng.auth.dto.TokenRequest;
 import moheng.auth.dto.TokenResponse;
+import moheng.auth.exception.InvalidOAuthServiceException;
 import moheng.auth.exception.InvalidTokenException;
 import moheng.config.ControllerTestConfig;
 import org.junit.jupiter.api.DisplayName;
@@ -56,6 +57,21 @@ public class AuthControllerTest extends ControllerTestConfig {
                         .content(objectMapper.writeValueAsString(토큰_생성_요청())))
                 .andDo(print())
                 .andExpect(status().isCreated());
+    }
+
+    @DisplayName("OAuth 로그인 서버에 문제가 발생하면 상태코드 500을 반환한다.")
+    @Test
+    void OAuth_로그인에_문제가_발생하면_상태코드_500을_반환한다() throws Exception {
+        // given
+        given(authService.generateTokenWithCode(any(), any())).willThrow(new InvalidOAuthServiceException("카카오 OAuth 소셜 로그인 서버에 예기치 못한 오류가 발생했습니다."));
+
+        // when, then
+        mockMvc.perform(post("/auth/{provider}/token", "KAKAO")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(토큰_생성_요청())))
+                .andDo(print())
+                .andExpect(status().isInternalServerError());
     }
 
     @DisplayName("리프레시 토큰을 통해 새로운 엑세스 토큰을 발급하면 상태코드 200을 리턴한다.")
