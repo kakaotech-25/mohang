@@ -21,13 +21,13 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @GetMapping("/{oauthProvider}/link")
-    public ResponseEntity<OAuthUriResponse> generateUri(@PathVariable final String oauthProvider) {
-        return ResponseEntity.ok(new OAuthUriResponse(authService.generateUri(oauthProvider)));
+    @GetMapping("/{oAuthProvider}/link")
+    public ResponseEntity<OAuthUriResponse> generateUri(@PathVariable final String oAuthProvider) {
+        return ResponseEntity.ok(new OAuthUriResponse(authService.generateUri(oAuthProvider)));
     }
 
-    @PostMapping("/{oauthProvider}/login")
-    public ResponseEntity<AccessTokenResponse> login(@PathVariable("oauthProvider") final String oAuthProvider,
+    @PostMapping("/{oAuthProvider}/login")
+    public ResponseEntity<AccessTokenResponse> login(@PathVariable final String oAuthProvider,
                                              @RequestBody final TokenRequest tokenRequest,
                                              final HttpServletResponse httpServletResponse) {
         final MemberToken memberToken = authService.generateTokenWithCode(tokenRequest.getCode(), oAuthProvider);
@@ -39,8 +39,8 @@ public class AuthController {
                 .path("/")
                 .build();
         httpServletResponse.addHeader(SET_COOKIE, responseCookie.toString());
-        return ResponseEntity.status(CREATED)
-                .body(new AccessTokenResponse(memberToken.getAccessToken()));
+        final AccessTokenResponse accessTokenResponse = new AccessTokenResponse(memberToken.getAccessToken());
+        return ResponseEntity.status(CREATED).body(accessTokenResponse);
     }
 
     @PostMapping("/extend/login")
