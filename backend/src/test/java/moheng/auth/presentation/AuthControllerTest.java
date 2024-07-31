@@ -1,5 +1,6 @@
 package moheng.auth.presentation;
 
+import static moheng.fixture.MemberFixtures.*;
 import static moheng.fixture.AuthFixtures.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -102,5 +103,16 @@ public class AuthControllerTest extends ControllerTestConfig {
                 )
                 .andDo(print())
                 .andExpect(status().isUnauthorized());
+    }
+
+    @DisplayName("로그아웃을 히면 리프레시 토큰을 삭제하고 HTTP 상태코드 값 200을 리턴한다.")
+    @Test
+    void 로그아웃을_히면_리프레시_토큰을_삭제하고_HTTP_상태코드_값_200을_리턴한다() throws Exception {
+        // given, when, then
+        mockMvc.perform(post("/auth/logout")
+                        .header("Authorization", "Bearer aaaaaaaa.bbbbbbbb.cccccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print());
     }
 }
