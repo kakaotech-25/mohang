@@ -53,8 +53,8 @@ public class AuthController {
 
     @DeleteMapping("/logout")
     public ResponseEntity<Void> logout(@Authentication final Accessor accessor,
-                                       @RequestBody final LogoutRequest logoutRequest) {
-        authService.removeRefreshToken(logoutRequest);
+                                       @CookieValue("refresh-token") final String refreshToken) {
+        authService.removeRefreshToken(new LogoutRequest(refreshToken));
         return ResponseEntity.noContent().build();
     }
 }
