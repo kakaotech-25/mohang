@@ -20,4 +20,23 @@ public class MemberResponse {
         this.gender = member.getGenderType();
     }
 
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public GenderType getGender() {
+        return gender;
+    }
 }

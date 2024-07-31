@@ -20,7 +20,6 @@ public class MemberController {
 
     @GetMapping("/me")
     public ResponseEntity<MemberResponse> getUserInfo(@Authentication final Accessor accessor) {
-        System.out.println("accessor: " + accessor.getId());
         MemberResponse response = memberService.findById(accessor.getId());
         return ResponseEntity.ok(response);
     }

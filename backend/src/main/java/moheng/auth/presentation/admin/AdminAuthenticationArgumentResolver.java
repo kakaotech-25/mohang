@@ -11,8 +11,8 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-@Component
-public class AdminAuthenticationArgumentResolver implements HandlerMethodArgumentResolver {
+
+public class AdminAuthenticationArgumentResolver {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationBearerExtractor authenticationBearerExtractor;
 
@@ -21,7 +21,10 @@ public class AdminAuthenticationArgumentResolver implements HandlerMethodArgumen
         this.authenticationBearerExtractor = authenticationBearerExtractor;
     }
 
-    @Override
+    public boolean supportsParameter(final MethodParameter methodParameter) {
+        return methodParameter.hasMethodAnnotation(AdminAuthentication.class);
+    }
+
     public Object resolveArgument(final MethodParameter methodParameter, final ModelAndViewContainer modelAndViewContainer,
                                   final NativeWebRequest nativeWebRequest, final WebDataBinderFactory webDataBinderFactory) {
         HttpServletRequest request = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
@@ -29,10 +32,5 @@ public class AdminAuthenticationArgumentResolver implements HandlerMethodArgumen
         jwtTokenProvider.validateToken(accessToken);
         Long id = jwtTokenProvider.getMemberId(accessToken);
         return new Accessor(id);
-    }
-
-    @Override
-    public boolean supportsParameter(final MethodParameter methodParameter) {
-        return methodParameter.hasMethodAnnotation(AdminAuthentication.class);
     }
 }
