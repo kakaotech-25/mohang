@@ -3,6 +3,7 @@ package moheng.fixture;
 import moheng.member.domain.GenderType;
 import moheng.member.domain.Member;
 import moheng.member.domain.SocialType;
+import moheng.member.dto.response.MemberResponse;
 
 import java.time.LocalDate;
 
@@ -32,6 +33,10 @@ public class MemberFixtures {
 
     public static Member 하온_신규() {
         return new Member(하온_이메일, 하온_소셜_타입_카카오);
+    }
+
+    public static MemberResponse 하온_응답() {
+        return new MemberResponse(하온_기존());
     }
 
     // 리안

@@ -12,19 +12,24 @@ import java.util.Objects;
 public class AuthenticationBearerExtractor {
     private static final String BEARER_TYPE = "Bearer ";
 
-    public static String extract(final HttpServletRequest request) {
-        String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (Objects.isNull(authorizationHeader)) {
-            throw new EmptyBearerHeaderException("Authorization Bearer 해더 값이 비어있습니다.");
-        }
+    public String extract(final HttpServletRequest httpServletRequest) {
+        String authorizationHeader = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
 
+        validateEmptyHeader(authorizationHeader);
         validateAuthorizationFormat(authorizationHeader);
+
         return authorizationHeader.substring(BEARER_TYPE.length()).trim();
     }
 
-    private static void validateAuthorizationFormat(final String authorizationHeader) {
-        if (!authorizationHeader.toLowerCase().startsWith(BEARER_TYPE.toLowerCase())) {
+    private void validateAuthorizationFormat(final String authorizationHeader) {
+        if(!authorizationHeader.toLowerCase().startsWith(BEARER_TYPE.toLowerCase())) {
             throw new InvalidTokenFormatException("유효하지 않은 토큰 형식입니다.");
+        }
+    }
+
+    private void validateEmptyHeader(String authorizationHeader) {
+        if(Objects.isNull(authorizationHeader)) {
+            throw new EmptyBearerHeaderException("Authorization Bearer 해더 값이 비어있습니다.");
         }
     }
 }

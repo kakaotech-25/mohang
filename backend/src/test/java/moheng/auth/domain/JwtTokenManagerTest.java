@@ -8,6 +8,7 @@ import static moheng.fixture.MemberFixtures.MEMBER_ID_2;
 import static moheng.fixture.MemberFixtures.MEMBER_ID_3;
 import static moheng.fixture.MemberFixtures.MEMBER_ID_4;
 import static moheng.fixture.MemberFixtures.MEMBER_ID_5;
+import static moheng.fixture.MemberFixtures.MEMBER_ID_6;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,7 +43,7 @@ public class JwtTokenManagerTest {
     @Test
     void 리프레시_토큰으로_새로운_엑세스_토큰을_발급받는다() {
         // given
-        MemberToken memberToken = jwtTokenManager.createMemberToken(MEMBER_ID_2);
+        MemberToken memberToken = jwtTokenManager.createMemberToken(MEMBER_ID_6);
         String refreshToken = memberToken.getRefreshToken();
 
         // when
