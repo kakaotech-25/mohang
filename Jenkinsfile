@@ -34,9 +34,13 @@ pipeline {
             steps {
                 script {
                     echo 'Starting Backend Build...'
-                    echo 'Installing Backend Dependencies...'
-                    echo 'Running Backend Tests...'
-                    echo 'Building Backend...'
+                    
+                    dir('backend') {
+                        echo 'Installing Backend Dependencies...'
+                        sh 'chmod +x gradlew'
+                        sh './gradlew build'
+                    }
+
                     echo 'Backend Build Completed!'
                 }
             }
