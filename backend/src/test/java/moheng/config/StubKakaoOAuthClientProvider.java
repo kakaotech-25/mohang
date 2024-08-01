@@ -14,7 +14,7 @@ public class StubKakaoOAuthClientProvider implements OAuthProvider {
 
     @Override
     public OAuthUriProvider getOAuthUriProvider(String providerName) {
-        return new KakaoUriProvider("stub_redirect_url",
+        return new KakaoUriProvider("https://stub_redirect_url",
                 "stub_client_id", "stub_client_secret");
     }
 
