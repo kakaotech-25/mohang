@@ -1,6 +1,7 @@
 package moheng.acceptance;
 
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.*;
+import static moheng.acceptance.fixture.MemberAcceptanceFixture.*;
 import static moheng.acceptance.fixture.HttpStatus.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -29,13 +30,7 @@ public class MemberAcceptanceTest extends AcceptanceTestConfig {
         AccessTokenResponse accessTokenResponse = loginResponse.as(AccessTokenResponse.class);
 
         // when
-        ExtractableResponse<Response> memberResponse = RestAssured.given().log().all()
-                .auth().oauth2(accessTokenResponse.getAccessToken())
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .when().get("/member/me")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .extract();
+        ExtractableResponse<Response> memberResponse = 회원_본인의_정보를_조회한다(accessTokenResponse.getAccessToken());
         MemberResponse responseResult = memberResponse.as(MemberResponse.class);
 
         // then
