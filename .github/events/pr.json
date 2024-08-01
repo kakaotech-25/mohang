@@ -1,0 +1,17 @@
+{
+  "action": "labeled",
+  "pull_request": {
+    "number": 59,
+    "title": "[feat] 오늘까지 끝내야 할지도?",
+    "html_url": "https://github.com/kakaotech-25/moheng/pull/59"
+  },
+  "label": {
+    "name": "D-3"
+  },
+  "repository": {
+    "name": "moheng",
+    "owner": {
+      "login": "kakaotech-25"
+    }
+  }
+}

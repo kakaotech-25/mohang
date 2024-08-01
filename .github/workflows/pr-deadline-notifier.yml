@@ -1,0 +1,31 @@
+name: PR Deadline Notifier
+
+on:
+  pull_request_target:
+    types:
+      - labeled
+
+jobs:
+  calculate-deadline:
+    runs-on: ubuntu-latest
+    env:
+      SCRIPTS_DIR: .github/scripts/pr-deadline
+      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_PR_WEBHOOK_URL }} # Add this line to define the DISCORD_WEBHOOK_URL environment variable
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set execute permissions for scripts
+        run: chmod +x ${{ env.SCRIPTS_DIR }}/*.sh
+
+      - name: Extract Deadline from Label
+        id: extract_deadline
+        run: ${{ env.SCRIPTS_DIR }}/extract_deadline.sh "${{ github.event.label.name }}"
+
+      - name: Calculate Time Remaining
+        id: calculate_deadline
+        run: ${{ env.SCRIPTS_DIR }}/caculate_deadline.sh "${{ steps.extract_deadline.outputs.deadline }}"
+
+      - name: Send Discord Notification
+        if: always()
+        run: ${{ env.SCRIPTS_DIR }}/send_discord_notification.sh "${{ env.DISCORD_WEBHOOK_URL }}" "${{ steps.calculate_deadline.outputs.deadline }}" # Update this line to use the DISCORD_WEBHOOK_URL environment variable
