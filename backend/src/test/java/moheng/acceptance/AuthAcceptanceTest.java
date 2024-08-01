@@ -21,19 +21,26 @@ public class AuthAcceptanceTest extends AcceptanceTestConfig {
     @Test
     void 카카오_소셜_로그인을_위한_Authorization_URI_를_생성한다() {
         // given, when
-        ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .when().get("/auth/{provider}/link", "KAKAO")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .extract();
-
+        ExtractableResponse<Response> response = generateUri("KAKAO");
         OAuthUriResponse oAuthUriResponse = response.as(OAuthUriResponse.class);
 
         // then
         assertAll(() -> {
-            assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+            상태코드_200이_반환된다(response);
             assertThat(oAuthUriResponse.getoAuthUri()).contains("https://");
         });
+    }
+
+    public static ExtractableResponse<Response> generateUri(final String oauthProvider) {
+        return RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().get("/auth/{provider}/link", oauthProvider)
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract();
+    }
+
+    public static void 상태코드_200이_반환된다(final ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 }
