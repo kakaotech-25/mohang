@@ -17,4 +17,8 @@ public class HttpStatus {
     public static void 상태코드_204이_반환된다(final ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(org.springframework.http.HttpStatus.NO_CONTENT.value());
     }
+
+    public static void 상태코드_401이_반환된다(final ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(org.springframework.http.HttpStatus.UNAUTHORIZED.value());
+    }
 }
