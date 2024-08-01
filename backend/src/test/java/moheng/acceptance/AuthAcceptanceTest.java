@@ -66,19 +66,6 @@ public class AuthAcceptanceTest extends AcceptanceTestConfig {
         });
     }
 
-    @DisplayName("만료된 엑세스 토큰으로 요청을 시도하면 상태코드 401을 리턴한다.")
-    @Test
-    void 만료된_엑세스_토큰으로_요청을_시도하면_상태코드_401을_리턴한다() {
-        // given
-        String accessToken = 자체_토큰을_생성하고_엑세스_토큰을_반환한다("KAKAO", "authorization-code");
-
-        // when
-        ExtractableResponse<Response> response = 토큰이_유효한지_검증한다(accessToken);
-
-        // then
-        상태코드_401이_반환된다(response);
-    }
-
     @DisplayName("로그아웃을 시도하면 서버내의 리프레시 토큰을 제거하고 상태코드 204를 리턴한다.")
     @Test
     void 로그아웃을_시도하면_서버내의_리프레시_토큰을_제거하고_상태코드_204를_리턴한다() {

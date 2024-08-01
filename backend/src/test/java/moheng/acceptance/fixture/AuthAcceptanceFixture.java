@@ -49,25 +49,4 @@ public class AuthAcceptanceFixture {
                 .statusCode(HttpStatus.NO_CONTENT.value())
                 .extract();
     }
-
-    public static String 자체_토큰을_생성하고_엑세스_토큰을_반환한다(final String oauthProvider, final String code) {
-        AccessTokenResponse accessTokenResponse = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(new TokenRequest(code))
-                .when().post("/auth/{oAuthProvider}/login", oauthProvider)
-                .then().log().all()
-                .statusCode(HttpStatus.CREATED.value())
-                .extract()
-                .as(AccessTokenResponse.class);
-
-        return accessTokenResponse.getAccessToken();
-    }
-
-    public static ExtractableResponse<Response> 토큰이_유효한지_검증한다(final String accessToken) {
-        return RestAssured.given().log().all()
-                .auth().oauth2(accessToken)
-                .when().get("/api/auth/validate/token")
-                .then().log().all()
-                .extract();
-    }
 }

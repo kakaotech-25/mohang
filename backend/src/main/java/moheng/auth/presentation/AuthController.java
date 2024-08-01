@@ -3,6 +3,7 @@ package moheng.auth.presentation;
 import static org.springframework.http.HttpHeaders.SET_COOKIE;
 import static org.springframework.http.HttpStatus.CREATED;
 
+import jakarta.persistence.Access;
 import jakarta.servlet.http.HttpServletResponse;
 import moheng.auth.application.AuthService;
 import moheng.auth.domain.token.MemberToken;
@@ -56,5 +57,10 @@ public class AuthController {
                                        @CookieValue("refresh-token") final String refreshToken) {
         authService.removeRefreshToken(new LogoutRequest(refreshToken));
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/validate/token")
+    public ResponseEntity<Void> validateToken(@Authentication final Accessor accessor) {
+        return ResponseEntity.ok().build();
     }
 }
