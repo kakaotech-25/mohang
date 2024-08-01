@@ -6,17 +6,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
-@Component
-public class AdminAuthenticationWebConfig implements WebMvcConfigurer {
+
+public class AdminAuthenticationWebConfig {
     private final AdminAuthenticationArgumentResolver adminAuthenticationArgumentResolver;
 
     public AdminAuthenticationWebConfig(final AdminAuthenticationArgumentResolver adminAuthenticationArgumentResolver) {
         this.adminAuthenticationArgumentResolver = adminAuthenticationArgumentResolver;
-    }
-
-    @Override
-    public void addArgumentResolvers(final List<HandlerMethodArgumentResolver> argumentResolvers) {
-        argumentResolvers.add(adminAuthenticationArgumentResolver);
     }
 }
 

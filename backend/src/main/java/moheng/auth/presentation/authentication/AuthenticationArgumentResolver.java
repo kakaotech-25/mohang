@@ -22,15 +22,17 @@ public class AuthenticationArgumentResolver implements HandlerMethodArgumentReso
     }
 
     @Override
-    public boolean supportsParameter(final MethodParameter methodParameter) {
-        return methodParameter.hasMethodAnnotation(Authentication.class);
+    public boolean supportsParameter(final MethodParameter parameter) {
+        System.out.println(parameter.hasParameterAnnotation(Authentication.class));
+        return parameter.hasParameterAnnotation(Authentication.class);
     }
 
     @Override
-    public Object resolveArgument(final MethodParameter methodParameter, final ModelAndViewContainer modelAndViewContainer,
-                                  final NativeWebRequest nativeWebRequest, final WebDataBinderFactory webDataBinderFactory) {
-
-        System.out.println("nqweqwekqwenqwleknqwen");
+    public Accessor resolveArgument(
+            final MethodParameter methodParameter,
+            final ModelAndViewContainer modelAndViewContainer,
+            final NativeWebRequest nativeWebRequest,
+            final WebDataBinderFactory webDataBinderFactory) {
         final HttpServletRequest request = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
 
         if (request == null) {
