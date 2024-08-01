@@ -9,10 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import moheng.auth.dto.AccessTokenResponse;
-import moheng.auth.dto.OAuthUriResponse;
-import moheng.auth.dto.TokenRequest;
-import moheng.auth.dto.TokenResponse;
+import moheng.auth.dto.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -74,5 +71,28 @@ public class AuthAcceptanceTest extends AcceptanceTestConfig {
 
     public static void 상태코드_201이_반환된다(final ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
+    }
+
+    @DisplayName("리프레시 토큰을 통해 새로운 엑세스 토큰을 발급받고 상태코드 201을 리턴한다.")
+    @Test
+    public void 리프레시_토큰을_통해_새로운_엑세스_토큰을_발급받고_상태코드_201을_리턴한다() {
+        // given
+        ExtractableResponse<Response> response = 자체_토큰을_생성한다("KAKAO", "authorization-code");
+        final String refreshToken = response.headers().getValue("Set-Cookie");
+
+        // when
+        ExtractableResponse<Response> actuasl = RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .cookie(refreshToken)
+                .when().post("/auth/extend/login")
+                .then().log().all()
+                .extract();
+        RenewalAccessTokenResponse renewalAccessTokenResponse = actuasl.as(RenewalAccessTokenResponse.class);
+
+        // then
+        assertAll(() -> {
+            상태코드_201이_반환된다(response);
+            assertThat(renewalAccessTokenResponse.getAccessToken()).isNotEmpty();
+        });
     }
 }
