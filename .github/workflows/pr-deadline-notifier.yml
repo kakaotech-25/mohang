@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SCRIPTS_DIR: .github/scripts/pr-deadline
-      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }} # Add this line to define the DISCORD_WEBHOOK_URL environment variable
+      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_PR_WEBHOOK_URL }} # Add this line to define the DISCORD_WEBHOOK_URL environment variable
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
