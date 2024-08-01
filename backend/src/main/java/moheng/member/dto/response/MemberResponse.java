@@ -12,6 +12,14 @@ public class MemberResponse {
     private final LocalDate birthday;
     private final GenderType gender;
 
+    public MemberResponse(final Long id, final String profileImageUrl, final String nickname, final LocalDate birthday, final GenderType gender) {
+        this.id = id;
+        this.profileImageUrl = profileImageUrl;
+        this.nickname = nickname;
+        this.birthday = birthday;
+        this.gender = gender;
+    }
+
     public MemberResponse(final Member member) {
         this.id = member.getId();
         this.profileImageUrl = member.getProfileImageUrl();
