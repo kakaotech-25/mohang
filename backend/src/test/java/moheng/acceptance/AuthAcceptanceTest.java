@@ -109,19 +109,23 @@ public class AuthAcceptanceTest extends AcceptanceTestConfig {
         final String refreshToken = loginResponse.headers().getValue("Set-Cookie");
 
         // when
-        ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .auth().oauth2(tokenResponse.getAccessToken())
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .cookie(refreshToken)
-                .when().delete("/auth/logout")
-                .then().log().all()
-                 .statusCode(HttpStatus.NO_CONTENT.value())
-                .extract();
+        ExtractableResponse<Response> response = 로그아웃을_한다(tokenResponse, refreshToken);
 
         // then
         assertAll(() -> {
             상태코드_204이_반환된다(response);
         });
+    }
+
+    public static ExtractableResponse<Response> 로그아웃을_한다(AccessTokenResponse accessTokenResponse, String refreshToken) {
+        return RestAssured.given().log().all()
+                .auth().oauth2(accessTokenResponse.getAccessToken())
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .cookie(refreshToken)
+                .when().delete("/auth/logout")
+                .then().log().all()
+                .statusCode(HttpStatus.NO_CONTENT.value())
+                .extract();
     }
 
     public static void 상태코드_204이_반환된다(final ExtractableResponse<Response> response) {
