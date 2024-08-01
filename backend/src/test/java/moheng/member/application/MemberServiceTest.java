@@ -48,6 +48,16 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Autowired
     private MemberService memberService;
 
+    @DisplayName("회원을 저장한다.")
+    @Test
+    void 회원을_저장한다() {
+        // given
+        Member member = new Member(하온_이메일, 하온_소셜_타입_카카오);
+
+        // when, then
+        assertDoesNotThrow(() -> memberService.save(member));
+    }
+
     @DisplayName("소셜 로그인을 시도한 회원을 저장한다.")
     @Test
     void 소셜_로그인을_시도한_회원을_저장한다() {
