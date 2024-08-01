@@ -81,8 +81,8 @@ public class AuthAcceptanceTest extends AcceptanceTestConfig {
         final String refreshToken = response.headers().getValue("Set-Cookie");
 
         // when
-        ExtractableResponse<Response> actuasl = 리프레시_토큰을_통해_새로운_엑세스_토큰을_재발급_한다(refreshToken);
-        RenewalAccessTokenResponse renewalAccessTokenResponse = actuasl.as(RenewalAccessTokenResponse.class);
+        ExtractableResponse<Response> actual = 리프레시_토큰을_통해_새로운_엑세스_토큰을_재발급_한다(refreshToken);
+        RenewalAccessTokenResponse renewalAccessTokenResponse = actual.as(RenewalAccessTokenResponse.class);
 
         // then
         assertAll(() -> {
@@ -95,7 +95,7 @@ public class AuthAcceptanceTest extends AcceptanceTestConfig {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .cookie(refreshToken)
-                .when().post("/auth/token/renewal")
+                .when().post("/auth/extend/login")
                 .then().log().all()
                 .extract();
     }
