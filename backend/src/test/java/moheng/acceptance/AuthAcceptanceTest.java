@@ -81,7 +81,7 @@ public class AuthAcceptanceTest extends AcceptanceTestConfig {
         final String refreshToken = response.headers().getValue("Set-Cookie");
 
         // when
-        ExtractableResponse<Response> actuasl = 리프레시_토큰을_통해_새로운_엑세스_토큰을_재발급_한다();
+        ExtractableResponse<Response> actuasl = 리프레시_토큰을_통해_새로운_엑세스_토큰을_재발급_한다(refreshToken);
         RenewalAccessTokenResponse renewalAccessTokenResponse = actuasl.as(RenewalAccessTokenResponse.class);
 
         // then
@@ -98,5 +98,33 @@ public class AuthAcceptanceTest extends AcceptanceTestConfig {
                 .when().post("/auth/token/renewal")
                 .then().log().all()
                 .extract();
+    }
+
+    @DisplayName("로그아웃을 시도하면 서버내의 리프레시 토큰을 제거하고 상태코드 204를 리턴한다.")
+    @Test
+    void 로그아웃을_시도하면_서버내의_리프레시_토큰을_제거하고_상태코드_204를_리턴한다() {
+        // given
+        ExtractableResponse<Response> loginResponse = 자체_토큰을_생성한다("KAKAO", "authorization-code");
+        AccessTokenResponse tokenResponse = loginResponse.as(AccessTokenResponse.class);
+        final String refreshToken = loginResponse.headers().getValue("Set-Cookie");
+
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .auth().oauth2(tokenResponse.getAccessToken())
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .cookie(refreshToken)
+                .when().delete("/auth/logout")
+                .then().log().all()
+                 .statusCode(HttpStatus.NO_CONTENT.value())
+                .extract();
+
+        // then
+        assertAll(() -> {
+            상태코드_204이_반환된다(response);
+        });
+    }
+
+    public static void 상태코드_204이_반환된다(final ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
     }
 }
