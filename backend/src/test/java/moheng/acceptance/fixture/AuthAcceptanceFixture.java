@@ -19,10 +19,6 @@ public class AuthAcceptanceFixture {
                 .statusCode(HttpStatus.OK.value())
                 .extract();
     }
-    public static void 상태코드_200이_반환된다(final ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-    }
-
 
     public static ExtractableResponse<Response> 자체_토큰을_생성한다(final String oauthProvider, final String code) {
         return RestAssured.given().log().all()
@@ -32,10 +28,6 @@ public class AuthAcceptanceFixture {
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value())
                 .extract();
-    }
-
-    public static void 상태코드_201이_반환된다(final ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
     }
 
     public static ExtractableResponse<Response> 리프레시_토큰을_통해_새로운_엑세스_토큰을_재발급_한다(final String refreshToken) {
@@ -56,9 +48,5 @@ public class AuthAcceptanceFixture {
                 .then().log().all()
                 .statusCode(HttpStatus.NO_CONTENT.value())
                 .extract();
-    }
-
-    public static void 상태코드_204이_반환된다(final ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
     }
 }
