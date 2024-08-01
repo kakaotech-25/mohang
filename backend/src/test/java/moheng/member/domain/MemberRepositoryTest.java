@@ -68,4 +68,14 @@ public class MemberRepositoryTest {
         // when & then
         assertThat(memberRepository.existsByNickName(nickname)).isTrue();
     }
+
+    @DisplayName("존재하지 않는 회원을 찾으면 거짓을 리턴한다.")
+    @Test
+    void 존재하지_않는_회원을_찾으면_예외가_발생한다() {
+        // given
+        Long id = 0L;
+
+        // when & then
+        assertThat(memberRepository.existsById(id)).isFalse();
+    }
 }
