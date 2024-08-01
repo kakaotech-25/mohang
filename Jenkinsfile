@@ -1,6 +1,17 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs 'MyNode'
+        gradle 'MyGradle'
+        jdk 'JDK_22'
+    }
+
+    environment {
+        JAVA_HOME = "${tool 'JDK_22'}"
+        PATH = "${env.PATH}:${env.JAVA_HOME}/bin"
+    }
+
     stages {
         stage ('Checkout') {
             steps {
@@ -13,9 +24,15 @@ pipeline {
             steps {
                 script {
                     echo 'Starting Frontend Build...'
-                    echo 'Installing Frontend Dependencies...'
-                    echo 'Running Frontend Tests...'
-                    echo 'Building Frontend...'
+                    
+                    dir('frontend') {
+                        echo 'Installing Frontend Dependencies...'
+                        sh 'npm install'
+                        
+                        echo 'Building Frontend...'
+                        sh 'npm run build'
+                    }
+                    
                     echo 'Frontend Build Completed!'
                 }
             }
@@ -24,9 +41,13 @@ pipeline {
             steps {
                 script {
                     echo 'Starting Backend Build...'
-                    echo 'Installing Backend Dependencies...'
-                    echo 'Running Backend Tests...'
-                    echo 'Building Backend...'
+                    
+                    dir('backend') {
+                        echo 'Installing Backend Dependencies...'
+                        sh 'chmod +x gradlew'
+                        sh './gradlew build'
+                    }
+
                     echo 'Backend Build Completed!'
                 }
             }
