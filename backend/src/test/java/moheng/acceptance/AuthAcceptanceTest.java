@@ -1,6 +1,6 @@
 package moheng.acceptance;
 
-import static moheng.fixture.MemberFixtures.스텁_이메일;
+import static moheng.acceptance.fixture.AuthAcceptanceFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import moheng.acceptance.config.AcceptanceTestConfig;
 import moheng.auth.dto.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ public class AuthAcceptanceTest extends AcceptanceTestConfig {
     @Test
     void 카카오_소셜_로그인을_위한_Authorization_URI_를_생성한다() {
         // given, when
-        ExtractableResponse<Response> response = generateUri("KAKAO");
+        ExtractableResponse<Response> response = OAuth_인증_URI를_생성한다("KAKAO");
         OAuthUriResponse oAuthUriResponse = response.as(OAuthUriResponse.class);
 
         // then
@@ -29,19 +30,6 @@ public class AuthAcceptanceTest extends AcceptanceTestConfig {
             상태코드_200이_반환된다(response);
             assertThat(oAuthUriResponse.getoAuthUri()).contains("https://");
         });
-    }
-
-    public static ExtractableResponse<Response> generateUri(final String oauthProvider) {
-        return RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .when().get("/auth/{provider}/link", oauthProvider)
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .extract();
-    }
-
-    public static void 상태코드_200이_반환된다(final ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
 
@@ -57,20 +45,6 @@ public class AuthAcceptanceTest extends AcceptanceTestConfig {
             상태코드_201이_반환된다(response);
             assertThat(tokenResponse.getAccessToken()).isNotEmpty();
         });
-    }
-
-    public static ExtractableResponse<Response> 자체_토큰을_생성한다(final String oauthProvider, final String code) {
-        return RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(new TokenRequest(code))
-                .when().post("/auth/{oAuthProvider}/login", oauthProvider)
-                .then().log().all()
-                .statusCode(HttpStatus.CREATED.value())
-                .extract();
-    }
-
-    public static void 상태코드_201이_반환된다(final ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
     }
 
     @DisplayName("리프레시 토큰을 통해 새로운 엑세스 토큰을 발급받고 상태코드 201을 리턴한다.")
@@ -89,15 +63,6 @@ public class AuthAcceptanceTest extends AcceptanceTestConfig {
             상태코드_201이_반환된다(response);
             assertThat(renewalAccessTokenResponse.getAccessToken()).isNotEmpty();
         });
-    }
-
-    public static ExtractableResponse<Response> 리프레시_토큰을_통해_새로운_엑세스_토큰을_재발급_한다(final String refreshToken) {
-        return RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .cookie(refreshToken)
-                .when().post("/auth/extend/login")
-                .then().log().all()
-                .extract();
     }
 
     @DisplayName("로그아웃을 시도하면 서버내의 리프레시 토큰을 제거하고 상태코드 204를 리턴한다.")

@@ -1,4 +1,4 @@
-package moheng.acceptance;
+package moheng.acceptance.config;
 
 import io.restassured.RestAssured;
 import moheng.config.DatabaseCleaner;
