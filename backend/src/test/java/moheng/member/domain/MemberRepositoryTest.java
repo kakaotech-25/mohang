@@ -48,7 +48,7 @@ public class MemberRepositoryTest {
 
     @DisplayName("중복된 이메일이 존재하면 참을 리턴한다.")
     @Test
-    void 중복된_이메일이_존재하면_true를_반환한다() {
+    void 중복된_이메일이_존재하면_참을_리턴한다() {
         // given
         memberRepository.save(new Member(리안_이메일, 리안_소셜_타입_카카오));
 
@@ -67,5 +67,15 @@ public class MemberRepositoryTest {
 
         // when & then
         assertThat(memberRepository.existsByNickName(nickname)).isTrue();
+    }
+
+    @DisplayName("존재하지 않는 회원을 찾으면 거짓을 리턴한다.")
+    @Test
+    void 존재하지_않는_회원을_찾으면_거짓을_리턴한다() {
+        // given
+        Long id = 0L;
+
+        // when & then
+        assertThat(memberRepository.existsById(id)).isFalse();
     }
 }
