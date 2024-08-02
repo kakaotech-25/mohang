@@ -111,7 +111,7 @@ public class AuthControllerTest extends ControllerTestConfig {
                 .contentType(MediaType.APPLICATION_JSON)
                 .cookie(토큰_갱신_요청()))
                 .andDo(print())
-                .andDo(document("auth/generateRenewalToken",
+                .andDo(document("auth/generateRenewalToken/validResponse",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestCookies(
@@ -139,6 +139,14 @@ public class AuthControllerTest extends ControllerTestConfig {
                         .cookie(토큰_갱신_요청())
                 )
                 .andDo(print())
+                .andDo(document("auth/generateRenewalToken/invalidError",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestCookies(
+                                cookieWithName("refresh-token")
+                                        .description("프론트엔드에게 예전에 발급했던 리프레시 토큰")
+                        )
+                ))
                 .andExpect(status().isUnauthorized());
     }
 
