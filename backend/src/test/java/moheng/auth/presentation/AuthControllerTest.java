@@ -87,12 +87,17 @@ public class AuthControllerTest extends ControllerTestConfig {
         given(authService.generateTokenWithCode(any(), any())).willThrow(new InvalidOAuthServiceException("카카오 OAuth 소셜 로그인 서버에 예기치 못한 오류가 발생했습니다."));
 
         // when, then
-        mockMvc.perform(post("/auth/{provider}/token", "KAKAO")
+        mockMvc.perform(post("/auth/{oAuthProvider}/token", "KAKAO")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(토큰_생성_요청())))
                 .andDo(print())
-                .andExpect(status().isInternalServerError());
+                .andDo(document("auth/generate/token/fail",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(parameterWithName("oAuthProvider").description("KAKAO")),
+                        requestFields(fieldWithPath("code").type(JsonFieldType.STRING).description("OAuth 로그인 인증 코드"))
+                )).andExpect(status().isInternalServerError());
     }
 
     @DisplayName("리프레시 토큰을 통해 새로운 엑세스 토큰을 발급하면 상태코드 200을 리턴한다.")
