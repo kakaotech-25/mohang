@@ -33,6 +33,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 public class AuthControllerTest extends ControllerTestConfig {
+
     @DisplayName("소셜 로그인을 위한 링크와 상태코드 200을 리턴한다.")
     @Test
     public void OAuth_소셜_로그인을_위한_링크와_상태코드_200을_리턴한다() throws Exception {
@@ -42,6 +43,12 @@ public class AuthControllerTest extends ControllerTestConfig {
         // when, then
         mockMvc.perform(get("/auth/{oAuthProvider}/link", "KAKAO"))
                 .andDo(print())
+                .andDo(document("auth/generate/link",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(parameterWithName("oAuthProvider").description("KAKAO")),
+                        responseFields(fieldWithPath("oAuthUri").type(JsonFieldType.STRING).description("OAuth 소셜 로그인 링크"))
+                ))
                 .andExpect(status().isOk());
     }
 

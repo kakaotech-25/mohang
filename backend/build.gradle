@@ -15,6 +15,7 @@ java {
 }
 
 configurations {
+	asciidoctorExt
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
@@ -46,8 +47,10 @@ dependencies {
 
 	// 테스트 환경을 위한 의존성
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	testImplementation 'io.rest-assured:rest-assured'
+
+	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 }
 
 tasks.named('test') {
@@ -55,7 +58,28 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+ext { // (5)
+	snippetsDir = file('build/generated-snippets')
+}
+
+test { // (6)
+	outputs.dir snippetsDir
+}
+
+asciidoctor { // (7)
+	inputs.dir snippetsDir // (8)
+	configurations 'asciidoctorExt' // (9)
+	dependsOn test // (10)
+}
+
 tasks.named('asciidoctor') {
 	inputs.dir snippetsDir
 	dependsOn test
+}
+
+bootJar {
+	dependsOn asciidoctor // (1)
+	from("${asciidoctor.outputDir}") { // (2)
+		into 'static/docs'
+	}
 }
