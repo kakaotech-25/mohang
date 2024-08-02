@@ -5,8 +5,7 @@ import static moheng.fixture.AuthFixtures.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.restdocs.cookies.CookieDocumentation.cookieWithName;
-import static org.springframework.restdocs.cookies.CookieDocumentation.responseCookies;
+import static org.springframework.restdocs.cookies.CookieDocumentation.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
@@ -110,8 +109,21 @@ public class AuthControllerTest extends ControllerTestConfig {
         mockMvc.perform(post("/auth/extend/login")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .cookie(토큰_갱신_요청())
-        ).andDo(print()).andExpect(status().isCreated());
+                .cookie(토큰_갱신_요청()))
+                .andDo(print())
+                .andDo(document("auth/generateRenewalToken",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestCookies(
+                                cookieWithName("refresh-token")
+                                        .description("프론트엔드에게 예전에 발급했던 리프레시 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("accessToken").type(JsonFieldType.STRING)
+                                        .description("새롭게 재발급 받은(갱신한) 엑세스 토큰")
+                        )
+                ))
+                .andExpect(status().isCreated());
     }
 
     @DisplayName("만료되었거나 잘못 변형된 리프레시 토큰으로 새로운 엑세스 토큰을 재발급하려 하면 상태코드 401을 리턴한다.")
