@@ -6,9 +6,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.cookies.CookieDocumentation.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -154,10 +155,24 @@ public class AuthControllerTest extends ControllerTestConfig {
     @Test
     void 로그아웃을_히면_리프레시_토큰을_삭제하고_HTTP_상태코드_값_200을_리턴한다() throws Exception {
         // given, when, then
-        mockMvc.perform(post("/auth/logout")
+        mockMvc.perform(delete("/auth/logout")
                         .header("Authorization", "Bearer aaaaaaaa.bbbbbbbb.cccccccc")
                         .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print());
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .cookie(로그아웃_요청())
+                )
+                .andDo(print())
+                .andDo(document("/auth/logout",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestCookies(
+                                cookieWithName("refresh-token")
+                                        .description("프론트엔드에게 예전에 발급했던 리프레시 토큰")
+                        )
+                ))
+                .andExpect(status().isNoContent());
     }
 }

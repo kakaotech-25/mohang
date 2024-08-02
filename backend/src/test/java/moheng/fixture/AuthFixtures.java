@@ -23,6 +23,10 @@ public class AuthFixtures {
         return new Cookie("refresh-token", "token-value");
     }
 
+    public static Cookie 로그아웃_요청() {
+        return new Cookie("refresh-token", "token-value");
+    }
+
     public static RenewalAccessTokenResponse 토큰_갱신_응답() {
         return new RenewalAccessTokenResponse("access-token");
     }
