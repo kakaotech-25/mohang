@@ -3,6 +3,7 @@ package moheng.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import moheng.auth.application.AuthService;
 import moheng.auth.domain.token.JwtTokenProvider;
+import moheng.auth.domain.token.TokenManager;
 import moheng.auth.presentation.authentication.AuthenticationArgumentResolver;
 import moheng.auth.presentation.authentication.AuthenticationBearerExtractor;
 import moheng.member.application.MemberService;

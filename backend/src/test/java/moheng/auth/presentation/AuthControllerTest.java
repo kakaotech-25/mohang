@@ -5,6 +5,9 @@ import static moheng.fixture.AuthFixtures.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.cookies.CookieDocumentation.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
@@ -31,6 +34,7 @@ import moheng.auth.exception.InvalidTokenException;
 import moheng.config.ControllerTestConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.stubbing.Answer;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
@@ -154,7 +158,10 @@ public class AuthControllerTest extends ControllerTestConfig {
     @DisplayName("로그아웃을 히면 리프레시 토큰을 삭제하고 HTTP 상태코드 값 200을 리턴한다.")
     @Test
     void 로그아웃을_히면_리프레시_토큰을_삭제하고_HTTP_상태코드_값_200을_리턴한다() throws Exception {
-        // given, when, then
+        // given
+        doNothing().when(authService).removeRefreshToken(any());
+
+        // when, then
         mockMvc.perform(delete("/auth/logout")
                         .header("Authorization", "Bearer aaaaaaaa.bbbbbbbb.cccccccc")
                         .accept(MediaType.APPLICATION_JSON)
@@ -162,7 +169,7 @@ public class AuthControllerTest extends ControllerTestConfig {
                         .cookie(로그아웃_요청())
                 )
                 .andDo(print())
-                .andDo(document("/auth/logout",
+                .andDo(document("auth/logout",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
