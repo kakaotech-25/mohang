@@ -5,6 +5,8 @@ import static moheng.fixture.AuthFixtures.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.cookies.CookieDocumentation.cookieWithName;
+import static org.springframework.restdocs.cookies.CookieDocumentation.responseCookies;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
@@ -64,6 +66,17 @@ public class AuthControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(토큰_생성_요청())))
                 .andDo(print())
+                .andDo(document("auth/generate/token/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(parameterWithName("oAuthProvider").description("KAKAO")),
+                        requestFields(fieldWithPath("code").type(TokenRequest.class).description("OAuth 로그인 인증 코드")),
+                        responseFields(fieldWithPath("accessToken").type(JsonFieldType.STRING).description("accessToken")),
+                        responseCookies(
+                                cookieWithName("refresh-token")
+                                        .description("프론트엔드에게 예전에 발급했던 리프레시 토큰")
+                        )
+                ))
                 .andExpect(status().isCreated());
     }
 
