@@ -5,6 +5,9 @@ import static moheng.fixture.MemberFixtures.MEMBER_ID_2;
 import static moheng.fixture.MemberFixtures.MEMBER_ID_3;
 import static moheng.fixture.MemberFixtures.MEMBER_ID_4;
 import static moheng.fixture.MemberFixtures.MEMBER_ID_5;
+import static moheng.fixture.MemberFixtures.MEMBER_ID_6;
+import static moheng.fixture.MemberFixtures.MEMBER_ID_7;
+import static moheng.fixture.MemberFixtures.MEMBER_ID_8;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -62,5 +65,19 @@ public class InMemoryRefreshTokenRepositoryTest {
 
         // when, then
         assertEquals(refreshTokenRepository.findById(MEMBER_ID_3), refreshToken);
+    }
+
+
+    @DisplayName("모든 리프레시 토큰 정보를 삭제한다.")
+    @Test
+    void 모든_리프레시_토큰_정보를_삭제한다() {
+        // given
+        String refreshToken = "refresh-token";
+        refreshTokenRepository.save(MEMBER_ID_4, refreshToken);
+        refreshTokenRepository.save(MEMBER_ID_5, refreshToken);
+        refreshTokenRepository.save(MEMBER_ID_6, refreshToken);
+
+        // when, then
+        assertDoesNotThrow(() -> refreshTokenRepository.deleteAll());
     }
 }
