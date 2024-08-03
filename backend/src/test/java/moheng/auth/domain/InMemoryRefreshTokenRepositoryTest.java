@@ -14,6 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InMemoryRefreshTokenRepositoryTest {
     private final InMemoryRefreshTokenRepository refreshTokenRepository = new InMemoryRefreshTokenRepository();
@@ -50,5 +51,16 @@ public class InMemoryRefreshTokenRepositoryTest {
 
         // then
         assertThat(actual).isTrue();
+    }
+
+    @DisplayName("회원 ID 로 리프레시 토큰을 찾는다.")
+    @Test
+    void 회원_ID_로_리프레시_토큰을_찾는다() {
+        // given
+        String refreshToken = "refresh-token";
+        refreshTokenRepository.save(MEMBER_ID_3, refreshToken);
+
+        // when, then
+        assertEquals(refreshTokenRepository.findById(MEMBER_ID_3), refreshToken);
     }
 }
