@@ -15,18 +15,19 @@ java {
 }
 
 configurations {
-	asciidoctorExt
+	asciidoctorExtensions
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
 }
 
-repositories {
-	mavenCentral()
+// 이 부분도 추가
+ext {
+	snippetsDir = file('build/generated-snippets')
 }
 
-ext {
-	set('snippetsDir', file("build/generated-snippets"))
+repositories {
+	mavenCentral()
 }
 
 dependencies {
@@ -49,37 +50,28 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.rest-assured:rest-assured'
 
-	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	// 이 부분이 추가됨!
+	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+
 }
 
-tasks.named('test') {
+test {
 	outputs.dir snippetsDir
 	useJUnitPlatform()
 }
 
-ext { // (5)
-	snippetsDir = file('build/generated-snippets')
-}
-
-test { // (6)
-	outputs.dir snippetsDir
-}
-
-asciidoctor { // (7)
-	inputs.dir snippetsDir // (8)
-	configurations 'asciidoctorExt' // (9)
-	dependsOn test // (10)
-}
-
-tasks.named('asciidoctor') {
+asciidoctor {
+	configurations 'asciidoctorExtensions'
 	inputs.dir snippetsDir
 	dependsOn test
 }
 
+
 bootJar {
-	dependsOn asciidoctor // (1)
-	from("${asciidoctor.outputDir}") { // (2)
-		into 'static/docs'
+	dependsOn asciidoctor
+	copy {
+		from "${asciidoctor.outputDir}"            // /html5를 사용하지 않는다!
+		into 'src/main/resources/static/docs'    // /static/docs로 복사!
 	}
 }
