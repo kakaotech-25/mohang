@@ -56,3 +56,23 @@ include::{snippets}/auth/generate/token/success/response-fields.adoc[]
 
 == OAuth 소셜 로그인 API 호출시 카카오 로그인 서버에 문제가 발생한 경우
 
+=== HTTP Request
+
+include::{snippets}/auth/generate/token/fail/http-request.adoc[]
+
+==== Request URI Path Parameters
+
+include::{snippets}/auth/generate/token/fail/path-parameters.adoc[]
+
+==== Request Body
+
+include::{snippets}/auth/generate/token/fail/request-fields.adoc[]
+
+=== HTTP Response
+
+include::{snippets}/auth/generate/token/fail/http-response.adoc[]
+
+==== Response Body
+
+include::{snippets}/auth/generate/token/fail/response-body.adoc[]
+
