@@ -65,6 +65,11 @@ asciidoctor {
 	configurations 'asciidoctorExtensions'
 	inputs.dir snippetsDir
 	dependsOn test
+	sources {
+		include("**/index.adoc")
+	}
+	// 경로를 baseDir로 맞춰준다!
+	baseDirFollowsSourceFile()
 }
 
 

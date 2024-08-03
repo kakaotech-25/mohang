@@ -1,4 +1,9 @@
-== Member (회원)
+== ⛳️ Member (회원)
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
 
 === 회원 정보 조회(마이페이지) API
 

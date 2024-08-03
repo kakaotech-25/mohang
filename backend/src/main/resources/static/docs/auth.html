@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.18">
-<title>Auth(인증)</title>
+<title>Auth (인증/인가)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -435,111 +435,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
 </head>
-<body class="book toc2 toc-left">
+<body class="article">
 <div id="header">
-<h1>Auth(인증)</h1>
-<div class="details">
-<span id="revnumber">version 0.0.1-SNAPSHOT</span>
-</div>
-<div id="toc" class="toc2">
-<div id="toctitle">Table of Contents</div>
-<ul class="sectlevel1">
-<li><a href="#_oauth_로그인_링크_생성_api">OAuth 로그인 링크 생성 API</a>
-<ul class="sectlevel2">
-<li><a href="#_http_request">HTTP Request</a>
-<ul class="sectlevel3">
-<li><a href="#_request_uri_path_parameters">Request URI Path Parameters</a></li>
-</ul>
-</li>
-<li><a href="#_http_response">HTTP Response</a>
-<ul class="sectlevel3">
-<li><a href="#_response_body">Response Body</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#_oauth_소셜_로그인_api">OAuth 소셜 로그인 API</a>
-<ul class="sectlevel2">
-<li><a href="#_http_request_2">HTTP Request</a>
-<ul class="sectlevel3">
-<li><a href="#_request_uri_path_parameters_2">Request URI Path Parameters</a></li>
-<li><a href="#_request_body">Request Body</a></li>
-</ul>
-</li>
-<li><a href="#_http_response_2">HTTP Response</a>
-<ul class="sectlevel3">
-<li><a href="#_response_header_cookie">Response Header (Cookie)</a></li>
-<li><a href="#_response_body_2">Response Body</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#_oauth_소셜_로그인_api_호출시_카카오_로그인_서버에_문제가_발생한_경우">OAuth 소셜 로그인 API 호출시 카카오 로그인 서버에 문제가 발생한 경우</a>
-<ul class="sectlevel2">
-<li><a href="#_http_request_3">HTTP Request</a>
-<ul class="sectlevel3">
-<li><a href="#_request_uri_path_parameters_3">Request URI Path Parameters</a></li>
-<li><a href="#_request_body_2">Request Body</a></li>
-</ul>
-</li>
-<li><a href="#_http_response_3">HTTP Response</a></li>
-</ul>
-</li>
-<li><a href="#_로그인_연장_api_by_리프레시_토큰">로그인 연장 API (by 리프레시 토큰)</a>
-<ul class="sectlevel2">
-<li><a href="#_http_request_4">HTTP Request</a>
-<ul class="sectlevel3">
-<li><a href="#_request_header_cookie">Request Header (Cookie)</a></li>
-</ul>
-</li>
-<li><a href="#_http_response_4">HTTP Response</a>
-<ul class="sectlevel3">
-<li><a href="#_response_body_3">Response Body</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#_만료되었거나_변형된_토큰을_백엔드_서버에_api_로_전송시_예외처리">만료되었거나 변형된 토큰을 백엔드 서버에 API 로 전송시 예외처리</a>
-<ul class="sectlevel2">
-<li><a href="#_http_request_5">HTTP Request</a>
-<ul class="sectlevel3">
-<li><a href="#_request_header_cookie_2">Request Header (Cookie)</a></li>
-</ul>
-</li>
-<li><a href="#_http_response_5">HTTP Response</a></li>
-</ul>
-</li>
-<li><a href="#_로그아웃_api">로그아웃 API</a>
-<ul class="sectlevel2">
-<li><a href="#_http_request_6">HTTP Request</a>
-<ul class="sectlevel3">
-<li><a href="#_request_header_authorization">Request Header (Authorization)</a></li>
-<li><a href="#_request_header_cookie_3">Request Header (Cookie)</a></li>
-</ul>
-</li>
-<li><a href="#_http_response_6">HTTP Response</a></li>
-</ul>
-</li>
-</ul>
-</div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_oauth_로그인_링크_생성_api">OAuth 로그인 링크 생성 API</h2>
+<h2 id="_auth_인증인가">Auth (인증/인가)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request">HTTP Request</h3>
+<h3 id="_oauth_로그인_링크_생성_api">OAuth 로그인 링크 생성 API</h3>
+<div class="sect3">
+<h4 id="_http_request">HTTP Request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /auth/KAKAO/link HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /auth/KAKAO/link HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_request_uri_path_parameters">Request URI Path Parameters</h4>
+<div class="sect4">
+<h5 id="_request_uri_path_parameters">Request URI Path Parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. /auth/{oAuthProvider}/link</caption>
 <colgroup>
@@ -561,11 +476,11 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_http_response">HTTP Response</h3>
+<div class="sect3">
+<h4 id="_http_response">HTTP Response</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
@@ -577,8 +492,8 @@ Content-Length: 24
 }</code></pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_response_body">Response Body</h4>
+<div class="sect4">
+<h5 id="_response_body">Response Body</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -604,15 +519,13 @@ Content-Length: 24
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_oauth_소셜_로그인_api">OAuth 소셜 로그인 API</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request_2">HTTP Request</h3>
+<h3 id="_oauth_소셜_로그인_api">OAuth 소셜 로그인 API</h3>
+<div class="sect3">
+<h4 id="_http_request_2">HTTP Request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/KAKAO/login HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /auth/KAKAO/login HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 35
@@ -623,8 +536,8 @@ Host: localhost:8080
 }</code></pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_request_uri_path_parameters_2">Request URI Path Parameters</h4>
+<div class="sect4">
+<h5 id="_request_uri_path_parameters_2">Request URI Path Parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 2. /auth/{oAuthProvider}/login</caption>
 <colgroup>
@@ -645,8 +558,8 @@ Host: localhost:8080
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_request_body">Request Body</h4>
+<div class="sect4">
+<h5 id="_request_body">Request Body</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -670,15 +583,15 @@ Host: localhost:8080
 </table>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_http_response_2">HTTP Response</h3>
+<div class="sect3">
+<h4 id="_http_response_2">HTTP Response</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: refresh-token=refresh-token; Path=/; Max-Age=604800; Expires=Sat, 10 Aug 2024 04:37:45 GMT; Secure; HttpOnly; SameSite=None
+Set-Cookie: refresh-token=refresh-token; Path=/; Max-Age=604800; Expires=Sat, 10 Aug 2024 05:13:10 GMT; Secure; HttpOnly; SameSite=None
 Content-Type: application/json
 Content-Length: 36
 
@@ -687,8 +600,8 @@ Content-Length: 36
 }</code></pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_response_header_cookie">Response Header (Cookie)</h4>
+<div class="sect4">
+<h5 id="_response_header_cookie">Response Header (Cookie)</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -708,8 +621,8 @@ Content-Length: 36
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_response_body_2">Response Body</h4>
+<div class="sect4">
+<h5 id="_response_body_2">Response Body</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -735,15 +648,13 @@ Content-Length: 36
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_oauth_소셜_로그인_api_호출시_카카오_로그인_서버에_문제가_발생한_경우">OAuth 소셜 로그인 API 호출시 카카오 로그인 서버에 문제가 발생한 경우</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request_3">HTTP Request</h3>
+<h3 id="_oauth_소셜_로그인_api_호출시_카카오_로그인_서버에_문제가_발생한_경우">OAuth 소셜 로그인 API 호출시 카카오 로그인 서버에 문제가 발생한 경우</h3>
+<div class="sect3">
+<h4 id="_http_request_3">HTTP Request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/KAKAO/token HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /auth/KAKAO/token HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 35
@@ -754,8 +665,8 @@ Host: localhost:8080
 }</code></pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_request_uri_path_parameters_3">Request URI Path Parameters</h4>
+<div class="sect4">
+<h5 id="_request_uri_path_parameters_3">Request URI Path Parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 3. /auth/{oAuthProvider}/token</caption>
 <colgroup>
@@ -776,8 +687,8 @@ Host: localhost:8080
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_request_body_2">Request Body</h4>
+<div class="sect4">
+<h5 id="_request_body_2">Request Body</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -801,11 +712,11 @@ Host: localhost:8080
 </table>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_http_response_3">HTTP Response</h3>
+<div class="sect3">
+<h4 id="_http_response_3">HTTP Response</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 500 Internal Server Error
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 500 Internal Server Error
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
@@ -820,23 +731,21 @@ Content-Length: 109
 <hr>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_로그인_연장_api_by_리프레시_토큰">로그인 연장 API (by 리프레시 토큰)</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request_4">HTTP Request</h3>
+<h3 id="_로그인_연장_api_by_리프레시_토큰">로그인 연장 API (by 리프레시 토큰)</h3>
+<div class="sect3">
+<h4 id="_http_request_4">HTTP Request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/extend/login HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /auth/extend/login HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Host: localhost:8080
 Cookie: refresh-token=token-value</code></pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_request_header_cookie">Request Header (Cookie)</h4>
+<div class="sect4">
+<h5 id="_request_header_cookie">Request Header (Cookie)</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -857,11 +766,11 @@ Cookie: refresh-token=token-value</code></pre>
 </table>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_http_response_4">HTTP Response</h3>
+<div class="sect3">
+<h4 id="_http_response_4">HTTP Response</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
@@ -873,8 +782,8 @@ Content-Length: 36
 }</code></pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_response_body_3">Response Body</h4>
+<div class="sect4">
+<h5 id="_response_body_3">Response Body</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -900,23 +809,21 @@ Content-Length: 36
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_만료되었거나_변형된_토큰을_백엔드_서버에_api_로_전송시_예외처리">만료되었거나 변형된 토큰을 백엔드 서버에 API 로 전송시 예외처리</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request_5">HTTP Request</h3>
+<h3 id="_만료되었거나_변형된_토큰을_백엔드_서버에_api_로_전송시_예외처리">만료되었거나 변형된 토큰을 백엔드 서버에 API 로 전송시 예외처리</h3>
+<div class="sect3">
+<h4 id="_http_request_5">HTTP Request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/extend/login HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /auth/extend/login HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Host: localhost:8080
 Cookie: refresh-token=token-value</code></pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_request_header_cookie_2">Request Header (Cookie)</h4>
+<div class="sect4">
+<h5 id="_request_header_cookie_2">Request Header (Cookie)</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -937,11 +844,11 @@ Cookie: refresh-token=token-value</code></pre>
 </table>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_http_response_5">HTTP Response</h3>
+<div class="sect3">
+<h4 id="_http_response_5">HTTP Response</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 401 Unauthorized
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
@@ -955,15 +862,13 @@ Content-Length: 66
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_로그아웃_api">로그아웃 API</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request_6">HTTP Request</h3>
+<h3 id="_로그아웃_api">로그아웃 API</h3>
+<div class="sect3">
+<h4 id="_http_request_6">HTTP Request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /auth/logout HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /auth/logout HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer aaaaaaaa.bbbbbbbb.cccccccc
 Accept: application/json
@@ -971,8 +876,8 @@ Host: localhost:8080
 Cookie: refresh-token=token-value</code></pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_request_header_authorization">Request Header (Authorization)</h4>
+<div class="sect4">
+<h5 id="_request_header_authorization">Request Header (Authorization)</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -992,8 +897,8 @@ Cookie: refresh-token=token-value</code></pre>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_request_header_cookie_3">Request Header (Cookie)</h4>
+<div class="sect4">
+<h5 id="_request_header_cookie_3">Request Header (Cookie)</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1014,11 +919,11 @@ Cookie: refresh-token=token-value</code></pre>
 </table>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_http_response_6">HTTP Response</h3>
+<div class="sect3">
+<h4 id="_http_response_6">HTTP Response</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 204 No Content
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers</code></pre>
@@ -1028,18 +933,12 @@ Vary: Access-Control-Request-Headers</code></pre>
 </div>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-08-03 13:36:48 +0900
+Last updated 2024-08-03 14:11:40 +0900
 </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
-<script>
-if (!hljs.initHighlighting.called) {
-  hljs.initHighlighting.called = true
-  ;[].slice.call(document.querySelectorAll('pre.highlight > code[data-lang]')).forEach(function (el) { hljs.highlightBlock(el) })
-}
-</script>
 </body>
 </html>

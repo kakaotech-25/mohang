@@ -1,4 +1,9 @@
-== Auth (인증/인가)
+== ⛳️ Auth (인증/인가)
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
 
 === OAuth 로그인 링크 생성 API
 
