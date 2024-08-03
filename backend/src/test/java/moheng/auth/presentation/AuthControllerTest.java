@@ -73,7 +73,7 @@ public class AuthControllerTest extends ControllerTestConfig {
                 .andDo(document("auth/generate/token/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        pathParameters(parameterWithName("oAuthProvider").description("KAKAO")),
+                        pathParameters(parameterWithName("oAuthProvider").description("소셜 로그인 제공처 이름")),
                         requestFields(fieldWithPath("code").type(TokenRequest.class).description("OAuth 로그인 인증 코드")),
                         responseFields(fieldWithPath("accessToken").type(JsonFieldType.STRING).description("엑세스 토큰. 프론트엔드는 이 발급받은 엑세스 토큰을 로컬스토리지등에 저장해야한다.")),
                         responseCookies(
@@ -99,7 +99,7 @@ public class AuthControllerTest extends ControllerTestConfig {
                 .andDo(document("auth/generate/token/fail",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        pathParameters(parameterWithName("oAuthProvider").description("KAKAO")),
+                        pathParameters(parameterWithName("oAuthProvider").description("소셜 로그인 제공처 이름")),
                         requestFields(fieldWithPath("code").type(JsonFieldType.STRING).description("OAuth 로그인 인증 코드"))
                 )).andExpect(status().isInternalServerError());
     }

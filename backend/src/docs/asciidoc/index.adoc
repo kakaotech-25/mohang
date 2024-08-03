@@ -51,3 +51,8 @@ include::{snippets}/auth/generate/token/success/response-cookies.adoc[]
 ==== Response Body
 
 include::{snippets}/auth/generate/token/success/response-fields.adoc[]
+
+---
+
+== OAuth 소셜 로그인 API 호출시 카카오 로그인 서버에 문제가 발생한 경우
+

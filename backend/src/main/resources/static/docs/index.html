@@ -614,7 +614,7 @@ Host: localhost:8080
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: refresh-token=refresh-token; Path=/; Max-Age=604800; Expires=Sat, 10 Aug 2024 03:46:22 GMT; Secure; HttpOnly; SameSite=None
+Set-Cookie: refresh-token=refresh-token; Path=/; Max-Age=604800; Expires=Sat, 10 Aug 2024 03:51:34 GMT; Secure; HttpOnly; SameSite=None
 Content-Type: application/json
 Content-Length: 36
 
@@ -639,7 +639,7 @@ Content-Length: 36
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>refresh-token</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">프론트엔드에게 예전에 발급했던 리프레시 토큰</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">리프레시 토큰. 프론트엔드는 이 발급받은 리프레시 토큰을 로컬스토리지등에 저장해야한다.</p></td>
 </tr>
 </tbody>
 </table>
@@ -663,7 +663,7 @@ Content-Length: 36
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>accessToken</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">accessToken</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">엑세스 토큰. 프론트엔드는 이 발급받은 엑세스 토큰을 로컬스토리지등에 저장해야한다.</p></td>
 </tr>
 </tbody>
 </table>
