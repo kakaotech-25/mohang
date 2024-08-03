@@ -36,7 +36,7 @@ public class JwtTokenManager implements TokenManager {
     public String generateRenewalAccessToken(final String refreshToken) {
         if(tokenProvider.isRefreshTokenExpired(refreshToken)) {
             refreshTokenRepository.deleteByRefreshToken(refreshToken);
-            throw new InvalidTokenException("Invalid refresh token");
+            throw new InvalidTokenException("변조되었거나 만료된 토큰 입니다.");
         }
 
         Long memberId = tokenProvider.getMemberId(refreshToken);
