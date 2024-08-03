@@ -34,10 +34,7 @@ public class JwtTokenManager implements TokenManager {
 
     @Override
     public String generateRenewalAccessToken(final String refreshToken) {
-        if(tokenProvider.isRefreshTokenExpired(refreshToken)) {
-            refreshTokenRepository.deleteByRefreshToken(refreshToken);
-            throw new InvalidTokenException("변조되었거나 만료된 토큰 입니다.");
-        }
+        deleteExpiredRefreshToken(refreshToken);
 
         Long memberId = tokenProvider.getMemberId(refreshToken);
         if(!refreshTokenRepository.existsById(memberId)) {
@@ -45,6 +42,13 @@ public class JwtTokenManager implements TokenManager {
         }
 
         return tokenProvider.createAccessToken(memberId);
+    }
+
+    private void deleteExpiredRefreshToken(final String refreshToken) {
+        if(tokenProvider.isRefreshTokenExpired(refreshToken)) {
+            refreshTokenRepository.deleteByRefreshToken(refreshToken);
+            throw new InvalidTokenException("변조되었거나 만료된 토큰 입니다.");
+        }
     }
 
     @Override
