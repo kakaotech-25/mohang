@@ -32,7 +32,9 @@ public class JwtTokenManager implements TokenManager {
 
     @Override
     public String generateRenewalAccessToken(final String refreshToken) {
-        tokenProvider.validateToken(refreshToken);
+        if(tokenProvider.isRefreshTokenExpired(refreshToken)) {
+
+        }
         Long memberId = Long.valueOf(getMemberId(refreshToken));
 
         if(!refreshTokenRepository.existsById(memberId)) {

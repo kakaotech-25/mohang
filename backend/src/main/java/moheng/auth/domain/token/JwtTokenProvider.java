@@ -59,6 +59,22 @@ public class JwtTokenProvider implements TokenProvider {
         }
     }
 
+    @Override
+    public boolean isRefreshTokenExpired(final String token) {
+        try {
+            Jws<Claims> claims = Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token);
+
+            // 토큰이 만료된 경우 true 리턴
+            return claims.getBody().getExpiration().before(new Date());
+        } catch (JwtException | IllegalArgumentException e) {
+            // 예외가 발생하면 false 리턴
+            return false;
+        }
+    }
+
     public String createToken(final String payload, final long tokenValidityInSeconds) {
         Date now = new Date();
         Date expireDate = new Date(now.getTime() + tokenValidityInSeconds);
