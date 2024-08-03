@@ -114,7 +114,7 @@ include::{snippets}/auth/generateRenewalToken/invalidError/http-response.adoc[]
 
 include::{snippets}/auth/logout/http-request.adoc[]
 
-=== Request Header (Authorization)
+==== Request Header (Authorization)
 
 include::{snippets}/auth/logout/request-headers.adoc[]
 
