@@ -91,4 +91,15 @@ public class InMemoryRefreshTokenRepositoryTest {
         // when, then
         assertDoesNotThrow(() -> refreshTokenRepository.deleteById(MEMBER_ID_4));
     }
+
+    @DisplayName("리프레시 토큰과 일치하는 토큰을 삭제한다.")
+    @Test
+    void 리프레시_토큰과_일치하는_토큰을_삭제한다() {
+        // given
+        String refreshToken = "refresh-token";
+        refreshTokenRepository.save(MEMBER_ID_4, refreshToken);
+
+        // when, them
+        assertDoesNotThrow(() -> refreshTokenRepository.deleteByRefreshToken(refreshToken));
+    }
 }
