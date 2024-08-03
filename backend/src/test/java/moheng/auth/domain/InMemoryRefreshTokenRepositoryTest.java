@@ -80,4 +80,15 @@ public class InMemoryRefreshTokenRepositoryTest {
         // when, then
         assertDoesNotThrow(() -> refreshTokenRepository.deleteAll());
     }
+
+    @DisplayName("회원 ID 로 리프레시 토큰을 삭제한다.")
+    @Test
+    void 회원_ID_로_리프레시_토큰을_삭제한다() {
+        // given
+        String refreshToken = "refresh-token";
+        refreshTokenRepository.save(MEMBER_ID_4, refreshToken);
+
+        // when, then
+        assertDoesNotThrow(() -> refreshTokenRepository.deleteById(MEMBER_ID_4));
+    }
 }
