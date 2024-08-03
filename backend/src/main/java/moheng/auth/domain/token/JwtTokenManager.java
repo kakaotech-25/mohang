@@ -32,13 +32,14 @@ public class JwtTokenManager implements TokenManager {
 
     @Override
     public String generateRenewalAccessToken(final String refreshToken) {
-        if(tokenProvider.isRefreshTokenExpired(refreshToken)) {
-
-        }
         Long memberId = Long.valueOf(getMemberId(refreshToken));
 
         if(!refreshTokenRepository.existsById(memberId)) {
             throw new NoExistMemberTokenException("존재하지 않는 유저의 토큰입니다.");
+        }
+
+        if(tokenProvider.isRefreshTokenExpired(refreshToken)) {
+            refreshTokenRepository.deleteById(memberId);
         }
 
         return tokenProvider.createAccessToken(memberId);
