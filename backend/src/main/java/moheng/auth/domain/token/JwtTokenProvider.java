@@ -68,7 +68,7 @@ public class JwtTokenProvider implements TokenProvider {
                     .parseClaimsJws(token);
 
             return claims.getBody().getExpiration().before(new Date());
-        } catch (ExpiredJwtException | IllegalArgumentException e) {
+        } catch (JwtException | IllegalArgumentException e) {
             return true;
         }
     }

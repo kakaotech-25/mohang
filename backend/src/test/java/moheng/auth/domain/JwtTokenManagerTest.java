@@ -16,6 +16,7 @@ import moheng.auth.domain.token.InMemoryRefreshTokenRepository;
 import moheng.auth.domain.token.JwtTokenManager;
 import moheng.auth.domain.token.JwtTokenProvider;
 import moheng.auth.domain.token.MemberToken;
+import moheng.auth.exception.InvalidTokenException;
 import moheng.auth.exception.NoExistMemberTokenException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -98,9 +99,9 @@ public class JwtTokenManagerTest {
                 .isInstanceOf(NoExistMemberTokenException.class);
     }
 
-    @DisplayName("전달받은 리프레시 토큰이 만료되었다면 데이터베이스에 저장된 토큰을 삭제한다.")
+    @DisplayName("전달받은 리프레시 토큰이 만료되었다면 예외가 발생한다.")
     @Test
-    void 전달받은_리프레시_토큰이_만료되었다면_데이터베이스에_저장된_토큰을_삭제한다() {
+    void 전달받은_리프레시_토큰이_만료되었다면_예외가_발생한다() {
         // given
         JwtTokenProvider expiredJwtTokenProvider
                 = new JwtTokenProvider(SECRET_KEY, 0, 0);
@@ -113,6 +114,7 @@ public class JwtTokenManagerTest {
         testRefreshTokenRepository.save(MEMBER_ID_1, expiredRefreshToken);
 
         // when, then
-        assertThat(testJwtTokenManager.generateRenewalAccessToken(expiredRefreshToken)).hasSize(0);
+        assertThatThrownBy(() -> testJwtTokenManager.generateRenewalAccessToken(expiredRefreshToken))
+                .isInstanceOf(InvalidTokenException.class);
     }
 }
