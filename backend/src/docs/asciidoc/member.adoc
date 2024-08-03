@@ -1,24 +1,19 @@
-= Member(회원)
-:doctype: book
-:icons: font
-:source-highlighter: highlightjs
-:toc: left
-:toclevels: 3
+== Member (회원)
 
-== 회원 정보 조회(마이페이지) API
+=== 회원 정보 조회(마이페이지) API
 
-=== HTTP Request
+==== HTTP Request
 
 include::{snippets}/member/me/http-request.adoc[]
 
-==== Request Header (Authorization)
+===== Request Header (Authorization)
 
 include::{snippets}/member/me/request-headers.adoc[]
 
-=== HTTP Response
+==== HTTP Response
 
 include::{snippets}/member/me/http-response.adoc[]
 
-==== Response Body
+===== Response Body
 
 include::{snippets}/member/me/response-fields.adoc[]
