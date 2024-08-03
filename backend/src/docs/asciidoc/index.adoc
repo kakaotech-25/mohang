@@ -72,10 +72,6 @@ include::{snippets}/auth/generate/token/fail/request-fields.adoc[]
 
 include::{snippets}/auth/generate/token/fail/http-response.adoc[]
 
-==== Response Body
-
-include::{snippets}/auth/generate/token/fail/response-body.adoc[]
-
 ---
 
 == 로그인 연장 API (by 리프레시 토큰)
@@ -95,3 +91,19 @@ include::{snippets}/auth/generateRenewalToken/http-response.adoc[]
 ==== Response Body
 
 include::{snippets}/auth/generateRenewalToken/response-fields.adoc[]
+
+---
+
+== 만료되었거나 변형된 토큰을 백엔드 서버에 API 로 전송시 예외처리
+
+=== HTTP Request
+
+include::{snippets}/auth/generateRenewalToken/invalidError/http-request.adoc[]
+
+==== Request Header (Cookie)
+
+include::{snippets}/auth/generateRenewalToken/invalidError/request-cookies.adoc[]
+
+=== HTTP Response
+
+include::{snippets}/auth/generateRenewalToken/invalidError/http-response.adoc[]
