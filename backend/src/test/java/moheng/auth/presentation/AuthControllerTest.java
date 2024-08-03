@@ -52,7 +52,7 @@ public class AuthControllerTest extends ControllerTestConfig {
                 .andDo(document("auth/generate/link",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        pathParameters(parameterWithName("oAuthProvider").description("KAKAO")),
+                        pathParameters(parameterWithName("oAuthProvider").description("소셜 로그인 제공처 이름")),
                         responseFields(fieldWithPath("oAuthUri").type(JsonFieldType.STRING).description("OAuth 소셜 로그인 링크"))
                 ))
                 .andExpect(status().isOk());
@@ -75,10 +75,10 @@ public class AuthControllerTest extends ControllerTestConfig {
                         preprocessResponse(prettyPrint()),
                         pathParameters(parameterWithName("oAuthProvider").description("KAKAO")),
                         requestFields(fieldWithPath("code").type(TokenRequest.class).description("OAuth 로그인 인증 코드")),
-                        responseFields(fieldWithPath("accessToken").type(JsonFieldType.STRING).description("accessToken")),
+                        responseFields(fieldWithPath("accessToken").type(JsonFieldType.STRING).description("엑세스 토큰. 프론트엔드는 이 발급받은 엑세스 토큰을 로컬스토리지등에 저장해야한다.")),
                         responseCookies(
                                 cookieWithName("refresh-token")
-                                        .description("프론트엔드에게 예전에 발급했던 리프레시 토큰")
+                                        .description("리프레시 토큰. 프론트엔드는 이 발급받은 리프레시 토큰을 로컬스토리지등에 저장해야한다.")
                         )
                 ))
                 .andExpect(status().isCreated());
