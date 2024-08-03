@@ -12,10 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
-import moheng.auth.domain.token.InMemoryRefreshTokenRepository;
-import moheng.auth.domain.token.JwtTokenManager;
-import moheng.auth.domain.token.JwtTokenProvider;
-import moheng.auth.domain.token.MemberToken;
+import moheng.auth.domain.token.*;
 import moheng.auth.exception.InvalidTokenException;
 import moheng.auth.exception.NoExistMemberTokenException;
 import org.junit.jupiter.api.DisplayName;
@@ -47,7 +44,8 @@ public class JwtTokenManagerTest {
         String refreshToken = memberToken.getRefreshToken();
 
         // when
-        String accessToken = jwtTokenManager.generateRenewalAccessToken(refreshToken);
+        RenewalToken renewalToken = jwtTokenManager.generateRenewalAccessToken(refreshToken);
+        String accessToken = renewalToken.getAccessToken();
 
         // then
         assertThat(accessToken).isNotEmpty();
@@ -116,5 +114,17 @@ public class JwtTokenManagerTest {
         // when, then
         assertThatThrownBy(() -> testJwtTokenManager.generateRenewalAccessToken(expiredRefreshToken))
                 .isInstanceOf(InvalidTokenException.class);
+    }
+
+    @DisplayName("전달받은 리프레시 토큰과 DB 에 저장된 회원의 리프레시 토큰이 다르면 예외가 발생한다.")
+    @Test
+    void 전달받은_리프레시_토큰과_DB_에_저장된_회원의_리프레시_토큰이_다르면_예외가_발생한다() {
+        // given
+        jwtTokenManager.createMemberToken(MEMBER_ID_1);
+        String otherRefreshToken = jwtTokenProvider.createRefreshToken(MEMBER_ID_2);
+
+        // when, then
+        assertThatThrownBy(() -> jwtTokenManager.generateRenewalAccessToken(otherRefreshToken))
+                .isInstanceOf(NoExistMemberTokenException.class);
     }
 }
