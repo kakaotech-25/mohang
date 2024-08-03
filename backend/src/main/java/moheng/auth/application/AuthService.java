@@ -5,6 +5,7 @@ import moheng.auth.domain.oauth.OAuthMember;
 import moheng.auth.domain.oauth.OAuthProvider;
 import moheng.auth.domain.oauth.OAuthUriProvider;
 import moheng.auth.domain.token.MemberToken;
+import moheng.auth.domain.token.RenewalToken;
 import moheng.auth.domain.token.TokenManager;
 import moheng.auth.dto.LogoutRequest;
 import moheng.auth.dto.RenewalAccessTokenRequest;
@@ -61,8 +62,8 @@ public class AuthService {
     @Transactional
     public RenewalAccessTokenResponse generateRenewalAccessToken(final RenewalAccessTokenRequest renewalAccessTokenRequest) {
         String refreshToken = renewalAccessTokenRequest.getRefreshToken();
-        String renewalAccessToken = tokenManager.generateRenewalAccessToken(refreshToken);
-        return new RenewalAccessTokenResponse(renewalAccessToken);
+        RenewalToken renewalToken = tokenManager.generateRenewalAccessToken(refreshToken);
+        return new RenewalAccessTokenResponse(renewalToken.getAccessToken());
     }
 
     @Transactional
