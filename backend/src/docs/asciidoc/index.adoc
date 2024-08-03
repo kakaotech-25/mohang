@@ -107,3 +107,21 @@ include::{snippets}/auth/generateRenewalToken/invalidError/request-cookies.adoc[
 === HTTP Response
 
 include::{snippets}/auth/generateRenewalToken/invalidError/http-response.adoc[]
+
+== 로그아웃 API
+
+=== HTTP Request
+
+include::{snippets}/auth/logout/http-request.adoc[]
+
+=== Request Header (Authorization)
+
+include::{snippets}/auth/logout/request-headers.adoc[]
+
+==== Request Header (Cookie)
+
+include::{snippets}/auth/logout/request-cookies.adoc[]
+
+=== HTTP Response
+
+include::{snippets}/auth/logout/http-response.adoc[]
