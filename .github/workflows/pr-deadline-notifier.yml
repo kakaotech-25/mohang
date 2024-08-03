@@ -23,9 +23,9 @@ jobs:
         run: ${{ env.SCRIPTS_DIR }}/extract_deadline.sh "${{ github.event.label.name }}"
 
       - name: Calculate Time Remaining
-        id: calculate_deadline
-        run: ${{ env.SCRIPTS_DIR }}/caculate_deadline.sh "${{ steps.extract_deadline.outputs.deadline }}"
+        id: caculate_time
+        run: ${{ env.SCRIPTS_DIR }}/caculate_time.sh "${{ steps.extract_deadline.outputs.deadline }}"
 
       - name: Send Discord Notification
         if: always()
-        run: ${{ env.SCRIPTS_DIR }}/send_discord_notification.sh "${{ env.DISCORD_WEBHOOK_URL }}" "${{ steps.calculate_deadline.outputs.deadline }}" # Update this line to use the DISCORD_WEBHOOK_URL environment variable
+        run: ${{ env.SCRIPTS_DIR }}/send_discord_notification.sh "${{ env.DISCORD_WEBHOOK_URL }}" "${{ steps.caculate_time.outputs.deadline }}"
