@@ -5,5 +5,6 @@ public interface RefreshTokenRepository {
     boolean existsById(final long memberId);
     String findById(final long memberId);
     long deleteById(final long memberId);
+    long deleteByRefreshToken(final String refreshToken);
     void deleteAll();
 }

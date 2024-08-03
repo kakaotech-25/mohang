@@ -1,8 +1,7 @@
 package moheng.auth.domain;
 
-import static moheng.fixture.JwtTokenFixtures.SECRET_KEY;
-import static moheng.fixture.JwtTokenFixtures.REFRESH_TOKEN_EXPIRE_TIME;
-import static moheng.fixture.JwtTokenFixtures.ACCESS_TOKEN_EXPIRE_TIME;
+import static moheng.fixture.JwtTokenFixtures.*;
+import static moheng.fixture.JwtTokenFixtures.EXPIRED_TOKEN_TIME;
 import static moheng.fixture.MemberFixtures.MEMBER_ID_1;
 import static moheng.fixture.MemberFixtures.MEMBER_ID_2;
 import static moheng.fixture.MemberFixtures.MEMBER_ID_3;
@@ -97,5 +96,23 @@ public class JwtTokenManagerTest {
         // when, then
         assertThatThrownBy(() -> jwtTokenManager.removeRefreshToken(refreshToken))
                 .isInstanceOf(NoExistMemberTokenException.class);
+    }
+
+    @DisplayName("전달받은 리프레시 토큰이 만료되었다면 데이터베이스에 저장된 토큰을 삭제한다.")
+    @Test
+    void 전달받은_리프레시_토큰이_만료되었다면_데이터베이스에_저장된_토큰을_삭제한다() {
+        // given
+        JwtTokenProvider expiredJwtTokenProvider
+                = new JwtTokenProvider(SECRET_KEY, 0, 0);
+        InMemoryRefreshTokenRepository testRefreshTokenRepository
+                = new InMemoryRefreshTokenRepository();
+        JwtTokenManager testJwtTokenManager
+                = new JwtTokenManager(testRefreshTokenRepository, expiredJwtTokenProvider);
+
+        String expiredRefreshToken = expiredJwtTokenProvider.createRefreshToken(MEMBER_ID_1);
+        testRefreshTokenRepository.save(MEMBER_ID_1, expiredRefreshToken);
+
+        // when, then
+        assertThat(testJwtTokenManager.generateRenewalAccessToken(expiredRefreshToken)).hasSize(0);
     }
 }

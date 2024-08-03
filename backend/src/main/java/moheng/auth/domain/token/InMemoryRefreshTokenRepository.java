@@ -3,6 +3,7 @@ package moheng.auth.domain.token;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
@@ -34,5 +35,15 @@ public class InMemoryRefreshTokenRepository implements RefreshTokenRepository {
     public long deleteById(final long memberId) {
         repository.remove(memberId);
         return memberId;
+    }
+
+    @Override
+    public long deleteByRefreshToken(String refreshToken) {
+        return repository.entrySet().stream()
+                .filter(data -> data.getValue().equals(refreshToken)).findFirst()
+                .map(data -> {
+                    repository.remove(data.getKey());
+                    return data.getKey();
+                }).orElse(-1L);
     }
 }

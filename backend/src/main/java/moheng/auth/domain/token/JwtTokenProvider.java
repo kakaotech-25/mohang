@@ -67,11 +67,9 @@ public class JwtTokenProvider implements TokenProvider {
                     .build()
                     .parseClaimsJws(token);
 
-            // 토큰이 만료된 경우 true 리턴
             return claims.getBody().getExpiration().before(new Date());
-        } catch (JwtException | IllegalArgumentException e) {
-            // 예외가 발생하면 false 리턴
-            return false;
+        } catch (ExpiredJwtException | IllegalArgumentException e) {
+            return true;
         }
     }
 
