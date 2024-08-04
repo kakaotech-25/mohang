@@ -81,8 +81,8 @@ public class MemberControllerTest extends ControllerTestConfig {
                         ),
                         requestFields(
                                 fieldWithPath("nickname").description("닉네임"),
-                                fieldWithPath("birthday").description("생년월일"),
-                                fieldWithPath("genderType").description("성별")
+                                fieldWithPath("birthday").description("생년월일. 형식:yyyy-MM-dd"),
+                                fieldWithPath("genderType").description("성별. 형식: MEN 또는 WOMEN")
                         )
                 ))
                 .andExpect(status().isNoContent());
