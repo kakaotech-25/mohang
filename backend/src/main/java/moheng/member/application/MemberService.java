@@ -48,9 +48,7 @@ public class MemberService {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoExistMemberException("존재하지 않는 회원입니다."));
 
-        if(isAlreadyExistNickname(request.getNickname())) {
-            throw new DuplicateNicknameException("중복되는 닉네임이 존재합니다.");
-        }
+        checkIsAlreadyExistNickname(request.getNickname());
 
         final Member updateProfileMember = new Member(
                 member.getId(),
@@ -61,11 +59,10 @@ public class MemberService {
         memberRepository.save(updateProfileMember);
     }
 
-    public CheckDuplicateNicknameResponse checkIsAlreadyExistNickname(String nickname) {
+    public void checkIsAlreadyExistNickname(String nickname) {
         if(isAlreadyExistNickname(nickname)) {
             throw new DuplicateNicknameException("중복되는 닉네임이 존재합니다.");
         }
-        return new CheckDuplicateNicknameResponse();
     }
 
     private boolean isAlreadyExistNickname(final String nickname) {

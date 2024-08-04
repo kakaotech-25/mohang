@@ -87,4 +87,19 @@ public class MemberControllerTest extends ControllerTestConfig {
                 ))
                 .andExpect(status().isNoContent());
     }
+
+    @DisplayName("중복되는 닉네임 없이 사용 가능한 닉네임이라면 메시지와 상태코드 200을 리턴한다.")
+    @Test
+    void 중복되는_닉네임_없이_사용_가능한_닉네임이라면_메시지와_상태코드_200을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+
+        // when, then
+        mockMvc.perform(post("/member/check/nickname")
+                .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(닉네임_중복확인_요청()))
+        );
+    }
 }

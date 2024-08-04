@@ -36,7 +36,7 @@ public class MemberController {
     public ResponseEntity<CheckDuplicateNicknameResponse> checkDuplicateNickname(
             @Authentication final Accessor accessor,
             @RequestBody final CheckDuplicateNicknameRequest request) {
-        CheckDuplicateNicknameResponse response = memberService.checkIsAlreadyExistNickname(request.getNickname());
-        return ResponseEntity.ok(response);
+        memberService.checkIsAlreadyExistNickname(request.getNickname());
+        return ResponseEntity.ok(new CheckDuplicateNicknameResponse());
     }
 }

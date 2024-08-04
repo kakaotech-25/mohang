@@ -12,6 +12,7 @@ import moheng.member.domain.Member;
 import moheng.member.domain.SocialType;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.dto.request.SignUpProfileRequest;
+import moheng.member.dto.response.CheckDuplicateNicknameResponse;
 import moheng.member.exception.DuplicateNicknameException;
 import moheng.member.exception.NoExistMemberException;
 import org.junit.jupiter.api.DisplayName;
