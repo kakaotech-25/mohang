@@ -3,6 +3,7 @@ package moheng.fixture;
 import moheng.member.domain.GenderType;
 import moheng.member.domain.Member;
 import moheng.member.domain.SocialType;
+import moheng.member.dto.request.SignUpProfileRequest;
 import moheng.member.dto.response.MemberResponse;
 
 import java.time.LocalDate;
@@ -75,4 +76,9 @@ public class MemberFixtures {
 
     // 스텁(가짜) 회원
     public static final String 스텁_이메일 = "stub@kakao.com";
+
+    // 회원가입 요청
+    public static SignUpProfileRequest 프로필_정보로_회원가입_요청() {
+        return new SignUpProfileRequest("devhaon", LocalDate.of(1999, 9, 20), GenderType.MEN);
+    }
 }
