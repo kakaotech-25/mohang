@@ -5,9 +5,14 @@ import static moheng.fixture.AuthFixtures.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.cookies.CookieDocumentation.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -29,10 +34,12 @@ import moheng.auth.exception.InvalidTokenException;
 import moheng.config.ControllerTestConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.stubbing.Answer;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 public class AuthControllerTest extends ControllerTestConfig {
+
     @DisplayName("소셜 로그인을 위한 링크와 상태코드 200을 리턴한다.")
     @Test
     public void OAuth_소셜_로그인을_위한_링크와_상태코드_200을_리턴한다() throws Exception {
@@ -42,6 +49,12 @@ public class AuthControllerTest extends ControllerTestConfig {
         // when, then
         mockMvc.perform(get("/auth/{oAuthProvider}/link", "KAKAO"))
                 .andDo(print())
+                .andDo(document("auth/generate/link",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(parameterWithName("oAuthProvider").description("소셜 로그인 제공처 이름")),
+                        responseFields(fieldWithPath("oAuthUri").type(JsonFieldType.STRING).description("OAuth 소셜 로그인 링크"))
+                ))
                 .andExpect(status().isOk());
     }
 
@@ -57,6 +70,17 @@ public class AuthControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(토큰_생성_요청())))
                 .andDo(print())
+                .andDo(document("auth/generate/token/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(parameterWithName("oAuthProvider").description("소셜 로그인 제공처 이름")),
+                        requestFields(fieldWithPath("code").type(TokenRequest.class).description("OAuth 로그인 인증 코드")),
+                        responseFields(fieldWithPath("accessToken").type(JsonFieldType.STRING).description("엑세스 토큰. 프론트엔드는 이 발급받은 엑세스 토큰을 로컬스토리지등에 저장해야한다.")),
+                        responseCookies(
+                                cookieWithName("refresh-token")
+                                        .description("리프레시 토큰. 프론트엔드는 이 발급받은 리프레시 토큰을 로컬스토리지등에 저장해야한다.")
+                        )
+                ))
                 .andExpect(status().isCreated());
     }
 
@@ -67,12 +91,17 @@ public class AuthControllerTest extends ControllerTestConfig {
         given(authService.generateTokenWithCode(any(), any())).willThrow(new InvalidOAuthServiceException("카카오 OAuth 소셜 로그인 서버에 예기치 못한 오류가 발생했습니다."));
 
         // when, then
-        mockMvc.perform(post("/auth/{provider}/token", "KAKAO")
+        mockMvc.perform(post("/auth/{oAuthProvider}/token", "KAKAO")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(토큰_생성_요청())))
                 .andDo(print())
-                .andExpect(status().isInternalServerError());
+                .andDo(document("auth/generate/token/fail",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(parameterWithName("oAuthProvider").description("소셜 로그인 제공처 이름")),
+                        requestFields(fieldWithPath("code").type(JsonFieldType.STRING).description("OAuth 로그인 인증 코드"))
+                )).andExpect(status().isInternalServerError());
     }
 
     @DisplayName("리프레시 토큰을 통해 새로운 엑세스 토큰을 발급하면 상태코드 200을 리턴한다.")
@@ -85,8 +114,21 @@ public class AuthControllerTest extends ControllerTestConfig {
         mockMvc.perform(post("/auth/extend/login")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .cookie(토큰_갱신_요청())
-        ).andDo(print()).andExpect(status().isCreated());
+                .cookie(토큰_갱신_요청()))
+                .andDo(print())
+                .andDo(document("auth/generateRenewalToken/validResponse",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestCookies(
+                                cookieWithName("refresh-token")
+                                        .description("프론트엔드에게 예전에 발급했던 리프레시 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("accessToken").type(JsonFieldType.STRING)
+                                        .description("새롭게 재발급 받은(갱신한) 엑세스 토큰")
+                        )
+                ))
+                .andExpect(status().isCreated());
     }
 
     @DisplayName("만료되었거나 잘못 변형된 리프레시 토큰으로 새로운 엑세스 토큰을 재발급하려 하면 상태코드 401을 리턴한다.")
@@ -102,17 +144,42 @@ public class AuthControllerTest extends ControllerTestConfig {
                         .cookie(토큰_갱신_요청())
                 )
                 .andDo(print())
+                .andDo(document("auth/generateRenewalToken/invalidError",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestCookies(
+                                cookieWithName("refresh-token")
+                                        .description("프론트엔드에게 예전에 발급했던 리프레시 토큰")
+                        )
+                ))
                 .andExpect(status().isUnauthorized());
     }
 
     @DisplayName("로그아웃을 히면 리프레시 토큰을 삭제하고 HTTP 상태코드 값 200을 리턴한다.")
     @Test
     void 로그아웃을_히면_리프레시_토큰을_삭제하고_HTTP_상태코드_값_200을_리턴한다() throws Exception {
-        // given, when, then
-        mockMvc.perform(post("/auth/logout")
+        // given
+        doNothing().when(authService).removeRefreshToken(any());
+
+        // when, then
+        mockMvc.perform(delete("/auth/logout")
                         .header("Authorization", "Bearer aaaaaaaa.bbbbbbbb.cccccccc")
                         .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print());
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .cookie(로그아웃_요청())
+                )
+                .andDo(print())
+                .andDo(document("auth/logout",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestCookies(
+                                cookieWithName("refresh-token")
+                                        .description("프론트엔드에게 예전에 발급했던 리프레시 토큰")
+                        )
+                ))
+                .andExpect(status().isNoContent());
     }
 }

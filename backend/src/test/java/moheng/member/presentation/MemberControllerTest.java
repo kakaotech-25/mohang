@@ -41,6 +41,20 @@ public class MemberControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
+                .andDo(document("member/me",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("회원 ID"),
+                                fieldWithPath("profileImageUrl").description("회원 프로필 이미지 URL"),
+                                fieldWithPath("nickname").description("회원 닉네임"),
+                                fieldWithPath("birthday").description("회원 생년월일"),
+                                fieldWithPath("gender").description("회원 성별")
+                        )
+                ))
                 .andExpect(status().isOk());
     }
 }
