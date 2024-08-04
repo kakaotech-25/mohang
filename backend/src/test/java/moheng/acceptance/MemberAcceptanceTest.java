@@ -1,6 +1,7 @@
 package moheng.acceptance;
 
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.*;
+import static moheng.acceptance.fixture.HttpStatus.상태코드_200이_반환된다;
 import static moheng.acceptance.fixture.MemberAcceptanceFixture.*;
 import static moheng.acceptance.fixture.HttpStatus.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -14,11 +15,15 @@ import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
 import moheng.auth.dto.AccessTokenResponse;
 import moheng.auth.dto.TokenResponse;
+import moheng.member.domain.GenderType;
+import moheng.member.dto.request.SignUpProfileRequest;
 import moheng.member.dto.response.MemberResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+
+import java.time.LocalDate;
 
 public class MemberAcceptanceTest extends AcceptanceTestConfig {
 
@@ -37,6 +42,29 @@ public class MemberAcceptanceTest extends AcceptanceTestConfig {
         assertAll(() -> {
             상태코드_200이_반환된다(memberResponse);
             assertThat(responseResult.getId()).isEqualTo(1L);
+        });
+    }
+
+    @DisplayName("프로필 정보로 회원가입을 하면 상태코드 204를 리턴한다.")
+    @Test
+    void 프로필_정보로_회원가입을_하면_상태코드_204를_리턴한다() {
+        // given
+        ExtractableResponse<Response> response = 자체_토큰을_생성한다("KAKAO", "authorization-code");
+        AccessTokenResponse accessTokenResponse = response.as(AccessTokenResponse.class);
+
+        // when
+        ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessTokenResponse.getAccessToken())
+                .body(new SignUpProfileRequest("devhaon", LocalDate.of(2000, 1, 1), GenderType.MEN))
+                .when().post("/member/signup/profile")
+                .then().log().all()
+                .statusCode(HttpStatus.NO_CONTENT.value())
+                .extract();
+
+        // then
+        assertAll(() -> {
+            상태코드_204이_반환된다(resultResponse);
         });
     }
 }
