@@ -2,6 +2,7 @@ package moheng.member.application;
 
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
+import moheng.member.dto.request.SignUpProfileRequest;
 import moheng.member.dto.response.MemberResponse;
 import moheng.member.exception.NoExistMemberException;
 import org.springframework.stereotype.Service;
@@ -31,11 +32,23 @@ public class MemberService {
         return memberRepository.existsByEmail(email);
     }
 
+    @Transactional
     public void save(Member member) {
         memberRepository.save(member);
     }
 
     public boolean existsByNickname(final String nickname) {
         return memberRepository.existsByNickName(nickname);
+    }
+
+    @Transactional
+    public void signUpByProfile(final long memberId, final SignUpProfileRequest request) {
+        final Member updateProfileMember = new Member(
+                memberId,
+                request.getNickname(),
+                request.getBirthday(),
+                request.getGenderType()
+        );
+        memberRepository.save(updateProfileMember);
     }
 }
