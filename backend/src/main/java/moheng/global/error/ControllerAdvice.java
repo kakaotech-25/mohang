@@ -48,7 +48,9 @@ public class ControllerAdvice {
     @ExceptionHandler({
             EmptyBearerHeaderException.class,
             InvalidTokenFormatException.class,
-            InvalidTokenException.class})
+            InvalidTokenException.class,
+            DuplicateNicknameException.class
+    })
     public ResponseEntity<ExceptionResponse> handleUnAuthorizedException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
         ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());

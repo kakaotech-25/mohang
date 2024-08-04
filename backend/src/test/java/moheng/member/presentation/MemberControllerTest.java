@@ -5,8 +5,10 @@ import static moheng.fixture.AuthFixtures.*;
 
 import moheng.auth.domain.token.JwtTokenProvider;
 import moheng.auth.dto.TokenRequest;
+import moheng.auth.exception.InvalidTokenException;
 import moheng.config.ControllerTestConfig;
 import moheng.member.dto.response.MemberResponse;
+import moheng.member.exception.DuplicateNicknameException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.MethodParameter;
@@ -15,6 +17,7 @@ import org.springframework.http.MediaType;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -115,5 +118,36 @@ public class MemberControllerTest extends ControllerTestConfig {
                                 fieldWithPath("message").description("사용 가능한 닉네임입니다.")
                         )
                 )).andExpect(status().isOk());
+    }
+
+    @DisplayName("중복되는 닉네임 존재한다면 상태코드 401을 리턴한다.")
+    @Test
+    void 중복되는_닉네임이_존재한다면_상태코드_401을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new DuplicateNicknameException("중복되는 닉네임이 존재합니다."))
+                .when(memberService).checkIsAlreadyExistNickname(anyString());
+
+        // when, then
+        mockMvc.perform(post("/member/check/nickname")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(닉네임_중복확인_요청()))
+                )
+                .andDo(print())
+                .andDo(document("member/check/nickname",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("nickname").description("닉네임")
+                        ),
+                        responseFields(
+                                fieldWithPath("message").description("중복되는 닉네임이 존재합니다.")
+                        )
+                )).andExpect(status().isUnauthorized());
     }
 }
