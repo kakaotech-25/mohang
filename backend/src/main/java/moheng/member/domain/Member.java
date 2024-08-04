@@ -106,6 +106,10 @@ public class Member extends BaseEntity {
         }
     }
 
+    public boolean isNicknameChanged(final String inputNickname) {
+        return !nickName.equals(inputNickname);
+    }
+
     public Long getId() {
         return id;
     }
