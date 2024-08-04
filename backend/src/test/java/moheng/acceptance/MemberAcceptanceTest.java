@@ -53,14 +53,7 @@ public class MemberAcceptanceTest extends AcceptanceTestConfig {
         AccessTokenResponse accessTokenResponse = response.as(AccessTokenResponse.class);
 
         // when
-        ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .auth().oauth2(accessTokenResponse.getAccessToken())
-                .body(new SignUpProfileRequest("devhaon", LocalDate.of(2000, 1, 1), GenderType.MEN))
-                .when().post("/member/signup/profile")
-                .then().log().all()
-                .statusCode(HttpStatus.NO_CONTENT.value())
-                .extract();
+        ExtractableResponse<Response> resultResponse = 프로필_정보로_회원가입을_한다(accessTokenResponse.getAccessToken());
 
         // then
         assertAll(() -> {
