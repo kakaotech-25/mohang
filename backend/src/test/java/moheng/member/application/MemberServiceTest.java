@@ -30,15 +30,16 @@ import static moheng.fixture.MemberFixtures.하온_기존;
 import static moheng.fixture.MemberFixtures.하온_신규;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.*;
 
+import moheng.auth.exception.NoExistMemberTokenException;
 import moheng.config.ServiceTestConfig;
 import moheng.member.domain.GenderType;
 import moheng.member.domain.Member;
 import moheng.member.domain.SocialType;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.dto.request.SignUpProfileRequest;
+import moheng.member.exception.NoExistMemberException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,5 +127,16 @@ public class MemberServiceTest extends ServiceTestConfig {
 
         assertDoesNotThrow(() ->
                 memberService.signUpByProfile(member.getId(), signUpProfileRequest));
+    }
+
+    @DisplayName("존재하지 않는 회원의 프로필 정보로 회원가입하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_회원의_프로필_정보로_회원가입하면_예외가_발생한다() {
+        // given
+        SignUpProfileRequest signUpProfileRequest = new SignUpProfileRequest(하온_닉네임, 하온_생년월일, 하온_성별);
+
+        // when, then
+        assertThatThrownBy(() -> memberService.signUpByProfile(-1L, signUpProfileRequest))
+                .isInstanceOf(NoExistMemberException.class);
     }
 }
