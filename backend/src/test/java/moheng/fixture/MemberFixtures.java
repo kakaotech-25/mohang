@@ -49,7 +49,7 @@ public class MemberFixtures {
     public static final GenderType 리안_성별 = GenderType.WOMEN;
 
     public static Member 리안_신규() {
-        return new Member(1L, 리안_이메일, 리안_닉네임, 리안_프로필_경로, 리안_소셜_타입_카카오, 리안_생년월일, 리안_성별);
+        return new Member(2L, 리안_이메일, 리안_닉네임, 리안_프로필_경로, 리안_소셜_타입_카카오, 리안_생년월일, 리안_성별);
     }
 
     public static Member 리안_기존() {
@@ -65,11 +65,11 @@ public class MemberFixtures {
     public static final LocalDate 래오_생년월일 = LocalDate.of(2000, 1, 1);
     public static final GenderType 래오_성별 = GenderType.MEN;
 
-    public static Member 래오_신규() {
-        return new Member(1L, 래오_이메일, 래오_닉네임, 래오_프로필_경로, 래오_소셜_타입_카카오, 래오_생년월일, 래오_성별);
+    public static Member 래오_기존() {
+        return new Member(3L, 래오_이메일, 래오_닉네임, 래오_프로필_경로, 래오_소셜_타입_카카오, 래오_생년월일, 래오_성별);
     }
 
-    public static Member 래오_기존() {
+    public static Member 래오_신규() {
         return new Member(래오_이메일, 래오_소셜_타입_카카오);
     }
 

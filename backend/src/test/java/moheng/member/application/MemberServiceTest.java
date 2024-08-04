@@ -1,33 +1,6 @@
 package moheng.member.application;
 
-import static moheng.fixture.MemberFixtures.래오_이메일;
-import static moheng.fixture.MemberFixtures.래오_닉네임;
-import static moheng.fixture.MemberFixtures.래오_프로필_경로;
-import static moheng.fixture.MemberFixtures.래오_소셜_타입_카카오;
-import static moheng.fixture.MemberFixtures.래오_소셜_타입_구글;
-import static moheng.fixture.MemberFixtures.래오_생년월일;
-import static moheng.fixture.MemberFixtures.래오_성별;
-import static moheng.fixture.MemberFixtures.래오_기존;
-
-import static moheng.fixture.MemberFixtures.리안_이메일;
-import static moheng.fixture.MemberFixtures.리안_닉네임;
-import static moheng.fixture.MemberFixtures.리안_프로필_경로;
-import static moheng.fixture.MemberFixtures.리안_소셜_타입_카카오;
-import static moheng.fixture.MemberFixtures.리안_소셜_타입_구글;
-import static moheng.fixture.MemberFixtures.리안_생년월일;
-import static moheng.fixture.MemberFixtures.리안_성별;
-import static moheng.fixture.MemberFixtures.리안_기존;
-import static moheng.fixture.MemberFixtures.하온_신규;
-import static moheng.fixture.MemberFixtures.하온_기존;
-import static moheng.fixture.MemberFixtures.하온_이메일;
-import static moheng.fixture.MemberFixtures.하온_닉네임;
-import static moheng.fixture.MemberFixtures.하온_프로필_경로;
-import static moheng.fixture.MemberFixtures.하온_소셜_타입_카카오;
-import static moheng.fixture.MemberFixtures.하온_소셜_타입_구글;
-import static moheng.fixture.MemberFixtures.하온_생년월일;
-import static moheng.fixture.MemberFixtures.하온_성별;
-import static moheng.fixture.MemberFixtures.하온_기존;
-import static moheng.fixture.MemberFixtures.하온_신규;
+import static moheng.fixture.MemberFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,6 +12,7 @@ import moheng.member.domain.Member;
 import moheng.member.domain.SocialType;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.dto.request.SignUpProfileRequest;
+import moheng.member.exception.DuplicateNicknameException;
 import moheng.member.exception.NoExistMemberException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -138,5 +112,20 @@ public class MemberServiceTest extends ServiceTestConfig {
         // when, then
         assertThatThrownBy(() -> memberService.signUpByProfile(-1L, signUpProfileRequest))
                 .isInstanceOf(NoExistMemberException.class);
+    }
+
+    @DisplayName("중복되는 닉네임이 존재하면 예외가 발생한다.")
+    @Test
+    void 중복되는_닉네임이_존재하면_예외가_발생한다() {
+        // given
+        memberService.save(하온_기존());
+        memberService.save(래오_기존());
+
+        SignUpProfileRequest signUpProfileRequest = new SignUpProfileRequest(래오_닉네임, 하온_생년월일, 하온_성별);
+
+        // when, then
+        assertThatThrownBy(() ->
+                memberService.signUpByProfile(1L, signUpProfileRequest))
+                .isInstanceOf(DuplicateNicknameException.class);
     }
 }
