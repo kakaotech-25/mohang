@@ -2,6 +2,7 @@ package moheng.auth.domain.oauth;
 
 public enum Authority {
     GUEST,
-    MEMBER,
+    REGULAR_MEMBER,
+    INIT_MEMBER,
     ADMIN
 }

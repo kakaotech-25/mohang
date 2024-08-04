@@ -1,6 +1,7 @@
 package moheng.member.domain;
 
 import jakarta.persistence.*;
+import moheng.auth.domain.oauth.Authority;
 import moheng.global.entity.BaseEntity;
 import moheng.member.exception.*;
 
@@ -40,6 +41,10 @@ public class Member extends BaseEntity {
     @Column(name = "gender_type")
     private GenderType genderType;
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "authority")
+    private Authority authority;
+
     protected Member() {
     }
 
@@ -47,6 +52,7 @@ public class Member extends BaseEntity {
         validateEmail(email);
         this.email = email;
         this.socialType = socialType;
+        this.authority = Authority.INIT_MEMBER;
     }
 
     public Member(final long id, final String nickName, final LocalDate birthday, final GenderType genderType) {
