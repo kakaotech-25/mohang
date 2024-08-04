@@ -16,6 +16,7 @@ import moheng.acceptance.config.AcceptanceTestConfig;
 import moheng.auth.dto.AccessTokenResponse;
 import moheng.auth.dto.TokenResponse;
 import moheng.member.domain.GenderType;
+import moheng.member.dto.request.CheckDuplicateNicknameRequest;
 import moheng.member.dto.request.SignUpProfileRequest;
 import moheng.member.dto.response.MemberResponse;
 import org.junit.jupiter.api.DisplayName;
@@ -58,6 +59,29 @@ public class MemberAcceptanceTest extends AcceptanceTestConfig {
         // then
         assertAll(() -> {
             상태코드_204이_반환된다(resultResponse);
+        });
+    }
+
+    @DisplayName("중복 닉네임 체크하여 사용 가능한 닉네임이라면 상태코드 200을 리턴한다.")
+    @Test
+    void 중복_닉네임을_체크하여_사용_가능한_닉네임이라면_상태코드_200을_리턴한다() {
+        // given
+        ExtractableResponse<Response> response = 자체_토큰을_생성한다("KAKAO", "authorization-code");
+        AccessTokenResponse accessTokenResponse = response.as(AccessTokenResponse.class);
+
+        // when
+        ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessTokenResponse.getAccessToken())
+                .body(new CheckDuplicateNicknameRequest("devhaon"))
+                .when().post("/member/check/nickname")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract();
+
+        // then
+        assertAll(() -> {
+            상태코드_200이_반환된다(resultResponse);
         });
     }
 }
