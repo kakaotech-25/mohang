@@ -3,7 +3,9 @@ package moheng.member.presentation;
 import moheng.auth.dto.Accessor;
 import moheng.auth.presentation.authentication.Authentication;
 import moheng.member.application.MemberService;
+import moheng.member.dto.request.CheckDuplicateNicknameRequest;
 import moheng.member.dto.request.SignUpProfileRequest;
+import moheng.member.dto.response.CheckDuplicateNicknameResponse;
 import moheng.member.dto.response.MemberResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +26,17 @@ public class MemberController {
     }
 
     @PostMapping("/signup/profile")
-    public ResponseEntity<MemberResponse> signupProfile(@Authentication final Accessor accessor,
-                                                        @RequestBody final SignUpProfileRequest signUpProfileRequest) {
+    public ResponseEntity<Void> signupProfile(@Authentication final Accessor accessor,
+                                              @RequestBody final SignUpProfileRequest signUpProfileRequest) {
         memberService.signUpByProfile(accessor.getId(), signUpProfileRequest);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/check/nickname")
+    public ResponseEntity<CheckDuplicateNicknameResponse> checkDuplicateNickname(
+            @Authentication final Accessor accessor,
+            @RequestBody final CheckDuplicateNicknameRequest request) {
+        CheckDuplicateNicknameResponse response = memberService.checkIsAlreadyExistNickname(request.getNickname());
+        return ResponseEntity.ok(response);
     }
 }

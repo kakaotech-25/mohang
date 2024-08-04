@@ -128,5 +128,4 @@ public class MemberServiceTest extends ServiceTestConfig {
                 memberService.signUpByProfile(1L, signUpProfileRequest))
                 .isInstanceOf(DuplicateNicknameException.class);
     }
-
 }

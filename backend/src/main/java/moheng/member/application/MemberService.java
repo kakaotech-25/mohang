@@ -3,6 +3,7 @@ package moheng.member.application;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.dto.request.SignUpProfileRequest;
+import moheng.member.dto.response.CheckDuplicateNicknameResponse;
 import moheng.member.dto.response.MemberResponse;
 import moheng.member.exception.DuplicateNicknameException;
 import moheng.member.exception.NoExistMemberException;
@@ -47,7 +48,9 @@ public class MemberService {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoExistMemberException("존재하지 않는 회원입니다."));
 
-        checkIsAlreadyExistNickname(request.getNickname());
+        if(isAlreadyExistNickname(request.getNickname())) {
+            throw new DuplicateNicknameException("중복되는 닉네임이 존재합니다.");
+        }
 
         final Member updateProfileMember = new Member(
                 member.getId(),
@@ -58,9 +61,14 @@ public class MemberService {
         memberRepository.save(updateProfileMember);
     }
 
-    private void checkIsAlreadyExistNickname(String nickname) {
-        if (memberRepository.existsByNickName(nickname)) {
+    public CheckDuplicateNicknameResponse checkIsAlreadyExistNickname(String nickname) {
+        if(isAlreadyExistNickname(nickname)) {
             throw new DuplicateNicknameException("중복되는 닉네임이 존재합니다.");
         }
+        return new CheckDuplicateNicknameResponse();
+    }
+
+    private boolean isAlreadyExistNickname(final String nickname) {
+        return memberRepository.existsByNickName(nickname);
     }
 }
