@@ -20,7 +20,7 @@ public class Member extends BaseEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, updatable=false)
     private String email;
 
     @Column(name = "nick_name")
@@ -30,7 +30,7 @@ public class Member extends BaseEntity {
     private String profileImageUrl;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "social_type", nullable = false)
+    @Column(name = "social_type", nullable = false, updatable=false)
     private SocialType socialType;
 
     @Column(name = "birthday")
@@ -54,6 +54,7 @@ public class Member extends BaseEntity {
         this.nickName = nickName;
         this.birthday = birthday;
         this.genderType = genderType;
+        this.email = this.email;
     }
 
     public Member(final Long id, final String email, final String nickName,
@@ -123,5 +124,9 @@ public class Member extends BaseEntity {
 
     public LocalDate getBirthday() {
         return birthday;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }
