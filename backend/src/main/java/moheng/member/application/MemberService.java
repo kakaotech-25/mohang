@@ -63,10 +63,4 @@ public class MemberService {
             throw new DuplicateNicknameException("중복되는 닉네임이 존재합니다.");
         }
     }
-
-    private void checkDuplicatedOtherMemberNickname(String nickname) {
-        if (memberRepository.existsByNickName(nickname)) {
-            throw new DuplicateNicknameException("중복되는 닉네임이 존재합니다.");
-        }
-    }
 }
