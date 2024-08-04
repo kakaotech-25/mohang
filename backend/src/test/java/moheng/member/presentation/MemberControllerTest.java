@@ -4,6 +4,7 @@ import static moheng.fixture.MemberFixtures.*;
 import static moheng.fixture.AuthFixtures.*;
 
 import moheng.auth.domain.token.JwtTokenProvider;
+import moheng.auth.dto.TokenRequest;
 import moheng.config.ControllerTestConfig;
 import moheng.member.dto.response.MemberResponse;
 import org.junit.jupiter.api.DisplayName;
@@ -19,8 +20,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -73,6 +73,18 @@ public class MemberControllerTest extends ControllerTestConfig {
                 .content(objectMapper.writeValueAsString(프로필_정보로_회원가입_요청()))
         )
                 .andDo(print())
+                .andDo(document("member/signup/profile",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("nickname").description("닉네임"),
+                                fieldWithPath("birthday").description("생년월일"),
+                                fieldWithPath("genderType").description("성별")
+                        )
+                ))
                 .andExpect(status().isNoContent());
     }
 }
