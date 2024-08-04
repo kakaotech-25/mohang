@@ -70,14 +70,7 @@ public class MemberAcceptanceTest extends AcceptanceTestConfig {
         AccessTokenResponse accessTokenResponse = response.as(AccessTokenResponse.class);
 
         // when
-        ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .auth().oauth2(accessTokenResponse.getAccessToken())
-                .body(new CheckDuplicateNicknameRequest("devhaon"))
-                .when().post("/member/check/nickname")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .extract();
+        ExtractableResponse<Response> resultResponse = 닉네임을_중복_체크한다(accessTokenResponse.getAccessToken());
 
         // then
         assertAll(() -> {
