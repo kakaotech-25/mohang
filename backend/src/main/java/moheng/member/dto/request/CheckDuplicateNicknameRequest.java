@@ -1,7 +1,9 @@
 package moheng.member.dto.request;
 
 public class CheckDuplicateNicknameRequest {
-    private final String nickname;
+    private String nickname;
+
+    public CheckDuplicateNicknameRequest() {}
 
     public CheckDuplicateNicknameRequest(String nickname) {
         this.nickname = nickname;

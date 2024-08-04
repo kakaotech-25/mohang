@@ -32,7 +32,7 @@ public class MemberController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/check/nickname")
+    @PostMapping("/check/nickname")
     public ResponseEntity<CheckDuplicateNicknameResponse> checkDuplicateNickname(
             @Authentication final Accessor accessor,
             @RequestBody final CheckDuplicateNicknameRequest request) {
