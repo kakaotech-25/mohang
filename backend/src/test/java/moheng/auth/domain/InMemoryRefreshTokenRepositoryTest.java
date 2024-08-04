@@ -5,6 +5,9 @@ import static moheng.fixture.MemberFixtures.MEMBER_ID_2;
 import static moheng.fixture.MemberFixtures.MEMBER_ID_3;
 import static moheng.fixture.MemberFixtures.MEMBER_ID_4;
 import static moheng.fixture.MemberFixtures.MEMBER_ID_5;
+import static moheng.fixture.MemberFixtures.MEMBER_ID_6;
+import static moheng.fixture.MemberFixtures.MEMBER_ID_7;
+import static moheng.fixture.MemberFixtures.MEMBER_ID_8;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -14,6 +17,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InMemoryRefreshTokenRepositoryTest {
     private final InMemoryRefreshTokenRepository refreshTokenRepository = new InMemoryRefreshTokenRepository();
@@ -50,5 +54,52 @@ public class InMemoryRefreshTokenRepositoryTest {
 
         // then
         assertThat(actual).isTrue();
+    }
+
+    @DisplayName("회원 ID 로 리프레시 토큰을 찾는다.")
+    @Test
+    void 회원_ID_로_리프레시_토큰을_찾는다() {
+        // given
+        String refreshToken = "refresh-token";
+        refreshTokenRepository.save(MEMBER_ID_3, refreshToken);
+
+        // when, then
+        assertEquals(refreshTokenRepository.findById(MEMBER_ID_3), refreshToken);
+    }
+
+
+    @DisplayName("모든 리프레시 토큰 정보를 삭제한다.")
+    @Test
+    void 모든_리프레시_토큰_정보를_삭제한다() {
+        // given
+        String refreshToken = "refresh-token";
+        refreshTokenRepository.save(MEMBER_ID_4, refreshToken);
+        refreshTokenRepository.save(MEMBER_ID_5, refreshToken);
+        refreshTokenRepository.save(MEMBER_ID_6, refreshToken);
+
+        // when, then
+        assertDoesNotThrow(() -> refreshTokenRepository.deleteAll());
+    }
+
+    @DisplayName("회원 ID 로 리프레시 토큰을 삭제한다.")
+    @Test
+    void 회원_ID_로_리프레시_토큰을_삭제한다() {
+        // given
+        String refreshToken = "refresh-token";
+        refreshTokenRepository.save(MEMBER_ID_4, refreshToken);
+
+        // when, then
+        assertDoesNotThrow(() -> refreshTokenRepository.deleteById(MEMBER_ID_4));
+    }
+
+    @DisplayName("리프레시 토큰과 일치하는 토큰을 삭제한다.")
+    @Test
+    void 리프레시_토큰과_일치하는_토큰을_삭제한다() {
+        // given
+        String refreshToken = "refresh-token";
+        refreshTokenRepository.save(MEMBER_ID_4, refreshToken);
+
+        // when, them
+        assertDoesNotThrow(() -> refreshTokenRepository.deleteByRefreshToken(refreshToken));
     }
 }

@@ -8,4 +8,5 @@ public interface TokenProvider {
     Long getMemberId(final String token);
 
     void validateToken(final String token);
+    boolean isRefreshTokenExpired(final String token);
 }

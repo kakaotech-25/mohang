@@ -1,5 +1,7 @@
 package moheng.auth.domain.token;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import moheng.auth.exception.InvalidTokenException;
 import moheng.auth.exception.NoExistMemberTokenException;
 import org.springframework.stereotype.Component;
 
@@ -31,15 +33,27 @@ public class JwtTokenManager implements TokenManager {
     }
 
     @Override
-    public String generateRenewalAccessToken(final String refreshToken) {
-        tokenProvider.validateToken(refreshToken);
-        Long memberId = Long.valueOf(getMemberId(refreshToken));
+    public RenewalToken generateRenewalAccessToken(final String refreshToken) {
+        deleteExpiredRefreshToken(refreshToken);
 
+        Long memberId = tokenProvider.getMemberId(refreshToken);
         if(!refreshTokenRepository.existsById(memberId)) {
             throw new NoExistMemberTokenException("존재하지 않는 유저의 토큰입니다.");
         }
 
-        return tokenProvider.createAccessToken(memberId);
+        String accessTokenForRenew = tokenProvider.createAccessToken(memberId);
+        String refreshTokenForRenew = refreshTokenRepository.findById(memberId);
+        RenewalToken renewalToken = new RenewalToken(accessTokenForRenew, refreshTokenForRenew);
+        renewalToken.validateHasSameRefreshToken(refreshToken);
+
+        return renewalToken;
+    }
+
+    private void deleteExpiredRefreshToken(final String refreshToken) {
+        if(tokenProvider.isRefreshTokenExpired(refreshToken)) {
+            refreshTokenRepository.deleteByRefreshToken(refreshToken);
+            throw new InvalidTokenException("변조되었거나 만료된 토큰 입니다.");
+        }
     }
 
     @Override

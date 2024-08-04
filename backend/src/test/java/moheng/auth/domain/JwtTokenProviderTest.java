@@ -124,4 +124,14 @@ public class JwtTokenProviderTest {
         // then
         assertThat(newToken).isEqualTo(savedToken);
     }
+
+    @DisplayName("리프레시 토큰이 만료되었다면 참을 리턴한다.")
+    @Test
+    void 리프레시_토큰이_만료되었다면_참을_리턴한다() {
+        JwtTokenProvider expiredJwtTokenProvider
+                = new JwtTokenProvider(SECRET_KEY, 0, 0);
+        String expiredRefreshToken = expiredJwtTokenProvider.createRefreshToken(MEMBER_ID_1);
+
+        assertTrue(jwtTokenProvider.isRefreshTokenExpired(expiredRefreshToken));
+    }
 }
