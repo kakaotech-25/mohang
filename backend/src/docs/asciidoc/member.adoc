@@ -42,6 +42,29 @@ include::{snippets}/member/signup/profile/request-fields.adoc[]
 
 include::{snippets}/member/signup/profile/http-response.adoc[]
 
+
+=== 닉네임 중복체크 API
+
+==== HTTP Request
+
+include::{snippets}/member/check/nickname/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/member/check/nickname/request-headers.adoc[]
+
+==== Request Body
+
+include::{snippets}/member/check/nickname/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/member/check/nickname/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/member/check/nickname/response-fields.adoc[]
+
 === 프로필 업데이트 API
 
 ==== HTTP Request
