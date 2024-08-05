@@ -3,6 +3,7 @@ package moheng.member.presentation;
 import static moheng.fixture.MemberFixtures.*;
 import static moheng.fixture.AuthFixtures.*;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import moheng.auth.domain.token.JwtTokenProvider;
 import moheng.auth.dto.TokenRequest;
 import moheng.auth.exception.InvalidTokenException;
@@ -24,8 +25,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -149,5 +149,22 @@ public class MemberControllerTest extends ControllerTestConfig {
                                 fieldWithPath("message").description("중복되는 닉네임이 존재합니다.")
                         )
                 )).andExpect(status().isUnauthorized());
+    }
+
+    @DisplayName("화원 프로필을 업데이트하면 상태코드 200을 리턴한다.")
+    @Test
+    void 회원_프로필을_업데이트하면_상태코드_200을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+
+        // when, then
+        mockMvc.perform(put("/member/profile")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(프로필_업데이트_요청()))
+        )
+                .andDo(print())
+                .andExpect(status().isNoContent());
     }
 }
