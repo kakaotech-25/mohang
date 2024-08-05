@@ -12,6 +12,7 @@ import moheng.member.domain.Member;
 import moheng.member.domain.SocialType;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.dto.request.SignUpProfileRequest;
+import moheng.member.dto.request.UpdateProfileRequest;
 import moheng.member.dto.response.CheckDuplicateNicknameResponse;
 import moheng.member.exception.DuplicateNicknameException;
 import moheng.member.exception.NoExistMemberException;
@@ -128,5 +129,16 @@ public class MemberServiceTest extends ServiceTestConfig {
         assertThatThrownBy(() ->
                 memberService.signUpByProfile(1L, signUpProfileRequest))
                 .isInstanceOf(DuplicateNicknameException.class);
+    }
+
+    @DisplayName("존재하지 않는 회원의 프로필을 업데이트하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않느_회원의_프로필을_업데이트하면_예외가_발생한다() {
+        // given
+        UpdateProfileRequest request = new UpdateProfileRequest(하온_닉네임, 하온_생년월일, 하온_성별, 하온_프로필_경로);
+
+        // when, then
+        assertThatThrownBy(() -> memberService.updateByProfile(1L, request))
+                .isInstanceOf(NoExistMemberException.class);
     }
 }
