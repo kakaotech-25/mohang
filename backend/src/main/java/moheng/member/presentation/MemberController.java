@@ -5,6 +5,7 @@ import moheng.auth.presentation.authentication.Authentication;
 import moheng.member.application.MemberService;
 import moheng.member.dto.request.CheckDuplicateNicknameRequest;
 import moheng.member.dto.request.SignUpProfileRequest;
+import moheng.member.dto.request.UpdateProfileRequest;
 import moheng.member.dto.response.CheckDuplicateNicknameResponse;
 import moheng.member.dto.response.MemberResponse;
 import org.springframework.http.ResponseEntity;
@@ -38,5 +39,13 @@ public class MemberController {
             @RequestBody final CheckDuplicateNicknameRequest request) {
         memberService.checkIsAlreadyExistNickname(request.getNickname());
         return ResponseEntity.ok(new CheckDuplicateNicknameResponse());
+    }
+
+    @PutMapping("/profile")
+    public ResponseEntity<Void> updateProfile(
+            @Authentication final Accessor accessor,
+            @RequestBody final UpdateProfileRequest request) {
+        memberService.updateByProfile(accessor.getId(), request);
+        return ResponseEntity.noContent().build();
     }
 }
