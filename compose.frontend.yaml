@@ -6,7 +6,7 @@ services:
       context: frontend/
       dockerfile: Dockerfile.dev
     volumes:
-      - front_repo:/usr/app/src
+      - front_repo:/usr/app
     networks:
       - moheng_network
     ports:
