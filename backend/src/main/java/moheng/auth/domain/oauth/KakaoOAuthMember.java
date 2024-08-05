@@ -10,13 +10,13 @@ public class KakaoOAuthMember implements OAuthMember {
     @JsonProperty("kakao_account")
     private KakaoAccount kakaoAccount;
 
-    private class KakaoAccount {
+    private static class KakaoAccount {
 
         @JsonProperty("email")
         private String email;
     }
 
-    public KakaoOAuthMember(String email, String socialLoginId, String nickname, String imageurl) {
+    public KakaoOAuthMember(String email, String socialLoginId) {
         this.socialLoginId = socialLoginId;
         this.kakaoAccount = new KakaoAccount();
         this.kakaoAccount.email = email;
