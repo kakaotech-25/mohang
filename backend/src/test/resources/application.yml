@@ -25,10 +25,10 @@ oauth:
   kakao:
     authorize_uri: https://kauth.kakao.com/oauth/authorize
     redirect_uri: http://localhost:3000
-    client_secret: 3ZPJ93VC9MCuCXmPCDzrGmum2M3A7tif
+    client_secret: 9j9MKkwn648WgRwP6UKl4X7tgbQdBoXQ
     token_uri: https://kauth.kakao.com/oauth/token
     user_uri: https://kapi.kakao.com/v2/user/me
-    client_id: 8dcd65cb42f4ec43d0b65cb78ec24c04
+    client_id: 01bcd95738b16b4ab1a67945871afab7
 
 security:
   jwt:
