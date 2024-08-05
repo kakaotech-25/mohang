@@ -6,6 +6,7 @@ import io.restassured.response.Response;
 import moheng.member.domain.GenderType;
 import moheng.member.dto.request.CheckDuplicateNicknameRequest;
 import moheng.member.dto.request.SignUpProfileRequest;
+import moheng.member.dto.request.UpdateProfileRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
@@ -42,6 +43,17 @@ public class MemberAcceptanceFixture {
                 .when().post("/member/check/nickname")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 회원_프로필을_업데이트한다(String accessToken) {
+        return RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessToken)
+                .body(new UpdateProfileRequest("devhaon", LocalDate.of(2000, 1, 1), GenderType.MEN, "https://image.com"))
+                .when().put("/member/profile")
+                .then().log().all()
+                .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())
                 .extract();
     }
 }

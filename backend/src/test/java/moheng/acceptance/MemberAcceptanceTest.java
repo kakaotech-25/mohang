@@ -90,14 +90,7 @@ public class MemberAcceptanceTest extends AcceptanceTestConfig {
         프로필_정보로_회원가입을_한다(accessTokenResponse.getAccessToken());
 
         // when
-        ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .auth().oauth2(accessTokenResponse.getAccessToken())
-                .body(new UpdateProfileRequest("devhaon", LocalDate.of(2000, 1, 1), GenderType.MEN, "https://image.com"))
-                .when().put("/member/profile")
-                .then().log().all()
-                .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())
-                .extract();
+        ExtractableResponse<Response> resultResponse = 회원_프로필을_업데이트한다(accessTokenResponse.getAccessToken());
 
         // then
         assertAll(() -> {
