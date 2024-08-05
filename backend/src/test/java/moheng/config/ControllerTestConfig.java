@@ -1,6 +1,7 @@
 package moheng.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import moheng.auth.application.AuthService;
 import moheng.auth.domain.token.JwtTokenProvider;
 import moheng.auth.domain.token.TokenManager;
@@ -45,4 +46,6 @@ public abstract class ControllerTestConfig {
     @Autowired
     protected AuthenticationBearerExtractor authenticationBearerExtractor;
 
+    @Mock
+    protected HttpServletRequest httpServletRequest;
 }
