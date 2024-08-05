@@ -123,6 +123,7 @@ jacocoTestCoverageVerification {
 					'*.infrastructure.*',
 					'*.global.config.*',
 					'*.BaseEntity',
+					'**/BaseEntity*',
 					'*.ControllerAdvice',
 					'*.AuthorizationExtractor'
 			]

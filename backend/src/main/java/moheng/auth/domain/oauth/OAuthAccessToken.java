@@ -1,6 +1,7 @@
 package moheng.auth.domain.oauth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import moheng.global.annotation.Generated;
 
 public class OAuthAccessToken {
 
@@ -19,6 +20,7 @@ public class OAuthAccessToken {
     @JsonProperty("refresh_token")
     private String refreshToken;
 
+    @Generated
     public String getAccessToken() {
         return accessToken;
     }
