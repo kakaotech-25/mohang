@@ -27,5 +27,5 @@ jobs:
         run: ${{ env.SCRIPTS_DIR }}/caculate_time.sh "${{ steps.extract_deadline.outputs.deadline }}"
 
       - name: Send Discord Notification
-        if: always()
+        if: ${{ success() }}
         run: ${{ env.SCRIPTS_DIR }}/send_discord_notification.sh "${{ env.DISCORD_WEBHOOK_URL }}" "${{ steps.caculate_time.outputs.deadline }}"
