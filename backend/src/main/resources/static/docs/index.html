@@ -618,7 +618,7 @@ Host: localhost:8080
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: refresh-token=refresh-token; Path=/; Max-Age=604800; Expires=Sun, 11 Aug 2024 05:11:50 GMT; Secure; HttpOnly; SameSite=None
+Set-Cookie: refresh-token=refresh-token; Path=/; Max-Age=604800; Expires=Mon, 12 Aug 2024 02:55:27 GMT; Secure; HttpOnly; SameSite=None
 Content-Type: application/json
 Content-Length: 36
 
@@ -1066,7 +1066,97 @@ Content-Length: 121
 </div>
 <div class="sect2">
 <h3 id="_회원가입_by_프로필_정보_api">회원가입 (by 프로필 정보) API</h3>
+<div class="sect3">
+<h4 id="_http_request_8">HTTP Request</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /member/signup/profile HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer aaaaaa.bbbbbb.cccccc
+Accept: application/json
+Content-Length: 132
+Host: localhost:8080
 
+{
+  "nickname" : "devhaon",
+  "birthday" : "1999-09-20",
+  "genderType" : "MEN",
+  "profileImageUrl" : "https://profile-image.com"
+}</code></pre>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_request_header_authorization_3">Request Header (Authorization)</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">엑세스 토큰</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect5">
+<h6 id="_request_body_3">Request Body</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>birthday</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생년월일. 형식:yyyy-MM-dd</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>genderType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">성별. 형식: MEN 또는 WOMEN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로필 이미지 경로.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_http_response_8">HTTP Response</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>

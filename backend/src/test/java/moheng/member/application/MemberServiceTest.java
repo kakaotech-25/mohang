@@ -12,6 +12,7 @@ import moheng.member.domain.Member;
 import moheng.member.domain.SocialType;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.dto.request.SignUpProfileRequest;
+import moheng.member.dto.request.UpdateProfileRequest;
 import moheng.member.dto.response.CheckDuplicateNicknameResponse;
 import moheng.member.exception.DuplicateNicknameException;
 import moheng.member.exception.NoExistMemberException;
@@ -98,7 +99,7 @@ public class MemberServiceTest extends ServiceTestConfig {
         // given
         Member member = new Member(하온_이메일, 하온_소셜_타입_카카오);
         memberService.save(member);
-        SignUpProfileRequest signUpProfileRequest = new SignUpProfileRequest(하온_닉네임, 하온_생년월일, 하온_성별);
+        SignUpProfileRequest signUpProfileRequest = new SignUpProfileRequest(하온_닉네임, 하온_생년월일, 하온_성별, 하온_프로필_경로);
 
         assertDoesNotThrow(() ->
                 memberService.signUpByProfile(member.getId(), signUpProfileRequest));
@@ -108,7 +109,7 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 존재하지_않는_회원의_프로필_정보로_회원가입하면_예외가_발생한다() {
         // given
-        SignUpProfileRequest signUpProfileRequest = new SignUpProfileRequest(하온_닉네임, 하온_생년월일, 하온_성별);
+        SignUpProfileRequest signUpProfileRequest = new SignUpProfileRequest(하온_닉네임, 하온_생년월일, 하온_성별, 하온_프로필_경로);
 
         // when, then
         assertThatThrownBy(() -> memberService.signUpByProfile(-1L, signUpProfileRequest))
@@ -122,11 +123,48 @@ public class MemberServiceTest extends ServiceTestConfig {
         memberService.save(하온_기존());
         memberService.save(래오_기존());
 
-        SignUpProfileRequest signUpProfileRequest = new SignUpProfileRequest(래오_닉네임, 하온_생년월일, 하온_성별);
+        SignUpProfileRequest signUpProfileRequest = new SignUpProfileRequest(래오_닉네임, 하온_생년월일, 하온_성별, 하온_프로필_경로);
 
         // when, then
         assertThatThrownBy(() ->
                 memberService.signUpByProfile(1L, signUpProfileRequest))
+                .isInstanceOf(DuplicateNicknameException.class);
+    }
+
+    @DisplayName("회원의 프로필을 업데이트한다.")
+    @Test
+    void 회원의_프로필을_업데이트한다() {
+        // given
+        memberService.save(하온_기존());
+        UpdateProfileRequest request = new UpdateProfileRequest(하온_닉네임, 하온_생년월일, 하온_성별, 하온_프로필_경로);
+        long memberId = memberService.findByEmail(하온_이메일).getId();
+
+        // when, then
+        assertDoesNotThrow(() -> memberService.updateByProfile(memberId, request));
+    }
+
+    @DisplayName("존재하지 않는 회원의 프로필을 업데이트하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_회원의_프로필을_업데이트하면_예외가_발생한다() {
+        // given
+        UpdateProfileRequest request = new UpdateProfileRequest(하온_닉네임, 하온_생년월일, 하온_성별, 하온_프로필_경로);
+
+        // when, then
+        assertThatThrownBy(() -> memberService.updateByProfile(1L, request))
+                .isInstanceOf(NoExistMemberException.class);
+    }
+
+    @DisplayName("회원 본인을 제외한 다른 회원들중에 닉네임이 중복된다면 예외가 발생한다.")
+    @Test
+    void 회원_본인을_제외한_다른_회원들중에_닉네임이_중복된다면_예외가_발생한다() {
+        // given
+        memberService.save(하온_기존());
+        memberService.save(래오_기존());
+        UpdateProfileRequest request = new UpdateProfileRequest(래오_닉네임, 하온_생년월일, 하온_성별, 하온_프로필_경로);
+        long memberId = memberService.findByEmail(하온_이메일).getId();
+
+        // when, then
+        assertThatThrownBy(() -> memberService.updateByProfile(memberId, request))
                 .isInstanceOf(DuplicateNicknameException.class);
     }
 }

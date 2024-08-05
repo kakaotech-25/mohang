@@ -60,7 +60,14 @@ public class Member extends BaseEntity {
         this.nickName = nickName;
         this.birthday = birthday;
         this.genderType = genderType;
-        this.email = this.email;
+    }
+
+    public Member(final long id, final String nickName, final LocalDate birthday, final GenderType genderType, final String profileImageUrl) {
+        this.id = id;
+        this.nickName = nickName;
+        this.birthday = birthday;
+        this.genderType = genderType;
+        this.profileImageUrl = profileImageUrl;
     }
 
     public Member(final Long id, final String email, final String nickName,
