@@ -165,6 +165,18 @@ public class MemberControllerTest extends ControllerTestConfig {
                         .content(objectMapper.writeValueAsString(프로필_업데이트_요청()))
         )
                 .andDo(print())
-                .andExpect(status().isNoContent());
+                .andDo(document("member/update/profile",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("nickname").description("닉네임"),
+                                fieldWithPath("birthday").description("생년월일"),
+                                fieldWithPath("genderType").description("성별"),
+                                fieldWithPath("profileImageUrl").description("프로필 이미지 경로")
+                        )
+                )).andExpect(status().isNoContent());
     }
 }
