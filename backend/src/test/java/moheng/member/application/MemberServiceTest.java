@@ -131,9 +131,21 @@ public class MemberServiceTest extends ServiceTestConfig {
                 .isInstanceOf(DuplicateNicknameException.class);
     }
 
+    @DisplayName("회원의 프로필을 업데이트한다.")
+    @Test
+    void 회원의_프로필을_업데이트한다() {
+        // given
+        memberService.save(하온_기존());
+        UpdateProfileRequest request = new UpdateProfileRequest(하온_닉네임, 하온_생년월일, 하온_성별, 하온_프로필_경로);
+        long memberId = memberService.findByEmail(하온_이메일).getId();
+
+        // when, then
+        assertDoesNotThrow(() -> memberService.updateByProfile(memberId, request));
+    }
+
     @DisplayName("존재하지 않는 회원의 프로필을 업데이트하면 예외가 발생한다.")
     @Test
-    void 존재하지_않느_회원의_프로필을_업데이트하면_예외가_발생한다() {
+    void 존재하지_않는_회원의_프로필을_업데이트하면_예외가_발생한다() {
         // given
         UpdateProfileRequest request = new UpdateProfileRequest(하온_닉네임, 하온_생년월일, 하온_성별, 하온_프로필_경로);
 
