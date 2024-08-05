@@ -81,7 +81,7 @@ public class MemberFixtures {
 
     // 회원가입 요청
     public static SignUpProfileRequest 프로필_정보로_회원가입_요청() {
-        return new SignUpProfileRequest("devhaon", LocalDate.of(1999, 9, 20), GenderType.MEN);
+        return new SignUpProfileRequest("devhaon", LocalDate.of(1999, 9, 20), GenderType.MEN, "https://profile-image.com");
     }
 
     // 닉네임 중복확인 요청

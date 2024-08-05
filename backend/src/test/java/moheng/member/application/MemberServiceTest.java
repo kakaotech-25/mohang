@@ -99,7 +99,7 @@ public class MemberServiceTest extends ServiceTestConfig {
         // given
         Member member = new Member(하온_이메일, 하온_소셜_타입_카카오);
         memberService.save(member);
-        SignUpProfileRequest signUpProfileRequest = new SignUpProfileRequest(하온_닉네임, 하온_생년월일, 하온_성별);
+        SignUpProfileRequest signUpProfileRequest = new SignUpProfileRequest(하온_닉네임, 하온_생년월일, 하온_성별, 하온_프로필_경로);
 
         assertDoesNotThrow(() ->
                 memberService.signUpByProfile(member.getId(), signUpProfileRequest));
@@ -109,7 +109,7 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 존재하지_않는_회원의_프로필_정보로_회원가입하면_예외가_발생한다() {
         // given
-        SignUpProfileRequest signUpProfileRequest = new SignUpProfileRequest(하온_닉네임, 하온_생년월일, 하온_성별);
+        SignUpProfileRequest signUpProfileRequest = new SignUpProfileRequest(하온_닉네임, 하온_생년월일, 하온_성별, 하온_프로필_경로);
 
         // when, then
         assertThatThrownBy(() -> memberService.signUpByProfile(-1L, signUpProfileRequest))
@@ -123,7 +123,7 @@ public class MemberServiceTest extends ServiceTestConfig {
         memberService.save(하온_기존());
         memberService.save(래오_기존());
 
-        SignUpProfileRequest signUpProfileRequest = new SignUpProfileRequest(래오_닉네임, 하온_생년월일, 하온_성별);
+        SignUpProfileRequest signUpProfileRequest = new SignUpProfileRequest(래오_닉네임, 하온_생년월일, 하온_성별, 하온_프로필_경로);
 
         // when, then
         assertThatThrownBy(() ->
