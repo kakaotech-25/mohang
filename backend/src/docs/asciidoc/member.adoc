@@ -22,3 +22,22 @@ include::{snippets}/member/me/http-response.adoc[]
 ===== Response Body
 
 include::{snippets}/member/me/response-fields.adoc[]
+
+=== 회원가입 (by 프로필 정보) API
+
+==== HTTP Request
+
+include::{snippets}/member/signup/profile/http-request.adoc[]
+
+===== Request Header (Authorization)
+
+include::{snippets}/member/signup/profile/request-headers.adoc[]
+
+====== Request Body
+
+include::{snippets}/member/signup/profile/request-fields.adoc[]
+
+
+==== HTTP Response
+
+include::{snippets}/member/signup/profile/http-response.adoc[]

@@ -1,6 +1,7 @@
 package moheng.member.domain;
 
 import jakarta.persistence.*;
+import moheng.auth.domain.oauth.Authority;
 import moheng.global.entity.BaseEntity;
 import moheng.member.exception.*;
 
@@ -20,7 +21,7 @@ public class Member extends BaseEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, updatable=false)
     private String email;
 
     @Column(name = "nick_name")
@@ -30,7 +31,7 @@ public class Member extends BaseEntity {
     private String profileImageUrl;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "social_type", nullable = false)
+    @Column(name = "social_type", nullable = false, updatable=false)
     private SocialType socialType;
 
     @Column(name = "birthday")
@@ -40,6 +41,10 @@ public class Member extends BaseEntity {
     @Column(name = "gender_type")
     private GenderType genderType;
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "authority")
+    private Authority authority;
+
     protected Member() {
     }
 
@@ -47,6 +52,15 @@ public class Member extends BaseEntity {
         validateEmail(email);
         this.email = email;
         this.socialType = socialType;
+        this.authority = Authority.INIT_MEMBER;
+    }
+
+    public Member(final long id, final String nickName, final LocalDate birthday, final GenderType genderType) {
+        this.id = id;
+        this.nickName = nickName;
+        this.birthday = birthday;
+        this.genderType = genderType;
+        this.email = this.email;
     }
 
     public Member(final Long id, final String email, final String nickName,
@@ -98,6 +112,10 @@ public class Member extends BaseEntity {
         }
     }
 
+    public boolean isNicknameChanged(final String inputNickname) {
+        return !nickName.equals(inputNickname);
+    }
+
     public Long getId() {
         return id;
     }
@@ -116,5 +134,9 @@ public class Member extends BaseEntity {
 
     public LocalDate getBirthday() {
         return birthday;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }
