@@ -1,6 +1,7 @@
 package moheng.auth.domain.oauth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import moheng.global.annotation.Generated;
 
 public class KakaoOAuthMember implements OAuthMember {
     @JsonProperty("id")
@@ -22,11 +23,13 @@ public class KakaoOAuthMember implements OAuthMember {
     }
 
     @Override
+    @Generated
     public String getSocialLoginId() {
         return socialLoginId;
     }
 
     @Override
+    @Generated
     public String getEmail() {
         return kakaoAccount.email;
     }

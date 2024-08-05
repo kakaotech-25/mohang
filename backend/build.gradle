@@ -3,6 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '3.3.2'
 	id 'io.spring.dependency-management' version '1.1.6'
 	id 'org.asciidoctor.jvm.convert' version '3.3.2'
+	id 'jacoco'
 }
 
 group = 'mohang'
@@ -59,7 +60,76 @@ dependencies {
 test {
 	outputs.dir snippetsDir
 	useJUnitPlatform()
+	finalizedBy 'jacocoTestReport'
 }
+
+jacoco {
+	toolVersion = "0.8.11"
+}
+
+jacocoTestReport {
+	reports {
+		xml {
+			enabled true
+		}
+		csv {
+			enabled true
+		}
+		html {
+			enabled true
+		}
+
+		xml.destination file(project.layout.buildDirectory.dir("jacoco/index.xml")) as File
+		csv.destination file(project.layout.buildDirectory.dir("jacoco/index.csv")) as File
+		html.destination file(project.layout.buildDirectory.dir("jacoco/index.html")) as File
+	}
+
+	afterEvaluate {
+		classDirectories.setFrom(
+				files(classDirectories.files.collect {
+					fileTree(dir: it, excludes: [
+							'**/*Application*',
+							'**/*Exception*',
+							'**/dto/**',
+							'**/infrastructure/**',
+							'**/global/config/**',
+							'**/BaseEntity*',
+							'**/ControllerAdvice*',
+							'**/AuthorizationExtractor*'
+					])
+				})
+		)
+	}
+
+	finalizedBy(jacocoTestCoverageVerification)
+}
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			enabled = true
+
+			limit {
+				counter = "LINE"
+				value = "COVEREDRATIO"
+				minimum = 0.70
+			}
+
+			excludes = [
+					'*.*Application',
+					'*.*Exception',
+					'*.dto.*',
+					'*.infrastructure.*',
+					'*.global.config.*',
+					'*.BaseEntity',
+					'*.ControllerAdvice',
+					'*.AuthorizationExtractor'
+			]
+		}
+	}
+}
+
+
 
 asciidoctor {
 	configurations 'asciidoctorExtensions'
@@ -71,7 +141,6 @@ asciidoctor {
 	// 경로를 baseDir로 맞춰준다!
 	baseDirFollowsSourceFile()
 }
-
 
 bootJar {
 	dependsOn asciidoctor
