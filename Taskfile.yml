@@ -1,0 +1,24 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    cmds:
+      - echo "{{.GREETING}}"
+    silent: true
+  front:
+    cmds: # 프론트 개발 서버 실행
+      - docker compose -f compose.frontend.yaml up --build
+  up:
+    cmds: # 서버 컨테이너 빌드 실행
+      - docker compose up --build
+  down:
+    cmds: # 컨테이너 중지
+      - docker compose down
+  clean:
+    cmds: # 중지된 컨테이너, 이미지, 네트워크, 빌드 캐시 삭제
+      - docker system prune -a
