@@ -1,0 +1,24 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    cmds:
+      - echo "{{.GREETING}}"
+    silent: true
+  front:
+    cmds:
+      - docker compose -f compose.frontend.yaml up --build
+  up:
+    cmds:
+      - docker compose up --build
+  down:
+    cmds:
+      - docker compose down
+  clean:
+    cmds:
+      - docker system prune -a
