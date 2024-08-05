@@ -60,11 +60,77 @@ dependencies {
 test {
 	outputs.dir snippetsDir
 	useJUnitPlatform()
+	finalizedBy 'jacocoTestReport'
 }
 
 jacoco {
-	toolVersion = "0.8.7"
+	toolVersion = "0.8.11"
 }
+
+jacocoTestReport {
+	reports {
+		xml {
+			enabled true
+		}
+		csv {
+			enabled true
+		}
+		html {
+			enabled true
+		}
+
+		xml.destination file(project.layout.buildDirectory.dir("jacoco/index.xml")) as File
+		csv.destination file(project.layout.buildDirectory.dir("jacoco/index.csv")) as File
+		html.destination file(project.layout.buildDirectory.dir("jacoco/index.html")) as File
+	}
+
+	afterEvaluate {
+		classDirectories.setFrom(
+				files(classDirectories.files.collect {
+					fileTree(dir: it, excludes: [
+							'**/*Application*',
+							'**/*Exception*',
+							'**/dto/**',
+							'**/infrastructure/**',
+							'**/global/config/**',
+							'**/BaseEntity*',
+							'**/ControllerAdvice*',
+							'**/AuthorizationExtractor*'
+					])
+				})
+		)
+	}
+
+	finalizedBy(jacocoTestCoverageVerification)
+}
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			enabled = true
+			element = "CLASS"
+
+			limit {
+				counter = "LINE"
+				value = "COVEREDRATIO"
+				minimum = 0.0
+			}
+
+			excludes = [
+					'*.*Application',
+					'*.*Exception',
+					'*.dto.*',
+					'*.infrastructure.*',
+					'*.global.config.*',
+					'*.BaseEntity',
+					'*.ControllerAdvice',
+					'*.AuthorizationExtractor'
+			]
+		}
+	}
+}
+
+
 
 asciidoctor {
 	configurations 'asciidoctorExtensions'
