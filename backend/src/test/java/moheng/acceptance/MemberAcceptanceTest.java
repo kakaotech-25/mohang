@@ -4,6 +4,7 @@ import static moheng.acceptance.fixture.AuthAcceptanceFixture.*;
 import static moheng.acceptance.fixture.HttpStatus.상태코드_200이_반환된다;
 import static moheng.acceptance.fixture.MemberAcceptanceFixture.*;
 import static moheng.acceptance.fixture.HttpStatus.*;
+import static moheng.acceptance.fixture.MemberAcceptanceFixture.프로필_정보로_회원가입을_한다;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -13,15 +14,16 @@ import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
+import moheng.acceptance.fixture.HttpStatus;
 import moheng.auth.dto.AccessTokenResponse;
 import moheng.auth.dto.TokenResponse;
 import moheng.member.domain.GenderType;
 import moheng.member.dto.request.CheckDuplicateNicknameRequest;
 import moheng.member.dto.request.SignUpProfileRequest;
+import moheng.member.dto.request.UpdateProfileRequest;
 import moheng.member.dto.response.MemberResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import java.time.LocalDate;
@@ -75,6 +77,31 @@ public class MemberAcceptanceTest extends AcceptanceTestConfig {
         // then
         assertAll(() -> {
             상태코드_200이_반환된다(resultResponse);
+        });
+    }
+
+    @DisplayName("회원 프로필을 업데이트하면 상태코드 204를 리턴한다.")
+    @Test
+    void 회원_프로필을_업데이트하면_상태코드_204를_리턴한다() {
+        // given
+        ExtractableResponse<Response> response = 자체_토큰을_생성한다("KAKAO", "authorization-code");
+        AccessTokenResponse accessTokenResponse = response.as(AccessTokenResponse.class);
+
+        프로필_정보로_회원가입을_한다(accessTokenResponse.getAccessToken());
+
+        // when
+        ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessTokenResponse.getAccessToken())
+                .body(new UpdateProfileRequest("devhaon", LocalDate.of(2000, 1, 1), GenderType.MEN, "https://image.com"))
+                .when().put("/member/profile")
+                .then().log().all()
+                .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())
+                .extract();
+
+        // then
+        assertAll(() -> {
+            상태코드_204이_반환된다(resultResponse);
         });
     }
 }
