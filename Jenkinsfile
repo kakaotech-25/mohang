@@ -27,8 +27,8 @@ pipeline {
                     
                     dir('frontend') {
                         echo 'Installing Frontend Dependencies...'
-                        sh 'npm install'
-                        
+                        sh 'npm install --legacy-peer-deps'
+
                         echo 'Building Frontend...'
                         sh 'npm run build'
                     }
