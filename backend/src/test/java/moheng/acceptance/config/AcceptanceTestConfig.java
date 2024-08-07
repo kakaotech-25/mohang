@@ -1,7 +1,6 @@
 package moheng.acceptance.config;
 
 import io.restassured.RestAssured;
-import moheng.config.DatabaseCleaner;
 import moheng.config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +14,8 @@ public abstract class AcceptanceTestConfig {
     @LocalServerPort
     private int port;
 
-    @Autowired
-    private DatabaseCleaner databaseCleaner;
-
     @BeforeEach
     public void setUp() {
         RestAssured.port = port;
-        databaseCleaner.execute();
     }
 }

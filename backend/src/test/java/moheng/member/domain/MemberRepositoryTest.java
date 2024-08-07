@@ -28,7 +28,7 @@ import java.time.LocalDate;
 
 
 @SpringBootTest(classes = TestConfig.class)
-public class MemberRepositoryTest {
+public class MemberRepositoryTest extends RepositoryTestConfig {
     @Autowired
     private MemberRepository memberRepository;
 
