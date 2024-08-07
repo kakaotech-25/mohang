@@ -7,5 +7,4 @@ if [[ "$label_name" == D-* ]]; then
   echo "deadline=$deadline" >> $GITHUB_OUTPUT
 else
   echo "마감 라벨을 설정하지 않았습니다."
-  exit 1
 fi
