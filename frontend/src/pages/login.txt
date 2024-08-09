@@ -1,0 +1,529 @@
+/* 완) 로그인 */
+
+position: relative;
+width: 1977px;
+height: 1333px;
+left: 3042px;
+top: 685px;
+
+background: #FFFFFF;
+
+
+/* 상단바 */
+
+position: absolute;
+width: 1980px;
+height: 100.03px;
+left: 0px;
+top: 0px;
+
+filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.2));
+
+
+/* Rectangle 42 */
+
+position: absolute;
+width: 1980px;
+height: 100px;
+left: 0px;
+top: 0px;
+
+background: #C493FF;
+
+
+/* 모행 */
+
+position: absolute;
+width: 108px;
+height: 71.03px;
+left: 213px;
+top: 29px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 40px;
+line-height: 48px;
+text-align: center;
+
+color: #6023C3;
+
+
+
+/* logo */
+
+position: absolute;
+width: 193px;
+height: 100px;
+left: 20px;
+top: 0px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 50px;
+line-height: 61px;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #FFFFFF;
+
+
+
+/* 로그인 */
+
+position: absolute;
+width: 141.63px;
+height: 44.39px;
+left: 1824px;
+top: 28px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 30px;
+line-height: 36px;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #FFFFFF;
+
+
+
+/* Group 261 */
+
+position: absolute;
+width: 385px;
+height: 375px;
+left: 20px;
+top: 701px;
+
+
+
+/* freepik-export-20240717045159QDuh 1 */
+
+position: absolute;
+width: 92px;
+height: 125px;
+left: 25px;
+top: 701px;
+
+background: url(freepik-export-20240717045159QDuh.png);
+
+
+/* freepik-export-20240717045236oa4A 1 */
+
+position: absolute;
+width: 247px;
+height: 287px;
+left: 20px;
+top: 789px;
+
+background: url(freepik-export-20240717045236oa4A.png);
+
+
+/* freepik-export-202407170453088aH2 1 */
+
+position: absolute;
+width: 121px;
+height: 158px;
+left: 284px;
+top: 915px;
+
+background: url(freepik-export-202407170453088aH2.png);
+
+
+/* Group 286 */
+
+position: absolute;
+width: 472px;
+height: 418px;
+left: 1501px;
+top: 644px;
+
+
+
+/* freepik-export-20240717045120qUCQ 1 */
+
+position: absolute;
+width: 230px;
+height: 154.34px;
+left: 1704px;
+top: 722.66px;
+
+background: url(freepik-export-20240717045120qUCQ.png);
+transform: rotate(-20deg);
+
+
+/* freepik-export-202407170450413jdT 1 */
+
+position: absolute;
+width: 322px;
+height: 248px;
+left: 1651px;
+top: 814px;
+
+background: url(freepik-export-202407170450413jdT.png);
+
+
+/* freepik-export-20240717045351qLhR 1 */
+
+position: absolute;
+width: 157px;
+height: 164px;
+left: 1501px;
+top: 898px;
+
+background: url(freepik-export-20240717045351qLhR.png);
+
+
+/* 카카오 로그인 */
+
+position: absolute;
+width: 600px;
+height: 85px;
+left: 688px;
+top: 550px;
+
+
+
+/* Rectangle 125 */
+
+box-sizing: border-box;
+
+position: absolute;
+left: 34.8%;
+right: 34.85%;
+top: 41.26%;
+bottom: 52.36%;
+
+background: #FEE500;
+border-radius: 8px;
+
+
+/* area */
+
+position: absolute;
+width: 527px;
+height: 34px;
+left: calc(50% - 527px/2 - 1px);
+top: calc(50% - 34px/2 - 74.5px);
+
+
+
+/* 카카오 아이콘 */
+
+position: absolute;
+width: 37.19px;
+height: 34px;
+left: 724px;
+top: calc(50% - 34px/2 - 74.5px);
+
+
+
+/* Ellipse 3 */
+
+position: absolute;
+width: 37.19px;
+left: 724px;
+top: 43.14%;
+bottom: 54.75%;
+
+background: #000000;
+
+
+/* Vector 1 */
+
+position: absolute;
+width: 9.56px;
+left: 729.84px;
+top: 45.06%;
+bottom: 54.31%;
+
+background: #000000;
+
+
+/* text area */
+
+position: absolute;
+width: 492px;
+height: 34px;
+left: 759px;
+top: calc(50% - 34px/2 - 74.5px);
+
+
+
+/* 카카오 로그인 */
+
+position: absolute;
+width: 160px;
+height: 34px;
+left: 926px;
+top: calc(50% - 34px/2 - 74.5px);
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 27px;
+line-height: 33px;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Rectangle 130 */
+
+position: absolute;
+height: 34px;
+left: 38.39%;
+right: 36.72%;
+top: calc(50% - 34px/2 - 74.5px);
+
+
+
+/* Footer */
+
+position: absolute;
+width: 1977px;
+height: 250px;
+left: 0px;
+top: 1084px;
+
+
+
+/* Rectangle 42 */
+
+position: absolute;
+width: 1977px;
+height: 250px;
+left: 0px;
+bottom: -1px;
+
+background: #C493FF;
+
+
+/* text_area */
+
+position: absolute;
+width: 671px;
+height: 178px;
+left: calc(50% - 671px/2 + 2px);
+top: calc(50% - 178px/2 + 542.5px);
+
+
+
+/* Group 260 */
+
+position: absolute;
+width: 654.01px;
+height: 105px;
+left: 671.99px;
+top: 1120px;
+
+
+
+/* Group 259 */
+
+position: absolute;
+width: 538.18px;
+height: 80px;
+left: 787.82px;
+top: 1145px;
+
+
+
+/* Group 257 */
+
+position: absolute;
+width: 309.53px;
+height: 80px;
+left: 1016.47px;
+top: 1145px;
+
+
+
+/* Group 256 */
+
+position: absolute;
+width: 288px;
+height: 70px;
+left: 1038px;
+top: 1145px;
+
+
+
+/* FAQ 자주 묻는 질문 */
+
+position: absolute;
+width: 164.75px;
+height: 25px;
+left: 1038.44px;
+bottom: 118px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 20px;
+line-height: 24px;
+/* identical to box height */
+text-align: center;
+
+color: #FFFFFF;
+
+
+
+/* 문의하기 moheng@kakao.com */
+
+position: absolute;
+width: 288px;
+height: 25px;
+left: 1038px;
+bottom: 163px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 20px;
+line-height: 24px;
+/* identical to box height */
+text-align: center;
+
+color: #FFFFFF;
+
+
+
+/* Line 10 */
+
+position: absolute;
+width: 80px;
+height: 0px;
+left: 1016.47px;
+bottom: 108px;
+
+border: 1px solid #FFFFFF;
+transform: rotate(-90deg);
+
+
+/* Group 258 */
+
+position: absolute;
+width: 170.74px;
+height: 80px;
+left: 787.82px;
+top: 1145px;
+
+
+
+/* Group 255 */
+
+position: absolute;
+width: 152.77px;
+height: 68px;
+left: 805.8px;
+top: 1145px;
+
+
+
+/* 이용약관 */
+
+position: absolute;
+width: 73.89px;
+height: 24px;
+left: 805.8px;
+bottom: 164px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 20px;
+line-height: 24px;
+text-align: center;
+
+color: #FFFFFF;
+
+
+
+/* 개인정보 처리방침 */
+
+position: absolute;
+width: 152.77px;
+height: 24px;
+left: 805.8px;
+bottom: 120px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 20px;
+line-height: 24px;
+text-align: center;
+
+color: #FFFFFF;
+
+
+
+/* Line 11 */
+
+position: absolute;
+width: 80px;
+height: 0px;
+left: 787.82px;
+bottom: 108px;
+
+border: 1px solid #FFFFFF;
+transform: rotate(-90deg);
+
+
+/* 3dicons */
+
+position: absolute;
+width: 60.91px;
+height: 105px;
+left: 671.99px;
+bottom: 108px;
+
+background: url(.png);
+
+
+/* Copyright © 2024 모행 - All rights reserved. */
+
+position: absolute;
+width: 432px;
+height: 24px;
+left: calc(50% - 432px/2 + 7.5px);
+top: 1274px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 20px;
+line-height: 24px;
+
+color: #FFFFFF;
+
+
+
+/* Moheng */
+
+position: absolute;
+width: 95px;
+height: 61px;
+left: 655px;
+top: calc(50% - 61px/2 + 577px);
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 20px;
+line-height: 24px;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #FFFFFF;
+
