@@ -1,0 +1,16 @@
+.header {
+    background-color: #C493FF;
+    color: white;
+}
+
+.logo {
+    font-size: xx-large;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.logoimg {
+    height:70px;
+    width: 100px
+}
