@@ -34,7 +34,6 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	runtimeOnly 'com.h2database:h2'
@@ -69,15 +68,9 @@ jacoco {
 
 jacocoTestReport {
 	reports {
-		xml {
-			enabled true
-		}
-		csv {
-			enabled true
-		}
-		html {
-			enabled true
-		}
+		xml.required.set(true)
+		csv.required.set(true)
+		html.required.set(true)
 
 		xml.destination file(project.layout.buildDirectory.dir("jacoco/index.xml")) as File
 		csv.destination file(project.layout.buildDirectory.dir("jacoco/index.csv")) as File

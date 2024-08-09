@@ -59,8 +59,6 @@ public class KakaoOAuthClient implements OAuthClient {
         final Map<String, Boolean> queryParam = new HashMap<>();
         queryParam.put("secure_resource", Boolean.TRUE);
 
-        System.out.println("============2========");
-
         final ResponseEntity<KakaoOAuthMember> kakaoOAuthMember = restTemplate.exchange(
                 userUri,
                 HttpMethod.GET,
@@ -68,10 +66,6 @@ public class KakaoOAuthClient implements OAuthClient {
                 KakaoOAuthMember.class,
                 queryParam
         );
-
-        System.out.println("1=====================1");
-        System.out.println(kakaoOAuthMember.getBody().getEmail());
-        System.out.println(kakaoOAuthMember.getBody().getSocialLoginId());
 
         if(kakaoOAuthMember.getStatusCode().is2xxSuccessful()) {
             return kakaoOAuthMember.getBody();
