@@ -78,7 +78,10 @@ public class MemberService {
         final Member member = memberRepository.findById(memberId)
                         .orElseThrow(() -> new NoExistMemberException("존재하지 않는 회원입니다."));
 
-        final List<String> liveTypeNames = request.getLiveTypeName();
+        saveMemberLiveInformation(request.getLiveTypeName(), member);
+    }
+
+    private void saveMemberLiveInformation(List<String> liveTypeNames, Member member) {
         for(String liveTypeName : liveTypeNames) {
             LiveInformation liveInformation = liveInformationRepository.findByName(liveTypeName);
             MemberLiveInformation memberLiveInformation = new MemberLiveInformation(liveInformation, member);
