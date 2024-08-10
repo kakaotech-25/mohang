@@ -1,9 +1,11 @@
 import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
+from model.interface.controllers.model_controller import router as model_router
 
 app = FastAPI()
 
+app.include_router(model_router)
 # 유저가 방문한 여행지
 class Visited(BaseModel):
     pass
