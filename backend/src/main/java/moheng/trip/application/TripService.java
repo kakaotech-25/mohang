@@ -13,6 +13,12 @@ public class TripService {
         this.tripRepository = tripRepository;
     }
 
+    public Trip findByContentId(final Long contentId) {
+        final Trip trip = tripRepository.findByContentId(contentId)
+                .orElseThrow(NoExistTripException::new);
+        return trip;
+    }
+
     public Trip findById(final Long tripId) {
         final Trip trip = tripRepository.findById(tripId)
                 .orElseThrow(NoExistTripException::new);
