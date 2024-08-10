@@ -4,6 +4,7 @@ import moheng.auth.dto.Accessor;
 import moheng.auth.presentation.authentication.Authentication;
 import moheng.member.application.MemberService;
 import moheng.member.dto.request.CheckDuplicateNicknameRequest;
+import moheng.member.dto.request.SignUpLiveInfoRequest;
 import moheng.member.dto.request.SignUpProfileRequest;
 import moheng.member.dto.request.UpdateProfileRequest;
 import moheng.member.dto.response.CheckDuplicateNicknameResponse;
@@ -30,6 +31,13 @@ public class MemberController {
     public ResponseEntity<Void> signupProfile(@Authentication final Accessor accessor,
                                               @RequestBody final SignUpProfileRequest signUpProfileRequest) {
         memberService.signUpByProfile(accessor.getId(), signUpProfileRequest);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/signup/liveinfo")
+    private ResponseEntity<Void> signupLiveInfo(@Authentication final Accessor accessor,
+                                                @RequestBody final SignUpLiveInfoRequest signUpLiveInfoRequest) {
+        memberService.signUpByLiveInfo(accessor.getId(), signUpLiveInfoRequest);
         return ResponseEntity.noContent().build();
     }
 
