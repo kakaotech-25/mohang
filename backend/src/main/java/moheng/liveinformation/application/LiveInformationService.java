@@ -2,6 +2,7 @@ package moheng.liveinformation.application;
 
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.domain.LiveInformationRepository;
+import moheng.liveinformation.dto.LiveInformationCreateRequest;
 import moheng.liveinformation.exception.NoExistLiveInformationException;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,11 @@ public class LiveInformationService {
 
     public LiveInformationService(LiveInformationRepository liveInformationRepository) {
         this.liveInformationRepository = liveInformationRepository;
+    }
+
+    public void createLiveInformation(LiveInformationCreateRequest request) {
+        final LiveInformation liveInformation = new LiveInformation(request.getName());
+        liveInformationRepository.save(liveInformation);
     }
 
     public LiveInformation save(LiveInformation liveInformation) {

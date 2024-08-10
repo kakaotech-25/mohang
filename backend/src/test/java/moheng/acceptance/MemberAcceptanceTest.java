@@ -16,9 +16,12 @@ import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
 import moheng.acceptance.fixture.HttpStatus;
 import moheng.auth.dto.AccessTokenResponse;
+import moheng.auth.dto.TokenRequest;
 import moheng.auth.dto.TokenResponse;
+import moheng.liveinformation.dto.LiveInformationCreateRequest;
 import moheng.member.domain.GenderType;
 import moheng.member.dto.request.CheckDuplicateNicknameRequest;
+import moheng.member.dto.request.SignUpLiveInfoRequest;
 import moheng.member.dto.request.SignUpProfileRequest;
 import moheng.member.dto.request.UpdateProfileRequest;
 import moheng.member.dto.response.MemberResponse;
@@ -27,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class MemberAcceptanceTest extends AcceptanceTestConfig {
 
@@ -91,6 +95,45 @@ public class MemberAcceptanceTest extends AcceptanceTestConfig {
 
         // when
         ExtractableResponse<Response> resultResponse = 회원_프로필을_업데이트한다(accessTokenResponse.getAccessToken());
+
+        // then
+        assertAll(() -> {
+            상태코드_204이_반환된다(resultResponse);
+        });
+    }
+
+    @DisplayName("생활정보를 입력하여 회원가입 하면 상태코드 204를 리턴한다.")
+    @Test
+    void 생활정보를_입력하여_회원가입_하면_상태코드_204를_리턴한다() {
+        // given
+        ExtractableResponse<Response> response = 자체_토큰을_생성한다("KAKAO", "authorization-code");
+        AccessTokenResponse accessTokenResponse = response.as(AccessTokenResponse.class);
+
+        ExtractableResponse<Response> liveInfoResponse1 = RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(new LiveInformationCreateRequest("생활정보1"))
+                .when().post("/live/info")
+                .then().log().all()
+                .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())
+                .extract();
+
+        ExtractableResponse<Response> liveInfoResponse2 = RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(new LiveInformationCreateRequest("생활정보2"))
+                .when().post("/live/info")
+                .then().log().all()
+                .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())
+                .extract();
+
+        // when
+        ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .auth().oauth2(accessTokenResponse.getAccessToken())
+                    .body(new SignUpLiveInfoRequest(List.of("생활정보1", "생활정보2")))
+                    .when().post("/member/signup/liveinfo")
+                    .then().log().all()
+                    .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())
+                    .extract();
 
         // then
         assertAll(() -> {
