@@ -25,9 +25,9 @@ public class MemberService {
     private final LiveInformationRepository liveInformationRepository;
     private final MemberLiveInformationService memberLiveInformationService;
 
-    public MemberService(MemberRepository memberRepository,
-                         LiveInformationRepository liveInformationRepository,
-                         MemberLiveInformationService memberLiveInformationService) {
+    public MemberService(final MemberRepository memberRepository,
+                         final LiveInformationRepository liveInformationRepository,
+                         final MemberLiveInformationService memberLiveInformationService) {
         this.memberRepository = memberRepository;
         this.liveInformationRepository = liveInformationRepository;
         this.memberLiveInformationService = memberLiveInformationService;
