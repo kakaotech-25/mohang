@@ -2,6 +2,8 @@ package moheng.member.application;
 
 import moheng.liveinfo.domain.LiveInformation;
 import moheng.liveinfo.domain.LiveInformationRepository;
+import moheng.liveinfo.domain.MemberLiveInformation;
+import moheng.liveinfo.domain.MemberLiveInformationService;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.dto.request.SignUpLiveInfoRequest;
@@ -21,10 +23,14 @@ import java.util.List;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final LiveInformationRepository liveInformationRepository;
+    private final MemberLiveInformationService memberLiveInformationService;
 
-    public MemberService(MemberRepository memberRepository, LiveInformationRepository liveInformationRepository) {
+    public MemberService(MemberRepository memberRepository,
+                         LiveInformationRepository liveInformationRepository,
+                         MemberLiveInformationService memberLiveInformationService) {
         this.memberRepository = memberRepository;
         this.liveInformationRepository = liveInformationRepository;
+        this.memberLiveInformationService = memberLiveInformationService;
     }
 
     public MemberResponse findById(final Long id) {
@@ -75,7 +81,8 @@ public class MemberService {
         final List<String> liveTypeNames = request.getLiveTypeName();
         for(String liveTypeName : liveTypeNames) {
             LiveInformation liveInformation = liveInformationRepository.findByName(liveTypeName);
-
+            MemberLiveInformation memberLiveInformation = new MemberLiveInformation(liveInformation, member);
+            memberLiveInformationService.save(memberLiveInformation);
         }
     }
 

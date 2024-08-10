@@ -18,4 +18,9 @@ public class MemberLiveInformation {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
+
+    public MemberLiveInformation(LiveInformation liveInformation, Member member) {
+        this.liveInformation = liveInformation;
+        this.member = member;
+    }
 }
