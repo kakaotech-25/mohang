@@ -1,9 +1,11 @@
 package moheng.member.application;
 
+import moheng.liveinfo.application.LiveInformationService;
 import moheng.liveinfo.domain.LiveInformation;
 import moheng.liveinfo.domain.LiveInformationRepository;
 import moheng.liveinfo.domain.MemberLiveInformation;
 import moheng.liveinfo.domain.MemberLiveInformationService;
+import moheng.liveinfo.exception.NoExistLiveInformationException;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.dto.request.SignUpLiveInfoRequest;
@@ -23,14 +25,14 @@ import java.util.List;
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
-    private final LiveInformationRepository liveInformationRepository;
+    private final LiveInformationService liveInformationService;
     private final MemberLiveInformationService memberLiveInformationService;
 
     public MemberService(final MemberRepository memberRepository,
-                         final LiveInformationRepository liveInformationRepository,
+                         final LiveInformationService liveInformationService,
                          final MemberLiveInformationService memberLiveInformationService) {
         this.memberRepository = memberRepository;
-        this.liveInformationRepository = liveInformationRepository;
+        this.liveInformationService = liveInformationService;
         this.memberLiveInformationService = memberLiveInformationService;
     }
 
@@ -83,10 +85,10 @@ public class MemberService {
     }
 
     private void saveMemberLiveInformation(List<String> liveTypeNames, Member member) {
-        List<MemberLiveInformation> memberLiveInformationList = new ArrayList<>();
+        final List<MemberLiveInformation> memberLiveInformationList = new ArrayList<>();
 
         for(String liveTypeName : liveTypeNames) {
-            LiveInformation liveInformation = liveInformationRepository.findByName(liveTypeName);
+            final LiveInformation liveInformation = liveInformationService.findByName(liveTypeName);
             memberLiveInformationList.add(new MemberLiveInformation(liveInformation, member));
         }
         memberLiveInformationService.saveAll(memberLiveInformationList);
