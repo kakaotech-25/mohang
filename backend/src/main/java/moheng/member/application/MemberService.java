@@ -1,5 +1,7 @@
 package moheng.member.application;
 
+import moheng.liveinfo.domain.LiveInformation;
+import moheng.liveinfo.domain.LiveInformationRepository;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.dto.request.SignUpLiveInfoRequest;
@@ -12,13 +14,17 @@ import moheng.member.exception.NoExistMemberException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Transactional(readOnly = true)
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final LiveInformationRepository liveInformationRepository;
 
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository, LiveInformationRepository liveInformationRepository) {
         this.memberRepository = memberRepository;
+        this.liveInformationRepository = liveInformationRepository;
     }
 
     public MemberResponse findById(final Long id) {
@@ -65,6 +71,12 @@ public class MemberService {
     public void signUpByLiveInfo(final long memberId, final SignUpLiveInfoRequest request) {
         final Member member = memberRepository.findById(memberId)
                         .orElseThrow(() -> new NoExistMemberException("존재하지 않는 회원입니다."));
+
+        final List<String> liveTypeNames = request.getLiveTypeName();
+        for(String liveTypeName : liveTypeNames) {
+            LiveInformation liveInformation = liveInformationRepository.findByName(liveTypeName);
+
+        }
     }
 
     @Transactional
