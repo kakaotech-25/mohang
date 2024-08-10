@@ -227,6 +227,15 @@ public class MemberControllerTest extends ControllerTestConfig {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(생황정보로_회원가입_요청()))
         ).andDo(print())
-                .andExpect(status().isNoContent());
+                .andDo(document("member/signup/liveinfo",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("liveInfoNames").description("선택한 생활정보 이름 리스트")
+                        ))
+                ).andExpect(status().isNoContent());
     }
 }
