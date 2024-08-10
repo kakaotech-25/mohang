@@ -11,6 +11,7 @@ import moheng.member.domain.GenderType;
 import moheng.member.domain.Member;
 import moheng.member.domain.SocialType;
 import moheng.member.domain.repository.MemberRepository;
+import moheng.member.dto.request.SignUpLiveInfoRequest;
 import moheng.member.dto.request.SignUpProfileRequest;
 import moheng.member.dto.request.UpdateProfileRequest;
 import moheng.member.dto.response.CheckDuplicateNicknameResponse;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @SpringBootTest
 public class MemberServiceTest extends ServiceTestConfig {
@@ -166,5 +168,16 @@ public class MemberServiceTest extends ServiceTestConfig {
         // when, then
         assertThatThrownBy(() -> memberService.updateByProfile(memberId, request))
                 .isInstanceOf(DuplicateNicknameException.class);
+    }
+
+    @DisplayName("존재하지 않는 회원의 생활정보를 추가하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_회원의_생활정보를_추가하면_예외가_발생한다() {
+        // given
+        SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(List.of("생활정보1", "생활정보2"));
+
+        // when, then
+        assertThatThrownBy(() ->memberService.signUpByLiveInfo(-1L, request))
+                .isInstanceOf(NoExistMemberException.class);
     }
 }
