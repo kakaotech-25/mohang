@@ -53,7 +53,9 @@ public class Trip extends BaseEntity {
     }
 
     void validatePlaceName(String placeName) {
-
+        if(placeName.length() < MIN_NAME_LENGTH || placeName.length() > MAX_NAME_LENGTH ) {
+            throw new InvalidTripNameException("여행지 장소명의 길이는 100자 이하, 1자 이상만 허용됩니다.");
+        }
     }
 
     void validateContentId(Long contentId) {
