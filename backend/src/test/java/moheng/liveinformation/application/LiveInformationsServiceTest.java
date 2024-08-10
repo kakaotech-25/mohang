@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import moheng.config.ServiceTestConfig;
 import moheng.config.TestConfig;
 import moheng.liveinformation.domain.LiveInformation;
+import moheng.liveinformation.dto.LiveInformationCreateRequest;
 import moheng.liveinformation.exception.NoExistLiveInformationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,5 +42,13 @@ public class LiveInformationsServiceTest extends ServiceTestConfig {
         // given, when, them
         assertThatThrownBy(() -> liveInformationService.findByName("없는 생활정보"))
                 .isInstanceOf(NoExistLiveInformationException.class);
+    }
+
+    @DisplayName("생활정보를 생성한다.")
+    @Test
+    void 생활정보를_생성한다() {
+        // given, when, then
+        assertDoesNotThrow(() ->
+                liveInformationService.createLiveInformation(new LiveInformationCreateRequest("생활정보1")));
     }
 }
