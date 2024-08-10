@@ -1,9 +1,11 @@
 package moheng.trip.application;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
 import moheng.config.ServiceTestConfig;
 import moheng.trip.domain.Trip;
+import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +24,13 @@ public class TripServiceTest extends ServiceTestConfig {
 
         // when, then
         assertDoesNotThrow(() -> tripService.findById(1L));
+    }
+
+    @DisplayName("여행지 정보가 없으면 예외가 발생한다.")
+    @Test
+    void 여행지_정보가_없으면_예외가_발생한다() {
+        // given, when, then
+        assertThatThrownBy(() -> tripService.findById(-1L)).
+                isInstanceOf(NoExistTripException.class);
     }
 }
