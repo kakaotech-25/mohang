@@ -2,6 +2,7 @@ package moheng.member.application;
 
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
+import moheng.member.dto.request.SignUpLiveInfoRequest;
 import moheng.member.dto.request.SignUpProfileRequest;
 import moheng.member.dto.request.UpdateProfileRequest;
 import moheng.member.dto.response.CheckDuplicateNicknameResponse;
@@ -58,6 +59,12 @@ public class MemberService {
                 request.getGenderType()
         );
         memberRepository.save(updateProfileMember);
+    }
+
+    @Transactional
+    public void signUpByLiveInfo(final long memberId, final SignUpLiveInfoRequest request) {
+        final Member member = memberRepository.findById(memberId)
+                        .orElseThrow(() -> new NoExistMemberException("존재하지 않는 회원입니다."));
     }
 
     @Transactional
