@@ -9,6 +9,7 @@ import moheng.auth.exception.NoExistMemberTokenException;
 import moheng.config.ServiceTestConfig;
 import moheng.liveinformation.application.LiveInformationService;
 import moheng.liveinformation.domain.LiveInformation;
+import moheng.liveinformation.exception.EmptyLiveInformationException;
 import moheng.member.domain.GenderType;
 import moheng.member.domain.Member;
 import moheng.member.domain.SocialType;
@@ -25,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
@@ -199,5 +201,18 @@ public class MemberServiceTest extends ServiceTestConfig {
         // when, then
         assertThatThrownBy(() -> memberService.signUpByLiveInfo(-1L, request))
                 .isInstanceOf(NoExistMemberException.class);
+    }
+
+    @DisplayName("생활정보를 선택하지 않고 비어있다면 예외가 발생한다.")
+    @Test
+    void 생활정보를_선택하지_않고_비어있다면_예외가_발생한다() {
+        // given
+        memberService.save(하온_기존());
+        long memberId = memberService.findByEmail(하온_이메일).getId();
+        SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(new ArrayList<>());
+
+        // when, then
+        assertThatThrownBy(() -> memberService.signUpByLiveInfo(memberId, request))
+                .isInstanceOf(EmptyLiveInformationException.class);
     }
 }

@@ -94,7 +94,7 @@ public class MemberService {
     }
 
     private void validateLiveTypeNames(List<String> liveTypeNames) {
-        if(liveTypeNames != null && !liveTypeNames.isEmpty()) {
+        if(liveTypeNames == null || liveTypeNames.isEmpty()) {
             throw new EmptyLiveInformationException("생활정보를 선택하지 않았습니다.");
         }
     }
