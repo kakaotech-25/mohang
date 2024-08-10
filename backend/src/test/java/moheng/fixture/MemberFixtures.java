@@ -90,6 +90,10 @@ public class MemberFixtures {
         return new SignUpLiveInfoRequest(List.of("생활정보1", "생활정보2"));
     }
 
+    public static SignUpLiveInfoRequest 비어있는_생활정보로_회원가입_요청() {
+        return new SignUpLiveInfoRequest(List.of());
+    }
+
     // 닉네임 중복확인 요청
     public static CheckDuplicateNicknameRequest 닉네임_중복확인_요청() {
         return new CheckDuplicateNicknameRequest("devhaon");
