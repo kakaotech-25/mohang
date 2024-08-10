@@ -55,4 +55,11 @@ public class TripServiceTest extends ServiceTestConfig {
         assertDoesNotThrow(() -> tripService.findByContentId(1000000L));
     }
 
+    @DisplayName("contentId 에 해당하는 여행지 정보가 없으면 예외가 발생한다.")
+    @Test
+    void contentId_에_해당하는여행지_정보가_없으면_예외가_발생한다() {
+        // given, when, then
+        assertThatThrownBy(() -> tripService.findByContentId(-1L)).
+                isInstanceOf(NoExistTripException.class);
+    }
 }
