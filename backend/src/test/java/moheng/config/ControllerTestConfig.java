@@ -7,6 +7,7 @@ import moheng.auth.domain.token.JwtTokenProvider;
 import moheng.auth.domain.token.TokenManager;
 import moheng.auth.presentation.authentication.AuthenticationArgumentResolver;
 import moheng.auth.presentation.authentication.AuthenticationBearerExtractor;
+import moheng.liveinformation.application.LiveInformationService;
 import moheng.member.application.MemberService;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -50,4 +51,7 @@ public abstract class ControllerTestConfig {
 
     @Mock
     protected HttpServletRequest httpServletRequest;
+
+    @MockBean
+    protected LiveInformationService liveInformationService;
 }
