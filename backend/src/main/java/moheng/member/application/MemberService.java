@@ -7,6 +7,7 @@ import moheng.liveinformation.domain.MemberLiveInformationService;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
+import moheng.member.dto.request.SignUpInterestTripsRequest;
 import moheng.member.dto.request.SignUpLiveInfoRequest;
 import moheng.member.dto.request.SignUpProfileRequest;
 import moheng.member.dto.request.UpdateProfileRequest;
@@ -96,6 +97,14 @@ public class MemberService {
     private void validateLiveTypeNames(List<String> liveTypeNames) {
         if(liveTypeNames == null || liveTypeNames.isEmpty()) {
             throw new EmptyLiveInformationException("생활정보를 선택하지 않았습니다.");
+        }
+    }
+
+    @Transactional
+    public void signUpByInterestTrips(SignUpInterestTripsRequest request) {
+        final List<Long> contentIds = request.getContentIds();
+        for(final Long contentId : contentIds) {
+
         }
     }
 
