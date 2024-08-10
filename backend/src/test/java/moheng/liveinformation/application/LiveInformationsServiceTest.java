@@ -1,10 +1,12 @@
 package moheng.liveinformation.application;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import moheng.config.ServiceTestConfig;
 import moheng.config.TestConfig;
 import moheng.liveinformation.domain.LiveInformation;
+import moheng.liveinformation.exception.NoExistLiveInformationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +33,13 @@ public class LiveInformationsServiceTest extends ServiceTestConfig {
 
         // when, then
        assertDoesNotThrow(() -> liveInformationService.findByName(liveInformationName));
+    }
+
+    @DisplayName("생활정보 이름에 매칭되는 생활정보가 없다면 예외가 발생한다.")
+    @Test
+    void 생활정보_이름에_매칭되는_생활정보가_없다면_예외가_발생한다() {
+        // given, when, them
+        assertThatThrownBy(() -> liveInformationService.findByName("없는 생활정보"))
+                .isInstanceOf(NoExistLiveInformationException.class);
     }
 }
