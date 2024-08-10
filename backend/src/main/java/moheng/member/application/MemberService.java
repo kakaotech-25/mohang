@@ -16,6 +16,7 @@ import moheng.member.exception.NoExistMemberException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional(readOnly = true)
@@ -82,11 +83,13 @@ public class MemberService {
     }
 
     private void saveMemberLiveInformation(List<String> liveTypeNames, Member member) {
+        List<MemberLiveInformation> memberLiveInformationList = new ArrayList<>();
+
         for(String liveTypeName : liveTypeNames) {
             LiveInformation liveInformation = liveInformationRepository.findByName(liveTypeName);
-            MemberLiveInformation memberLiveInformation = new MemberLiveInformation(liveInformation, member);
-            memberLiveInformationService.save(memberLiveInformation);
+            memberLiveInformationList.add(new MemberLiveInformation(liveInformation, member));
         }
+        memberLiveInformationService.saveAll(memberLiveInformationList);
     }
 
     @Transactional

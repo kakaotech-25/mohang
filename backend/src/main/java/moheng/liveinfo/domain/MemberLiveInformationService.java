@@ -2,6 +2,8 @@ package moheng.liveinfo.domain;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MemberLiveInformationService {
     private final MemberLiveInformationRepository memberLiveInformationRepository;
@@ -10,7 +12,7 @@ public class MemberLiveInformationService {
         this.memberLiveInformationRepository = memberLiveInformationRepository;
     }
 
-    public void save(MemberLiveInformation memberLiveInformation) {
-        memberLiveInformationRepository.save(memberLiveInformation);
+    public void saveAll(List<MemberLiveInformation> memberLiveInformations) {
+        memberLiveInformationRepository.saveAll(memberLiveInformations);
     }
 }
