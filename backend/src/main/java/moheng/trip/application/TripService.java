@@ -18,4 +18,8 @@ public class TripService {
                 .orElseThrow(NoExistTripException::new);
         return trip;
     }
+
+    public void save(final Trip trip) {
+        tripRepository.save(trip);
+    }
 }
