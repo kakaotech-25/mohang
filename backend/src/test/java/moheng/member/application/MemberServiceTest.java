@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import moheng.auth.exception.NoExistMemberTokenException;
 import moheng.config.ServiceTestConfig;
+import moheng.liveinformation.application.LiveInformationService;
+import moheng.liveinformation.domain.LiveInformation;
 import moheng.member.domain.GenderType;
 import moheng.member.domain.Member;
 import moheng.member.domain.SocialType;
@@ -29,6 +31,9 @@ import java.util.List;
 public class MemberServiceTest extends ServiceTestConfig {
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private LiveInformationService liveInformationService;
 
     @DisplayName("회원을 저장한다.")
     @Test
@@ -170,6 +175,21 @@ public class MemberServiceTest extends ServiceTestConfig {
                 .isInstanceOf(DuplicateNicknameException.class);
     }
 
+    @DisplayName("회원의 생활정보를 저장한다.")
+    @Test
+    void 회원의_생활정보를_저장한다() {
+        // given
+        memberService.save(하온_기존());
+        long memberId = memberService.findByEmail(하온_이메일).getId();
+
+        liveInformationService.save(new LiveInformation("생활정보1"));
+        liveInformationService.save(new LiveInformation("생활정보2"));
+        SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(List.of("생활정보1", "생활정보2"));
+
+        // when, then
+        assertDoesNotThrow(() ->memberService.signUpByLiveInfo(memberId, request));
+    }
+
     @DisplayName("존재하지 않는 회원의 생활정보를 추가하면 예외가 발생한다.")
     @Test
     void 존재하지_않는_회원의_생활정보를_추가하면_예외가_발생한다() {
@@ -177,7 +197,7 @@ public class MemberServiceTest extends ServiceTestConfig {
         SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(List.of("생활정보1", "생활정보2"));
 
         // when, then
-        assertThatThrownBy(() ->memberService.signUpByLiveInfo(-1L, request))
+        assertThatThrownBy(() -> memberService.signUpByLiveInfo(-1L, request))
                 .isInstanceOf(NoExistMemberException.class);
     }
 }
