@@ -1,5 +1,6 @@
 package moheng.acceptance;
 
+import static moheng.acceptance.fixture.LiveInfoAcceptenceFixture.*;
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.*;
 import static moheng.acceptance.fixture.HttpStatus.상태코드_200이_반환된다;
 import static moheng.acceptance.fixture.MemberAcceptanceFixture.*;
@@ -109,31 +110,11 @@ public class MemberAcceptanceTest extends AcceptanceTestConfig {
         ExtractableResponse<Response> response = 자체_토큰을_생성한다("KAKAO", "authorization-code");
         AccessTokenResponse accessTokenResponse = response.as(AccessTokenResponse.class);
 
-        ExtractableResponse<Response> liveInfoResponse1 = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(new LiveInformationCreateRequest("생활정보1"))
-                .when().post("/live/info")
-                .then().log().all()
-                .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())
-                .extract();
-
-        ExtractableResponse<Response> liveInfoResponse2 = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(new LiveInformationCreateRequest("생활정보2"))
-                .when().post("/live/info")
-                .then().log().all()
-                .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())
-                .extract();
+        생활정보를_생성한다("생활정보1");
+        생활정보를_생성한다("생활정보2");
 
         // when
-        ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()
-                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .auth().oauth2(accessTokenResponse.getAccessToken())
-                    .body(new SignUpLiveInfoRequest(List.of("생활정보1", "생활정보2")))
-                    .when().post("/member/signup/liveinfo")
-                    .then().log().all()
-                    .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())
-                    .extract();
+        ExtractableResponse<Response> resultResponse = 생활정보로_회원가입_한다(accessTokenResponse);
 
         // then
         assertAll(() -> {
