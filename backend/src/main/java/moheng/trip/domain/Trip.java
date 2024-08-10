@@ -38,7 +38,6 @@ public class Trip extends BaseEntity {
         validateName(name);
         validatePlaceName(placeName);
         validateDescription(description);
-        validateTripImageUrl(tripImageUrl);
         this.name = name;
         this.placeName = placeName;
         this.contentId = contentId;
@@ -62,10 +61,6 @@ public class Trip extends BaseEntity {
         if(description.isEmpty() || description == null) {
             throw new InvalidTripDescriptionException("여행지 설명은 비어있을 수 없습니다.");
         }
-    }
-
-    void validateTripImageUrl(String tripImageUrl) {
-
     }
 
     public String getName() {

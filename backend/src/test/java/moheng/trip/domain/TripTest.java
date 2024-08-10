@@ -53,4 +53,6 @@ public class TripTest {
                 "https://lotte-world-image.png"))
                 .isInstanceOf(InvalidTripDescriptionException.class);
     }
+
+
 }
