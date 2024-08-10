@@ -4,11 +4,13 @@ import moheng.member.domain.GenderType;
 import moheng.member.domain.Member;
 import moheng.member.domain.SocialType;
 import moheng.member.dto.request.CheckDuplicateNicknameRequest;
+import moheng.member.dto.request.SignUpLiveInfoRequest;
 import moheng.member.dto.request.SignUpProfileRequest;
 import moheng.member.dto.request.UpdateProfileRequest;
 import moheng.member.dto.response.MemberResponse;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class MemberFixtures {
     // memberId
@@ -82,6 +84,10 @@ public class MemberFixtures {
     // 회원가입 요청
     public static SignUpProfileRequest 프로필_정보로_회원가입_요청() {
         return new SignUpProfileRequest("devhaon", LocalDate.of(1999, 9, 20), GenderType.MEN, "https://profile-image.com");
+    }
+
+    public static SignUpLiveInfoRequest 생황정보로_회원가입_요청() {
+        return new SignUpLiveInfoRequest(List.of("생활정보1", "생활정보2"));
     }
 
     // 닉네임 중복확인 요청

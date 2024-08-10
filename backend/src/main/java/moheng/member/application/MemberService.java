@@ -79,7 +79,7 @@ public class MemberService {
         final Member member = memberRepository.findById(memberId)
                         .orElseThrow(() -> new NoExistMemberException("존재하지 않는 회원입니다."));
 
-        saveMemberLiveInformation(request.getLiveTypeName(), member);
+        saveMemberLiveInformation(request.getLiveInfoNames(), member);
     }
 
     private void saveMemberLiveInformation(List<String> liveTypeNames, Member member) {

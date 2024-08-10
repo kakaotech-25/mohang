@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -210,5 +211,22 @@ public class MemberControllerTest extends ControllerTestConfig {
                                 fieldWithPath("profileImageUrl").description("프로필 이미지 경로")
                         )
                 )).andExpect(status().isUnauthorized());
+    }
+
+    @DisplayName("여행지 추천에 필요한 생활정보를 입력하여 회원가입에 성공하면 상태코드 204을 리턴한다.")
+    @Test
+    void 여행지_추천에_필요한_생활정보를_입력하여_회원가입에_성공하면_상태코드_204를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doNothing().when(memberService).signUpByLiveInfo(anyLong(), any());
+
+        // when, then
+        mockMvc.perform(post("/member/signup/liveinfo")
+                .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(생황정보로_회원가입_요청()))
+        ).andDo(print())
+                .andExpect(status().isNoContent());
     }
 }
