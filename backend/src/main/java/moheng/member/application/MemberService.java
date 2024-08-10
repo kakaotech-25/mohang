@@ -4,6 +4,7 @@ import moheng.liveinformation.application.LiveInformationService;
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.domain.MemberLiveInformation;
 import moheng.liveinformation.domain.MemberLiveInformationService;
+import moheng.liveinformation.exception.EmptyLiveInformationException;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.dto.request.SignUpLiveInfoRequest;
@@ -82,6 +83,7 @@ public class MemberService {
     }
 
     private void saveMemberLiveInformation(List<String> liveTypeNames, Member member) {
+        validateLiveTypeNames(liveTypeNames);
         final List<MemberLiveInformation> memberLiveInformationList = new ArrayList<>();
 
         for(String liveTypeName : liveTypeNames) {
@@ -89,6 +91,12 @@ public class MemberService {
             memberLiveInformationList.add(new MemberLiveInformation(liveInformation, member));
         }
         memberLiveInformationService.saveAll(memberLiveInformationList);
+    }
+
+    private void validateLiveTypeNames(List<String> liveTypeNames) {
+        if(liveTypeNames != null && !liveTypeNames.isEmpty()) {
+            throw new EmptyLiveInformationException("생활정보를 선택하지 않았습니다.");
+        }
     }
 
     @Transactional
