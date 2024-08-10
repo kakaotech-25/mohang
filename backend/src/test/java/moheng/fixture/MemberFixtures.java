@@ -86,7 +86,7 @@ public class MemberFixtures {
         return new SignUpProfileRequest("devhaon", LocalDate.of(1999, 9, 20), GenderType.MEN, "https://profile-image.com");
     }
 
-    public static SignUpLiveInfoRequest 생황정보로_회원가입_요청() {
+    public static SignUpLiveInfoRequest 생활정보로_회원가입_요청() {
         return new SignUpLiveInfoRequest(List.of("생활정보1", "생활정보2"));
     }
 
