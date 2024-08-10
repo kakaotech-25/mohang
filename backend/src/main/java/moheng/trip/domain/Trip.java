@@ -2,6 +2,7 @@ package moheng.trip.domain;
 
 import jakarta.persistence.*;
 import moheng.global.entity.BaseEntity;
+import moheng.trip.exception.InvalidTripDescriptionException;
 import moheng.trip.exception.InvalidTripNameException;
 
 @Table(name = "trip")
@@ -36,7 +37,6 @@ public class Trip extends BaseEntity {
     public Trip(String name, String placeName, Long contentId, String description, String tripImageUrl) {
         validateName(name);
         validatePlaceName(placeName);
-        validateContentId(contentId);
         validateDescription(description);
         validateTripImageUrl(tripImageUrl);
         this.name = name;
@@ -58,12 +58,10 @@ public class Trip extends BaseEntity {
         }
     }
 
-    void validateContentId(Long contentId) {
-
-    }
-
     void validateDescription(String description) {
-
+        if(description.isEmpty() || description == null) {
+            throw new InvalidTripDescriptionException("여행지 설명은 비어있을 수 없습니다.");
+        }
     }
 
     void validateTripImageUrl(String tripImageUrl) {
