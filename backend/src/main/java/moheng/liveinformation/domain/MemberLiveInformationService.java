@@ -1,4 +1,4 @@
-package moheng.liveinfo.domain;
+package moheng.liveinformation.domain;
 
 import org.springframework.stereotype.Service;
 

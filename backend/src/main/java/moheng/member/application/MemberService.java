@@ -1,17 +1,14 @@
 package moheng.member.application;
 
-import moheng.liveinfo.application.LiveInformationService;
-import moheng.liveinfo.domain.LiveInformation;
-import moheng.liveinfo.domain.LiveInformationRepository;
-import moheng.liveinfo.domain.MemberLiveInformation;
-import moheng.liveinfo.domain.MemberLiveInformationService;
-import moheng.liveinfo.exception.NoExistLiveInformationException;
+import moheng.liveinformation.application.LiveInformationService;
+import moheng.liveinformation.domain.LiveInformation;
+import moheng.liveinformation.domain.MemberLiveInformation;
+import moheng.liveinformation.domain.MemberLiveInformationService;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.dto.request.SignUpLiveInfoRequest;
 import moheng.member.dto.request.SignUpProfileRequest;
 import moheng.member.dto.request.UpdateProfileRequest;
-import moheng.member.dto.response.CheckDuplicateNicknameResponse;
 import moheng.member.dto.response.MemberResponse;
 import moheng.member.exception.DuplicateNicknameException;
 import moheng.member.exception.NoExistMemberException;

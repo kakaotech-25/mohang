@@ -1,4 +1,4 @@
-package moheng.liveinfo.domain;
+package moheng.liveinformation.domain;
 
 import jakarta.persistence.*;
 import moheng.member.domain.Member;

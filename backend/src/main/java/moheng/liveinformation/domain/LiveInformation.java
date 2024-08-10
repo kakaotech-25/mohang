@@ -1,4 +1,4 @@
-package moheng.liveinfo.domain;
+package moheng.liveinformation.domain;
 
 import jakarta.persistence.*;
 import moheng.global.entity.BaseEntity;
@@ -13,4 +13,11 @@ public class LiveInformation extends BaseEntity {
 
     @Column(name = "name")
     private String name;
+
+    protected LiveInformation() {
+    }
+
+    public LiveInformation(String name) {
+        this.name = name;
+    }
 }
