@@ -168,6 +168,4 @@ public class MemberService {
     private boolean isAlreadyExistNickname(final String nickname) {
         return memberRepository.existsByNickName(nickname);
     }
-
-
 }

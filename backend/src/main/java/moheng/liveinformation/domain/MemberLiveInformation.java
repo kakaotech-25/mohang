@@ -26,4 +26,16 @@ public class MemberLiveInformation {
         this.liveInformation = liveInformation;
         this.member = member;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public LiveInformation getLiveInformation() {
+        return liveInformation;
+    }
+
+    public Member getMember() {
+        return member;
+    }
 }

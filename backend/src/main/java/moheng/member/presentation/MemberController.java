@@ -54,7 +54,7 @@ public class MemberController {
     }
 
     @PutMapping("/profile")
-    public ResponseEntity<Void> updateProfile(
+    public ResponseEntity<Void> updateMemberProfile(
             @Authentication final Accessor accessor,
             @RequestBody final UpdateProfileRequest request) {
         memberService.updateByProfile(accessor.getId(), request);
