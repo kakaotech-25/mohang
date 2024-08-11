@@ -22,7 +22,7 @@ public class TripController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping
+    @GetMapping("/find/interested")
     public ResponseEntity<FindTripsOrderByVisitedCountDescResponse> findTopTripsOrderByVisitedCount() {
         return ResponseEntity.ok(tripService.findTop30OrderByVisitedCountDesc());
     }

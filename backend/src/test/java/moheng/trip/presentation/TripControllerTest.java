@@ -24,7 +24,7 @@ public class TripControllerTest extends ControllerTestConfig {
     @DisplayName("여행지를 생성하면 상태코드 204를 리턴한다.")
     @Test
     void 여행지를_생성하면_상태코드_204를_리턴한다() throws Exception {
-        // given
+        // given, when, then
         mockMvc.perform(post("/trip")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -32,5 +32,17 @@ public class TripControllerTest extends ControllerTestConfig {
                 )
                 .andDo(print())
                 .andExpect(status().isNoContent());
+    }
+
+    @DisplayName("상위 30개의 여행지들을 방문 수 기준으로 조회한다.")
+    @Test
+    void 상위_30개의_여행지들을_방문_수_기준으로_정렬한다() throws Exception {
+        // given, when, then
+        mockMvc.perform(get("/trip/find/interested")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 }
