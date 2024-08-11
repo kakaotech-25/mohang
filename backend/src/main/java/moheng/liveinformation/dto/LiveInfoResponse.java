@@ -3,15 +3,15 @@ package moheng.liveinformation.dto;
 public class LiveInfoResponse {
     private Long liveInfoId;
     private String name;
-    private boolean isContain;
+    private boolean contain;
 
     private LiveInfoResponse() {
     }
 
-    public LiveInfoResponse(Long liveInfoId, String name, boolean isContain) {
+    public LiveInfoResponse(Long liveInfoId, String name, boolean contain) {
         this.liveInfoId = liveInfoId;
         this.name = name;
-        this.isContain = isContain;
+        this.contain = contain;
     }
 
     public Long getLiveInfoId() {
@@ -22,7 +22,7 @@ public class LiveInfoResponse {
         return name;
     }
 
-    public boolean isContain() {
-        return isContain;
+    public boolean getContain() {
+        return contain;
     }
 }
