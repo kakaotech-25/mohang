@@ -32,14 +32,14 @@ public class MemberController {
     }
 
     @PostMapping("/signup/liveinfo")
-    private ResponseEntity<Void> signupLiveInfo(@Authentication final Accessor accessor,
+    public ResponseEntity<Void> signupLiveInfo(@Authentication final Accessor accessor,
                                                 @RequestBody final SignUpLiveInfoRequest signUpLiveInfoRequest) {
         memberService.signUpByLiveInfo(accessor.getId(), signUpLiveInfoRequest);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/signup/trip")
-    private ResponseEntity<Void> signupInterestTrip(@Authentication final Accessor accessor,
+    public ResponseEntity<Void> signupInterestTrip(@Authentication final Accessor accessor,
                                                     @RequestBody final SignUpInterestTripsRequest signUpInterestTripsRequest) {
         memberService.signUpByInterestTrips(accessor.getId(), signUpInterestTripsRequest);
         return ResponseEntity.noContent().build();

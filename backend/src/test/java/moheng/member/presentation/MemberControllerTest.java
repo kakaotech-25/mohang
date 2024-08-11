@@ -293,9 +293,9 @@ public class MemberControllerTest extends ControllerTestConfig {
                 ).andExpect(status().isNoContent());
     }
 
-    @DisplayName("관심 여행지를 선택을 잘못하여 회원가입에 실패했다면 상태코드 204를 리턴한다.")
+    @DisplayName("관심 여행지를 선택을 잘못하여 회원가입에 실패했다면 상태코드 400을 리턴한다.")
     @Test
-    void 관심_여행지_선택을_잘못하여_회원가입에_실패했다면_상태코드_204를_리턴한다() throws Exception {
+    void 관심_여행지_선택을_잘못하여_회원가입에_실패했다면_상태코드_400를_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
         doThrow(new ShortContentidsSizeException("AI 맞춤 추천을 위해 관심 여행지를 5개 이상, 10개 이하로 선택해야합니다."))
