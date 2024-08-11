@@ -114,9 +114,11 @@ public class MemberService {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoExistMemberException("존재하지 않는 회원입니다."));
 
-        long rank = 0L;
-        final List<Long> contentIds = request.getContentIds();
-        for(final Long contentId : contentIds) {
+        saveRecommendTrip(request.getContentIds(), member, 1L);
+    }
+
+    private void saveRecommendTrip(List<Long> contentIds, Member member, long rank) {
+        for (final Long contentId : contentIds) {
             Trip trip = tripService.findByContentId(contentId);
             recommendTripService.saveByRank(trip, member, rank++);
         }
