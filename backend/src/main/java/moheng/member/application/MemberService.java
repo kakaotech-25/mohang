@@ -94,7 +94,6 @@ public class MemberService {
     public void signUpByLiveInfo(final long memberId, final SignUpLiveInfoRequest request) {
         final Member member = memberRepository.findById(memberId)
                         .orElseThrow(() -> new NoExistMemberException("존재하지 않는 회원입니다."));
-
         saveMemberLiveInformation(request.getLiveInfoNames(), member);
     }
 
