@@ -1,5 +1,6 @@
 package moheng.acceptance;
 
+import static moheng.acceptance.fixture.TripAcceptenceFixture.*;
 import static moheng.acceptance.fixture.LiveInfoAcceptenceFixture.*;
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.*;
 import static moheng.acceptance.fixture.HttpStatus.상태코드_200이_반환된다;
@@ -21,10 +22,7 @@ import moheng.auth.dto.TokenRequest;
 import moheng.auth.dto.TokenResponse;
 import moheng.liveinformation.dto.LiveInformationCreateRequest;
 import moheng.member.domain.GenderType;
-import moheng.member.dto.request.CheckDuplicateNicknameRequest;
-import moheng.member.dto.request.SignUpLiveInfoRequest;
-import moheng.member.dto.request.SignUpProfileRequest;
-import moheng.member.dto.request.UpdateProfileRequest;
+import moheng.member.dto.request.*;
 import moheng.member.dto.response.MemberResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -115,6 +113,35 @@ public class MemberAcceptanceTest extends AcceptanceTestConfig {
 
         // when
         ExtractableResponse<Response> resultResponse = 생활정보로_회원가입_한다(accessTokenResponse);
+
+        // then
+        assertAll(() -> {
+            상태코드_204이_반환된다(resultResponse);
+        });
+    }
+
+    @DisplayName("관심 여행지를 입력하여 회원가입 하면 상태코드 204를 리턴한다.")
+    @Test
+    void 관심_여행지를_입력하여_회원가입_하면_상태코드_204를_리턴한다() {
+        // given
+        ExtractableResponse<Response> response = 자체_토큰을_생성한다("KAKAO", "authorization-code");
+        AccessTokenResponse accessTokenResponse = response.as(AccessTokenResponse.class);
+
+        여행지를_생성한다("롯데월드", 1L);
+        여행지를_생성한다("경복궁", 2L);
+        여행지를_생성한다("덕포진", 3L);
+        여행지를_생성한다("해운대", 4L);
+        여행지를_생성한다("광안리 해수욕장", 5L);
+
+        // when
+        ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessTokenResponse.getAccessToken())
+                .body(new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L)))
+                .when().post("/member/signup/trip")
+                .then().log().all()
+                .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())
+                .extract();
 
         // then
         assertAll(() -> {
