@@ -5,6 +5,7 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.auth.dto.AccessTokenResponse;
 import moheng.auth.dto.TokenRequest;
+import moheng.member.dto.request.SignUpInterestTripsRequest;
 import moheng.member.dto.request.SignUpLiveInfoRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -59,6 +60,17 @@ public class AuthAcceptanceFixture {
                 .auth().oauth2(accessTokenResponse.getAccessToken())
                 .body(new SignUpLiveInfoRequest(List.of("생활정보1", "생활정보2")))
                 .when().post("/member/signup/liveinfo")
+                .then().log().all()
+                .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 관심_여행지로_회원가입_한다(final AccessTokenResponse accessTokenResponse) {
+        return RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessTokenResponse.getAccessToken())
+                .body(new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L)))
+                .when().post("/member/signup/trip")
                 .then().log().all()
                 .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())
                 .extract();

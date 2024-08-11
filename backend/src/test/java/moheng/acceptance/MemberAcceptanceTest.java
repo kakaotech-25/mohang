@@ -134,14 +134,7 @@ public class MemberAcceptanceTest extends AcceptanceTestConfig {
         여행지를_생성한다("광안리 해수욕장", 5L);
 
         // when
-        ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .auth().oauth2(accessTokenResponse.getAccessToken())
-                .body(new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L)))
-                .when().post("/member/signup/trip")
-                .then().log().all()
-                .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())
-                .extract();
+        ExtractableResponse<Response> resultResponse = 관심_여행지로_회원가입_한다(accessTokenResponse);
 
         // then
         assertAll(() -> {
