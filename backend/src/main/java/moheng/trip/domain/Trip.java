@@ -102,4 +102,8 @@ public class Trip extends BaseEntity {
     public String getTripImageUrl() {
         return tripImageUrl;
     }
+
+    public Long getVisitedCount() {
+        return visitedCount;
+    }
 }

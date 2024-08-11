@@ -86,4 +86,25 @@ public class TripServiceTest extends ServiceTestConfig {
         assertThat(tripService.findTop30OrderByVisitedCountDesc()
                 .getFindTripResponses().size()).isEqualTo(3);
     }
+
+    @DisplayName("방문 수 기준 상위 여행지들을 오름차순으로 조회한다.")
+    @Test
+    void 방문_수_기준_상위_여행지들을_오름차순으로_조회한다() {
+        // given
+        tripService.save(new Trip("여행지1", "서울", 1L, "설명", "https://image.png", 0L));
+        tripService.save(new Trip("여행지2", "서울", 2L, "설명", "https://image.png", 2L));
+        tripService.save(new Trip("여행지3", "서울", 3L, "설명", "https://image.png", 1L));
+
+        // when, then
+        assertAll(() -> {
+            assertThat(tripService.findTop30OrderByVisitedCountDesc()
+                    .getFindTripResponses().get(0).getName()).isEqualTo("여행지2");
+
+            assertThat(tripService.findTop30OrderByVisitedCountDesc()
+                    .getFindTripResponses().get(1).getName()).isEqualTo("여행지3");
+
+            assertThat(tripService.findTop30OrderByVisitedCountDesc()
+                    .getFindTripResponses().get(2).getName()).isEqualTo("여행지1");
+        });
+    }
 }
