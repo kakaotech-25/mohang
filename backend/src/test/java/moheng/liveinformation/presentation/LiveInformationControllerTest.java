@@ -41,7 +41,7 @@ public class LiveInformationControllerTest extends ControllerTestConfig {
                 ));
 
         // when, then
-        mockMvc.perform(get("/live/info")
+        mockMvc.perform(get("/live/info/all")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
         )
