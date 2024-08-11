@@ -28,6 +28,25 @@ public class MemberLiveInformationRepositoryTest extends RepositoryTestConfig {
     @Autowired
     private LiveInformationRepository liveInformationRepository;
 
+    @DisplayName("멤버의 생활정보를 찾는다.")
+    @Test
+    void 멤버의_생활정보를_찾는다() {
+        // given
+        memberRepository.save(하온_기존());
+        Member member = memberRepository.findByEmail(하온_이메일).get();
+
+        LiveInformation liveInformation1 = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        LiveInformation liveInformation2 = liveInformationRepository.save(new LiveInformation("생활정보2"));
+
+        MemberLiveInformation memberLiveInformation1 = new MemberLiveInformation(liveInformation1, member);
+        MemberLiveInformation memberLiveInformation2 = new MemberLiveInformation(liveInformation2, member);
+        List<MemberLiveInformation> memberLiveInformations = new ArrayList<>(List.of(memberLiveInformation1, memberLiveInformation2));
+        memberLiveInformationRepository.saveAll(memberLiveInformations);
+
+        // when, then
+        assertThat(memberLiveInformationRepository.findByMemberId(member.getId())).hasSize(2);
+    }
+
     @DisplayName("멤버의 생활정보를 삭제한다.")
     @Test
     void 멤버의_생활정보를_삭제한다() {
