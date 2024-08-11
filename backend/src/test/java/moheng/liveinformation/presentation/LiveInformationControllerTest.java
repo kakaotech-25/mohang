@@ -51,7 +51,6 @@ public class LiveInformationControllerTest extends ControllerTestConfig {
                                 fieldWithPath("liveInformationResponses").description("모든 생활정보의 id 및 이름"),
                                 fieldWithPath("liveInformationResponses[].id").description("생활정보 ID"),
                                 fieldWithPath("liveInformationResponses[].name").description("생활정보 이름")
-
                         )
                 ))
                 .andExpect(status().isOk());
