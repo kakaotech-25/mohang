@@ -1,12 +1,11 @@
 package moheng.trip.presentation;
 
 import moheng.trip.application.TripService;
+import moheng.trip.dto.FindTripsOrderByVisitedCountDescResponse;
 import moheng.trip.dto.TripCreateRequest;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/trip")
 @RestController
@@ -21,5 +20,10 @@ public class TripController {
     public ResponseEntity<Void> createTrip(@RequestBody final TripCreateRequest tripCreateRequest) {
         tripService.createTrip(tripCreateRequest);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<FindTripsOrderByVisitedCountDescResponse> findTopTripsOrderByVisitedCount() {
+        return ResponseEntity.ok(tripService.findTop30OrderByVisitedCountDesc());
     }
 }
