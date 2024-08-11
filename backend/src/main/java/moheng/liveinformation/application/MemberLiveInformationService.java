@@ -42,9 +42,9 @@ public class MemberLiveInformationService {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoExistMemberException("존재하지 않는 회원입니다."));
 
-        List<LiveInformation> liveInformations = liveInformationRepository.findAllById(request.getContentIds());
+        List<LiveInformation> liveInformations = liveInformationRepository.findAllById(request.getLiveInfoIds());
         memberLiveInformationRepository.deleteByMemberId(memberId);
-       saveMemberLiveInformation(liveInformations, member);
+        saveMemberLiveInformation(liveInformations, member);
     }
 
     private void saveMemberLiveInformation(List<LiveInformation> liveInformations, Member member) {

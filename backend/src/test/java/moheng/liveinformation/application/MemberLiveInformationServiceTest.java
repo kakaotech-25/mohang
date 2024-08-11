@@ -9,6 +9,7 @@ import moheng.config.ServiceTestConfig;
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.domain.MemberLiveInformation;
 import moheng.liveinformation.dto.LiveInfoResponse;
+import moheng.liveinformation.dto.UpdateMemberLiveInformationRequest;
 import moheng.member.application.MemberService;
 import moheng.member.domain.Member;
 import org.junit.jupiter.api.DisplayName;
@@ -68,5 +69,20 @@ public class MemberLiveInformationServiceTest extends ServiceTestConfig {
 
         // then
         assertThat(expected).hasSize(3);
+    }
+
+    @DisplayName("멤버의 생활정보를 수정한다.")
+    @Test
+    void 멤버의_생활정보를_수정한다() {
+        // given
+        memberService.save(하온_기존());
+        Member member = memberService.findByEmail(하온_이메일);
+
+        LiveInformation liveInformation1 = liveInformationService.save(new LiveInformation("생활정보1"));
+        LiveInformation liveInformation2 = liveInformationService.save(new LiveInformation("생활정보2"));
+
+        // when, then
+        UpdateMemberLiveInformationRequest request = new UpdateMemberLiveInformationRequest(List.of(1L, 2L));
+        assertDoesNotThrow(() -> memberLiveInformationService.updateMemberLiveInformation(member.getId(), request));
     }
 }
