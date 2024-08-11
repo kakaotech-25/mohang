@@ -73,16 +73,10 @@ public class LiveInformationAcceptenceTest extends AcceptanceTestConfig {
         ExtractableResponse<Response> liveInfoSignUpResponse = 생활정보로_회원가입_한다(accessTokenResponse);
 
         // when
-        ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .auth().oauth2(accessTokenResponse.getAccessToken())
-                .when().get("/live/info/member")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .extract();
-
+        ExtractableResponse<Response> resultResponse = 멤버의_생활정보를_찾는다(accessTokenResponse);
         FindMemberLiveInformationResponses memberLiveInfoResponse = resultResponse.as(FindMemberLiveInformationResponses.class);
 
+        // then
         assertAll(() -> {
             상태코드_200이_반환된다(resultResponse);
             assertThat(memberLiveInfoResponse.getLiveInfoResponses()).hasSize(5);
