@@ -7,10 +7,12 @@ import moheng.liveinformation.domain.MemberLiveInformationRepository;
 import moheng.liveinformation.dto.FindMemberLiveInformationResponses;
 import moheng.liveinformation.dto.LiveInfoResponse;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Transactional(readOnly = true)
 @Service
 public class MemberLiveInformationService {
     private final MemberLiveInformationRepository memberLiveInformationRepository;
