@@ -19,6 +19,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import moheng.config.ControllerTestConfig;
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.dto.FindAllLiveInformationResponse;
+import moheng.liveinformation.dto.FindMemberLiveInformationResponses;
+import moheng.liveinformation.dto.LiveInfoResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -70,5 +72,26 @@ public class LiveInformationControllerTest extends ControllerTestConfig {
                 .content(objectMapper.writeValueAsString(비어있는_생활정보로_회원가입_요청()))
         ).andDo(print())
                 .andExpect(status().isNoContent());
+    }
+
+    @DisplayName("멤버가 선택한 생활정보를 조회하고 상태코드 200을 리턴한다.")
+    @Test
+    void 멤버가_선택한_생활정보를_조회하고_상태코드_200을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberLiveInformationService.findMemberSelectedLiveInformation(anyLong()))
+                .willReturn(new FindMemberLiveInformationResponses( List.of(
+                        new LiveInfoResponse(1L, "생활정보1", true),
+                        new LiveInfoResponse(2L, "생활정보2", true),
+                        new LiveInfoResponse(3L, "생활정보3", false)
+                )));
+
+        // when, then
+        mockMvc.perform(get("/live/info/member")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 }
