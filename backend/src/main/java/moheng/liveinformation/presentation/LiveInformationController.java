@@ -2,7 +2,9 @@ package moheng.liveinformation.presentation;
 
 import moheng.liveinformation.application.LiveInformationService;
 import moheng.liveinformation.domain.LiveInformation;
+import moheng.liveinformation.dto.FindAllLiveInformationResponse;
 import moheng.liveinformation.dto.LiveInformationCreateRequest;
+import moheng.liveinformation.dto.LiveInformationResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,11 @@ public class LiveInformationController {
 
     public LiveInformationController(final LiveInformationService liveInformationService) {
         this.liveInformationService = liveInformationService;
+    }
+
+    @GetMapping
+    public ResponseEntity<FindAllLiveInformationResponse> findAllLiveInformation() {
+        return ResponseEntity.ok(liveInformationService.findAllLiveInformation());
     }
 
     @PostMapping
