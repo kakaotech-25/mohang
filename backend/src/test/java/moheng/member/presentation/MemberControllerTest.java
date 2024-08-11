@@ -274,12 +274,21 @@ public class MemberControllerTest extends ControllerTestConfig {
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
 
         // when, then
-        mockMvc.perform(post("/member/signup/liveinfo")
+        mockMvc.perform(post("/member/signup/trip")
                 .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(관심_여행지로_회원가입_요청()))
         ).andDo(print())
-                .andExpect(status().isNoContent());
+                .andDo(document("member/signup/trip/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("contentIds").description("관심 여행지의 contentId 리스트")
+                        ))
+                ).andExpect(status().isNoContent());
     }
 }
