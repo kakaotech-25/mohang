@@ -48,6 +48,7 @@ public class LiveInformationControllerTest extends ControllerTestConfig {
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(비어있는_생활정보로_회원가입_요청()))
-        ).andDo(print());
+        ).andDo(print())
+                .andExpect(status().isNoContent());
     }
 }
