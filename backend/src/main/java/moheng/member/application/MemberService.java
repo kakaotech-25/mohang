@@ -14,6 +14,9 @@ import moheng.member.dto.request.UpdateProfileRequest;
 import moheng.member.dto.response.MemberResponse;
 import moheng.member.exception.DuplicateNicknameException;
 import moheng.member.exception.NoExistMemberException;
+import moheng.recommendtrip.application.RecommendTripService;
+import moheng.trip.application.TripService;
+import moheng.trip.domain.Trip;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,13 +29,19 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final LiveInformationService liveInformationService;
     private final MemberLiveInformationService memberLiveInformationService;
+    private final TripService tripService;
+    private final RecommendTripService recommendTripService;
 
     public MemberService(final MemberRepository memberRepository,
                          final LiveInformationService liveInformationService,
-                         final MemberLiveInformationService memberLiveInformationService) {
+                         final MemberLiveInformationService memberLiveInformationService,
+                         final TripService tripService,
+                         final RecommendTripService recommendTripService) {
         this.memberRepository = memberRepository;
         this.liveInformationService = liveInformationService;
         this.memberLiveInformationService = memberLiveInformationService;
+        this.tripService = tripService;
+        this.recommendTripService = recommendTripService;
     }
 
     public MemberResponse findById(final Long id) {
@@ -101,6 +110,19 @@ public class MemberService {
     }
 
     @Transactional
+    public void signUpByInterestTrips(long memberId, SignUpInterestTripsRequest request) {
+        final Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoExistMemberException("존재하지 않는 회원입니다."));
+
+        long rank = 0L;
+        final List<Long> contentIds = request.getContentIds();
+        for(final Long contentId : contentIds) {
+            Trip trip = tripService.findByContentId(contentId);
+            recommendTripService.saveByRank(trip, member, rank++);
+        }
+    }
+
+    @Transactional
     public void updateByProfile(final long memberId, final UpdateProfileRequest request) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoExistMemberException("존재하지 않는 회원입니다."));
@@ -127,4 +149,6 @@ public class MemberService {
     private boolean isAlreadyExistNickname(final String nickname) {
         return memberRepository.existsByNickName(nickname);
     }
+
+
 }
