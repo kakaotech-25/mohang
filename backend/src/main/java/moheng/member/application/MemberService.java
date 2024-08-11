@@ -101,14 +101,6 @@ public class MemberService {
     }
 
     @Transactional
-    public void signUpByInterestTrips(SignUpInterestTripsRequest request) {
-        final List<Long> contentIds = request.getContentIds();
-        for(final Long contentId : contentIds) {
-
-        }
-    }
-
-    @Transactional
     public void updateByProfile(final long memberId, final UpdateProfileRequest request) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoExistMemberException("존재하지 않는 회원입니다."));

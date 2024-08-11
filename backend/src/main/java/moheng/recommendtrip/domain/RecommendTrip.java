@@ -1,21 +1,21 @@
-package moheng.recommendtrip.application;
+package moheng.recommendtrip.domain;
 
 import jakarta.persistence.*;
 import moheng.global.entity.BaseEntity;
 import moheng.member.domain.Member;
 import moheng.trip.domain.Trip;
 
-@Table(name = "recent_trip")
+@Table(name = "recommend_trip")
 @Entity
-public class RecentTrip extends BaseEntity {
+public class RecommendTrip extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "recommand_trip_id", nullable = false)
-    private RecommendTrip recommendTrip;
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trip_id", nullable = false)
@@ -27,11 +27,12 @@ public class RecentTrip extends BaseEntity {
     @Column(name = "visited_count")
     private Long visitedCount;
 
-    protected RecentTrip() {
+    protected RecommendTrip() {
     }
 
-    public RecentTrip(Member member, RecommendTrip recommendTrip) {
-        this.member = member;
-        this.recommendTrip = recommendTrip;
+    public RecommendTrip(Trip trip, Long rank) {
+        this.trip = trip;
+        this.rank = rank;
+        visitedCount = 0L;
     }
 }
