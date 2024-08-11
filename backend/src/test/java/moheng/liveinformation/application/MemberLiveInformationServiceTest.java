@@ -85,4 +85,28 @@ public class MemberLiveInformationServiceTest extends ServiceTestConfig {
         UpdateMemberLiveInformationRequest request = new UpdateMemberLiveInformationRequest(List.of(1L, 2L));
         assertDoesNotThrow(() -> memberLiveInformationService.updateMemberLiveInformation(member.getId(), request));
     }
+
+    @DisplayName("생활정보를 수정시 멤버의 기존 생활정보를 모두 삭제하고 새로운 생활정보를 생성한다.")
+    @Test
+    void 생활정보를_수정시_멤버의_기존_생활정보를_모두_삭제하고_새로운_생활정보를_생성한다() {
+        // given
+        memberService.save(하온_기존());
+        Member member = memberService.findByEmail(하온_이메일);
+
+        LiveInformation liveInformation1 = liveInformationService.save(new LiveInformation("생활정보1"));
+        LiveInformation liveInformation2 = liveInformationService.save(new LiveInformation("생활정보2"));
+        LiveInformation liveInformation3 = liveInformationService.save(new LiveInformation("생활정보3"));
+
+        MemberLiveInformation oldMemberLiveInformation1 = new MemberLiveInformation(liveInformation1, member);
+        MemberLiveInformation oldMemberLiveInformation2 = new MemberLiveInformation(liveInformation2, member);
+        List<MemberLiveInformation> oldMemberLiveInformations = new ArrayList<>(List.of(oldMemberLiveInformation1, oldMemberLiveInformation2));
+        memberLiveInformationService.saveAll(oldMemberLiveInformations);
+
+        // when
+        UpdateMemberLiveInformationRequest request = new UpdateMemberLiveInformationRequest(List.of(1L, 2L));
+        memberLiveInformationService.updateMemberLiveInformation(member.getId(), request);
+
+        // then
+         assertThat(memberLiveInformationService.findMemberLiveInfoIds(member.getId())).hasSize(2);
+    }
 }
