@@ -42,7 +42,7 @@ public class TripService {
         tripRepository.save(trip);
     }
 
-    public FindTripsOrderByVisitedCountDescResponse findAll() {
+    public FindTripsOrderByVisitedCountDescResponse findTop30OrderByVisitedCountDesc() {
         return new FindTripsOrderByVisitedCountDescResponse(tripRepository.findTop30ByOrderByVisitedCountDesc());
     }
 }

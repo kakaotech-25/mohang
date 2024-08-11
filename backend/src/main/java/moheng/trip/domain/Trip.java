@@ -49,6 +49,18 @@ public class Trip extends BaseEntity {
         this.visitedCount = 0L;
     }
 
+    public Trip(String name, String placeName, Long contentId, String description, String tripImageUrl, Long visitedCount) {
+        validateName(name);
+        validatePlaceName(placeName);
+        validateDescription(description);
+        this.name = name;
+        this.placeName = placeName;
+        this.contentId = contentId;
+        this.description = description;
+        this.tripImageUrl = tripImageUrl;
+        this.visitedCount = visitedCount;
+    }
+
     void validateName(String name) {
         if(name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH ) {
             throw new InvalidTripNameException("여행지 이름의 길이는 100자 이하, 1자 이상만 허용됩니다.");

@@ -1,5 +1,6 @@
 package moheng.trip.application;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -71,5 +72,18 @@ public class TripServiceTest extends ServiceTestConfig {
         // given, when, then
         assertThatThrownBy(() -> tripService.findByContentId(-1L)).
                 isInstanceOf(NoExistTripException.class);
+    }
+
+    @DisplayName("방문 수 기준 상위 여행지들을 조회한다.")
+    @Test
+    void 방문_수_기준_상위_여행지들을_조회한다() {
+         // given
+        tripService.save(new Trip("여행지1", "서울", 1L, "설명", "https://image.png", 0L));
+        tripService.save(new Trip("여행지2", "서울", 2L, "설명", "https://image.png", 2L));
+        tripService.save(new Trip("여행지3", "서울", 3L, "설명", "https://image.png", 1L));
+
+        // when, then
+        assertThat(tripService.findTop30OrderByVisitedCountDesc()
+                .getFindTripResponses().size()).isEqualTo(3);
     }
 }
