@@ -1,0 +1,43 @@
+.footer {
+    background-color: #C493FF;
+    color: white;
+}
+
+.v-line {
+    border-left : solid;
+    height : 70px;
+}
+
+.maincontents, .content {
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 450px;
+    height: 150px;
+    margin: auto;
+}
+
+.logoimg {
+    height:50px;
+    width: 70px
+}
+
+.maincontents {
+    text-align: center;
+}
+
+.content {
+    margin-left: 5%;
+    text-align: left;
+}
+
+.title div {
+    margin: 10px;
+}
+
+.copyright {
+    text-align: center;
+    font-size: small;
+    padding-bottom: 10px;
+}

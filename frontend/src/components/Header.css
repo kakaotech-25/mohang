@@ -1,0 +1,21 @@
+.header {
+    background-color: #C493FF;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.moheng {
+    font-size: xx-large;
+}
+
+.logoimg {
+    height:70px;
+    width: 100px
+}
+
+.login {
+    margin-left: auto;
+    margin-right: 20px;
+}
