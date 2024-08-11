@@ -31,6 +31,9 @@ public class Trip extends BaseEntity {
     @Column(name = "trip_image_url", nullable = false)
     private String tripImageUrl;
 
+    @Column(name = "visited_count")
+    private Long visitedCount;
+
     protected Trip() {
     }
 
@@ -43,6 +46,7 @@ public class Trip extends BaseEntity {
         this.contentId = contentId;
         this.description = description;
         this.tripImageUrl = tripImageUrl;
+        this.visitedCount = 0L;
     }
 
     void validateName(String name) {

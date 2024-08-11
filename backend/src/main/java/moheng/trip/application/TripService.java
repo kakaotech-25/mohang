@@ -1,6 +1,7 @@
 package moheng.trip.application;
 
 import moheng.trip.domain.Trip;
+import moheng.trip.dto.FindTripsOrderByVisitedCountDescResponse;
 import moheng.trip.dto.TripCreateRequest;
 import moheng.trip.exception.NoExistTripException;
 import moheng.trip.repository.TripRepository;
@@ -39,5 +40,9 @@ public class TripService {
 
     public void save(final Trip trip) {
         tripRepository.save(trip);
+    }
+
+    public FindTripsOrderByVisitedCountDescResponse findAll() {
+        return new FindTripsOrderByVisitedCountDescResponse(tripRepository.findTop30ByOrderByVisitedCountDesc());
     }
 }
