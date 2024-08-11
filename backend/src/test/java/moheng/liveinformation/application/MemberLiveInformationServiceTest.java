@@ -103,10 +103,10 @@ public class MemberLiveInformationServiceTest extends ServiceTestConfig {
         memberLiveInformationService.saveAll(oldMemberLiveInformations);
 
         // when
-        UpdateMemberLiveInformationRequest request = new UpdateMemberLiveInformationRequest(List.of(1L, 2L));
+        UpdateMemberLiveInformationRequest request = new UpdateMemberLiveInformationRequest(List.of(1L, 2L, 3L));
         memberLiveInformationService.updateMemberLiveInformation(member.getId(), request);
 
         // then
-         assertThat(memberLiveInformationService.findMemberLiveInfoIds(member.getId())).hasSize(2);
+         assertThat(memberLiveInformationService.findMemberLiveInfoIds(member.getId())).hasSize(3);
     }
 }
