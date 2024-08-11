@@ -3,16 +3,16 @@ package moheng.liveinformation.dto;
 import java.util.List;
 
 public class UpdateMemberLiveInformationRequest {
-    private List<Long> contentIds;
+    private List<Long> liveInfoIds;
 
     private UpdateMemberLiveInformationRequest() {
     }
 
-    public UpdateMemberLiveInformationRequest(final List<Long> contentIds) {
-        this.contentIds = contentIds;
+    public UpdateMemberLiveInformationRequest(final List<Long> liveInfoIds) {
+        this.liveInfoIds = liveInfoIds;
     }
 
-    public List<Long> getContentIds() {
-        return contentIds;
+    public List<Long> getLiveInfoIds() {
+        return liveInfoIds;
     }
 }
