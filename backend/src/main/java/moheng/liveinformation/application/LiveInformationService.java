@@ -34,6 +34,4 @@ public class LiveInformationService {
         return liveInformationRepository.findByName(liveTypeName)
                 .orElseThrow(() -> new NoExistLiveInformationException("존재하지 않는 생활정보입니다."));
     }
-
-    public
 }
