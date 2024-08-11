@@ -21,6 +21,7 @@ import moheng.member.dto.request.UpdateProfileRequest;
 import moheng.member.dto.response.CheckDuplicateNicknameResponse;
 import moheng.member.exception.DuplicateNicknameException;
 import moheng.member.exception.NoExistMemberException;
+import moheng.member.exception.ShortContentidsSizeException;
 import moheng.trip.application.TripService;
 import moheng.trip.domain.Trip;
 import org.junit.jupiter.api.DisplayName;
@@ -237,5 +238,23 @@ public class MemberServiceTest extends ServiceTestConfig {
 
         // when, then
         assertDoesNotThrow(() -> memberService.signUpByInterestTrips(memberId, request));
+    }
+
+    @DisplayName("회원의 관심 여행지가 5개 미만이라면 예외가 발생한다.")
+    @Test
+    void 회원의_관심_여행지가_5개_미만이라면_예외가_발생한다() {
+        // given
+        memberService.save(하온_기존());
+        long memberId = memberService.findByEmail(하온_이메일).getId();
+
+        for(long contentId=1; contentId<=3; contentId++) {
+            tripService.save(new Trip("롯데월드", "서울특별시 송파구", contentId,
+                    "설명", "https://image.com"));
+        }
+        SignUpInterestTripsRequest request = new SignUpInterestTripsRequest(List.of(1L, 2L, 3L));
+
+        // when, then
+        assertThatThrownBy(() -> memberService.signUpByInterestTrips(memberId, request))
+                .isInstanceOf(ShortContentidsSizeException.class);
     }
 }
