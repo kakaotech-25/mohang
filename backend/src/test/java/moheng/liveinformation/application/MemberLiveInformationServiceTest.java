@@ -1,12 +1,14 @@
 package moheng.liveinformation.application;
 
 import static moheng.fixture.MemberFixtures.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import moheng.config.ServiceTestConfig;
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.domain.MemberLiveInformation;
+import moheng.liveinformation.dto.LiveInfoResponse;
 import moheng.member.application.MemberService;
 import moheng.member.domain.Member;
 import org.junit.jupiter.api.DisplayName;
@@ -61,7 +63,10 @@ public class MemberLiveInformationServiceTest extends ServiceTestConfig {
 
         memberLiveInformationService.saveAll(memberLiveInformations);
 
-        // when, then
-        assertThat(memberLiveInformationService.findMemberSelectedLiveInformation(member.getId()).getLiveInfoResponses()).hasSize(3);
+        // when
+        List<LiveInfoResponse> expected = memberLiveInformationService.findMemberSelectedLiveInformation(member.getId()).getLiveInfoResponses();
+
+        // then
+        assertThat(expected).hasSize(3);
     }
 }
