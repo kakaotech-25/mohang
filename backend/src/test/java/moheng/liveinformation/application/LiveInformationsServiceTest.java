@@ -61,8 +61,8 @@ public class LiveInformationsServiceTest extends ServiceTestConfig {
         liveInformationService.save(new LiveInformation("생활정보2"));
         liveInformationService.save(new LiveInformation("생활정보3"));
 
-
         // when, then
-        assertThat(liveInformationService.findAllLiveInformation()).size().isEqualTo(3);
+        assertThat(liveInformationService.findAllLiveInformation().getLiveInformationResponses())
+                .size().isEqualTo(3);
     }
 }
