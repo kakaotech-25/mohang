@@ -150,4 +150,8 @@ public class Member extends BaseEntity {
     public String getEmail() {
         return email;
     }
+
+    public Authority getAuthority() {
+        return authority;
+    }
 }

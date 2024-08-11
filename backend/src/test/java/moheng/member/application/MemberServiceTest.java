@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
+import moheng.auth.domain.oauth.Authority;
 import moheng.auth.exception.NoExistMemberTokenException;
 import moheng.config.ServiceTestConfig;
 import moheng.liveinformation.application.LiveInformationService;
@@ -274,5 +275,26 @@ public class MemberServiceTest extends ServiceTestConfig {
         // when, then
         assertThatThrownBy(() -> memberService.signUpByInterestTrips(memberId, request))
                 .isInstanceOf(ShortContentidsSizeException.class);
+    }
+
+    @DisplayName("관심 여행지를 입력을 마치면 유저의 권한을 정규 회원으로 승격한다.")
+    @Test
+    void 관심_여행지_입력을_마치면_유저의_권한을_정규_회원으로_승격한다() {
+        // given
+        memberService.save(하온_기존());
+        long memberId = memberService.findByEmail(하온_이메일).getId();
+
+        for(long contentId=1; contentId<=5; contentId++) {
+            tripService.save(new Trip("롯데월드", "서울특별시 송파구", contentId,
+                    "설명", "https://image.com"));
+        }
+        SignUpInterestTripsRequest request = new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L));
+
+        // when
+        memberService.signUpByInterestTrips(memberId, request);
+
+        // then
+        Member member = memberService.findByEmail(하온_이메일);
+        assertThat(member.getAuthority()).isEqualTo(Authority.REGULAR_MEMBER);
     }
 }
