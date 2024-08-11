@@ -31,7 +31,8 @@ public class ControllerAdvice {
             InvalidNicknameFormatException.class,
             NoExistMemberTokenException.class,
             NoExistSocialTypeException.class,
-            EmptyLiveInformationException.class
+            EmptyLiveInformationException.class,
+            ShortContentidsSizeException.class
     })
     public ResponseEntity<ExceptionResponse> handleIBadRequestException(final RuntimeException e) {
         logger.error(e.getMessage(), e);

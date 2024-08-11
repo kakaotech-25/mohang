@@ -11,6 +11,7 @@ import moheng.config.ControllerTestConfig;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
 import moheng.member.dto.response.MemberResponse;
 import moheng.member.exception.DuplicateNicknameException;
+import moheng.member.exception.ShortContentidsSizeException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.MethodParameter;
@@ -269,7 +270,7 @@ public class MemberControllerTest extends ControllerTestConfig {
 
     @DisplayName("관심 여행지를 선택하여 회원가입에 성공했다면 상태코드 204를 리턴한다.")
     @Test
-    void 관심_여행지를_입력하여_회원가입에_성공했다면_상태코드_204를_리턴한다() throws Exception {
+    void 관심_여행지를_선택하여_회원가입에_성공했다면_상태코드_204를_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
 
@@ -290,5 +291,32 @@ public class MemberControllerTest extends ControllerTestConfig {
                                 fieldWithPath("contentIds").description("관심 여행지의 contentId 리스트")
                         ))
                 ).andExpect(status().isNoContent());
+    }
+
+    @DisplayName("관심 여행지를 선택을 잘못하여 회원가입에 실패했다면 상태코드 204를 리턴한다.")
+    @Test
+    void 관심_여행지_선택을_잘못하여_회원가입에_실패했다면_상태코드_204를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new ShortContentidsSizeException("AI 맞춤 추천을 위해 관심 여행지를 5개 이상, 10개 이하로 선택해야합니다."))
+                .when(memberService).signUpByInterestTrips(anyLong(), any());
+
+        // when, then
+        mockMvc.perform(post("/member/signup/trip")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(잘못된_관심_여행지로_회원가입_요청()))
+                ).andDo(print())
+                .andDo(document("member/signup/trip/fail",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("contentIds").description("관심 여행지의 contentId 리스트")
+                        ))
+                ).andExpect(status().isBadRequest());
     }
 }
