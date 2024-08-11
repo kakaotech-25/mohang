@@ -2,7 +2,7 @@ package moheng.acceptance;
 
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.*;
 import static moheng.acceptance.fixture.HttpStatus.*;
-import static moheng.acceptance.fixture.LiveInfoAcceptenceFixture.생활정보를_생성한다;
+import static moheng.acceptance.fixture.LiveInfoAcceptenceFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -41,12 +41,7 @@ public class LiveInformationAcceptenceTest extends AcceptanceTestConfig {
         생활정보를_생성한다("생활정보3");
 
         // when
-        ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .when().get("/live/info")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .extract();
+        ExtractableResponse<Response> response = 모든_생활정보를_찾는다();
 
         FindAllLiveInformationResponse findAllLiveInformationResponse
                 = response.as(FindAllLiveInformationResponse.class);
