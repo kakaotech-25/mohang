@@ -63,7 +63,7 @@ public class MemberLiveInformationService {
         return new FindMemberLiveInformationResponses(findMemberSelectedLiveInfos(allLiveInformation, memberLiveInfoIds));
     }
 
-    private List<Long> findMemberLiveInfoIds(final Long memberId) {
+    public List<Long> findMemberLiveInfoIds(final Long memberId) {
         return memberLiveInformationRepository.findByMemberId(memberId)
                 .stream().map(memberLiveInfo -> memberLiveInfo.getLiveInformation().getId())
                 .collect(Collectors.toList());
