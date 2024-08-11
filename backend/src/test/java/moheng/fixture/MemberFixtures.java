@@ -3,10 +3,7 @@ package moheng.fixture;
 import moheng.member.domain.GenderType;
 import moheng.member.domain.Member;
 import moheng.member.domain.SocialType;
-import moheng.member.dto.request.CheckDuplicateNicknameRequest;
-import moheng.member.dto.request.SignUpLiveInfoRequest;
-import moheng.member.dto.request.SignUpProfileRequest;
-import moheng.member.dto.request.UpdateProfileRequest;
+import moheng.member.dto.request.*;
 import moheng.member.dto.response.MemberResponse;
 
 import java.time.LocalDate;
@@ -92,6 +89,10 @@ public class MemberFixtures {
 
     public static SignUpLiveInfoRequest 비어있는_생활정보로_회원가입_요청() {
         return new SignUpLiveInfoRequest(List.of());
+    }
+
+    public static SignUpInterestTripsRequest 관심_여행지로_회원가입_요청() {
+        return new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L));
     }
 
     // 닉네임 중복확인 요청

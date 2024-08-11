@@ -266,4 +266,20 @@ public class MemberControllerTest extends ControllerTestConfig {
                         ))
                 ).andExpect(status().isBadRequest());
     }
+
+    @DisplayName("관심 여행지를 선택하여 회원가입에 성공했다면 상태코드 204를 리턴한다.")
+    @Test
+    void 관심_여행지를_입력하여_회원가입에_성공했다면_상태코드_204를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+
+        // when, then
+        mockMvc.perform(post("/member/signup/liveinfo")
+                .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(관심_여행지로_회원가입_요청()))
+        ).andDo(print())
+                .andExpect(status().isNoContent());
+    }
 }
