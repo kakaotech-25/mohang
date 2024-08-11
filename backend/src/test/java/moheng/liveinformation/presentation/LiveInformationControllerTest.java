@@ -1,5 +1,11 @@
 package moheng.liveinformation.presentation;
 
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static moheng.fixture.MemberFixtures.비어있는_생활정보로_회원가입_요청;
 import static org.mockito.ArgumentMatchers.*;
@@ -26,13 +32,28 @@ public class LiveInformationControllerTest extends ControllerTestConfig {
         // given
         given(liveInformationService.findAllLiveInformation())
                 .willReturn(new FindAllLiveInformationResponse(
-                        List.of(new LiveInformation("생활정보1"), new LiveInformation("생활정보2"), new LiveInformation("생활정보3"))));
+                        List.of(new LiveInformation(1L, "생활정보1"),
+                                new LiveInformation(2L, "생활정보2"),
+                                new LiveInformation(3L, "생활정보3")
+                        )
+                ));
 
         // when, then
         mockMvc.perform(get("/live/info")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-        ).andDo(print())
+        )
+                .andDo(print())
+                .andDo(document("live/info/findAll",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("liveInformationResponses").description("모든 생활정보의 id 및 이름"),
+                                fieldWithPath("liveInformationResponses[].id").description("생활정보 ID"),
+                                fieldWithPath("liveInformationResponses[].name").description("생활정보 이름")
+
+                        )
+                ))
                 .andExpect(status().isOk());
     }
 

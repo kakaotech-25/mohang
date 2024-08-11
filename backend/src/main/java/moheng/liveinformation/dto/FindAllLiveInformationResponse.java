@@ -12,6 +12,9 @@ public class FindAllLiveInformationResponse {
         this.liveInformationResponses = toResponses(liveInformations);
     }
 
+    private FindAllLiveInformationResponse() {
+    }
+
     private List<LiveInformationResponse> toResponses(final List<LiveInformation> liveInformations) {
         return liveInformations.stream()
                 .map(LiveInformationResponse::new)

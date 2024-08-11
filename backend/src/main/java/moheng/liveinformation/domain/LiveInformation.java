@@ -17,6 +17,11 @@ public class LiveInformation extends BaseEntity {
     protected LiveInformation() {
     }
 
+    public LiveInformation(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public LiveInformation(String name) {
         this.name = name;
     }
