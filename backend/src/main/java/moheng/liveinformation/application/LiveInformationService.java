@@ -6,12 +6,18 @@ import moheng.liveinformation.dto.LiveInformationCreateRequest;
 import moheng.liveinformation.exception.NoExistLiveInformationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class LiveInformationService {
     private final LiveInformationRepository liveInformationRepository;
 
     public LiveInformationService(LiveInformationRepository liveInformationRepository) {
         this.liveInformationRepository = liveInformationRepository;
+    }
+
+    public List<LiveInformation> findAllLiveInformation() {
+        return liveInformationRepository.findAll();
     }
 
     public void createLiveInformation(LiveInformationCreateRequest request) {

@@ -1,5 +1,6 @@
 package moheng.liveinformation.application;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -50,5 +51,18 @@ public class LiveInformationsServiceTest extends ServiceTestConfig {
         // given, when, then
         assertDoesNotThrow(() ->
                 liveInformationService.createLiveInformation(new LiveInformationCreateRequest("생활정보1")));
+    }
+
+    @DisplayName("모든 생활정보를 조회한다.")
+    @Test
+    void 모든_생활정보를_조회한다() {
+        // given
+        liveInformationService.save(new LiveInformation("생활정보1"));
+        liveInformationService.save(new LiveInformation("생활정보2"));
+        liveInformationService.save(new LiveInformation("생활정보3"));
+
+
+        // when, then
+        assertThat(liveInformationService.findAllLiveInformation()).size().isEqualTo(3);
     }
 }

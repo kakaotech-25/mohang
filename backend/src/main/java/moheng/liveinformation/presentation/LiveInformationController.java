@@ -4,10 +4,9 @@ import moheng.liveinformation.application.LiveInformationService;
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.dto.LiveInformationCreateRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/live/info")
 @RestController
