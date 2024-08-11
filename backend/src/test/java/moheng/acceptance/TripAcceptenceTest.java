@@ -10,7 +10,9 @@ import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
+import moheng.liveinformation.dto.FindAllLiveInformationResponse;
 import moheng.member.dto.request.SignUpInterestTripsRequest;
+import moheng.trip.dto.FindTripsOrderByVisitedCountDescResponse;
 import moheng.trip.dto.TripCreateRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,6 +32,25 @@ public class TripAcceptenceTest extends AcceptanceTestConfig {
         // then
         assertAll(() -> {
             상태코드_204이_반환된다(resultResponse);
+        });
+    }
+
+    @DisplayName("상위 여행지들을 방문 수 기준으로 찾고 상태코드 200을 리턴한다.")
+    @Test
+    void 상위_여행지들을_방문_수_기준으로_조회하고_상태코드_200을_리턴한다() {
+        // given, when
+        여행지를_생성한다("롯데월드1", 1L);
+        여행지를_생성한다("롯데월드2", 2L);
+        여행지를_생성한다("롯데월드3", 3L);
+        ExtractableResponse<Response> resultResponse = 상위_30개_여행지를_찾는다();
+
+        FindTripsOrderByVisitedCountDescResponse findAllLiveInformationResponse
+                = resultResponse.as(FindTripsOrderByVisitedCountDescResponse.class);
+
+        // then
+        assertAll(() -> {
+            상태코드_200이_반환된다(resultResponse);
+            assertThat(findAllLiveInformationResponse.getFindTripResponses()).hasSize(3);
         });
     }
 }

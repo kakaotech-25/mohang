@@ -7,6 +7,7 @@ import moheng.auth.dto.AccessTokenResponse;
 import moheng.member.dto.request.SignUpInterestTripsRequest;
 import moheng.member.dto.request.SignUpLiveInfoRequest;
 import moheng.trip.dto.TripCreateRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import java.util.List;
@@ -19,6 +20,15 @@ public class TripAcceptenceFixture {
                 .when().post("/trip")
                 .then().log().all()
                 .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 상위_30개_여행지를_찾는다() {
+        return RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().get("/trip/find/interested")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
                 .extract();
     }
 }

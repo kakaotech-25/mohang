@@ -9,6 +9,9 @@ import java.util.stream.Collectors;
 public class FindTripsOrderByVisitedCountDescResponse {
     private List<FindTripResponse> findTripResponses;
 
+    private FindTripsOrderByVisitedCountDescResponse() {
+    }
+
     public FindTripsOrderByVisitedCountDescResponse(List<Trip> trips) {
         this.findTripResponses = toResponse(trips);
     }
