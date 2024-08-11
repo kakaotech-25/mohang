@@ -1,5 +1,6 @@
 package moheng.member.application;
 
+import moheng.auth.domain.oauth.Authority;
 import moheng.liveinformation.application.LiveInformationService;
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.domain.MemberLiveInformation;
@@ -120,6 +121,7 @@ public class MemberService {
                 .orElseThrow(() -> new NoExistMemberException("존재하지 않는 회원입니다."));
 
         saveRecommendTrip(request.getContentIds(), member, 1L);
+        changeMemberPrivileges(member);
     }
 
     private void saveRecommendTrip(List<Long> contentIds, Member member, long rank) {
@@ -134,6 +136,10 @@ public class MemberService {
         if(contentIds.size() < MIN_RECOMMEND_TRIP_SIZE || contentIds.size() > MAX_RECOMMEND_TRIP_SIZE)  {
             throw new ShortContentidsSizeException("AI 맞춤 추천을 위해 관심 여행지를 5개 이상, 10개 이하로 선택해야합니다.");
         }
+    }
+
+    private void changeMemberPrivileges(Member member) {
+        member.changePrivilege(Authority.REGULAR_MEMBER);
     }
 
     @Transactional
