@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import moheng.auth.domain.oauth.Authority;
 import moheng.member.exception.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -98,5 +99,13 @@ public class MemberTest {
     void 기존_닉네임과_다르다면_참을_리턴한다() {
         // given, when, then
         assertThat(하온_기존().isNicknameChanged("other nickname")).isTrue();
+    }
+
+    @DisplayName("권한을 변경한다.")
+    @Test
+    void 권한을_변경한다() {
+        Member member = new Member(하온_이메일, 하온_소셜_타입_카카오);
+        member.changePrivilege(Authority.REGULAR_MEMBER);
+        assertThat(member.getAuthority()).isEqualTo(Authority.REGULAR_MEMBER);
     }
 }
