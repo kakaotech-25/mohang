@@ -28,6 +28,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 @Service
 public class MemberService {
+    private static final long MAX_RECOMMEND_TRIP_SIZE = 10L;
     private static final long MIN_RECOMMEND_TRIP_SIZE = 5L;
 
     private final MemberRepository memberRepository;
@@ -130,8 +131,8 @@ public class MemberService {
     }
 
     private void validateContentIds(List<Long> contentIds) {
-        if(contentIds.size() < MIN_RECOMMEND_TRIP_SIZE) {
-            throw new ShortContentidsSizeException("AI 맞춤 추천을 위해 관심 여행지를 5개 이상 선택해야합니다.");
+        if(contentIds.size() < MIN_RECOMMEND_TRIP_SIZE || contentIds.size() > MAX_RECOMMEND_TRIP_SIZE)  {
+            throw new ShortContentidsSizeException("AI 맞춤 추천을 위해 관심 여행지를 5개 이상, 10개 이하로 선택해야합니다.");
         }
     }
 
