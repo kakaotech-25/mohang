@@ -3,6 +3,7 @@ package moheng.acceptance.fixture;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import moheng.auth.dto.AccessTokenResponse;
 import moheng.liveinformation.dto.LiveInformationCreateRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,6 +23,16 @@ public class LiveInfoAcceptenceFixture {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when().get("/live/info/all")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 멤버의_생활정보를_찾는다(AccessTokenResponse accessTokenResponse) {
+        return RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessTokenResponse.getAccessToken())
+                .when().get("/live/info/member")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract();
