@@ -14,9 +14,11 @@ import moheng.member.dto.request.UpdateProfileRequest;
 import moheng.member.dto.response.MemberResponse;
 import moheng.member.exception.DuplicateNicknameException;
 import moheng.member.exception.NoExistMemberException;
+import moheng.member.exception.ShortContentidsSizeException;
 import moheng.recommendtrip.application.RecommendTripService;
 import moheng.trip.application.TripService;
 import moheng.trip.domain.Trip;
+import moheng.trip.exception.InvalidTripDescriptionException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +28,8 @@ import java.util.List;
 @Transactional(readOnly = true)
 @Service
 public class MemberService {
+    private static final long MIN_RECOMMEND_TRIP_SIZE = 5L;
+
     private final MemberRepository memberRepository;
     private final LiveInformationService liveInformationService;
     private final MemberLiveInformationService memberLiveInformationService;
@@ -118,9 +122,16 @@ public class MemberService {
     }
 
     private void saveRecommendTrip(List<Long> contentIds, Member member, long rank) {
+        validateContentIds(contentIds);
         for (final Long contentId : contentIds) {
             Trip trip = tripService.findByContentId(contentId);
             recommendTripService.saveByRank(trip, member, rank++);
+        }
+    }
+
+    private void validateContentIds(List<Long> contentIds) {
+        if(contentIds.size() < MIN_RECOMMEND_TRIP_SIZE) {
+            throw new ShortContentidsSizeException("AI 맞춤 추천을 위해 관심 여행지를 5개 이상 선택해야합니다.");
         }
     }
 
