@@ -14,12 +14,15 @@ import moheng.member.domain.GenderType;
 import moheng.member.domain.Member;
 import moheng.member.domain.SocialType;
 import moheng.member.domain.repository.MemberRepository;
+import moheng.member.dto.request.SignUpInterestTripsRequest;
 import moheng.member.dto.request.SignUpLiveInfoRequest;
 import moheng.member.dto.request.SignUpProfileRequest;
 import moheng.member.dto.request.UpdateProfileRequest;
 import moheng.member.dto.response.CheckDuplicateNicknameResponse;
 import moheng.member.exception.DuplicateNicknameException;
 import moheng.member.exception.NoExistMemberException;
+import moheng.trip.application.TripService;
+import moheng.trip.domain.Trip;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +39,9 @@ public class MemberServiceTest extends ServiceTestConfig {
 
     @Autowired
     private LiveInformationService liveInformationService;
+
+    @Autowired
+    private TripService tripService;
 
     @DisplayName("회원을 저장한다.")
     @Test
@@ -214,5 +220,22 @@ public class MemberServiceTest extends ServiceTestConfig {
         // when, then
         assertThatThrownBy(() -> memberService.signUpByLiveInfo(memberId, request))
                 .isInstanceOf(EmptyLiveInformationException.class);
+    }
+
+    @DisplayName("회원의 관심 여행지를 저장한다.")
+    @Test
+    void 회원의_관심_여행지를_저장한다() {
+        // given
+        memberService.save(하온_기존());
+        long memberId = memberService.findByEmail(하온_이메일).getId();
+
+        for(long contentId=1; contentId<=5; contentId++) {
+            tripService.save(new Trip("롯데월드", "서울특별시 송파구", contentId,
+                    "설명", "https://image.com"));
+        }
+        SignUpInterestTripsRequest request = new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L));
+
+        // when, then
+        assertDoesNotThrow(() -> memberService.signUpByInterestTrips(memberId, request));
     }
 }
