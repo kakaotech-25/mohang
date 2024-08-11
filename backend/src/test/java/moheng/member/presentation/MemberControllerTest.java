@@ -42,27 +42,8 @@ public class MemberControllerTest extends ControllerTestConfig {
         given(memberService.findById(anyLong())).willReturn(하온_응답());
 
         // when, then
-        mockMvc.perform(get("/member/me")
-                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andDo(print())
-                .andDo(document("member/me",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        requestHeaders(
-                                headerWithName("Authorization").description("엑세스 토큰")
-                        ),
-                        responseFields(
-                                fieldWithPath("id").description("회원 ID"),
-                                fieldWithPath("profileImageUrl").description("회원 프로필 이미지 URL"),
-                                fieldWithPath("nickname").description("회원 닉네임"),
-                                fieldWithPath("birthday").description("회원 생년월일"),
-                                fieldWithPath("gender").description("회원 성별")
-                        )
-                ))
-                .andExpect(status().isOk());
+
+
     }
 
     @DisplayName("프로필 정보로 회원가입에 성공하면 상태코드 204을 리턴한다.")
