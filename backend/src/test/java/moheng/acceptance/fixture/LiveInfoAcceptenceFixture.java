@@ -21,7 +21,7 @@ public class LiveInfoAcceptenceFixture {
     public static ExtractableResponse<Response> 모든_생활정보를_찾는다() {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .when().get("/live/info")
+                .when().get("/live/info/all")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract();
