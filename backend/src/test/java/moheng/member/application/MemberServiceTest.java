@@ -177,11 +177,12 @@ public class MemberServiceTest extends ServiceTestConfig {
         // given
         memberService.save(하온_기존());
         memberService.save(래오_기존());
+        Member member = memberService.findByEmail(하온_이메일);
 
         UpdateProfileRequest request = new UpdateProfileRequest(래오_닉네임, 하온_생년월일, 하온_성별, 하온_프로필_경로);
 
         // when, then
-        assertThatThrownBy(() -> memberService.updateByProfile(1L, request))
+        assertThatThrownBy(() -> memberService.updateByProfile(member.getId(), request))
                 .isInstanceOf(DuplicateNicknameException.class);
     }
 
@@ -232,6 +233,19 @@ public class MemberServiceTest extends ServiceTestConfig {
         memberService.save(하온_기존());
         long memberId = memberService.findByEmail(하온_이메일).getId();
         SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(new ArrayList<>());
+
+        // when, then
+        assertThatThrownBy(() -> memberService.signUpByLiveInfo(memberId, request))
+                .isInstanceOf(EmptyLiveInformationException.class);
+    }
+
+    @DisplayName("생활정보를 선택하지 않고 null 을 전달하면 예외가 발생한다.")
+    @Test
+    void 생활정보를_선택하지_않고_null을_전달하면_예외가_발생한다() {
+        // given
+        memberService.save(하온_기존());
+        long memberId = memberService.findByEmail(하온_이메일).getId();
+        SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(null);
 
         // when, then
         assertThatThrownBy(() -> memberService.signUpByLiveInfo(memberId, request))
