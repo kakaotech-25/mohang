@@ -2,6 +2,7 @@ package moheng.global.error;
 
 import moheng.auth.exception.*;
 import moheng.global.error.dto.ExceptionResponse;
+import moheng.liveinformation.exception.EmptyLiveInformationException;
 import moheng.member.exception.*;
 import org.apache.coyote.Response;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,9 @@ public class ControllerAdvice {
             InvalidGenderFormatException.class,
             InvalidNicknameFormatException.class,
             NoExistMemberTokenException.class,
-            NoExistSocialTypeException.class
+            NoExistSocialTypeException.class,
+            EmptyLiveInformationException.class,
+            ShortContentidsSizeException.class
     })
     public ResponseEntity<ExceptionResponse> handleIBadRequestException(final RuntimeException e) {
         logger.error(e.getMessage(), e);

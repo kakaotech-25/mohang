@@ -87,6 +87,10 @@ public class Member extends BaseEntity {
         this.genderType = genderType;
     }
 
+    public void changePrivilege(Authority authority) {
+        this.authority = authority;
+    }
+
     private void validateEmail(final String email) {
         Matcher matcher = EMAIL_FORMAT.matcher(email);
         if (!matcher.matches()) {
@@ -145,5 +149,9 @@ public class Member extends BaseEntity {
 
     public String getEmail() {
         return email;
+    }
+
+    public Authority getAuthority() {
+        return authority;
     }
 }

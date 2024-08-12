@@ -1,5 +1,8 @@
 package moheng.auth.application;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static moheng.fixture.JwtTokenFixtures.INVALID_REFRESH_TOKEN;
 import static moheng.fixture.MemberFixtures.MEMBER_ID_1;
 import static moheng.fixture.MemberFixtures.스텁_이메일;
@@ -22,10 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @SpringBootTest(classes = TestConfig.class)
 class AuthServiceTest extends ServiceTestConfig {
