@@ -36,9 +36,4 @@ public class LiveInformationController {
         liveInformationService.createLiveInformation(request);
         return ResponseEntity.noContent().build();
     }
-
-    @GetMapping("/member")
-    public ResponseEntity<FindMemberLiveInformationResponses> findAllLiveInformationByUser(@Authentication Accessor accessor) {
-        return ResponseEntity.ok(memberLiveInformationService.findMemberSelectedLiveInformation(accessor.getId()));
-    }
 }
