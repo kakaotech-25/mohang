@@ -1,6 +1,7 @@
 package moheng.liveinformation.application;
 
 import static moheng.fixture.MemberFixtures.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -12,6 +13,7 @@ import moheng.liveinformation.dto.LiveInfoResponse;
 import moheng.liveinformation.dto.UpdateMemberLiveInformationRequest;
 import moheng.member.application.MemberService;
 import moheng.member.domain.Member;
+import moheng.member.exception.NoExistMemberException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +86,19 @@ public class MemberLiveInformationServiceTest extends ServiceTestConfig {
         // when, then
         UpdateMemberLiveInformationRequest request = new UpdateMemberLiveInformationRequest(List.of(1L, 2L));
         assertDoesNotThrow(() -> memberLiveInformationService.updateMemberLiveInformation(member.getId(), request));
+    }
+
+    @DisplayName("존재하지 않는 멤버의 생활정보 리스트를 수정하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_멤버의_생활정보_리스트를_수정하면_예외가_발생한다() {
+        // given
+        LiveInformation liveInformation1 = liveInformationService.save(new LiveInformation("생활정보1"));
+        LiveInformation liveInformation2 = liveInformationService.save(new LiveInformation("생활정보2"));
+
+        // when, then
+        UpdateMemberLiveInformationRequest request = new UpdateMemberLiveInformationRequest(List.of(1L, 2L));
+        assertThatThrownBy(() -> memberLiveInformationService.updateMemberLiveInformation(-1L, request))
+                .isInstanceOf(NoExistMemberException.class);
     }
 
     @DisplayName("생활정보를 수정시 멤버의 기존 생활정보를 모두 삭제하고 새로운 생활정보를 생성한다.")
