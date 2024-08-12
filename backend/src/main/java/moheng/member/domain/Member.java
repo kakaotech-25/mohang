@@ -56,7 +56,7 @@ public class Member extends BaseEntity {
         this.authority = Authority.INIT_MEMBER;
     }
 
-    public Member(final long id, final String nickName, final LocalDate birthday, final GenderType genderType) {
+    public Member(final long id, final String nickName, final LocalDate birthday, final GenderType genderType, final String profileImageUrl) {
         this.id = id;
         this.nickName = nickName;
         this.birthday = birthday;

@@ -84,7 +84,8 @@ public class MemberService {
                 member.getId(),
                 request.getNickname(),
                 request.getBirthday(),
-                request.getGenderType()
+                request.getGenderType(),
+                request.getProfileImageUrl()
         );
         memberRepository.save(updateProfileMember);
     }
@@ -152,7 +153,8 @@ public class MemberService {
                 memberId,
                 request.getNickname(),
                 request.getBirthday(),
-                request.getGenderType()
+                request.getGenderType(),
+                request.getProfileImageUrl()
         );
         memberRepository.save(updateMember);
     }
