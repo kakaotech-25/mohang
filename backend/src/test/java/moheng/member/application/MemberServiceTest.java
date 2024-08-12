@@ -269,6 +269,21 @@ public class MemberServiceTest extends ServiceTestConfig {
         assertDoesNotThrow(() -> memberService.signUpByInterestTrips(memberId, request));
     }
 
+    @DisplayName("존재하지 않는 회원의 관심 여행지를 저장하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_회원의_관심_여행지를_저장하면_예외가_발생한다() {
+        // given
+        for(long contentId=1; contentId<=5; contentId++) {
+            tripService.save(new Trip("롯데월드", "서울특별시 송파구", contentId,
+                    "설명", "https://image.com"));
+        }
+        SignUpInterestTripsRequest request = new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L));
+
+        // when, then
+        assertThatThrownBy(() -> memberService.signUpByInterestTrips(-1L, request))
+                .isInstanceOf(NoExistMemberException.class);
+    }
+
     @DisplayName("회원의 관심 여행지가 5개 미만이라면 예외가 발생한다.")
     @Test
     void 회원의_관심_여행지가_5개_미만이라면_예외가_발생한다() {
