@@ -1,9 +1,14 @@
 package moheng.auth.presentation.authentication;
 
 import jakarta.servlet.http.HttpServletRequest;
+import moheng.auth.domain.oauth.Authority;
 import moheng.auth.domain.token.JwtTokenProvider;
 import moheng.auth.dto.Accessor;
 import moheng.auth.exception.BadRequestException;
+import moheng.auth.exception.InvalidRegularAuthorityException;
+import moheng.member.domain.Member;
+import moheng.member.domain.repository.MemberRepository;
+import moheng.member.exception.NoExistMemberException;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -15,10 +20,14 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public class AuthenticationArgumentResolver implements HandlerMethodArgumentResolver {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationBearerExtractor authenticationBearerExtractor;
+    private final MemberRepository memberRepository;
 
-    public AuthenticationArgumentResolver(final JwtTokenProvider jwtTokenProvider, final AuthenticationBearerExtractor authenticationBearerExtractor) {
+    public AuthenticationArgumentResolver(final JwtTokenProvider jwtTokenProvider,
+                                          final AuthenticationBearerExtractor authenticationBearerExtractor,
+                                          final MemberRepository memberRepository) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.authenticationBearerExtractor = authenticationBearerExtractor;
+        this.memberRepository = memberRepository;
     }
 
     @Override
@@ -43,6 +52,12 @@ public class AuthenticationArgumentResolver implements HandlerMethodArgumentReso
         jwtTokenProvider.validateToken(accessToken);
         final Long id = jwtTokenProvider.getMemberId(accessToken);
 
+        final Member regularMember = memberRepository.findById(id)
+                .orElseThrow(() -> new NoExistMemberException("존재하지 않는 유저입니다."));
+
+        if(!regularMember.getAuthority().equals(Authority.REGULAR_MEMBER)) {
+            throw new InvalidRegularAuthorityException("정규 회원 기능에 대한 접근 권한이 없습니다.");
+        }
         return new Accessor(id);
     }
 }
