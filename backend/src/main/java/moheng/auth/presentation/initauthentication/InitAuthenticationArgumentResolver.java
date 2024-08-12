@@ -34,7 +34,6 @@ public class InitAuthenticationArgumentResolver implements HandlerMethodArgument
 
     @Override
     public boolean supportsParameter(final MethodParameter parameter) {
-        System.out.println(parameter.hasParameterAnnotation(InitAuthentication.class));
         return parameter.hasParameterAnnotation(InitAuthentication.class);
     }
 
@@ -54,12 +53,13 @@ public class InitAuthenticationArgumentResolver implements HandlerMethodArgument
         jwtTokenProvider.validateToken(accessToken);
         final Long id = jwtTokenProvider.getMemberId(accessToken);
 
-        final Member initMember = memberRepository.findById(id)
-                .orElseThrow(() -> new NoExistMemberException("존재하지 않는 유저입니다."));
+        Member member = memberRepository.findById(id)
+                .orElseThrow(NoExistMemberException::new);
 
-        if(!initMember.getAuthority().equals(Authority.INIT_MEMBER)) {
+        if(!member.getAuthority().equals(Authority.INIT_MEMBER)) {
             throw new InvalidInitAuthorityException("초기 회원가입 기능에 대한 접근 권한이 없습니다.");
         }
+
         return new Accessor(id);
     }
 }

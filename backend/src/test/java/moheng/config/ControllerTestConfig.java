@@ -10,6 +10,7 @@ import moheng.auth.presentation.authentication.AuthenticationBearerExtractor;
 import moheng.liveinformation.application.LiveInformationService;
 import moheng.liveinformation.application.MemberLiveInformationService;
 import moheng.member.application.MemberService;
+import moheng.member.domain.repository.MemberRepository;
 import moheng.trip.application.TripService;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -62,4 +63,7 @@ public abstract class ControllerTestConfig {
 
     @MockBean
     protected MemberLiveInformationService memberLiveInformationService;
+
+    @MockBean
+    protected MemberRepository memberRepository;
 }
