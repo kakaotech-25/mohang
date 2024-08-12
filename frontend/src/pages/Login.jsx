@@ -1,27 +1,20 @@
 import "./Login.css"
-import Left1 from '../assets/login-left-1.png'
-import Left2 from '../assets/login-left-2.png'
-import Left3 from '../assets/login-left-3.png'
-import Right1 from '../assets/login-right-1.png'
-import Right2 from '../assets/login-right-2.png'
-import Right3 from '../assets/login-right-3.png'
+import Left from '../assets/login-left.png'
+import Right from '../assets/login-right.png'
+import KakaoBtn from '../assets/kakao-login.png'
 
 
 const Login = () => {
     return (
       <section className="loginpage">
         <div className="login_left">
-          <img src={Left3} className='left3img' />
-          <img src={Left2} className='left2img' />
-          <img src={Left1} className='left1img' />
+          <img src={Left}/>
         </div>
         <div className="kakaologin">
-
+          <img src={KakaoBtn} />
         </div>
         <div className="login_right">
-          <img src={Right1} className='right1img' />
-          <img src={Right2} className='right2img' />
-          <img src={Right3} className='right3img' />
+          <img src={Right} />
         </div>
 
       </section>
