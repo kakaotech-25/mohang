@@ -7,8 +7,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -42,7 +41,7 @@ public class MemberLiveInfoControllerTest extends ControllerTestConfig {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andDo(document("live/info/member",
+                .andDo(document("live/info/member/find",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         responseFields(
@@ -69,6 +68,13 @@ public class MemberLiveInfoControllerTest extends ControllerTestConfig {
                         .content(objectMapper.writeValueAsString(멤버_생활정보_수정_요청()))
                 )
                 .andDo(print())
+                .andDo(document("live/info/member/update",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("liveInfoIds").description("멤버가 새롭게 수정하고자 선택한 생활정보 id 리스트")
+                        )
+                ))
                 .andExpect(status().isNoContent());
     }
 }
