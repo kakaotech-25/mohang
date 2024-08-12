@@ -30,6 +30,7 @@ public class ControllerAdvice {
             InvalidGenderFormatException.class,
             InvalidNicknameFormatException.class,
             NoExistMemberTokenException.class,
+            NoExistMemberException.class,
             NoExistSocialTypeException.class,
             EmptyLiveInformationException.class,
             ShortContentidsSizeException.class

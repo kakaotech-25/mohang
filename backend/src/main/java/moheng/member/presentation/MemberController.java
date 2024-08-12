@@ -2,6 +2,7 @@ package moheng.member.presentation;
 
 import moheng.auth.dto.Accessor;
 import moheng.auth.presentation.authentication.Authentication;
+import moheng.auth.presentation.initauthentication.InitAuthentication;
 import moheng.member.application.MemberService;
 import moheng.member.dto.request.*;
 import moheng.member.dto.response.CheckDuplicateNicknameResponse;
@@ -19,20 +20,20 @@ public class MemberController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<MemberResponse> getUserInfo(@Authentication final Accessor accessor) {
+    public ResponseEntity<MemberResponse> getUserInfo(@InitAuthentication final Accessor accessor) {
         MemberResponse response = memberService.findById(accessor.getId());
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/signup/profile")
-    public ResponseEntity<Void> signupProfile(@Authentication final Accessor accessor,
+    public ResponseEntity<Void> signupProfile(@InitAuthentication final Accessor accessor,
                                               @RequestBody final SignUpProfileRequest signUpProfileRequest) {
         memberService.signUpByProfile(accessor.getId(), signUpProfileRequest);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/signup/liveinfo")
-    public ResponseEntity<Void> signupLiveInfo(@Authentication final Accessor accessor,
+    public ResponseEntity<Void> signupLiveInfo(@InitAuthentication final Accessor accessor,
                                                 @RequestBody final SignUpLiveInfoRequest signUpLiveInfoRequest) {
         memberService.signUpByLiveInfo(accessor.getId(), signUpLiveInfoRequest);
         return ResponseEntity.noContent().build();
@@ -47,7 +48,7 @@ public class MemberController {
 
     @PostMapping("/check/nickname")
     public ResponseEntity<CheckDuplicateNicknameResponse> checkDuplicateNickname(
-            @Authentication final Accessor accessor,
+            @InitAuthentication final Accessor accessor,
             @RequestBody final CheckDuplicateNicknameRequest request) {
         memberService.checkIsAlreadyExistNickname(request.getNickname());
         return ResponseEntity.ok(new CheckDuplicateNicknameResponse());

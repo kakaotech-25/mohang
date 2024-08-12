@@ -32,7 +32,6 @@ public class AuthenticationArgumentResolver implements HandlerMethodArgumentReso
 
     @Override
     public boolean supportsParameter(final MethodParameter parameter) {
-        System.out.println(parameter.hasParameterAnnotation(Authentication.class));
         return parameter.hasParameterAnnotation(Authentication.class);
     }
 
@@ -51,13 +50,6 @@ public class AuthenticationArgumentResolver implements HandlerMethodArgumentReso
         final String accessToken = authenticationBearerExtractor.extract(request);
         jwtTokenProvider.validateToken(accessToken);
         final Long id = jwtTokenProvider.getMemberId(accessToken);
-
-        final Member regularMember = memberRepository.findById(id)
-                .orElseThrow(() -> new NoExistMemberException("존재하지 않는 유저입니다."));
-
-        if(!regularMember.getAuthority().equals(Authority.REGULAR_MEMBER)) {
-            throw new InvalidRegularAuthorityException("정규 회원 기능에 대한 접근 권한이 없습니다.");
-        }
         return new Accessor(id);
     }
 }

@@ -17,6 +17,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 
+import java.util.Optional;
+
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
@@ -42,8 +44,6 @@ public class MemberControllerTest extends ControllerTestConfig {
         given(memberService.findById(anyLong())).willReturn(하온_응답());
 
         // when, then
-
-
     }
 
     @DisplayName("프로필 정보로 회원가입에 성공하면 상태코드 204을 리턴한다.")
@@ -51,6 +51,7 @@ public class MemberControllerTest extends ControllerTestConfig {
     void 프로필_정보로_회원가입에_성공하면_상태코드_204을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberRepository.findById(1L)).willReturn(Optional.of(하온_신규()));
 
         // when, then
         mockMvc.perform(post("/member/signup/profile")
@@ -81,6 +82,7 @@ public class MemberControllerTest extends ControllerTestConfig {
     void 중복되는_닉네임_없이_사용_가능한_닉네임이라면_메시지와_상태코드_200을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberRepository.findById(1L)).willReturn(Optional.of(하온_신규()));
 
         // when, then
         mockMvc.perform(post("/member/check/nickname")
@@ -110,6 +112,7 @@ public class MemberControllerTest extends ControllerTestConfig {
     void 중복되는_닉네임이_존재한다면_상태코드_401을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberRepository.findById(1L)).willReturn(Optional.of(하온_신규()));
         doThrow(new DuplicateNicknameException("중복되는 닉네임이 존재합니다."))
                 .when(memberService).checkIsAlreadyExistNickname(anyString());
 
@@ -201,6 +204,7 @@ public class MemberControllerTest extends ControllerTestConfig {
     void 여행지_추천에_필요한_생활정보를_입력하여_회원가입에_성공하면_상태코드_204를_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberRepository.findById(1L)).willReturn(Optional.of(하온_신규()));
         doNothing().when(memberService).signUpByLiveInfo(anyLong(), any());
 
         // when, then
@@ -227,6 +231,7 @@ public class MemberControllerTest extends ControllerTestConfig {
     void 전달받은_여행지_추천에_필요한_생활정보_리스트가_비어있거나_유효하지_않다면_상태코드_400을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberRepository.findById(1L)).willReturn(Optional.of(하온_신규()));
         doThrow(new EmptyLiveInformationException("생활정보를 선택하지 않았습니다."))
                 .when(memberService).signUpByLiveInfo(anyLong(), any());
 
