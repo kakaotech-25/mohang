@@ -24,7 +24,7 @@ public class MemberLiveInformationController {
 
     @PutMapping
     public ResponseEntity<FindMemberLiveInformationResponses> updateMemberLiveInformation(@Authentication final Accessor accessor,
-                                                                                          final UpdateMemberLiveInformationRequest request) {
+                                                                                          @RequestBody final UpdateMemberLiveInformationRequest request) {
         memberLiveInformationService.updateMemberLiveInformation(accessor.getId(), request);
         return ResponseEntity.noContent().build();
     }
