@@ -9,6 +9,7 @@ import moheng.auth.dto.TokenRequest;
 import moheng.auth.exception.InvalidTokenException;
 import moheng.config.ControllerTestConfig;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
+import moheng.member.domain.GenderType;
 import moheng.member.dto.response.MemberResponse;
 import moheng.member.exception.DuplicateNicknameException;
 import moheng.member.exception.ShortContentidsSizeException;
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.*;
@@ -44,6 +46,27 @@ public class MemberControllerTest extends ControllerTestConfig {
         given(memberService.findById(anyLong())).willReturn(하온_응답());
 
         // when, then
+        mockMvc.perform(get("/member/me")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andDo(document("member/me",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("고유 id 값"),
+                                fieldWithPath("profileImageUrl").description("프로필 이미지 경로"),
+                                fieldWithPath("nickname").description("성별. 형식: MEN 또는 WOMEN"),
+                                fieldWithPath("birthday").description("생년월일. 형식:yyyy-MM-dd"),
+                                fieldWithPath("genderType").description("프로필 이미지 경로.")
+                        )
+                ))
+                .andExpect(status().isOk());
     }
 
     @DisplayName("프로필 정보로 회원가입에 성공하면 상태코드 204을 리턴한다.")
