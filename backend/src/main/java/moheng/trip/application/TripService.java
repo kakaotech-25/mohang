@@ -6,7 +6,9 @@ import moheng.trip.dto.TripCreateRequest;
 import moheng.trip.exception.NoExistTripException;
 import moheng.trip.repository.TripRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional(readOnly = true)
 @Service
 public class TripService {
     private final TripRepository tripRepository;
@@ -27,6 +29,7 @@ public class TripService {
         return trip;
     }
 
+    @Transactional
     public void createTrip(final TripCreateRequest tripCreateRequest) {
         final Trip trip = new Trip(
                 tripCreateRequest.getName(),
@@ -38,6 +41,7 @@ public class TripService {
         tripRepository.save(trip);
     }
 
+    @Transactional
     public void save(final Trip trip) {
         tripRepository.save(trip);
     }

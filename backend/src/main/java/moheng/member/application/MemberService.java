@@ -4,7 +4,7 @@ import moheng.auth.domain.oauth.Authority;
 import moheng.liveinformation.application.LiveInformationService;
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.domain.MemberLiveInformation;
-import moheng.liveinformation.domain.MemberLiveInformationService;
+import moheng.liveinformation.application.MemberLiveInformationService;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
@@ -19,7 +19,6 @@ import moheng.member.exception.ShortContentidsSizeException;
 import moheng.recommendtrip.application.RecommendTripService;
 import moheng.trip.application.TripService;
 import moheng.trip.domain.Trip;
-import moheng.trip.exception.InvalidTripDescriptionException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -85,7 +84,8 @@ public class MemberService {
                 member.getId(),
                 request.getNickname(),
                 request.getBirthday(),
-                request.getGenderType()
+                request.getGenderType(),
+                request.getProfileImageUrl()
         );
         memberRepository.save(updateProfileMember);
     }
@@ -168,6 +168,4 @@ public class MemberService {
     private boolean isAlreadyExistNickname(final String nickname) {
         return memberRepository.existsByNickName(nickname);
     }
-
-
 }

@@ -6,9 +6,11 @@ import moheng.liveinformation.dto.FindAllLiveInformationResponse;
 import moheng.liveinformation.dto.LiveInformationCreateRequest;
 import moheng.liveinformation.exception.NoExistLiveInformationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional(readOnly = true)
 @Service
 public class LiveInformationService {
     private final LiveInformationRepository liveInformationRepository;
@@ -21,11 +23,13 @@ public class LiveInformationService {
         return new FindAllLiveInformationResponse(liveInformationRepository.findAll());
     }
 
+    @Transactional
     public void createLiveInformation(LiveInformationCreateRequest request) {
         final LiveInformation liveInformation = new LiveInformation(request.getName());
         liveInformationRepository.save(liveInformation);
     }
 
+    @Transactional
     public LiveInformation save(LiveInformation liveInformation) {
         return liveInformationRepository.save(liveInformation);
     }

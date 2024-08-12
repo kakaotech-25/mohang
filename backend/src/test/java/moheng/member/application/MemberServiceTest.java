@@ -171,6 +171,21 @@ public class MemberServiceTest extends ServiceTestConfig {
                 .isInstanceOf(NoExistMemberException.class);
     }
 
+    @DisplayName("기존 닉네임과 다르다면 해당 닉네임을 가진 다른 유저의 닉네임과 중복 여부를 확인한다.")
+    @Test
+    void 기존_닉네임과_다르다면_해당_닉네임을_가진_다른_유저의_닉네임과_중복_여부를_확인한다() {
+        // given
+        memberService.save(하온_기존());
+        memberService.save(래오_기존());
+        Member member = memberService.findByEmail(하온_이메일);
+
+        UpdateProfileRequest request = new UpdateProfileRequest(래오_닉네임, 하온_생년월일, 하온_성별, 하온_프로필_경로);
+
+        // when, then
+        assertThatThrownBy(() -> memberService.updateByProfile(member.getId(), request))
+                .isInstanceOf(DuplicateNicknameException.class);
+    }
+
     @DisplayName("회원 본인을 제외한 다른 회원들중에 닉네임이 중복된다면 예외가 발생한다.")
     @Test
     void 회원_본인을_제외한_다른_회원들중에_닉네임이_중복된다면_예외가_발생한다() {
@@ -224,6 +239,19 @@ public class MemberServiceTest extends ServiceTestConfig {
                 .isInstanceOf(EmptyLiveInformationException.class);
     }
 
+    @DisplayName("생활정보를 선택하지 않고 null 을 전달하면 예외가 발생한다.")
+    @Test
+    void 생활정보를_선택하지_않고_null을_전달하면_예외가_발생한다() {
+        // given
+        memberService.save(하온_기존());
+        long memberId = memberService.findByEmail(하온_이메일).getId();
+        SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(null);
+
+        // when, then
+        assertThatThrownBy(() -> memberService.signUpByLiveInfo(memberId, request))
+                .isInstanceOf(EmptyLiveInformationException.class);
+    }
+
     @DisplayName("회원의 관심 여행지를 저장한다.")
     @Test
     void 회원의_관심_여행지를_저장한다() {
@@ -239,6 +267,21 @@ public class MemberServiceTest extends ServiceTestConfig {
 
         // when, then
         assertDoesNotThrow(() -> memberService.signUpByInterestTrips(memberId, request));
+    }
+
+    @DisplayName("존재하지 않는 회원의 관심 여행지를 저장하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_회원의_관심_여행지를_저장하면_예외가_발생한다() {
+        // given
+        for(long contentId=1; contentId<=5; contentId++) {
+            tripService.save(new Trip("롯데월드", "서울특별시 송파구", contentId,
+                    "설명", "https://image.com"));
+        }
+        SignUpInterestTripsRequest request = new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L));
+
+        // when, then
+        assertThatThrownBy(() -> memberService.signUpByInterestTrips(-1L, request))
+                .isInstanceOf(NoExistMemberException.class);
     }
 
     @DisplayName("회원의 관심 여행지가 5개 미만이라면 예외가 발생한다.")

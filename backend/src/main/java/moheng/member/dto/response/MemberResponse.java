@@ -10,14 +10,14 @@ public class MemberResponse {
     private final String profileImageUrl;
     private final String nickname;
     private final LocalDate birthday;
-    private final GenderType gender;
+    private final GenderType genderType;
 
-    public MemberResponse(final Long id, final String profileImageUrl, final String nickname, final LocalDate birthday, final GenderType gender) {
+    public MemberResponse(final Long id, final String profileImageUrl, final String nickname, final LocalDate birthday, final GenderType genderType) {
         this.id = id;
         this.profileImageUrl = profileImageUrl;
         this.nickname = nickname;
         this.birthday = birthday;
-        this.gender = gender;
+        this.genderType = genderType;
     }
 
     public MemberResponse(final Member member) {
@@ -25,7 +25,7 @@ public class MemberResponse {
         this.profileImageUrl = member.getProfileImageUrl();
         this.nickname = member.getNickName();
         this.birthday = member.getBirthday();
-        this.gender = member.getGenderType();
+        this.genderType = member.getGenderType();
     }
 
     public LocalDate getBirthday() {
@@ -44,7 +44,7 @@ public class MemberResponse {
         return nickname;
     }
 
-    public GenderType getGender() {
-        return gender;
+    public GenderType getGenderType() {
+        return genderType;
     }
 }

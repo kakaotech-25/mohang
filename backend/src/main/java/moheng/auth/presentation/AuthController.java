@@ -58,9 +58,4 @@ public class AuthController {
         authService.removeRefreshToken(new LogoutRequest(refreshToken));
         return ResponseEntity.noContent().build();
     }
-
-    @GetMapping("/validate/token")
-    public ResponseEntity<Void> validateToken(@Authentication final Accessor accessor) {
-        return ResponseEntity.ok().build();
-    }
 }

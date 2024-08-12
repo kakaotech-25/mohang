@@ -1,6 +1,7 @@
 package moheng.liveinformation.domain;
 
 import jakarta.persistence.*;
+import moheng.global.annotation.Generated;
 import moheng.member.domain.Member;
 
 @Table(name = "member_live_information")
@@ -25,5 +26,19 @@ public class MemberLiveInformation {
     public MemberLiveInformation(LiveInformation liveInformation, Member member) {
         this.liveInformation = liveInformation;
         this.member = member;
+    }
+
+    @Generated
+    public Long getId() {
+        return id;
+    }
+
+    public LiveInformation getLiveInformation() {
+        return liveInformation;
+    }
+
+    @Generated
+    public Member getMember() {
+        return member;
     }
 }

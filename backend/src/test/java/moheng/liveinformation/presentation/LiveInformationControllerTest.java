@@ -19,6 +19,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import moheng.config.ControllerTestConfig;
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.dto.FindAllLiveInformationResponse;
+import moheng.liveinformation.dto.FindMemberLiveInformationResponses;
+import moheng.liveinformation.dto.LiveInfoResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -39,7 +41,7 @@ public class LiveInformationControllerTest extends ControllerTestConfig {
                 ));
 
         // when, then
-        mockMvc.perform(get("/live/info")
+        mockMvc.perform(get("/live/info/all")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
         )

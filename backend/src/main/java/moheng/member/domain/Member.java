@@ -2,6 +2,7 @@ package moheng.member.domain;
 
 import jakarta.persistence.*;
 import moheng.auth.domain.oauth.Authority;
+import moheng.global.annotation.Generated;
 import moheng.global.entity.BaseEntity;
 import moheng.member.exception.*;
 
@@ -55,24 +56,18 @@ public class Member extends BaseEntity {
         this.authority = Authority.INIT_MEMBER;
     }
 
-    public Member(final long id, final String nickName, final LocalDate birthday, final GenderType genderType) {
-        this.id = id;
-        this.nickName = nickName;
-        this.birthday = birthday;
-        this.genderType = genderType;
-    }
-
     public Member(final long id, final String nickName, final LocalDate birthday, final GenderType genderType, final String profileImageUrl) {
         this.id = id;
         this.nickName = nickName;
         this.birthday = birthday;
         this.genderType = genderType;
         this.profileImageUrl = profileImageUrl;
+        this.authority = Authority.REGULAR_MEMBER;
     }
 
     public Member(final Long id, final String email, final String nickName,
-                  final String profileImageUrl, final SocialType socialType,
-                  final LocalDate birthday, final GenderType genderType) {
+                 final String profileImageUrl, final SocialType socialType,
+                 final LocalDate birthday, final GenderType genderType) {
         validateNickName(nickName);
         validateGenderType(genderType);
         validateBirthday(birthday);
@@ -85,6 +80,7 @@ public class Member extends BaseEntity {
         this.socialType = socialType;
         this.birthday = birthday;
         this.genderType = genderType;
+        this.authority = Authority.REGULAR_MEMBER;
     }
 
     public void changePrivilege(Authority authority) {
@@ -145,10 +141,6 @@ public class Member extends BaseEntity {
 
     public LocalDate getBirthday() {
         return birthday;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     public Authority getAuthority() {
