@@ -25,8 +25,8 @@ public class InitAuthenticationArgumentResolver implements HandlerMethodArgument
 
     @Override
     public boolean supportsParameter(final MethodParameter parameter) {
-        System.out.println(parameter.hasParameterAnnotation(Authentication.class));
-        return parameter.hasParameterAnnotation(Authentication.class);
+        System.out.println(parameter.hasParameterAnnotation(InitAuthentication.class));
+        return parameter.hasParameterAnnotation(InitAuthentication.class);
     }
 
     @Override
