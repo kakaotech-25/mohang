@@ -171,6 +171,20 @@ public class MemberServiceTest extends ServiceTestConfig {
                 .isInstanceOf(NoExistMemberException.class);
     }
 
+    @DisplayName("기존 닉네임과 다르다면 해당 닉네임을 가진 다른 유저의 닉네임과 중복 여부를 확인한다.")
+    @Test
+    void 기존_닉네임과_다르다면_해당_닉네임을_가진_다른_유저의_닉네임과_중복_여부를_확인한다() {
+        // given
+        memberService.save(하온_기존());
+        memberService.save(래오_기존());
+
+        UpdateProfileRequest request = new UpdateProfileRequest(래오_닉네임, 하온_생년월일, 하온_성별, 하온_프로필_경로);
+
+        // when, then
+        assertThatThrownBy(() -> memberService.updateByProfile(1L, request))
+                .isInstanceOf(DuplicateNicknameException.class);
+    }
+
     @DisplayName("회원 본인을 제외한 다른 회원들중에 닉네임이 중복된다면 예외가 발생한다.")
     @Test
     void 회원_본인을_제외한_다른_회원들중에_닉네임이_중복된다면_예외가_발생한다() {

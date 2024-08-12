@@ -43,13 +43,11 @@ public class KakaoOAuthClient implements OAuthClient {
     }
 
     @Override
-    @Generated
     public boolean isSame(String providerName) {
         return PROVIDER_NAME.equals(providerName);
     }
 
     @Override
-    @Generated
     public OAuthMember getOAuthMember(final String code) {
         final String accessToken = requestKakaoAccessToken(code);
         final HttpHeaders httpHeaders = new HttpHeaders();
@@ -73,7 +71,6 @@ public class KakaoOAuthClient implements OAuthClient {
         throw new InvalidOAuthServiceException("카카오 OAuth 소셜 로그인 서버에 예기치 못한 오류가 발생했습니다.");
     }
 
-    @Generated
     private String requestKakaoAccessToken(String code) {
         final MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         final HttpHeaders httpHeaders = new HttpHeaders();

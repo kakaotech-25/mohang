@@ -2,6 +2,7 @@ package moheng.member.domain;
 
 import jakarta.persistence.*;
 import moheng.auth.domain.oauth.Authority;
+import moheng.global.annotation.Generated;
 import moheng.global.entity.BaseEntity;
 import moheng.member.exception.*;
 
@@ -145,10 +146,6 @@ public class Member extends BaseEntity {
 
     public LocalDate getBirthday() {
         return birthday;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     public Authority getAuthority() {
