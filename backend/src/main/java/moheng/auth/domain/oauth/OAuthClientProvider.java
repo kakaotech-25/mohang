@@ -19,7 +19,6 @@ public class OAuthClientProvider implements OAuthProvider {
     }
 
     @Override
-    @Generated
     public OAuthClient getOauthClient(final String provider) {
         return oAuthClients.stream()
                 .filter(oAuthClient -> oAuthClient.isSame(provider))
@@ -28,7 +27,6 @@ public class OAuthClientProvider implements OAuthProvider {
     }
 
     @Override
-    @Generated
     public OAuthUriProvider getOAuthUriProvider(final String provider) {
         return oAuthUriProviders.stream()
                 .filter(oAuthUriProvider -> oAuthUriProvider.isSame(provider))
@@ -37,7 +35,6 @@ public class OAuthClientProvider implements OAuthProvider {
     }
 
     @Override
-    @Generated
     public SocialType getSocialType(final String provider) {
         return SocialType.findByName(provider);
     }

@@ -23,7 +23,7 @@ public class KakaoUriProvider implements OAuthUriProvider {
     public String generateUri() {
         return authorizationUri + "?"
                 + "client_id=" + clientId
-//                + "&redirect_uri=" + redirectUri
+                + "&redirect_uri=" + redirectUri
                 + "&response_type=" + response_type;
     }
 
