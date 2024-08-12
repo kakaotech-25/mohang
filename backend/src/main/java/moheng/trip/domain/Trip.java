@@ -1,6 +1,7 @@
 package moheng.trip.domain;
 
 import jakarta.persistence.*;
+import moheng.global.annotation.Generated;
 import moheng.global.entity.BaseEntity;
 import moheng.trip.exception.InvalidTripDescriptionException;
 import moheng.trip.exception.InvalidTripNameException;
@@ -87,10 +88,12 @@ public class Trip extends BaseEntity {
         return contentId;
     }
 
+    @Generated
     public Long getId() {
         return id;
     }
 
+    @Generated
     public String getDescription() {
         return description;
     }
@@ -99,10 +102,12 @@ public class Trip extends BaseEntity {
         return placeName;
     }
 
+    @Generated
     public String getTripImageUrl() {
         return tripImageUrl;
     }
 
+    @Generated
     public Long getVisitedCount() {
         return visitedCount;
     }
