@@ -1,0 +1,20 @@
+.loginpage {
+    min-height: 70vh;
+    height:100%;
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+}
+
+.login_left {
+    width: 30%;
+}
+
+.kakaologin {
+    align-self: center;
+    width: 40%;
+}
+
+.login_right {
+    width: 30%;
+}
