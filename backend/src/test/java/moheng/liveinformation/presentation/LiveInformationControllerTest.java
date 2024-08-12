@@ -73,35 +73,4 @@ public class LiveInformationControllerTest extends ControllerTestConfig {
         ).andDo(print())
                 .andExpect(status().isNoContent());
     }
-
-    @DisplayName("멤버가 선택한 생활정보를 조회하고 상태코드 200을 리턴한다.")
-    @Test
-    void 멤버가_선택한_생활정보를_조회하고_상태코드_200을_리턴한다() throws Exception {
-        // given
-        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        given(memberLiveInformationService.findMemberSelectedLiveInformation(anyLong()))
-                .willReturn(new FindMemberLiveInformationResponses( List.of(
-                        new LiveInfoResponse(1L, "생활정보1", true),
-                        new LiveInfoResponse(2L, "생활정보2", true),
-                        new LiveInfoResponse(3L, "생활정보3", false)
-                )));
-
-        // when, then
-        mockMvc.perform(get("/live/info/member")
-                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andDo(document("live/info/member",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        responseFields(
-                                fieldWithPath("liveInfoResponses").description("멤버가 선택한, 선택하지 않은 모든 생활정보"),
-                                fieldWithPath("liveInfoResponses[].liveInfoId").description("생활정보 ID"),
-                                fieldWithPath("liveInfoResponses[].name").description("생활정보 이름"),
-                                fieldWithPath("liveInfoResponses[].contain").description("멤버의 생활정보 보유(선택) 여부")
-                        )
-                ))
-                .andExpect(status().isOk());
-    }
 }
