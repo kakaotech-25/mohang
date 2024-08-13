@@ -2,6 +2,7 @@ package moheng.global.error;
 
 import moheng.auth.exception.*;
 import moheng.global.error.dto.ExceptionResponse;
+import moheng.keyword.exception.InvalidAIServerException;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
 import moheng.member.exception.*;
 import moheng.trip.exception.NoExistTripException;
@@ -46,6 +47,15 @@ public class ControllerAdvice {
 
     @ExceptionHandler(InvalidOAuthServiceException.class)
     public ResponseEntity<ExceptionResponse> handleOAuthException(final RuntimeException e) {
+        logger.error(e.getMessage(), e);
+        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage());
+        return ResponseEntity.internalServerError().body(exceptionResponse);
+    }
+
+    @ExceptionHandler({
+            InvalidAIServerException.class
+    })
+    public ResponseEntity<ExceptionResponse> handleAIServerException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
         ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage());
         return ResponseEntity.internalServerError().body(exceptionResponse);
