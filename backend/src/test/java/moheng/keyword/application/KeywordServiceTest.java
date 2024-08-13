@@ -63,6 +63,17 @@ public class KeywordServiceTest extends ServiceTestConfig {
         assertDoesNotThrow(() -> keywordService.createKeyword(request));
     }
 
+    @DisplayName("키워드 리스트를 찾는다.")
+    @Test
+    void 키워드_리스트를_찾는다() {
+        // given
+        keywordRepository.save(new Keyword("키워드1"));
+        keywordRepository.save(new Keyword("키워드2"));
+
+        // when, then
+        assertThat(keywordService.findNamesByIds(new TripsByKeyWordsRequest(List.of(1L, 2L)))).hasSize(2);
+    }
+
     @DisplayName("키워드와 멤버의 선호 여행지로 여행지를 추천받는다.")
     @Test
     void 키워드와_멤버의_선호_여행지로_여행지를_추천받는다() {
