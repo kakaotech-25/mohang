@@ -2,20 +2,16 @@ package moheng.keyword.service;
 
 import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.KeywordRepository;
-import moheng.keyword.domain.MemberKeyword;
-import moheng.keyword.domain.MemberKeywordRepository;
 import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.dto.TripContentIdsByKeywordResponse;
 import moheng.keyword.exception.TripRecommendByKeywordRequest;
 import moheng.trip.domain.Trip;
-import moheng.trip.dto.FindTripResponse;
-import moheng.trip.dto.FindTripsOrderByVisitedCountDescResponse;
+import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.exception.NoExistTripException;
 import moheng.trip.repository.TripRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,9 +36,9 @@ public class KeywordService {
     }
 
     @Transactional
-    public FindTripsOrderByVisitedCountDescResponse findRecommendTripsByKeywords(final TripRecommendByKeywordRequest request) {
+    public FindTripsResponse findRecommendTripsByKeywords(final TripRecommendByKeywordRequest request) {
         final TripContentIdsByKeywordResponse response = keyFilterModelClient.findRecommendTripContentIdsByKeywords(request);
-        return new FindTripsOrderByVisitedCountDescResponse(findTripsByContentIds(response));
+        return new FindTripsResponse(findTripsByContentIds(response));
     }
 
     private List<Trip> findTripsByContentIds(final TripContentIdsByKeywordResponse contentIdsByKeywordsResponse) {
