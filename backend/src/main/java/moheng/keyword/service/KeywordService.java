@@ -48,7 +48,6 @@ public class KeywordService {
 
     @Transactional
     public FindTripsResponse findRecommendTripsByKeywords(final long memberId, final TripsByKeyWordsRequest request) {
-        final List<RecommendTripResponse> recommendTrips = recommendTripRepository.findVisitedCountAndTripContentIdByMemberId(memberId);
         final List<String> keywords = findNamesByIds(request);
         final TripRecommendByKeywordRequest tripRecommendByKeywordRequest = new TripRecommendByKeywordRequest(keywords, findRecommendTripsInfo(memberId));
         final TripContentIdsByKeywordResponse response = keywordFilterModelClient.findRecommendTripContentIdsByKeywords(tripRecommendByKeywordRequest);
@@ -56,7 +55,7 @@ public class KeywordService {
     }
 
     public Map<Long, Long> findRecommendTripsInfo(Long memberId) {
-        List<RecommendTripResponse> results = recommendTripRepository.findVisitedCountAndTripContentIdByMemberId(memberId);
+        final List<RecommendTripResponse> results = recommendTripRepository.findVisitedCountAndTripContentIdByMemberId(memberId);
         Map<Long, Long> contentIdToVisitedCountMap = results.stream()
                 .collect(Collectors.toMap(RecommendTripResponse::getContentId, RecommendTripResponse::getVisitedCount));
         return contentIdToVisitedCountMap;

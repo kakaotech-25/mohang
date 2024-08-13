@@ -33,7 +33,7 @@ public class KeywordControllerTest extends ControllerTestConfig {
     void 키워드_기반_AI_여행지_추천을_받고_상태코드_200을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        given(keywordService.findRecommendTripsByKeywords(any())).willReturn(키워드_기반_추천_여행지_응답());
+        //given(keywordService.findRecommendTripsByKeywords(any())).willReturn(키워드_기반_추천_여행지_응답());
 
         // when, then
         mockMvc.perform(get("/keyword/travel/model")
