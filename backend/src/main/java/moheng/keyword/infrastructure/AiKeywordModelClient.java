@@ -1,7 +1,10 @@
 package moheng.keyword.infrastructure;
 
+import moheng.auth.domain.oauth.KakaoOAuthMember;
 import moheng.auth.domain.oauth.OAuthAccessToken;
+import moheng.auth.exception.InvalidOAuthServiceException;
 import moheng.keyword.dto.TripContentIdsByKeywordResponse;
+import moheng.keyword.exception.InvalidAIServerException;
 import moheng.keyword.exception.TripRecommendByKeywordRequest;
 import moheng.keyword.service.KeywordFilterModelClient;
 import org.springframework.http.*;
@@ -29,7 +32,10 @@ public class AiKeywordModelClient implements KeywordFilterModelClient {
 
     private TripContentIdsByKeywordResponse requestRecommendTrips(TripRecommendByKeywordRequest request) {
         final ResponseEntity<TripContentIdsByKeywordResponse> contentIds = restTemplate.postForEntity(RECOMMEND_TRIP_LIST_BY_KEYWORD_REQUEST_URL, request, TripContentIdsByKeywordResponse.class);
-        return Optional.ofNullable(contentIds.getBody())
-                .orElseThrow(IllegalArgumentException::new);
+
+        if(contentIds.getStatusCode().is2xxSuccessful()) {
+            return contentIds.getBody();
+        }
+        throw new InvalidAIServerException("AI 서버에 예기치 못한 오류가 발생했습니다.");
     }
 }

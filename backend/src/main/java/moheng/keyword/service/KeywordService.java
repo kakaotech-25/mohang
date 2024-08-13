@@ -54,7 +54,7 @@ public class KeywordService {
         return new FindTripsResponse(findTripsByContentIds(response));
     }
 
-    public Map<Long, Long> findRecommendTripsInfo(Long memberId) {
+    public Map<Long, Long> findRecommendTripsInfo(final Long memberId) {
         final List<RecommendTripResponse> results = recommendTripRepository.findVisitedCountAndTripContentIdByMemberId(memberId);
         Map<Long, Long> contentIdToVisitedCountMap = results.stream()
                 .collect(Collectors.toMap(RecommendTripResponse::getContentId, RecommendTripResponse::getVisitedCount));
