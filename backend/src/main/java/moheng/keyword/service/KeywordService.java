@@ -13,11 +13,13 @@ import moheng.trip.dto.FindTripsOrderByVisitedCountDescResponse;
 import moheng.trip.exception.NoExistTripException;
 import moheng.trip.repository.TripRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Transactional(readOnly = true)
 @Service
 public class KeywordService {
     private final KeywordRepository keywordRepository;
@@ -32,10 +34,12 @@ public class KeywordService {
         this.tripRepository = tripRepository;
     }
 
+    @Transactional
     public void createKeyword(KeywordCreateRequest request) {
         keywordRepository.save(new Keyword(request.getKeyword()));
     }
 
+    @Transactional
     public FindTripsOrderByVisitedCountDescResponse findRecommendTripsByKeywords(final TripRecommendByKeywordRequest request) {
         final TripContentIdsByKeywordResponse response = keyFilterModelClient.findRecommendTripContentIdsByKeywords(request);
         return new FindTripsOrderByVisitedCountDescResponse(findTripsByContentIds(response));
