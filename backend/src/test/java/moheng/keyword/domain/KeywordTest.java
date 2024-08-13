@@ -12,6 +12,12 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 public class KeywordTest {
 
+    @DisplayName("키워드를 생성한다.")
+    @Test
+    void 키워드를_생성한다() {
+        assertDoesNotThrow(() -> new Keyword("키워드"));
+    }
+
     @DisplayName("키워드 이름의 길이가 유효하지 않다면 예외가 발생한다.")
     @ParameterizedTest
     @ValueSource(strings = {
