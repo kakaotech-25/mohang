@@ -1,6 +1,7 @@
-package moheng.auth.domain.oauth;
+package moheng.auth.infrastructure;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import moheng.auth.domain.oauth.OAuthMember;
 import moheng.global.annotation.Generated;
 
 public class KakaoOAuthMember implements OAuthMember {

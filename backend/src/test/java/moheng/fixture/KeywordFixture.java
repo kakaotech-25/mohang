@@ -2,14 +2,10 @@ package moheng.fixture;
 
 import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
-import moheng.keyword.exception.TripRecommendByKeywordRequest;
 import moheng.trip.domain.Trip;
-import moheng.trip.dto.FindTripResponse;
 import moheng.trip.dto.FindTripsResponse;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class KeywordFixture {
     public static KeywordCreateRequest 키워드_생성_요청() {

@@ -6,7 +6,7 @@ import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.dto.RecommendTripResponse;
 import moheng.keyword.dto.TripContentIdsByKeywordResponse;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
-import moheng.keyword.exception.TripRecommendByKeywordRequest;
+import moheng.keyword.dto.TripRecommendByKeywordRequest;
 import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.trip.domain.Trip;
 import moheng.trip.dto.FindTripsResponse;

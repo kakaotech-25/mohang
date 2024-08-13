@@ -2,7 +2,7 @@ package moheng.auth.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import moheng.auth.domain.oauth.KakaoOAuthClient;
+import moheng.auth.infrastructure.KakaoOAuthClient;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,21 +1,12 @@
 package moheng.keyword.presentation;
 
-import moheng.auth.exception.InvalidOAuthServiceException;
 import moheng.config.ControllerTestConfig;
 import moheng.keyword.exception.InvalidAIServerException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
-import org.springframework.restdocs.payload.JsonFieldType;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import static moheng.fixture.AuthFixtures.토큰_생성_요청;
 import static moheng.fixture.KeywordFixture.*;
-import static moheng.fixture.MemberFixtures.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
@@ -26,7 +17,6 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

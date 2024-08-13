@@ -2,7 +2,6 @@ package moheng.acceptance;
 
 
 import static moheng.acceptance.fixture.HttpStatus.상태코드_200이_반환된다;
-import static moheng.acceptance.fixture.MemberAcceptanceFixture.회원_본인의_정보를_조회한다;
 import static moheng.acceptance.fixture.RecommendTripFixture.*;
 import static moheng.acceptance.fixture.TripAcceptenceFixture.*;
 import static moheng.acceptance.fixture.KeywordFixture.*;
@@ -10,19 +9,14 @@ import static moheng.acceptance.fixture.AuthAcceptanceFixture.자체_토큰을_�
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
 import moheng.auth.dto.AccessTokenResponse;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
-import moheng.liveinformation.dto.UpdateMemberLiveInformationRequest;
-import moheng.member.dto.response.MemberResponse;
 import moheng.trip.dto.FindTripsResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 
 import java.util.List;
 

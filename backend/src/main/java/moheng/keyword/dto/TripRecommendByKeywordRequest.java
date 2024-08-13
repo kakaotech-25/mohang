@@ -1,4 +1,4 @@
-package moheng.keyword.exception;
+package moheng.keyword.dto;
 
 import java.util.List;
 import java.util.Map;

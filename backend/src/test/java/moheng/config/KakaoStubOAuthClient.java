@@ -1,6 +1,6 @@
 package moheng.config;
 
-import moheng.auth.domain.oauth.KakaoOAuthMember;
+import moheng.auth.infrastructure.KakaoOAuthMember;
 import moheng.auth.domain.oauth.OAuthClient;
 import moheng.auth.domain.oauth.OAuthMember;
 

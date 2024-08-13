@@ -5,11 +5,8 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
-import moheng.liveinformation.dto.LiveInformationCreateRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-
-import java.util.List;
 
 public class KeywordFixture {
     public static ExtractableResponse<Response> 키워드를_생성한다(String name) {

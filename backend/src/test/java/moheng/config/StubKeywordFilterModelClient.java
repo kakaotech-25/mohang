@@ -1,9 +1,8 @@
 package moheng.config;
 
 import moheng.keyword.dto.TripContentIdsByKeywordResponse;
-import moheng.keyword.exception.TripRecommendByKeywordRequest;
+import moheng.keyword.dto.TripRecommendByKeywordRequest;
 import moheng.keyword.service.KeywordFilterModelClient;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 

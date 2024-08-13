@@ -1,39 +1,28 @@
 package moheng.keyword.application;
 
-import static moheng.fixture.KeywordFixture.*;
 import static moheng.fixture.MemberFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import groovy.transform.AutoImplement;
 import moheng.config.ServiceTestConfig;
-import moheng.config.TestConfig;
 import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.KeywordRepository;
 import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
-import moheng.keyword.exception.TripRecommendByKeywordRequest;
 import moheng.keyword.service.KeywordService;
 import moheng.member.application.MemberService;
 import moheng.member.domain.Member;
-import moheng.member.domain.repository.MemberRepository;
 import moheng.recommendtrip.domain.RecommendTrip;
 import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.trip.application.TripService;
 import moheng.trip.domain.Trip;
-import moheng.trip.dto.FindTripResponse;
 import moheng.trip.dto.FindTripsResponse;
-import moheng.trip.repository.TripRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class KeywordServiceTest extends ServiceTestConfig {

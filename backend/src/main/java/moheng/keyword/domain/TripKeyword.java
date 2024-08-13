@@ -27,16 +27,4 @@ public class TripKeyword extends BaseEntity {
         this.member = member;
         this.keyword = keyword;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Member getMember() {
-        return member;
-    }
-
-    public Keyword getKeyword() {
-        return keyword;
-    }
 }
