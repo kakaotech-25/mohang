@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import moheng.config.ServiceTestConfig;
+import moheng.config.TestConfig;
 import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.exception.TripRecommendByKeywordRequest;
 import moheng.keyword.service.KeywordService;
@@ -13,13 +14,16 @@ import moheng.trip.dto.FindTripsResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class KeywordServiceTest extends ServiceTestConfig {
+
     @Autowired
     private KeywordService keywordService;
 

@@ -19,14 +19,14 @@ import java.util.stream.Collectors;
 @Service
 public class KeywordService {
     private final KeywordRepository keywordRepository;
-    private final KeywordFilterModelClient keyFilterModelClient;
+    private final KeywordFilterModelClient keywordFilterModelClient;
     private final TripRepository tripRepository;
 
     public KeywordService(final KeywordRepository keywordRepository,
-                          final KeywordFilterModelClient keyFilterModelClient,
+                          final KeywordFilterModelClient keywordFilterModelClient,
                           final TripRepository tripRepository) {
         this.keywordRepository = keywordRepository;
-        this.keyFilterModelClient = keyFilterModelClient;
+        this.keywordFilterModelClient = keywordFilterModelClient;
         this.tripRepository = tripRepository;
     }
 
@@ -37,7 +37,7 @@ public class KeywordService {
 
     @Transactional
     public FindTripsResponse findRecommendTripsByKeywords(final TripRecommendByKeywordRequest request) {
-        final TripContentIdsByKeywordResponse response = keyFilterModelClient.findRecommendTripContentIdsByKeywords(request);
+        final TripContentIdsByKeywordResponse response = keywordFilterModelClient.findRecommendTripContentIdsByKeywords(request);
         return new FindTripsResponse(findTripsByContentIds(response));
     }
 
