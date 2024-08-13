@@ -34,7 +34,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@SpringBootTest
+
 public class MemberServiceTest extends ServiceTestConfig {
     @Autowired
     private MemberService memberService;
