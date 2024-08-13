@@ -23,8 +23,7 @@ public class MemberKeyword extends BaseEntity {
     protected MemberKeyword() {
     }
 
-    public MemberKeyword(final Long id, final Member member, final Keyword keyword) {
-        this.id = id;
+    public MemberKeyword(final Member member, final Keyword keyword) {
         this.member = member;
         this.keyword = keyword;
     }
