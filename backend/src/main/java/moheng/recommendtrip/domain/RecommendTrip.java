@@ -36,4 +36,11 @@ public class RecommendTrip extends BaseEntity {
         this.rank = rank;
         visitedCount = 0L;
     }
+
+    public RecommendTrip(Trip trip, Member member) {
+        this.trip = trip;
+        this.member = member;
+        this.rank = 1L;
+        visitedCount = 0L;
+    }
 }
