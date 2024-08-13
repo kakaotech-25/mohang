@@ -9,8 +9,10 @@ import moheng.config.TestConfig;
 import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.exception.TripRecommendByKeywordRequest;
 import moheng.keyword.service.KeywordService;
+import moheng.trip.domain.Trip;
 import moheng.trip.dto.FindTripResponse;
 import moheng.trip.dto.FindTripsResponse;
+import moheng.trip.repository.TripRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class KeywordServiceTest extends ServiceTestConfig {
 
     @Autowired
     private KeywordService keywordService;
+
+    @Autowired
+    private TripRepository tripRepository;
 
     @DisplayName("키워드를 생성한다.")
     @Test
@@ -47,6 +52,10 @@ public class KeywordServiceTest extends ServiceTestConfig {
         preferredLocations.put(99999998L, 200L);
         preferredLocations.put(99999997L, 300L);
         TripRecommendByKeywordRequest request = new TripRecommendByKeywordRequest(keywords, preferredLocations);
+
+        tripRepository.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로1"));
+        tripRepository.save(new Trip("여행지2", "장소명2", 2L, "설명2", "이미지 경로2"));
+        tripRepository.save(new Trip("여행지3", "장소명3", 3L, "설명3", "이미지 경로3"));
 
         // when, then
         FindTripsResponse response = keywordService.findRecommendTripsByKeywords(request);
