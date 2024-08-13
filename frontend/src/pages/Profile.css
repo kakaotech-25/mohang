@@ -2,3 +2,24 @@
     min-height: 70vh;
     height:100%;
 }
+
+.profile1 {
+    width: 70%;
+    height: 100%;
+    margin: 20px auto 20px auto;
+    background-color: #D5CABD;
+    border-radius: 10px;
+}
+
+.profileimgs{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+    
+
+.profileimgs > img {
+    width: 200px;
+    height: 200px;
+    padding: 20px 10px;
+}
