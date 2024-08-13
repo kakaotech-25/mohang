@@ -2,7 +2,6 @@ import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
 from model.interface.controllers.model_controller import router as model_router
-
 app = FastAPI()
 
 app.include_router(model_router)
