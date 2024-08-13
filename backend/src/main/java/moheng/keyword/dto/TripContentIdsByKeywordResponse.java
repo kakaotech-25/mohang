@@ -2,10 +2,10 @@ package moheng.keyword.dto;
 
 import java.util.List;
 
-public class TripsByKeywordResponse {
+public class TripContentIdsByKeywordResponse {
     private List<Long> contentIds;
 
-    public TripsByKeywordResponse(final List<Long> contentIds) {
+    public TripContentIdsByKeywordResponse(final List<Long> contentIds) {
         this.contentIds = contentIds;
     }
 

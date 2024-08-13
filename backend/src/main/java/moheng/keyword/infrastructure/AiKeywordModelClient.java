@@ -1,6 +1,6 @@
 package moheng.keyword.infrastructure;
 
-import moheng.keyword.dto.TripsByKeywordResponse;
+import moheng.keyword.dto.TripContentIdsByKeywordResponse;
 import moheng.keyword.exception.TripRecommendByKeywordRequest;
 import moheng.keyword.service.KeywordFilterModelClient;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ public class AiKeywordModelClient implements KeywordFilterModelClient {
     }
 
     @Override
-    public TripsByKeywordResponse findRecommendTripsByKeywords(TripRecommendByKeywordRequest request) {
+    public TripContentIdsByKeywordResponse findRecommendTripContentIdsByKeywords(TripRecommendByKeywordRequest request) {
         return null;
     }
 }

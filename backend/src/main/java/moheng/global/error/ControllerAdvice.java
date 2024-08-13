@@ -4,6 +4,7 @@ import moheng.auth.exception.*;
 import moheng.global.error.dto.ExceptionResponse;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
 import moheng.member.exception.*;
+import moheng.trip.exception.NoExistTripException;
 import org.apache.coyote.Response;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -33,7 +34,8 @@ public class ControllerAdvice {
             NoExistMemberException.class,
             NoExistSocialTypeException.class,
             EmptyLiveInformationException.class,
-            ShortContentidsSizeException.class
+            ShortContentidsSizeException.class,
+            NoExistTripException.class
     })
     public ResponseEntity<ExceptionResponse> handleIBadRequestException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
