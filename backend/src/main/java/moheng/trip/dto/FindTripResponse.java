@@ -8,6 +8,7 @@ public class FindTripResponse {
     private String placeName;
     private Long contentId;
     private String tripImageUrl;
+    private String description;
 
     private FindTripResponse() {
     }
@@ -17,6 +18,7 @@ public class FindTripResponse {
         this.placeName = trip.getPlaceName();
         this.contentId = trip.getContentId();
         this.tripImageUrl = trip.getTripImageUrl();
+        this.description = trip.getDescription();
     }
 
     public String getName() {
@@ -33,5 +35,9 @@ public class FindTripResponse {
 
     public String getTripImageUrl() {
         return tripImageUrl;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

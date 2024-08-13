@@ -23,7 +23,7 @@ public class AiKeywordModelClient implements KeywordFilterModelClient {
     }
 
     @Override
-    public TripContentIdsByKeywordResponse findRecommendTripContentIdsByKeywords(TripRecommendByKeywordRequest request) {
+    public TripContentIdsByKeywordResponse findRecommendTripContentIdsByKeywords(final TripRecommendByKeywordRequest request) {
         return requestRecommendTrips(request);
     }
 
