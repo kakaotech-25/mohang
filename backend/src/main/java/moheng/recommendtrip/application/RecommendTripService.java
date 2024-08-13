@@ -7,6 +7,7 @@ import moheng.recommendtrip.domain.RecommendTrip;
 import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.recommendtrip.dto.RecommendTripCreateRequest;
 import moheng.trip.domain.Trip;
+import moheng.trip.exception.NoExistTripException;
 import moheng.trip.repository.TripRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +38,7 @@ public class RecommendTripService {
                 .orElseThrow(NoExistMemberException::new);
 
         final Trip trip = tripRepository.findById(request.getTripId())
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(NoExistTripException::new);
 
         recommendTripRepository.save(new RecommendTrip(trip, member));
     }

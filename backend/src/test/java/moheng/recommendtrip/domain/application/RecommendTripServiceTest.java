@@ -14,6 +14,7 @@ import moheng.recommendtrip.application.RecommendTripService;
 import moheng.recommendtrip.dto.RecommendTripCreateRequest;
 import moheng.trip.application.TripService;
 import moheng.trip.domain.Trip;
+import moheng.trip.exception.NoExistTripException;
 import moheng.trip.repository.TripRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,5 +50,17 @@ public class RecommendTripServiceTest extends ServiceTestConfig {
 
         // when, then
         assertDoesNotThrow(() -> recommendTripService.createRecommendTrip(member.getId(), new RecommendTripCreateRequest(trip.getId())));
+    }
+
+    @DisplayName("존재하지 않는 여행지의 추천 정보를 저장하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_여행지의_추천_정보를_저장하면_예외가_발생한다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+
+        // when, then
+        assertThatThrownBy(() ->
+                recommendTripService.createRecommendTrip(member.getId(), new RecommendTripCreateRequest(-1L))
+        ).isInstanceOf(NoExistTripException.class);
     }
 }
