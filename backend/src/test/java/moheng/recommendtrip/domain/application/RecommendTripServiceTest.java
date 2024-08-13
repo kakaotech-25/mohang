@@ -10,6 +10,7 @@ import moheng.config.ServiceTestConfig;
 import moheng.member.application.MemberService;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
+import moheng.member.exception.NoExistMemberException;
 import moheng.recommendtrip.application.RecommendTripService;
 import moheng.recommendtrip.dto.RecommendTripCreateRequest;
 import moheng.trip.application.TripService;
@@ -62,5 +63,17 @@ public class RecommendTripServiceTest extends ServiceTestConfig {
         assertThatThrownBy(() ->
                 recommendTripService.createRecommendTrip(member.getId(), new RecommendTripCreateRequest(-1L))
         ).isInstanceOf(NoExistTripException.class);
+    }
+
+    @DisplayName("존재하지 않는 유저에 대한 추천 정보를 저장하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_유자에_대한_추천_정보를_저장하면_예외가_발생한다() {
+        // given
+        Trip trip = tripRepository.save(new Trip("여행지", "장소명", 1L, "설명", "이미지 경로"));
+
+        // when, then
+        assertThatThrownBy(() ->
+                recommendTripService.createRecommendTrip(-1L, new RecommendTripCreateRequest(trip.getId()))
+        ).isInstanceOf(NoExistMemberException.class);
     }
 }
