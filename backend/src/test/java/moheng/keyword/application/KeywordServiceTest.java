@@ -48,9 +48,9 @@ public class KeywordServiceTest extends ServiceTestConfig {
         // given
         List<String> keywords = new ArrayList<>();
         Map<Long, Long> preferredLocations = new HashMap<>();
-        preferredLocations.put(99999999L, 100L);
-        preferredLocations.put(99999998L, 200L);
-        preferredLocations.put(99999997L, 300L);
+        preferredLocations.put(1L, 100L);
+        preferredLocations.put(2L, 200L);
+        preferredLocations.put(3L, 300L);
         TripRecommendByKeywordRequest request = new TripRecommendByKeywordRequest(keywords, preferredLocations);
 
         tripRepository.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로1"));
@@ -59,6 +59,6 @@ public class KeywordServiceTest extends ServiceTestConfig {
 
         // when, then
         FindTripsResponse response = keywordService.findRecommendTripsByKeywords(request);
-        assertThat(response.getFindTripResponses()).isNotEmpty();
+        assertThat(response.getFindTripResponses()).hasSize(3);
     }
 }
