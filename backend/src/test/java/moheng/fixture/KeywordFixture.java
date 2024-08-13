@@ -1,5 +1,6 @@
 package moheng.fixture;
 
+import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
 import moheng.keyword.exception.TripRecommendByKeywordRequest;
 import moheng.trip.domain.Trip;
@@ -11,10 +12,13 @@ import java.util.List;
 import java.util.Map;
 
 public class KeywordFixture {
+    public static KeywordCreateRequest 키워드_생성_요청() {
+        return new KeywordCreateRequest("키워드");
+    }
+
     public static TripsByKeyWordsRequest 키워드_기반_추천_여행지_요청() {
         return new TripsByKeyWordsRequest(List.of(1L, 2L, 3L));
     }
-
 
     public static FindTripsResponse 키워드_기반_추천_여행지_응답() {
         final List<Trip> tripList = List.of(
