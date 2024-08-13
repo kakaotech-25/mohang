@@ -42,6 +42,23 @@ public class KeywordControllerTest extends ControllerTestConfig {
                         .content(objectMapper.writeValueAsString(키워드_기반_추천_여행지_요청()))
                 )
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andDo(document("keyword/travel/model",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("keywordIds").description("키워드 ID 리스트")
+                        ),
+                        responseFields(
+                                fieldWithPath("findTripResponses").description("AI 가 추천한 키워드 기반 추천 여행지 리스트"),
+                                fieldWithPath("findTripResponses[].name").description("세부 여행지 이름"),
+                                fieldWithPath("findTripResponses[].placeName").description("세부 여행지 장소명"),
+                                fieldWithPath("findTripResponses[].contentId").description("세부 여행지 contentId"),
+                                fieldWithPath("findTripResponses[].tripImageUrl").description("세부 여행지 이미지 경로"),
+                                fieldWithPath("findTripResponses[].description").description("세부 여행지 설명")
+                        )
+                )).andExpect(status().isOk());
     }
 }

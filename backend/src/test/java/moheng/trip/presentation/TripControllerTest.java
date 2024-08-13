@@ -63,7 +63,8 @@ public class TripControllerTest extends ControllerTestConfig {
                                 fieldWithPath("findTripResponses[].name").description("세부 여행지 이름"),
                                 fieldWithPath("findTripResponses[].placeName").description("세부 여행지 장소명"),
                                 fieldWithPath("findTripResponses[].contentId").description("세부 여행지 contentId"),
-                                fieldWithPath("findTripResponses[].tripImageUrl").description("세부 여행지 이미지 경로")
+                                fieldWithPath("findTripResponses[].tripImageUrl").description("세부 여행지 이미지 경로"),
+                                fieldWithPath("findTripResponses[].description").description("세부 여행지 설명")
                         )
                 ))
                 .andExpect(status().isOk());
