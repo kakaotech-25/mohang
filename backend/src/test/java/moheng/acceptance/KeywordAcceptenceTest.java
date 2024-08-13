@@ -48,15 +48,9 @@ public class KeywordAcceptenceTest extends AcceptanceTestConfig {
         선호_여행지를_선택한다(3L, accessToken);
 
         // when
-        ExtractableResponse<Response> recommendResponse = RestAssured.given().log().all()
-                    .auth().oauth2(accessToken)
-                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(new TripsByKeyWordsRequest(List.of(1L, 2L, 3L)))
-                    .when().get("/keyword/travel/model")
-                    .then().log().all()
-                    .statusCode(HttpStatus.OK.value())
-                    .extract();
-
+        ExtractableResponse<Response> recommendResponse = 키워드_리스트로_여행지를_추천받는다(
+                accessToken, new TripsByKeyWordsRequest(List.of(1L, 2L, 3L))
+        );
         FindTripsResponse responseResult = recommendResponse.as(FindTripsResponse.class);
 
         // then
