@@ -42,6 +42,7 @@ const Profile = () => {
             onChange={onChange}
             placeholder="닉네임을 입력하세요."
           />
+          <Button text={"중복 검사"} />
         </section>
 
         <section className="birth">
@@ -64,7 +65,12 @@ const Profile = () => {
             </Radio>
         </section>
 
-        <Button text={"다음"} />
+        <section className="subbtn">
+          <Button text={"다음"} />
+        </section>
+
+        
+
 
       </section>
 
