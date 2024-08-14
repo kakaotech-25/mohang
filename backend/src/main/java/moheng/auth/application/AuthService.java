@@ -18,7 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly = true)
 @Service
-public class AuthService {
+public class
+AuthService {
     private final OAuthProvider oAuthProvider;
     private final MemberService memberService;
     private final TokenManager tokenManager;

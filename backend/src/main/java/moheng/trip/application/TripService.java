@@ -8,6 +8,7 @@ import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.trip.domain.ExternalSimilarTripModelClient;
 import moheng.trip.domain.Trip;
 import moheng.trip.dto.*;
+import moheng.trip.exception.InvalidRecommendTripRankException;
 import moheng.trip.exception.NoExistRecommendTripException;
 import moheng.trip.exception.NoExistTripException;
 import moheng.trip.domain.TripRepository;
@@ -22,6 +23,8 @@ import java.util.stream.Collectors;
 @Service
 public class TripService {
     private static final long RECOMMEND_TRIPS_SIZE = 10;
+    private static final long HIGHEST_PRIORITY_RANK = 1L;
+    private static final long LOWEST_PRIORITY_RANK = 1999999999L;
     private final ExternalSimilarTripModelClient externalSimilarTripModelClient;
     private final TripRepository tripRepository;
     private final RecommendTripRepository recommendTripRepository;
@@ -56,19 +59,37 @@ public class TripService {
     private void saveRecommendTripByClickedLogs(final long memberId, final Trip trip) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoExistMemberException::new);
-        final List<RecommendTrip> recommendTrips = recommendTripRepository.findAllByMemberId(member.getId());
+        final List<RecommendTrip> recommendTrips = recommendTripRepository.findTop10ByMemberOrderByVisitedCountDesc(member);
 
         if(recommendTrips.size() < RECOMMEND_TRIPS_SIZE) {
             final long highestRank = findHighestRecommendTripRank(recommendTrips);
             recommendTripRepository.save(new RecommendTrip(trip, member, highestRank + 1));
         }
-        else if(recommendTrips.size() == RECOMMEND_TRIPS_SIZE) {
-            recommendTripRepository.deleteById(findHLowestRecommendTripRank(recommendTrips));
-            for(RecommendTrip recommendTrip : recommendTrips) {
-                recommendTrip.downRank();
-            }
-            recommendTripRepository.save(new RecommendTrip(trip, member, 10L));
+        else if(recommendTrips.size() >= RECOMMEND_TRIPS_SIZE) {
+            downAllRanks(recommendTrips);
+            changeHighestPriorityRankToLowest(member);
+            final RecommendTrip foundRecommendTrip = findOrCreateRecommendTrip(member, trip);
+            foundRecommendTrip.changeRank(RECOMMEND_TRIPS_SIZE);
+            foundRecommendTrip.increaseVisitedCount();
         }
+    }
+
+    private void changeHighestPriorityRankToLowest(final Member member) {
+        final RecommendTrip highestPriorityRankTrip = recommendTripRepository.findByMemberAndRank(member, HIGHEST_PRIORITY_RANK)
+                .orElseThrow(() -> new InvalidRecommendTripRankException("여행지의 우선순위 값이 유효하지 않습니다."));
+        highestPriorityRankTrip.changeRank(LOWEST_PRIORITY_RANK);
+    }
+
+    private void downAllRanks(List<RecommendTrip> recommendTrips) {
+        recommendTripRepository.bulkDownRank(recommendTrips);
+    }
+
+    private RecommendTrip findOrCreateRecommendTrip(final Member member, final Trip trip) {
+        if(!recommendTripRepository.existsByMemberAndTrip(member, trip)) {
+            recommendTripRepository.save(new RecommendTrip(trip, member, HIGHEST_PRIORITY_RANK));
+        }
+        final RecommendTrip foundRecommendTrip = recommendTripRepository.findByMemberAndTrip(member, trip);
+        return foundRecommendTrip;
     }
 
     private long findHighestRecommendTripRank(final List<RecommendTrip> recommendTrips) {
