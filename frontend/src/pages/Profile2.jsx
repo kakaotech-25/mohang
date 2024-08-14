@@ -7,3 +7,5 @@ const Profile2 = () => {
         </section>
     );
 };
+
+export default Profile2;

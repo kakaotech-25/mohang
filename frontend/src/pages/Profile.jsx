@@ -7,8 +7,10 @@ import profileimg2 from "../assets/profileimg2.png"
 import profileimg3 from "../assets/profileimg3.png"
 import Radio from "../components/Radio"
 import Button from "../components/Button"
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+  const navigate = useNavigate();
   const [input, setInput] = useState({
     name: "",
   });
@@ -69,7 +71,9 @@ const Profile = () => {
         </section>
 
         <section className="subbtn">
-          <Button text={"다음"} />
+          <Button text={"다음"} onClick={()=>{
+            navigate(`/profile2`)
+          }} />
         </section>
 
         
