@@ -9,6 +9,7 @@ import groovy.transform.AutoImplement;
 import moheng.config.slice.ServiceTestConfig;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
+import moheng.member.exception.NoExistMemberException;
 import moheng.recommendtrip.application.RecommendTripService;
 import moheng.recommendtrip.domain.RecommendTrip;
 import moheng.recommendtrip.domain.RecommendTripRepository;
@@ -200,5 +201,21 @@ public class TripServiceTest extends ServiceTestConfig {
         // then
         Trip trip = tripService.findById(currentTripId);
         assertThat(trip.getVisitedCount()).isNotEqualTo(104L);
+    }
+
+    @DisplayName("존재하지 않는 회원이 여행지를 조회하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_회원이_여행지를_조회하면_예외가_발생한다() {
+        // given
+        long invalidMemberId = -1L;
+        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
+        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
+        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
+        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
+        Trip trip = tripService.findById(1L);
+
+        // when
+        assertThatThrownBy(() -> tripService.findWithSimilarOtherTrips(trip.getId(), invalidMemberId))
+                .isInstanceOf(NoExistMemberException.class);
     }
 }
