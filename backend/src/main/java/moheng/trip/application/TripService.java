@@ -1,6 +1,7 @@
 package moheng.trip.application;
 
 import moheng.trip.domain.Trip;
+import moheng.trip.dto.FindTripWithSimilarTripsResponse;
 import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.dto.TripCreateRequest;
 import moheng.trip.exception.NoExistTripException;
@@ -15,6 +16,10 @@ public class TripService {
 
     public TripService(TripRepository tripRepository) {
         this.tripRepository = tripRepository;
+    }
+
+    public FindTripWithSimilarTripsResponse findWithSimilarOtherTrips() {
+
     }
 
     public Trip findByContentId(final Long contentId) {
