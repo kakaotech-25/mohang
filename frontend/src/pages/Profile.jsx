@@ -6,6 +6,7 @@ import profileimg1 from "../assets/profileimg1.png"
 import profileimg2 from "../assets/profileimg2.png"
 import profileimg3 from "../assets/profileimg3.png"
 import Radio from "../components/Radio"
+import Button from "../components/Button"
 
 const Profile = () => {
   const [input, setInput] = useState({
@@ -62,6 +63,8 @@ const Profile = () => {
               여성
             </Radio>
         </section>
+
+        <Button text={"다음"} />
 
       </section>
 
