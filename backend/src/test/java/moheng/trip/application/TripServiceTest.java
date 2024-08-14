@@ -118,13 +118,14 @@ public class TripServiceTest extends ServiceTestConfig {
     void 현재_여행지를_비슷한_여행지와_함께_조회한다() {
         // given
         long currentTripId = 4L;
+        long memberId = 1L;
         tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
         tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 2L));
         tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 1L));
         tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 1L));
 
         // when
-        FindTripWithSimilarTripsResponse response = tripService.findWithSimilarOtherTrips(currentTripId);
+        FindTripWithSimilarTripsResponse response = tripService.findWithSimilarOtherTrips(currentTripId, memberId);
 
         // then
         assertAll(() -> {
@@ -138,6 +139,7 @@ public class TripServiceTest extends ServiceTestConfig {
     @Test
     void 현재_여행지를_조회하면_방문_횟수가_증가한다() {
         // given
+        long memberId = 1L;
         long currentTripId = 4L;
         tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
         tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 2L));
@@ -145,7 +147,7 @@ public class TripServiceTest extends ServiceTestConfig {
         tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 1L));
 
         // when
-        tripService.findWithSimilarOtherTrips(currentTripId);
+        tripService.findWithSimilarOtherTrips(currentTripId, memberId);
         Trip trip = tripService.findById(currentTripId);
 
         // then
@@ -154,7 +156,7 @@ public class TripServiceTest extends ServiceTestConfig {
 
     @DisplayName("동시간대에 여러 유저가 여행지를 조회하면 방문 횟수에 동시성 이슈가 발생한다.")
     @Test
-    void 현재_여행지를_조회하면_방문_횟수가_증가한다1() throws InterruptedException {
+    void 동시간대에_여러_유저가_여행지를_조회하면_방문_횟수에_동시성_이슈가_발생한다() throws InterruptedException {
 
         ExecutorService executorService = Executors.newFixedThreadPool(100);
         CountDownLatch latch = new CountDownLatch(100);
@@ -167,10 +169,11 @@ public class TripServiceTest extends ServiceTestConfig {
         tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
 
         // when
-        for (int i = 0; i < 100; i++) {
+        for (long memberId = 0; memberId < 100; memberId++) {
+            long finalMemberId = memberId;
             executorService.submit(() -> {
                 try {
-                    tripService.findWithSimilarOtherTrips(currentTripId);
+                    tripService.findWithSimilarOtherTrips(currentTripId, finalMemberId);
                 } finally {
                     latch.countDown();
                 }

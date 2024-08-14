@@ -43,4 +43,12 @@ public class RecommendTrip extends BaseEntity {
         this.rank = 1L;
         visitedCount = 0L;
     }
+
+    public void downRank() {
+        this.rank--;
+    }
+
+    public Long getRank() {
+        return rank;
+    }
 }

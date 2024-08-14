@@ -1,33 +1,47 @@
 package moheng.trip.application;
 
+import moheng.member.domain.Member;
+import moheng.member.domain.repository.MemberRepository;
+import moheng.recommendtrip.domain.RecommendTrip;
+import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.trip.domain.ExternalSimilarTripModelClient;
 import moheng.trip.domain.Trip;
 import moheng.trip.dto.*;
+import moheng.trip.exception.NoExistRecommendTripException;
 import moheng.trip.exception.NoExistTripException;
 import moheng.trip.domain.TripRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @Service
 public class TripService {
+    private static final long RECOMMEND_TRIPS_SIZE = 10;
     private final TripRepository tripRepository;
     private final ExternalSimilarTripModelClient externalSimilarTripModelClient;
+    private final RecommendTripRepository recommendTripRepository;
+    private final MemberRepository memberRepository;
 
-    public TripService(final TripRepository tripRepository, final ExternalSimilarTripModelClient externalSimilarTripModelClient) {
+    public TripService(final TripRepository tripRepository,
+                       final ExternalSimilarTripModelClient externalSimilarTripModelClient,
+                       final RecommendTripRepository recommendTripRepository, MemberRepository memberRepository) {
         this.tripRepository = tripRepository;
         this.externalSimilarTripModelClient = externalSimilarTripModelClient;
+        this.recommendTripRepository = recommendTripRepository;
+        this.memberRepository = memberRepository;
     }
 
     @Transactional
-    public FindTripWithSimilarTripsResponse findWithSimilarOtherTrips(final long tripId) {
+    public FindTripWithSimilarTripsResponse findWithSimilarOtherTrips(final long tripId, final long memberId) {
         final Trip trip = findById(tripId);
         final FindSimilarTripWithContentIdResponses similarTripWithContentIdResponses = externalSimilarTripModelClient.findSimilarTrips(tripId);
         final SimilarTripResponses similarTripResponses = findTripsByContentIds(similarTripWithContentIdResponses.getContentIds());
         trip.incrementVisitedCount();
+        saveRecommendTripByClickedLogs(memberId, trip);
         return new FindTripWithSimilarTripsResponse(trip, similarTripResponses);
     }
 
@@ -36,6 +50,38 @@ public class TripService {
                 .map(this::findByContentId)
                 .collect(Collectors.toList());
         return new SimilarTripResponses(trips);
+    }
+
+    private void saveRecommendTripByClickedLogs(long memberId, Trip trip) {
+        final Member member = memberRepository.findById(memberId)
+                .orElseThrow(NoExistTripException::new);
+        final List<RecommendTrip> recommendTrips = recommendTripRepository.findAllByMemberId(member.getId());
+
+        if(recommendTrips.size() < RECOMMEND_TRIPS_SIZE) {
+            long highestRank = findHighestRecommendTripRank(recommendTrips);
+            recommendTripRepository.save(new RecommendTrip(trip, member, highestRank + 1));
+        }
+        else if(recommendTrips.size() == RECOMMEND_TRIPS_SIZE) {
+            for(RecommendTrip recommendTrip : recommendTrips) {
+                recommendTrip.downRank();
+            }
+            recommendTripRepository.deleteById(findHLowestRecommendTripRank(recommendTrips));
+            recommendTripRepository.save(new RecommendTrip(trip, member, 10L));
+        }
+    }
+
+    private long findHighestRecommendTripRank(List<RecommendTrip> recommendTrips) {
+        return recommendTrips.stream()
+                .max(Comparator.comparing(RecommendTrip::getRank))
+                .map(RecommendTrip::getRank)
+                .orElseThrow(() -> new NoExistRecommendTripException("선호 여행지 정보가 없습니다."));
+    }
+
+    private long findHLowestRecommendTripRank(List<RecommendTrip> recommendTrips) {
+        return recommendTrips.stream()
+                .min(Comparator.comparing(RecommendTrip::getRank))
+                .map(RecommendTrip::getRank)
+                .orElseThrow(() -> new NoExistRecommendTripException("선호 여행지 정보가 없습니다."));
     }
 
 
