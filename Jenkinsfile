@@ -43,9 +43,12 @@ pipeline {
                     echo 'Starting Backend Build...'
                     
                     dir('backend') {
-                        echo 'Installing Backend Dependencies...'
-                        sh 'chmod +x gradlew'
-                        sh './gradlew build'
+                        // echo 'Installing Backend Dependencies...'
+                        // sh 'chmod +x gradlew'
+                        // sh './gradlew build'
+
+                        //test : 없는 파일 명령어 실행
+                        sh './gradlew ajfdksl'
                     }
 
                     echo 'Backend Build Completed!'
