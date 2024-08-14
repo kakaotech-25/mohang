@@ -21,6 +21,14 @@
     font-size: 20px;
 }
 
+.progressbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
 .profile1 > section > div{
     margin-right: 20px;
 }
