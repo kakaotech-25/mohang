@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static moheng.fixture.MemberFixtures.*;
-import moheng.config.RepositoryTestConfig;
+import moheng.config.slice.RepositoryTestConfig;
 import moheng.config.TestConfig;
 import moheng.keyword.dto.RecommendTripResponse;
 import moheng.member.application.MemberService;

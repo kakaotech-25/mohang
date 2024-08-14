@@ -1,13 +1,10 @@
 package moheng.auth.presentation;
 
-import static moheng.fixture.MemberFixtures.*;
 import static moheng.fixture.AuthFixtures.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.cookies.CookieDocumentation.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
@@ -24,17 +21,12 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import moheng.auth.domain.token.MemberToken;
-import moheng.auth.dto.RenewalAccessTokenResponse;
 import moheng.auth.dto.TokenRequest;
-import moheng.auth.dto.TokenResponse;
 import moheng.auth.exception.InvalidOAuthServiceException;
 import moheng.auth.exception.InvalidTokenException;
-import moheng.config.ControllerTestConfig;
+import moheng.config.slice.ControllerTestConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.stubbing.Answer;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 

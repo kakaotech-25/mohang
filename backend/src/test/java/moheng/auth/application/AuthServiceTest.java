@@ -8,21 +8,18 @@ import static moheng.fixture.MemberFixtures.MEMBER_ID_1;
 import static moheng.fixture.MemberFixtures.스텁_이메일;
 import static moheng.fixture.AuthFixtures.AUHTORIZATION_CODE;
 import static moheng.fixture.AuthFixtures.KAKAO_PROVIDER_NAME;
-import static moheng.fixture.AuthFixtures.GOOGLE_PROVIDER_NAME;
 
 import moheng.auth.domain.token.JwtTokenManager;
 import moheng.auth.domain.token.MemberToken;
 import moheng.auth.dto.RenewalAccessTokenRequest;
 import moheng.auth.dto.RenewalAccessTokenResponse;
 import moheng.auth.exception.InvalidTokenException;
-import moheng.config.ServiceTestConfig;
-import moheng.config.TestConfig;
+import moheng.config.slice.ServiceTestConfig;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 

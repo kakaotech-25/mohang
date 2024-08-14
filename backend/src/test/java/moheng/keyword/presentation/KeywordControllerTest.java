@@ -1,6 +1,6 @@
 package moheng.keyword.presentation;
 
-import moheng.config.ControllerTestConfig;
+import moheng.config.slice.ControllerTestConfig;
 import moheng.keyword.exception.InvalidAIServerException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

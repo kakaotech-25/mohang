@@ -1,4 +1,4 @@
-package moheng.config;
+package moheng.config.slice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -6,6 +6,7 @@ import moheng.auth.application.AuthService;
 import moheng.auth.domain.token.JwtTokenProvider;
 import moheng.auth.presentation.authentication.AuthenticationArgumentResolver;
 import moheng.auth.presentation.authentication.AuthenticationBearerExtractor;
+import moheng.config.TestConfig;
 import moheng.keyword.service.KeywordService;
 import moheng.liveinformation.application.LiveInformationService;
 import moheng.liveinformation.application.MemberLiveInformationService;

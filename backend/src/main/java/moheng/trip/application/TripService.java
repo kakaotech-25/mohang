@@ -30,7 +30,7 @@ public class TripService {
         return new FindTripWithSimilarTripsResponse(trip, similarTripResponses);
     }
 
-    public SimilarTripResponses findTripsByContentIds(final List<Long> contentIds) {
+    private SimilarTripResponses findTripsByContentIds(final List<Long> contentIds) {
         final List<Trip> trips = contentIds.stream()
                 .map(this::findByContentId)
                 .collect(Collectors.toList());

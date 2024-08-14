@@ -1,4 +1,4 @@
-package moheng.config;
+package moheng.config.stub;
 
 import moheng.auth.domain.oauth.KakaoUriProvider;
 import moheng.auth.domain.oauth.OAuthClient;

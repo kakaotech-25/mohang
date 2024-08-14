@@ -1,8 +1,6 @@
-package moheng.config;
+package moheng.config.slice;
 
 import moheng.global.config.JpaAuditConfig;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;

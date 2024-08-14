@@ -1,4 +1,4 @@
-package moheng.config;
+package moheng.config.stub;
 
 import moheng.keyword.dto.TripContentIdsByKeywordResponse;
 import moheng.keyword.dto.TripRecommendByKeywordRequest;
