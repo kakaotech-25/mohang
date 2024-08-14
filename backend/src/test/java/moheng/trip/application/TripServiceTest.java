@@ -153,9 +153,9 @@ public class TripServiceTest extends ServiceTestConfig {
     }
 
 
-    @DisplayName("현재 여행지를 조회하면 방문 횟수가 증가한다.")
+    @DisplayName("현재 여행지를 조회하면 모든 유저에 대한 총 방문 횟수가 증가한다.")
     @Test
-    void 현재_여행지를_조회하면_방문_횟수가_증가한다() {
+    void 현재_여행지를_조회하면_모든_유저에_대한_총_방문_횟수가_증가한다() {
         // given
         Member member = memberRepository.save(하온_기존());
         tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
@@ -171,6 +171,25 @@ public class TripServiceTest extends ServiceTestConfig {
 
         // then
         assertThat(expected).isEqualTo(1L);
+    }
+
+    @DisplayName("현재 여행지를 조회하면 각 유저에 대한 방문 횟수가 증가한다.")
+    @Test
+    void 현재_여행지를_조회하면_각_유저에_대한_방문_횟수가_증가한다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
+        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
+        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
+        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
+        Trip trip = tripService.findById(1L);
+        recommendTripRepository.save(new RecommendTrip(trip, member, 1L));
+
+        // when
+        tripService.findWithSimilarOtherTrips(trip.getId(), member.getId());
+
+        // then
+        assertThat(recommendTripRepository.findById(1L).get().getRank()).isEqualTo(1L);
     }
 
     @DisplayName("동시간대에 여러 유저가 여행지를 조회하면 방문 횟수에 동시성 이슈가 발생한다.")
@@ -405,7 +424,7 @@ public class TripServiceTest extends ServiceTestConfig {
     @DisplayName("선호 여행지가 정보가 이미 존재하면 중복 생성하지 않는다.")
     @Test
     void 선호_여행지_정보기_이미_존재하면_중복_생성하지_않는다() {
-// given
+        // given
         Member member = memberRepository.save(하온_기존());
         tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
         tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
@@ -435,4 +454,6 @@ public class TripServiceTest extends ServiceTestConfig {
             assertThat(recommendTripRepository.findAllByMemberId(member.getId()).size()).isEqualTo(10);
         });
     }
+
+
 }
