@@ -75,7 +75,7 @@ public class TripService {
     }
 
     private void changeHighestPriorityRankToLowest(final Member member) {
-        final RecommendTrip highestPriorityRankTrip = recommendTripRepository.findByMemberAndRank(member, HIGHEST_PRIORITY_RANK)
+        final RecommendTrip highestPriorityRankTrip = recommendTripRepository.findByMemberAndRank(member, HIGHEST_PRIORITY_RANK-1)
                 .orElseThrow(() -> new InvalidRecommendTripRankException("여행지의 우선순위 값이 유효하지 않습니다."));
         highestPriorityRankTrip.changeRank(LOWEST_PRIORITY_RANK);
     }

@@ -29,5 +29,7 @@ public interface RecommendTripRepository extends JpaRepository<RecommendTrip, Lo
     @Modifying
     @Query("UPDATE RecommendTrip rt SET rt.rank = rt.rank - 1 WHERE rt IN :recommendTrips")
     void bulkDownRank(@Param("recommendTrips") final List<RecommendTrip> recommendTrips);
+
+    List<RecommendTrip> findAllByMemberId(final Long memberId);
 }
 
