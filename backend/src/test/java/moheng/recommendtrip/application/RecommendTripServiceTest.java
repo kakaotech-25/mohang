@@ -1,4 +1,4 @@
-package moheng.recommendtrip.domain.application;
+package moheng.recommendtrip.application;
 
 import static moheng.fixture.MemberFixtures.하온_기존;
 import static org.assertj.core.api.Assertions.assertThat;
