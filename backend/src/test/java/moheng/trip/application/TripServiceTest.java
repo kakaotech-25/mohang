@@ -239,7 +239,7 @@ public class TripServiceTest extends ServiceTestConfig {
 
     @DisplayName("최근 클릭한 여행지가 10개 미만이라면 가장 높은 rank 에 1을 더한 선호 여행지 정보를 생성한다.")
     @Test
-    void 현재_여행지를_비슷한_여행지와_함께_조회한다2() {
+    void 최근_클릭한_여행지가_10개_미만이라면_가장_높은_rank_에_1을_더한_선호_여행지_정보를_생성한다() {
         // given
         Member member = memberRepository.save(하온_기존());
         tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
@@ -260,5 +260,40 @@ public class TripServiceTest extends ServiceTestConfig {
         // then
         RecommendTrip actual = recommendTripRepository.findById(trip4.getId()).get();
         assertThat(actual.getRank()).isEqualTo(4L);
+    }
+
+    @DisplayName("최근 클릭한 여행지가 10개라면 기존의 rank를 1씩 감소시키고, rank가 10인 새로운 선호 여행지를 생성한다.")
+    @Test
+    void 최근_클릭한_여행지가_10개라면_기존의_rank를_1씩_감소시키고_rank가_10인_새로운_선호_여행지를_생성한다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
+        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
+        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
+        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
+        tripService.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
+        tripService.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
+        tripService.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
+        tripService.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
+        tripService.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
+        tripService.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
+        Trip trip1 = tripService.findById(1L); Trip trip2 = tripService.findById(2L);
+        Trip trip3 = tripService.findById(3L);
+
+        recommendTripRepository.save(new RecommendTrip(trip1, member, 1L)); recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
+        recommendTripRepository.save(new RecommendTrip(trip2, member, 3L)); recommendTripRepository.save(new RecommendTrip(trip3, member, 4L));
+        recommendTripRepository.save(new RecommendTrip(trip3, member, 5L)); recommendTripRepository.save(new RecommendTrip(trip3, member, 6L));
+        recommendTripRepository.save(new RecommendTrip(trip3, member, 7L)); recommendTripRepository.save(new RecommendTrip(trip3, member, 8L));
+        recommendTripRepository.save(new RecommendTrip(trip3, member, 9L)); recommendTripRepository.save(new RecommendTrip(trip3, member, 10L));
+
+        // when
+        Trip trip = tripService.findById(10L);
+        tripService.findWithSimilarOtherTrips(trip.getId(), member.getId());
+
+        // then
+        assertAll(() -> {
+            assertThat(recommendTripRepository.findAllByMemberId(member.getId())).hasSize(10);
+            assertThat(recommendTripRepository.findById(11L).get().getRank()).isEqualTo(10L);
+        });
     }
 }

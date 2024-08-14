@@ -63,10 +63,10 @@ public class TripService {
             recommendTripRepository.save(new RecommendTrip(trip, member, highestRank + 1));
         }
         else if(recommendTrips.size() == RECOMMEND_TRIPS_SIZE) {
+            recommendTripRepository.deleteById(findHLowestRecommendTripRank(recommendTrips));
             for(RecommendTrip recommendTrip : recommendTrips) {
                 recommendTrip.downRank();
             }
-            recommendTripRepository.deleteById(findHLowestRecommendTripRank(recommendTrips));
             recommendTripRepository.save(new RecommendTrip(trip, member, 10L));
         }
     }
