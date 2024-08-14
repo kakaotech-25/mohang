@@ -8,8 +8,8 @@ const ImageWithCheck = ({ src, isSelected, onClick }) => {
         alt="checkable" 
         onClick={onClick} 
         style={{
-          width: '200px',
-          height: '200px',
+          width: '150px',
+          height: '150px',
           cursor: 'pointer',
           transition: 'filter 0.3s ease', // 필터 적용에 부드러운 전환 추가
         }}
