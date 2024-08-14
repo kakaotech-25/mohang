@@ -53,10 +53,11 @@ pipeline {
             steps {
                 script {
                     echo 'Starting Backend Build...'
-
+                    
                     dir('backend') {
-                        // 테스트: 없는 파일 명령어 실행
-                        sh './gradlew ajfdksl'
+                        echo 'Installing Backend Dependencies...'
+                        sh 'chmod +x gradlew'
+                        sh './gradlew build'
                     }
 
                     echo 'Backend Build Completed!'
@@ -102,8 +103,8 @@ def sendErrorNotification(stageName) {
             제목 : ${currentBuild.displayName}
             결과 : ${currentBuild.result}
             실패 단계: ${stageName}
-            오류 메시지: ${errorMessage}
             실행 시간 : ${currentBuild.duration / 1000}s
+            오류 메시지: ${errorMessage}
             """,
             link: env.BUILD_URL, result: currentBuild.currentResult, 
             title: "${env.JOB_NAME} : ${currentBuild.displayName} 실패", 
