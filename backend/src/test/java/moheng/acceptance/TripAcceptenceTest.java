@@ -6,20 +6,12 @@ import static moheng.acceptance.fixture.HttpStatus.상태코드_204이_반환된
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
-import moheng.liveinformation.dto.FindAllLiveInformationResponse;
-import moheng.member.dto.request.SignUpInterestTripsRequest;
-import moheng.trip.dto.FindTripsOrderByVisitedCountDescResponse;
-import moheng.trip.dto.TripCreateRequest;
+import moheng.trip.dto.FindTripsResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-
-import java.util.List;
 
 public class TripAcceptenceTest extends AcceptanceTestConfig {
 
@@ -44,8 +36,8 @@ public class TripAcceptenceTest extends AcceptanceTestConfig {
         여행지를_생성한다("롯데월드3", 3L);
         ExtractableResponse<Response> resultResponse = 상위_30개_여행지를_찾는다();
 
-        FindTripsOrderByVisitedCountDescResponse findAllLiveInformationResponse
-                = resultResponse.as(FindTripsOrderByVisitedCountDescResponse.class);
+        FindTripsResponse findAllLiveInformationResponse
+                = resultResponse.as(FindTripsResponse.class);
 
         // then
         assertAll(() -> {

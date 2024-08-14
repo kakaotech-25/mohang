@@ -1,18 +1,17 @@
 package moheng.trip.dto;
 
-import moheng.liveinformation.dto.LiveInformationResponse;
 import moheng.trip.domain.Trip;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FindTripsOrderByVisitedCountDescResponse {
+public class FindTripsResponse {
     private List<FindTripResponse> findTripResponses;
 
-    private FindTripsOrderByVisitedCountDescResponse() {
+    private FindTripsResponse() {
     }
 
-    public FindTripsOrderByVisitedCountDescResponse(List<Trip> trips) {
+    public FindTripsResponse(List<Trip> trips) {
         this.findTripResponses = toResponse(trips);
     }
 

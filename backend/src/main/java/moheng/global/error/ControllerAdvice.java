@@ -2,14 +2,14 @@ package moheng.global.error;
 
 import moheng.auth.exception.*;
 import moheng.global.error.dto.ExceptionResponse;
+import moheng.keyword.exception.InvalidAIServerException;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
 import moheng.member.exception.*;
-import org.apache.coyote.Response;
+import moheng.trip.exception.NoExistTripException;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -33,7 +33,8 @@ public class ControllerAdvice {
             NoExistMemberException.class,
             NoExistSocialTypeException.class,
             EmptyLiveInformationException.class,
-            ShortContentidsSizeException.class
+            ShortContentidsSizeException.class,
+            NoExistTripException.class
     })
     public ResponseEntity<ExceptionResponse> handleIBadRequestException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
@@ -44,6 +45,15 @@ public class ControllerAdvice {
 
     @ExceptionHandler(InvalidOAuthServiceException.class)
     public ResponseEntity<ExceptionResponse> handleOAuthException(final RuntimeException e) {
+        logger.error(e.getMessage(), e);
+        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage());
+        return ResponseEntity.internalServerError().body(exceptionResponse);
+    }
+
+    @ExceptionHandler({
+            InvalidAIServerException.class
+    })
+    public ResponseEntity<ExceptionResponse> handleAIServerException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
         ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage());
         return ResponseEntity.internalServerError().body(exceptionResponse);

@@ -1,4 +1,4 @@
-package moheng.auth.domain.oauth;
+package moheng.auth.infrastructure;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import moheng.global.annotation.Generated;

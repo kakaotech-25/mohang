@@ -1,6 +1,8 @@
-package moheng.auth.domain.oauth;
+package moheng.auth.infrastructure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import moheng.auth.domain.oauth.OAuthClient;
+import moheng.auth.domain.oauth.OAuthMember;
 import moheng.auth.exception.InvalidOAuthServiceException;
 import moheng.global.annotation.Generated;
 import org.springframework.beans.factory.annotation.Value;
