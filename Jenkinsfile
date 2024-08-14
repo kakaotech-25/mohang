@@ -44,8 +44,12 @@ pipeline {
                     
                     dir('backend') {
                         echo 'Installing Backend Dependencies...'
-                        sh 'chmod +x gradlew'
-                        sh './gradlew build'
+                        // sh 'chmod +x gradlew'
+                        // sh './gradlew build'
+
+                        //test: 아래 명령어는 존재하지 않는 파일을 실행하여 오류를 발생시킵니다.
+                        sh './nonexistent-file'
+                        //-----------------------
                     }
 
                     echo 'Backend Build Completed!'
@@ -57,26 +61,34 @@ pipeline {
     post {
         success {
             withCredentials([string(credentialsId: 'discord-webhook', variable: 'DISCORD')]) {
-                        discordSend description: """
-                        제목 : ${currentBuild.displayName}
-                        결과 : ${currentBuild.result}
-                        실행 시간 : ${currentBuild.duration / 1000}s
-                        """,
-                        link: env.BUILD_URL, result: currentBuild.currentResult, 
-                        title: "${env.JOB_NAME} : ${currentBuild.displayName} 성공", 
-                        webhookURL: "$DISCORD"
+                discordSend description: """
+                제목 : ${currentBuild.displayName}
+                결과 : ${currentBuild.result}
+                실행 시간 : ${currentBuild.duration / 1000}s
+                """,
+                link: env.BUILD_URL, result: currentBuild.currentResult, 
+                title: "${env.JOB_NAME} : ${currentBuild.displayName} 성공", 
+                webhookURL: "$DISCORD"
             }
         }
         failure {
-            withCredentials([string(credentialsId: 'discord-webhook', variable: 'DISCORD')]) {
-                        discordSend description: """
-                        제목 : ${currentBuild.displayName}
-                        결과 : ${currentBuild.result}
-                        실행 시간 : ${currentBuild.duration / 1000}s
-                        """,
-                        link: env.BUILD_URL, result: currentBuild.currentResult, 
-                        title: "${env.JOB_NAME} : ${currentBuild.displayName} 실패", 
-                        webhookURL: "$DISCORD"
+            script {
+                def failedStage = currentBuild.stages.find { it.status == "FAILED" }?.name ?: "Unknown"
+                def errorLog = currentBuild.rawBuild.log[-50..-1].join("\n")
+
+                withCredentials([string(credentialsId: 'discord-webhook', variable: 'DISCORD')]) {
+                    discordSend description: """
+                    제목 : ${currentBuild.displayName}
+                    결과 : ${currentBuild.result}
+                    실패한 단계 : ${failedStage}
+                    에러 로그 : 
+                    ${errorLog}
+                    실행 시간 : ${currentBuild.duration / 1000}s
+                    """,
+                    link: env.BUILD_URL, result: currentBuild.currentResult, 
+                    title: "${env.JOB_NAME} : ${currentBuild.displayName} 실패", 
+                    webhookURL: "$DISCORD"
+                }
             }
         }
     }
