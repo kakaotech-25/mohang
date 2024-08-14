@@ -48,7 +48,7 @@ pipeline {
                         // sh './gradlew build'
 
                         //test: 아래 명령어는 존재하지 않는 파일을 실행하여 오류를 발생시킵니다.
-                        // sh './nonexistent-file'
+                        sh './nonexistent-file'
                         //-----------------------
                     }
 
@@ -73,14 +73,12 @@ pipeline {
         }
         failure {
             script {
-                def failedStage = currentBuild.stages.find { it.status == "FAILED" }?.name ?: "Unknown"
-                def errorLog = currentBuild.rawBuild.log[-50..-1].join("\n")
+                def errorLog = currentBuild.rawBuild.getLog(50).join("\n")
 
                 withCredentials([string(credentialsId: 'discord-webhook', variable: 'DISCORD')]) {
                     discordSend description: """
                     제목 : ${currentBuild.displayName}
                     결과 : ${currentBuild.result}
-                    실패한 단계 : ${failedStage}
                     에러 로그 : 
                     ${errorLog}
                     실행 시간 : ${currentBuild.duration / 1000}s
