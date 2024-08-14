@@ -1,7 +1,8 @@
 package moheng.trip.domain;
 
+import moheng.trip.dto.FindSimilarTripWithContentIdResponses;
 import moheng.trip.dto.SimilarTripResponses;
 
 public interface ExternalSimilarTripModelClient {
-    SimilarTripResponses findSimilarTrips(long contentId);
+    FindSimilarTripWithContentIdResponses findSimilarTrips(long contentId);
 }
