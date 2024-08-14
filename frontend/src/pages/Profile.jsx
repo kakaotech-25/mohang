@@ -8,6 +8,7 @@ import profileimg3 from "../assets/profileimg3.png"
 import Radio from "../components/Radio"
 import Button from "../components/Button"
 import { useNavigate } from "react-router-dom";
+import ImageWithCheck from "./ImageWithCheck";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -23,7 +24,17 @@ const Profile = () => {
     });
   };
 
-  
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+  const handleImageClick = (index) => {
+    setSelectedImageIndex(index);
+  };
+
+  const images = [
+    profileimg1,
+    profileimg2,
+    profileimg3
+  ];
 
   return (
     <section className="profilepage">
@@ -34,9 +45,14 @@ const Profile = () => {
       
       <section className='profile1'>
         <section className="profileimgs">
-          <img src={profileimg1} className='profleimg1' />
-          <img src={profileimg2} className='profleimg2' />
-          <img src={profileimg3} className='profleimg3' />
+          {images.map((src, index) => (
+            <ImageWithCheck
+              key={index}
+              src={src}
+              isSelected={selectedImageIndex === index}
+              onClick={() => handleImageClick(index)}
+            />
+          ))}
         </section>
 
         <section className="nickname">
