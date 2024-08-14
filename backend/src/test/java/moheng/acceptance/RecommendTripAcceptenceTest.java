@@ -10,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
+import static moheng.acceptance.fixture.RecommendTripFixture.선호_여행지를_선택한다;
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.자체_토큰을_생성한다;
 import static moheng.acceptance.fixture.TripAcceptenceFixture.여행지를_생성한다;
 
@@ -24,13 +25,6 @@ public class RecommendTripAcceptenceTest extends AcceptanceTestConfig {
 
         여행지를_생성한다("롯데월드1", 1L);
 
-        ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .auth().oauth2(accessTokenResponse.getAccessToken())
-                .body(new RecommendTripCreateRequest(1L))
-                .when().post("/recommend")
-                .then().log().all()
-                .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())
-                .extract();;
+        ExtractableResponse<Response> resultResponse = 선호_여행지를_선택한다(1L, accessTokenResponse.getAccessToken());
     }
 }
