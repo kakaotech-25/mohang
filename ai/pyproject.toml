@@ -11,6 +11,7 @@ fastapi = "^0.112.0"
 uvicorn = {extras = ["standard"], version = "^0.30.5"}
 dependency-injector = "^4.41.0"
 pytest = "^8.3.2"
+pytest-mock = "^3.14.0"
 
 
 [build-system]
