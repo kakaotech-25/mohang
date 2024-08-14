@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
 @Service
 public class TripService {
     private static final long RECOMMEND_TRIPS_SIZE = 10;
-    private final TripRepository tripRepository;
     private final ExternalSimilarTripModelClient externalSimilarTripModelClient;
+    private final TripRepository tripRepository;
     private final RecommendTripRepository recommendTripRepository;
     private final MemberRepository memberRepository;
 
@@ -53,13 +53,13 @@ public class TripService {
         return new SimilarTripResponses(trips);
     }
 
-    private void saveRecommendTripByClickedLogs(long memberId, Trip trip) {
+    private void saveRecommendTripByClickedLogs(final long memberId, final Trip trip) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoExistMemberException::new);
         final List<RecommendTrip> recommendTrips = recommendTripRepository.findAllByMemberId(member.getId());
 
         if(recommendTrips.size() < RECOMMEND_TRIPS_SIZE) {
-            long highestRank = findHighestRecommendTripRank(recommendTrips);
+            final long highestRank = findHighestRecommendTripRank(recommendTrips);
             recommendTripRepository.save(new RecommendTrip(trip, member, highestRank + 1));
         }
         else if(recommendTrips.size() == RECOMMEND_TRIPS_SIZE) {
@@ -71,7 +71,7 @@ public class TripService {
         }
     }
 
-    private long findHighestRecommendTripRank(List<RecommendTrip> recommendTrips) {
+    private long findHighestRecommendTripRank(final List<RecommendTrip> recommendTrips) {
         return recommendTrips.stream()
                 .max(Comparator.comparing(RecommendTrip::getRank))
                 .map(RecommendTrip::getRank)
