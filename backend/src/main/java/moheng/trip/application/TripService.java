@@ -1,25 +1,33 @@
 package moheng.trip.application;
 
+import moheng.trip.domain.ExternalSimilarTripModelClient;
 import moheng.trip.domain.Trip;
 import moheng.trip.dto.FindTripWithSimilarTripsResponse;
 import moheng.trip.dto.FindTripsResponse;
+import moheng.trip.dto.SimilarTripResponses;
 import moheng.trip.dto.TripCreateRequest;
 import moheng.trip.exception.NoExistTripException;
 import moheng.trip.repository.TripRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Transactional(readOnly = true)
 @Service
 public class TripService {
     private final TripRepository tripRepository;
+    private final ExternalSimilarTripModelClient externalSimilarTripModelClient;
 
-    public TripService(TripRepository tripRepository) {
+    public TripService(final TripRepository tripRepository, final ExternalSimilarTripModelClient externalSimilarTripModelClient) {
         this.tripRepository = tripRepository;
+        this.externalSimilarTripModelClient = externalSimilarTripModelClient;
     }
 
-    public FindTripWithSimilarTripsResponse findWithSimilarOtherTrips() {
-
+    public FindTripWithSimilarTripsResponse findWithSimilarOtherTrips(final long tripId) {
+        final Trip trip = findById(tripId);
+        final SimilarTripResponses similarTripResponses = externalSimilarTripModelClient.findSimilarTrips(tripId);
+        return new FindTripWithSimilarTripsResponse(trip, similarTripResponses);
     }
 
     public Trip findByContentId(final Long contentId) {
