@@ -13,7 +13,7 @@ import moheng.recommendtrip.application.RecommendTripService;
 import moheng.recommendtrip.dto.RecommendTripCreateRequest;
 import moheng.trip.domain.Trip;
 import moheng.trip.exception.NoExistTripException;
-import moheng.trip.repository.TripRepository;
+import moheng.trip.domain.TripRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

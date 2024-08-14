@@ -4,12 +4,11 @@ import moheng.trip.domain.ExternalSimilarTripModelClient;
 import moheng.trip.domain.Trip;
 import moheng.trip.dto.*;
 import moheng.trip.exception.NoExistTripException;
-import moheng.trip.repository.TripRepository;
+import moheng.trip.domain.TripRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
@@ -27,6 +26,7 @@ public class TripService {
         final Trip trip = findById(tripId);
         final FindSimilarTripWithContentIdResponses similarTripWithContentIdResponses = externalSimilarTripModelClient.findSimilarTrips(tripId);
         final SimilarTripResponses similarTripResponses = findTripsByContentIds(similarTripWithContentIdResponses.getContentIds());
+        trip.incrementVisitedCount();
         return new FindTripWithSimilarTripsResponse(trip, similarTripResponses);
     }
 

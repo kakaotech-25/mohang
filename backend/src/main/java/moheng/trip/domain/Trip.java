@@ -83,6 +83,10 @@ public class Trip extends BaseEntity {
         }
     }
 
+    public void incrementVisitedCount() {
+        this.visitedCount++;
+    }
+
     public String getName() {
         return name;
     }
