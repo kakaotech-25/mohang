@@ -12,6 +12,9 @@ pipeline {
         PATH = "${env.PATH}:${env.JAVA_HOME}/bin"
     }
 
+    def errorLog = ''
+    def failedStage = ''
+
     stages {
         stage('Checkout') {
             steps {
@@ -61,13 +64,10 @@ pipeline {
     post {
         always {
             script {
-                def errorLog = ''
-                def failedStage = ''
-                
                 // 실패한 경우, 실패한 스테이지 이름과 로그를 수집
                 if (currentBuild.result == 'FAILURE') {
                     failedStage = env.STAGE_NAME
-                    errorLog = sh(script: 'tail -n 50 $WORKSPACE/jenkins-log.log', returnStdout: true).trim()
+                    errorLog = sh(script: 'tail -n 50 $WORKSPACE/jenkins.log', returnStdout: true).trim()
                 }
             }
         }
