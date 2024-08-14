@@ -12,6 +12,7 @@ import moheng.liveinformation.application.LiveInformationService;
 import moheng.liveinformation.application.MemberLiveInformationService;
 import moheng.member.application.MemberService;
 import moheng.member.domain.repository.MemberRepository;
+import moheng.recommendtrip.application.RecommendTripService;
 import moheng.trip.application.TripService;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,4 +68,7 @@ public abstract class ControllerTestConfig {
 
     @MockBean
     protected KeywordService keywordService;
+
+    @MockBean
+    protected RecommendTripService recommendTripService;
 }
