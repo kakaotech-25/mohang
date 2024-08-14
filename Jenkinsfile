@@ -12,9 +12,6 @@ pipeline {
         PATH = "${env.PATH}:${env.JAVA_HOME}/bin"
     }
 
-    def errorLog = ''
-    def failedStage = ''
-
     stages {
         stage('Checkout') {
             steps {
@@ -64,6 +61,9 @@ pipeline {
     post {
         always {
             script {
+                def errorLog = ''
+                def failedStage = ''
+                
                 // 실패한 경우, 실패한 스테이지 이름과 로그를 수집
                 if (currentBuild.result == 'FAILURE') {
                     failedStage = env.STAGE_NAME
@@ -72,10 +72,14 @@ pipeline {
             }
         }
         success {
-            notifyDiscord("성공", "")
+            script {
+                notifyDiscord("성공", "")
+            }
         }
         failure {
-            notifyDiscord("실패", errorLog)
+            script {
+                notifyDiscord("실패", errorLog)
+            }
         }
     }
 }
