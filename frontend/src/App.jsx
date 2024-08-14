@@ -5,6 +5,7 @@ import Footer from "./components/Footer.jsx"
 import Home from "./pages/Home.jsx"
 import Login from './pages/Login.jsx'
 import Profile from './pages/Profile.jsx'
+import Profile2 from './pages/Profile2.jsx'
 import Mypage from './pages/Mypage.jsx'
 import Place from './pages/Place.jsx'
 import Planner from './pages/Planner.jsx'
@@ -20,6 +21,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/profile2" element={<Profile2 />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/place" element={<Place />} />
         <Route path="/planner" element={<Planner />} />

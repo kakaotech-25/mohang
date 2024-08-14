@@ -1,0 +1,48 @@
+.profilepage {
+    min-height: 70vh;
+    height:100%;
+}
+
+.progressbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.profile1 {
+    width: 70%;
+    height: 100%;
+    margin: 20px auto 20px auto;
+    padding: 50px;
+    background-color: #D5CABD50;
+    border-radius: 10px;
+}
+
+.profile1 > section{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 10px;
+    font-size: 20px;
+}
+
+.profile1 > section > div{
+    margin-right: 20px;
+}
+
+.profile1 > section > input{
+    margin-right: 20px;
+}
+
+.birth > input{
+    width: 200px;
+    height: 30px;
+}
+
+.nickname > input {
+    width: 200px;
+    height: 30px;
+}
