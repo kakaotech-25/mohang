@@ -13,6 +13,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class TripServiceTest extends ServiceTestConfig {
     @Autowired
     private TripService tripService;
@@ -146,5 +150,37 @@ public class TripServiceTest extends ServiceTestConfig {
 
         // then
         assertThat(trip.getVisitedCount()).isEqualTo(1L);
+    }
+
+    @DisplayName("동시간대에 여러 유저가 여행지를 조회하면 방문 횟수에 동시성 이슈가 발생한다.")
+    @Test
+    void 현재_여행지를_조회하면_방문_횟수가_증가한다1() throws InterruptedException {
+
+        ExecutorService executorService = Executors.newFixedThreadPool(100);
+        CountDownLatch latch = new CountDownLatch(100);
+
+        // given
+        long currentTripId = 4L;
+        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
+        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
+        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
+        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
+
+        // when
+        for (int i = 0; i < 100; i++) {
+            executorService.submit(() -> {
+                try {
+                    tripService.findWithSimilarOtherTrips(currentTripId);
+                } finally {
+                    latch.countDown();
+                }
+            });
+        }
+        latch.await();
+        executorService.shutdown();
+
+        // then
+        Trip trip = tripService.findById(currentTripId);
+        assertThat(trip.getVisitedCount()).isNotEqualTo(104L);
     }
 }

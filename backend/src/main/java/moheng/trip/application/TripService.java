@@ -22,6 +22,7 @@ public class TripService {
         this.externalSimilarTripModelClient = externalSimilarTripModelClient;
     }
 
+    @Transactional
     public FindTripWithSimilarTripsResponse findWithSimilarOtherTrips(final long tripId) {
         final Trip trip = findById(tripId);
         final FindSimilarTripWithContentIdResponses similarTripWithContentIdResponses = externalSimilarTripModelClient.findSimilarTrips(tripId);
