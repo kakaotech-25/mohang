@@ -128,4 +128,23 @@ public class TripServiceTest extends ServiceTestConfig {
             assertThat(response.getSimilarTripResponses().getFindTripResponses().size()).isEqualTo(3);
         });
     }
+
+
+    @DisplayName("현재 여행지를 조회하면 방문 횟수가 증가한다.")
+    @Test
+    void 현재_여행지를_조회하면_방문_횟수가_증가한다() {
+        // given
+        long currentTripId = 4L;
+        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
+        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 2L));
+        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 1L));
+        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 1L));
+
+        // when
+        tripService.findWithSimilarOtherTrips(currentTripId);
+        Trip trip = tripService.findById(currentTripId);
+
+        // then
+        assertThat(trip.getVisitedCount()).isEqualTo(1L);
+    }
 }
