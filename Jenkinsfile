@@ -48,7 +48,7 @@ pipeline {
                         // sh './gradlew build'
 
                         //test: 아래 명령어는 존재하지 않는 파일을 실행하여 오류를 발생시킵니다.
-                        sh './nonexistent-file'
+                        // sh './nonexistent-file'
                         //-----------------------
                     }
 
