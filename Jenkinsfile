@@ -95,7 +95,7 @@ def sendErrorNotification(stageName) {
             errorMessage = 'Failed to retrieve error message.'
         }
         
-        errorMessage = errorMessage.take(500)  // 메시지 길이를 제한
+        errorMessage = errorMessage.take(2000)  // 메시지 길이를 제한
 
         withCredentials([string(credentialsId: 'discord-webhook', variable: 'DISCORD')]) {
             discordSend description: """
