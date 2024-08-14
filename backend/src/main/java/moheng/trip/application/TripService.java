@@ -2,16 +2,15 @@ package moheng.trip.application;
 
 import moheng.trip.domain.ExternalSimilarTripModelClient;
 import moheng.trip.domain.Trip;
-import moheng.trip.dto.FindTripWithSimilarTripsResponse;
-import moheng.trip.dto.FindTripsResponse;
-import moheng.trip.dto.SimilarTripResponses;
-import moheng.trip.dto.TripCreateRequest;
+import moheng.trip.dto.*;
 import moheng.trip.exception.NoExistTripException;
 import moheng.trip.repository.TripRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @Service
@@ -26,9 +25,18 @@ public class TripService {
 
     public FindTripWithSimilarTripsResponse findWithSimilarOtherTrips(final long tripId) {
         final Trip trip = findById(tripId);
-        final SimilarTripResponses similarTripResponses = externalSimilarTripModelClient.findSimilarTrips(tripId);
+        final FindSimilarTripWithContentIdResponses similarTripWithContentIdResponses = externalSimilarTripModelClient.findSimilarTrips(tripId);
+        final SimilarTripResponses similarTripResponses = findTripsByContentIds(similarTripWithContentIdResponses.getContentIds());
         return new FindTripWithSimilarTripsResponse(trip, similarTripResponses);
     }
+
+    public SimilarTripResponses findTripsByContentIds(final List<Long> contentIds) {
+        final List<Trip> trips = contentIds.stream()
+                .map(this::findByContentId)
+                .collect(Collectors.toList());
+        return new SimilarTripResponses(trips);
+    }
+
 
     public Trip findByContentId(final Long contentId) {
         final Trip trip = tripRepository.findByContentId(contentId)
