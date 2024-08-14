@@ -2,6 +2,7 @@ package moheng.trip.application;
 
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
+import moheng.member.exception.NoExistMemberException;
 import moheng.recommendtrip.domain.RecommendTrip;
 import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.trip.domain.ExternalSimilarTripModelClient;
@@ -54,7 +55,7 @@ public class TripService {
 
     private void saveRecommendTripByClickedLogs(long memberId, Trip trip) {
         final Member member = memberRepository.findById(memberId)
-                .orElseThrow(NoExistTripException::new);
+                .orElseThrow(NoExistMemberException::new);
         final List<RecommendTrip> recommendTrips = recommendTripRepository.findAllByMemberId(member.getId());
 
         if(recommendTrips.size() < RECOMMEND_TRIPS_SIZE) {

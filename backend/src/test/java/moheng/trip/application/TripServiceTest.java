@@ -1,10 +1,17 @@
 package moheng.trip.application;
 
+import static moheng.fixture.MemberFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
+import groovy.transform.AutoImplement;
 import moheng.config.slice.ServiceTestConfig;
+import moheng.member.domain.Member;
+import moheng.member.domain.repository.MemberRepository;
+import moheng.recommendtrip.application.RecommendTripService;
+import moheng.recommendtrip.domain.RecommendTrip;
+import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.trip.domain.Trip;
 import moheng.trip.dto.FindTripWithSimilarTripsResponse;
 import moheng.trip.dto.TripCreateRequest;
@@ -20,6 +27,12 @@ import java.util.concurrent.Executors;
 public class TripServiceTest extends ServiceTestConfig {
     @Autowired
     private TripService tripService;
+
+    @Autowired
+    private RecommendTripRepository recommendTripRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
 
     @DisplayName("여행지를 생성한다.")
     @Test
@@ -117,15 +130,16 @@ public class TripServiceTest extends ServiceTestConfig {
     @Test
     void 현재_여행지를_비슷한_여행지와_함께_조회한다() {
         // given
-        long currentTripId = 4L;
-        long memberId = 1L;
+        Member member = memberRepository.save(하온_기존());
         tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
-        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 2L));
-        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 1L));
-        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 1L));
+        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
+        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
+        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
+        Trip trip = tripService.findById(1L);
+        recommendTripRepository.save(new RecommendTrip(trip, member, 1L));
 
         // when
-        FindTripWithSimilarTripsResponse response = tripService.findWithSimilarOtherTrips(currentTripId, memberId);
+        FindTripWithSimilarTripsResponse response = tripService.findWithSimilarOtherTrips(trip.getId(), member.getId());
 
         // then
         assertAll(() -> {
@@ -139,19 +153,20 @@ public class TripServiceTest extends ServiceTestConfig {
     @Test
     void 현재_여행지를_조회하면_방문_횟수가_증가한다() {
         // given
-        long memberId = 1L;
-        long currentTripId = 4L;
+        Member member = memberRepository.save(하온_기존());
         tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
-        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 2L));
-        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 1L));
-        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 1L));
+        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
+        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
+        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
+        Trip trip = tripService.findById(1L);
+        recommendTripRepository.save(new RecommendTrip(trip, member, 1L));
 
         // when
-        tripService.findWithSimilarOtherTrips(currentTripId, memberId);
-        Trip trip = tripService.findById(currentTripId);
+        tripService.findWithSimilarOtherTrips(trip.getId(), member.getId());
+        long expected = tripService.findById(1L).getId();
 
         // then
-        assertThat(trip.getVisitedCount()).isEqualTo(1L);
+        assertThat(expected).isEqualTo(1L);
     }
 
     @DisplayName("동시간대에 여러 유저가 여행지를 조회하면 방문 횟수에 동시성 이슈가 발생한다.")
