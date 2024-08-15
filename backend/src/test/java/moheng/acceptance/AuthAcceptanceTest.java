@@ -1,21 +1,18 @@
 package moheng.acceptance;
 
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.*;
-import static moheng.acceptance.fixture.HttpStatus.*;
+import static moheng.acceptance.fixture.HttpStatusAcceptenceFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
 import moheng.auth.dto.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 
 public class AuthAcceptanceTest extends AcceptanceTestConfig {
 

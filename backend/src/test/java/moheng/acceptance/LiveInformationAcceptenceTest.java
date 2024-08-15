@@ -1,26 +1,19 @@
 package moheng.acceptance;
 
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.*;
-import static moheng.acceptance.fixture.HttpStatus.*;
+import static moheng.acceptance.fixture.HttpStatusAcceptenceFixture.*;
 import static moheng.acceptance.fixture.LiveInfoAcceptenceFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
 import moheng.auth.dto.AccessTokenResponse;
 import moheng.liveinformation.dto.FindAllLiveInformationResponse;
 import moheng.liveinformation.dto.FindMemberLiveInformationResponses;
-import moheng.liveinformation.dto.LiveInformationCreateRequest;
-import moheng.member.dto.request.SignUpLiveInfoRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-
-import java.util.List;
 
 public class LiveInformationAcceptenceTest extends AcceptanceTestConfig {
 

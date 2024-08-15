@@ -1,11 +1,10 @@
 package moheng.acceptance;
 
 
-import static moheng.acceptance.fixture.HttpStatus.상태코드_200이_반환된다;
-import static moheng.acceptance.fixture.TripKeywordFixture.*;
-import static moheng.acceptance.fixture.RecommendTripFixture.*;
+import static moheng.acceptance.fixture.HttpStatusAcceptenceFixture.상태코드_200이_반환된다;
+import static moheng.acceptance.fixture.TripKeywordAcceptenceFixture.*;
 import static moheng.acceptance.fixture.TripAcceptenceFixture.*;
-import static moheng.acceptance.fixture.KeywordFixture.*;
+import static moheng.acceptance.fixture.KeywordAcceptenceFixture.*;
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.자체_토큰을_생성한다;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;

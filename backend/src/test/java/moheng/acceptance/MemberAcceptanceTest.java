@@ -3,33 +3,22 @@ package moheng.acceptance;
 import static moheng.acceptance.fixture.TripAcceptenceFixture.*;
 import static moheng.acceptance.fixture.LiveInfoAcceptenceFixture.*;
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.*;
-import static moheng.acceptance.fixture.HttpStatus.상태코드_200이_반환된다;
+import static moheng.acceptance.fixture.HttpStatusAcceptenceFixture.상태코드_200이_반환된다;
 import static moheng.acceptance.fixture.MemberAcceptanceFixture.*;
-import static moheng.acceptance.fixture.HttpStatus.*;
+import static moheng.acceptance.fixture.HttpStatusAcceptenceFixture.*;
 import static moheng.acceptance.fixture.MemberAcceptanceFixture.프로필_정보로_회원가입을_한다;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
-import moheng.acceptance.fixture.HttpStatus;
 import moheng.auth.dto.AccessTokenResponse;
-import moheng.auth.dto.TokenRequest;
-import moheng.auth.dto.TokenResponse;
-import moheng.liveinformation.dto.LiveInformationCreateRequest;
-import moheng.member.domain.GenderType;
-import moheng.member.dto.request.*;
 import moheng.member.dto.response.MemberResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
-
-import java.time.LocalDate;
-import java.util.List;
 
 public class MemberAcceptanceTest extends AcceptanceTestConfig {
 

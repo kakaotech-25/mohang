@@ -8,7 +8,7 @@ import moheng.keyword.dto.TripsByKeyWordsRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-public class KeywordFixture {
+public class KeywordAcceptenceFixture {
     public static ExtractableResponse<Response> 키워드를_생성한다(String name) {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
