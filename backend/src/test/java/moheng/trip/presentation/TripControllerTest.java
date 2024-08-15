@@ -9,8 +9,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -80,12 +79,28 @@ public class TripControllerTest extends ControllerTestConfig {
                 .willReturn(여행지_조회_응답());
 
         // when, then
-        mockMvc.perform(get("/trip/find/interested")
+        mockMvc.perform(get("/trip/find/{tripId}", 1L)
                 .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(프로필_정보로_회원가입_요청()))
         )
+                .andDo(document("trip/find/current",
+                        responseFields(
+                                fieldWithPath("findTripResponse.name").description("선택한 여행지의 이름"),
+                                fieldWithPath("findTripResponse.placeName").description("선택한 여행지의 장소명"),
+                                fieldWithPath("findTripResponse.contentId").description("선택한 여행지의 컨텐츠 ID"),
+                                fieldWithPath("findTripResponse.tripImageUrl").description("선택한 여행지의 이미지 URL"),
+                                fieldWithPath("findTripResponse.description").description("선택한 여행지에 대한 설명"),
+                                fieldWithPath("findTripResponse.keywords[]").description("선택한 여행지와 관련된 키워드 목록"),
+
+                                fieldWithPath("similarTripResponses.findTripResponses[].name").description("유사한 여행지의 이름"),
+                                fieldWithPath("similarTripResponses.findTripResponses[].placeName").description("유사한 여행지의 장소명"),
+                                fieldWithPath("similarTripResponses.findTripResponses[].contentId").description("유사한 여행지의 컨텐츠 ID"),
+                                fieldWithPath("similarTripResponses.findTripResponses[].tripImageUrl").description("유사한 여행지의 이미지 URL"),
+                                fieldWithPath("similarTripResponses.findTripResponses[].description").description("유사한 여행지에 대한 설명"),
+                                fieldWithPath("similarTripResponses.findTripResponses[].keywords[]").description("유사한 여행지와 관련된 키워드 목록")
+                        )
+                ))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
