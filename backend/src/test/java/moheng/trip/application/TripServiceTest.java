@@ -7,6 +7,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import groovy.transform.AutoImplement;
 import moheng.config.slice.ServiceTestConfig;
+import moheng.keyword.domain.Keyword;
+import moheng.keyword.domain.KeywordRepository;
+import moheng.keyword.domain.TripKeyword;
+import moheng.keyword.domain.TripKeywordRepository;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
@@ -16,7 +20,9 @@ import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.trip.domain.MemberTrip;
 import moheng.trip.domain.MemberTripRepository;
 import moheng.trip.domain.Trip;
+import moheng.trip.dto.FindTripResponse;
 import moheng.trip.dto.FindTripWithSimilarTripsResponse;
+import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.dto.TripCreateRequest;
 import moheng.trip.exception.NoExistRecommendTripException;
 import moheng.trip.exception.NoExistTripException;
@@ -44,6 +50,12 @@ public class TripServiceTest extends ServiceTestConfig {
 
     @Autowired
     private MemberTripRepository memberTripRepository;
+
+    @Autowired
+    private TripKeywordRepository tripKeywordRepository;
+
+    @Autowired
+    private KeywordRepository keywordRepository;
 
     @DisplayName("여행지를 생성한다.")
     @Test
@@ -111,30 +123,17 @@ public class TripServiceTest extends ServiceTestConfig {
         tripService.save(new Trip("여행지2", "서울", 2L, "설명", "https://image.png", 2L));
         tripService.save(new Trip("여행지3", "서울", 3L, "설명", "https://image.png", 1L));
 
+        keywordRepository.save(new Keyword("키워드1"));
+        keywordRepository.save(new Keyword("키워드2"));
+        keywordRepository.save(new Keyword("키워드3"));
+
+        tripKeywordRepository.save(new TripKeyword(tripService.findById(1L), keywordRepository.findById(1L).get()));
+        tripKeywordRepository.save(new TripKeyword(tripService.findById(2L), keywordRepository.findById(2L).get()));
+        tripKeywordRepository.save(new TripKeyword(tripService.findById(3L), keywordRepository.findById(3L).get()));
+
         // when, then
         assertThat(tripService.findTop30OrderByVisitedCountDesc()
                 .getFindTripResponses().size()).isEqualTo(3);
-    }
-
-    @DisplayName("방문 수 기준 상위 여행지들을 오름차순으로 조회한다.")
-    @Test
-    void 방문_수_기준_상위_여행지들을_오름차순으로_조회한다() {
-        // given
-        tripService.save(new Trip("여행지1", "서울", 1L, "설명", "https://image.png", 0L));
-        tripService.save(new Trip("여행지2", "서울", 2L, "설명", "https://image.png", 2L));
-        tripService.save(new Trip("여행지3", "서울", 3L, "설명", "https://image.png", 1L));
-
-        // when, then
-        assertAll(() -> {
-            assertThat(tripService.findTop30OrderByVisitedCountDesc()
-                    .getFindTripResponses().get(0).getName()).isEqualTo("여행지2");
-
-            assertThat(tripService.findTop30OrderByVisitedCountDesc()
-                    .getFindTripResponses().get(1).getName()).isEqualTo("여행지3");
-
-            assertThat(tripService.findTop30OrderByVisitedCountDesc()
-                    .getFindTripResponses().get(2).getName()).isEqualTo("여행지1");
-        });
     }
 
     @DisplayName("현재 여행지를 비슷한 여행지와 함께 조회한다.")

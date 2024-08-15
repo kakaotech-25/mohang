@@ -20,4 +20,9 @@ public class TestConfig {
     public KeywordFilterModelClient keywordFilterModelClient() {
         return new StubKeywordFilterModelClient();
     }
+
+    @Bean
+    public ExternalSimilarTripModelClient externalSimilarTripModelClient() {
+        return new StubSimilarTripModelClient();
+    }
 }

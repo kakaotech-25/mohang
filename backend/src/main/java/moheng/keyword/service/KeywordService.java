@@ -12,6 +12,7 @@ import moheng.keyword.dto.TripRecommendByKeywordRequest;
 import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.trip.domain.Trip;
 import moheng.trip.dto.FindTripsResponse;
+import moheng.trip.dto.TripKeywordCreateRequest;
 import moheng.trip.exception.NoExistTripException;
 import moheng.trip.domain.TripRepository;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,7 @@ public class KeywordService {
     }
 
     @Transactional
-    public void createKeyword(KeywordCreateRequest request) {
+    public void createKeyword(final KeywordCreateRequest request) {
         keywordRepository.save(new Keyword(request.getKeyword()));
     }
 
@@ -49,7 +50,16 @@ public class KeywordService {
     }
 
     public FindTripsResponse findRecommendTripsByKeywords(final TripsByKeyWordsRequest request) {
-        final List<TripKeyword> tripWithKeywords = tripKeywordRepository.findTripsByKeywordIds(request.getKeywordIds());
-        return new FindTripsResponse(tripWithKeywords);
+        final List<TripKeyword> trips = tripKeywordRepository.findTripsByKeywordIds(request.getKeywordIds());
+        return new FindTripsResponse(trips);
+    }
+
+    @Transactional
+    public void createTripKeyword(final TripKeywordCreateRequest request) {
+        final Trip trip = tripRepository.findById(request.getTripId())
+                        .orElseThrow(NoExistTripException::new);
+        final Keyword keyword = keywordRepository.findById(request.getKeywordId())
+                        .orElseThrow(NoExistTripException::new);
+        tripKeywordRepository.save(new TripKeyword(trip, keyword));
     }
 }

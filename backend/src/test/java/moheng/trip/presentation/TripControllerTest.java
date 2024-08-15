@@ -42,12 +42,7 @@ public class TripControllerTest extends ControllerTestConfig {
     void 상위_30개의_여행지들을_방문_수_기준으로_정렬한다() throws Exception {
         // given
         given(tripService.findTop30OrderByVisitedCountDesc())
-                .willReturn(new FindTripsResponse(
-                        List.of(new Trip("여행지1", "장소명1", 1L, "여행지1 설명", "여행지1 이미지 경로"),
-                                new Trip("여행지2", "장소명2", 2L, "여행지2 설명", "여행지2 이미지 경로"),
-                                new Trip("여행지3", "장소명3", 3L, "여행지3 설명", "여행지3 이미지 경로")
-                )
-        ));
+                .willReturn(여행지_응답());
 
         // when, then
         mockMvc.perform(get("/trip/find/interested")

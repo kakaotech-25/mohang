@@ -7,6 +7,7 @@ import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
 import moheng.keyword.service.KeywordService;
 import moheng.trip.dto.FindTripsResponse;
+import moheng.trip.dto.TripKeywordCreateRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,5 +30,10 @@ public class KeywordController {
     public ResponseEntity<Void> createKeyword(@RequestBody final KeywordCreateRequest request) {
         keywordService.createKeyword(request);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/trip")
+    public ResponseEntity<Void> createTripKeyword(@RequestBody final TripKeywordCreateRequest request) {
+        keywordService.createTripKeyword(request);
     }
 }
