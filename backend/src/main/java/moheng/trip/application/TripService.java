@@ -8,6 +8,7 @@ import moheng.member.exception.NoExistMemberException;
 import moheng.recommendtrip.domain.RecommendTrip;
 import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.trip.domain.*;
+import moheng.trip.domain.recommendstrategy.RecommendTripStrategy;
 import moheng.trip.domain.recommendstrategy.SaveRecommendTripStrategyProvider;
 import moheng.trip.dto.*;
 import moheng.trip.exception.NoExistRecommendTripException;
@@ -22,9 +23,6 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @Service
 public class TripService {
-    private static final long RECOMMEND_TRIPS_SIZE = 10L;
-    private static final long HIGHEST_PRIORITY_RANK = 1L;
-    private static final long LOWEST_PRIORITY_RANK = 10L;
     private final ExternalSimilarTripModelClient externalSimilarTripModelClient;
     private final SaveRecommendTripStrategyProvider saveRecommendTripStrategyProvider;
     private final TripRepository tripRepository;
@@ -58,13 +56,6 @@ public class TripService {
         return new FindTripWithSimilarTripsResponse(trip, findKeywordsByTrip(trip), similarTripResponses);
     }
 
-    private List<String> findKeywordsByTrip(final Trip trip) {
-        return tripKeywordRepository.findByTrip(trip)
-                .stream()
-                .map(tripKeyword -> tripKeyword.getKeyword().getName())
-                .collect(Collectors.toList());
-    }
-
     private SimilarTripResponses findTripsByContentIdsWithKeywords(final List<Long> contentIds) {
         final List<Trip> trips = contentIds.stream()
                 .map(this::findByContentId)
@@ -77,32 +68,9 @@ public class TripService {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoExistMemberException::new);
         final List<RecommendTrip> recommendTrips = recommendTripRepository.findTop10ByMember(member);
-
         final MemberTrip memberTrip = findOrCreateMemberTrip(member, trip);
         memberTrip.incrementVisitedCount();
-
-        if(recommendTrips.size() < RECOMMEND_TRIPS_SIZE) {
-            final long highestRank = findHighestRecommendTripRank(recommendTrips);
-            recommendTripRepository.save(new RecommendTrip(trip, member, highestRank + 1));
-        }
-        else if(recommendTrips.size() >= RECOMMEND_TRIPS_SIZE) {
-            if(!recommendTripRepository.existsByMemberAndTrip(member, trip)) {
-                downAllRanks(recommendTrips);
-                deleteHighestPriorityRankRecommendTrip(member);
-                recommendTripRepository.save(new RecommendTrip(trip, member, LOWEST_PRIORITY_RANK));
-            }
-        }
-    }
-
-    private void deleteHighestPriorityRankRecommendTrip(final Member member) {
-        if(!recommendTripRepository.existsByMemberAndRank(member, HIGHEST_PRIORITY_RANK - 1)) {
-            throw new NoExistRecommendTripException("존재하지 않는 선호 여행지 정보입니다.");
-        }
-        recommendTripRepository.deleteByMemberAndRank(member, HIGHEST_PRIORITY_RANK - 1);
-    }
-
-    private void downAllRanks(List<RecommendTrip> recommendTrips) {
-        recommendTripRepository.bulkDownRank(recommendTrips);
+        saveRecommendLogsByStrategy(trip, member, recommendTrips);
     }
 
     private MemberTrip findOrCreateMemberTrip(final Member member, final Trip trip) {
@@ -113,13 +81,17 @@ public class TripService {
         return foundMemberTrip;
     }
 
-    private long findHighestRecommendTripRank(final List<RecommendTrip> recommendTrips) {
-        return recommendTrips.stream()
-                .max(Comparator.comparing(RecommendTrip::getRank))
-                .map(RecommendTrip::getRank)
-                .orElseThrow(() -> new NoExistRecommendTripException("선호 여행지 정보가 없습니다."));
+    private void saveRecommendLogsByStrategy(final Trip trip, final Member member, final List<RecommendTrip> recommendTrips) {
+        final RecommendTripStrategy recommendTripStrategy = saveRecommendTripStrategyProvider.findRecommendTripStrategy(recommendTrips.size());
+        recommendTripStrategy.execute(trip, member, recommendTrips);
     }
 
+    private List<String> findKeywordsByTrip(final Trip trip) {
+        return tripKeywordRepository.findByTrip(trip)
+                .stream()
+                .map(tripKeyword -> tripKeyword.getKeyword().getName())
+                .collect(Collectors.toList());
+    }
 
     public Trip findByContentId(final Long contentId) {
         final Trip trip = tripRepository.findByContentId(contentId)

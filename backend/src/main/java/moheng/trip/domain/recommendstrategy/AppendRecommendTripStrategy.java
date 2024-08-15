@@ -20,7 +20,7 @@ public class AppendRecommendTripStrategy implements RecommendTripStrategy {
 
     @Override
     public void execute(Trip trip, Member member, List<RecommendTrip> recommendTrips) {
-        long highestRank = findHighestRecommendTripRank(recommendTrips);
+        final long highestRank = findHighestRecommendTripRank(recommendTrips);
         recommendTripRepository.save(new RecommendTrip(trip, member, highestRank + 1));
     }
 
