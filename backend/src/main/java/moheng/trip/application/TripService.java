@@ -75,11 +75,12 @@ public class TripService {
                 .orElseThrow(NoExistMemberException::new);
         final List<RecommendTrip> recommendTrips = recommendTripRepository.findTop10ByMember(member);
 
+        final MemberTrip memberTrip = findOrCreateMemberTrip(member, trip);
+        memberTrip.incrementVisitedCount();
+
         if(recommendTrips.size() < RECOMMEND_TRIPS_SIZE) {
             final long highestRank = findHighestRecommendTripRank(recommendTrips);
             recommendTripRepository.save(new RecommendTrip(trip, member, highestRank + 1));
-            final MemberTrip memberTrip = findOrCreateMemberTrip(member, trip);
-            memberTrip.incrementVisitedCount();
         }
         else if(recommendTrips.size() >= RECOMMEND_TRIPS_SIZE) {
             if(!recommendTripRepository.existsByMemberAndTrip(member, trip)) {
@@ -87,8 +88,6 @@ public class TripService {
                 deleteHighestPriorityRankRecommendTrip(member);
                 recommendTripRepository.save(new RecommendTrip(trip, member, LOWEST_PRIORITY_RANK));
             }
-            final MemberTrip memberTrip = findOrCreateMemberTrip(member, trip);
-            memberTrip.incrementVisitedCount();
         }
     }
 
