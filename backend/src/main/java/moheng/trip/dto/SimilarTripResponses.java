@@ -12,6 +12,9 @@ import java.util.stream.Collectors;
 public class SimilarTripResponses {
     private List<FindTripResponse> findTripResponses;
 
+    private SimilarTripResponses() {
+    }
+
     public SimilarTripResponses(List<Trip> trips, List<TripKeyword> tripKeywords) {
         this.findTripResponses = toResponse(trips, tripKeywords);
     }

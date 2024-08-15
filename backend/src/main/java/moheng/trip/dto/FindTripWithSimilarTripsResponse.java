@@ -8,6 +8,9 @@ public class FindTripWithSimilarTripsResponse {
     private FindTripResponse findTripResponse;
     private SimilarTripResponses similarTripResponses;
 
+    private FindTripWithSimilarTripsResponse() {
+    }
+
     public FindTripWithSimilarTripsResponse(final Trip trip, final List<String> keywords, final SimilarTripResponses similarTripResponses) {
         this.findTripResponse = new FindTripResponse(trip, keywords);
         this.similarTripResponses = similarTripResponses;
