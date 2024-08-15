@@ -20,7 +20,7 @@ public class ReplaceRecommendTripStrategy implements RecommendTripStrategy {
     }
 
     @Override
-    public void execute(Trip trip, Member member, List<RecommendTrip> recommendTrips) {
+    public void execute(final Trip trip, final Member member, final List<RecommendTrip> recommendTrips) {
         if (!recommendTripRepository.existsByMemberAndTrip(member, trip)) {
             downAllRanks(recommendTrips);
             deleteHighestPriorityRankRecommendTrip(member);
@@ -35,12 +35,12 @@ public class ReplaceRecommendTripStrategy implements RecommendTripStrategy {
         recommendTripRepository.deleteByMemberAndRank(member, HIGHEST_PRIORITY_RANK - 1);
     }
 
-    private void downAllRanks(List<RecommendTrip> recommendTrips) {
+    private void downAllRanks(final List<RecommendTrip> recommendTrips) {
         recommendTripRepository.bulkDownRank(recommendTrips);
     }
 
     @Override
-    public boolean isMatch(long recommendSize) {
-        return false;
+    public boolean isMatch(final long recommendSize, final long maxSize) {
+        return recommendSize >= maxSize;
     }
 }

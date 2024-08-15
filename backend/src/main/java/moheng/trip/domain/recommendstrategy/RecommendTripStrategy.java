@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface RecommendTripStrategy {
     void execute(final Trip trip, final Member member, final List<RecommendTrip> recommendTrips);
-    boolean isMatch(final long recommendSize);
+    boolean isMatch(final long recommendSize, final long maxSize);
 }
