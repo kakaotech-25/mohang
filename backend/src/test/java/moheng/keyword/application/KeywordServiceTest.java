@@ -22,6 +22,7 @@ import moheng.trip.domain.Trip;
 import moheng.trip.domain.TripRepository;
 import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.dto.TripKeywordCreateRequest;
+import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,5 +144,18 @@ public class KeywordServiceTest extends ServiceTestConfig {
 
         // then
         assertThat(keywordRepository.findById(1L)).isNotEmpty();
+    }
+
+    @DisplayName("없는 여행지의 키워드를 생성하면 예외가 발생한다.")
+    @Test
+    void 없는_여행지의_키워드를_생성하면_예외가_발생한다() {
+        // given
+        tripRepository.save(new Trip("여행지", "장소명", 1L, "설명", "이미지"));
+
+        TripKeywordCreateRequest request = new TripKeywordCreateRequest(-1L, 1L);
+
+        // when, then
+        assertThatThrownBy(() -> keywordService.createTripKeyword(request))
+                .isInstanceOf(NoExistTripException.class);
     }
 }
