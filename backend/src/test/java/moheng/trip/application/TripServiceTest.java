@@ -13,6 +13,7 @@ import moheng.member.exception.NoExistMemberException;
 import moheng.recommendtrip.application.RecommendTripService;
 import moheng.recommendtrip.domain.RecommendTrip;
 import moheng.recommendtrip.domain.RecommendTripRepository;
+import moheng.trip.domain.MemberTrip;
 import moheng.trip.domain.MemberTripRepository;
 import moheng.trip.domain.Trip;
 import moheng.trip.dto.FindTripWithSimilarTripsResponse;
@@ -541,11 +542,47 @@ public class TripServiceTest extends ServiceTestConfig {
         recommendTripRepository.save(new RecommendTrip(trip7, member, 7L)); recommendTripRepository.save(new RecommendTrip(trip8, member, 8L));
         recommendTripRepository.save(new RecommendTrip(trip9, member, 9L)); recommendTripRepository.save(new RecommendTrip(trip10, member, 10L));
 
-
         // when
         tripService.findWithSimilarOtherTrips(firstVisitTrip.getId(), member.getId());
 
         // then
         assertThat(memberTripRepository.findByMemberAndTrip(member, firstVisitTrip).getVisitedCount()).isEqualTo(1L);
+    }
+
+    @DisplayName("이전에 방문했던 여행지라면 방문 횟수가 1이 증가한다.")
+    @Test
+    void 이전에_방문했던_여행지라면_방문_횟수가_1이_증가한다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
+        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
+        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
+        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
+        tripService.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
+        tripService.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
+        tripService.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
+        tripService.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
+        tripService.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
+        tripService.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
+        Trip trip1 = tripService.findById(1L); Trip trip2 = tripService.findById(2L);
+        Trip trip3 = tripService.findById(3L); Trip trip4 = tripService.findById(4L);
+        Trip trip5 = tripService.findById(5L); Trip trip6 = tripService.findById(6L);
+        Trip trip7 = tripService.findById(7L); Trip trip8 = tripService.findById(8L);
+        Trip trip9 = tripService.findById(9L);
+        Trip alreadyVisitedTrip = tripService.findById(10L);
+
+        recommendTripRepository.save(new RecommendTrip(trip1, member, 1L)); recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
+        recommendTripRepository.save(new RecommendTrip(trip3, member, 3L)); recommendTripRepository.save(new RecommendTrip(trip4, member, 4L));
+        recommendTripRepository.save(new RecommendTrip(trip5, member, 5L)); recommendTripRepository.save(new RecommendTrip(trip6, member, 6L));
+        recommendTripRepository.save(new RecommendTrip(trip7, member, 7L)); recommendTripRepository.save(new RecommendTrip(trip8, member, 8L));
+        recommendTripRepository.save(new RecommendTrip(trip9, member, 9L)); recommendTripRepository.save(new RecommendTrip(alreadyVisitedTrip, member, 10L));
+
+        memberTripRepository.save(new MemberTrip(member, alreadyVisitedTrip, 100L));
+
+        // when
+        tripService.findWithSimilarOtherTrips(alreadyVisitedTrip.getId(), member.getId());
+
+        // then
+        assertThat(memberTripRepository.findByMemberAndTrip(member, alreadyVisitedTrip).getVisitedCount()).isEqualTo(101L);
     }
 }

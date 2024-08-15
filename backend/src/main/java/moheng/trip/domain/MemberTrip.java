@@ -31,6 +31,12 @@ public class MemberTrip extends BaseEntity {
         visitedCount = 0L;
     }
 
+    public MemberTrip(final Member member, final Trip trip, final Long visitedCount) {
+        this.member = member;
+        this.trip = trip;
+        this.visitedCount = visitedCount;
+    }
+
     public void incrementVisitedCount() {
         visitedCount++;
     }
