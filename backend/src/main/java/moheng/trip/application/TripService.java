@@ -70,9 +70,11 @@ public class TripService {
             memberTrip.incrementVisitedCount();
         }
         else if(recommendTrips.size() >= RECOMMEND_TRIPS_SIZE) {
-            downAllRanks(recommendTrips);
-            deleteHighestPriorityRankRecommendTrip(member);
-            recommendTripRepository.save(new RecommendTrip(trip, member, LOWEST_PRIORITY_RANK));
+            if(!recommendTripRepository.existsByMemberAndTrip(member, trip)) {
+                downAllRanks(recommendTrips);
+                deleteHighestPriorityRankRecommendTrip(member);
+                recommendTripRepository.save(new RecommendTrip(trip, member, LOWEST_PRIORITY_RANK));
+            }
             final MemberTrip memberTrip = findOrCreateMemberTrip(member, trip);
             memberTrip.incrementVisitedCount();
         }
