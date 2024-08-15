@@ -16,4 +16,12 @@ public class MemberTripTest {
         // given, when, then
         assertDoesNotThrow(() -> new MemberTrip(하온_기존(), new Trip()));
     }
+
+    @DisplayName("멤버의 여행지 방문횟수를 증가시킨다.")
+    @Test
+    void 멤버의_여행지_방문횟수를_증가시킨다() {
+        MemberTrip memberTrip = new MemberTrip(하온_기존(), new Trip(), 100L);
+        memberTrip.incrementVisitedCount();
+        assertThat(memberTrip.getVisitedCount()).isEqualTo(101L);
+    }
 }

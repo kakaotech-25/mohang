@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 public class MemberTripRepositoryTest extends RepositoryTestConfig {
-    //    MemberTrip findByMemberAndTrip(final Member member, final Trip trip);
     @Autowired
     private MemberTripRepository memberTripRepository;
 
