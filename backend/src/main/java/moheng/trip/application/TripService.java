@@ -1,5 +1,7 @@
 package moheng.trip.application;
 
+import moheng.keyword.domain.TripKeyword;
+import moheng.keyword.domain.TripKeywordRepository;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
@@ -28,17 +30,19 @@ public class TripService {
     private final RecommendTripRepository recommendTripRepository;
     private final MemberRepository memberRepository;
     private final MemberTripRepository memberTripRepository;
+    private final TripKeywordRepository tripKeywordRepository;
 
     public TripService(final TripRepository tripRepository,
                        final ExternalSimilarTripModelClient externalSimilarTripModelClient,
                        final RecommendTripRepository recommendTripRepository,
                        final MemberRepository memberRepository,
-                       final MemberTripRepository memberTripRepository) {
+                       final MemberTripRepository memberTripRepository, TripKeywordRepository tripKeywordRepository) {
         this.tripRepository = tripRepository;
         this.externalSimilarTripModelClient = externalSimilarTripModelClient;
         this.recommendTripRepository = recommendTripRepository;
         this.memberRepository = memberRepository;
         this.memberTripRepository = memberTripRepository;
+        this.tripKeywordRepository = tripKeywordRepository;
     }
 
     @Transactional
@@ -137,6 +141,8 @@ public class TripService {
     }
 
     public FindTripsResponse findTop30OrderByVisitedCountDesc() {
-        return new FindTripsResponse(tripRepository.findTop30ByOrderByVisitedCountDesc());
+        final List<Trip> topTrips = tripRepository.findTop30ByOrderByVisitedCountDesc();
+        final List<TripKeyword> tripKeywords = tripKeywordRepository.findByTrips(topTrips);
+        return new FindTripsResponse(tripKeywords);
     }
 }
