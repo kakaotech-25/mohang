@@ -26,6 +26,7 @@ public class TripService {
     private static final long HIGHEST_PRIORITY_RANK = 1L;
     private static final long LOWEST_PRIORITY_RANK = 10L;
     private final ExternalSimilarTripModelClient externalSimilarTripModelClient;
+
     private final TripRepository tripRepository;
     private final RecommendTripRepository recommendTripRepository;
     private final MemberRepository memberRepository;
