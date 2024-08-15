@@ -3,7 +3,7 @@ import ProfileInfo from "../components/ProfileInfo";
 import progressbar2 from "../assets/progressbar2.png"
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button"
-import LivingBtn from "./LivingBtn";
+import LivingBtn from "../components/LivingBtn";
 import livingimg1 from "../assets/physical.png"
 import livingimg2 from "../assets/visual.png"
 import livingimg3 from "../assets/hearing.png"

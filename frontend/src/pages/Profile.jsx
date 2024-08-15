@@ -8,7 +8,7 @@ import profileimg3 from "../assets/profileimg3.png"
 import Radio from "../components/Radio"
 import Button from "../components/Button"
 import { useNavigate } from "react-router-dom";
-import ImageWithCheck from "./ImageWithCheck";
+import CheckImg from "../components/CheckImg";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -46,7 +46,7 @@ const Profile = () => {
       <section className='profile1'>
         <section className="profileimgs">
           {images.map((src, index) => (
-            <ImageWithCheck
+            <CheckImg
               key={index}
               src={src}
               isSelected={selectedImageIndex === index}
