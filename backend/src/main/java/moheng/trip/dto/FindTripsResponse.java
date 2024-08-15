@@ -1,8 +1,12 @@
 package moheng.trip.dto;
 
+import moheng.keyword.domain.TripKeyword;
 import moheng.trip.domain.Trip;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class FindTripsResponse {
@@ -11,13 +15,19 @@ public class FindTripsResponse {
     private FindTripsResponse() {
     }
 
-    public FindTripsResponse(final List<Trip> trips) {
-        this.findTripResponses = toResponse(trips);
+    public FindTripsResponse(final List<TripKeyword> tripKeywords) {
+        this.findTripResponses = toResponse(tripKeywords);
     }
 
-    private List<FindTripResponse> toResponse(final List<Trip> trips) {
-        return trips.stream()
-                .map(FindTripResponse::new)
+    private List<FindTripResponse> toResponse(final List<TripKeyword> tripKeywords) {
+        Map<Trip, List<String>> tripWithKeywords = new HashMap<>();
+        for (TripKeyword tripKeyword : tripKeywords) {
+            final Trip trip = tripKeyword.getTrip();
+            final String keywordName = tripKeyword.getKeyword().getName();
+            tripWithKeywords.computeIfAbsent(trip, k -> new ArrayList<>()).add(keywordName);
+        }
+        return tripWithKeywords.entrySet().stream()
+                .map(trip -> new FindTripResponse(trip.getKey(), trip.getValue()))
                 .collect(Collectors.toList());
     }
 

@@ -2,6 +2,7 @@ package moheng.keyword.service;
 
 import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.KeywordRepository;
+import moheng.keyword.domain.TripKeyword;
 import moheng.keyword.domain.TripKeywordRepository;
 import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.dto.RecommendTripResponse;
@@ -48,7 +49,7 @@ public class KeywordService {
     }
 
     public FindTripsResponse findRecommendTripsByKeywords(final TripsByKeyWordsRequest request) {
-        final List<Trip> trips = tripKeywordRepository.findTripsByKeywordIds(request.getKeywordIds());
-        return new FindTripsResponse(trips);
+        final List<TripKeyword> tripWithKeywords = tripKeywordRepository.findTripsByKeywordIds(request.getKeywordIds());
+        return new FindTripsResponse(tripWithKeywords);
     }
 }
