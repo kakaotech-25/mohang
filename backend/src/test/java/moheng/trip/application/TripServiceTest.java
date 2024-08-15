@@ -339,6 +339,7 @@ public class TripServiceTest extends ServiceTestConfig {
         tripService.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
         tripService.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
         tripService.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
+        tripService.save(new Trip("여행지11", "서울", 11L, "설명11", "https://image.png", 0L));
         Trip trip1 = tripService.findById(1L); Trip trip2 = tripService.findById(2L);
         Trip trip3 = tripService.findById(3L); Trip trip4 = tripService.findById(4L);
         Trip trip5 = tripService.findById(5L); Trip trip6 = tripService.findById(6L);
@@ -352,8 +353,8 @@ public class TripServiceTest extends ServiceTestConfig {
         recommendTripRepository.save(new RecommendTrip(trip9, member, 9L)); recommendTripRepository.save(new RecommendTrip(trip10, member, 10L));
 
         // when
-        Trip trip = tripService.findById(3L);
-        tripService.findWithSimilarOtherTrips(trip.getId(), member.getId());
+        Trip newVisitTrip = tripService.findById(11L);
+        tripService.findWithSimilarOtherTrips(newVisitTrip.getId(), member.getId());
 
         // then
         assertAll(() -> {
@@ -378,6 +379,7 @@ public class TripServiceTest extends ServiceTestConfig {
         tripService.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
         tripService.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
         tripService.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
+        tripService.save(new Trip("여행지11", "서울", 11L, "설명10", "https://image.png", 0L));
         Trip trip1 = tripService.findById(1L); Trip trip2 = tripService.findById(2L);
         Trip trip3 = tripService.findById(3L); Trip trip4 = tripService.findById(4L);
         Trip trip5 = tripService.findById(5L); Trip trip6 = tripService.findById(6L);
@@ -391,8 +393,8 @@ public class TripServiceTest extends ServiceTestConfig {
         recommendTripRepository.save(new RecommendTrip(trip9, member, 9L)); recommendTripRepository.save(new RecommendTrip(trip10, member, 10L));
 
         // when
-        Trip trip = tripService.findById(10L);
-        tripService.findWithSimilarOtherTrips(trip.getId(), member.getId());
+        Trip newVisitTrip = tripService.findById(11L);
+        tripService.findWithSimilarOtherTrips(newVisitTrip.getId(), member.getId());
 
         // then
         assertAll(() -> {
@@ -401,7 +403,6 @@ public class TripServiceTest extends ServiceTestConfig {
             assertThat(recommendTripRepository.findById(2L).get().getRank()).isEqualTo(HIGHEST_PRIORITY_RANK);
         });
     }
-
 
     @DisplayName("기존에 rank가 1등인 선호 여행지가 존재하지 않으면 예외가 발생한다.")
     @Test
@@ -418,11 +419,13 @@ public class TripServiceTest extends ServiceTestConfig {
         tripService.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
         tripService.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
         tripService.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
+        tripService.save(new Trip("여행지11", "서울", 11L, "설명10", "https://image.png", 0L));
         Trip trip1 = tripService.findById(1L); Trip trip2 = tripService.findById(2L);
         Trip trip3 = tripService.findById(3L); Trip trip4 = tripService.findById(4L);
         Trip trip5 = tripService.findById(5L); Trip trip6 = tripService.findById(6L);
         Trip trip7 = tripService.findById(7L); Trip trip8 = tripService.findById(8L);
         Trip trip9 = tripService.findById(9L); Trip trip10 = tripService.findById(10L);
+        Trip trip11 = tripService.findById(11L);
 
         recommendTripRepository.save(new RecommendTrip(trip1, member, 0L)); recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
         recommendTripRepository.save(new RecommendTrip(trip3, member, 3L)); recommendTripRepository.save(new RecommendTrip(trip4, member, 4L));
@@ -431,7 +434,7 @@ public class TripServiceTest extends ServiceTestConfig {
         recommendTripRepository.save(new RecommendTrip(trip9, member, 9L)); recommendTripRepository.save(new RecommendTrip(trip10, member, 10L));
 
         // when
-        Trip trip = tripService.findById(10L);
+        Trip trip = tripService.findById(11L);
 
         // then
         assertThatThrownBy(() -> tripService.findWithSimilarOtherTrips(trip.getId(), member.getId()))
