@@ -31,8 +31,7 @@ public class TripController {
 
     @PostMapping("/find/{tripId}")
     public ResponseEntity<FindTripWithSimilarTripsResponse> findTripWithSimilarTrips(
-            @PathVariable("tripId") final long tripId,
-            @Authentication final Accessor accessor) {
-        tripService.findWithSimilarOtherTrips(tripId , accessor.getId());
+            @PathVariable("tripId") final long tripId, @Authentication final Accessor accessor) {
+        return ResponseEntity.ok(tripService.findWithSimilarOtherTrips(tripId , accessor.getId()));
     }
 }

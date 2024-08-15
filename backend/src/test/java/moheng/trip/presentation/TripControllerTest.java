@@ -1,5 +1,8 @@
 package moheng.trip.presentation;
 
+import static moheng.fixture.MemberFixtures.프로필_정보로_회원가입_요청;
+import static moheng.fixture.MemberFixtures.하온_신규;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static moheng.fixture.TripFixture.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
@@ -15,12 +18,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import moheng.config.slice.ControllerTestConfig;
 import moheng.trip.domain.Trip;
+import moheng.trip.dto.FindTripWithSimilarTripsResponse;
 import moheng.trip.dto.FindTripsResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
 import java.util.List;
+import java.util.Optional;
 
 public class TripControllerTest extends ControllerTestConfig {
 
@@ -63,6 +68,25 @@ public class TripControllerTest extends ControllerTestConfig {
                                 fieldWithPath("findTripResponses[].keywords").description("세부 여행지 키워드 리스트")
                         )
                 ))
+                .andExpect(status().isOk());
+    }
+
+    @DisplayName("현재 여행지를 비슷한 여행지와 함께 조회하고 상태코드 200을 리턴한다.")
+    @Test
+    void 현재_여행지를_비슷한_여행지와_함꼐_조회하고_상태코드_200을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(tripService.findWithSimilarOtherTrips(anyLong(), anyLong()))
+                .willReturn(여행지_조회_응답());
+
+        // when, then
+        mockMvc.perform(get("/trip/find/interested")
+                .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(프로필_정보로_회원가입_요청()))
+        )
+                .andDo(print())
                 .andExpect(status().isOk());
     }
 }
