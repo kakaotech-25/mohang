@@ -94,4 +94,33 @@ public class KeywordServiceTest extends ServiceTestConfig {
         FindTripsResponse response = keywordService.findRecommendTripsByKeywords(request);
         assertThat(response.getFindTripResponses()).hasSize(3);
     }
+
+    @DisplayName("키워드로 필터링된 여행지는 중복이 제거되어 필터링된다.")
+    @Test
+    void 키워드로_필터링된_여행지는_중복이_제거되어_필터링된다() {
+        // given
+        memberService.save(하온_기존());
+        Member member = memberService.findByEmail(하온_이메일);
+
+        keywordRepository.save(new Keyword("키워드1"));
+        keywordRepository.save(new Keyword("키워드2"));
+        keywordRepository.save(new Keyword("키워드3"));
+
+        tripService.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로1"));
+        tripService.save(new Trip("여행지2", "장소명2", 2L, "설명2", "이미지 경로2"));
+        tripService.save(new Trip("여행지3", "장소명3", 3L, "설명3", "이미지 경로3"));
+
+        tripKeywordRepository.save(new TripKeyword(tripService.findById(1L), keywordRepository.findById(1L).get()));
+        tripKeywordRepository.save(new TripKeyword(tripService.findById(2L), keywordRepository.findById(2L).get()));
+        tripKeywordRepository.save(new TripKeyword(tripService.findById(3L), keywordRepository.findById(2L).get()));
+        tripKeywordRepository.save(new TripKeyword(tripService.findById(3L), keywordRepository.findById(2L).get()));
+        tripKeywordRepository.save(new TripKeyword(tripService.findById(2L), keywordRepository.findById(2L).get()));
+
+        List<Long> keywordIds = List.of(1L, 2L, 3L);
+        TripsByKeyWordsRequest request = new TripsByKeyWordsRequest(keywordIds);
+
+        // when, then
+        FindTripsResponse response = keywordService.findRecommendTripsByKeywords(request);
+        assertThat(response.getFindTripResponses()).hasSize(3);
+    }
 }
