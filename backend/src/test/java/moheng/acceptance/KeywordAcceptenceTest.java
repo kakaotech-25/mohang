@@ -2,6 +2,7 @@ package moheng.acceptance;
 
 
 import static moheng.acceptance.fixture.HttpStatus.상태코드_200이_반환된다;
+import static moheng.acceptance.fixture.TripKeywordFixture.*;
 import static moheng.acceptance.fixture.RecommendTripFixture.*;
 import static moheng.acceptance.fixture.TripAcceptenceFixture.*;
 import static moheng.acceptance.fixture.KeywordFixture.*;
@@ -37,9 +38,9 @@ public class KeywordAcceptenceTest extends AcceptanceTestConfig {
         여행지를_생성한다("여행지2", 2L);
         여행지를_생성한다("여행지3", 3L);
 
-        선호_여행지를_선택한다(1L, accessToken);
-        선호_여행지를_선택한다(2L, accessToken);
-        선호_여행지를_선택한다(3L, accessToken);
+        여행지_카워드를_생성한다(1L, 1L);
+        여행지_카워드를_생성한다(2L, 2L);
+        여행지_카워드를_생성한다(3L, 3L);
 
         // when
         ExtractableResponse<Response> recommendResponse = 키워드_리스트로_여행지를_추천받는다(

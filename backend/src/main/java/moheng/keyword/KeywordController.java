@@ -35,5 +35,6 @@ public class KeywordController {
     @PostMapping("/trip")
     public ResponseEntity<Void> createTripKeyword(@RequestBody final TripKeywordCreateRequest request) {
         keywordService.createTripKeyword(request);
+        return ResponseEntity.noContent().build();
     }
 }

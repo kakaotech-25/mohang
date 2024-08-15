@@ -50,7 +50,7 @@ public class KeywordService {
     }
 
     public FindTripsResponse findRecommendTripsByKeywords(final TripsByKeyWordsRequest request) {
-        final List<TripKeyword> trips = tripKeywordRepository.findTripsByKeywordIds(request.getKeywordIds());
+        final List<TripKeyword> trips = tripKeywordRepository.findTripKeywordsByKeywordIds(request.getKeywordIds());
         return new FindTripsResponse(trips);
     }
 
