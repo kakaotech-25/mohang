@@ -19,7 +19,9 @@ import moheng.recommendtrip.domain.RecommendTrip;
 import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.trip.application.TripService;
 import moheng.trip.domain.Trip;
+import moheng.trip.domain.TripRepository;
 import moheng.trip.dto.FindTripsResponse;
+import moheng.trip.dto.TripKeywordCreateRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +48,9 @@ public class KeywordServiceTest extends ServiceTestConfig {
 
     @Autowired
     private TripKeywordRepository tripKeywordRepository;
+
+    @Autowired
+    private TripRepository tripRepository;
 
     @DisplayName("키워드를 생성한다.")
     @Test
@@ -122,5 +127,21 @@ public class KeywordServiceTest extends ServiceTestConfig {
         // when, then
         FindTripsResponse response = keywordService.findRecommendTripsByKeywords(request);
         assertThat(response.getFindTripResponses()).hasSize(3);
+    }
+
+    @DisplayName("여행지의 키워드를 생성한다.")
+    @Test
+    void 여행지의_키워드를_생성한다() {
+        // given
+        keywordRepository.save(new Keyword("키워드1"));
+        tripRepository.save(new Trip("여행지", "장소명", 1L, "설명", "이미지"));
+
+        TripKeywordCreateRequest request = new TripKeywordCreateRequest(1L, 1L);
+
+        // when
+        keywordService.createTripKeyword(request);
+
+        // then
+        assertThat(keywordRepository.findById(1L)).isNotEmpty();
     }
 }
