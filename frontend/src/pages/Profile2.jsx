@@ -16,7 +16,7 @@ const Profile2 = () => {
     const navigate = useNavigate();
     return(
         <section className="livingpage">
-            <ProfileInfo text={"여행지 추천에 필요한 생활 정보를 골라주세요."} />
+            <ProfileInfo text={"여행지 추천에 필요한 생활 정보를 선택해주세요."} />
             <section className="progressbar2">
                 <img src={progressbar2} className='progressbar2' />
             </section>
