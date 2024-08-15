@@ -8,8 +8,6 @@ const CheckImg = ({ src, isSelected, onClick }) => {
         alt="checkable" 
         onClick={onClick} 
         className="profileimg"
-        onMouseEnter={e => e.currentTarget.classList.add('darken')}
-        onMouseLeave={e => e.currentTarget.classList.remove('darken')}
       />
       {isSelected && (
         <div className="checkmark">

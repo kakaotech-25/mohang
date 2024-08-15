@@ -10,7 +10,7 @@
     transition: filter 0.3s ease;
 }
 
-.profileimg.darken {
+.profileimg:hover {
     filter: brightness(50%);
 }
 
