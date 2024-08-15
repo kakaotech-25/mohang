@@ -55,7 +55,8 @@ public class KeywordControllerTest extends ControllerTestConfig {
                                 fieldWithPath("findTripResponses[].placeName").description("세부 여행지 장소명"),
                                 fieldWithPath("findTripResponses[].contentId").description("세부 여행지 contentId"),
                                 fieldWithPath("findTripResponses[].tripImageUrl").description("세부 여행지 이미지 경로"),
-                                fieldWithPath("findTripResponses[].description").description("세부 여행지 설명")
+                                fieldWithPath("findTripResponses[].description").description("세부 여행지 설명"),
+                                fieldWithPath("findTripResponses[].keywords").description("세부 여행지 키워드 리스트")
                         )
                 )).andExpect(status().isOk());
     }
