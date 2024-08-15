@@ -2,20 +2,15 @@ package moheng.trip.dto;
 
 import moheng.trip.domain.Trip;
 
+import java.util.List;
+
 public class FindTripWithSimilarTripsResponse {
     private FindTripResponse findTripResponse;
     private SimilarTripResponses similarTripResponses;
 
-    private FindTripWithSimilarTripsResponse() {
-    }
-
-    public FindTripWithSimilarTripsResponse(final Trip trip, final SimilarTripResponses similarTripResponses) {
-        this.findTripResponse = toResponse(trip);
+    public FindTripWithSimilarTripsResponse(final Trip trip, final List<String> keywords, final SimilarTripResponses similarTripResponses) {
+        this.findTripResponse = new FindTripResponse(trip, keywords);
         this.similarTripResponses = similarTripResponses;
-    }
-
-    private FindTripResponse toResponse(Trip trip) {
-        return new FindTripResponse(trip);
     }
 
     public FindTripResponse getFindTripResponse() {
@@ -26,3 +21,4 @@ public class FindTripWithSimilarTripsResponse {
         return similarTripResponses;
     }
 }
+

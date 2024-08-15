@@ -44,4 +44,8 @@ public class FindTripResponse {
     public String getDescription() {
         return description;
     }
+
+    public List<String> getKeywords() {
+        return keywords;
+    }
 }

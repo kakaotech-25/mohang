@@ -49,17 +49,25 @@ public class TripService {
     public FindTripWithSimilarTripsResponse findWithSimilarOtherTrips(final long tripId, final long memberId) {
         final Trip trip = findById(tripId);
         final FindSimilarTripWithContentIdResponses similarTripWithContentIdResponses = externalSimilarTripModelClient.findSimilarTrips(tripId);
-        final SimilarTripResponses similarTripResponses = findTripsByContentIds(similarTripWithContentIdResponses.getContentIds());
+        final SimilarTripResponses similarTripResponses = findTripsByContentIdsWithKeywords(similarTripWithContentIdResponses.getContentIds());
         trip.incrementVisitedCount();
         saveRecommendTripByClickedLogs(memberId, trip);
-        return new FindTripWithSimilarTripsResponse(trip, similarTripResponses);
+        return new FindTripWithSimilarTripsResponse(trip, findKeywordsByTrip(trip), similarTripResponses);
     }
 
-    private SimilarTripResponses findTripsByContentIds(final List<Long> contentIds) {
+    private List<String> findKeywordsByTrip(final Trip trip) {
+        return tripKeywordRepository.findByTrip(trip)
+                .stream()
+                .map(tripKeyword -> tripKeyword.getKeyword().getName())
+                .collect(Collectors.toList());
+    }
+
+    private SimilarTripResponses findTripsByContentIdsWithKeywords(final List<Long> contentIds) {
         final List<Trip> trips = contentIds.stream()
                 .map(this::findByContentId)
                 .collect(Collectors.toList());
-        return new SimilarTripResponses(trips);
+        final List<TripKeyword> tripKeywords = tripKeywordRepository.findByTrips(trips);
+        return new SimilarTripResponses(trips, tripKeywords);
     }
 
     private void saveRecommendTripByClickedLogs(final long memberId, final Trip trip) {

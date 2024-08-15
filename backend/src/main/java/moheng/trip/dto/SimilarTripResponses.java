@@ -1,23 +1,30 @@
 package moheng.trip.dto;
 
+import moheng.keyword.domain.TripKeyword;
 import moheng.trip.domain.Trip;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class SimilarTripResponses {
     private List<FindTripResponse> findTripResponses;
 
-    private SimilarTripResponses() {
+    public SimilarTripResponses(List<Trip> trips, List<TripKeyword> tripKeywords) {
+        this.findTripResponses = toResponse(trips, tripKeywords);
     }
 
-    public SimilarTripResponses(List<Trip> trips) {
-        this.findTripResponses = toResponse(trips);
-    }
-
-    private List<FindTripResponse> toResponse(List<Trip> trips) {
+    private List<FindTripResponse> toResponse(List<Trip> trips, List<TripKeyword> tripKeywords) {
+        Map<Trip, List<String>> tripKeywordMap = new HashMap<>();
+        for (TripKeyword tripKeyword : tripKeywords) {
+            Trip trip = tripKeyword.getTrip();
+            String keywordName = tripKeyword.getKeyword().getName();
+            tripKeywordMap.computeIfAbsent(trip, k -> new ArrayList<>()).add(keywordName);
+        }
         return trips.stream()
-                .map(FindTripResponse::new)
+                .map(trip -> new FindTripResponse(trip, tripKeywordMap.getOrDefault(trip, new ArrayList<>())))
                 .collect(Collectors.toList());
     }
 
