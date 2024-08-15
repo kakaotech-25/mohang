@@ -62,4 +62,20 @@ public class RecommendTripRepositoryTest extends RepositoryTestConfig {
         // when, then
         assertThat(recommendTripRepository.findAllByMemberId(member.getId())).hasSize(2);
     }
+
+    @DisplayName("멤버의 최대 10개 선호 여행지를 찾는다.")
+    @Test
+    void 멤버의_최대_10개_선호_여행지를_찾는다() {
+        // given
+        memberService.save(하온_기존());
+        Member member = memberService.findByEmail(하온_이메일);
+        tripService.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로"));
+        tripService.save(new Trip("여행지2", "장소명2", 2L, "설명2", "이미지 경로"));
+        Trip trip = tripService.findByContentId(1L);
+        recommendTripRepository.save(new RecommendTrip(trip, member));
+        recommendTripRepository.save(new RecommendTrip(trip, member));
+
+        // when, then
+        assertThat(recommendTripRepository.findTop10ByMember(member)).hasSize(2);
+    }
 }

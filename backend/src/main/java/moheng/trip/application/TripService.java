@@ -73,7 +73,7 @@ public class TripService {
     private void saveRecommendTripByClickedLogs(final long memberId, final Trip trip) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoExistMemberException::new);
-        final List<RecommendTrip> recommendTrips = recommendTripRepository.findTop10ByMemberOrderByVisitedCountDesc(member);
+        final List<RecommendTrip> recommendTrips = recommendTripRepository.findTop10ByMember(member);
 
         if(recommendTrips.size() < RECOMMEND_TRIPS_SIZE) {
             final long highestRank = findHighestRecommendTripRank(recommendTrips);

@@ -15,7 +15,9 @@ public interface RecommendTripRepository extends JpaRepository<RecommendTrip, Lo
     @Query("SELECT new moheng.keyword.dto.RecommendTripResponse(rt.trip.contentId, rt.visitedCount) FROM RecommendTrip rt WHERE rt.member.id = :memberId")
     List<RecommendTripResponse> findVisitedCountAndTripContentIdByMemberId(@Param("memberId") final Long memberId);
 
-    List<RecommendTrip> findTop10ByMemberOrderByVisitedCountDesc(Member member);
+    List<RecommendTrip> findAllByMemberId(final Long memberId);
+
+    List<RecommendTrip> findTop10ByMember(Member member);
 
     boolean existsByMemberAndTrip(final Member member, final Trip trip);
     void deleteByMemberAndRank(final Member member, final long rank);
@@ -29,7 +31,5 @@ public interface RecommendTripRepository extends JpaRepository<RecommendTrip, Lo
     @Modifying
     @Query("UPDATE RecommendTrip rt SET rt.rank = rt.rank - 1 WHERE rt IN :recommendTrips")
     void bulkDownRank(@Param("recommendTrips") final List<RecommendTrip> recommendTrips);
-
-    List<RecommendTrip> findAllByMemberId(final Long memberId);
 }
 
