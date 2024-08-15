@@ -1,16 +1,12 @@
-package moheng.keyword.service;
+package moheng.keyword.application;
 
 import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.KeywordRepository;
 import moheng.keyword.domain.TripKeyword;
 import moheng.keyword.domain.TripKeywordRepository;
 import moheng.keyword.dto.KeywordCreateRequest;
-import moheng.keyword.dto.RecommendTripResponse;
-import moheng.keyword.dto.TripContentIdsByKeywordResponse;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
-import moheng.keyword.dto.TripRecommendByKeywordRequest;
 import moheng.keyword.exception.NoExistKeywordException;
-import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.trip.domain.Trip;
 import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.dto.TripKeywordCreateRequest;
@@ -20,8 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @Service

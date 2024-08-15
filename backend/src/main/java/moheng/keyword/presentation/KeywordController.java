@@ -5,7 +5,7 @@ import moheng.auth.dto.Accessor;
 import moheng.auth.presentation.authentication.Authentication;
 import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
-import moheng.keyword.service.KeywordService;
+import moheng.keyword.application.KeywordService;
 import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.dto.TripKeywordCreateRequest;
 import org.springframework.http.ResponseEntity;

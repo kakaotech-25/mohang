@@ -7,7 +7,7 @@ import moheng.auth.domain.token.JwtTokenProvider;
 import moheng.auth.presentation.authentication.AuthenticationArgumentResolver;
 import moheng.auth.presentation.authentication.AuthenticationBearerExtractor;
 import moheng.config.TestConfig;
-import moheng.keyword.service.KeywordService;
+import moheng.keyword.application.KeywordService;
 import moheng.liveinformation.application.LiveInformationService;
 import moheng.liveinformation.application.MemberLiveInformationService;
 import moheng.member.application.MemberService;
