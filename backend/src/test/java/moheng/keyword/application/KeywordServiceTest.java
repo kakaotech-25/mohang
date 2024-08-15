@@ -160,7 +160,6 @@ public class KeywordServiceTest extends ServiceTestConfig {
                 .isInstanceOf(NoExistTripException.class);
     }
 
-
     @DisplayName("존재하지 않는 키워드로 여행지 키워드를 생성하면 예외가 발생한다.")
     @Test
     void 존재하지_않는_키워드로_여행지_키워드를_생성하면_예외가_발생한다() {
