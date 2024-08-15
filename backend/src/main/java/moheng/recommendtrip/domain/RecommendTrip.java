@@ -24,6 +24,9 @@ public class RecommendTrip extends BaseEntity {
     @Column(name = "rank")
     private Long rank;
 
+    @Column(name = "visited_count")
+    private Long visitedCount;
+
     protected RecommendTrip() {
     }
 

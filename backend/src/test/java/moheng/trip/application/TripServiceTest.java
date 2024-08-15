@@ -27,7 +27,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class TripServiceTest extends ServiceTestConfig {
-    private static final long LOWEST_PRIORITY_RANK = 1999999999L;
+    private static final long HIGHEST_PRIORITY_RANK = 1L;
+    private static final long LOWEST_PRIORITY_RANK = 10L;
 
     @Autowired
     private TripService tripService;
@@ -344,37 +345,6 @@ public class TripServiceTest extends ServiceTestConfig {
         recommendTripRepository.save(new RecommendTrip(trip7, member, 7L)); recommendTripRepository.save(new RecommendTrip(trip8, member, 8L));
         recommendTripRepository.save(new RecommendTrip(trip9, member, 9L)); recommendTripRepository.save(new RecommendTrip(trip10, member, 10L));
 
-        /*
-        1: 99999999
-        2: 1
-        3: 10
-        4: 3
-        5: 4
-        6: 5
-        7: 6
-        8: 7
-        9: 8
-        10: 9
-         */
-
-        /*
-        큐 안에 없으면 삽입
-        // id, rank
-        1: 99999999
-        2: 1
-        3: 2
-        4: 3
-        5: 4
-        6: 6
-        7: 7
-        8: 8
-        9: 9
-        10: 10
-        11: 11
-        12: 12
-        13: 13
-         */
-
         // when
         Trip trip = tripService.findById(3L);
         tripService.findWithSimilarOtherTrips(trip.getId(), member.getId());
@@ -390,7 +360,6 @@ public class TripServiceTest extends ServiceTestConfig {
     @DisplayName("현재 여행지를 조회하고 선호 여행지가 10개라면 기존의 랭크가 1등이었던 선호 여행지의 랭크 우선순위가 가장 밀려난다.")
     @Test
     void 현재_여행지를_조회하고_선호_여행지가_10개라면_기존의_랭크가_1등이었던_선호_여행지의_랭크_우선순위가_가장_밀려난다() {
-        // given
         // given
         Member member = memberRepository.save(하온_기존());
         tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
@@ -425,44 +394,9 @@ public class TripServiceTest extends ServiceTestConfig {
         });
     }
 
-    @DisplayName("선호 여행지가 정보가 없다면 새롭게 생성한다.")
+    @DisplayName("가장 높았던 랭크를 보유한 선호 여행지를 제거한다.")
     @Test
-    void 선호_여행지_정보가_없다면_새롭게_생성한다() {
-        // given
-        Member member = memberRepository.save(하온_기존());
-        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
-        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
-        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
-        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
-        tripService.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
-        tripService.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
-        tripService.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
-        tripService.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
-        tripService.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
-        tripService.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
-        Trip trip1 = tripService.findById(1L); Trip trip2 = tripService.findById(2L);
-        Trip trip3 = tripService.findById(3L);
-
-        recommendTripRepository.save(new RecommendTrip(trip1, member, 1L)); recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
-        recommendTripRepository.save(new RecommendTrip(trip2, member, 3L)); recommendTripRepository.save(new RecommendTrip(trip3, member, 4L));
-        recommendTripRepository.save(new RecommendTrip(trip3, member, 5L)); recommendTripRepository.save(new RecommendTrip(trip3, member, 6L));
-        recommendTripRepository.save(new RecommendTrip(trip3, member, 7L)); recommendTripRepository.save(new RecommendTrip(trip3, member, 8L));
-        recommendTripRepository.save(new RecommendTrip(trip3, member, 9L)); recommendTripRepository.save(new RecommendTrip(trip3, member, 10L));
-
-        // when
-        Trip trip = tripService.findById(10L);
-        tripService.findWithSimilarOtherTrips(trip.getId(), member.getId());
-
-        // then
-        assertAll(() -> {
-            assertThat(recommendTripRepository.findAllByMemberId(member.getId()).size()).isEqualTo(11);
-        });
-    }
-
-    @DisplayName("선호 여행지가 정보가 이미 존재하면 중복 생성하지 않는다.")
-    @Test
-    void 선호_여행지_정보기_이미_존재하면_중복_생성하지_않는다() {
-        // given
+    void 가장_높았던_랭크를_보유한_선호_여행지를_제거한다() {
         // given
         Member member = memberRepository.save(하온_기존());
         tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
@@ -488,14 +422,14 @@ public class TripServiceTest extends ServiceTestConfig {
         recommendTripRepository.save(new RecommendTrip(trip9, member, 9L)); recommendTripRepository.save(new RecommendTrip(trip10, member, 10L));
 
         // when
-        Trip trip = tripService.findById(1L);
+        Trip trip = tripService.findById(10L);
         tripService.findWithSimilarOtherTrips(trip.getId(), member.getId());
 
         // then
         assertAll(() -> {
             assertThat(recommendTripRepository.findAllByMemberId(member.getId()).size()).isEqualTo(10);
+            assertThat(recommendTripRepository.existsByMemberAndTrip(member, trip1)).isFalse();
+            assertThat(recommendTripRepository.findById(2L).get().getRank()).isEqualTo(HIGHEST_PRIORITY_RANK);
         });
     }
-
-
 }

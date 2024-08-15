@@ -66,6 +66,8 @@ public class TripService {
         if(recommendTrips.size() < RECOMMEND_TRIPS_SIZE) {
             final long highestRank = findHighestRecommendTripRank(recommendTrips);
             recommendTripRepository.save(new RecommendTrip(trip, member, highestRank + 1));
+            final MemberTrip memberTrip = findOrCreateMemberTrip(member, trip);
+            memberTrip.incrementVisitedCount();
         }
         else if(recommendTrips.size() >= RECOMMEND_TRIPS_SIZE) {
             downAllRanks(recommendTrips);
@@ -77,9 +79,10 @@ public class TripService {
     }
 
     private void deleteHighestPriorityRankRecommendTrip(final Member member) {
-        final RecommendTrip highestPriorityRankTrip = recommendTripRepository.findByMemberAndRank(member, HIGHEST_PRIORITY_RANK-1)
-                .orElseThrow(() -> new InvalidRecommendTripRankException("여행지의 우선순위 값이 유효하지 않습니다."));
-        highestPriorityRankTrip.changeRank(LOWEST_PRIORITY_RANK);
+        if(!recommendTripRepository.existsByMemberAndRank(member, HIGHEST_PRIORITY_RANK - 1)) {
+            throw new NoExistRecommendTripException("존재하지 않는 선호 여행지 정보입니다.");
+        }
+        recommendTripRepository.deleteByMemberAndRank(member, HIGHEST_PRIORITY_RANK - 1);
     }
 
     private void downAllRanks(List<RecommendTrip> recommendTrips) {

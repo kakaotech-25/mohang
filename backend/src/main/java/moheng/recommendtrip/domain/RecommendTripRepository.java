@@ -18,8 +18,8 @@ public interface RecommendTripRepository extends JpaRepository<RecommendTrip, Lo
     List<RecommendTrip> findTop10ByMemberOrderByVisitedCountDesc(Member member);
 
     boolean existsByMemberAndTrip(final Member member, final Trip trip);
-
-    Optional<RecommendTrip> findByMemberAndRank(final Member member, final long rank);
+    void deleteByMemberAndRank(final Member member, final long rank);
+    boolean existsByMemberAndRank(final Member member, final long rank);
 
     @Query("SELECT COALESCE(MAX(rt.rank), 0) FROM RecommendTrip rt WHERE rt.member = :member")
     Long findMaxRankByMember(@Param("member") final Member member);
