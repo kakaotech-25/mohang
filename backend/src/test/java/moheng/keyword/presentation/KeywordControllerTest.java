@@ -30,7 +30,7 @@ public class KeywordControllerTest extends ControllerTestConfig {
     void 키워드_기반_AI_여행지_추천을_받고_상태코드_200을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        given(keywordService.findRecommendTripsByKeywords(anyLong(), any())).willReturn(키워드_기반_추천_여행지_응답());
+        given(keywordService.findRecommendTripsByKeywords(any())).willReturn(키워드_기반_추천_여행지_응답());
 
         // when, then
         mockMvc.perform(get("/keyword/travel/model")
@@ -83,7 +83,7 @@ public class KeywordControllerTest extends ControllerTestConfig {
     void AI_서버에_예기치_못한_문제가_발생하면_상태코드_500을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        given(keywordService.findRecommendTripsByKeywords(anyLong(), any())).willThrow(new InvalidAIServerException("AI 서버에 예기치 못한 오류가 발생했습니다."));
+        given(keywordService.findRecommendTripsByKeywords(any())).willThrow(new InvalidAIServerException("AI 서버에 예기치 못한 오류가 발생했습니다."));
 
         // when, then
         mockMvc.perform(get("/keyword/travel/model")

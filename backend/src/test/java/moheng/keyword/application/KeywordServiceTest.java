@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import moheng.config.slice.ServiceTestConfig;
 import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.KeywordRepository;
+import moheng.keyword.domain.TripKeyword;
+import moheng.keyword.domain.TripKeywordRepository;
 import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
 import moheng.keyword.service.KeywordService;
@@ -42,6 +44,9 @@ public class KeywordServiceTest extends ServiceTestConfig {
     @Autowired
     private KeywordRepository keywordRepository;
 
+    @Autowired
+    private TripKeywordRepository tripKeywordRepository;
+
     @DisplayName("키워드를 생성한다.")
     @Test
     void 키워드를_생성한다() {
@@ -63,29 +68,30 @@ public class KeywordServiceTest extends ServiceTestConfig {
         assertThat(keywordService.findNamesByIds(new TripsByKeyWordsRequest(List.of(1L, 2L)))).hasSize(2);
     }
 
-    @DisplayName("키워드와 멤버의 선호 여행지로 여행지를 추천받는다.")
+    @DisplayName("키워드로 필터링된 여행지를 추천받는다.")
     @Test
-    void 키워드와_멤버의_선호_여행지로_여행지를_추천받는다() {
+    void 키워드로_필터링된_여행지를_추천받는다() {
         // given
         memberService.save(하온_기존());
         Member member = memberService.findByEmail(하온_이메일);
 
         keywordRepository.save(new Keyword("키워드1"));
         keywordRepository.save(new Keyword("키워드2"));
+        keywordRepository.save(new Keyword("키워드3"));
 
         tripService.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로1"));
         tripService.save(new Trip("여행지2", "장소명2", 2L, "설명2", "이미지 경로2"));
         tripService.save(new Trip("여행지3", "장소명3", 3L, "설명3", "이미지 경로3"));
 
-        recommendTripRepository.save(new RecommendTrip(tripService.findById(1L), member, 1L));
-        recommendTripRepository.save(new RecommendTrip(tripService.findById(2L), member, 2L));
-        recommendTripRepository.save(new RecommendTrip(tripService.findById(3L), member, 3L));
+        tripKeywordRepository.save(new TripKeyword(tripService.findById(1L), keywordRepository.findById(1L).get()));
+        tripKeywordRepository.save(new TripKeyword(tripService.findById(2L), keywordRepository.findById(2L).get()));
+        tripKeywordRepository.save(new TripKeyword(tripService.findById(3L), keywordRepository.findById(2L).get()));
 
-        TripsByKeyWordsRequest request = new TripsByKeyWordsRequest(List.of(1L, 2L, 3L));
-        keywordService.findRecommendTripsByKeywords(member.getId(), new TripsByKeyWordsRequest(List.of(1L, 2L, 3L)));
+        List<Long> keywordIds = List.of(1L, 2L, 3L);
+        TripsByKeyWordsRequest request = new TripsByKeyWordsRequest(keywordIds);
 
         // when, then
-        FindTripsResponse response = keywordService.findRecommendTripsByKeywords(1L, request);
+        FindTripsResponse response = keywordService.findRecommendTripsByKeywords(request);
         assertThat(response.getFindTripResponses()).hasSize(3);
     }
 }

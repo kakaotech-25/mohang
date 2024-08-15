@@ -28,4 +28,12 @@ public class TripKeyword extends BaseEntity {
         this.trip = trip;
         this.keyword = keyword;
     }
+
+    public Trip getTrip() {
+        return trip;
+    }
+
+    public Keyword getKeyword() {
+        return keyword;
+    }
 }

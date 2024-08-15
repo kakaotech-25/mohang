@@ -31,4 +31,8 @@ public class Keyword extends BaseEntity {
             throw new KeywordNameLengthException("키워드 이름의 길이는 최소 2자 이상, 최대 100자 이하만 허용합니다.");
         }
     }
+
+    public String getName() {
+        return name;
+    }
 }
