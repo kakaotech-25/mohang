@@ -13,6 +13,7 @@ public class MemberTripTest {
     @DisplayName("멤버의 여행지를 생성한다.")
     @Test
     void 멤버의_여행지를_생성한다() {
+        // given, when, then
         assertDoesNotThrow(() -> new MemberTrip(하온_기존(), new Trip()));
     }
 }
