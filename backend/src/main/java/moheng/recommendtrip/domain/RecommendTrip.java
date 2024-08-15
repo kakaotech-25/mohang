@@ -24,9 +24,6 @@ public class RecommendTrip extends BaseEntity {
     @Column(name = "rank")
     private Long rank;
 
-    @Column(name = "visited_count")
-    private Long visitedCount;
-
     protected RecommendTrip() {
     }
 
@@ -34,22 +31,16 @@ public class RecommendTrip extends BaseEntity {
         this.trip = trip;
         this.member = member;
         this.rank = rank;
-        visitedCount = 0L;
     }
 
     public RecommendTrip(Trip trip, Member member) {
         this.trip = trip;
         this.member = member;
         this.rank = 1L;
-        visitedCount = 0L;
     }
 
     public void changeRank(Long rank) {
         this.rank = rank;
-    }
-
-    public void increaseVisitedCount() {
-        visitedCount++;
     }
 
     public void downRank() {
