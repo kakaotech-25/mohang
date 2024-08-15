@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 public class MemberTripRepositoryTest extends RepositoryTestConfig {
-    //     boolean existsByMemberAndTrip(final Member member, final Trip trip);
     //    MemberTrip findByMemberAndTrip(final Member member, final Trip trip);
     @Autowired
     private MemberTripRepository memberTripRepository;
@@ -39,5 +38,20 @@ public class MemberTripRepositoryTest extends RepositoryTestConfig {
 
         // when, then
         assertTrue(() -> memberTripRepository.existsByMemberAndTrip(member, trip));
+    }
+
+    @DisplayName("멤버의 여행지를 찾는다.")
+    @Test
+    void 멤버의_여행지를_찾는다() {
+        // given
+        memberRepository.save(하온_기존());
+        tripRepository.save(new Trip("여행지", "장소명", 1L, "설명", "이미지"));
+        Member member = memberRepository.findById(1L).get();
+        Trip trip = tripRepository.findById(1L).get();
+
+        memberTripRepository.save(new MemberTrip(member, trip));
+
+        // when, then
+        assertDoesNotThrow(() -> memberTripRepository.findByMemberAndTrip(member, trip));
     }
 }
