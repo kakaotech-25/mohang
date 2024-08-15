@@ -30,4 +30,9 @@ public class AppendRecommendTripStrategy implements RecommendTripStrategy {
                 .map(RecommendTrip::getRank)
                 .orElseThrow(() -> new NoExistRecommendTripException("선호 여행지 정보가 없습니다."));
     }
+
+    @Override
+    public boolean isMatch(long recommendSize) {
+        return false;
+    }
 }

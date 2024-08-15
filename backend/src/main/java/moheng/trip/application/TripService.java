@@ -8,8 +8,8 @@ import moheng.member.exception.NoExistMemberException;
 import moheng.recommendtrip.domain.RecommendTrip;
 import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.trip.domain.*;
+import moheng.trip.domain.recommendstrategy.SaveRecommendTripStrategyProvider;
 import moheng.trip.dto.*;
-import moheng.trip.exception.InvalidRecommendTripRankException;
 import moheng.trip.exception.NoExistRecommendTripException;
 import moheng.trip.exception.NoExistTripException;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class TripService {
     private static final long HIGHEST_PRIORITY_RANK = 1L;
     private static final long LOWEST_PRIORITY_RANK = 10L;
     private final ExternalSimilarTripModelClient externalSimilarTripModelClient;
-
+    private final SaveRecommendTripStrategyProvider saveRecommendTripStrategyProvider;
     private final TripRepository tripRepository;
     private final RecommendTripRepository recommendTripRepository;
     private final MemberRepository memberRepository;
@@ -37,13 +37,15 @@ public class TripService {
                        final ExternalSimilarTripModelClient externalSimilarTripModelClient,
                        final RecommendTripRepository recommendTripRepository,
                        final MemberRepository memberRepository,
-                       final MemberTripRepository memberTripRepository, TripKeywordRepository tripKeywordRepository) {
+                       final MemberTripRepository memberTripRepository, TripKeywordRepository tripKeywordRepository,
+                       final SaveRecommendTripStrategyProvider saveRecommendTripStrategyProvider) {
         this.tripRepository = tripRepository;
         this.externalSimilarTripModelClient = externalSimilarTripModelClient;
         this.recommendTripRepository = recommendTripRepository;
         this.memberRepository = memberRepository;
         this.memberTripRepository = memberTripRepository;
         this.tripKeywordRepository = tripKeywordRepository;
+        this.saveRecommendTripStrategyProvider = saveRecommendTripStrategyProvider;
     }
 
     @Transactional

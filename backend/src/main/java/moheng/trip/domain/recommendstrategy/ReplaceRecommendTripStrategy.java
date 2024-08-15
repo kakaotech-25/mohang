@@ -38,4 +38,9 @@ public class ReplaceRecommendTripStrategy implements RecommendTripStrategy {
     private void downAllRanks(List<RecommendTrip> recommendTrips) {
         recommendTripRepository.bulkDownRank(recommendTrips);
     }
+
+    @Override
+    public boolean isMatch(long recommendSize) {
+        return false;
+    }
 }

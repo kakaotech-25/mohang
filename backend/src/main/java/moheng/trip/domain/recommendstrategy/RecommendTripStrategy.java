@@ -7,5 +7,6 @@ import moheng.trip.domain.Trip;
 import java.util.List;
 
 public interface RecommendTripStrategy {
-    void execute(Trip trip, Member member, List<RecommendTrip> recommendTrips);
+    void execute(final Trip trip, final Member member, final List<RecommendTrip> recommendTrips);
+    boolean isMatch(final long recommendSize);
 }
