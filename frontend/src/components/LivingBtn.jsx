@@ -1,10 +1,14 @@
-import "./LivingBtn.css"
+import "./LivingBtn.css";
 
-const LivingBtn = ({ src, text }) => {
+const LivingBtn = ({ src, text, isSelected, onClick }) => {
   return (
-    <div className="livingbtn">
-      <img src={src} className="livingimg" />
+    <div
+      className={`livingbtn ${isSelected ? "selected" : ""}`}
+      onClick={onClick}
+    >
+      <img src={src} className="livingimg" alt={text} />
       <div className="livingtext">{text}</div>
+      {isSelected && <div className="livingcheckmark">✔️</div>}
     </div>
   );
 };

@@ -10,7 +10,7 @@ const CheckImg = ({ src, isSelected, onClick }) => {
         className="profileimg"
       />
       {isSelected && (
-        <div className="checkmark">
+        <div className="profilecheckmark">
           ✔️
         </div>
       )}
