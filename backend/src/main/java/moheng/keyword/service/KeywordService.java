@@ -27,17 +27,14 @@ import java.util.stream.Collectors;
 @Service
 public class KeywordService {
     private final KeywordRepository keywordRepository;
-    private final RecommendTripRepository recommendTripRepository;
     private final TripRepository tripRepository;
     private final TripKeywordRepository tripKeywordRepository;
 
     public KeywordService(final KeywordRepository keywordRepository,
-                          final RecommendTripRepository recommendTripRepository,
                           final TripRepository tripRepository,
                           final TripKeywordRepository tripKeywordRepository) {
         this.keywordRepository = keywordRepository;
         this.tripRepository = tripRepository;
-        this.recommendTripRepository = recommendTripRepository;
         this.tripKeywordRepository = tripKeywordRepository;
     }
 
