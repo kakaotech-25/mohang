@@ -5,13 +5,11 @@ import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
 import moheng.recommendtrip.domain.RecommendTrip;
 import moheng.recommendtrip.domain.RecommendTripRepository;
-import moheng.trip.domain.ExternalSimilarTripModelClient;
-import moheng.trip.domain.Trip;
+import moheng.trip.domain.*;
 import moheng.trip.dto.*;
 import moheng.trip.exception.InvalidRecommendTripRankException;
 import moheng.trip.exception.NoExistRecommendTripException;
 import moheng.trip.exception.NoExistTripException;
-import moheng.trip.domain.TripRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,21 +20,25 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @Service
 public class TripService {
-    private static final long RECOMMEND_TRIPS_SIZE = 10;
+    private static final long RECOMMEND_TRIPS_SIZE = 10L;
     private static final long HIGHEST_PRIORITY_RANK = 1L;
-    private static final long LOWEST_PRIORITY_RANK = 1999999999L;
+    private static final long LOWEST_PRIORITY_RANK = 10L;
     private final ExternalSimilarTripModelClient externalSimilarTripModelClient;
     private final TripRepository tripRepository;
     private final RecommendTripRepository recommendTripRepository;
     private final MemberRepository memberRepository;
+    private final MemberTripRepository memberTripRepository;
 
     public TripService(final TripRepository tripRepository,
                        final ExternalSimilarTripModelClient externalSimilarTripModelClient,
-                       final RecommendTripRepository recommendTripRepository, MemberRepository memberRepository) {
+                       final RecommendTripRepository recommendTripRepository,
+                       final MemberRepository memberRepository,
+                       final MemberTripRepository memberTripRepository) {
         this.tripRepository = tripRepository;
         this.externalSimilarTripModelClient = externalSimilarTripModelClient;
         this.recommendTripRepository = recommendTripRepository;
         this.memberRepository = memberRepository;
+        this.memberTripRepository = memberTripRepository;
     }
 
     @Transactional
@@ -67,14 +69,14 @@ public class TripService {
         }
         else if(recommendTrips.size() >= RECOMMEND_TRIPS_SIZE) {
             downAllRanks(recommendTrips);
-            changeHighestPriorityRankToLowest(member);
-            final RecommendTrip foundRecommendTrip = findOrCreateRecommendTrip(member, trip);
-            foundRecommendTrip.changeRank(RECOMMEND_TRIPS_SIZE);
-            foundRecommendTrip.increaseVisitedCount();
+            deleteHighestPriorityRankRecommendTrip(member);
+            recommendTripRepository.save(new RecommendTrip(trip, member, LOWEST_PRIORITY_RANK));
+            final MemberTrip memberTrip = findOrCreateMemberTrip(member, trip);
+            memberTrip.incrementVisitedCount();
         }
     }
 
-    private void changeHighestPriorityRankToLowest(final Member member) {
+    private void deleteHighestPriorityRankRecommendTrip(final Member member) {
         final RecommendTrip highestPriorityRankTrip = recommendTripRepository.findByMemberAndRank(member, HIGHEST_PRIORITY_RANK-1)
                 .orElseThrow(() -> new InvalidRecommendTripRankException("여행지의 우선순위 값이 유효하지 않습니다."));
         highestPriorityRankTrip.changeRank(LOWEST_PRIORITY_RANK);
@@ -84,12 +86,12 @@ public class TripService {
         recommendTripRepository.bulkDownRank(recommendTrips);
     }
 
-    private RecommendTrip findOrCreateRecommendTrip(final Member member, final Trip trip) {
-        if(!recommendTripRepository.existsByMemberAndTrip(member, trip)) {
-            recommendTripRepository.save(new RecommendTrip(trip, member, HIGHEST_PRIORITY_RANK));
+    private MemberTrip findOrCreateMemberTrip(final Member member, final Trip trip) {
+        if(!memberTripRepository.existsByMemberAndTrip(member, trip)) {
+            memberTripRepository.save(new MemberTrip(member, trip));
         }
-        final RecommendTrip foundRecommendTrip = recommendTripRepository.findByMemberAndTrip(member, trip);
-        return foundRecommendTrip;
+        final MemberTrip foundMemberTrip = memberTripRepository.findByMemberAndTrip(member, trip);
+        return foundMemberTrip;
     }
 
     private long findHighestRecommendTripRank(final List<RecommendTrip> recommendTrips) {
