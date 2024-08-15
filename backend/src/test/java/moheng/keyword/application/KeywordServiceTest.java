@@ -12,6 +12,7 @@ import moheng.keyword.domain.TripKeyword;
 import moheng.keyword.domain.TripKeywordRepository;
 import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
+import moheng.keyword.exception.NoExistKeywordException;
 import moheng.keyword.service.KeywordService;
 import moheng.member.application.MemberService;
 import moheng.member.domain.Member;
@@ -146,16 +147,30 @@ public class KeywordServiceTest extends ServiceTestConfig {
         assertThat(keywordRepository.findById(1L)).isNotEmpty();
     }
 
-    @DisplayName("없는 여행지의 키워드를 생성하면 예외가 발생한다.")
+    @DisplayName("존재하지 않는 여행지의 키워드를 생성하면 예외가 발생한다.")
     @Test
-    void 없는_여행지의_키워드를_생성하면_예외가_발생한다() {
+    void 존재하지_않는_여행지의_키워드를_생성하면_예외가_발생한다() {
         // given
-        tripRepository.save(new Trip("여행지", "장소명", 1L, "설명", "이미지"));
+        keywordRepository.save(new Keyword("키워드1"));
 
         TripKeywordCreateRequest request = new TripKeywordCreateRequest(-1L, 1L);
 
         // when, then
         assertThatThrownBy(() -> keywordService.createTripKeyword(request))
                 .isInstanceOf(NoExistTripException.class);
+    }
+
+
+    @DisplayName("존재하지 않는 키워드로 여행지 키워드를 생성하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_키워드로_여행지_키워드를_생성하면_예외가_발생한다() {
+        // given
+        tripRepository.save(new Trip("여행지", "장소명", 1L, "설명", "이미지"));
+
+        TripKeywordCreateRequest request = new TripKeywordCreateRequest(1L, -1L);
+
+        // when, then
+        assertThatThrownBy(() -> keywordService.createTripKeyword(request))
+                .isInstanceOf(NoExistKeywordException.class);
     }
 }

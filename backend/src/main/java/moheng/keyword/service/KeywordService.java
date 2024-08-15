@@ -9,6 +9,7 @@ import moheng.keyword.dto.RecommendTripResponse;
 import moheng.keyword.dto.TripContentIdsByKeywordResponse;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
 import moheng.keyword.dto.TripRecommendByKeywordRequest;
+import moheng.keyword.exception.NoExistKeywordException;
 import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.trip.domain.Trip;
 import moheng.trip.dto.FindTripsResponse;
@@ -59,7 +60,7 @@ public class KeywordService {
         final Trip trip = tripRepository.findById(request.getTripId())
                         .orElseThrow(NoExistTripException::new);
         final Keyword keyword = keywordRepository.findById(request.getKeywordId())
-                        .orElseThrow(NoExistTripException::new);
+                        .orElseThrow(NoExistKeywordException::new);
         tripKeywordRepository.save(new TripKeyword(trip, keyword));
     }
 }
