@@ -2,6 +2,7 @@ package moheng.keyword.service;
 
 import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.KeywordRepository;
+import moheng.keyword.domain.TripKeywordRepository;
 import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.dto.RecommendTripResponse;
 import moheng.keyword.dto.TripContentIdsByKeywordResponse;
@@ -22,19 +23,19 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @Service
 public class KeywordService {
-    private final KeywordFilterModelClient keywordFilterModelClient;
     private final KeywordRepository keywordRepository;
     private final RecommendTripRepository recommendTripRepository;
     private final TripRepository tripRepository;
+    private final TripKeywordRepository tripKeywordRepository;
 
     public KeywordService(final KeywordRepository keywordRepository,
-                          final KeywordFilterModelClient keywordFilterModelClient,
                           final RecommendTripRepository recommendTripRepository,
-                          final TripRepository tripRepository) {
+                          final TripRepository tripRepository,
+                          final TripKeywordRepository tripKeywordRepository) {
         this.keywordRepository = keywordRepository;
-        this.keywordFilterModelClient = keywordFilterModelClient;
         this.tripRepository = tripRepository;
         this.recommendTripRepository = recommendTripRepository;
+        this.tripKeywordRepository = tripKeywordRepository;
     }
 
     @Transactional
@@ -46,25 +47,8 @@ public class KeywordService {
         return keywordRepository.findNamesByIds(request.getKeywordIds());
     }
 
-    @Transactional
-    public FindTripsResponse findRecommendTripsByKeywords(final long memberId, final TripsByKeyWordsRequest request) {
-        final List<String> keywords = findNamesByIds(request);
-        final TripRecommendByKeywordRequest tripRecommendByKeywordRequest = new TripRecommendByKeywordRequest(keywords, findRecommendTripsInfo(memberId));
-        final TripContentIdsByKeywordResponse response = keywordFilterModelClient.findRecommendTripContentIdsByKeywords(tripRecommendByKeywordRequest);
-        return new FindTripsResponse(findTripsByContentIds(response));
-    }
-
-    public Map<Long, Long> findRecommendTripsInfo(final Long memberId) {
-        final List<RecommendTripResponse> results = recommendTripRepository.findVisitedCountAndTripContentIdByMemberId(memberId);
-        Map<Long, Long> contentIdToVisitedCountMap = results.stream()
-                .collect(Collectors.toMap(RecommendTripResponse::getContentId, RecommendTripResponse::getVisitedCount));
-        return contentIdToVisitedCountMap;
-    }
-
-    private List<Trip> findTripsByContentIds(final TripContentIdsByKeywordResponse contentIdsByKeywordsResponse) {
-        return contentIdsByKeywordsResponse.getContentIds().stream()
-                .map(contentId -> tripRepository.findByContentId(contentId)
-                        .orElseThrow(NoExistTripException::new))
-                .collect(Collectors.toList());
+    public FindTripsResponse findRecommendTripsByKeywords(final TripsByKeyWordsRequest request) {
+        final List<Trip> trips = tripKeywordRepository.findTripsByKeywordIds(request.getKeywordIds());
+        return new FindTripsResponse(trips);
     }
 }

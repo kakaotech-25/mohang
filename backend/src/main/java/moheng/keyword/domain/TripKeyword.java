@@ -3,6 +3,7 @@ package moheng.keyword.domain;
 import jakarta.persistence.*;
 import moheng.global.entity.BaseEntity;
 import moheng.member.domain.Member;
+import moheng.trip.domain.Trip;
 
 @Table(name = "trip_keyword")
 @Entity
@@ -13,8 +14,8 @@ public class TripKeyword extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    @JoinColumn(name = "trip_id", nullable = false)
+    private Trip trip;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "keyword_id", nullable = false)
@@ -23,8 +24,8 @@ public class TripKeyword extends BaseEntity {
     protected TripKeyword() {
     }
 
-    public TripKeyword(final Member member, final Keyword keyword) {
-        this.member = member;
+    public TripKeyword(final Trip trip, final Keyword keyword) {
+        this.trip = trip;
         this.keyword = keyword;
     }
 }

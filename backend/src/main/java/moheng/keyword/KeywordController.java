@@ -22,7 +22,7 @@ public class KeywordController {
     @GetMapping("/travel/model")
     public ResponseEntity<FindTripsResponse> recommendTripsByKeywords(@Authentication final Accessor accessor,
                                                          @RequestBody final TripsByKeyWordsRequest request) {
-        return ResponseEntity.ok(keywordService.findRecommendTripsByKeywords(accessor.getId(), request));
+        return ResponseEntity.ok(keywordService.findRecommendTripsByKeywords(request));
     }
 
     @PostMapping

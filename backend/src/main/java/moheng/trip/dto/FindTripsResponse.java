@@ -11,11 +11,11 @@ public class FindTripsResponse {
     private FindTripsResponse() {
     }
 
-    public FindTripsResponse(List<Trip> trips) {
+    public FindTripsResponse(final List<Trip> trips) {
         this.findTripResponses = toResponse(trips);
     }
 
-    private List<FindTripResponse> toResponse(List<Trip> trips) {
+    private List<FindTripResponse> toResponse(final List<Trip> trips) {
         return trips.stream()
                 .map(FindTripResponse::new)
                 .collect(Collectors.toList());
