@@ -104,13 +104,6 @@ public class TripService {
                 .orElseThrow(() -> new NoExistRecommendTripException("선호 여행지 정보가 없습니다."));
     }
 
-    private long findHLowestRecommendTripRank(List<RecommendTrip> recommendTrips) {
-        return recommendTrips.stream()
-                .min(Comparator.comparing(RecommendTrip::getRank))
-                .map(RecommendTrip::getRank)
-                .orElseThrow(() -> new NoExistRecommendTripException("선호 여행지 정보가 없습니다."));
-    }
-
 
     public Trip findByContentId(final Long contentId) {
         final Trip trip = tripRepository.findByContentId(contentId)
