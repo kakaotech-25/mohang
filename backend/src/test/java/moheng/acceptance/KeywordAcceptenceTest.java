@@ -38,9 +38,9 @@ public class KeywordAcceptenceTest extends AcceptanceTestConfig {
         여행지를_생성한다("여행지2", 2L);
         여행지를_생성한다("여행지3", 3L);
 
-        여행지_카워드를_생성한다(1L, 1L);
-        여행지_카워드를_생성한다(2L, 2L);
-        여행지_카워드를_생성한다(3L, 3L);
+        여행지_키워드를_생성한다(1L, 1L);
+        여행지_키워드를_생성한다(2L, 2L);
+        여행지_키워드를_생성한다(3L, 3L);
 
         // when
         ExtractableResponse<Response> recommendResponse = 키워드_리스트로_여행지를_추천받는다(

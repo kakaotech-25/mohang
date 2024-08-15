@@ -1,5 +1,7 @@
 package moheng.acceptance;
 
+import static moheng.acceptance.fixture.KeywordFixture.키워드를_생성한다;
+import static moheng.acceptance.fixture.TripKeywordFixture.*;
 import static moheng.acceptance.fixture.TripAcceptenceFixture.*;
 import static moheng.acceptance.fixture.HttpStatus.상태코드_200이_반환된다;
 import static moheng.acceptance.fixture.HttpStatus.상태코드_204이_반환된다;
@@ -34,6 +36,14 @@ public class TripAcceptenceTest extends AcceptanceTestConfig {
         여행지를_생성한다("롯데월드1", 1L);
         여행지를_생성한다("롯데월드2", 2L);
         여행지를_생성한다("롯데월드3", 3L);
+        키워드를_생성한다("키워드1");
+        키워드를_생성한다("키워드2");
+        키워드를_생성한다("키워드3");
+        여행지_키워드를_생성한다(1L, 1L);
+        여행지_키워드를_생성한다(2L, 2L);
+        여행지_키워드를_생성한다(3L, 3L);
+        여행지_키워드를_생성한다(2L, 3L);
+
         ExtractableResponse<Response> resultResponse = 상위_30개_여행지를_찾는다();
 
         FindTripsResponse findAllLiveInformationResponse
