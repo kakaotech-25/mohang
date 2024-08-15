@@ -33,7 +33,7 @@ public class KeywordControllerTest extends ControllerTestConfig {
         given(keywordService.findRecommendTripsByKeywords(any())).willReturn(키워드_기반_추천_여행지_응답());
 
         // when, then
-        mockMvc.perform(get("/keyword/travel/model")
+        mockMvc.perform(get("/keyword/trip/recommend")
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -65,17 +65,32 @@ public class KeywordControllerTest extends ControllerTestConfig {
     @Test
     void 키워드를_생성하고_상태코드_200을_리턴한다() throws Exception {
         // given
-        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
         doNothing().when(keywordService).createKeyword(any());
 
         // when, then
-        mockMvc.perform(get("/keyword/travel/model")
+        mockMvc.perform(post("/keyword")
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(키워드_생성_요청()))
                 )
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
+    }
+
+    @DisplayName("여행지의 키워드를 생성하고 상태코드 204를 리턴한다.")
+    @Test
+    void 여행지의_키워드를_생성하고_상태코드_204를_리턴한다() throws Exception {
+        // given
+        doNothing().when(keywordService).createTripKeyword(any());
+
+        // when, then
+        mockMvc.perform(post("/keyword/trip")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(여행지_키워드_생성_요청()))
+                )
+                .andDo(print())
+                .andExpect(status().isNoContent());
     }
 }

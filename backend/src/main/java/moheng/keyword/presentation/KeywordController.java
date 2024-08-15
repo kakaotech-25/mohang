@@ -20,7 +20,7 @@ public class KeywordController {
         this.keywordService = keywordService;
     }
 
-    @GetMapping("/travel/model")
+    @GetMapping("/trip/recommend")
     public ResponseEntity<FindTripsResponse> recommendTripsByKeywords(@Authentication final Accessor accessor,
                                                          @RequestBody final TripsByKeyWordsRequest request) {
         return ResponseEntity.ok(keywordService.findRecommendTripsByKeywords(request));

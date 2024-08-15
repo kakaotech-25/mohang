@@ -6,12 +6,17 @@ import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
 import moheng.trip.domain.Trip;
 import moheng.trip.dto.FindTripsResponse;
+import moheng.trip.dto.TripKeywordCreateRequest;
 
 import java.util.List;
 
 public class KeywordFixture {
     public static KeywordCreateRequest 키워드_생성_요청() {
         return new KeywordCreateRequest("키워드");
+    }
+
+    public static TripKeywordCreateRequest 여행지_키워드_생성_요청() {
+        return new TripKeywordCreateRequest(1L, 1L);
     }
 
     public static TripsByKeyWordsRequest 키워드_기반_추천_여행지_요청() {
