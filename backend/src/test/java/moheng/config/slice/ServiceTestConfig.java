@@ -1,6 +1,7 @@
 package moheng.config.slice;
 
 import moheng.auth.domain.token.RefreshTokenRepository;
+import moheng.config.DatabaseCleaner;
 import moheng.config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,12 @@ public abstract class ServiceTestConfig {
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
 
+    @Autowired
+    private DatabaseCleaner databaseCleaner;
+
     @BeforeEach
     public void setUp() {
         refreshTokenRepository.deleteAll();
+        databaseCleaner.clear();
     }
 }

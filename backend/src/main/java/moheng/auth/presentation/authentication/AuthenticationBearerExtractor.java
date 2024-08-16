@@ -12,6 +12,9 @@ import java.util.Objects;
 public class AuthenticationBearerExtractor {
     private static final String BEARER_TYPE = "Bearer ";
 
+    private AuthenticationBearerExtractor() {
+    }
+
     public String extract(final HttpServletRequest httpServletRequest) {
         String authorizationHeader = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
 

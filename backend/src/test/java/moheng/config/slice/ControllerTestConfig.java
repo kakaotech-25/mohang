@@ -44,7 +44,6 @@ import org.springframework.test.web.servlet.MockMvc;
         TripController.class
 })
 @Import(TestConfig.class)
-@AutoConfigureMockMvc
 @ActiveProfiles("test")
 public abstract class ControllerTestConfig {
     @Autowired
@@ -62,13 +61,10 @@ public abstract class ControllerTestConfig {
     @MockBean
     protected MemberService memberService;
 
-    @Autowired
-    protected AuthenticationArgumentResolver authenticationArgumentResolver;
-
-    @Autowired
+    @MockBean
     protected AuthenticationBearerExtractor authenticationBearerExtractor;
 
-    @Mock
+    @MockBean
     protected HttpServletRequest httpServletRequest;
 
     @MockBean
