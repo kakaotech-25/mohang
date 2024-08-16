@@ -1,14 +1,14 @@
 import {useState} from "react";
 import "./Profile.css"
-import ProfileInfo from "../../components/ProfileInfo";
+import ProfileInfo from "../../components/ProfileInfo/ProfileInfo";
 import progressbar from "../../assets/progressbar1.png";
 import profileimg1 from "../../assets/profileimg1.png"
 import profileimg2 from "../../assets/profileimg2.png"
 import profileimg3 from "../../assets/profileimg3.png"
 import Radio from "../../components/Radio"
-import Button from "../../components/Button"
+import Button from "../../components/Button/Button"
 import { useNavigate } from "react-router-dom";
-import CheckImg from "../../components/CheckImg";
+import CheckImg from "../../components/CheckImg/CheckImg";
 
 const Profile = () => {
   const navigate = useNavigate();

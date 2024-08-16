@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import "./LivingInfo.css";
-import ProfileInfo from "../../components/ProfileInfo";
+import ProfileInfo from "../../components/ProfileInfo/ProfileInfo";
 import progressbar2 from "../../assets/progressbar2.png";
 import { useNavigate } from "react-router-dom";
-import Button from "../../components/Button";
-import LivingBtn from "../../components/LivingBtn";
+import Button from "../../components/Button/Button";
+import LivingBtn from "../../components/LivingBtn/LivingBtn";
 import livingimg1 from "../../assets/physical.png";
 import livingimg2 from "../../assets/visual.png";
 import livingimg3 from "../../assets/hearing.png";

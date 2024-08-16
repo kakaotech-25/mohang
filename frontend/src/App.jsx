@@ -1,7 +1,7 @@
 import './App.css'
 import {Routes, Route} from "react-router-dom"
-import Header from "./components/Header.jsx"
-import Footer from "./components/Footer.jsx"
+import Header from "./components/Header/Header"
+import Footer from "./components/Footer/Footer"
 import Home from "./pages/Home/Home.jsx"
 import Login from './pages/Login/Login.jsx'
 import Profile from './pages/Profile/Profile.jsx'
