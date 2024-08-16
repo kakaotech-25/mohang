@@ -32,7 +32,7 @@ public class AppendRecommendTripStrategy implements RecommendTripStrategy {
     }
 
     @Override
-    public boolean isMatch(final long recommendSize, final long matchSize) {
-        return recommendSize < matchSize;
+    public boolean isMatch(final long recommendSize, final long maxSize) {
+        return recommendSize < maxSize;
     }
 }
