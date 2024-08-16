@@ -1,0 +1,48 @@
+.travel-card {
+    position: relative;
+    width: 300px;
+    border-radius: 12px;
+    overflow: hidden; /* 내용이 넘치지 않도록 처리 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.travel-card-image {
+    width: 100%;
+    height: 60%;
+    object-fit: cover;
+    display: block;
+}
+
+.travel-card-content {
+    background-color: #e6e0d7;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: -4px;
+}
+
+.travel-card-tags {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.travel-card-tag {
+    background-color: white;
+    border-radius: 12px;
+    padding: 4px 8px;
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.travel-card-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.travel-card-location {
+    font-size: 16px;
+    color: gray;
+}
