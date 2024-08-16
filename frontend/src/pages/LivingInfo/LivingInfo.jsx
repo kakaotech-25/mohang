@@ -51,13 +51,13 @@ const LivingInfo = () => {
     }, [selectedLivingOptions]);
 
     return (
-        <section className="livingpage">
+        <section className="living-page">
             <ProfileInfo text={"여행지 추천에 필요한 생활 정보를 선택해주세요."} />
-            <section className="progressbar2">
-                <img src={progressbar2} className='progressbar2' />
+            <section className="living-progressbar">
+                <img src={progressbar2} />
             </section>
             
-            <section className='profile2'>
+            <section className='living-body'>
                 <section className="livingbtns">
                     {livingOptions.map(option => (
                         <LivingBtn

@@ -1,9 +1,9 @@
-.livingpage {
-    min-height: 70vh;
+.living-page {
+    min-height: 72vh;
     height:100%;
 }
 
-.progressbar2 {
+.living-progressbar {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -11,7 +11,7 @@
     padding: 10px;
 }
 
-.profile2 {
+.living-body {
     width: 70%;
     height: 100%;
     margin: 20px auto 20px auto;
@@ -20,7 +20,7 @@
     border-radius: 10px;
 }
 
-.profile2 > section {
+.living-body > section {
     display: flex;
     flex-direction: row;
     justify-content: center;

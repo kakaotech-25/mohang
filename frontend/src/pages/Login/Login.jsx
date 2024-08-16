@@ -6,14 +6,14 @@ import KakaoBtn from '../../assets/kakao-login.png'
 
 const Login = () => {
     return (
-      <section className="loginpage">
-        <div className="login_left">
+      <section className="login-page">
+        <div className="login-left">
           <img src={Left}/>
         </div>
-        <div className="kakaologin">
+        <div className="kakao-login">
           <img src={KakaoBtn} />
         </div>
-        <div className="login_right">
+        <div className="login-right">
           <img src={Right} />
         </div>
 

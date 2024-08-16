@@ -37,14 +37,14 @@ const Profile = () => {
   ];
 
   return (
-    <section className="profilepage">
+    <section className="profile-page">
       <ProfileInfo text={"회원가입을 위해 프로필 정보를 입력해주세요."} />
       <section className="progressbar">
         <img src={progressbar} className='progressbar' />
       </section>
       
-      <section className='profile1'>
-        <section className="profileimgs">
+      <section className='profile-body'>
+        <section className="profile-imgs">
           {images.map((src, index) => (
             <CheckImg
               key={index}
