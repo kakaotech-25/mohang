@@ -2,15 +2,15 @@ import './App.css'
 import {Routes, Route} from "react-router-dom"
 import Header from "./components/Header.jsx"
 import Footer from "./components/Footer.jsx"
-import Home from "./pages/Home.jsx"
-import Login from './pages/Login.jsx'
-import Profile from './pages/Profile.jsx'
-import Profile2 from './pages/Profile2.jsx'
-import Profile3 from './pages/Profile3.jsx'
-import Mypage from './pages/Mypage.jsx'
-import Place from './pages/Place.jsx'
-import Planner from './pages/Planner.jsx'
-import PlannerList from './pages/PlannerList.jsx'
+import Home from "./pages/Home/Home.jsx"
+import Login from './pages/Login/Login.jsx'
+import Profile from './pages/Profile/Profile.jsx'
+import Profile2 from './pages/LivingInfo/LivingInfo.jsx'
+import Profile3 from './pages/InterestedPlace/InterestedPlace.jsx'
+import Mypage from './pages/Mypage/Mypage.jsx'
+import Place from './pages/Place/Place.jsx'
+import Planner from './pages/Planner/Planner.jsx'
+import PlannerList from './pages/PlannerList/PlannerList.jsx'
 
 function App() {
 

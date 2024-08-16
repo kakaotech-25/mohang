@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import "./Profile2.css";
-import ProfileInfo from "../components/ProfileInfo";
-import progressbar2 from "../assets/progressbar2.png";
+import "./LivingInfo.css";
+import ProfileInfo from "../../components/ProfileInfo";
+import progressbar2 from "../../assets/progressbar2.png";
 import { useNavigate } from "react-router-dom";
-import Button from "../components/Button";
-import LivingBtn from "../components/LivingBtn";
-import livingimg1 from "../assets/physical.png";
-import livingimg2 from "../assets/visual.png";
-import livingimg3 from "../assets/hearing.png";
-import livingimg4 from "../assets/infants.png";
-import livingimg5 from "../assets/senior.png";
-import livingimg6 from "../assets/nothing.png";
+import Button from "../../components/Button";
+import LivingBtn from "../../components/LivingBtn";
+import livingimg1 from "../../assets/physical.png";
+import livingimg2 from "../../assets/visual.png";
+import livingimg3 from "../../assets/hearing.png";
+import livingimg4 from "../../assets/infants.png";
+import livingimg5 from "../../assets/senior.png";
+import livingimg6 from "../../assets/nothing.png";
 
-const Profile2 = () => {
+const LivingInfo = () => {
     const navigate = useNavigate();
 
     const [selectedLivingOptions, setSelectedLivingOptions] = useState(["해당없음"]); // "해당없음"이 기본 선택
@@ -78,4 +78,4 @@ const Profile2 = () => {
     );
 };
 
-export default Profile2;
+export default LivingInfo;
