@@ -22,7 +22,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: moheng/frontend
+        working-directory: frontend
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
