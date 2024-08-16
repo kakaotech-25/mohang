@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static moheng.fixture.MemberFixtures.하온_기존;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -58,7 +59,11 @@ public class AppendRecommendTripStrategyTest extends ServiceTestConfig {
 
         // then
         RecommendTrip actual = recommendTripRepository.findById(trip4.getId()).get();
-        assertThat(actual.getRank()).isEqualTo(4L);
+
+        assertAll(() -> {
+            assertThat(recommendTripRepository.findAllByMemberId(member.getId()).size()).isEqualTo(4L);
+            assertThat(actual.getRank()).isEqualTo(4L);
+        });
     }
 
     @DisplayName("선호 여행지 추가 전략은 MAX SIZE 보다 작을 때 수행된다.")

@@ -22,6 +22,7 @@ public interface RecommendTripRepository extends JpaRepository<RecommendTrip, Lo
 
     boolean existsByMemberAndTrip(final Member member, final Trip trip);
 
+    @Transactional
     void deleteByMemberAndRank(final Member member, final long rank);
 
     boolean existsByMemberAndRank(final Member member, final long rank);
