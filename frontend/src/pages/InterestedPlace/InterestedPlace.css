@@ -5,11 +5,12 @@
 
 .interested-body {
     width: 70%;
-    height: 100%;
+    height: 500px;
     margin: 20px auto;
     padding: 50px;
     background-color: #D5CABD50;
     border-radius: 10px;
+    overflow-y: auto; /* 내부에서 세로 스크롤 가능 */
 }
 
 .subbtn {
@@ -31,7 +32,6 @@
     margin: 0 auto; /* 그리드 자체를 중앙 정렬 */
     padding: 0;
     justify-content: center; /* 그리드 항목을 중앙 정렬 */
-    max-width: 900px; /* 한 줄에 3개의 카드가 배치되도록 최대 너비 설정 */
 }
 
 .travel-card {
