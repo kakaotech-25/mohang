@@ -7,14 +7,17 @@ import moheng.recommendtrip.domain.RecommendTrip;
 import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.recommendstrategy.AppendRecommendTripStrategy;
+import moheng.trip.exception.NoExistRecommendTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static moheng.fixture.MemberFixtures.하온_기존;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class AppendRecommendTripStrategyTest extends ServiceTestConfig {
     private static final long MAX_SIZE = 10L;
@@ -77,5 +80,18 @@ public class AppendRecommendTripStrategyTest extends ServiceTestConfig {
         long recommendSize = recommendTripRepository.findAllByMemberId(member.getId()).size();
 
         assertThat(appendRecommendTripStrategy.isMatch(recommendSize, MAX_SIZE)).isTrue();
+    }
+
+    @DisplayName("멤버의 선호 여행지가 비어있으면 선호 여행지 추가 전략에 예외가 발생한다.")
+    @Test
+    void 멤버의_선호_여행지가_비어있으면_선호_여행지_추가_전략에_예외가_발생한다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
+        Trip trip1 = tripService.findById(1L);
+
+        // when, then
+        assertThatThrownBy(() ->appendRecommendTripStrategy.execute(trip1, member, new ArrayList<>()))
+                .isInstanceOf(NoExistRecommendTripException.class);
     }
 }
