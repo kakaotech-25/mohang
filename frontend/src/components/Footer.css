@@ -8,7 +8,7 @@
     height : 70px;
 }
 
-.maincontents, .content {
+.main-contents, .content {
     display:flex;
     flex-direction: row;
     justify-content: center;
@@ -18,12 +18,12 @@
     margin: auto;
 }
 
-.logoimg {
+.logo-img {
     height:50px;
     width: 70px
 }
 
-.maincontents {
+.main-contents {
     text-align: center;
 }
 

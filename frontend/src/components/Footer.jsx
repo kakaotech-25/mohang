@@ -5,9 +5,9 @@ const Footer = () => {
   return (
     <section className='footer'>
 
-      <section className='maincontents'>
+      <section className='main-contents'>
         <section>
-          <img src={logo} className='logoimg' />
+          <img src={logo} className='logo-img' />
           <div>moheng</div>
         </section>
         <section className='content'>

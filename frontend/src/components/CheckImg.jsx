@@ -2,15 +2,15 @@ import './CheckImg.css';
 
 const CheckImg = ({ src, isSelected, onClick }) => {
   return (
-    <div className="profileimgs">
+    <div className="profile-imgs">
       <img 
         src={src} 
         alt="checkable" 
         onClick={onClick} 
-        className="profileimg"
+        className="profile-img"
       />
       {isSelected && (
-        <div className="profilecheckmark">
+        <div className="profile-checkmark">
           ✔️
         </div>
       )}

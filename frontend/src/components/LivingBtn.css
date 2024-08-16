@@ -1,4 +1,4 @@
-.livingbtn {
+.living-btn {
     width: 120px;
     height: 120px;
     display: flex;
@@ -12,24 +12,24 @@
     position: relative;
 }
 
-.livingbtn.selected,
-.livingbtn:hover {
+.living-btn.selected,
+.living-btn:hover {
     background-color: #D9D9D9;
 }
 
-.livingimg {
+.living-img {
     width: 70px;
     height: 70px;
     object-fit: cover;
 }
 
-.livingtext {
+.living-text {
     margin-top: 10px;
     text-align: center;
     font-size: 14px;
 }
 
-.livingcheckmark {
+.living-checkmark {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -39,6 +39,6 @@
     display: none;
 }
 
-.livingbtn.selected .livingcheckmark {
+.living-btn.selected .living-checkmark {
     display: block;
 }

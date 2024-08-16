@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <section className='header'>
       <Link to ='/'>
-        <img src={logo} className='logoimg' />
+        <img src={logo} className='logo-img' />
       </Link>
       <div className='moheng'>모행</div>
 
