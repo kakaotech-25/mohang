@@ -4,8 +4,16 @@
     border-radius: 12px;
     overflow: hidden; /* 내용이 넘치지 않도록 처리 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: filter 0.3s ease, transform 0.3s ease;
     display: flex;
     flex-direction: column;
+    justify-content: space-between; /* 콘텐츠를 세로로 분포 */
+}
+
+.travel-card.selected {
+    filter: brightness(70%); /* 선택된 카드가 어두워지도록 설정 */
+    transform: scale(0.98); /* 선택된 카드가 약간 작아지는 효과 */
 }
 
 .travel-card-image {
@@ -13,7 +21,7 @@
     height: 70%;
     object-fit: cover;
     display: block;
-    margin-bottom: 0; /* 이미지와 콘텐츠 사이의 여백 제거 */
+    margin: 0; /* 이미지 하단에 여백이 생기지 않도록 설정 */
 }
 
 .travel-card-content {
@@ -22,9 +30,8 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-top: -4px;
-    margin-bottom: 0; /* 콘텐츠 아래 여백 제거 */
-    flex-grow: 1; /* 카드 높이를 맞추기 위해 내용 영역을 최대한 확장 */
+    margin-top: 0; /* 이미지와 내용 사이의 여백 제거 */
+    flex-grow: 1; /* 남는 공간을 채우도록 확장 */
 }
 
 .travel-card-tags {
@@ -44,12 +51,21 @@
 .travel-card-title {
     font-size: 22px;
     font-weight: bold;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
 }
 
 .travel-card-location {
     font-size: 16px;
     color: gray;
-    margin-top: auto; /* 이 요소를 아래로 밀어냄 */
+}
+
+.interested-checkmark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 32px;
+    background-color: white;
+    border-radius: 50%;
+    padding: 10px;
 }
