@@ -2,3 +2,11 @@
     min-height: 72vh;
     height:100%;
 }
+
+.interested-progressbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
