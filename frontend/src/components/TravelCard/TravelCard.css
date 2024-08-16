@@ -51,12 +51,14 @@
 .travel-card-title {
     font-size: 22px;
     font-weight: bold;
-    margin-bottom: 6px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .travel-card-location {
     font-size: 16px;
     color: gray;
+    margin-top: auto;
 }
 
 .interested-checkmark {
