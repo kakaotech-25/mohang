@@ -4,13 +4,26 @@ import ProfileInfo from "../../components/ProfileInfo/ProfileInfo";
 import progressbar2 from "../../assets/progressbar2.png";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
-import LivingBtn from "../../components/LivingBtn/LivingBtn";
 import livingimg1 from "../../assets/physical.png";
 import livingimg2 from "../../assets/visual.png";
 import livingimg3 from "../../assets/hearing.png";
 import livingimg4 from "../../assets/infants.png";
 import livingimg5 from "../../assets/senior.png";
 import livingimg6 from "../../assets/nothing.png";
+
+// LivingBtn 컴포넌트를 이 파일 안에 선언
+const LivingBtn = ({ src, text, isSelected, onClick }) => {
+  return (
+    <div
+      className={`living-btn ${isSelected ? "selected" : ""}`}
+      onClick={onClick}
+    >
+      <img src={src} className="living-img" alt={text} />
+      <div className="living-text">{text}</div>
+      {isSelected && <div className="living-checkmark">✔️</div>}
+    </div>
+  );
+};
 
 const LivingInfo = () => {
     const navigate = useNavigate();
@@ -54,7 +67,7 @@ const LivingInfo = () => {
         <section className="living-page">
             <ProfileInfo text={"여행지 추천에 필요한 생활 정보를 선택해주세요."} />
             <section className="living-progressbar">
-                <img src={progressbar2} />
+                <img src={progressbar2} alt="progress bar"/>
             </section>
             
             <section className='living-body'>
