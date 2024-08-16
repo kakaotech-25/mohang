@@ -19,7 +19,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-@SpringBootTest(classes = TestConfig.class)
 public class RecommendTripRepositoryTest extends RepositoryTestConfig {
     @Autowired
     private RecommendTripRepository recommendTripRepository;
