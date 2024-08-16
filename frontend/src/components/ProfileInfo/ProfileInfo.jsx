@@ -1,10 +1,15 @@
 import "./ProfileInfo.css";
 
-const ProfileInfo = ({text}) => {
+const ProfileInfo = ({text, src}) => {
     return(
-    <div className="profile-info">
-        {text}
-    </div>
+        <div>
+            <div className="profile-info">
+                {text}
+            </div>
+            <div className="profile-progressbar">
+                <img src={src} />
+            </div>
+        </div>
     );
 };
 

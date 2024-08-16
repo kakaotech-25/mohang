@@ -65,10 +65,7 @@ const LivingInfo = () => {
 
     return (
         <section className="living-page">
-            <ProfileInfo text={"여행지 추천에 필요한 생활 정보를 선택해주세요."} />
-            <section className="living-progressbar">
-                <img src={progressbar2} alt="progress bar"/>
-            </section>
+            <ProfileInfo text={"여행지 추천에 필요한 생활 정보를 선택해주세요."} src={progressbar2} />
             
             <section className='living-body'>
                 <section className="livingbtns">
