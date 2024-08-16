@@ -66,7 +66,7 @@ public class AppendRecommendTripStrategyTest extends ServiceTestConfig {
         });
     }
 
-    @DisplayName("선호 여행지 추가 전략은 MAX SIZE 보다 작을 때 수행된다.")
+    @DisplayName("선호 여행지 추가 전략은 현재 선호 여행지 개수가 MAX SIZE 보다 작을 때 수행된다.")
     @Test
     void 선호_여행지_추가_전략은_MAX_SIZE_보다_작을_때_수행된다() {
         // given
