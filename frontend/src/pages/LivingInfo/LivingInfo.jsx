@@ -71,7 +71,7 @@ const LivingInfo = () => {
                 </section>
 
                 <section className="subbtn">
-                    <Button text={"다음"} onClick={() => navigate(`/profile3`)} />
+                    <Button text={"다음"} onClick={() => navigate(`/signup/interestedplace`)} />
                 </section>
             </section>
         </section>

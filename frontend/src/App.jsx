@@ -5,8 +5,8 @@ import Footer from "./components/Footer.jsx"
 import Home from "./pages/Home/Home.jsx"
 import Login from './pages/Login/Login.jsx'
 import Profile from './pages/Profile/Profile.jsx'
-import Profile2 from './pages/LivingInfo/LivingInfo.jsx'
-import Profile3 from './pages/InterestedPlace/InterestedPlace.jsx'
+import LivingInfo from './pages/LivingInfo/LivingInfo.jsx'
+import InterestedPlace from './pages/InterestedPlace/InterestedPlace.jsx'
 import Mypage from './pages/Mypage/Mypage.jsx'
 import Place from './pages/Place/Place.jsx'
 import Planner from './pages/Planner/Planner.jsx'
@@ -21,9 +21,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/profile2" element={<Profile2 />} />
-        <Route path="/profile3" element={<Profile3 />} />
+        <Route path="/signup/profile" element={<Profile />} />
+        <Route path="/signup/livinginfo" element={<LivingInfo />} />
+        <Route path="/signup/interestedplace" element={<InterestedPlace />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/place" element={<Place />} />
         <Route path="/planner" element={<Planner />} />

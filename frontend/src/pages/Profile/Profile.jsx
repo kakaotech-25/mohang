@@ -88,7 +88,7 @@ const Profile = () => {
 
         <section className="subbtn">
           <Button text={"다음"} onClick={()=>{
-            navigate(`/profile2`)
+            navigate(`/signup/livinginfo`)
           }} />
         </section>
 
