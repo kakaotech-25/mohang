@@ -2,15 +2,26 @@
 name = "ai"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["dorothy.kim <1.kim.doyoon@gmail.com>", "mindy.kwon <alstjs1k@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
 fastapi = "^0.112.0"
 uvicorn = {extras = ["standard"], version = "^0.30.5"}
+dependency-injector = "^4.41.0"
+pytest = "^8.3.2"
+pytest-mock = "^3.14.0"
 
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = [
+    "ai",
+]
+pythonpath = [
+    "."
+]
