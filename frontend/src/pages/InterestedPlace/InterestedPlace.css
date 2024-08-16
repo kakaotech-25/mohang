@@ -12,6 +12,14 @@
     border-radius: 10px;
 }
 
+.subbtn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 5%;
+}
+
 .travel-page {
     padding: 20px;
 }
@@ -19,7 +27,7 @@
 .travel-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개씩 배치 */
-    gap: 20px; /* 카드 간의 간격 */
+    gap: 50px; /* 카드 간의 간격 */
     margin: 0 auto; /* 그리드 자체를 중앙 정렬 */
     padding: 0;
     justify-content: center; /* 그리드 항목을 중앙 정렬 */

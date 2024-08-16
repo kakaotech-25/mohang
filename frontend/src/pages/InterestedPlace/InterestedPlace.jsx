@@ -3,14 +3,18 @@ import ProfileInfo from "../../components/ProfileInfo/ProfileInfo";
 import progressbar3 from "../../assets/progressbar3.png";
 import TravelCard from "../../components/TravelCard/TravelCard";
 import travelcardimg from "../../assets/travelcard.png";
+import Button from "../../components/Button/Button";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const InterestedPlace = () => {
+    const navigate = useNavigate();
     const [locations, setLocations] = useState([]);
+    
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = [
+            const data = [ //여행지카드 데이터가 들어갈 공간 -> 우선 더미데이터로 넣어둠
                 { id: 1, image: travelcardimg, tags: ["20대", "연인"], title: "롯데월드", location: "서울특별시 송파구" },
                 { id: 2, image: travelcardimg, tags: ["가족", "아이"], title: "에버랜드", location: "경기도 용인시" },
                 { id: 3, image: travelcardimg, tags: ["자연", "힐링"], title: "남이섬", location: "강원도 춘천시" },
@@ -53,7 +57,7 @@ const InterestedPlace = () => {
             <ProfileInfo text={"AI 맞춤 추천을 위해 관심 여행지를 5개 이상 선택해주세요."} src={progressbar3} />
 
             <section className="interested-body">
-                <div className="travel-grid">
+                <section className="travel-grid">
                     {locations.map(location => (
                         <TravelCard
                             key={location.id}
@@ -63,7 +67,10 @@ const InterestedPlace = () => {
                             location={location.location}
                         />
                     ))}
-                </div>
+                </section>
+                <section className="subbtn">
+                    <Button text={"완료"} onClick={() => navigate(`/`)} />
+                </section>
             </section>
         </section>
     );

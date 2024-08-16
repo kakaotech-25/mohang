@@ -80,7 +80,7 @@ const LivingInfo = () => {
                     ))}
                 </section>
 
-                <section className="subbtn">
+                <section>
                     <Button text={"다음"} onClick={() => navigate(`/signup/interestedplace`)} />
                 </section>
             </section>

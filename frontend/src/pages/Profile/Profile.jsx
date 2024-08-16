@@ -83,14 +83,11 @@ const Profile = () => {
             </Radio>
         </section>
 
-        <section className="subbtn">
+        <section>
           <Button text={"다음"} onClick={()=>{
             navigate(`/signup/livinginfo`)
           }} />
         </section>
-
-        
-
 
       </section>
 
