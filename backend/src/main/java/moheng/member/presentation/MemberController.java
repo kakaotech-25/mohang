@@ -40,7 +40,7 @@ public class MemberController {
     }
 
     @PostMapping("/signup/trip")
-    public ResponseEntity<Void> signupInterestTrip(@Authentication final Accessor accessor,
+    public ResponseEntity<Void> signupInterestTrip(@InitAuthentication final Accessor accessor,
                                                     @RequestBody final SignUpInterestTripsRequest signUpInterestTripsRequest) {
         memberService.signUpByInterestTrips(accessor.getId(), signUpInterestTripsRequest);
         return ResponseEntity.noContent().build();

@@ -7,6 +7,7 @@ import moheng.auth.domain.token.JwtTokenProvider;
 import moheng.auth.presentation.AuthController;
 import moheng.auth.presentation.authentication.AuthenticationArgumentResolver;
 import moheng.auth.presentation.authentication.AuthenticationBearerExtractor;
+import moheng.auth.presentation.initauthentication.InitAuthenticationArgumentResolver;
 import moheng.config.TestConfig;
 import moheng.keyword.application.KeywordService;
 import moheng.keyword.presentation.KeywordController;
@@ -63,9 +64,6 @@ public abstract class ControllerTestConfig {
 
     @MockBean
     protected AuthenticationBearerExtractor authenticationBearerExtractor;
-
-    @MockBean
-    protected HttpServletRequest httpServletRequest;
 
     @MockBean
     protected LiveInformationService liveInformationService;
