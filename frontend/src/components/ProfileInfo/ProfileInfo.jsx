@@ -2,7 +2,7 @@ import "./ProfileInfo.css";
 
 const ProfileInfo = ({text}) => {
     return(
-    <div className="profileinfo">
+    <div className="profile-info">
         {text}
     </div>
     );

@@ -1,14 +1,14 @@
 import {useState} from "react";
 import "./Profile.css"
-import ProfileInfo from "../components/ProfileInfo";
-import progressbar from "../assets/progressbar1.png";
-import profileimg1 from "../assets/profileimg1.png"
-import profileimg2 from "../assets/profileimg2.png"
-import profileimg3 from "../assets/profileimg3.png"
-import Radio from "../components/Radio"
-import Button from "../components/Button"
+import ProfileInfo from "../../components/ProfileInfo/ProfileInfo";
+import progressbar from "../../assets/progressbar1.png";
+import profileimg1 from "../../assets/profileimg1.png"
+import profileimg2 from "../../assets/profileimg2.png"
+import profileimg3 from "../../assets/profileimg3.png"
+import Radio from "../../components/Radio"
+import Button from "../../components/Button/Button"
 import { useNavigate } from "react-router-dom";
-import ImageWithCheck from "./ImageWithCheck";
+import CheckImg from "../../components/CheckImg/CheckImg";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -37,16 +37,16 @@ const Profile = () => {
   ];
 
   return (
-    <section className="profilepage">
+    <section className="profile-page">
       <ProfileInfo text={"회원가입을 위해 프로필 정보를 입력해주세요."} />
       <section className="progressbar">
         <img src={progressbar} className='progressbar' />
       </section>
       
-      <section className='profile1'>
-        <section className="profileimgs">
+      <section className='profile-body'>
+        <section className="profile-imgs">
           {images.map((src, index) => (
-            <ImageWithCheck
+            <CheckImg
               key={index}
               src={src}
               isSelected={selectedImageIndex === index}
@@ -88,7 +88,7 @@ const Profile = () => {
 
         <section className="subbtn">
           <Button text={"다음"} onClick={()=>{
-            navigate(`/profile2`)
+            navigate(`/signup/livinginfo`)
           }} />
         </section>
 

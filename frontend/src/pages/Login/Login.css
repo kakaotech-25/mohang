@@ -1,20 +1,20 @@
-.loginpage {
-    min-height: 70vh;
+.login-page {
+    min-height: 72vh;
     height:100%;
     display: flex;
     flex-direction: row;
     align-items: end;
 }
 
-.login_left {
+.login-left {
     width: 30%;
 }
 
-.kakaologin {
+.kakao-login {
     align-self: center;
     width: 40%;
 }
 
-.login_right {
+.login-right {
     width: 30%;
 }

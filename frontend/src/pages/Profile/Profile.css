@@ -1,4 +1,4 @@
-.profilepage {
+.profile-page {
     min-height: 70vh;
     height:100%;
 }
@@ -11,7 +11,7 @@
     padding: 10px;
 }
 
-.profile1 {
+.profile-body {
     width: 70%;
     height: 100%;
     margin: 20px auto 20px auto;
@@ -20,7 +20,7 @@
     border-radius: 10px;
 }
 
-.profile1 > section{
+.profile-body > section{
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -29,11 +29,11 @@
     font-size: 20px;
 }
 
-.profile1 > section > div{
+.profile-body > section > div{
     margin-right: 20px;
 }
 
-.profile1 > section > input{
+.profile-body > section > input{
     margin-right: 20px;
 }
 
