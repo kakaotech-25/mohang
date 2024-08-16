@@ -5,10 +5,8 @@ import static moheng.fixture.MemberFixtures.래오_소셜_타입_카카오;
 import static moheng.fixture.MemberFixtures.리안_이메일;
 import static moheng.fixture.MemberFixtures.리안_소셜_타입_카카오;
 import static moheng.fixture.MemberFixtures.하온_이메일;
-import static moheng.fixture.MemberFixtures.하온_닉네임;
 import static moheng.fixture.MemberFixtures.하온_프로필_경로;
 import static moheng.fixture.MemberFixtures.하온_소셜_타입_카카오;
-import static moheng.fixture.MemberFixtures.하온_소셜_타입_구글;
 import static moheng.fixture.MemberFixtures.하온_생년월일;
 import static moheng.fixture.MemberFixtures.하온_성별;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import moheng.config.RepositoryTestConfig;
+import moheng.config.slice.RepositoryTestConfig;
 import moheng.config.TestConfig;
 import moheng.member.domain.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -24,10 +22,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDate;
 
 
-@SpringBootTest(classes = TestConfig.class)
 public class MemberRepositoryTest extends RepositoryTestConfig {
     @Autowired
     private MemberRepository memberRepository;

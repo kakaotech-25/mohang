@@ -1,26 +1,30 @@
 package moheng.trip.presentation;
 
+import static moheng.fixture.MemberFixtures.프로필_정보로_회원가입_요청;
+import static moheng.fixture.MemberFixtures.하온_신규;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static moheng.fixture.TripFixture.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import moheng.config.ControllerTestConfig;
+import moheng.config.slice.ControllerTestConfig;
 import moheng.trip.domain.Trip;
+import moheng.trip.dto.FindTripWithSimilarTripsResponse;
 import moheng.trip.dto.FindTripsResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
 import java.util.List;
+import java.util.Optional;
 
 public class TripControllerTest extends ControllerTestConfig {
 
@@ -42,12 +46,7 @@ public class TripControllerTest extends ControllerTestConfig {
     void 상위_30개의_여행지들을_방문_수_기준으로_정렬한다() throws Exception {
         // given
         given(tripService.findTop30OrderByVisitedCountDesc())
-                .willReturn(new FindTripsResponse(
-                        List.of(new Trip("여행지1", "장소명1", 1L, "여행지1 설명", "여행지1 이미지 경로"),
-                                new Trip("여행지2", "장소명2", 2L, "여행지2 설명", "여행지2 이미지 경로"),
-                                new Trip("여행지3", "장소명3", 3L, "여행지3 설명", "여행지3 이미지 경로")
-                )
-        ));
+                .willReturn(여행지_응답());
 
         // when, then
         mockMvc.perform(get("/trip/find/interested")
@@ -64,9 +63,45 @@ public class TripControllerTest extends ControllerTestConfig {
                                 fieldWithPath("findTripResponses[].placeName").description("세부 여행지 장소명"),
                                 fieldWithPath("findTripResponses[].contentId").description("세부 여행지 contentId"),
                                 fieldWithPath("findTripResponses[].tripImageUrl").description("세부 여행지 이미지 경로"),
-                                fieldWithPath("findTripResponses[].description").description("세부 여행지 설명")
+                                fieldWithPath("findTripResponses[].description").description("세부 여행지 설명"),
+                                fieldWithPath("findTripResponses[].keywords").description("세부 여행지 키워드 리스트")
                         )
                 ))
+                .andExpect(status().isOk());
+    }
+
+    @DisplayName("현재 여행지를 비슷한 여행지와 함께 조회하고 상태코드 200을 리턴한다.")
+    @Test
+    void 현재_여행지를_비슷한_여행지와_함꼐_조회하고_상태코드_200을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(tripService.findWithSimilarOtherTrips(anyLong(), anyLong()))
+                .willReturn(여행지_조회_응답());
+
+        // when, then
+        mockMvc.perform(get("/trip/find/{tripId}", 1L)
+                .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+                .andDo(document("trip/find/current",
+                        responseFields(
+                                fieldWithPath("findTripResponse.name").description("선택한 여행지의 이름"),
+                                fieldWithPath("findTripResponse.placeName").description("선택한 여행지의 장소명"),
+                                fieldWithPath("findTripResponse.contentId").description("선택한 여행지의 컨텐츠 ID"),
+                                fieldWithPath("findTripResponse.tripImageUrl").description("선택한 여행지의 이미지 URL"),
+                                fieldWithPath("findTripResponse.description").description("선택한 여행지에 대한 설명"),
+                                fieldWithPath("findTripResponse.keywords[]").description("선택한 여행지와 관련된 키워드 목록"),
+
+                                fieldWithPath("similarTripResponses.findTripResponses[].name").description("유사한 여행지의 이름"),
+                                fieldWithPath("similarTripResponses.findTripResponses[].placeName").description("유사한 여행지의 장소명"),
+                                fieldWithPath("similarTripResponses.findTripResponses[].contentId").description("유사한 여행지의 컨텐츠 ID"),
+                                fieldWithPath("similarTripResponses.findTripResponses[].tripImageUrl").description("유사한 여행지의 이미지 URL"),
+                                fieldWithPath("similarTripResponses.findTripResponses[].description").description("유사한 여행지에 대한 설명"),
+                                fieldWithPath("similarTripResponses.findTripResponses[].keywords[]").description("유사한 여행지와 관련된 키워드 목록")
+                        )
+                ))
+                .andDo(print())
                 .andExpect(status().isOk());
     }
 }

@@ -5,7 +5,7 @@ import io.restassured.response.Response;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class HttpStatus {
+public class HttpStatusAcceptenceFixture {
     public static void 상태코드_200이_반환된다(final ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(org.springframework.http.HttpStatus.OK.value());
     }

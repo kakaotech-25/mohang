@@ -4,10 +4,9 @@ import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.recommendtrip.dto.RecommendTripCreateRequest;
-import moheng.trip.dto.TripCreateRequest;
 import org.springframework.http.MediaType;
 
-public class RecommendTripFixture {
+public class RecommendTripAcceptenceFixture {
     public static ExtractableResponse<Response> 선호_여행지를_선택한다(final long tripId, final String accessToken) {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)

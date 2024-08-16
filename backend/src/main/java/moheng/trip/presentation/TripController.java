@@ -1,6 +1,9 @@
 package moheng.trip.presentation;
 
+import moheng.auth.dto.Accessor;
+import moheng.auth.presentation.authentication.Authentication;
 import moheng.trip.application.TripService;
+import moheng.trip.dto.FindTripWithSimilarTripsResponse;
 import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.dto.TripCreateRequest;
 import org.springframework.http.ResponseEntity;
@@ -24,5 +27,11 @@ public class TripController {
     @GetMapping("/find/interested")
     public ResponseEntity<FindTripsResponse> findTopTripsOrderByVisitedCount() {
         return ResponseEntity.ok(tripService.findTop30OrderByVisitedCountDesc());
+    }
+
+    @GetMapping("/find/{tripId}")
+    public ResponseEntity<FindTripWithSimilarTripsResponse> findTripWithSimilarTrips(
+            @PathVariable("tripId") final long tripId, @Authentication final Accessor accessor) {
+        return ResponseEntity.ok(tripService.findWithSimilarOtherTrips(tripId , accessor.getId()));
     }
 }

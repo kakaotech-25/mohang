@@ -1,22 +1,19 @@
-package moheng.recommendtrip.domain.application;
+package moheng.recommendtrip.application;
 
-import static moheng.fixture.MemberFixtures.*;
 import static moheng.fixture.MemberFixtures.하온_기존;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
-import moheng.config.ServiceTestConfig;
-import moheng.member.application.MemberService;
+import moheng.config.slice.ServiceTestConfig;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
 import moheng.recommendtrip.application.RecommendTripService;
 import moheng.recommendtrip.dto.RecommendTripCreateRequest;
-import moheng.trip.application.TripService;
 import moheng.trip.domain.Trip;
 import moheng.trip.exception.NoExistTripException;
-import moheng.trip.repository.TripRepository;
+import moheng.trip.domain.TripRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

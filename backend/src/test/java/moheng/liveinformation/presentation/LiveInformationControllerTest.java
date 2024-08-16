@@ -1,6 +1,5 @@
 package moheng.liveinformation.presentation;
 
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -16,11 +15,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-import moheng.config.ControllerTestConfig;
+import moheng.config.slice.ControllerTestConfig;
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.dto.FindAllLiveInformationResponse;
-import moheng.liveinformation.dto.FindMemberLiveInformationResponses;
-import moheng.liveinformation.dto.LiveInfoResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;

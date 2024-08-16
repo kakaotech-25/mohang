@@ -4,17 +4,13 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
 import moheng.auth.dto.AccessTokenResponse;
-import moheng.member.dto.response.MemberResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.자체_토큰을_생성한다;
-import static moheng.acceptance.fixture.HttpStatus.상태코드_200이_반환된다;
-import static moheng.acceptance.fixture.HttpStatus.상태코드_204이_반환된다;
+import static moheng.acceptance.fixture.HttpStatusAcceptenceFixture.상태코드_204이_반환된다;
 import static moheng.acceptance.fixture.LiveInfoAcceptenceFixture.생활정보를_생성한다;
 import static moheng.acceptance.fixture.MemberLiveInfoAcceptenceFixture.*;
-import static moheng.acceptance.fixture.LiveInfoAcceptenceFixture.*;
-import static moheng.acceptance.fixture.MemberAcceptanceFixture.회원_본인의_정보를_조회한다;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 

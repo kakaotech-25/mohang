@@ -8,7 +8,7 @@ import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.recommendtrip.dto.RecommendTripCreateRequest;
 import moheng.trip.domain.Trip;
 import moheng.trip.exception.NoExistTripException;
-import moheng.trip.repository.TripRepository;
+import moheng.trip.domain.TripRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

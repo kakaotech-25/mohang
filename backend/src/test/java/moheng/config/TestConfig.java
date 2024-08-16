@@ -1,7 +1,11 @@
 package moheng.config;
 
 import moheng.auth.domain.oauth.OAuthProvider;
-import moheng.keyword.service.KeywordFilterModelClient;
+import moheng.config.stub.StubKakaoOAuthClientProvider;
+import moheng.config.stub.StubKeywordFilterModelClient;
+import moheng.config.stub.StubSimilarTripModelClient;
+import moheng.keyword.application.KeywordFilterModelClient;
+import moheng.trip.domain.ExternalSimilarTripModelClient;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
@@ -15,5 +19,10 @@ public class TestConfig {
     @Bean
     public KeywordFilterModelClient keywordFilterModelClient() {
         return new StubKeywordFilterModelClient();
+    }
+
+    @Bean
+    public ExternalSimilarTripModelClient externalSimilarTripModelClient() {
+        return new StubSimilarTripModelClient();
     }
 }

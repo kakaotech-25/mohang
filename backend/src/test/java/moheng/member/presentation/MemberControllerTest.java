@@ -1,29 +1,19 @@
 package moheng.member.presentation;
 
 import static moheng.fixture.MemberFixtures.*;
-import static moheng.fixture.AuthFixtures.*;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import moheng.auth.domain.token.JwtTokenProvider;
-import moheng.auth.dto.TokenRequest;
-import moheng.auth.exception.InvalidTokenException;
-import moheng.config.ControllerTestConfig;
+import moheng.config.slice.ControllerTestConfig;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
-import moheng.member.domain.GenderType;
-import moheng.member.dto.response.MemberResponse;
 import moheng.member.exception.DuplicateNicknameException;
 import moheng.member.exception.ShortContentidsSizeException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;

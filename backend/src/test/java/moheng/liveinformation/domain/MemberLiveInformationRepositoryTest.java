@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import moheng.config.RepositoryTestConfig;
+import moheng.config.slice.RepositoryTestConfig;
 import moheng.config.TestConfig;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;

@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import moheng.config.ServiceTestConfig;
+import moheng.config.slice.ServiceTestConfig;
 import moheng.config.TestConfig;
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.dto.LiveInformationCreateRequest;

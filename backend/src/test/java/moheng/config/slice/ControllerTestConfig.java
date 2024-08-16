@@ -1,4 +1,4 @@
-package moheng.config;
+package moheng.config.slice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -6,11 +6,13 @@ import moheng.auth.application.AuthService;
 import moheng.auth.domain.token.JwtTokenProvider;
 import moheng.auth.presentation.authentication.AuthenticationArgumentResolver;
 import moheng.auth.presentation.authentication.AuthenticationBearerExtractor;
-import moheng.keyword.service.KeywordService;
+import moheng.config.TestConfig;
+import moheng.keyword.application.KeywordService;
 import moheng.liveinformation.application.LiveInformationService;
 import moheng.liveinformation.application.MemberLiveInformationService;
 import moheng.member.application.MemberService;
 import moheng.member.domain.repository.MemberRepository;
+import moheng.recommendtrip.application.RecommendTripService;
 import moheng.trip.application.TripService;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,4 +68,7 @@ public abstract class ControllerTestConfig {
 
     @MockBean
     protected KeywordService keywordService;
+
+    @MockBean
+    protected RecommendTripService recommendTripService;
 }

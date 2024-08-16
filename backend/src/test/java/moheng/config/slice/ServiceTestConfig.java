@@ -1,6 +1,7 @@
-package moheng.config;
+package moheng.config.slice;
 
 import moheng.auth.domain.token.RefreshTokenRepository;
+import moheng.config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

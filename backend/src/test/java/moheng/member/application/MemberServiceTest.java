@@ -6,20 +6,16 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
 import moheng.auth.domain.oauth.Authority;
-import moheng.auth.exception.NoExistMemberTokenException;
-import moheng.config.ServiceTestConfig;
+import moheng.config.slice.ServiceTestConfig;
 import moheng.liveinformation.application.LiveInformationService;
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
-import moheng.member.domain.GenderType;
 import moheng.member.domain.Member;
 import moheng.member.domain.SocialType;
-import moheng.member.domain.repository.MemberRepository;
 import moheng.member.dto.request.SignUpInterestTripsRequest;
 import moheng.member.dto.request.SignUpLiveInfoRequest;
 import moheng.member.dto.request.SignUpProfileRequest;
 import moheng.member.dto.request.UpdateProfileRequest;
-import moheng.member.dto.response.CheckDuplicateNicknameResponse;
 import moheng.member.exception.DuplicateNicknameException;
 import moheng.member.exception.NoExistMemberException;
 import moheng.member.exception.ShortContentidsSizeException;
@@ -28,9 +24,7 @@ import moheng.trip.domain.Trip;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

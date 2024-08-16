@@ -1,7 +1,6 @@
 package moheng.liveinformation.presentation;
 
 import static moheng.fixture.MemberLiveInfoFixture.*;
-import static moheng.fixture.MemberFixtures.프로필_업데이트_요청;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -13,7 +12,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import moheng.config.ControllerTestConfig;
+import moheng.config.slice.ControllerTestConfig;
 import moheng.liveinformation.dto.FindMemberLiveInformationResponses;
 import moheng.liveinformation.dto.LiveInfoResponse;
 import org.junit.jupiter.api.DisplayName;
