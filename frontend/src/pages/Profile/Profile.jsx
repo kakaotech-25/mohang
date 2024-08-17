@@ -38,10 +38,7 @@ const Profile = () => {
 
   return (
     <section className="profile-page">
-      <ProfileInfo text={"회원가입을 위해 프로필 정보를 입력해주세요."} />
-      <section className="progressbar">
-        <img src={progressbar} className='progressbar' />
-      </section>
+      <ProfileInfo text={"회원가입을 위해 프로필 정보를 입력해주세요."} src={progressbar} />
       
       <section className='profile-body'>
         <section className="profile-imgs">
@@ -86,14 +83,11 @@ const Profile = () => {
             </Radio>
         </section>
 
-        <section className="subbtn">
+        <section>
           <Button text={"다음"} onClick={()=>{
             navigate(`/signup/livinginfo`)
           }} />
         </section>
-
-        
-
 
       </section>
 

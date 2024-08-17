@@ -1,7 +1,100 @@
-import "./InterestedPlace.css"
+import "./InterestedPlace.css";
+import ProfileInfo from "../../components/ProfileInfo/ProfileInfo";
+import progressbar3 from "../../assets/progressbar3.png";
+import TravelCard from "../../components/TravelCard/TravelCard";
+import travelcardimg from "../../assets/travelcard.png";
+import Button from "../../components/Button/Button";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const InterestedPlace = () => {
-    return <div>Profile3</div>;
+    const navigate = useNavigate();
+    const [locations, setLocations] = useState([]);
+    const [selectedCards, setSelectedCards] = useState([]); // 선택된 카드를 저장하는 상태
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = [ //여행지카드 데이터가 들어갈 공간 -> 우선 더미데이터로 넣어둠
+                { id: 1, image: travelcardimg, tags: ["20대", "연인"], title: "롯데월드", location: "서울특별시 송파구" },
+                { id: 2, image: travelcardimg, tags: ["가족", "아이"], title: "에버랜드", location: "경기도 용인시" },
+                { id: 3, image: travelcardimg, tags: ["자연", "힐링"], title: "남이섬", location: "강원도 춘천시" },
+                { id: 4, image: travelcardimg, tags: ["역사", "문화"], title: "경복궁", location: "서울특별시 종로구" },
+                { id: 5, image: travelcardimg, tags: ["해변", "휴양"], title: "해운대", location: "부산광역시" },
+                { id: 6, image: travelcardimg, tags: ["쇼핑", "문화"], title: "명동", location: "서울특별시 중구" },
+                { id: 7, image: travelcardimg, tags: ["공원", "자연"], title: "올림픽공원", location: "서울특별시 송파구" },
+                { id: 8, image: travelcardimg, tags: ["문화", "예술"], title: "인사동", location: "서울특별시 종로구" },
+                { id: 9, image: travelcardimg, tags: ["휴양", "해변"], title: "제주도", location: "제주특별자치도" },
+                { id: 10, image: travelcardimg, tags: ["자연", "등산"], title: "북한산", location: "서울특별시 은평구" },
+                { id: 11, image: travelcardimg, tags: ["연인", "데이트"], title: "청계천", location: "서울특별시 중구" },
+                { id: 12, image: travelcardimg, tags: ["역사", "문화"], title: "창덕궁", location: "서울특별시 종로구" },
+                { id: 13, image: travelcardimg, tags: ["자연", "관광"], title: "동해안", location: "강원도 동해시" },
+                { id: 14, image: travelcardimg, tags: ["산책", "데이트"], title: "한강공원", location: "서울특별시 마포구" },
+                { id: 15, image: travelcardimg, tags: ["전통", "역사"], title: "안동하회마을", location: "경상북도 안동시" },
+                { id: 16, image: travelcardimg, tags: ["공원", "자연"], title: "서울숲", location: "서울특별시 성동구" },
+                { id: 17, image: travelcardimg, tags: ["문화", "예술"], title: "부산영화의전당", location: "부산광역시 해운대구" },
+                { id: 18, image: travelcardimg, tags: ["해변", "휴양"], title: "광안리", location: "부산광역시 수영구" },
+                { id: 19, image: travelcardimg, tags: ["산책", "자연"], title: "양재천", location: "서울특별시 서초구" },
+                { id: 20, image: travelcardimg, tags: ["휴양", "온천"], title: "온천지구", location: "부산광역시 동래구" },
+                { id: 21, image: travelcardimg, tags: ["공원", "역사"], title: "서울올림픽공원", location: "서울특별시 송파구" },
+                { id: 22, image: travelcardimg, tags: ["산책", "데이트"], title: "석촌호수", location: "서울특별시 송파구" },
+                { id: 23, image: travelcardimg, tags: ["바다", "관광"], title: "통영", location: "경상남도 통영시" },
+                { id: 24, image: travelcardimg, tags: ["쇼핑", "문화"], title: "가로수길", location: "서울특별시 강남구" },
+                { id: 25, image: travelcardimg, tags: ["자연", "힐링"], title: "속초", location: "강원도 속초시" },
+                { id: 26, image: travelcardimg, tags: ["전통", "문화"], title: "전주한옥마을", location: "전라북도 전주시" },
+                { id: 27, image: travelcardimg, tags: ["해변", "휴양"], title: "망상해변", location: "강원도 동해시" },
+                { id: 28, image: travelcardimg, tags: ["산책", "공원"], title: "북서울꿈의숲", location: "서울특별시 강북구" },
+                { id: 29, image: travelcardimg, tags: ["힐링", "온천"], title: "설악산온천", location: "강원도 속초시" },
+                { id: 30, image: travelcardimg, tags: ["자연", "관광"], title: "설악산", location: "강원도 속초시" }
+            ];
+            setLocations(data);
+        };
+
+        fetchData();
+    }, []);
+
+    const handleCardClick = (id) => {
+        setSelectedCards(prevSelected => {
+            if (prevSelected.includes(id)) {
+                return prevSelected.filter(cardId => cardId !== id); // 이미 선택된 카드 클릭 시 선택 해제
+            } else {
+                return [...prevSelected, id]; // 선택되지 않은 카드 클릭 시 선택 추가
+            }
+        });
+    };
+
+    const handleSubmit = () => {
+        const selectedCount = selectedCards.length;
+        if (selectedCount < 5) {
+            alert(`관심여행지를 5개 이상 선택해주세요! (${selectedCount}/5)`);
+        } else {
+            navigate(`/`); // 선택된 카드가 5개 이상일 때 지정된 URL로 이동
+        }
+    };
+
+    return (
+        <section className="interested-page">
+            <ProfileInfo text={"AI 맞춤 추천을 위해 관심 여행지를 5개 이상 선택해주세요."} src={progressbar3} />
+
+            <section className="interested-body">
+                <section className="travel-grid">
+                    {locations.map(location => (
+                        <TravelCard
+                            key={location.id}
+                            image={location.image}
+                            tags={location.tags}
+                            title={location.title}
+                            location={location.location}
+                            isSelected={selectedCards.includes(location.id)} // 선택 상태 전달
+                            onClick={() => handleCardClick(location.id)} // 클릭 핸들러 전달
+                        />
+                    ))}
+                </section>
+                <section className="subbtn">
+                    <Button text={"완료"} onClick={handleSubmit} />
+                </section>
+            </section>
+        </section>
+    );
 };
 
 export default InterestedPlace;

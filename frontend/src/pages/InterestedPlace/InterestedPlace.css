@@ -1,0 +1,40 @@
+.interested-page {
+    min-height: 72vh;
+    height: 100%;
+}
+
+.interested-body {
+    width: 70%;
+    height: 500px;
+    margin: 20px auto;
+    padding: 50px;
+    background-color: #D5CABD50;
+    border-radius: 10px;
+    overflow-y: auto; /* 내부에서 세로 스크롤 가능 */
+}
+
+.subbtn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 5%;
+}
+
+.travel-page {
+    padding: 20px;
+}
+
+.travel-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개씩 배치 */
+    gap: 50px; /* 카드 간의 간격 */
+    margin: 0 auto; /* 그리드 자체를 중앙 정렬 */
+    padding: 0;
+    justify-content: center; /* 그리드 항목을 중앙 정렬 */
+}
+
+.travel-card {
+    margin: 0; /* 카드 자체의 마진 제거 */
+    padding: 0; /* 카드 자체의 패딩 제거 */
+}
