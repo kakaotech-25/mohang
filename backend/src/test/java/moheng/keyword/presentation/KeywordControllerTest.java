@@ -108,6 +108,19 @@ public class KeywordControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
+                .andDo(document("keyword/random/trip",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("findTripResponses").description("여행지 리스트"),
+                                fieldWithPath("findTripResponses[].name").description("세부 여행지 이름"),
+                                fieldWithPath("findTripResponses[].placeName").description("세부 여행지 장소명"),
+                                fieldWithPath("findTripResponses[].contentId").description("세부 여행지 contentId"),
+                                fieldWithPath("findTripResponses[].tripImageUrl").description("세부 여행지 이미지 경로"),
+                                fieldWithPath("findTripResponses[].description").description("세부 여행지 설명"),
+                                fieldWithPath("findTripResponses[].keywords").description("세부 여행지 키워드 리스트")
+                        )
+                ))
                 .andExpect(status().isOk());
     }
 }
