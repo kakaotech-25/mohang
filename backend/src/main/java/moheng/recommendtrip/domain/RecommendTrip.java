@@ -42,6 +42,10 @@ public class RecommendTrip extends BaseEntity {
         this.rank = 1L;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public Long getRank() {
         return rank;
     }

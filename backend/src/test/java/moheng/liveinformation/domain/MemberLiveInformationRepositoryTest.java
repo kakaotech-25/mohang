@@ -17,7 +17,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.List;
 
-@SpringBootTest(classes = TestConfig.class)
 public class MemberLiveInformationRepositoryTest extends RepositoryTestConfig {
     @Autowired
     private MemberLiveInformationRepository memberLiveInformationRepository;

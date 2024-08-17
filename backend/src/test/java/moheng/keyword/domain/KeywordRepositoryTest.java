@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-@SpringBootTest(classes = TestConfig.class)
+
 public class KeywordRepositoryTest extends RepositoryTestConfig {
     @Autowired
     private KeywordRepository keywordRepository;

@@ -64,7 +64,7 @@ public class MemberControllerTest extends ControllerTestConfig {
     void 프로필_정보로_회원가입에_성공하면_상태코드_204을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        given(memberRepository.findById(1L)).willReturn(Optional.of(하온_신규()));
+        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_신규()));
 
         // when, then
         mockMvc.perform(post("/member/signup/profile")
@@ -95,7 +95,7 @@ public class MemberControllerTest extends ControllerTestConfig {
     void 중복되는_닉네임_없이_사용_가능한_닉네임이라면_메시지와_상태코드_200을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        given(memberRepository.findById(1L)).willReturn(Optional.of(하온_신규()));
+        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_신규()));
 
         // when, then
         mockMvc.perform(post("/member/check/nickname")
@@ -125,7 +125,7 @@ public class MemberControllerTest extends ControllerTestConfig {
     void 중복되는_닉네임이_존재한다면_상태코드_401을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        given(memberRepository.findById(1L)).willReturn(Optional.of(하온_신규()));
+        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_신규()));
         doThrow(new DuplicateNicknameException("중복되는 닉네임이 존재합니다."))
                 .when(memberService).checkIsAlreadyExistNickname(anyString());
 
@@ -217,7 +217,7 @@ public class MemberControllerTest extends ControllerTestConfig {
     void 여행지_추천에_필요한_생활정보를_입력하여_회원가입에_성공하면_상태코드_204를_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        given(memberRepository.findById(1L)).willReturn(Optional.of(하온_신규()));
+        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_신규()));
         doNothing().when(memberService).signUpByLiveInfo(anyLong(), any());
 
         // when, then
@@ -272,6 +272,7 @@ public class MemberControllerTest extends ControllerTestConfig {
     void 관심_여행지를_선택하여_회원가입에_성공했다면_상태코드_204를_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_신규()));
 
         // when, then
         mockMvc.perform(post("/member/signup/trip")
