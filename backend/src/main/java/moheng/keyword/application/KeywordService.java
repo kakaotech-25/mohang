@@ -15,7 +15,11 @@ import moheng.trip.domain.TripRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @Service
@@ -44,6 +48,45 @@ public class KeywordService {
     public FindTripsResponse findRecommendTripsByKeywords(final TripsByKeyWordsRequest request) {
         final List<TripKeyword> trips = tripKeywordRepository.findTripKeywordsByKeywordIds(request.getKeywordIds());
         return new FindTripsResponse(trips);
+    }
+
+    public FindTripsResponse findRecommendTripsByRandomKeyword() {
+        final Keyword randomKeyword = findRandomKeyword();
+        final List<TripKeyword> tripKeywords = tripKeywordRepository.findTripKeywordsByKeywordId(randomKeyword.getId());
+        final Map<Trip, Long> tripsWithVisitedCount = findTripsWithVisitedCount(tripKeywords);
+        final List<Trip> topTrips = findTopTripsByVisitedCount(tripsWithVisitedCount);
+        return new FindTripsResponse(extractTripKeywordsByTopTrips(topTrips, tripKeywords));
+    }
+
+    private Keyword findRandomKeyword() {
+        final Long minId = keywordRepository.findMinKeywordId();
+        final Long maxId = keywordRepository.findMaxKeywordId();
+        final Long randomId = minId + (long) (new Random().nextDouble() * (maxId - minId + 1));
+        return keywordRepository.findKeywordById(randomId)
+                .orElseThrow(() -> new NoExistKeywordException("랜덤 키워드를 찾을 수 없습니다."));
+    }
+
+    private Map<Trip, Long> findTripsWithVisitedCount(List<TripKeyword> tripKeywords) {
+        final Map<Trip, Long> tripClickCounts = new HashMap<>();
+        for (TripKeyword tripKeyword : tripKeywords) {
+            Trip trip = tripKeyword.getTrip();
+            tripClickCounts.put(tripKeyword.getTrip(), trip.getVisitedCount());
+        }
+        return tripClickCounts;
+    }
+
+    private List<Trip> findTopTripsByVisitedCount(Map<Trip, Long> tripsWithVisitedCount) {
+        return tripsWithVisitedCount.entrySet().stream()
+                .sorted((e1, e2) -> Long.compare(e2.getValue(), e1.getValue())) // 내림차순 정렬
+                .limit(10)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+    }
+
+    private List<TripKeyword> extractTripKeywordsByTopTrips(final List<Trip> topTrips, final List<TripKeyword> tripKeywords) {
+        return tripKeywords.stream()
+                .filter(tripKeyword -> topTrips.contains(tripKeyword.getTrip()))
+                .collect(Collectors.toList());
     }
 
     @Transactional

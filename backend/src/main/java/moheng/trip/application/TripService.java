@@ -127,4 +127,6 @@ public class TripService {
         final List<TripKeyword> tripKeywords = tripKeywordRepository.findByTrips(topTrips);
         return new FindTripsResponse(tripKeywords);
     }
+
+    public
 }
