@@ -37,4 +37,9 @@ public class KeywordController {
         keywordService.createTripKeyword(request);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping
+    public ResponseEntity<FindTripsResponse> findTripsByRandomKeyword() {
+        return ResponseEntity.ok(keywordService.findRecommendTripsByRandomKeyword());
+    }
 }
