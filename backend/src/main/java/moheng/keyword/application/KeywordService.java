@@ -15,6 +15,7 @@ import moheng.trip.domain.TripRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,10 +62,23 @@ public class KeywordService {
     private Keyword findRandomKeyword() {
         final Long minId = keywordRepository.findMinKeywordId();
         final Long maxId = keywordRepository.findMaxKeywordId();
-        final Long randomId = minId + (long) (new Random().nextDouble() * (maxId - minId + 1));
+        validateKeywordRange(minId, maxId);
+        final Long randomId = generateRandomId(minId, maxId);
         return keywordRepository.findKeywordById(randomId)
                 .orElseThrow(() -> new NoExistKeywordException("랜덤 키워드를 찾을 수 없습니다."));
     }
+
+    private void validateKeywordRange(Long minId, Long maxId) {
+        if (minId == null || maxId == null) {
+            throw new NoExistKeywordException("랜덤 키워드를 찾을 수 없습니다.");
+        }
+    }
+
+    private Long generateRandomId(Long minId, Long maxId) {
+        SecureRandom secureRandom = new SecureRandom();
+        return minId + secureRandom.nextLong(maxId - minId + 1);
+    }
+
 
     private Map<Trip, Long> findTripsWithVisitedCount(List<TripKeyword> tripKeywords) {
         final Map<Trip, Long> tripClickCounts = new HashMap<>();
