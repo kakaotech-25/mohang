@@ -53,4 +53,28 @@ public class KeywordAcceptenceTest extends AcceptanceTestConfig {
             assertThat(responseResult.getFindTripResponses().size()).isEqualTo(3L);
         });
     }
+
+    @DisplayName("무작위 랜덤 키워드 기반 여행지를 추천하고 상태코드 200을 리턴한다.")
+    @Test
+    void 무작위_랜덤_키워드_기반_여행지를_추천하고_상태코드_200을_리턴한다() {
+        // given
+        키워드를_생성한다("키워드1");
+        여행지를_생성한다("여행지1", 1L);
+        여행지를_생성한다("여행지2", 2L);
+        여행지를_생성한다("여행지3", 3L);
+
+        여행지_키워드를_생성한다(1L, 1L);
+        여행지_키워드를_생성한다(1L, 2L);
+        여행지_키워드를_생성한다(1L, 3L);
+
+        // when
+        ExtractableResponse<Response> recommendResponse = 랜덤_키워드_리스트로_여행지를_추천받는다();
+        FindTripsResponse responseResult = recommendResponse.as(FindTripsResponse.class);
+
+        // then
+        assertAll(() -> {
+            상태코드_200이_반환된다(recommendResponse);
+            assertThat(responseResult.getFindTripResponses().size()).isEqualTo(3L);
+        });
+    }
 }

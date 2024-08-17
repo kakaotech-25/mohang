@@ -26,7 +26,7 @@ public class KeywordController {
         return ResponseEntity.ok(keywordService.findRecommendTripsByKeywords(request));
     }
 
-    @GetMapping
+    @PostMapping
     public ResponseEntity<Void> createKeyword(@RequestBody final KeywordCreateRequest request) {
         keywordService.createKeyword(request);
         return ResponseEntity.noContent().build();
