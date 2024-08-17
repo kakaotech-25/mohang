@@ -77,17 +77,20 @@ public class KeywordService {
 
     private List<Trip> findTopTripsByVisitedCount(Map<Trip, Long> tripsWithVisitedCount) {
         return tripsWithVisitedCount.entrySet().stream()
-                .sorted((e1, e2) -> Long.compare(e2.getValue(), e1.getValue())) // 내림차순 정렬
-                .limit(10)
+                .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()))
+                .limit(30)
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }
 
+
     private List<TripKeyword> extractTripKeywordsByTopTrips(final List<Trip> topTrips, final List<TripKeyword> tripKeywords) {
-        return tripKeywords.stream()
-                .filter(tripKeyword -> topTrips.contains(tripKeyword.getTrip()))
+        return topTrips.stream()
+                .flatMap(topTrip -> tripKeywords.stream()
+                        .filter(tripKeyword -> tripKeyword.getTrip().equals(topTrip)))
                 .collect(Collectors.toList());
     }
+
 
     @Transactional
     public void createTripKeyword(final TripKeywordCreateRequest request) {

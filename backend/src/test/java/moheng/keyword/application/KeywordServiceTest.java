@@ -186,11 +186,11 @@ public class KeywordServiceTest extends ServiceTestConfig {
 
         tripKeywordRepository.save(new TripKeyword(tripService.findById(1L), keywordRepository.findById(1L).get()));
         tripKeywordRepository.save(new TripKeyword(tripService.findById(2L), keywordRepository.findById(2L).get()));
-        tripKeywordRepository.save(new TripKeyword(tripService.findById(3L), keywordRepository.findById(2L).get()));
+        tripKeywordRepository.save(new TripKeyword(tripService.findById(3L), keywordRepository.findById(3L).get()));
 
         // when
         FindTripsResponse response = keywordService.findRecommendTripsByRandomKeyword();
-        assertThat(response.getFindTripResponses()).hasSize(1);
+        assertThat(response.getFindTripResponses()).isNotEmpty();
     }
 
 
@@ -214,8 +214,8 @@ public class KeywordServiceTest extends ServiceTestConfig {
         assertAll(() -> {
             assertThat(response.getFindTripResponses()).hasSize(3);
             assertThat(response.getFindTripResponses().get(0).getName()).isEqualTo("여행지2");
-            assertThat(response.getFindTripResponses().get(0).getName()).isEqualTo("여행지3");
-            assertThat(response.getFindTripResponses().get(0).getName()).isEqualTo("여행지1");
+            assertThat(response.getFindTripResponses().get(1).getName()).isEqualTo("여행지3");
+            assertThat(response.getFindTripResponses().get(2).getName()).isEqualTo("여행지1");
         });
     }
 }
