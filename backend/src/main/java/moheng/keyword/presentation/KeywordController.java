@@ -26,7 +26,7 @@ public class KeywordController {
         return ResponseEntity.ok(keywordService.findRecommendTripsByKeywords(request));
     }
 
-    @PostMapping
+    @GetMapping
     public ResponseEntity<Void> createKeyword(@RequestBody final KeywordCreateRequest request) {
         keywordService.createKeyword(request);
         return ResponseEntity.noContent().build();
@@ -38,7 +38,7 @@ public class KeywordController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping
+    @GetMapping("/random/trip")
     public ResponseEntity<FindTripsResponse> findTripsByRandomKeyword() {
         return ResponseEntity.ok(keywordService.findRecommendTripsByRandomKeyword());
     }

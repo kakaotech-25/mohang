@@ -2,6 +2,7 @@ package moheng.keyword.presentation;
 
 import moheng.config.slice.ControllerTestConfig;
 import moheng.keyword.exception.InvalidAIServerException;
+import moheng.trip.dto.FindTripsResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -92,5 +93,21 @@ public class KeywordControllerTest extends ControllerTestConfig {
                 )
                 .andDo(print())
                 .andExpect(status().isNoContent());
+    }
+
+    @DisplayName("무작위 랜덤 키워드로 추천 여행지를 찾고 상태코드 200을 리턴한다.")
+    @Test
+    void 무작위_랜덤_키워드로_추천_여행지를_찾고_상태코드_200을_리턴한다() throws Exception {
+        // given
+        given(keywordService.findRecommendTripsByRandomKeyword())
+                .willReturn(키워드_기반_추천_여행지_응답());
+
+        // when, then
+        mockMvc.perform(get("/keyword/random/trip")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 }
