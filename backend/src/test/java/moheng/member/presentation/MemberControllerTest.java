@@ -105,7 +105,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                 .content(objectMapper.writeValueAsString(닉네임_중복확인_요청()))
         )
                 .andDo(print())
-                .andDo(document("member/check/nickname",
+                .andDo(document("member/check/nickname/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
@@ -137,7 +137,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                         .content(objectMapper.writeValueAsString(닉네임_중복확인_요청()))
                 )
                 .andDo(print())
-                .andDo(document("member/check/nickname",
+                .andDo(document("member/check/nickname/fail",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
@@ -186,6 +186,7 @@ public class MemberControllerTest extends ControllerTestConfig {
     void 회원_프로필_업데이트시_본인을_제외한_중복_닉네임이_존재한다면_상태코드_401을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_기존()));
         doThrow(new DuplicateNicknameException("중복되는 닉네임이 존재합니다."))
                 .when(memberService).updateByProfile(anyLong(), any());
 
@@ -244,7 +245,7 @@ public class MemberControllerTest extends ControllerTestConfig {
     void 전달받은_여행지_추천에_필요한_생활정보_리스트가_비어있거나_유효하지_않다면_상태코드_400을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        given(memberRepository.findById(1L)).willReturn(Optional.of(하온_신규()));
+        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_신규()));
         doThrow(new EmptyLiveInformationException("생활정보를 선택하지 않았습니다."))
                 .when(memberService).signUpByLiveInfo(anyLong(), any());
 
