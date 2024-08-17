@@ -218,6 +218,4 @@ public class KeywordServiceTest extends ServiceTestConfig {
             assertThat(response.getFindTripResponses().get(2).getName()).isEqualTo("여행지1");
         });
     }
-
-
 }

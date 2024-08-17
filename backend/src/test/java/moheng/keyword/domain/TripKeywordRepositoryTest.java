@@ -28,7 +28,7 @@ public class TripKeywordRepositoryTest extends RepositoryTestConfig {
     @DisplayName("키워드에 해당하는 여행지 키워드들을 찾는다.")
     @Test
     void 키워드에_해당하는_여행지_키워드들을_찾는다 () {
-        // Save the trip and keywords
+        // given
         Trip savedTrip = tripRepository.save(new Trip("여행", "장소", 1L, "설명", "이미지"));
         Keyword savedKeyword1 = keywordRepository.save(new Keyword("키워드1"));
         Keyword savedKeyword2 = keywordRepository.save(new Keyword("키워드2"));
@@ -40,7 +40,23 @@ public class TripKeywordRepositoryTest extends RepositoryTestConfig {
         tripKeywordRepository.save(new TripKeyword(trip, keyword1));
         tripKeywordRepository.save(new TripKeyword(trip, keyword2));
 
+        // when, then
         assertThat(tripKeywordRepository.findTripKeywordsByKeywordIds(List.of(keyword1.getId(), keyword2.getId())).size()).isEqualTo(2);
     }
 
+    @DisplayName("키워드에 해당하는 여행지를 찾는다.")
+    @Test
+    void 키워드에_해당하는_여행지를_찾는다() {
+        // given
+        Trip savedTrip = tripRepository.save(new Trip("여행", "장소", 1L, "설명", "이미지"));
+        Keyword savedKeyword1 = keywordRepository.save(new Keyword("키워드1"));
+
+        Trip trip = tripRepository.findById(savedTrip.getId()).orElseThrow(() -> new IllegalStateException("Trip not found"));
+        Keyword keyword1 = keywordRepository.findById(savedKeyword1.getId()).orElseThrow(() -> new IllegalStateException("Keyword1 not found"));
+        tripKeywordRepository.save(new TripKeyword(trip, keyword1));
+
+        // when, then
+        assertThat(tripKeywordRepository.findTripKeywordsByKeywordId(keyword1.getId()).size()).isEqualTo(1);
+
+    }
 }
