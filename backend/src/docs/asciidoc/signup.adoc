@@ -7,6 +7,30 @@
 
 ---
 
+=== 최초 회원가입 API 호출시 이미 회원가입을 마친 유저가 또 API 호출을 시도한 경우
+
+==== HTTP Request
+
+include::{snippets}/member/signup/authority/fail/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/member/signup/authority/fail/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/member/signup/authority/fail/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/member/signup/authority/fail/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/member/signup/authority/fail/response-body.adoc[]
+
+---
+
 === 회원가입 (by 프로필 정보) API
 
 ==== HTTP Request

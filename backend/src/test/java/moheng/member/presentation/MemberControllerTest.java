@@ -110,7 +110,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                         .content(objectMapper.writeValueAsString(프로필_정보로_회원가입_요청()))
                 )
                 .andDo(print())
-                .andDo(document("member/signup/profile",
+                .andDo(document("member/signup/authority/fail",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
@@ -335,7 +335,7 @@ public class MemberControllerTest extends ControllerTestConfig {
     void 관심_여행지_선택을_잘못하여_회원가입에_실패했다면_상태코드_400를_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_기존()));
+        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_신규()));
         doThrow(new ShortContentidsSizeException("AI 맞춤 추천을 위해 관심 여행지를 5개 이상, 10개 이하로 선택해야합니다."))
                 .when(memberService).signUpByInterestTrips(anyLong(), any());
 
