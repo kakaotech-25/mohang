@@ -69,4 +69,17 @@ public class TripKeywordRepositoryTest extends RepositoryTestConfig {
         // when, then
         assertThat(keywordRepository.findMinKeywordId()).isEqualTo(1L);
     }
+
+    @DisplayName("ID 값이 가장 큰 키워드를 찾는다.")
+    @Test
+    void ID_값익_가장_큰_키워드를_찾는다() {
+        // given
+        keywordRepository.save(new Keyword("키워드1"));
+        keywordRepository.save(new Keyword("키워드2"));
+        keywordRepository.save(new Keyword("키워드3"));
+
+
+        // when, then
+        assertThat(keywordRepository.findMaxKeywordId()).isEqualTo(3L);
+    }
 }
