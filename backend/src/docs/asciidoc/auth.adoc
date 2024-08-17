@@ -78,19 +78,19 @@ include::{snippets}/auth/generate/token/fail/http-response.adoc[]
 
 ==== HTTP Request
 
-include::{snippets}/auth/generateRenewalToken/http-request.adoc[]
+include::{snippets}/auth/generateRenewalToken/validResponse/http-request.adoc[]
 
 ===== Request Header (Cookie)
 
-include::{snippets}/auth/generateRenewalToken/request-cookies.adoc[]
+include::{snippets}/auth/generateRenewalToken/validResponse/request-cookies.adoc[]
 
 ==== HTTP Response
 
-include::{snippets}/auth/generateRenewalToken/http-response.adoc[]
+include::{snippets}/auth/generateRenewalToken/validResponse/http-response.adoc[]
 
 ===== Response Body
 
-include::{snippets}/auth/generateRenewalToken/response-fields.adoc[]
+include::{snippets}/auth/generateRenewalToken/validResponse/response-fields.adoc[]
 
 ---
 
