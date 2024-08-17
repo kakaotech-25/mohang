@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import logo from '../../assets/logo.png';
 import "./Header.css";
 import { Link } from 'react-router-dom';
-import profileimg1 from "../../assets/profileimg1.png" //예시로 넣어 볼 프로필 이미지
+import profileimg from "../../assets/profileimg1.png" //예시로 넣어 볼 프로필 이미지
 
 const Header = () => {
   // 로그인 상태와 사용자 정보를 관리할 상태 변수
@@ -22,7 +22,7 @@ const Header = () => {
     // 3: 로그인 후 (프로필 설정 완료)
     // setIsLoggedIn(true);
     // setIsFirstLogin(false);
-    // setProfileImg(profileimg1);
+    // setProfileImg(profileimg);
   }, []); // 빈 배열을 넣어 useEffect가 컴포넌트 마운트 시 한 번만 실행되도록 함
 
   return (
@@ -35,7 +35,7 @@ const Header = () => {
       {isLoggedIn ? (
         isFirstLogin ? null : (
           <div className="profile-menu">
-            <img src={profileImg} className='profile-img' alt="Profile" />
+            <img src={profileImg} className='header-profile' alt="Profile" />
             <div className="dropdown-content">
               <Link to="/mypage">마이페이지</Link>
               <Link to="/planner">플래너</Link>
