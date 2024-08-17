@@ -3,6 +3,7 @@ package moheng.keyword.application;
 import static moheng.fixture.MemberFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import moheng.config.slice.ServiceTestConfig;
@@ -190,5 +191,31 @@ public class KeywordServiceTest extends ServiceTestConfig {
         // when
         FindTripsResponse response = keywordService.findRecommendTripsByRandomKeyword();
         assertThat(response.getFindTripResponses()).hasSize(1);
+    }
+
+
+    @DisplayName("무작위 키워드에 관련한 여행지를 상위 조회순으로 찾는다.")
+    @Test
+    void 무작위_키워드에_관련한_여행지를_상위_조회순으로_찾는다() {
+        // given
+        keywordRepository.save(new Keyword("키워드1"));
+
+        tripService.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로1", 100L));
+        tripService.save(new Trip("여행지2", "장소명2", 2L, "설명2", "이미지 경로2", 300L));
+        tripService.save(new Trip("여행지3", "장소명3", 3L, "설명3", "이미지 경로3", 200L));
+
+        tripKeywordRepository.save(new TripKeyword(tripService.findById(1L), keywordRepository.findById(1L).get()));
+        tripKeywordRepository.save(new TripKeyword(tripService.findById(2L), keywordRepository.findById(1L).get()));
+        tripKeywordRepository.save(new TripKeyword(tripService.findById(3L), keywordRepository.findById(1L).get()));
+
+        // when
+        FindTripsResponse response = keywordService.findRecommendTripsByRandomKeyword();
+
+        assertAll(() -> {
+            assertThat(response.getFindTripResponses()).hasSize(3);
+            assertThat(response.getFindTripResponses().get(0).getName()).isEqualTo("여행지2");
+            assertThat(response.getFindTripResponses().get(0).getName()).isEqualTo("여행지3");
+            assertThat(response.getFindTripResponses().get(0).getName()).isEqualTo("여행지1");
+        });
     }
 }
