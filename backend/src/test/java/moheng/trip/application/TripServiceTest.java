@@ -136,6 +136,33 @@ public class TripServiceTest extends ServiceTestConfig {
                 .getFindTripResponses().size()).isEqualTo(3);
     }
 
+    @DisplayName("방문 수 기준 상위 여행지들을 내림차순으로 조회한다.")
+    @Test
+    void 방문_수_기준_상위_여행지들을_내림차순으로_조회한다() {
+        // given
+        tripService.save(new Trip("여행지1", "서울", 1L, "설명", "https://image.png", 0L));
+        tripService.save(new Trip("여행지2", "서울", 2L, "설명", "https://image.png", 2L));
+        tripService.save(new Trip("여행지3", "서울", 3L, "설명", "https://image.png", 1L));
+
+        keywordRepository.save(new Keyword("키워드1"));
+        keywordRepository.save(new Keyword("키워드2"));
+        keywordRepository.save(new Keyword("키워드3"));
+
+        tripKeywordRepository.save(new TripKeyword(tripService.findById(1L), keywordRepository.findById(1L).get()));
+        tripKeywordRepository.save(new TripKeyword(tripService.findById(2L), keywordRepository.findById(2L).get()));
+        tripKeywordRepository.save(new TripKeyword(tripService.findById(3L), keywordRepository.findById(3L).get()));
+
+        // when, then
+        FindTripsResponse response = tripService.findTop30OrderByVisitedCountDesc();
+
+        assertAll(() -> {
+            assertThat(response.getFindTripResponses().size()).isEqualTo(3);
+            assertThat(response.getFindTripResponses().get(0).getName()).isEqualTo("여행지2");
+            assertThat(response.getFindTripResponses().get(1).getName()).isEqualTo("여행지3");
+            assertThat(response.getFindTripResponses().get(2).getName()).isEqualTo("여행지1");
+        });
+    }
+
     @DisplayName("현재 여행지를 비슷한 여행지와 함께 조회한다.")
     @Test
     void 현재_여행지를_비슷한_여행지와_함께_조회한다() {

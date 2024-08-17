@@ -83,7 +83,6 @@ public class KeywordService {
                 .collect(Collectors.toList());
     }
 
-
     private List<TripKeyword> extractTripKeywordsByTopTrips(final List<Trip> topTrips, final List<TripKeyword> tripKeywords) {
         return topTrips.stream()
                 .flatMap(topTrip -> tripKeywords.stream()
