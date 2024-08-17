@@ -57,6 +57,16 @@ public class TripKeywordRepositoryTest extends RepositoryTestConfig {
 
         // when, then
         assertThat(tripKeywordRepository.findTripKeywordsByKeywordId(keyword1.getId()).size()).isEqualTo(1);
+    }
 
+    @DisplayName("ID 값이 가장 작은 키워드를 찾는다.")
+    @Test
+    void ID_값익_가장_작은_키워드를_찾는다() {
+        // given
+        keywordRepository.save(new Keyword("키워드1"));
+        keywordRepository.save(new Keyword("키워드2"));
+
+        // when, then
+        assertThat(keywordRepository.findMinKeywordId()).isEqualTo(1L);
     }
 }
