@@ -6,4 +6,5 @@
 :toclevels: 2
 
 include::auth.adoc[]
+include::signup.adoc[]
 include::member.adoc[]

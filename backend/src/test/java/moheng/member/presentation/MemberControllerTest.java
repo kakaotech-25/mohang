@@ -2,6 +2,8 @@ package moheng.member.presentation;
 
 import static moheng.fixture.MemberFixtures.*;
 
+import moheng.auth.domain.oauth.Authority;
+import moheng.auth.exception.InvalidInitAuthorityException;
 import moheng.config.slice.ControllerTestConfig;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
 import moheng.member.exception.DuplicateNicknameException;
@@ -12,10 +14,10 @@ import org.springframework.http.MediaType;
 
 import java.util.Optional;
 
+import static moheng.fixture.MemberFixtures.하온_기존;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -90,6 +92,40 @@ public class MemberControllerTest extends ControllerTestConfig {
                 .andExpect(status().isNoContent());
     }
 
+
+    @DisplayName("이미 회원가입을 마친 멤버가 프로필 정보로 회원가입을 요청하면 상태코드 401을 리턴한다.")
+    @Test
+    void 이미_회원가입을_마친_멤버가_프로필_정보로_회원가입에_요청하면_상태코드_401을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_기존()));
+        doThrow(new InvalidInitAuthorityException("초기 회원가입 기능에 대한 접근 권한이 없습니다."))
+                .when(memberService).checkIsAlreadyExistNickname(anyString());
+
+        // when, then
+        mockMvc.perform(post("/member/signup/profile")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(프로필_정보로_회원가입_요청()))
+                )
+                .andDo(print())
+                .andDo(document("member/signup/authority/fail",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("nickname").description("닉네임"),
+                                fieldWithPath("birthday").description("생년월일. 형식:yyyy-MM-dd"),
+                                fieldWithPath("genderType").description("성별. 형식: MEN 또는 WOMEN"),
+                                fieldWithPath("profileImageUrl").description("프로필 이미지 경로.")
+                        )
+                ))
+                .andExpect(status().isUnauthorized());
+    }
+
     @DisplayName("중복되는 닉네임 없이 사용 가능한 닉네임이라면 메시지와 상태코드 200을 리턴한다.")
     @Test
     void 중복되는_닉네임_없이_사용_가능한_닉네임이라면_메시지와_상태코드_200을_리턴한다() throws Exception {
@@ -105,7 +141,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                 .content(objectMapper.writeValueAsString(닉네임_중복확인_요청()))
         )
                 .andDo(print())
-                .andDo(document("member/check/nickname",
+                .andDo(document("member/check/nickname/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
@@ -137,7 +173,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                         .content(objectMapper.writeValueAsString(닉네임_중복확인_요청()))
                 )
                 .andDo(print())
-                .andDo(document("member/check/nickname",
+                .andDo(document("member/check/nickname/fail",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
@@ -186,6 +222,7 @@ public class MemberControllerTest extends ControllerTestConfig {
     void 회원_프로필_업데이트시_본인을_제외한_중복_닉네임이_존재한다면_상태코드_401을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_기존()));
         doThrow(new DuplicateNicknameException("중복되는 닉네임이 존재합니다."))
                 .when(memberService).updateByProfile(anyLong(), any());
 
@@ -244,7 +281,7 @@ public class MemberControllerTest extends ControllerTestConfig {
     void 전달받은_여행지_추천에_필요한_생활정보_리스트가_비어있거나_유효하지_않다면_상태코드_400을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        given(memberRepository.findById(1L)).willReturn(Optional.of(하온_신규()));
+        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_신규()));
         doThrow(new EmptyLiveInformationException("생활정보를 선택하지 않았습니다."))
                 .when(memberService).signUpByLiveInfo(anyLong(), any());
 
@@ -298,6 +335,7 @@ public class MemberControllerTest extends ControllerTestConfig {
     void 관심_여행지_선택을_잘못하여_회원가입에_실패했다면_상태코드_400를_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_신규()));
         doThrow(new ShortContentidsSizeException("AI 맞춤 추천을 위해 관심 여행지를 5개 이상, 10개 이하로 선택해야합니다."))
                 .when(memberService).signUpByInterestTrips(anyLong(), any());
 
