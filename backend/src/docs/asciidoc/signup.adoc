@@ -94,7 +94,7 @@ include::{snippets}/member/signup/liveinfo/success/http-response.adoc[]
 
 ===== Response Body
 
-include::{snippets}/member/signup/liveinfo/response-body.adoc[]
+include::{snippets}/member/signup/liveinfo/success/response-body.adoc[]
 
 
 ---
@@ -144,3 +144,39 @@ include::{snippets}/member/signup/liveinfo/success/http-response.adoc[]
 ==== Response Body
 
 include::{snippets}/member/signup/trip/success/response-body.adoc[]
+
+=== 상위 30개의 여행지들을 방문 수 기준으로 조회하는 API (선호 여행지 선택시 활용하는 API)
+
+==== HTTP Request
+
+include::{snippets}/trip/find/interested/http-request.adoc[]
+
+===== Request Body
+
+include::{snippets}/trip/find/interested/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/trip/find/interested/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/trip/find/interested/response-fields.adoc[]
+
+=== 생활정보 리스트 조회 API (생활정보 선택시 활용하는 API)
+
+==== HTTP Request
+
+include::{snippets}/live/info/findAll/http-request.adoc[]
+
+===== Request Body
+
+include::{snippets}/live/info/findAll/request-body.adoc[]
+
+=== HTTP Response
+
+include::{snippets}/live/info/findAll/http-response.adoc[]
+
+==== Response Body
+
+include::{snippets}/live/info/findAll/response-fields.adoc[]
