@@ -1,5 +1,6 @@
 package moheng.trip.infrastructure;
 
+import moheng.keyword.exception.InvalidAIServerException;
 import moheng.trip.domain.ExternalRecommendModelClient;
 import moheng.trip.dto.RecommendTripsByVisitedLogsRequest;
 import moheng.trip.dto.RecommendTripsByVisitedLogsResponse;
@@ -37,7 +38,11 @@ public class ExternalAiRecommendModelClient implements ExternalRecommendModelCli
                 RecommendTripsByVisitedLogsResponse.class,
                 uriVariables
         );
-        return responseEntity.getBody();
+
+        if(responseEntity.getStatusCode().is2xxSuccessful()) {
+            return responseEntity.getBody();
+        }
+        throw new InvalidAIServerException("AI 서버에 예기치 못한 오류가 발생했습니다.");
     }
 
 }
