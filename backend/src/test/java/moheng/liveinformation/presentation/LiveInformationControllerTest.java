@@ -70,4 +70,19 @@ public class LiveInformationControllerTest extends ControllerTestConfig {
         ).andDo(print())
                 .andExpect(status().isNoContent());
     }
+
+    @DisplayName("여행지의 생활정보를 생성하고 상태코드 204를 리턴한다.")
+    @Test
+    void 여행지의_생활정보를_생성하고_상태코드_204를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doNothing().when(liveInformationService).createTripLiveInformation(anyLong(), anyLong());
+
+        // when, then
+        mockMvc.perform(post("/live/info/trip/{tripId}/{liveInfoId}", 1L, 1L)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                ).andDo(print())
+                .andExpect(status().isNoContent());
+    }
 }
