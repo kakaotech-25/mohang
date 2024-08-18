@@ -49,4 +49,8 @@ public class RecommendTrip extends BaseEntity {
     public Long getRank() {
         return rank;
     }
+
+    public Trip getTrip() {
+        return trip;
+    }
 }

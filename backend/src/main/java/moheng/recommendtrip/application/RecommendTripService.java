@@ -59,7 +59,9 @@ public class RecommendTripService {
     public FindTripsResponse findRecommendTripsByModel(final long memberId) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoExistMemberException::new);
-        final Map<Long, Long> preferredLocations = findMemberPreferredLocations(memberTripRepository.findByMember(member));
+        final List<MemberTrip> memberTrips = memberTripRepository.findByMember(member);
+        final List<RecommendTrip> recommendTrips = recommendTripRepository.findTop10ByMember(member);
+        final Map<Long, Long> preferredLocations = findMemberPreferredLocations(memberTrips, recommendTrips);
         final List<Trip> filteredTrips = findFilteredTrips(preferredLocations, memberId);
         return new FindTripsResponse(tripKeywordRepository.findByTrips(filteredTrips));
     }
@@ -85,10 +87,17 @@ public class RecommendTripService {
         return filterTripsByLiveinformation(response, memberId);
     }
 
-    private Map<Long, Long> findMemberPreferredLocations(final List<MemberTrip> memberTrips) {
-        return memberTrips.stream()
-                .collect(Collectors.toMap(trip -> trip.getTrip().getContentId(), MemberTrip::getVisitedCount));
+    private Map<Long, Long> findMemberPreferredLocations(final List<MemberTrip> memberTrips, final List<RecommendTrip> recommendTrips) {
+        final Map<Long, Long> preferredLocations = new HashMap<>();
+        for (final RecommendTrip recommendTrip : recommendTrips) {
+            final Trip trip = recommendTrip.getTrip();
+            final MemberTrip memberTrip = memberTrips.stream()
+                    .filter(mt -> mt.getTrip().getId().equals(trip.getId())).findFirst().get();
+            preferredLocations.put(trip.getContentId(), memberTrip.getVisitedCount());
+        }
+        return preferredLocations;
     }
+
 
     private List<Trip> filterTripsByLiveinformation(final RecommendTripsByVisitedLogsResponse recommendTripsByVisitedLogsResponse, final Long memberId) {
         final List<Trip> trips = tripRepository.findTripsByContentIds(recommendTripsByVisitedLogsResponse.getContentIds());
