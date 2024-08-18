@@ -102,7 +102,7 @@ public class RecommendTripServiceTest extends ServiceTestConfig {
         ).isInstanceOf(NoExistMemberException.class);
     }
 
-    @DisplayName("AI 맞춤 10개의 여행지를 추천받는다.")
+    @DisplayName("AI 맞춤 여행지를 추천받는다.")
     @Test
     void AI_맞춤_여행지를_추천받는다() {
         // given
@@ -143,6 +143,49 @@ public class RecommendTripServiceTest extends ServiceTestConfig {
         // when, then
         assertAll(() -> {
             assertDoesNotThrow(() -> recommendTripService.findRecommendTripsByModel(member.getId()));
+        });
+    }
+
+    @DisplayName("AI 맞춤 여행지는 정확히 10개의 여행지를 추천한다.")
+    @Test
+    void AI_맞춤_여행지는_정확히_10개의_여행지를_추천한다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        Trip trip1 = tripRepository.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로1"));
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "장소명2", 2L, "설명2", "이미지 경로2"));
+        Trip trip3 = tripRepository.save(new Trip("여행지3", "장소명3", 3L, "설명3", "이미지 경로3"));
+        Trip trip4 = tripRepository.save(new Trip("여행지4", "장소명3", 4L, "설명3", "이미지 경로3"));
+        Trip trip5 = tripRepository.save(new Trip("여행지5", "장소명3", 5L, "설명3", "이미지 경로3"));
+        Trip trip6 = tripRepository.save(new Trip("여행지6", "장소명3", 6L, "설명3", "이미지 경로3"));
+        Trip trip7 = tripRepository.save(new Trip("여행지7", "장소명3", 7L, "설명3", "이미지 경로3"));
+        Trip trip8 = tripRepository.save(new Trip("여행지8", "장소명3", 8L, "설명3", "이미지 경로3"));
+        Trip trip9 = tripRepository.save(new Trip("여행지9", "장소명3", 9L, "설명3", "이미지 경로3"));
+        Trip trip10 = tripRepository.save(new Trip("여행지10", "장소명3", 10L, "설명3", "이미지 경로3"));
+        memberTripRepository.save(new MemberTrip(member, trip1, 10L)); memberTripRepository.save(new MemberTrip(member, trip2, 20L));
+        memberTripRepository.save(new MemberTrip(member, trip3, 30L)); memberTripRepository.save(new MemberTrip(member, trip4, 30L));
+        memberTripRepository.save(new MemberTrip(member, trip5, 30L)); memberTripRepository.save(new MemberTrip(member, trip6, 30L));
+        memberTripRepository.save(new MemberTrip(member, trip7, 30L)); memberTripRepository.save(new MemberTrip(member, trip8, 30L));
+        memberTripRepository.save(new MemberTrip(member, trip9, 30L)); memberTripRepository.save(new MemberTrip(member, trip10, 30L));
+        Keyword keyword1 = keywordRepository.save(new Keyword("키워드1")); Keyword keyword2 = keywordRepository.save(new Keyword("키워드2"));
+        Keyword keyword3 = keywordRepository.save(new Keyword("키워드3")); Keyword keyword4 = keywordRepository.save(new Keyword("키워드4"));
+        Keyword keyword5 = keywordRepository.save(new Keyword("키워드5")); Keyword keyword6 = keywordRepository.save(new Keyword("키워드6"));
+        Keyword keyword7 = keywordRepository.save(new Keyword("키워드7")); Keyword keyword8 = keywordRepository.save(new Keyword("키워드8"));
+        Keyword keyword9 = keywordRepository.save(new Keyword("키워드9")); Keyword keyword10 = keywordRepository.save(new Keyword("키워드10"));
+        tripKeywordRepository.save(new TripKeyword(trip1, keyword1)); tripKeywordRepository.save(new TripKeyword(trip2, keyword2));
+        tripKeywordRepository.save(new TripKeyword(trip3, keyword3)); tripKeywordRepository.save(new TripKeyword(trip4, keyword4));
+        tripKeywordRepository.save(new TripKeyword(trip5, keyword5)); tripKeywordRepository.save(new TripKeyword(trip6, keyword6));
+        tripKeywordRepository.save(new TripKeyword(trip7, keyword7)); tripKeywordRepository.save(new TripKeyword(trip8, keyword8));
+        tripKeywordRepository.save(new TripKeyword(trip9, keyword9)); tripKeywordRepository.save(new TripKeyword(trip10, keyword10));
+        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        memberLiveInformationRepository.save(new MemberLiveInformation(liveInformation, member));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip1)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip2));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip3)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip4));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip5)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip6));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip7)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10));
+
+        // when, then
+        assertAll(() -> {
             assertThat(recommendTripService.findRecommendTripsByModel(member.getId()).getFindTripResponses()).hasSize(10);
         });
     }
