@@ -36,4 +36,10 @@ public class LiveInformationController {
         liveInformationService.createLiveInformation(request);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/trip/{tripId}/{liveInfoId}")
+    public ResponseEntity<Void> createTripLiveInformation(@PathVariable final long tripId, @PathVariable final long liveInfoId) {
+        liveInformationService.createTripLiveInformation(tripId, liveInfoId);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -1,10 +1,12 @@
 package moheng.acceptance;
 
+import static moheng.acceptance.fixture.AuthAcceptanceFixture.생활정보로_회원가입_한다;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.assertj.core.api.Assertions.assertThat;
 import static moheng.acceptance.fixture.TripAcceptenceFixture.*;
+import static moheng.acceptance.fixture.LiveInfoAcceptenceFixture.*;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -63,6 +65,10 @@ public class RecommendTripAcceptenceTest extends AcceptanceTestConfig {
         멤버_여행지를_생성한다(accessTokenResponse.getAccessToken(), 7L); 멤버_여행지를_생성한다(accessTokenResponse.getAccessToken(), 8L);
         멤버_여행지를_생성한다(accessTokenResponse.getAccessToken(), 9L); 멤버_여행지를_생성한다(accessTokenResponse.getAccessToken(), 10L);
 
+        생활정보를_생성한다("생활정보1");
+        생활정보를_생성한다("생활정보2");
+        생활정보로_회원가입_한다(accessTokenResponse);
+
         // when, then
         ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -71,6 +77,7 @@ public class RecommendTripAcceptenceTest extends AcceptanceTestConfig {
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract();
+
 
 
         assertAll(() -> {

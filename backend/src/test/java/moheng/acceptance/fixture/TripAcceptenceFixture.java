@@ -41,4 +41,14 @@ public class TripAcceptenceFixture {
                 .statusCode(HttpStatus.NO_CONTENT.value())
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 여행지의_생활정보를_생성한다(final String accessToken, final long tripId) {
+        return RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessToken)
+                .when().post("/trip/member/{tripId}", tripId)
+                .then().log().all()
+                .statusCode(HttpStatus.NO_CONTENT.value())
+                .extract();
+    }
 }
