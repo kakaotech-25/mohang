@@ -6,7 +6,9 @@ import moheng.member.exception.NoExistMemberException;
 import moheng.recommendtrip.domain.RecommendTrip;
 import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.recommendtrip.dto.RecommendTripCreateRequest;
+import moheng.trip.domain.ExternalRecommendModelClient;
 import moheng.trip.domain.Trip;
+import moheng.trip.dto.RecommendTripsByVisitedLogsResponse;
 import moheng.trip.exception.NoExistTripException;
 import moheng.trip.domain.TripRepository;
 import org.springframework.stereotype.Service;
@@ -15,16 +17,31 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @Service
 public class RecommendTripService {
+    private static final int RECOMMEND_TRIPS_COUNT = 10;
+    private final ExternalRecommendModelClient externalRecommendModelClient;
     private final RecommendTripRepository recommendTripRepository;
     private final MemberRepository memberRepository;
     private final TripRepository tripRepository;
 
-    public RecommendTripService(final RecommendTripRepository recommendTripRepository,
+    public RecommendTripService(final ExternalRecommendModelClient externalRecommendModelClient,
+                                final RecommendTripRepository recommendTripRepository,
                                 final MemberRepository memberRepository,
                                 final TripRepository tripRepository) {
+        this.externalRecommendModelClient = externalRecommendModelClient;
         this.recommendTripRepository = recommendTripRepository;
         this.memberRepository = memberRepository;
         this.tripRepository = tripRepository;
+    }
+
+    public void findRecommendTripsByVisitedLogs() {
+        final RecommendTripsByVisitedLogsResponse recommendTripsByVisitedLogsResponse
+                = externalRecommendModelClient.recommendTripsByVisitedLogs();
+        filterTripsByLiveinformation(recommendTripsByVisitedLogsResponse);
+    }
+
+    // 여행지가 어떤 생활정보에 속하는지 DB 에 속하는지 저장해 놓아야한다.
+    // 필터 : 추천받은 여행지의 생활정보 == 유저가 보유한 생활정보 리스트 중에 하나인 여행지라면 해당 여행지를 선택함
+    private void filterTripsByLiveinformation(final RecommendTripsByVisitedLogsResponse recommendTripsByVisitedLogsResponse) {
     }
 
     @Transactional
