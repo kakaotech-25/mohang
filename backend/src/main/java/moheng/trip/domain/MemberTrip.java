@@ -44,4 +44,8 @@ public class MemberTrip extends BaseEntity {
     public Long getVisitedCount() {
         return visitedCount;
     }
+
+    public Trip getTrip() {
+        return trip;
+    }
 }

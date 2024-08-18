@@ -8,13 +8,17 @@ import moheng.member.exception.NoExistMemberException;
 import moheng.recommendtrip.domain.RecommendTrip;
 import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.recommendtrip.dto.RecommendTripCreateRequest;
-import moheng.trip.domain.ExternalRecommendModelClient;
-import moheng.trip.domain.Trip;
+import moheng.trip.domain.*;
+import moheng.trip.dto.RecommendTripsByVisitedLogsRequest;
 import moheng.trip.dto.RecommendTripsByVisitedLogsResponse;
 import moheng.trip.exception.NoExistTripException;
-import moheng.trip.domain.TripRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @Service
@@ -26,25 +30,36 @@ public class RecommendTripService {
     private final TripRepository tripRepository;
     private final TripLiveInformationRepository tripLiveInformationRepository;
     private final MemberLiveInformationRepository memberLiveInformationRepository;
+    private final MemberTripRepository memberTripRepository;
 
     public RecommendTripService(final ExternalRecommendModelClient externalRecommendModelClient,
                                 final RecommendTripRepository recommendTripRepository,
                                 final MemberRepository memberRepository,
                                 final TripRepository tripRepository,
                                 final TripLiveInformationRepository tripLiveInformationRepository,
-                                final MemberLiveInformationRepository memberLiveInformationRepository) {
+                                final MemberLiveInformationRepository memberLiveInformationRepository,
+                                final MemberTripRepository memberTripRepository) {
         this.externalRecommendModelClient = externalRecommendModelClient;
         this.recommendTripRepository = recommendTripRepository;
         this.memberRepository = memberRepository;
         this.tripRepository = tripRepository;
         this.tripLiveInformationRepository = tripLiveInformationRepository;
         this.memberLiveInformationRepository = memberLiveInformationRepository;
+        this.memberTripRepository = memberTripRepository;
     }
 
-    public void findRecommendTripsByVisitedLogs() {
+    public void findRecommendTripsByVisitedLogs(long memberId) {
+        final Member member = memberRepository.findById(memberId)
+                .orElseThrow(NoExistMemberException::new);
+        final Map<Long, Long> preferredLocations = findMemberPreferredLocations(memberTripRepository.findByMember(member));
         final RecommendTripsByVisitedLogsResponse recommendTripsByVisitedLogsResponse
-                = externalRecommendModelClient.recommendTripsByVisitedLogs();
+                = externalRecommendModelClient.recommendTripsByVisitedLogs(new RecommendTripsByVisitedLogsRequest(preferredLocations, 1L));
         filterTripsByLiveinformation(recommendTripsByVisitedLogsResponse);
+    }
+
+    private Map<Long, Long> findMemberPreferredLocations(List<MemberTrip> memberTrips) {
+        return memberTrips.stream()
+                .collect(Collectors.toMap(trip -> trip.getTrip().getContentId(), MemberTrip::getVisitedCount));
     }
 
     // 여행지가 어떤 생활정보에 속하는지 DB 에 속하는지 저장해 놓아야한다.
