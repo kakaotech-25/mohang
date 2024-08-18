@@ -1,6 +1,7 @@
 package moheng.recommendtrip.presentation;
 
 import moheng.config.slice.ControllerTestConfig;
+import moheng.trip.dto.FindTripsResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -34,5 +35,22 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
                         .content(objectMapper.writeValueAsString(선호_여행지_생성_요청()))
                 )
                 .andExpect(status().isNoContent());
+    }
+
+    @DisplayName("AI 맞춤 추천 여행지를 조회하고 상태코드 200을 리턴한다.")
+    @Test
+    void AI_맞춤_추천_여행지를_조회하고_상태코드_200을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(recommendTripService.findRecommendTripsByModel(anyLong()))
+                .willReturn(AI_맞춤_추천_여행지_응답());
+
+        // when, then
+        mockMvc.perform(get("/recommend")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk());
     }
 }
