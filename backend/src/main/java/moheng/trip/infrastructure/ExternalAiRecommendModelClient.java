@@ -1,5 +1,6 @@
 package moheng.trip.infrastructure;
 
+import moheng.trip.domain.ExternalRecommendModelClient;
 import moheng.trip.dto.RecommendTripsByVisitedLogsRequest;
 import moheng.trip.dto.RecommendTripsByVisitedLogsResponse;
 import org.springframework.http.HttpEntity;
@@ -12,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class ExternalAiRecommendModelClient {
+public class ExternalAiRecommendModelClient implements ExternalRecommendModelClient {
     private static final String RECOMMEND_TRIP_LIST_REQUEST_URL = "http://localhost:8000/{page}";
     private final RestTemplate restTemplate;
 
@@ -20,6 +21,7 @@ public class ExternalAiRecommendModelClient {
         this.restTemplate = restTemplate;
     }
 
+    @Override
     public RecommendTripsByVisitedLogsResponse recommendTripsByVisitedLogs(final RecommendTripsByVisitedLogsRequest request) {
         return requestRecommendTrips(request);
     }
