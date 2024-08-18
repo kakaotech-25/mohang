@@ -6,6 +6,7 @@ import moheng.keyword.exception.InvalidAIServerException;
 import moheng.keyword.exception.NoExistKeywordException;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
 import moheng.member.exception.*;
+import moheng.recommendtrip.exception.LackOfRecommendTripException;
 import moheng.trip.exception.NoExistTripException;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,8 @@ public class ControllerAdvice {
             EmptyLiveInformationException.class,
             ShortContentidsSizeException.class,
             NoExistTripException.class,
-            NoExistKeywordException.class
+            NoExistKeywordException.class,
+            LackOfRecommendTripException.class
     })
     public ResponseEntity<ExceptionResponse> handleIBadRequestException(final RuntimeException e) {
         logger.error(e.getMessage(), e);

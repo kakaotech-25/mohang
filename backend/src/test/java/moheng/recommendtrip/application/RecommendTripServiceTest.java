@@ -14,6 +14,8 @@ import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
 import moheng.recommendtrip.application.RecommendTripService;
+import moheng.recommendtrip.domain.RecommendTrip;
+import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.recommendtrip.dto.RecommendTripCreateRequest;
 import moheng.trip.domain.MemberTrip;
 import moheng.trip.domain.MemberTripRepository;
@@ -55,6 +57,9 @@ public class RecommendTripServiceTest extends ServiceTestConfig {
 
     @Autowired
     private TripLiveInformationRepository tripLiveInformationRepository;
+
+    @Autowired
+    private RecommendTripRepository recommendTripRepository;
 
     @DisplayName("순위와 함께 추천 여행지 정보를 저장한다.")
     @Test
@@ -132,6 +137,11 @@ public class RecommendTripServiceTest extends ServiceTestConfig {
         tripKeywordRepository.save(new TripKeyword(trip5, keyword5)); tripKeywordRepository.save(new TripKeyword(trip6, keyword6));
         tripKeywordRepository.save(new TripKeyword(trip7, keyword7)); tripKeywordRepository.save(new TripKeyword(trip8, keyword8));
         tripKeywordRepository.save(new TripKeyword(trip9, keyword9)); tripKeywordRepository.save(new TripKeyword(trip10, keyword10));
+        recommendTripRepository.save(new RecommendTrip(trip1, member, 1L)); recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
+        recommendTripRepository.save(new RecommendTrip(trip3, member, 3L)); recommendTripRepository.save(new RecommendTrip(trip4, member, 4L));
+        recommendTripRepository.save(new RecommendTrip(trip5, member, 5L)); recommendTripRepository.save(new RecommendTrip(trip6, member, 6L));
+        recommendTripRepository.save(new RecommendTrip(trip7, member, 7L)); recommendTripRepository.save(new RecommendTrip(trip8, member, 8L));
+        recommendTripRepository.save(new RecommendTrip(trip9, member, 9L)); recommendTripRepository.save(new RecommendTrip(trip10, member, 10L));
         LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
         memberLiveInformationRepository.save(new MemberLiveInformation(liveInformation, member));
         tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip1)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip2));
@@ -176,6 +186,11 @@ public class RecommendTripServiceTest extends ServiceTestConfig {
         tripKeywordRepository.save(new TripKeyword(trip5, keyword5)); tripKeywordRepository.save(new TripKeyword(trip6, keyword6));
         tripKeywordRepository.save(new TripKeyword(trip7, keyword7)); tripKeywordRepository.save(new TripKeyword(trip8, keyword8));
         tripKeywordRepository.save(new TripKeyword(trip9, keyword9)); tripKeywordRepository.save(new TripKeyword(trip10, keyword10));
+        recommendTripRepository.save(new RecommendTrip(trip1, member, 1L)); recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
+        recommendTripRepository.save(new RecommendTrip(trip3, member, 3L)); recommendTripRepository.save(new RecommendTrip(trip4, member, 4L));
+        recommendTripRepository.save(new RecommendTrip(trip5, member, 5L)); recommendTripRepository.save(new RecommendTrip(trip6, member, 6L));
+        recommendTripRepository.save(new RecommendTrip(trip7, member, 7L)); recommendTripRepository.save(new RecommendTrip(trip8, member, 8L));
+        recommendTripRepository.save(new RecommendTrip(trip9, member, 9L)); recommendTripRepository.save(new RecommendTrip(trip10, member, 10L));
         LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
         memberLiveInformationRepository.save(new MemberLiveInformation(liveInformation, member));
         tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip1)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip2));
@@ -222,6 +237,11 @@ public class RecommendTripServiceTest extends ServiceTestConfig {
         memberTripRepository.save(new MemberTrip(member, trip9, 30L)); memberTripRepository.save(new MemberTrip(member, trip10, 30L));
         memberTripRepository.save(new MemberTrip(member, trip11, 30L));
         memberTripRepository.save(new MemberTrip(member, trip12, 30L));
+        recommendTripRepository.save(new RecommendTrip(trip1, member, 1L)); recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
+        recommendTripRepository.save(new RecommendTrip(trip3, member, 3L)); recommendTripRepository.save(new RecommendTrip(trip4, member, 4L));
+        recommendTripRepository.save(new RecommendTrip(trip5, member, 5L)); recommendTripRepository.save(new RecommendTrip(trip6, member, 6L));
+        recommendTripRepository.save(new RecommendTrip(trip7, member, 7L)); recommendTripRepository.save(new RecommendTrip(trip8, member, 8L));
+        recommendTripRepository.save(new RecommendTrip(trip9, member, 9L)); recommendTripRepository.save(new RecommendTrip(trip10, member, 10L));
         Keyword keyword1 = keywordRepository.save(new Keyword("키워드1")); Keyword keyword2 = keywordRepository.save(new Keyword("키워드2"));
         Keyword keyword3 = keywordRepository.save(new Keyword("키워드3")); Keyword keyword4 = keywordRepository.save(new Keyword("키워드4"));
         Keyword keyword5 = keywordRepository.save(new Keyword("키워드5")); Keyword keyword6 = keywordRepository.save(new Keyword("키워드6"));
