@@ -1,5 +1,6 @@
 package moheng.recommendtrip.application;
 
+import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.domain.MemberLiveInformationRepository;
 import moheng.liveinformation.domain.TripLiveInformationRepository;
 import moheng.member.domain.Member;
@@ -64,8 +65,18 @@ public class RecommendTripService {
 
     // 여행지가 어떤 생활정보에 속하는지 DB 에 속하는지 저장해 놓아야한다.
     // 필터 : 추천받은 여행지의 생활정보 == 유저가 보유한 생활정보 리스트 중에 하나인 여행지라면 해당 여행지를 선택함
-    private void filterTripsByLiveinformation(final RecommendTripsByVisitedLogsResponse recommendTripsByVisitedLogsResponse) {
+    private void filterTripsByLiveinformation(final RecommendTripsByVisitedLogsResponse recommendTripsByVisitedLogsResponse, final Long memberId) {
+        final List<Trip> trips = tripRepository.findTripsByContentIds(recommendTripsByVisitedLogsResponse.getContentIds());
+        final List<LiveInformation> memberLiveInformations = memberLiveInformationRepository.findLiveInformationsByMemberId(memberId);
+        final List<Trip> filteredTrips = filterTripsByMemberInformation(trips, memberLiveInformations);
     }
+
+    private List<Trip> filterTripsByMemberInformation(final List<Trip> trips, final List<LiveInformation> memberLiveInformations) {
+        return trips.stream()
+                .filter(trip -> tripLiveInformationRepository.existsByTripAndLiveInformationIn(trip, memberLiveInformations))
+                .collect(Collectors.toList());
+    }
+
 
     @Transactional
     public void saveByRank(Trip trip, Member member, long rank) {
