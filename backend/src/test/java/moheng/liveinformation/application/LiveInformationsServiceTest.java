@@ -9,6 +9,8 @@ import moheng.config.TestConfig;
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.dto.LiveInformationCreateRequest;
 import moheng.liveinformation.exception.NoExistLiveInformationException;
+import moheng.trip.domain.Trip;
+import moheng.trip.domain.TripRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class LiveInformationsServiceTest extends ServiceTestConfig {
     @Autowired
     private LiveInformationService liveInformationService;
+
+    @Autowired
+    private TripRepository tripRepository;
 
     @DisplayName("생활정보를 저장한다.")
     @Test
@@ -64,5 +69,16 @@ public class LiveInformationsServiceTest extends ServiceTestConfig {
         // when, then
         assertThat(liveInformationService.findAllLiveInformation().getLiveInformationResponses())
                 .size().isEqualTo(3);
+    }
+
+    @DisplayName("여행지의 생활정보를 생성한다.")
+    @Test
+    void 여행지의_생활절보를_생성한다() {
+        // given
+        liveInformationService.save(new LiveInformation("생활정보1"));
+        Trip trip = tripRepository.save(new Trip("여행지", "장소", 1L, "설명", "이미지"));
+
+        // when, then
+        assertDoesNotThrow(() -> liveInformationService.createTripLiveInformation(trip.getId(), 1L));
     }
 }
