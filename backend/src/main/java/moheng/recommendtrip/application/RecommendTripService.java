@@ -1,5 +1,7 @@
 package moheng.recommendtrip.application;
 
+import moheng.keyword.domain.TripKeyword;
+import moheng.keyword.domain.TripKeywordRepository;
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.domain.MemberLiveInformationRepository;
 import moheng.liveinformation.domain.TripLiveInformationRepository;
@@ -10,6 +12,7 @@ import moheng.recommendtrip.domain.RecommendTrip;
 import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.recommendtrip.dto.RecommendTripCreateRequest;
 import moheng.trip.domain.*;
+import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.dto.RecommendTripsByVisitedLogsRequest;
 import moheng.trip.dto.RecommendTripsByVisitedLogsResponse;
 import moheng.trip.exception.NoExistTripException;
@@ -33,6 +36,7 @@ public class RecommendTripService {
     private final TripLiveInformationRepository tripLiveInformationRepository;
     private final MemberLiveInformationRepository memberLiveInformationRepository;
     private final MemberTripRepository memberTripRepository;
+    private final TripKeywordRepository tripKeywordRepository;
 
     public RecommendTripService(final ExternalRecommendModelClient externalRecommendModelClient,
                                 final RecommendTripRepository recommendTripRepository,
@@ -40,7 +44,8 @@ public class RecommendTripService {
                                 final TripRepository tripRepository,
                                 final TripLiveInformationRepository tripLiveInformationRepository,
                                 final MemberLiveInformationRepository memberLiveInformationRepository,
-                                final MemberTripRepository memberTripRepository) {
+                                final MemberTripRepository memberTripRepository,
+                                final TripKeywordRepository tripKeywordRepository) {
         this.externalRecommendModelClient = externalRecommendModelClient;
         this.recommendTripRepository = recommendTripRepository;
         this.memberRepository = memberRepository;
@@ -48,24 +53,36 @@ public class RecommendTripService {
         this.tripLiveInformationRepository = tripLiveInformationRepository;
         this.memberLiveInformationRepository = memberLiveInformationRepository;
         this.memberTripRepository = memberTripRepository;
+        this.tripKeywordRepository = tripKeywordRepository;
     }
 
-    public void findRecommendTripsByVisitedLogs(long memberId) {
+    public FindTripsResponse findRecommendTripsByVisitedLogs(long memberId) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoExistMemberException::new);
         final Map<Long, Long> preferredLocations = findMemberPreferredLocations(memberTripRepository.findByMember(member));
+        final List<Trip> filteredTrips = findFilteredTrips(preferredLocations, memberId);
+        return new FindTripsResponse(tripKeywordRepository.findByTrips(filteredTrips));
+    }
+
+    private List<Trip> findFilteredTrips(Map<Long, Long> preferredLocations, long memberId) {
+        final List<Trip> filteredTrips = new ArrayList<>();
         long page = 1L;
-        final List<Trip> finalFilteredTrips = new ArrayList<>();
-        while (finalFilteredTrips.size() < RECOMMEND_TRIPS_COUNT) {
-            final RecommendTripsByVisitedLogsResponse recommendTripsByVisitedLogsResponse =
-                    externalRecommendModelClient.recommendTripsByVisitedLogs(
-                            new RecommendTripsByVisitedLogsRequest(preferredLocations, page)
-                    );
-            final List<Trip> filteredTripsByLiveinformation =
-                    filterTripsByLiveinformation(recommendTripsByVisitedLogsResponse, memberId);
-            finalFilteredTrips.addAll(filteredTripsByLiveinformation);
+        while (filteredTrips.size() < RECOMMEND_TRIPS_COUNT) {
+            final List<Trip> filteredTripsByLiveinformation = findRecommendTripsByModelClient(preferredLocations, memberId, page);
+            filteredTrips.addAll(filteredTripsByLiveinformation);
             page++;
         }
+        if (filteredTrips.size() > RECOMMEND_TRIPS_COUNT) {
+            return filteredTrips.subList(0, RECOMMEND_TRIPS_COUNT);
+        }
+        return filteredTrips;
+    }
+
+    private List<Trip> findRecommendTripsByModelClient(final Map<Long, Long> preferredLocations, long memberId, long page) {
+        final RecommendTripsByVisitedLogsResponse response = externalRecommendModelClient.recommendTripsByVisitedLogs(
+                new RecommendTripsByVisitedLogsRequest(preferredLocations, page)
+        );
+        return filterTripsByLiveinformation(response, memberId);
     }
 
     private Map<Long, Long> findMemberPreferredLocations(List<MemberTrip> memberTrips) {
