@@ -20,6 +20,7 @@ import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.trip.domain.MemberTrip;
 import moheng.trip.domain.MemberTripRepository;
 import moheng.trip.domain.Trip;
+import moheng.trip.domain.TripRepository;
 import moheng.trip.dto.FindTripResponse;
 import moheng.trip.dto.FindTripWithSimilarTripsResponse;
 import moheng.trip.dto.FindTripsResponse;
@@ -56,6 +57,9 @@ public class TripServiceTest extends ServiceTestConfig {
 
     @Autowired
     private KeywordRepository keywordRepository;
+
+    @Autowired
+    private TripRepository tripRepository;
 
     @DisplayName("여행지를 생성한다.")
     @Test
@@ -615,5 +619,16 @@ public class TripServiceTest extends ServiceTestConfig {
                 assertThat(recommendTripRepository.findById(id).get().getRank()).isEqualTo(id);
             }
         });
+    }
+
+    @DisplayName("멤버의 여행지를 생성한다")
+    @Test
+    void 멤버의_여행지를_생성한다() {
+        // given
+        Trip trip = tripRepository.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
+        Member member = memberRepository.save(하온_기존());
+
+        // when, then
+        assertDoesNotThrow(() -> tripService.createMemberTrip(member.getId(), trip.getId()));
     }
 }
