@@ -97,4 +97,15 @@ public class LiveInformationsServiceTest extends ServiceTestConfig {
         assertThatThrownBy(() -> liveInformationService.createTripLiveInformation(-1L, liveInformation.getId()))
                 .isInstanceOf(NoExistTripException.class);
     }
+
+    @DisplayName("존재하지 않는 생활정보로 여행지의 생활정보를 생성하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_생활정보로_여행지의_생활정보를_생성하면_예외가_발생한다() {
+        // given
+        Trip trip = tripRepository.save(new Trip("여행지", "장소", 1L, "설명", "이미지"));
+
+        // when, then
+        assertThatThrownBy(() -> liveInformationService.createTripLiveInformation(trip.getId(), -1L))
+                .isInstanceOf(NoExistLiveInformationException.class);
+    }
 }
