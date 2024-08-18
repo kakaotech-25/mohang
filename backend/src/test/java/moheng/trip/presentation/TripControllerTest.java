@@ -5,6 +5,7 @@ import static moheng.fixture.MemberFixtures.하온_신규;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static moheng.fixture.TripFixture.*;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -103,5 +104,21 @@ public class TripControllerTest extends ControllerTestConfig {
                 ))
                 .andDo(print())
                 .andExpect(status().isOk());
+    }
+
+    @DisplayName("멤버의 여행지를 생성하고 상태코드 200을 리턴한다.")
+    @Test
+    void 멤버의_여행지를_생성하고_상태코드_200을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doNothing().when(tripService).createMemberTrip(anyLong(), anyLong());
+
+        // when, then
+        mockMvc.perform(post("/trip/member/{tripId}", 1L)
+                .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNoContent());
     }
 }
