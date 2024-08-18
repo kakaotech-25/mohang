@@ -56,7 +56,7 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
-                .andDo(document("trip/recommend/ai",
+                .andDo(document("trip/recommend/ai/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         responseFields(
@@ -86,7 +86,7 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
-                .andDo(document("trip/recommend/ai",
+                .andDo(document("trip/recommend/ai/fail",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())
                 ))
