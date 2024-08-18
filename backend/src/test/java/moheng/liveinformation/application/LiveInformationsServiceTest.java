@@ -7,10 +7,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import moheng.config.slice.ServiceTestConfig;
 import moheng.config.TestConfig;
 import moheng.liveinformation.domain.LiveInformation;
+import moheng.liveinformation.domain.LiveInformationRepository;
 import moheng.liveinformation.dto.LiveInformationCreateRequest;
 import moheng.liveinformation.exception.NoExistLiveInformationException;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.TripRepository;
+import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class LiveInformationsServiceTest extends ServiceTestConfig {
 
     @Autowired
     private TripRepository tripRepository;
+
+    @Autowired
+    private LiveInformationRepository liveInformationRepository;
 
     @DisplayName("생활정보를 저장한다.")
     @Test
@@ -73,12 +78,23 @@ public class LiveInformationsServiceTest extends ServiceTestConfig {
 
     @DisplayName("여행지의 생활정보를 생성한다.")
     @Test
-    void 여행지의_생활절보를_생성한다() {
+    void 여행지의_생활정보를_생성한다() {
         // given
-        liveInformationService.save(new LiveInformation("생활정보1"));
+        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
         Trip trip = tripRepository.save(new Trip("여행지", "장소", 1L, "설명", "이미지"));
 
         // when, then
-        assertDoesNotThrow(() -> liveInformationService.createTripLiveInformation(trip.getId(), 1L));
+        assertDoesNotThrow(() -> liveInformationService.createTripLiveInformation(trip.getId(), liveInformation.getId()));
+    }
+
+    @DisplayName("존재하지 않는 여행지의 생활정보를 생성하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_여행지의_생활정보를_생성하면_예외가_발생한다() {
+        // given
+        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
+
+        // when, then
+        assertThatThrownBy(() -> liveInformationService.createTripLiveInformation(-1L, liveInformation.getId()))
+                .isInstanceOf(NoExistTripException.class);
     }
 }
