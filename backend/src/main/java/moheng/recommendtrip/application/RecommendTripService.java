@@ -56,7 +56,7 @@ public class RecommendTripService {
         this.tripKeywordRepository = tripKeywordRepository;
     }
 
-    public FindTripsResponse findRecommendTripsByVisitedLogs(long memberId) {
+    public FindTripsResponse findRecommendTripsByModel(long memberId) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoExistMemberException::new);
         final Map<Long, Long> preferredLocations = findMemberPreferredLocations(memberTripRepository.findByMember(member));
