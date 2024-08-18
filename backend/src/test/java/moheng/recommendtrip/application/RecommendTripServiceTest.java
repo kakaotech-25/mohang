@@ -171,24 +171,27 @@ public class RecommendTripServiceTest extends ServiceTestConfig {
         Trip trip9 = tripRepository.save(new Trip("여행지9", "장소명3", 9L, "설명3", "이미지 경로3"));
         Trip trip10 = tripRepository.save(new Trip("여행지10", "장소명3", 10L, "설명3", "이미지 경로3"));
         Trip trip11 = tripRepository.save(new Trip("멤버가 관심없는 생활정보에 대한 여행지", "장소명3", 11L, "설명3", "이미지 경로3"));
+        Trip trip12 = tripRepository.save(new Trip("멤버가 관심없는 생활정보에 대한 여행지", "장소명3", 12L, "설명3", "이미지 경로3"));
         memberTripRepository.save(new MemberTrip(member, trip1, 10L)); memberTripRepository.save(new MemberTrip(member, trip2, 20L));
         memberTripRepository.save(new MemberTrip(member, trip3, 30L)); memberTripRepository.save(new MemberTrip(member, trip4, 30L));
         memberTripRepository.save(new MemberTrip(member, trip5, 30L)); memberTripRepository.save(new MemberTrip(member, trip6, 30L));
         memberTripRepository.save(new MemberTrip(member, trip7, 30L)); memberTripRepository.save(new MemberTrip(member, trip8, 30L));
         memberTripRepository.save(new MemberTrip(member, trip9, 30L)); memberTripRepository.save(new MemberTrip(member, trip10, 30L));
         memberTripRepository.save(new MemberTrip(member, trip11, 30L));
+        memberTripRepository.save(new MemberTrip(member, trip12, 30L));
         Keyword keyword1 = keywordRepository.save(new Keyword("키워드1")); Keyword keyword2 = keywordRepository.save(new Keyword("키워드2"));
         Keyword keyword3 = keywordRepository.save(new Keyword("키워드3")); Keyword keyword4 = keywordRepository.save(new Keyword("키워드4"));
         Keyword keyword5 = keywordRepository.save(new Keyword("키워드5")); Keyword keyword6 = keywordRepository.save(new Keyword("키워드6"));
         Keyword keyword7 = keywordRepository.save(new Keyword("키워드7")); Keyword keyword8 = keywordRepository.save(new Keyword("키워드8"));
         Keyword keyword9 = keywordRepository.save(new Keyword("키워드9")); Keyword keyword10 = keywordRepository.save(new Keyword("키워드10"));
         Keyword keyword11 = keywordRepository.save(new Keyword("멤버가 관심없는 생활정보 관련 여행지의 키워드"));
+        Keyword keyword12 = keywordRepository.save(new Keyword("멤버가 관심없는 생활정보 관련 여행지의 키워드"));
         tripKeywordRepository.save(new TripKeyword(trip1, keyword1)); tripKeywordRepository.save(new TripKeyword(trip2, keyword2));
         tripKeywordRepository.save(new TripKeyword(trip3, keyword3)); tripKeywordRepository.save(new TripKeyword(trip4, keyword4));
         tripKeywordRepository.save(new TripKeyword(trip5, keyword5)); tripKeywordRepository.save(new TripKeyword(trip6, keyword6));
         tripKeywordRepository.save(new TripKeyword(trip7, keyword7)); tripKeywordRepository.save(new TripKeyword(trip8, keyword8));
         tripKeywordRepository.save(new TripKeyword(trip9, keyword9)); tripKeywordRepository.save(new TripKeyword(trip10, keyword10));
-        tripKeywordRepository.save(new TripKeyword(trip10, keyword11));
+        tripKeywordRepository.save(new TripKeyword(trip10, keyword11)); tripKeywordRepository.save(new TripKeyword(trip10, keyword12));
         LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
         LiveInformation otherLiveInformation = liveInformationRepository.save(new LiveInformation("멤버가 관심없는 다른 생활정보"));
         memberLiveInformationRepository.save(new MemberLiveInformation(liveInformation, member));
@@ -198,6 +201,7 @@ public class RecommendTripServiceTest extends ServiceTestConfig {
         tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip7)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8));
         tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10));
         tripLiveInformationRepository.save(new TripLiveInformation(otherLiveInformation, trip11));
+        tripLiveInformationRepository.save(new TripLiveInformation(otherLiveInformation, trip12));
 
         // when
         List<FindTripResponse> tripResponses = recommendTripService.findRecommendTripsByModel(member.getId()).getFindTripResponses();
@@ -207,6 +211,8 @@ public class RecommendTripServiceTest extends ServiceTestConfig {
             assertThat(tripResponses).hasSize(10);
             assertThat(tripResponses.stream()
                     .anyMatch(trip -> trip.getContentId().equals(11L))).isFalse();
+            assertThat(tripResponses.stream()
+                    .anyMatch(trip -> trip.getContentId().equals(12L))).isFalse();
         });
     }
 }
