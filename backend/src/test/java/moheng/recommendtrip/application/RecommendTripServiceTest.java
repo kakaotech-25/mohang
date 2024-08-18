@@ -143,4 +143,12 @@ public class RecommendTripServiceTest extends ServiceTestConfig {
             assertThat(recommendTripService.findRecommendTripsByModel(member.getId()).getFindTripResponses()).hasSize(10);
         });
     }
+
+    @DisplayName("존재하지 않는 멤버기 AI 맞춤 10개의 여행지를 추천받으면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_멤버가_AI_맞춤_여행지를_추천받으면_예외가_발생한다() {
+        // given, when, then
+        assertThatThrownBy(() -> recommendTripService.findRecommendTripsByModel(-1L))
+                .isInstanceOf(NoExistMemberException.class);
+    }
 }
