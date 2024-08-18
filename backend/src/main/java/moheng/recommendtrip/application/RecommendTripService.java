@@ -56,7 +56,7 @@ public class RecommendTripService {
         this.tripKeywordRepository = tripKeywordRepository;
     }
 
-    public FindTripsResponse findRecommendTripsByModel(long memberId) {
+    public FindTripsResponse findRecommendTripsByModel(final long memberId) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoExistMemberException::new);
         final Map<Long, Long> preferredLocations = findMemberPreferredLocations(memberTripRepository.findByMember(member));
@@ -64,7 +64,7 @@ public class RecommendTripService {
         return new FindTripsResponse(tripKeywordRepository.findByTrips(filteredTrips));
     }
 
-    private List<Trip> findFilteredTrips(Map<Long, Long> preferredLocations, long memberId) {
+    private List<Trip> findFilteredTrips(final Map<Long, Long> preferredLocations, final long memberId) {
         final List<Trip> filteredTrips = new ArrayList<>();
         long page = 1L;
         while (filteredTrips.size() < RECOMMEND_TRIPS_COUNT) {
@@ -78,14 +78,14 @@ public class RecommendTripService {
         return filteredTrips;
     }
 
-    private List<Trip> findRecommendTripsByModelClient(final Map<Long, Long> preferredLocations, long memberId, long page) {
+    private List<Trip> findRecommendTripsByModelClient(final Map<Long, Long> preferredLocations, final long memberId, final long page) {
         final RecommendTripsByVisitedLogsResponse response = externalRecommendModelClient.recommendTripsByVisitedLogs(
                 new RecommendTripsByVisitedLogsRequest(preferredLocations, page)
         );
         return filterTripsByLiveinformation(response, memberId);
     }
 
-    private Map<Long, Long> findMemberPreferredLocations(List<MemberTrip> memberTrips) {
+    private Map<Long, Long> findMemberPreferredLocations(final List<MemberTrip> memberTrips) {
         return memberTrips.stream()
                 .collect(Collectors.toMap(trip -> trip.getTrip().getContentId(), MemberTrip::getVisitedCount));
     }
@@ -104,12 +104,12 @@ public class RecommendTripService {
 
 
     @Transactional
-    public void saveByRank(Trip trip, Member member, long rank) {
+    public void saveByRank(final Trip trip, final Member member, long rank) {
         recommendTripRepository.save(new RecommendTrip(trip, member, rank));
     }
 
     @Transactional
-    public void createRecommendTrip(long memberId, RecommendTripCreateRequest request) {
+    public void createRecommendTrip(final long memberId, final RecommendTripCreateRequest request) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoExistMemberException::new);
 

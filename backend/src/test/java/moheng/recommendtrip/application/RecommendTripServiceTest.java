@@ -6,11 +6,18 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
 import moheng.config.slice.ServiceTestConfig;
+import moheng.keyword.domain.Keyword;
+import moheng.keyword.domain.KeywordRepository;
+import moheng.keyword.domain.TripKeyword;
+import moheng.keyword.domain.TripKeywordRepository;
+import moheng.liveinformation.domain.*;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
 import moheng.recommendtrip.application.RecommendTripService;
 import moheng.recommendtrip.dto.RecommendTripCreateRequest;
+import moheng.trip.domain.MemberTrip;
+import moheng.trip.domain.MemberTripRepository;
 import moheng.trip.domain.Trip;
 import moheng.trip.exception.NoExistTripException;
 import moheng.trip.domain.TripRepository;
@@ -27,6 +34,24 @@ public class RecommendTripServiceTest extends ServiceTestConfig {
 
     @Autowired
     private TripRepository tripRepository;
+
+    @Autowired
+    private MemberTripRepository memberTripRepository;
+
+    @Autowired
+    private TripKeywordRepository tripKeywordRepository;
+
+    @Autowired
+    private KeywordRepository keywordRepository;
+
+    @Autowired
+    private MemberLiveInformationRepository memberLiveInformationRepository;
+
+    @Autowired
+    private LiveInformationRepository liveInformationRepository;
+
+    @Autowired
+    private TripLiveInformationRepository tripLiveInformationRepository;
 
     @DisplayName("순위와 함께 추천 여행지 정보를 저장한다.")
     @Test
@@ -72,5 +97,32 @@ public class RecommendTripServiceTest extends ServiceTestConfig {
         assertThatThrownBy(() ->
                 recommendTripService.createRecommendTrip(-1L, new RecommendTripCreateRequest(trip.getId()))
         ).isInstanceOf(NoExistMemberException.class);
+    }
+
+    @DisplayName("AI 맞춤 여행지를 추천받는다.")
+    @Test
+    void AI_맞춤_여행지를_추천받는다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        Trip trip1 = tripRepository.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로1"));
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "장소명2", 2L, "설명2", "이미지 경로2"));
+        Trip trip3 = tripRepository.save(new Trip("여행지3", "장소명3", 3L, "설명3", "이미지 경로3"));
+        memberTripRepository.save(new MemberTrip(member, trip1, 10L));
+        memberTripRepository.save(new MemberTrip(member, trip2, 20L));
+        memberTripRepository.save(new MemberTrip(member, trip3, 30L));
+        Keyword keyword1 = keywordRepository.save(new Keyword("키워드1"));
+        Keyword keyword2 = keywordRepository.save(new Keyword("키워드2"));
+        Keyword keyword3 = keywordRepository.save(new Keyword("키워드3"));
+        tripKeywordRepository.save(new TripKeyword(trip1, keyword1));
+        tripKeywordRepository.save(new TripKeyword(trip2, keyword2));
+        tripKeywordRepository.save(new TripKeyword(trip3, keyword3));
+        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        memberLiveInformationRepository.save(new MemberLiveInformation(liveInformation, member));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip1));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip2));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip3));
+
+        // when, then
+        assertDoesNotThrow(() -> recommendTripService.findRecommendTripsByModel(member.getId()));
     }
 }

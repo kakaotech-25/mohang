@@ -24,7 +24,7 @@ public class MemberLiveInformation {
     protected MemberLiveInformation() {
     }
 
-    public MemberLiveInformation(LiveInformation liveInformation, Member member) {
+    public MemberLiveInformation(final LiveInformation liveInformation, final Member member) {
         this.liveInformation = liveInformation;
         this.member = member;
     }
