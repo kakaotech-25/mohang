@@ -642,4 +642,15 @@ public class TripServiceTest extends ServiceTestConfig {
         assertThatThrownBy(() -> tripService.createMemberTrip(-1L, trip.getId()))
                 .isInstanceOf(NoExistMemberException.class);
     }
+
+    @DisplayName("존재하지 않는 여행지로 멤버 여행지를 생성하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_여행지로_멤버_여행지를_생성하면_예외가_발생한다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+
+        // when, then
+        assertThatThrownBy(() -> tripService.createMemberTrip(member.getId(), -1L))
+                .isInstanceOf(NoExistTripException.class);
+    }
 }
