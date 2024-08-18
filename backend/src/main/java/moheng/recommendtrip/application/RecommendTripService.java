@@ -11,24 +11,25 @@ import moheng.member.exception.NoExistMemberException;
 import moheng.recommendtrip.domain.RecommendTrip;
 import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.recommendtrip.dto.RecommendTripCreateRequest;
+import moheng.recommendtrip.exception.LackOfRecommendTripException;
+import moheng.recommendtrip.exception.NoExistMemberTripException;
 import moheng.trip.domain.*;
 import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.dto.RecommendTripsByVisitedLogsRequest;
 import moheng.trip.dto.RecommendTripsByVisitedLogsResponse;
+import moheng.trip.exception.NoExistRecommendTripException;
 import moheng.trip.exception.NoExistTripException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @Service
 public class RecommendTripService {
     private static final int RECOMMEND_TRIPS_COUNT = 10;
+    private static final int MIN_RECOMMEND_TRIPS_COUNT = 5;
     private final ExternalRecommendModelClient externalRecommendModelClient;
     private final RecommendTripRepository recommendTripRepository;
     private final MemberRepository memberRepository;
@@ -88,14 +89,23 @@ public class RecommendTripService {
     }
 
     private Map<Long, Long> findMemberPreferredLocations(final List<MemberTrip> memberTrips, final List<RecommendTrip> recommendTrips) {
+        validateRecommendTrips(recommendTrips);
         final Map<Long, Long> preferredLocations = new HashMap<>();
         for (final RecommendTrip recommendTrip : recommendTrips) {
             final Trip trip = recommendTrip.getTrip();
             final MemberTrip memberTrip = memberTrips.stream()
-                    .filter(mt -> mt.getTrip().getId().equals(trip.getId())).findFirst().get();
+                    .filter(mt -> mt.getTrip().getContentId().equals(trip.getContentId()))
+                    .findFirst()
+                    .orElseThrow(() -> new NoExistMemberTripException("존재하지 않는 멤버의 여행지입니다."));
             preferredLocations.put(trip.getContentId(), memberTrip.getVisitedCount());
         }
         return preferredLocations;
+    }
+
+    private void validateRecommendTrips(final List<RecommendTrip> recommendTrips) {
+        if(recommendTrips.size() < MIN_RECOMMEND_TRIPS_COUNT) {
+            throw new LackOfRecommendTripException("추천을 받기위해 선호 여행지 데이터 수가 부족합니다.");
+        }
     }
 
 
