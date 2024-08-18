@@ -1,5 +1,9 @@
 package moheng.acceptance;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.assertj.core.api.Assertions.assertThat;
 import static moheng.acceptance.fixture.TripAcceptenceFixture.*;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -41,7 +45,9 @@ public class RecommendTripAcceptenceTest extends AcceptanceTestConfig {
         AccessTokenResponse accessTokenResponse = response.as(AccessTokenResponse.class);
 
         여행지를_생성한다("롯데월드1", 1L); 여행지를_생성한다("롯데월드2", 2L); 여행지를_생성한다("롯데월드3", 3L);
-        여행지를_생성한다("롯데월드3", 4L); 여행지를_생성한다("롯데월드3", 5L);
+        여행지를_생성한다("롯데월드3", 4L); 여행지를_생성한다("롯데월드3", 5L); 여행지를_생성한다("롯데월드3", 6L);
+        여행지를_생성한다("롯데월드3", 7L); 여행지를_생성한다("롯데월드3", 8L); 여행지를_생성한다("롯데월드3", 9L);
+        여행지를_생성한다("롯데월드3", 10L); 여행지를_생성한다("롯데월드3", 11L); 여행지를_생성한다("롯데월드3", 12L);
         키워드를_생성한다("키워드1"); 키워드를_생성한다("키워드2"); 키워드를_생성한다("키워드3");
         여행지_키워드를_생성한다(1L, 1L); 여행지_키워드를_생성한다(2L, 2L);
         여행지_키워드를_생성한다(3L, 3L); 여행지_키워드를_생성한다(2L, 3L);
@@ -53,7 +59,9 @@ public class RecommendTripAcceptenceTest extends AcceptanceTestConfig {
 
         멤버_여행지를_생성한다(accessTokenResponse.getAccessToken(), 1L); 멤버_여행지를_생성한다(accessTokenResponse.getAccessToken(), 2L);
         멤버_여행지를_생성한다(accessTokenResponse.getAccessToken(), 3L); 멤버_여행지를_생성한다(accessTokenResponse.getAccessToken(), 4L);
-        멤버_여행지를_생성한다(accessTokenResponse.getAccessToken(), 5L);
+        멤버_여행지를_생성한다(accessTokenResponse.getAccessToken(), 5L); 멤버_여행지를_생성한다(accessTokenResponse.getAccessToken(), 6L);
+        멤버_여행지를_생성한다(accessTokenResponse.getAccessToken(), 7L); 멤버_여행지를_생성한다(accessTokenResponse.getAccessToken(), 8L);
+        멤버_여행지를_생성한다(accessTokenResponse.getAccessToken(), 9L); 멤버_여행지를_생성한다(accessTokenResponse.getAccessToken(), 10L);
 
         // when, then
         ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()
@@ -65,5 +73,8 @@ public class RecommendTripAcceptenceTest extends AcceptanceTestConfig {
                 .extract();
 
 
+        assertAll(() -> {
+            assertThat(resultResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+        });
     }
 }
