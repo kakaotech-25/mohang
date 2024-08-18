@@ -34,4 +34,11 @@ public class TripController {
             @PathVariable("tripId") final long tripId, @Authentication final Accessor accessor) {
         return ResponseEntity.ok(tripService.findWithSimilarOtherTrips(tripId , accessor.getId()));
     }
+
+    @PostMapping("/member/{tripId}")
+    public ResponseEntity<Void> createMemberTrip(@Authentication final Accessor accessor,
+                                                 @PathVariable("tripId") final long tripId) {
+        tripService.createMemberTrip(accessor.getId(), tripId);
+        return ResponseEntity.noContent().build();
+    }
 }

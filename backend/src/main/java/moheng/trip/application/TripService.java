@@ -134,4 +134,14 @@ public class TripService {
                         .filter(tripKeyword -> tripKeyword.getTrip().equals(topTrip)))
                 .collect(Collectors.toList());
     }
+
+    public void createMemberTrip(final long memberId, final long tripId) {
+        final Member member = memberRepository.findById(memberId)
+                .orElseThrow(NoExistMemberException::new);
+
+        final Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(NoExistTripException::new);
+
+        memberTripRepository.save(new MemberTrip(member, trip));
+    }
 }

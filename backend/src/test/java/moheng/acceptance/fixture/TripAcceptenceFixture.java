@@ -13,7 +13,7 @@ import org.springframework.http.MediaType;
 import java.util.List;
 
 public class TripAcceptenceFixture {
-    public static ExtractableResponse<Response> 여행지를_생성한다(String name, long contentId) {
+    public static ExtractableResponse<Response> 여행지를_생성한다(final String name, final long contentId) {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(new TripCreateRequest(name, "서울특별시 송파구", contentId, "롯데월드 관련 설명", "https://lotte-world.png"))
@@ -29,6 +29,16 @@ public class TripAcceptenceFixture {
                 .when().get("/trip/find/interested")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 멤버_여행지를_생성한다(final String accessToken, final long tripId) {
+        return RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessToken)
+                .when().post("/trip/member/{tripId}", tripId)
+                .then().log().all()
+                .statusCode(HttpStatus.NO_CONTENT.value())
                 .extract();
     }
 }
