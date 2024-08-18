@@ -16,6 +16,7 @@ import moheng.trip.exception.NoExistTripException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,9 +54,18 @@ public class RecommendTripService {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoExistMemberException::new);
         final Map<Long, Long> preferredLocations = findMemberPreferredLocations(memberTripRepository.findByMember(member));
-        final RecommendTripsByVisitedLogsResponse recommendTripsByVisitedLogsResponse
-                = externalRecommendModelClient.recommendTripsByVisitedLogs(new RecommendTripsByVisitedLogsRequest(preferredLocations, 1L));
-        filterTripsByLiveinformation(recommendTripsByVisitedLogsResponse);
+        long page = 1L;
+        final List<Trip> finalFilteredTrips = new ArrayList<>();
+        while (finalFilteredTrips.size() < RECOMMEND_TRIPS_COUNT) {
+            final RecommendTripsByVisitedLogsResponse recommendTripsByVisitedLogsResponse =
+                    externalRecommendModelClient.recommendTripsByVisitedLogs(
+                            new RecommendTripsByVisitedLogsRequest(preferredLocations, page)
+                    );
+            final List<Trip> filteredTripsByLiveinformation =
+                    filterTripsByLiveinformation(recommendTripsByVisitedLogsResponse, memberId);
+            finalFilteredTrips.addAll(filteredTripsByLiveinformation);
+            page++;
+        }
     }
 
     private Map<Long, Long> findMemberPreferredLocations(List<MemberTrip> memberTrips) {
@@ -63,12 +73,10 @@ public class RecommendTripService {
                 .collect(Collectors.toMap(trip -> trip.getTrip().getContentId(), MemberTrip::getVisitedCount));
     }
 
-    // 여행지가 어떤 생활정보에 속하는지 DB 에 속하는지 저장해 놓아야한다.
-    // 필터 : 추천받은 여행지의 생활정보 == 유저가 보유한 생활정보 리스트 중에 하나인 여행지라면 해당 여행지를 선택함
-    private void filterTripsByLiveinformation(final RecommendTripsByVisitedLogsResponse recommendTripsByVisitedLogsResponse, final Long memberId) {
+    private List<Trip> filterTripsByLiveinformation(final RecommendTripsByVisitedLogsResponse recommendTripsByVisitedLogsResponse, final Long memberId) {
         final List<Trip> trips = tripRepository.findTripsByContentIds(recommendTripsByVisitedLogsResponse.getContentIds());
         final List<LiveInformation> memberLiveInformations = memberLiveInformationRepository.findLiveInformationsByMemberId(memberId);
-        final List<Trip> filteredTrips = filterTripsByMemberInformation(trips, memberLiveInformations);
+        return filterTripsByMemberInformation(trips, memberLiveInformations);
     }
 
     private List<Trip> filterTripsByMemberInformation(final List<Trip> trips, final List<LiveInformation> memberLiveInformations) {
