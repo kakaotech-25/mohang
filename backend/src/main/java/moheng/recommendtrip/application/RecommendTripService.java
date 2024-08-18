@@ -1,5 +1,7 @@
 package moheng.recommendtrip.application;
 
+import moheng.liveinformation.domain.MemberLiveInformationRepository;
+import moheng.liveinformation.domain.TripLiveInformationRepository;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
@@ -22,15 +24,21 @@ public class RecommendTripService {
     private final RecommendTripRepository recommendTripRepository;
     private final MemberRepository memberRepository;
     private final TripRepository tripRepository;
+    private final TripLiveInformationRepository tripLiveInformationRepository;
+    private final MemberLiveInformationRepository memberLiveInformationRepository;
 
     public RecommendTripService(final ExternalRecommendModelClient externalRecommendModelClient,
                                 final RecommendTripRepository recommendTripRepository,
                                 final MemberRepository memberRepository,
-                                final TripRepository tripRepository) {
+                                final TripRepository tripRepository,
+                                final TripLiveInformationRepository tripLiveInformationRepository,
+                                final MemberLiveInformationRepository memberLiveInformationRepository) {
         this.externalRecommendModelClient = externalRecommendModelClient;
         this.recommendTripRepository = recommendTripRepository;
         this.memberRepository = memberRepository;
         this.tripRepository = tripRepository;
+        this.tripLiveInformationRepository = tripLiveInformationRepository;
+        this.memberLiveInformationRepository = memberLiveInformationRepository;
     }
 
     public void findRecommendTripsByVisitedLogs() {

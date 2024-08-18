@@ -1,12 +1,11 @@
 package moheng.liveinformation.domain;
 
 import jakarta.persistence.*;
-import moheng.member.domain.Member;
 import moheng.trip.domain.Trip;
 
 @Table(name = "trip_information")
 @Entity
-public class TripInformation {
+public class TripLiveInformation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -20,10 +19,10 @@ public class TripInformation {
     @JoinColumn(name = "trip_id", nullable = false)
     private Trip trip;
 
-    protected TripInformation() {
+    protected TripLiveInformation() {
     }
 
-    public TripInformation(final LiveInformation liveInformation, final Trip trip) {
+    public TripLiveInformation(final LiveInformation liveInformation, final Trip trip) {
         this.liveInformation = liveInformation;
         this.trip = trip;
     }
