@@ -12,6 +12,9 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -51,6 +54,19 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
+                .andDo(document("trip/recommend/ai",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("findTripResponses").description("여행지 리스트"),
+                                fieldWithPath("findTripResponses[].name").description("세부 여행지 이름"),
+                                fieldWithPath("findTripResponses[].placeName").description("세부 여행지 장소명"),
+                                fieldWithPath("findTripResponses[].contentId").description("세부 여행지 contentId"),
+                                fieldWithPath("findTripResponses[].tripImageUrl").description("세부 여행지 이미지 경로"),
+                                fieldWithPath("findTripResponses[].description").description("세부 여행지 설명"),
+                                fieldWithPath("findTripResponses[].keywords").description("세부 여행지 키워드 리스트")
+                        )
+                ))
                 .andExpect(status().isOk());
     }
 }
