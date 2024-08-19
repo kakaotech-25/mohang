@@ -6,16 +6,20 @@
 :toclevels: 2
 
 
-=== 회원 정보 조회(마이페이지) API
+=== 비회원 무작위 랜덤 키워드 기반 여행지 정보 조회(여행지) API
 
 ==== HTTP Request
 
-include::{snippets}/member/me/http-request.adoc[]
+include::{snippets}/keyword/random/trip/http-request.adoc[]
 
-===== Request Header (Authorization)
+===== Request Body
 
-include::{snippets}/member/me/request-headers.adoc[]
+include::{snippets}/keyword/random/trip/request-body.adoc[]
 
 ==== HTTP Response
 
-include::{snippets}/member/me/http-response.adoc[]
+include::{snippets}/keyword/random/trip/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/keyword/random/trip/response-fields.adoc[]
