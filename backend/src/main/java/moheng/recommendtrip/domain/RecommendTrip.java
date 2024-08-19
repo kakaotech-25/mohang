@@ -30,13 +30,13 @@ public class RecommendTrip extends BaseEntity {
     protected RecommendTrip() {
     }
 
-    public RecommendTrip(Trip trip, Member member, Long rank) {
+    public RecommendTrip(final Trip trip, final Member member, final Long rank) {
         this.trip = trip;
         this.member = member;
         this.rank = rank;
     }
 
-    public RecommendTrip(Trip trip, Member member) {
+    public RecommendTrip(final Trip trip, final Member member) {
         this.trip = trip;
         this.member = member;
         this.rank = 1L;
@@ -48,5 +48,9 @@ public class RecommendTrip extends BaseEntity {
 
     public Long getRank() {
         return rank;
+    }
+
+    public Trip getTrip() {
+        return trip;
     }
 }

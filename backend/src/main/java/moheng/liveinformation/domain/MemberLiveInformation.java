@@ -20,10 +20,11 @@ public class MemberLiveInformation {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
+
     protected MemberLiveInformation() {
     }
 
-    public MemberLiveInformation(LiveInformation liveInformation, Member member) {
+    public MemberLiveInformation(final LiveInformation liveInformation, final Member member) {
         this.liveInformation = liveInformation;
         this.member = member;
     }

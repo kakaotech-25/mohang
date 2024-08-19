@@ -8,7 +8,7 @@ public class FindMemberLiveInformationResponses {
     private FindMemberLiveInformationResponses() {
     }
 
-    public FindMemberLiveInformationResponses(List<LiveInfoResponse> liveInfoResponses) {
+    public FindMemberLiveInformationResponses(final List<LiveInfoResponse> liveInfoResponses) {
         this.liveInfoResponses = liveInfoResponses;
     }
 

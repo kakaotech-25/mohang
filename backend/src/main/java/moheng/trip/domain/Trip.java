@@ -38,7 +38,7 @@ public class Trip extends BaseEntity {
     protected Trip() {
     }
 
-    public Trip(String name, String placeName, Long contentId, String description, String tripImageUrl) {
+    public Trip(final String name, final String placeName, final Long contentId, final String description, final String tripImageUrl) {
         validateName(name);
         validatePlaceName(placeName);
         validateDescription(description);
@@ -50,7 +50,7 @@ public class Trip extends BaseEntity {
         this.visitedCount = 0L;
     }
 
-    public Trip(String name, String placeName, Long contentId, String description, String tripImageUrl, Long visitedCount) {
+    public Trip(final String name, final String placeName, final Long contentId, final String description, final String tripImageUrl, Long visitedCount) {
         validateName(name);
         validatePlaceName(placeName);
         validateDescription(description);
