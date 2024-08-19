@@ -5,7 +5,15 @@ class IModelRepository(metaclass=ABCMeta):
     @abstractmethod
     def custom_location_list(
             self,
-            preferred_location: dict[str, int],
+            preferred_location: dict[int, int],
             page: int
-    ) -> list[str]:
+    ) -> list[int]:
         raise NotImplementedError
+
+    @abstractmethod
+    def similar_content(
+            self,
+            location: int,
+    ):
+        raise NotImplementedError
+
