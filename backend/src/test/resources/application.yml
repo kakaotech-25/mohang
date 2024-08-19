@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: moheng
   profiles:
     active: test
   datasource:

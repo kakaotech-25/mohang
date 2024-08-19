@@ -8,3 +8,4 @@
 include::auth.adoc[]
 include::signup.adoc[]
 include::member.adoc[]
+include::trip.adoc[]
