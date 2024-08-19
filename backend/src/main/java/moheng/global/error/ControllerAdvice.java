@@ -3,6 +3,7 @@ package moheng.global.error;
 import moheng.auth.exception.*;
 import moheng.global.error.dto.ExceptionResponse;
 import moheng.keyword.exception.InvalidAIServerException;
+import moheng.keyword.exception.NoExistKeywordException;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
 import moheng.member.exception.*;
 import moheng.trip.exception.NoExistTripException;
@@ -34,7 +35,8 @@ public class ControllerAdvice {
             NoExistSocialTypeException.class,
             EmptyLiveInformationException.class,
             ShortContentidsSizeException.class,
-            NoExistTripException.class
+            NoExistTripException.class,
+            NoExistKeywordException.class
     })
     public ResponseEntity<ExceptionResponse> handleIBadRequestException(final RuntimeException e) {
         logger.error(e.getMessage(), e);

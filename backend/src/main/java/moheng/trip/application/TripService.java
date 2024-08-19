@@ -125,6 +125,13 @@ public class TripService {
     public FindTripsResponse findTop30OrderByVisitedCountDesc() {
         final List<Trip> topTrips = tripRepository.findTop30ByOrderByVisitedCountDesc();
         final List<TripKeyword> tripKeywords = tripKeywordRepository.findByTrips(topTrips);
-        return new FindTripsResponse(tripKeywords);
+        return new FindTripsResponse(findSortedTripKeywords(topTrips, tripKeywords));
+    }
+
+    private List<TripKeyword> findSortedTripKeywords(final List<Trip> topTrips, final List<TripKeyword> tripKeywords) {
+        return topTrips.stream()
+                .flatMap(topTrip -> tripKeywords.stream()
+                        .filter(tripKeyword -> tripKeyword.getTrip().equals(topTrip)))
+                .collect(Collectors.toList());
     }
 }

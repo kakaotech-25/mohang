@@ -3,10 +3,7 @@ package moheng.trip.dto;
 import moheng.keyword.domain.TripKeyword;
 import moheng.trip.domain.Trip;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class FindTripsResponse {
@@ -20,7 +17,7 @@ public class FindTripsResponse {
     }
 
     private List<FindTripResponse> toResponse(final List<TripKeyword> tripKeywords) {
-        Map<Trip, List<String>> tripWithKeywords = new HashMap<>();
+        Map<Trip, List<String>> tripWithKeywords = new LinkedHashMap<>();
         for (TripKeyword tripKeyword : tripKeywords) {
             final Trip trip = tripKeyword.getTrip();
             final String keywordName = tripKeyword.getKeyword().getName();
@@ -30,6 +27,7 @@ public class FindTripsResponse {
                 .map(trip -> new FindTripResponse(trip.getKey(), trip.getValue()))
                 .collect(Collectors.toList());
     }
+
 
     public List<FindTripResponse> getFindTripResponses() {
         return findTripResponses;
