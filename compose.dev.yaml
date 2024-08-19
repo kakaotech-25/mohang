@@ -8,7 +8,7 @@ services:
     networks:
       - moheng-network
     ports:
-      - 8080:8080
+      - 80:8080
     restart: always
   frontend:
     container_name: front
