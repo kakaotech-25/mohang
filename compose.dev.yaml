@@ -1,8 +1,8 @@
 services:
   backend:
     container_name: back
-    build: ./backend
     image: spring:dev
+    build: ./backend
     volumes:
       - back-dir:/app
     networks:
@@ -12,9 +12,10 @@ services:
     restart: always
     environment:
       - LOGGING_LEVEL_ROOT=ERROR
+
   frontend:
     container_name: front
-    image: react:moheng
+    image: react:dev
     build:
       context: frontend/
       dockerfile: Dockerfile.dev
@@ -27,6 +28,18 @@ services:
     restart: always
     environment:
       - NODE_ENV=development
+
+  ai:
+    container_name: ai
+    image: fastapi:dev
+    build: ./ai
+    volumes:
+      - ai-dir:/app
+    networks:
+      - moheng-network
+    ports:
+      - 8000:8000
+    restart: always
 
 volumes:
   back-dir:
@@ -41,6 +54,12 @@ volumes:
       type: none
       o: bind
       device: "${PWD}/frontend"
+  ai-dir:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "${PWD}/ai"
 
 networks:
   moheng-network:
