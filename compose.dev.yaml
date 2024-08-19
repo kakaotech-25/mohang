@@ -1,0 +1,45 @@
+services:
+  backend:
+    container_name: back
+    build: ./backend
+    image: spring:dev
+    volumes:
+      - back-dir:/app
+    networks:
+      - moheng-network
+    ports:
+      - 8080:8080
+    restart: always
+  frontend:
+    container_name: front
+    image: react:moheng
+    build:
+      context: frontend/
+      dockerfile: Dockerfile.dev
+    volumes:
+      - front_dir:/usr/app
+    networks:
+      - moheng-network
+    ports:
+      - 5173:5173
+    restart: always
+    environment:
+      - NODE_ENV=development
+
+volumes:
+  back-dir:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "${PWD}/backend"
+  front_dir:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "${PWD}/frontend"
+
+networks:
+  moheng-network:
+    driver: bridge
