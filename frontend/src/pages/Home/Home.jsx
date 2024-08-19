@@ -1,6 +1,7 @@
 import React from 'react';
 import TravelCarousel from '../../components/TravelCarousel/TravelCarousel';
 import travelcardimg from "../../assets/travelcard.png";
+import './Home.css'
 
 const data = [
   { id: 1, image: travelcardimg, tags: ["20대", "연인"], title: "롯데월드", location: "서울특별시 송파구" },
@@ -38,6 +39,11 @@ const data = [
 const Home = () => {
   return (
     <div>
+      <section className='ai-recommendation'>
+        <div className='carousel-description'>
+          <span style={{ color: '#C493FF' }}>모행 AI</span>를 이용한 맞춤 여행지
+        </div>
+      </section>
       <TravelCarousel cards={data} />
     </div>
     
