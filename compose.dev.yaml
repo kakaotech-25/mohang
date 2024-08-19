@@ -10,6 +10,8 @@ services:
     ports:
       - 80:8080
     restart: always
+    environment:
+      - LOGGING_LEVEL_ROOT=ERROR
   frontend:
     container_name: front
     image: react:moheng
