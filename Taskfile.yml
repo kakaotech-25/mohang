@@ -13,6 +13,9 @@ tasks:
   front:
     cmds: # 프론트 개발 서버 실행
       - docker compose -f compose.frontend.yaml up --build
+  dev:
+    cmds:
+      - docker compose -f compose.dev.yaml up --build
   up:
     cmds: # 서버 컨테이너 빌드 실행
       - docker compose up --build
