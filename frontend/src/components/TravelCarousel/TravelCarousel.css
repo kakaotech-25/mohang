@@ -1,0 +1,48 @@
+.carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.carousel {
+    width: 100%;
+    overflow: hidden;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%;
+}
+
+.carousel-card {
+    flex: 0 0 calc(20% - 20px);
+    box-sizing: border-box;
+    margin: 0 10px;
+    padding: 0;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-button {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.carousel-button.prev {
+    position: absolute;
+    left: 0;
+}
+
+.carousel-button.next {
+    position: absolute;
+    right: 0;
+}
