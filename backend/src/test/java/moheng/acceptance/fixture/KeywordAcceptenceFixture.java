@@ -24,7 +24,7 @@ public class KeywordAcceptenceFixture {
                 .auth().oauth2(accessToken)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(tripsByKeyWordsRequest)
-                .when().get("/keyword/trip/recommend")
+                .when().post("/keyword/trip/recommend")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract();
