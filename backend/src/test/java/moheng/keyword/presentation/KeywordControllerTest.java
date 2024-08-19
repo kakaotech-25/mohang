@@ -34,7 +34,7 @@ public class KeywordControllerTest extends ControllerTestConfig {
         given(keywordService.findRecommendTripsByKeywords(any())).willReturn(키워드_기반_추천_여행지_응답());
 
         // when, then
-        mockMvc.perform(get("/keyword/trip/recommend")
+        mockMvc.perform(post("/keyword/trip/recommend")
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)

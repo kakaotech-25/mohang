@@ -49,7 +49,7 @@ public class TripService {
     @Transactional
     public FindTripWithSimilarTripsResponse findWithSimilarOtherTrips(final long tripId, final long memberId) {
         final Trip trip = findById(tripId);
-        final FindSimilarTripWithContentIdResponses similarTripWithContentIdResponses = externalSimilarTripModelClient.findSimilarTrips(tripId);
+        final FindSimilarTripWithContentIdResponses similarTripWithContentIdResponses = externalSimilarTripModelClient.findSimilarTrips(trip.getContentId());
         final SimilarTripResponses similarTripResponses = findTripsByContentIdsWithKeywords(similarTripWithContentIdResponses.getContentIds());
         trip.incrementVisitedCount();
         saveRecommendTripByClickedLogs(memberId, trip);

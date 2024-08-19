@@ -1,0 +1,25 @@
+== ⛳️ Trip (여행지)
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+
+
+=== 비회원에게 추천하는 무작위 랜덤 키워드 기반 여행지 정보 조회(여행지) API
+
+==== HTTP Request
+
+include::{snippets}/keyword/random/trip/http-request.adoc[]
+
+===== Request Body
+
+include::{snippets}/keyword/random/trip/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/keyword/random/trip/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/keyword/random/trip/response-fields.adoc[]
