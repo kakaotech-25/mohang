@@ -32,5 +32,6 @@ RUN groupadd -r appgroup && useradd -r -g appgroup appuser \
 
 USER appuser
 
-CMD ["tail", "-f"]
-# CMD ["java", "-jar", “직접 들어가서 어떤 파일로 실행하면 될지 찾아보기” ]
+# CMD ["tail", "-f"]
+# 추후 jar파일의 이름이 변경되어도 첫번째 행을 실행시키도록 함
+CMD ["sh", "-c", "java -jar $(ls build/libs/*SNAPSHOT.jar | head -n 1)"]
