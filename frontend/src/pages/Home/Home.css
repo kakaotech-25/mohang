@@ -4,3 +4,40 @@
     margin: 20px;
     margin-left: 10%;
 }
+
+.keyword-recommendation {
+    margin-top: 5%;
+}
+
+.keyword-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+    margin-left: 10%;
+}
+  
+.keyword-button {
+    background-color: white;
+    border-radius: 12px;
+    padding: 4px 8px;
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+  
+.keyword-button.selected {
+    background-color: #e6e0d7;
+    transform: scale(0.98);
+}
+  
+.keyword-button:hover {
+    background-color: #f0f0f0;
+}
+  
+.keyword-button:active {
+    transform: scale(0.95);
+}
+  

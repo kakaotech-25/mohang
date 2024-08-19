@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 import TravelCarousel from '../../components/TravelCarousel/TravelCarousel';
 import travelcardimg from "../../assets/travelcard.png";
 import './Home.css'
@@ -37,18 +37,67 @@ const data = [
 ];
 
 const Home = () => {
+  const [filteredCards, setFilteredCards] = useState(data);
+  const [selectedKeywords, setSelectedKeywords] = useState([]);
+
+  // 중복 제거한 모든 키워드
+  const uniqueKeywords = Array.from(new Set(data.flatMap(card => card.tags)));
+
+  // 키워드 클릭 핸들러
+  const handleKeywordClick = (keyword) => {
+    let updatedKeywords;
+    if (selectedKeywords.includes(keyword)) {
+      // 이미 선택된 키워드를 다시 클릭하면 선택 해제
+      updatedKeywords = selectedKeywords.filter(k => k !== keyword);
+    } else {
+      // 선택된 키워드를 추가
+      updatedKeywords = [...selectedKeywords, keyword];
+    }
+
+    setSelectedKeywords(updatedKeywords);
+
+    if (updatedKeywords.length === 0) {
+      setFilteredCards(data); // 모든 키워드 선택 해제 시 전체 카드 보여줌
+    } else {
+      // 선택된 키워드 중 하나라도 포함된 카드들을 필터링
+      setFilteredCards(
+        data.filter(card => 
+          updatedKeywords.every(keyword => card.tags.includes(keyword))
+        )
+      );
+    }
+  };
+
   return (
     <div>
       <section className='ai-recommendation'>
         <div className='carousel-description'>
-          <span style={{ color: '#C493FF' }}>모행 AI</span>를 이용한 맞춤 여행지
+          <span style={{ color: '#845EC2' }}>모행 AI</span>를 이용한 맞춤 여행지
         </div>
+        <TravelCarousel cards={data} />
       </section>
-      <TravelCarousel cards={data} />
+
+      <section className='keyword-recommendation'>
+        <div className='carousel-description'>
+          <span style={{ color: '#845EC2' }}>#키워드</span> 추천 여행지
+        </div>
+
+        <div className='keyword-buttons'>
+          {uniqueKeywords.map((keyword, index) => (
+            <button
+              key={index}
+              className={`keyword-button ${selectedKeywords.includes(keyword) ? 'selected' : ''}`}
+              onClick={() => handleKeywordClick(keyword)}
+            >
+              #{keyword}
+            </button>
+          ))}
+        </div>
+
+        <TravelCarousel cards={filteredCards} />
+      </section>
     </div>
-    
   );
 };
 
 export default Home;
-
