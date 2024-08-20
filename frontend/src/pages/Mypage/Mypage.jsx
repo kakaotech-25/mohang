@@ -3,7 +3,7 @@ import './Mypage.css';
 import LivingBtn from '../../components/LivingBtn/LivingBtn';
 import Button from '../../components/Button/Button';
 
-function Mypage() {
+const Mypage = () => {
   const [activeTab, setActiveTab] = useState('tab1');
 
   const handleTabClick = (tab) => {
