@@ -1,4 +1,14 @@
 services:
+  nginx:
+    container_name: nginx
+    image: nginx:dev
+    build: ./nginx
+    networks:
+      - moheng-network
+    ports:
+      - "80:80"
+    restart: always
+
   backend:
     container_name: back
     image: spring:dev
@@ -8,7 +18,7 @@ services:
     networks:
       - moheng-network
     ports:
-      - 80:8080
+      - 8080:8080
     restart: always
     environment:
       - LOGGING_LEVEL_ROOT=ERROR
@@ -20,11 +30,11 @@ services:
       context: frontend/
       dockerfile: Dockerfile.dev
     volumes:
-      - front_dir:/usr/app
+      - front-dir:/usr/app
     networks:
       - moheng-network
     ports:
-      - 5173:5173
+      - :5173
     restart: always
     environment:
       - NODE_ENV=development
@@ -47,19 +57,19 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: "${PWD}/backend"
-  front_dir:
+      device: ./backend
+  front-dir:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: "${PWD}/frontend"
+      device: ./frontend
   ai-dir:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: "${PWD}/ai"
+      device: ./ai
 
 networks:
   moheng-network:
