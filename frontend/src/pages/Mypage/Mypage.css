@@ -1,5 +1,7 @@
 .my-page {
-    width: 60%;
+    min-height: 70vh;
+    height: 100%;
+    width: 80%;
     margin: 50px auto;
     position: relative;
     padding-top: 40px;
@@ -42,11 +44,16 @@
     z-index: 1;
 }
 
-.tab-content div {
-    display: none;
+.mypage-living {
+    margin: 20px auto 20px auto;
+    padding: 50px;
+    border-radius: 10px;
 }
 
-.tab-content div:target,
-.tab-content div:first-child {
-    display: block;
+.mypage-living > section {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px;
+    margin: 10%;
 }

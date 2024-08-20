@@ -1,11 +1,17 @@
 import { useState } from 'react';
 import './Mypage.css';
+import LivingBtn from '../../components/LivingBtn/LivingBtn';
+import Button from '../../components/Button/Button';
 
 function Mypage() {
   const [activeTab, setActiveTab] = useState('tab1');
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
+  };
+
+  const handleLivingSelectionChange = (selectedOptions) => {
+    console.log("Selected options:", selectedOptions);
   };
 
   return (
@@ -32,8 +38,12 @@ function Mypage() {
           </div>
         )}
         {activeTab === 'tab2' && (
-          <div id="tab2">
-            <h1>생활정보 공간</h1>
+          <div id="tab2" className='mypage-living'>
+              <LivingBtn onChangeSelection={handleLivingSelectionChange} />
+            <section>
+              <Button text={"저장"} />
+            </section>
+            
           </div>
         )}
       </section>
