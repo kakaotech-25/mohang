@@ -1,0 +1,44 @@
+.living-btn {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid;
+    border-radius: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+    position: relative;
+}
+
+.living-btn.selected,
+.living-btn:hover {
+    background-color: #D9D9D9;
+}
+
+.living-img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+}
+
+.living-text {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.living-checkmark {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: white;
+    border-radius: 50%;
+    padding: 5px;
+    display: none;
+}
+
+.living-btn.selected .living-checkmark {
+    display: block;
+}

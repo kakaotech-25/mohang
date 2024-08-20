@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./LivingInfo.css";
 import ProfileInfo from "../../components/ProfileInfo/ProfileInfo";
+import LivingBtn from "../../components/LivingBtn/LivingBtn";
 import progressbar2 from "../../assets/progressbar2.png";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
@@ -10,20 +11,6 @@ import livingimg3 from "../../assets/hearing.png";
 import livingimg4 from "../../assets/infants.png";
 import livingimg5 from "../../assets/senior.png";
 import livingimg6 from "../../assets/nothing.png";
-
-// LivingBtn 컴포넌트를 이 파일 안에 선언
-const LivingBtn = ({ src, text, isSelected, onClick }) => {
-  return (
-    <div
-      className={`living-btn ${isSelected ? "selected" : ""}`}
-      onClick={onClick}
-    >
-      <img src={src} className="living-img" alt={text} />
-      <div className="living-text">{text}</div>
-      {isSelected && <div className="living-checkmark">✔️</div>}
-    </div>
-  );
-};
 
 const LivingInfo = () => {
     const navigate = useNavigate();
