@@ -2,9 +2,23 @@ import { useState } from 'react';
 import './Mypage.css';
 import LivingBtn from '../../components/LivingBtn/LivingBtn';
 import Button from '../../components/Button/Button';
+import UserForm from "../../components/UserForm/UserForm";
+import profileimg1 from "../../assets/profileimg1.png";
 
 const Mypage = () => {
   const [activeTab, setActiveTab] = useState('tab1');
+
+  const [input, setInput] = useState({
+    name: "",
+    birth: "",
+  });
+
+  const onChange = (e) => {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -34,7 +48,14 @@ const Mypage = () => {
       <section className="tab-content">
         {activeTab === 'tab1' && (
           <div id="tab1">
-            <h1>프로필 공간</h1>
+            {/* 프로필 이미지 추가 */}
+            <section className="mypage-img">
+              <img src={profileimg1} alt="프로필 이미지" className="user-img" />
+            </section>
+            <UserForm input={input} onChange={onChange} />
+            <section className="mypage-btn">
+              <Button text={"저장"} />
+            </section>
           </div>
         )}
         {activeTab === 'tab2' && (
@@ -43,7 +64,6 @@ const Mypage = () => {
             <section>
               <Button text={"저장"} />
             </section>
-            
           </div>
         )}
       </section>

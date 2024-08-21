@@ -44,8 +44,21 @@
     z-index: 1;
 }
 
+.mypage-img {
+    display: flex;
+    justify-content: center;
+    margin: 30px;
+}
+
+.user-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 .mypage-living {
-    margin: 20px auto 20px auto;
+    margin: 20px auto;
     padding: 50px;
     border-radius: 10px;
 }
@@ -56,4 +69,11 @@
     justify-content: center;
     gap: 30px;
     margin: 10%;
+}
+
+.mypage-btn {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 5%;
 }
