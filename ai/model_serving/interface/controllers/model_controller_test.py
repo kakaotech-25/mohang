@@ -1,6 +1,6 @@
 import pytest
-from model.application.model_service import ModelService
-from model.interface.controllers import model_controller
+from model_serving.application.model_service import ModelService
+from model_serving.interface.controllers import model_controller
 
 
 @pytest.fixture
