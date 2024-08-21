@@ -4,6 +4,7 @@ import LivingBtn from '../../components/LivingBtn/LivingBtn';
 import Button from '../../components/Button/Button';
 import UserForm from "../../components/UserForm/UserForm";
 import profileimg1 from "../../assets/profileimg1.png";
+import changebtn from "../../assets/mypage-change-img.png";
 
 const Mypage = () => {
   const [activeTab, setActiveTab] = useState('tab1');
@@ -48,9 +49,9 @@ const Mypage = () => {
       <section className="tab-content">
         {activeTab === 'tab1' && (
           <div id="tab1">
-            {/* 프로필 이미지 추가 */}
             <section className="mypage-img">
               <img src={profileimg1} alt="프로필 이미지" className="user-img" />
+              <img src={changebtn} alt="프로필 이미지" className="change-btn" />
             </section>
             <UserForm input={input} onChange={onChange} />
             <section className="mypage-btn">
