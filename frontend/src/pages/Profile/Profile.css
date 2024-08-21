@@ -15,26 +15,17 @@
 .profile-body > section{
     display: flex;
     flex-direction: row;
-    justify-content: center;
     align-items: center;
     padding: 20px 10px;
     font-size: 20px;
 }
 
-.profile-body > section > div{
+.profile-imgs{
+    justify-content: center;
     margin-right: 20px;
 }
 
-.profile-body > section > input{
-    margin-right: 20px;
+.profile-btn {
+    justify-content: center;
 }
 
-.birth > input{
-    width: 200px;
-    height: 30px;
-}
-
-.nickname > input {
-    width: 200px;
-    height: 30px;
-}
