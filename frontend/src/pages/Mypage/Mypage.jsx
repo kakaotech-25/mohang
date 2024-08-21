@@ -8,7 +8,7 @@ import changebtn from "../../assets/mypage-change-img.png";
 
 const Mypage = () => {
   const [activeTab, setActiveTab] = useState('tab1');
-
+  const [profileImage, setProfileImage] = useState(profileimg1);
   const [input, setInput] = useState({
     name: "",
     birth: "",
@@ -27,6 +27,17 @@ const Mypage = () => {
 
   const handleLivingSelectionChange = (selectedOptions) => {
     console.log("Selected options:", selectedOptions);
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setProfileImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -50,8 +61,17 @@ const Mypage = () => {
         {activeTab === 'tab1' && (
           <div id="tab1">
             <section className="mypage-img">
-              <img src={profileimg1} alt="프로필 이미지" className="user-img" />
-              <img src={changebtn} alt="프로필 이미지" className="change-btn" />
+              <img src={profileImage} className="user-img" />
+              <label htmlFor="image-upload">
+                <img src={changebtn} className="change-btn" />
+              </label>
+              <input
+                id="image-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                style={{ display: 'none' }}
+              />
             </section>
             <UserForm input={input} onChange={onChange} />
             <section className="mypage-btn">
@@ -61,7 +81,7 @@ const Mypage = () => {
         )}
         {activeTab === 'tab2' && (
           <div id="tab2" className='mypage-living'>
-              <LivingBtn onChangeSelection={handleLivingSelectionChange} />
+            <LivingBtn onChangeSelection={handleLivingSelectionChange} />
             <section>
               <Button text={"저장"} />
             </section>
