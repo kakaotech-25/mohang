@@ -1,20 +1,20 @@
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 from dependency_injector.wiring import inject, Provide
-from model.application.model_service import ModelService
+from model_serving.application.model_service import ModelService
 from containers import Container
-router = APIRouter(prefix='/model')
+router = APIRouter(prefix='/travel')
 
 
 class CustomTravelListRequest(BaseModel):
-    preferredLocation: dict[str, int]
+    preferredLocation: dict[int, int]
 
 
 class CustomTravelListResponse(BaseModel):
-    contentIds: list[str]
+    contentIds: list[int]
 
 
-@router.post('/customTravelList')
+@router.post('/custom/model')
 @inject
 def custom_travel_list(
         page: int,
@@ -27,3 +27,18 @@ def custom_travel_list(
     )
 
     return CustomTravelListResponse(contentIds=locations)
+
+
+class SimilarTravelListResponse(BaseModel):
+    contentIds: list[int]
+
+
+@router.get('/similar/{contentId}')
+@inject
+def similar_content(
+        contentId: int,
+        page: int,
+        model_service: ModelService = Depends(Provide[Container.model_service]),
+):
+    locations = model_service.similar_content(contentId=contentId, page=page)
+    return SimilarTravelListResponse(contentIds=locations)

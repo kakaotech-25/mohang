@@ -1,7 +1,7 @@
 import pytest
 
-from model.application.model_service import ModelService
-from model.domain.repository.model_repo import IModelRepository
+from model_serving.application.model_service import ModelService
+from model_serving.domain.repository.model_repo import IModelRepository
 
 
 @pytest.fixture
