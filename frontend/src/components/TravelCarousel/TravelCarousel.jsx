@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // useNavigate 임포트
+import { useNavigate } from 'react-router-dom';
 import TravelCard from '../TravelCard/TravelCard';
 import './TravelCarousel.css';
 
 const TravelCarousel = ({ cards }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const cardsToShow = 5;
-  const navigate = useNavigate(); // useNavigate 훅 사용
+  const navigate = useNavigate();
 
   const handlePrevClick = () => {
     if (currentIndex === 0) {
@@ -25,7 +25,7 @@ const TravelCarousel = ({ cards }) => {
   };
 
   const handleCardClick = (id) => {
-    navigate(`/detail/${id}`); // 클릭 시 TravelDetails 페이지로 이동
+    navigate(`/traveldetails/${id}`);
   };
 
   return (
@@ -43,7 +43,7 @@ const TravelCarousel = ({ cards }) => {
               <TravelCard
                 {...card}
                 isSelected={false}
-                onClick={() => handleCardClick(card.id)} // 클릭 핸들러 추가
+                onClick={() => handleCardClick(card.id)}
               />
             </div>
           ))}
