@@ -43,4 +43,24 @@ public class TripScheduleRepositoryTest extends RepositoryTestConfig {
             assertThat(actual.get(2).getName()).isEqualTo("일정1");
         });
     }
+
+    @DisplayName("여행 일정을 이름순 기준으로 오름차순 정렬한다.")
+    @Test
+    void 여행_일정을_이름순_기준으로_오름차순_정렬한다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(new TripSchedule("가 일정", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
+        tripScheduleRepository.save(new TripSchedule("다 일정", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
+        tripScheduleRepository.save(new TripSchedule("나 일정", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
+
+        // when
+        List<TripSchedule> actual = tripScheduleRepository.findByMemberOrderByNameAsc(member);
+
+        // then
+        assertAll(() -> {
+            assertThat(actual.get(0).getName()).isEqualTo("가 일정");
+            assertThat(actual.get(1).getName()).isEqualTo("나 일정");
+            assertThat(actual.get(2).getName()).isEqualTo("다 일정");
+        });
+    }
 }
