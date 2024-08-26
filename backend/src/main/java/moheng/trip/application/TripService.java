@@ -41,8 +41,10 @@ public class TripService {
                        final ExternalSimilarTripModelClient externalSimilarTripModelClient,
                        final RecommendTripRepository recommendTripRepository,
                        final MemberRepository memberRepository,
-                       final MemberTripRepository memberTripRepository, TripKeywordRepository tripKeywordRepository,
-                       final SaveRecommendTripStrategyProvider saveRecommendTripStrategyProvider, TripLiveInformationRepository tripLiveInformationRepository, LiveInformationRepository liveInformationRepository) {
+                       final MemberTripRepository memberTripRepository,
+                       final TripKeywordRepository tripKeywordRepository,
+                       final SaveRecommendTripStrategyProvider saveRecommendTripStrategyProvider,
+                       final LiveInformationRepository liveInformationRepository) {
         this.tripRepository = tripRepository;
         this.externalSimilarTripModelClient = externalSimilarTripModelClient;
         this.recommendTripRepository = recommendTripRepository;

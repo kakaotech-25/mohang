@@ -130,7 +130,6 @@ public class RecommendTripService {
     public void createRecommendTrip(final long memberId, final RecommendTripCreateRequest request) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoExistMemberException::new);
-
         final Trip trip = tripRepository.findById(request.getTripId())
                 .orElseThrow(NoExistTripException::new);
 

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TripRepository extends JpaRepository<Trip, Long> {
-    Optional<Trip> findByContentId(Long contentId);
+    Optional<Trip> findByContentId(final Long contentId);
     List<Trip> findTop30ByOrderByVisitedCountDesc();
 
     @Query("SELECT k.name FROM Keyword k WHERE k.id IN :keywordIds")

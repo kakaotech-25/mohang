@@ -1,7 +1,7 @@
 package moheng.trip.exception;
 
 public class NoExistRecommendTripStrategyException extends RuntimeException {
-    public NoExistRecommendTripStrategyException(String message) {
+    public NoExistRecommendTripStrategyException(final String message) {
         super(message);
     }
 
