@@ -23,22 +23,6 @@ services:
     environment:
       - LOGGING_LEVEL_ROOT=ERROR
 
-  frontend:
-    container_name: front
-    image: react:dev
-    build:
-      context: frontend/
-      dockerfile: Dockerfile.dev
-    volumes:
-      - front-dir:/usr/app
-    networks:
-      - moheng-network
-    ports: # CORS 3000 allowed
-      - 3000:5173 # host:container
-    restart: always
-    environment:
-      - NODE_ENV=development
-
   ai:
     container_name: ai
     image: fastapi:dev
