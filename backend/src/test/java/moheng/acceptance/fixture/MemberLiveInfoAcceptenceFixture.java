@@ -16,7 +16,7 @@ public class MemberLiveInfoAcceptenceFixture {
                 .auth().oauth2(accessToken)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(new UpdateMemberLiveInformationRequest(List.of(1L, 2L)))
-                .when().put("/live/info/member")
+                .when().put("/api/live/info/member")
                 .then().log().all()
                 .statusCode(HttpStatus.NO_CONTENT.value())
                 .extract();

@@ -11,7 +11,7 @@ public class TripKeywordAcceptenceFixture {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(new TripKeywordCreateRequest(tripId, keywordId))
-                .when().post("/keyword/trip")
+                .when().post("/api/keyword/trip")
                 .then().log().all()
                 .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())
                 .extract();

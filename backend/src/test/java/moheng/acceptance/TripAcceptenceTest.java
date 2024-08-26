@@ -102,7 +102,7 @@ public class TripAcceptenceTest extends AcceptanceTestConfig {
         ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()
                 .auth().oauth2(accessTokenResponse.getAccessToken())
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .when().get("/trip/find/{tripId}", 1L)
+                .when().get("/api/trip/find/{tripId}", 1L)
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract();

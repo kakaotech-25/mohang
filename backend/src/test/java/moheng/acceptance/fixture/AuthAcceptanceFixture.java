@@ -18,7 +18,7 @@ public class AuthAcceptanceFixture {
     public static ExtractableResponse<Response> OAuth_인증_URI를_생성한다(final String oauthProvider) {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .when().get("/auth/{provider}/link", oauthProvider)
+                .when().get("/api/auth/{provider}/link", oauthProvider)
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract();
@@ -28,7 +28,7 @@ public class AuthAcceptanceFixture {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(new TokenRequest(code))
-                .when().post("/auth/{oAuthProvider}/login", oauthProvider)
+                .when().post("/api/auth/{oAuthProvider}/login", oauthProvider)
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value())
                 .extract();
@@ -38,7 +38,7 @@ public class AuthAcceptanceFixture {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .cookie(refreshToken)
-                .when().post("/auth/extend/login")
+                .when().post("/api/auth/extend/login")
                 .then().log().all()
                 .extract();
     }
@@ -48,7 +48,7 @@ public class AuthAcceptanceFixture {
                 .auth().oauth2(accessTokenResponse.getAccessToken())
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .cookie(refreshToken)
-                .when().delete("/auth/logout")
+                .when().delete("/api/auth/logout")
                 .then().log().all()
                 .statusCode(HttpStatus.NO_CONTENT.value())
                 .extract();
@@ -59,7 +59,7 @@ public class AuthAcceptanceFixture {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .auth().oauth2(accessTokenResponse.getAccessToken())
                 .body(new SignUpLiveInfoRequest(List.of("생활정보1", "생활정보2")))
-                .when().post("/member/signup/liveinfo")
+                .when().post("/api/member/signup/liveinfo")
                 .then().log().all()
                 .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())
                 .extract();
@@ -70,7 +70,7 @@ public class AuthAcceptanceFixture {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .auth().oauth2(accessTokenResponse.getAccessToken())
                 .body(new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L)))
-                .when().post("/member/signup/trip")
+                .when().post("/api/member/signup/trip")
                 .then().log().all()
                 .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())
                 .extract();

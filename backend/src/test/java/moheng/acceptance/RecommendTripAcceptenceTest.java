@@ -82,7 +82,7 @@ public class RecommendTripAcceptenceTest extends AcceptanceTestConfig {
         ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .auth().oauth2(accessTokenResponse.getAccessToken())
-                .when().get("/recommend")
+                .when().get("/api/recommend")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract();

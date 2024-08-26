@@ -13,7 +13,7 @@ public class KeywordAcceptenceFixture {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(new KeywordCreateRequest(name))
-                .when().post("/keyword")
+                .when().post("/api/keyword")
                 .then().log().all()
                 .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())
                 .extract();
@@ -24,7 +24,7 @@ public class KeywordAcceptenceFixture {
                 .auth().oauth2(accessToken)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(tripsByKeyWordsRequest)
-                .when().post("/keyword/trip/recommend")
+                .when().post("/api/keyword/trip/recommend")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract();
@@ -33,7 +33,7 @@ public class KeywordAcceptenceFixture {
     public static ExtractableResponse<Response> 랜덤_키워드_리스트로_여행지를_추천받는다() {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .when().get("/keyword/random/trip")
+                .when().get("/api/keyword/random/trip")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract();

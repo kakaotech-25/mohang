@@ -13,7 +13,7 @@ public class LiveInfoAcceptenceFixture {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(new LiveInformationCreateRequest(name))
-                .when().post("/live/info")
+                .when().post("/api/live/info")
                 .then().log().all()
                 .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())
                 .extract();
@@ -22,7 +22,7 @@ public class LiveInfoAcceptenceFixture {
     public static ExtractableResponse<Response> 모든_생활정보를_찾는다() {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .when().get("/live/info/all")
+                .when().get("/api/live/info/all")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract();
@@ -32,7 +32,7 @@ public class LiveInfoAcceptenceFixture {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .auth().oauth2(accessTokenResponse.getAccessToken())
-                .when().get("/live/info/member")
+                .when().get("/api/live/info/member")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract();
