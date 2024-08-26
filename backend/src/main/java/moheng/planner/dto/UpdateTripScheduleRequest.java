@@ -11,7 +11,8 @@ public class UpdateTripScheduleRequest {
     private UpdateTripScheduleRequest() {
     }
 
-    public UpdateTripScheduleRequest(final String scheduleName, final LocalDate startDate, final LocalDate endDate) {
+    public UpdateTripScheduleRequest(final Long scheduleId, final String scheduleName, final LocalDate startDate, final LocalDate endDate) {
+        this.scheduleId = scheduleId;
         this.scheduleName = scheduleName;
         this.startDate = startDate;
         this.endDate = endDate;

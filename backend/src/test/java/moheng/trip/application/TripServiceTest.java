@@ -33,6 +33,8 @@ import moheng.trip.exception.NoExistRecommendTripException;
 import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
@@ -43,6 +45,7 @@ import java.util.concurrent.Executors;
 public class TripServiceTest extends ServiceTestConfig {
     private static final long HIGHEST_PRIORITY_RANK = 1L;
     private static final long LOWEST_PRIORITY_RANK = 10L;
+    private static final Logger log = LoggerFactory.getLogger(TripServiceTest.class);
 
     @Autowired
     private TripService tripService;
@@ -315,11 +318,8 @@ public class TripServiceTest extends ServiceTestConfig {
         CountDownLatch latch = new CountDownLatch(100);
 
         // given
-        long currentTripId = 4L;
+        long currentTripId = 1L;
         tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
-        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
-        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
-        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
 
         // when
         for (long memberId = 0; memberId < 100; memberId++) {
@@ -337,7 +337,7 @@ public class TripServiceTest extends ServiceTestConfig {
 
         // then
         Trip trip = tripService.findById(currentTripId);
-        assertThat(trip.getVisitedCount()).isNotEqualTo(104L);
+        assertThat(trip.getVisitedCount()).isNotEqualTo(100L);
     }
 
     @DisplayName("존재하지 않는 회원이 여행지를 조회하면 예외가 발생한다.")

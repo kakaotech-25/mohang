@@ -11,10 +11,7 @@ import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
 import moheng.planner.domain.TripSchedule;
 import moheng.planner.domain.TripScheduleRepository;
-import moheng.planner.dto.FindPLannerOrderByNameResponse;
-import moheng.planner.dto.FindPlannerOrderByDateResponse;
-import moheng.planner.dto.FindPlannerOrderByRecentResponse;
-import moheng.planner.dto.TripScheduleResponse;
+import moheng.planner.dto.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,5 +108,18 @@ public class PlannerServiceTest extends ServiceTestConfig {
         // when, then
         assertThatThrownBy(() -> plannerService.findPlannerOrderByName(invalidMemberId))
                 .isInstanceOf(NoExistMemberException.class);
+    }
+
+    @DisplayName("여행 일정을 수정한다.")
+    @Test
+    void 여행_일정을_수정한다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(new TripSchedule("기존 일정", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
+        UpdateTripScheduleRequest updateTripScheduleRequest = new UpdateTripScheduleRequest(
+                1L, "새로운 일정",
+                LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2));
+
+        assertDoesNotThrow(() -> plannerService.updateTripSchedule(member.getId(), updateTripScheduleRequest));
     }
 }
