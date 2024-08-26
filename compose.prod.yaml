@@ -13,12 +13,10 @@ services:
     container_name: back
     image: spring:dev
     build: ./backend
-    volumes:
-      - back-dir:/app
     networks:
       - moheng-network
-    ports:
-      - 8080:8080
+    expose:
+      - 8080
     restart: always
     environment:
       - LOGGING_LEVEL_ROOT=ERROR
@@ -27,33 +25,11 @@ services:
     container_name: ai
     image: fastapi:dev
     build: ./ai
-    volumes:
-      - ai-dir:/app
     networks:
       - moheng-network
-    ports:
-      - 8000:8000
+    expose:
+      - 8000
     restart: always
-
-volumes:
-  back-dir:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ./backend
-  front-dir:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ./frontend
-  ai-dir:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ./ai
 
 networks:
   moheng-network:
