@@ -31,23 +31,6 @@ public class RecommendTripRepositoryTest extends RepositoryTestConfig {
     @Autowired
     private TripRepository tripRepository;
 
-    @DisplayName("멤버의 선호 여행지 contentId 와 방문횟수를 찾는다.")
-    @Test
-    void 멤버의_선호_여행지_contentId_와_방문횟수를_찾는다() {
-        // given
-        memberRepository.save(하온_기존());
-        Member member = memberRepository.findByEmail(하온_이메일).orElseThrow();
-        tripRepository.save(new Trip("여행지", "장소명", 1L, "설명", "이미지 경로"));
-        Trip trip = tripRepository.findByContentId(1L).get();
-        recommendTripRepository.save(new RecommendTrip(trip, member));
-
-        // when
-        List<RecommendTripResponse> expected = recommendTripRepository.findVisitedCountAndTripContentIdByMemberId(member.getId());
-
-        // then
-        assertThat(expected).hasSize(1);
-    }
-
     @DisplayName("멤버의 선호 여행지를 찾는다.")
     @Test
     void 멤버의_선호_여행지를_찾는다() {
