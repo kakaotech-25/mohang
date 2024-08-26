@@ -4,6 +4,7 @@ import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
 import moheng.planner.domain.TripScheduleRepository;
+import moheng.planner.dto.FindPLannerOrderByNameResponse;
 import moheng.planner.dto.FindPlannerOrderByDateResponse;
 import moheng.planner.dto.FindPlannerOrderByRecentResponse;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,12 @@ public class PlannerService {
     public FindPlannerOrderByDateResponse findPlannerOrderByDate(final long memberId) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoExistMemberException("존재하지 않는 유저입니다."));
-        return new FindPlannerOrderByDateResponse(tripScheduleRepository.findByMemberOrderByCreatedAtDesc(member));
+        return new FindPlannerOrderByDateResponse(tripScheduleRepository.findByMemberOrderByStartDate(member));
+    }
+
+    public FindPLannerOrderByNameResponse findPlannerOrderByName(final long memberId) {
+        final Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoExistMemberException("존재하지 않는 유저입니다."));
+        return new FindPLannerOrderByNameResponse(tripScheduleRepository.findByMemberOrderByNameAsc(member));
     }
 }
