@@ -49,7 +49,7 @@ public class Plan {
 
     private void validateDate(final LocalDate startDate, final LocalDate endDate) {
         if(startDate.isAfter(endDate)) {
-            throw new InvalidPlanDateException("플랜의 시작날짜가 종료날짜보다 늦을 수 없습니다.");
+            throw new InvalidPlanDateException("플래너 일정의 시작날짜가 종료날짜보다 늦을 수 없습니다.");
         }
     }
 }
