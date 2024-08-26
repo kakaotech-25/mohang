@@ -48,6 +48,14 @@ public class PlannerControllerTest extends ControllerTestConfig {
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
+                .andDo(document("planner/find/recent",
+                        preprocessRequest(),
+                        responseFields(
+                                fieldWithPath("tripScheduleResponses").description("여행 일정 리스트 : 최신순조회"),
+                                fieldWithPath("tripScheduleResponses[].scheduleName").description("여행 일정 이름"),
+                                fieldWithPath("tripScheduleResponses[].startTime").description("여행 일정 시작날짜"),
+                                fieldWithPath("tripScheduleResponses[].endTime").description("여행 일정 종료날짜")
+                        )))
                 .andExpect(status().isOk());
     }
 }
