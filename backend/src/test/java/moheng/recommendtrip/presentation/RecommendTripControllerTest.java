@@ -33,7 +33,7 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
         doNothing().when(recommendTripService).createRecommendTrip(anyLong(), any());
 
         // when, then
-        mockMvc.perform(post("/recommend")
+        mockMvc.perform(post("/api/recommend")
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -51,7 +51,7 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
                 .willReturn(AI_맞춤_추천_여행지_응답());
 
         // when, then
-        mockMvc.perform(get("/recommend")
+        mockMvc.perform(get("/api/recommend")
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -81,7 +81,7 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
                 .willThrow(new InvalidAIServerException("AI 서버에 예기치 못한 오류가 발생했습니다."));
 
         // when, then
-        mockMvc.perform(get("/recommend")
+        mockMvc.perform(get("/api/recommend")
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)

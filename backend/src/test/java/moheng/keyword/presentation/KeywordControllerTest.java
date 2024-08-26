@@ -34,7 +34,7 @@ public class KeywordControllerTest extends ControllerTestConfig {
         given(keywordService.findRecommendTripsByKeywords(any())).willReturn(키워드_기반_추천_여행지_응답());
 
         // when, then
-        mockMvc.perform(post("/keyword/trip/recommend")
+        mockMvc.perform(post("/api/keyword/trip/recommend")
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -69,7 +69,7 @@ public class KeywordControllerTest extends ControllerTestConfig {
         doNothing().when(keywordService).createKeyword(any());
 
         // when, then
-        mockMvc.perform(post("/keyword")
+        mockMvc.perform(post("/api/keyword")
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -86,7 +86,7 @@ public class KeywordControllerTest extends ControllerTestConfig {
         doNothing().when(keywordService).createTripKeyword(any());
 
         // when, then
-        mockMvc.perform(post("/keyword/trip")
+        mockMvc.perform(post("/api/keyword/trip")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(여행지_키워드_생성_요청()))
@@ -103,7 +103,7 @@ public class KeywordControllerTest extends ControllerTestConfig {
                 .willReturn(키워드_기반_추천_여행지_응답());
 
         // when, then
-        mockMvc.perform(get("/keyword/random/trip")
+        mockMvc.perform(get("/api/keyword/random/trip")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
