@@ -18,6 +18,8 @@ import moheng.liveinformation.presentation.MemberLiveInformationController;
 import moheng.member.application.MemberService;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.presentation.MemberController;
+import moheng.planner.application.TripScheduleService;
+import moheng.planner.presentation.TripScheduleController;
 import moheng.recommendtrip.application.RecommendTripService;
 import moheng.recommendtrip.presentation.RecommendTripController;
 import moheng.trip.application.TripService;
@@ -42,7 +44,8 @@ import org.springframework.test.web.servlet.MockMvc;
         MemberLiveInformationController.class,
         MemberController.class,
         RecommendTripController.class,
-        TripController.class
+        TripController.class,
+        TripScheduleController.class,
 })
 @Import(TestConfig.class)
 @ActiveProfiles("test")
@@ -82,4 +85,7 @@ public abstract class ControllerTestConfig {
 
     @MockBean
     protected RecommendTripService recommendTripService;
+
+    @MockBean
+    protected TripScheduleService tripScheduleService;
 }
