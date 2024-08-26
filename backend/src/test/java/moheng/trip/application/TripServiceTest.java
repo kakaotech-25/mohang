@@ -206,10 +206,39 @@ public class TripServiceTest extends ServiceTestConfig {
         FindTripWithSimilarTripsResponse response = tripService.findWithSimilarOtherTrips(currentTrip.getId(), member.getId());
 
         // then
-        assertAll(() -> {
-            assertThat(response.getFindTripResponse()).isNotNull();
-            assertThat(response.getSimilarTripResponses().getFindTripResponses().size()).isEqualTo(10);
-        });
+        assertThat(response.getFindTripResponse()).isNotNull();
+    }
+
+    @DisplayName("비슷한 여행지를 정확히 10개를 찾는다.")
+    @Test
+    void 비슷한_여행지를_정확히_10개를_찾는다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        Trip currentTrip = tripRepository.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
+        Trip trip3 = tripRepository.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
+        Trip trip4 = tripRepository.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
+        Trip trip5 = tripRepository.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
+        Trip trip6 = tripRepository.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
+        Trip trip7 = tripRepository.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
+        Trip trip8 = tripRepository.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
+        Trip trip9 = tripRepository.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
+        Trip trip10 = tripRepository.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
+        Trip trip11 = tripRepository.save(new Trip("여행지11", "서울", 11L, "설명10", "https://image.png", 0L));
+        recommendTripRepository.save(new RecommendTrip(currentTrip, member, 1L));
+        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, currentTrip));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip2)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip3));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip4)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip5));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip6)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip7));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip11));
+
+        // when
+        FindTripWithSimilarTripsResponse response = tripService.findWithSimilarOtherTrips(currentTrip.getId(), member.getId());
+
+        // then
+        assertThat(response.getSimilarTripResponses().getFindTripResponses()).hasSize(10);
     }
 
 
