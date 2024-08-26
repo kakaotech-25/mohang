@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // useNavigate 임포트
 import TravelCard from '../TravelCard/TravelCard';
 import './TravelCarousel.css';
 
 const TravelCarousel = ({ cards }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const cardsToShow = 5;
+  const navigate = useNavigate(); // useNavigate 훅 사용
 
   const handlePrevClick = () => {
     if (currentIndex === 0) {
@@ -22,6 +24,10 @@ const TravelCarousel = ({ cards }) => {
     }
   };
 
+  const handleCardClick = (id) => {
+    navigate(`/detail/${id}`); // 클릭 시 TravelDetails 페이지로 이동
+  };
+
   return (
     <div className="carousel-container">
       <button className="carousel-button prev" onClick={handlePrevClick}>
@@ -34,7 +40,11 @@ const TravelCarousel = ({ cards }) => {
         >
           {cards.map((card, index) => (
             <div key={index} className="carousel-card">
-              <TravelCard {...card} isSelected={false} onClick={() => console.log(`Clicked on ${card.title}`)} />
+              <TravelCard
+                {...card}
+                isSelected={false}
+                onClick={() => handleCardClick(card.id)} // 클릭 핸들러 추가
+              />
             </div>
           ))}
         </div>
