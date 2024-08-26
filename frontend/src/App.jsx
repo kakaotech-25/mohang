@@ -8,9 +8,9 @@ import Profile from './pages/Profile/Profile.jsx'
 import LivingInfo from './pages/LivingInfo/LivingInfo.jsx'
 import InterestedPlace from './pages/InterestedPlace/InterestedPlace.jsx'
 import Mypage from './pages/Mypage/Mypage.jsx'
-import Place from './pages/Place/Place.jsx'
 import Planner from './pages/Planner/Planner.jsx'
 import PlannerList from './pages/PlannerList/PlannerList.jsx'
+import TravelDetails from './pages/TravelDetails/TravelDetails.jsx'
 
 function App() {
 
@@ -25,7 +25,7 @@ function App() {
         <Route path="/signup/livinginfo" element={<LivingInfo />} />
         <Route path="/signup/interestedplace" element={<InterestedPlace />} />
         <Route path="/mypage" element={<Mypage />} />
-        <Route path="/place" element={<Place />} />
+        <Route path="/traveldetails" element={<TravelDetails />} />
         <Route path="/planner" element={<Planner />} />
         <Route path="/plannerlist" element={<PlannerList />} />
       </Routes>
