@@ -186,6 +186,7 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(여행_일정_수정_요청())))
+                .andDo(print())
                 .andDo(document("planner/schedule/update",
                         preprocessRequest(),
                         preprocessResponse(),
@@ -196,5 +197,20 @@ public class PlannerControllerTest extends ControllerTestConfig {
                                 fieldWithPath("endDate").description("일정 종료날짜")
                         )))
                 .andExpect(status().isBadRequest());
+    }
+
+    @DisplayName("여행지를 삭제하고 상태코드 204를 리턴한다.")
+    @Test
+    void 여행지를_삭제하고_상태코드_204를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doNothing().when(plannerService).removeTripSchedule(anyLong());
+
+        // when, then
+        mockMvc.perform(delete("/api/planner/schedule/{scheduleId}", 1L)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNoContent());
     }
 }
