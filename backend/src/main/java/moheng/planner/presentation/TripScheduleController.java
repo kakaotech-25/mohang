@@ -5,10 +5,7 @@ import moheng.auth.presentation.authentication.Authentication;
 import moheng.planner.application.TripScheduleService;
 import moheng.planner.dto.CreateTripScheduleRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/schedule")
 @RestController
@@ -25,4 +22,5 @@ public class TripScheduleController {
         tripScheduleService.createTripSchedule(accessor.getId(), createTripScheduleRequest);
         return ResponseEntity.noContent().build();
     }
+
 }
