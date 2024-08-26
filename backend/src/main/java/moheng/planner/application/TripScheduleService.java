@@ -8,7 +8,9 @@ import moheng.planner.domain.TripScheduleRepository;
 import moheng.planner.dto.CreateTripScheduleRequest;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional(readOnly = true)
 @Service
 public class TripScheduleService {
     private final MemberRepository memberRepository;
@@ -19,6 +21,7 @@ public class TripScheduleService {
         this.tripScheduleRepository = tripScheduleRepository;
     }
 
+    @Transactional
     public void createTripSchedule(final long memberId, final CreateTripScheduleRequest createTripScheduleRequest) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoExistMemberException("존재하지 않는 유저입니다."));

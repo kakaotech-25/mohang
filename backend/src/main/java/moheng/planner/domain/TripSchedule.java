@@ -39,6 +39,7 @@ public class TripSchedule {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.member = member;
     }
 
     private void validateName(final String name) {
