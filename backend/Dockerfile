@@ -34,4 +34,4 @@ USER appuser
 
 # CMD ["tail", "-f"]
 # 추후 jar파일의 이름이 변경되어도 첫번째 행을 실행시키도록 함
-CMD ["sh", "-c", "java -jar $(ls build/libs/*SNAPSHOT.jar | head -n 1)"]
+CMD ["sh", "-c", "java -jar $(ls /app/libs/*SNAPSHOT.jar | head -n 1)"]
