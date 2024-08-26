@@ -2,6 +2,9 @@ package moheng.trip.application;
 
 import moheng.keyword.domain.TripKeyword;
 import moheng.keyword.domain.TripKeywordRepository;
+import moheng.liveinformation.domain.LiveInformation;
+import moheng.liveinformation.domain.LiveInformationRepository;
+import moheng.liveinformation.domain.TripLiveInformationRepository;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
@@ -30,13 +33,15 @@ public class TripService {
     private final MemberRepository memberRepository;
     private final MemberTripRepository memberTripRepository;
     private final TripKeywordRepository tripKeywordRepository;
+    private final TripLiveInformationRepository tripLiveInformationRepository;
+    private final LiveInformationRepository liveInformationRepository;
 
     public TripService(final TripRepository tripRepository,
                        final ExternalSimilarTripModelClient externalSimilarTripModelClient,
                        final RecommendTripRepository recommendTripRepository,
                        final MemberRepository memberRepository,
                        final MemberTripRepository memberTripRepository, TripKeywordRepository tripKeywordRepository,
-                       final SaveRecommendTripStrategyProvider saveRecommendTripStrategyProvider) {
+                       final SaveRecommendTripStrategyProvider saveRecommendTripStrategyProvider, TripLiveInformationRepository tripLiveInformationRepository, LiveInformationRepository liveInformationRepository) {
         this.tripRepository = tripRepository;
         this.externalSimilarTripModelClient = externalSimilarTripModelClient;
         this.recommendTripRepository = recommendTripRepository;
@@ -44,17 +49,26 @@ public class TripService {
         this.memberTripRepository = memberTripRepository;
         this.tripKeywordRepository = tripKeywordRepository;
         this.saveRecommendTripStrategyProvider = saveRecommendTripStrategyProvider;
+        this.tripLiveInformationRepository = tripLiveInformationRepository;
+        this.liveInformationRepository = liveInformationRepository;
     }
 
     @Transactional
     public FindTripWithSimilarTripsResponse findWithSimilarOtherTrips(final long tripId, final long memberId) {
         final Trip trip = findById(tripId);
         final FindSimilarTripWithContentIdResponses similarTripWithContentIdResponses = externalSimilarTripModelClient.findSimilarTrips(trip.getContentId());
+        final List<Trip> filteredTrips = findFilteredTripsByLiveInformation(trip, similarTripWithContentIdResponses.getContentIds());
         final SimilarTripResponses similarTripResponses = findTripsByContentIdsWithKeywords(similarTripWithContentIdResponses.getContentIds());
         trip.incrementVisitedCount();
         saveRecommendTripByClickedLogs(memberId, trip);
         return new FindTripWithSimilarTripsResponse(trip, findKeywordsByTrip(trip), similarTripResponses);
     }
+
+    private List<Trip> findFilteredTripsByLiveInformation(final Trip currentTrip, final List<Long> contentIds) {
+        final LiveInformation liveInformation = liveInformationRepository.findLiveInformationByTrip(currentTrip);
+        return tripRepository.findFilteredTripsByLiveInformation(liveInformation.getId(), contentIds);
+    }
+
 
     private SimilarTripResponses findTripsByContentIdsWithKeywords(final List<Long> contentIds) {
         final List<Trip> trips = contentIds.stream()

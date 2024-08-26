@@ -16,4 +16,12 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
 
     @Query("SELECT t FROM Trip t WHERE t.contentId IN :contentIds")
     List<Trip> findTripsByContentIds(final List<Long> contentIds);
+
+    @Query("SELECT t FROM Trip t " +
+            "JOIN TripLiveInformation tl ON t.id = tl.trip.id " +
+            "JOIN LiveInformation li ON tl.liveInformation.id = li.id " +
+            "WHERE li.id = :liveInformationId " +
+            "AND t.contentId IN :contentIds")
+    List<Trip> findFilteredTripsByLiveInformation(@Param("liveInformationId") final Long liveInformationId,
+                                                  @Param("contentIds") final List<Long> contentIds);
 }
