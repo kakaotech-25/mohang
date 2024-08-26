@@ -22,6 +22,7 @@ import moheng.planner.dto.FindPLannerOrderByNameResponse;
 import moheng.planner.dto.FindPlannerOrderByDateResponse;
 import moheng.planner.dto.FindPlannerOrderByRecentResponse;
 import moheng.planner.dto.UpdateTripScheduleRequest;
+import moheng.planner.exception.AlreadyExistTripScheduleException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -144,5 +145,30 @@ public class PlannerControllerTest extends ControllerTestConfig {
                                 fieldWithPath("endDate").description("일정 종료날짜")
                         )))
                 .andExpect(status().isNoContent());
+    }
+
+    @DisplayName("여행 일정의 이름이 변경된 경우 중복 이름을 체크하고, 중복이 발생했다면 상태코드 400을 리턴한다.")
+    @Test
+    void 여행_일정의_이름이_변경된_경우_중복_이름을_체크하고_중복이_발생했다면_상태코드_400을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new AlreadyExistTripScheduleException("동일한 이름의 여행 일정이 이미 존재합니다."))
+                .when(plannerService).updateTripSchedule(anyLong(), any());
+
+        // when, then
+        mockMvc.perform(put("/api/planner/schedule")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(여행_일정_수정_요청())))
+                .andDo(document("planner/schedule/update",
+                        preprocessRequest(),
+                        preprocessResponse(),
+                        requestFields(
+                                fieldWithPath("scheduleId").description("여행 일정 고유 ID 값"),
+                                fieldWithPath("scheduleName").description("여행 일정 이름"),
+                                fieldWithPath("startDate").description("일정 시작날짜"),
+                                fieldWithPath("endDate").description("일정 종료날짜")
+                        )))
+                .andExpect(status().isBadRequest());
     }
 }
