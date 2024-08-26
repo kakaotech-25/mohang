@@ -12,6 +12,7 @@ import moheng.member.exception.NoExistMemberException;
 import moheng.planner.domain.TripSchedule;
 import moheng.planner.domain.TripScheduleRepository;
 import moheng.planner.dto.*;
+import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.planner.exception.NoExistTripScheduleException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -153,5 +154,21 @@ public class PlannerServiceTest extends ServiceTestConfig {
         // when, then
         assertThatThrownBy(() -> plannerService.updateTripSchedule(member.getId(), updateTripScheduleRequest))
                 .isInstanceOf(NoExistTripScheduleException.class);
+    }
+
+    @DisplayName("여행 일정의 이름이 변경된 경우 중복 이름을 체크하고, 중복이 발생했다면 예외가 발생한다.")
+    @Test
+    void 여행_일정의_이름이_변경된_경우_중복_이름을_체크하고_중복이_발생했다면_예외가_발생한다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(new TripSchedule("일정", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
+        tripScheduleRepository.save(new TripSchedule("중복 일정", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
+        UpdateTripScheduleRequest updateTripScheduleRequest = new UpdateTripScheduleRequest(
+                1L, "중복 일정",
+                LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2));
+
+        // when, then
+        assertThatThrownBy(() -> plannerService.updateTripSchedule(member.getId(), updateTripScheduleRequest))
+                .isInstanceOf(AlreadyExistTripScheduleException.class);
     }
 }
