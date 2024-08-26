@@ -12,6 +12,7 @@ import moheng.member.exception.NoExistMemberException;
 import moheng.planner.domain.TripSchedule;
 import moheng.planner.domain.TripScheduleRepository;
 import moheng.planner.dto.*;
+import moheng.planner.exception.NoExistTripScheduleException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,5 +137,21 @@ public class PlannerServiceTest extends ServiceTestConfig {
         // when, then
         assertThatThrownBy(() -> plannerService.updateTripSchedule(invalidMemberId, updateTripScheduleRequest))
                 .isInstanceOf(NoExistMemberException.class);
+    }
+
+    @DisplayName("존재하지 않는 여행 일정을 수정하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_여행_일정을_수정하면_예외가_발생한다() {
+        // given
+        long invalidScheduleId = -1L;
+        Member member = memberRepository.save(하온_기존());
+
+        UpdateTripScheduleRequest updateTripScheduleRequest = new UpdateTripScheduleRequest(
+                invalidScheduleId, "새로운 일정",
+                LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2));
+
+        // when, then
+        assertThatThrownBy(() -> plannerService.updateTripSchedule(member.getId(), updateTripScheduleRequest))
+                .isInstanceOf(NoExistTripScheduleException.class);
     }
 }
