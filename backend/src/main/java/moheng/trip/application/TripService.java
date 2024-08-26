@@ -19,6 +19,7 @@ import moheng.trip.exception.NoExistTripException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @Service
 public class TripService {
+    private static final int SIMILAR_TRIPS_COUNT = 10;
     private final ExternalSimilarTripModelClient externalSimilarTripModelClient;
     private final SaveRecommendTripStrategyProvider saveRecommendTripStrategyProvider;
     private final TripRepository tripRepository;
@@ -56,12 +58,25 @@ public class TripService {
     @Transactional
     public FindTripWithSimilarTripsResponse findWithSimilarOtherTrips(final long tripId, final long memberId) {
         final Trip trip = findById(tripId);
-        final FindSimilarTripWithContentIdResponses similarTripWithContentIdResponses = externalSimilarTripModelClient.findSimilarTrips(trip.getContentId());
-        final List<Trip> filteredTrips = findFilteredTripsByLiveInformation(trip, similarTripWithContentIdResponses.getContentIds());
-        final SimilarTripResponses similarTripResponses = findTripsByContentIdsWithKeywords(similarTripWithContentIdResponses.getContentIds());
+        final List<Trip> filteredSimilarTrips = findFilteredSimilarTripsByLiveInformation(trip);
         trip.incrementVisitedCount();
         saveRecommendTripByClickedLogs(memberId, trip);
-        return new FindTripWithSimilarTripsResponse(trip, findKeywordsByTrip(trip), similarTripResponses);
+        return new FindTripWithSimilarTripsResponse(trip, findKeywordsByTrip(trip), findTripsWithKeywords(filteredSimilarTrips));
+    }
+
+    private List<Trip> findFilteredSimilarTripsByLiveInformation(final Trip trip) {
+        final List<Trip> filteredSimilarTrips = new ArrayList<>();
+        long page = 1L;
+        while(filteredSimilarTrips.size() < SIMILAR_TRIPS_COUNT) {
+            final FindSimilarTripWithContentIdResponses similarTripWithContentIdResponses = externalSimilarTripModelClient.findSimilarTrips(trip.getContentId());
+            final List<Trip> filteredTripsByLiveInformation = findFilteredTripsByLiveInformation(trip, similarTripWithContentIdResponses.getContentIds());
+            filteredSimilarTrips.addAll(filteredTripsByLiveInformation);
+            page++;
+        }
+        if(filteredSimilarTrips.size() > SIMILAR_TRIPS_COUNT) {
+            return filteredSimilarTrips.subList(0, SIMILAR_TRIPS_COUNT);
+        }
+        return filteredSimilarTrips;
     }
 
     private List<Trip> findFilteredTripsByLiveInformation(final Trip currentTrip, final List<Long> contentIds) {
@@ -69,11 +84,7 @@ public class TripService {
         return tripRepository.findFilteredTripsByLiveInformation(liveInformation.getId(), contentIds);
     }
 
-
-    private SimilarTripResponses findTripsByContentIdsWithKeywords(final List<Long> contentIds) {
-        final List<Trip> trips = contentIds.stream()
-                .map(this::findByContentId)
-                .collect(Collectors.toList());
+    private SimilarTripResponses findTripsWithKeywords(final List<Trip> trips) {
         final List<TripKeyword> tripKeywords = tripKeywordRepository.findByTrips(trips);
         return new SimilarTripResponses(trips, tripKeywords);
     }
