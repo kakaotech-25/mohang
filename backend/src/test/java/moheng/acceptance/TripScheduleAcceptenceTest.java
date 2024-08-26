@@ -1,5 +1,6 @@
 package moheng.acceptance;
 
+import static moheng.acceptance.fixture.TripScheduleTestFixture.*;
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.자체_토큰을_생성한다;
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.생활정보로_회원가입_한다;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -31,14 +32,12 @@ public class TripScheduleAcceptenceTest extends AcceptanceTestConfig {
         ExtractableResponse<Response> loginResponse = 자체_토큰을_생성한다("KAKAO", "authorization-code");
         AccessTokenResponse accessTokenResponse = loginResponse.as(AccessTokenResponse.class);
 
-        ExtractableResponse<Response> createScheduleResponse = RestAssured.given().log().all()
-                .auth().oauth2(accessTokenResponse.getAccessToken())
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(new CreateTripScheduleRequest("여행 일정1", LocalDate.of(2020, 1, 1), LocalDate.of(2022, 9, 10)))
-                .when().post("/api/schedule")
-                .then().log().all()
-                .statusCode(HttpStatus.NO_CONTENT.value())
-                .extract();
+        ExtractableResponse<Response> createScheduleResponse = 플래너에_여행_일정을_생성한다(
+                accessTokenResponse,
+                new CreateTripScheduleRequest("여행 일정1",
+                        LocalDate.of(2020, 1, 1),
+                        LocalDate.of(2022, 9, 10)
+                ));
 
         // when, then
         assertAll(() -> {
