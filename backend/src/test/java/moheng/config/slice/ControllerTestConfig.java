@@ -18,6 +18,7 @@ import moheng.liveinformation.presentation.MemberLiveInformationController;
 import moheng.member.application.MemberService;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.presentation.MemberController;
+import moheng.planner.application.PlannerService;
 import moheng.planner.application.TripScheduleService;
 import moheng.planner.presentation.PlannerController;
 import moheng.planner.presentation.TripScheduleController;
@@ -90,4 +91,7 @@ public abstract class ControllerTestConfig {
 
     @MockBean
     protected TripScheduleService tripScheduleService;
+
+    @MockBean
+    protected PlannerService plannerService;
 }

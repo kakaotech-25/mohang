@@ -22,20 +22,22 @@ public class PlannerService {
     }
 
     public FindPlannerOrderByRecentResponse findPlannerOrderByRecent(final long memberId) {
-        final Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NoExistMemberException("존재하지 않는 유저입니다."));
+        final Member member = findMemberById(memberId);
         return new FindPlannerOrderByRecentResponse(tripScheduleRepository.findByMemberOrderByCreatedAtDesc(member));
     }
 
     public FindPlannerOrderByDateResponse findPlannerOrderByDateAsc(final long memberId) {
-        final Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NoExistMemberException("존재하지 않는 유저입니다."));
+        final Member member = findMemberById(memberId);
         return new FindPlannerOrderByDateResponse(tripScheduleRepository.findByMemberOrderByStartDateAsc(member));
     }
 
     public FindPLannerOrderByNameResponse findPlannerOrderByName(final long memberId) {
-        final Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NoExistMemberException("존재하지 않는 유저입니다."));
+        final Member member = findMemberById(memberId);
         return new FindPLannerOrderByNameResponse(tripScheduleRepository.findByMemberOrderByNameAsc(member));
+    }
+
+    private Member findMemberById(final long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoExistMemberException("존재하지 않는 유저입니다."));
     }
 }

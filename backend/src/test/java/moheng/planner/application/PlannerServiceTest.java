@@ -8,6 +8,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import moheng.config.slice.ServiceTestConfig;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
+import moheng.member.exception.NoExistMemberException;
 import moheng.planner.domain.TripSchedule;
 import moheng.planner.domain.TripScheduleRepository;
 import moheng.planner.dto.FindPLannerOrderByNameResponse;
@@ -95,5 +96,20 @@ public class PlannerServiceTest extends ServiceTestConfig {
             assertThat(tripScheduleResponses.get(3).getScheduleName()).isEqualTo("라 일정");
             assertThat(tripScheduleResponses.size()).isEqualTo(4);
         });
+    }
+
+    @DisplayName("존재하지 않는 멤버의 플래너를 찾으면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_멤버의_플래너를_찾으면_예외가_발생한다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(new TripSchedule("가 일정", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
+        tripScheduleRepository.save(new TripSchedule("나 일정", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
+
+        long invalidMemberId = -1L;
+
+        // when, then
+        assertThatThrownBy(() -> plannerService.findPlannerOrderByName(invalidMemberId))
+                .isInstanceOf(NoExistMemberException.class);
     }
 }
