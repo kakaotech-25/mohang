@@ -22,5 +22,4 @@ public class TripScheduleController {
         tripScheduleService.createTripSchedule(accessor.getId(), createTripScheduleRequest);
         return ResponseEntity.noContent().build();
     }
-
 }

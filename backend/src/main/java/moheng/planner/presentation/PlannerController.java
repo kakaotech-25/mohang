@@ -6,10 +6,9 @@ import moheng.planner.application.PlannerService;
 import moheng.planner.dto.FindPLannerOrderByNameResponse;
 import moheng.planner.dto.FindPlannerOrderByDateResponse;
 import moheng.planner.dto.FindPlannerOrderByRecentResponse;
+import moheng.planner.dto.UpdateTripScheduleRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/planner")
 @RestController
@@ -33,5 +32,19 @@ public class PlannerController {
     @GetMapping("/date")
     public ResponseEntity<FindPlannerOrderByDateResponse> findOrderByDate(@Authentication final Accessor accessor) {
         return ResponseEntity.ok(plannerService.findPlannerOrderByDateAsc(accessor.getId()));
+    }
+
+    @PutMapping("/schedule")
+    public ResponseEntity<Void> updatePlannerTripSchedule(@Authentication final Accessor accessor,
+                                                          @RequestBody final UpdateTripScheduleRequest updateTripScheduleRequest) {
+        plannerService.updateTripSchedule(accessor.getId(), updateTripScheduleRequest);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/schedule/{scheduleId}")
+    public ResponseEntity<Void> deletePlannerTripSchedule(@Authentication final Accessor accessor,
+                                                          @PathVariable final Long scheduleId) {
+        plannerService.removeTripSchedule(scheduleId);
+        return ResponseEntity.noContent().build();
     }
 }
