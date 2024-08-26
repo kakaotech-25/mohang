@@ -23,6 +23,7 @@ import moheng.planner.dto.FindPlannerOrderByDateResponse;
 import moheng.planner.dto.FindPlannerOrderByRecentResponse;
 import moheng.planner.dto.UpdateTripScheduleRequest;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
+import moheng.planner.exception.NoExistTripScheduleException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -160,6 +161,31 @@ public class PlannerControllerTest extends ControllerTestConfig {
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(여행_일정_수정_요청())))
+                .andDo(document("planner/schedule/update",
+                        preprocessRequest(),
+                        preprocessResponse(),
+                        requestFields(
+                                fieldWithPath("scheduleId").description("여행 일정 고유 ID 값"),
+                                fieldWithPath("scheduleName").description("여행 일정 이름"),
+                                fieldWithPath("startDate").description("일정 시작날짜"),
+                                fieldWithPath("endDate").description("일정 종료날짜")
+                        )))
+                .andExpect(status().isBadRequest());
+    }
+
+    @DisplayName("존재하지 않는 여행 일정을 수정하면 상태코드 400을 리턴한다.")
+    @Test
+    void 존재하지_않는_여행_일정을_수정하면_상태코드_400을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistTripScheduleException("존재하지 않는 여행 일정입니다."))
+                .when(plannerService).updateTripSchedule(anyLong(), any());
+
+        // when, then
+        mockMvc.perform(put("/api/planner/schedule")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(여행_일정_수정_요청())))
                 .andDo(document("planner/schedule/update",
                         preprocessRequest(),
                         preprocessResponse(),
