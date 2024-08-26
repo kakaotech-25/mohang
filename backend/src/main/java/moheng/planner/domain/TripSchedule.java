@@ -53,4 +53,16 @@ public class TripSchedule {
             throw new InvalidTripScheduleDateException("플래너 일정의 시작날짜가 종료날짜보다 늦을 수 없습니다.");
         }
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
 }
