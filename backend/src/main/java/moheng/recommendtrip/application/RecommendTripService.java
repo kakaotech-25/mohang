@@ -111,7 +111,6 @@ public class RecommendTripService {
     private List<Trip> filterTripsByLiveinformation(final RecommendTripsByVisitedLogsResponse recommendTripsByVisitedLogsResponse, final Long memberId) {
         final List<Trip> trips = tripRepository.findTripsByContentIds(recommendTripsByVisitedLogsResponse.getContentIds());
         final List<LiveInformation> memberLiveInformations = memberLiveInformationRepository.findLiveInformationsByMemberId(memberId);
-        List<Trip> trips1 = filterTripsByMemberInformation(trips, memberLiveInformations);
         return filterTripsByMemberInformation(trips, memberLiveInformations);
     }
 
