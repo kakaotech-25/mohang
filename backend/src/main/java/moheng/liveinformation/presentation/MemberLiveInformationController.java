@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class MemberLiveInformationController {
     private final MemberLiveInformationService memberLiveInformationService;
 
-    public MemberLiveInformationController(MemberLiveInformationService memberLiveInformationService) {
+    public MemberLiveInformationController(final MemberLiveInformationService memberLiveInformationService) {
         this.memberLiveInformationService = memberLiveInformationService;
     }
 

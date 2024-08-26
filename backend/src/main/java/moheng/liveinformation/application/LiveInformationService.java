@@ -23,7 +23,8 @@ public class LiveInformationService {
     private final TripRepository tripRepository;
 
     public LiveInformationService(final LiveInformationRepository liveInformationRepository,
-                                  final TripLiveInformationRepository tripLiveInformationRepository, TripRepository tripRepository) {
+                                  final TripLiveInformationRepository tripLiveInformationRepository,
+                                  final TripRepository tripRepository) {
         this.liveInformationRepository = liveInformationRepository;
         this.tripLiveInformationRepository = tripLiveInformationRepository;
         this.tripRepository = tripRepository;
@@ -34,7 +35,7 @@ public class LiveInformationService {
     }
 
     @Transactional
-    public void createLiveInformation(LiveInformationCreateRequest request) {
+    public void createLiveInformation(final LiveInformationCreateRequest request) {
         final LiveInformation liveInformation = new LiveInformation(request.getName());
         liveInformationRepository.save(liveInformation);
     }
@@ -49,11 +50,11 @@ public class LiveInformationService {
     }
 
     @Transactional
-    public LiveInformation save(LiveInformation liveInformation) {
+    public LiveInformation save(final LiveInformation liveInformation) {
         return liveInformationRepository.save(liveInformation);
     }
 
-    public LiveInformation findByName(String liveTypeName) {
+    public LiveInformation findByName(final String liveTypeName) {
         return liveInformationRepository.findByName(liveTypeName)
                 .orElseThrow(() -> new NoExistLiveInformationException("존재하지 않는 생활정보입니다."));
     }

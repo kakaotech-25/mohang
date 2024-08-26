@@ -18,12 +18,9 @@ import java.util.List;
 @RestController
 public class LiveInformationController {
     private final LiveInformationService liveInformationService;
-    private final MemberLiveInformationService memberLiveInformationService;
 
-    public LiveInformationController(final LiveInformationService liveInformationService,
-                                     final MemberLiveInformationService memberLiveInformationService) {
+    public LiveInformationController(final LiveInformationService liveInformationService) {
         this.liveInformationService = liveInformationService;
-        this.memberLiveInformationService = memberLiveInformationService;
     }
 
     @GetMapping("/all")
@@ -32,7 +29,7 @@ public class LiveInformationController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createLiveInformation(final @RequestBody LiveInformationCreateRequest request) {
+    public ResponseEntity<Void> createLiveInformation(@RequestBody final LiveInformationCreateRequest request) {
         liveInformationService.createLiveInformation(request);
         return ResponseEntity.noContent().build();
     }
