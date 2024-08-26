@@ -2,7 +2,9 @@ services:
   nginx:
     container_name: nginx
     image: nginx:dev
-    build: ./nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.dev
     networks:
       - moheng-network
     ports:
