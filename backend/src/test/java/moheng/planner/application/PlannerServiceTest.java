@@ -185,4 +185,15 @@ public class PlannerServiceTest extends ServiceTestConfig {
         // then
         assertThat(tripScheduleRepository.findAll()).hasSize(0);
     }
+
+    @DisplayName("존재하지 않는 여행 일정 삭제를 시도하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_여행_일정_삭제를_시도하면_에외가_발생한다() {
+        // given
+        long invalidScheduleId = -1L;
+
+        // when, then
+        assertThatThrownBy(() -> plannerService.removeTripSchedule(invalidScheduleId))
+                .isInstanceOf(NoExistTripScheduleException.class);
+    }
 }
