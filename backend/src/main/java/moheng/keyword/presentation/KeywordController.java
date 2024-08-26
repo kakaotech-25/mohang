@@ -11,7 +11,7 @@ import moheng.trip.dto.TripKeywordCreateRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/keyword")
+@RequestMapping("/api/keyword")
 @RestController
 public class KeywordController {
     private final KeywordService keywordService;

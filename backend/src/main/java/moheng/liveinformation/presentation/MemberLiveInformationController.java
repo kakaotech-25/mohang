@@ -8,7 +8,7 @@ import moheng.liveinformation.dto.UpdateMemberLiveInformationRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/live/info/member")
+@RequestMapping("/api/live/info/member")
 @RestController
 public class MemberLiveInformationController {
     private final MemberLiveInformationService memberLiveInformationService;

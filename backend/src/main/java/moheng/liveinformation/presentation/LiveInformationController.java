@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/live/info")
+@RequestMapping("/api/live/info")
 @RestController
 public class LiveInformationController {
     private final LiveInformationService liveInformationService;
