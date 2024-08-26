@@ -1,8 +1,10 @@
 services:
   nginx:
     container_name: nginx
-    image: nginx:dev
-    build: ./nginx
+    image: nginx:prod
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
     networks:
       - moheng-network
     ports:
@@ -11,7 +13,7 @@ services:
 
   backend:
     container_name: back
-    image: spring:dev
+    image: spring:prod
     build: ./backend
     networks:
       - moheng-network
@@ -23,7 +25,7 @@ services:
 
   ai:
     container_name: ai
-    image: fastapi:dev
+    image: fastapi:prod
     build: ./ai
     networks:
       - moheng-network
