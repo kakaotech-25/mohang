@@ -4,8 +4,10 @@ import moheng.planner.application.PlannerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/api/planner")
+@RestController
 public class PlannerController {
     private final PlannerService plannerService;
 

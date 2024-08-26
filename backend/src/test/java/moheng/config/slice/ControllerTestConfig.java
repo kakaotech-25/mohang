@@ -19,6 +19,7 @@ import moheng.member.application.MemberService;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.presentation.MemberController;
 import moheng.planner.application.TripScheduleService;
+import moheng.planner.presentation.PlannerController;
 import moheng.planner.presentation.TripScheduleController;
 import moheng.recommendtrip.application.RecommendTripService;
 import moheng.recommendtrip.presentation.RecommendTripController;
@@ -46,6 +47,7 @@ import org.springframework.test.web.servlet.MockMvc;
         RecommendTripController.class,
         TripController.class,
         TripScheduleController.class,
+        PlannerController.class,
 })
 @Import(TestConfig.class)
 @ActiveProfiles("test")

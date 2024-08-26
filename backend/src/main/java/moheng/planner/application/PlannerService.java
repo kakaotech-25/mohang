@@ -8,7 +8,9 @@ import moheng.planner.dto.FindPLannerOrderByNameResponse;
 import moheng.planner.dto.FindPlannerOrderByDateResponse;
 import moheng.planner.dto.FindPlannerOrderByRecentResponse;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional(readOnly = true)
 @Service
 public class PlannerService {
     private final TripScheduleRepository tripScheduleRepository;

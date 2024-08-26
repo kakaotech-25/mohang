@@ -1,6 +1,7 @@
 package moheng.planner.domain;
 
 import jakarta.persistence.*;
+import moheng.global.entity.BaseEntity;
 import moheng.member.domain.Member;
 import moheng.planner.exception.InvalidTripScheduleDateException;
 import moheng.planner.exception.InvalidTripScheduleNameException;
@@ -9,7 +10,7 @@ import java.time.LocalDate;
 
 @Table(name = "plan")
 @Entity
-public class TripSchedule {
+public class TripSchedule extends BaseEntity {
     private static final int MIN_NAME_LENGTH = 2;
     private static final int MAX_NAME_LENGTH = 100;
 
