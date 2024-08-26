@@ -16,10 +16,7 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
 import moheng.auth.dto.AccessTokenResponse;
-import moheng.planner.dto.CreateTripScheduleRequest;
-import moheng.planner.dto.FindPLannerOrderByNameResponse;
-import moheng.planner.dto.FindPlannerOrderByDateResponse;
-import moheng.planner.dto.FindPlannerOrderByRecentResponse;
+import moheng.planner.dto.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -134,6 +131,33 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
             assertThat(resultResponse.getTripScheduleResponses()).hasSize(3);
             assertThat(resultResponse.getTripScheduleResponses().get(0).getScheduleName()).isEqualTo("가 일정");
             assertThat(resultResponse.getTripScheduleResponses().get(2).getScheduleName()).isEqualTo("다 일정");
+        });
+    }
+
+    @DisplayName("여행 일정을 수정하고 상태코드 204를 리턴한다.")
+    @Test
+    void 여행_일정을_수정히고_상태코드_204를_리턴한다() {
+        ExtractableResponse<Response> loginResponse = 자체_토큰을_생성한다("KAKAO", "authorization-code");
+        AccessTokenResponse accessTokenResponse = loginResponse.as(AccessTokenResponse.class);
+
+        플래너에_여행_일정을_생성한다(
+                accessTokenResponse,
+                new CreateTripScheduleRequest("가 일정",
+                        LocalDate.of(2024, 1, 1),
+                        LocalDate.of(2030, 9, 10)
+                ));
+
+        ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(new UpdateTripScheduleRequest(1L, "새로운 일정 이름", LocalDate.of(2023, 1, 1), LocalDate.of(2024, 1, 1)))
+                .auth().oauth2(accessTokenResponse.getAccessToken())
+                .when().put("/api/planner/schedule")
+                .then().log().all()
+                .statusCode(HttpStatus.NO_CONTENT.value())
+                .extract();
+
+        assertAll(() -> {
+            assertThat(resultResponse.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
         });
     }
 }
