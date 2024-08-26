@@ -1,5 +1,6 @@
 package moheng.acceptance;
 
+import static moheng.acceptance.fixture.PlannerAcceptenceFixture.*;
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.생활정보로_회원가입_한다;
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.자체_토큰을_생성한다;
 import static moheng.acceptance.fixture.TripScheduleTestFixture.플래너에_여행_일정을_생성한다;
@@ -28,9 +29,9 @@ import java.time.LocalDate;
 
 public class PlannerAcceptenceTest extends AcceptanceTestConfig {
 
-    @DisplayName("플래너의 여행지를 날짜순으로 조회하고 상태코드 200을 리턴한다.")
+    @DisplayName("플래너의 일정을 날짜순으로 조회하고 상태코드 200을 리턴한다.")
     @Test
-    void 플래너의_여행지를_날짜순으로_조회하고_상태코드_200을_라턴한다() {
+    void 플래너의_일정을_날짜순으로_조회하고_상태코드_200을_라턴한다() {
         ExtractableResponse<Response> loginResponse = 자체_토큰을_생성한다("KAKAO", "authorization-code");
         AccessTokenResponse accessTokenResponse = loginResponse.as(AccessTokenResponse.class);
 
@@ -53,14 +54,7 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
                         LocalDate.of(2022, 9, 10)
                 ));
 
-        ExtractableResponse<Response> findOrderByDateResponse = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .auth().oauth2(accessTokenResponse.getAccessToken())
-                .when().get("/api/planner/date")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .extract();
-
+        ExtractableResponse<Response> findOrderByDateResponse = 플래너_여행지를_날짜순으로_조회한다(accessTokenResponse);
         FindPlannerOrderByDateResponse resultResponse = findOrderByDateResponse.as(FindPlannerOrderByDateResponse.class);
 
         assertAll(() -> {
@@ -71,9 +65,9 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
         });
     }
 
-    @DisplayName("플래너의 여행지를 최신순으로 조회하고 상태코드 200을 리턴한다.")
+    @DisplayName("플래너의 일정을 최신순으로 조회하고 상태코드 200을 리턴한다.")
     @Test
-    void 플래너의_여행지를_최신순으로_조회하고_상태코드_200을_라턴한다() {
+    void 플래너의_일정을_최신순으로_조회하고_상태코드_200을_라턴한다() {
         ExtractableResponse<Response> loginResponse = 자체_토큰을_생성한다("KAKAO", "authorization-code");
         AccessTokenResponse accessTokenResponse = loginResponse.as(AccessTokenResponse.class);
 
@@ -96,14 +90,7 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
                         LocalDate.of(2030, 9, 10)
                 ));
 
-        ExtractableResponse<Response> findOrderByDateResponse = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .auth().oauth2(accessTokenResponse.getAccessToken())
-                .when().get("/api/planner/recent")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .extract();
-
+        ExtractableResponse<Response> findOrderByDateResponse = 플래너_여행지를_최신순으로_조회한다(accessTokenResponse);
         FindPlannerOrderByRecentResponse resultResponse = findOrderByDateResponse.as(FindPlannerOrderByRecentResponse.class);
 
         assertAll(() -> {
@@ -114,9 +101,9 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
         });
     }
 
-    @DisplayName("플래너의 여행지를 이름순으로 조회하고 상태코드 200을 리턴한다.")
+    @DisplayName("플래너의 일정을 이름순으로 조회하고 상태코드 200을 리턴한다.")
     @Test
-    void 플래너의_여행지를_이름순으로_조회하고_상태코드_200을_라턴한다() {
+    void 플래너의_일정을_이름순으로_조회하고_상태코드_200을_라턴한다() {
         ExtractableResponse<Response> loginResponse = 자체_토큰을_생성한다("KAKAO", "authorization-code");
         AccessTokenResponse accessTokenResponse = loginResponse.as(AccessTokenResponse.class);
 
@@ -139,14 +126,7 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
                         LocalDate.of(2030, 9, 10)
                 ));
 
-        ExtractableResponse<Response> findOrderByDateResponse = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .auth().oauth2(accessTokenResponse.getAccessToken())
-                .when().get("/api/planner/name")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .extract();
-
+        ExtractableResponse<Response> findOrderByDateResponse = 플래너_여행지를_이름순으로_조회한다(accessTokenResponse);
         FindPLannerOrderByNameResponse resultResponse = findOrderByDateResponse.as(FindPLannerOrderByNameResponse.class);
 
         assertAll(() -> {
