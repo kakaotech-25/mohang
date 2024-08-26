@@ -134,6 +134,15 @@ public class PlannerControllerTest extends ControllerTestConfig {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(여행_일정_수정_요청())))
                 .andDo(print())
+                .andDo(document("planner/schedule/update",
+                        preprocessRequest(),
+                        preprocessResponse(),
+                        requestFields(
+                                fieldWithPath("scheduleId").description("여행 일정 고유 ID 값"),
+                                fieldWithPath("scheduleName").description("여행 일정 이름"),
+                                fieldWithPath("startDate").description("일정 시작날짜"),
+                                fieldWithPath("endDate").description("일정 종료날짜")
+                        )))
                 .andExpect(status().isNoContent());
     }
 }
