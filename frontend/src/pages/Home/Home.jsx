@@ -30,13 +30,31 @@ const Home = () => {
     }
   };
 
+  const formatLocation = (location) => {
+    // 주소에서 구까지만 남기기 위한 정규식 사용
+    const parts = location.split(' ');
+    return parts.slice(0, 2).join(' ');
+  };
+
+  const formattedCards = TravelData.map(card => ({ // 위쪽 여행지캐러셀
+    ...card,
+    tags: card.tags.slice(0, 2), // 태그는 2개만 보이기
+    location: formatLocation(card.location) // 주소도 구까지만 남기기
+  }));
+
+  const formattedFilteredCards = filteredCards.map(card => ({ //아래쪽 여행지캐러셀
+    ...card,
+    tags: card.tags.slice(0, 2),
+    location: formatLocation(card.location)
+  }));
+
   return (
     <div>
       <section className='ai-recommendation'>
         <div className='carousel-description'>
           <span style={{ color: '#845EC2' }}>모행 AI</span>를 이용한 맞춤 여행지
         </div>
-        <TravelCarousel cards={TravelData} />
+        <TravelCarousel cards={formattedCards} />
       </section>
 
       <section className='keyword-recommendation'>
@@ -56,7 +74,7 @@ const Home = () => {
           ))}
         </div>
 
-        <TravelCarousel cards={filteredCards} />
+        <TravelCarousel cards={formattedFilteredCards} />
       </section>
     </div>
   );
