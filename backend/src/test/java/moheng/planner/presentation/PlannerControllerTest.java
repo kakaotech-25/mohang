@@ -56,6 +56,7 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         preprocessRequest(),
                         responseFields(
                                 fieldWithPath("tripScheduleResponses").description("여행 일정 리스트 : 최신순조회"),
+                                fieldWithPath("tripScheduleResponses[].scheduleId").description("여행 일정 고유 ID 값"),
                                 fieldWithPath("tripScheduleResponses[].scheduleName").description("여행 일정 이름"),
                                 fieldWithPath("tripScheduleResponses[].startTime").description("여행 일정 시작날짜"),
                                 fieldWithPath("tripScheduleResponses[].endTime").description("여행 일정 종료날짜")
@@ -86,6 +87,7 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         preprocessRequest(),
                         responseFields(
                                 fieldWithPath("tripScheduleResponses").description("여행 일정 리스트 : 이름순조회"),
+                                fieldWithPath("tripScheduleResponses[].scheduleId").description("여행 일정 고유 ID 값"),
                                 fieldWithPath("tripScheduleResponses[].scheduleName").description("여행 일정 이름"),
                                 fieldWithPath("tripScheduleResponses[].startTime").description("여행 일정 시작날짜"),
                                 fieldWithPath("tripScheduleResponses[].endTime").description("여행 일정 종료날짜")
@@ -116,6 +118,7 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         preprocessRequest(),
                         responseFields(
                                 fieldWithPath("tripScheduleResponses").description("여행 일정 리스트 : 날짜순조회"),
+                                fieldWithPath("tripScheduleResponses[].scheduleId").description("여행 일정 고유 ID 값"),
                                 fieldWithPath("tripScheduleResponses[].scheduleName").description("여행 일정 이름"),
                                 fieldWithPath("tripScheduleResponses[].startTime").description("여행 일정 시작날짜"),
                                 fieldWithPath("tripScheduleResponses[].endTime").description("여행 일정 종료날짜")
