@@ -147,14 +147,10 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
                         LocalDate.of(2030, 9, 10)
                 ));
 
-        ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(new UpdateTripScheduleRequest(1L, "새로운 일정 이름", LocalDate.of(2023, 1, 1), LocalDate.of(2024, 1, 1)))
-                .auth().oauth2(accessTokenResponse.getAccessToken())
-                .when().put("/api/planner/schedule")
-                .then().log().all()
-                .statusCode(HttpStatus.NO_CONTENT.value())
-                .extract();
+        ExtractableResponse<Response> resultResponse = 여행_일정을_수정한다(accessTokenResponse,
+                new UpdateTripScheduleRequest(1L, "새로운 일정명",
+                LocalDate.of(2024, 1, 1),
+                LocalDate.of(2030, 9, 10)));
 
         assertAll(() -> {
             assertThat(resultResponse.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());

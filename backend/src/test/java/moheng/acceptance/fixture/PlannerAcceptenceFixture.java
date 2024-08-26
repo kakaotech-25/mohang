@@ -4,9 +4,12 @@ import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.auth.dto.AccessTokenResponse;
+import moheng.planner.dto.UpdateTripScheduleRequest;
 import moheng.recommendtrip.dto.RecommendTripCreateRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+
+import java.time.LocalDate;
 
 public class PlannerAcceptenceFixture {
     public static ExtractableResponse<Response> 플래너_여행지를_날짜순으로_조회한다(final AccessTokenResponse accessTokenResponse) {
@@ -36,6 +39,17 @@ public class PlannerAcceptenceFixture {
                 .when().get("/api/planner/name")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 여행_일정을_수정한다(final AccessTokenResponse accessTokenResponse, final UpdateTripScheduleRequest updateTripScheduleRequest) {
+        return RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(updateTripScheduleRequest)
+                .auth().oauth2(accessTokenResponse.getAccessToken())
+                .when().put("/api/planner/schedule")
+                .then().log().all()
+                .statusCode(HttpStatus.NO_CONTENT.value())
                 .extract();
     }
 }
