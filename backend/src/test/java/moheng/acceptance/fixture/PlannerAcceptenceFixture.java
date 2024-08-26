@@ -52,4 +52,14 @@ public class PlannerAcceptenceFixture {
                 .statusCode(HttpStatus.NO_CONTENT.value())
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 여행_일정을_삭제한다(final AccessTokenResponse accessTokenResponse, final long scheduleId) {
+        return RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessTokenResponse.getAccessToken())
+                .when().delete("/api/planner/schedule/{scheduleId}", scheduleId)
+                .then().log().all()
+                .statusCode(HttpStatus.NO_CONTENT.value())
+                .extract();
+    }
 }
