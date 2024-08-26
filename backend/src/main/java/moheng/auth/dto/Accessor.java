@@ -6,7 +6,7 @@ public class Accessor {
     private Accessor() {
     }
 
-    public Accessor(Long id) {
+    public Accessor(final Long id) {
         this.id = id;
     }
 

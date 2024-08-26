@@ -1,7 +1,7 @@
 package moheng.auth.exception;
 
 public class NoExistMemberTokenException extends RuntimeException {
-    public NoExistMemberTokenException(String message) {
+    public NoExistMemberTokenException(final String message) {
         super(message);
     }
 }

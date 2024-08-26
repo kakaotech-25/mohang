@@ -38,7 +38,7 @@ public class InMemoryRefreshTokenRepository implements RefreshTokenRepository {
     }
 
     @Override
-    public long deleteByRefreshToken(String refreshToken) {
+    public long deleteByRefreshToken(final String refreshToken) {
         return repository.entrySet().stream()
                 .filter(data -> data.getValue().equals(refreshToken)).findFirst()
                 .map(data -> {

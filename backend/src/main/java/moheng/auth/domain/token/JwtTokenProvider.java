@@ -48,7 +48,7 @@ public class JwtTokenProvider implements TokenProvider {
     @Override
     public void validateToken(final String token) {
         try {
-            Jws<Claims> claims = Jwts.parserBuilder()
+            final Jws<Claims> claims = Jwts.parserBuilder()
                     .setSigningKey(secretKey)
                     .build()
                     .parseClaimsJws(token);
@@ -62,7 +62,7 @@ public class JwtTokenProvider implements TokenProvider {
     @Override
     public boolean isRefreshTokenExpired(final String token) {
         try {
-            Jws<Claims> claims = Jwts.parserBuilder()
+            final Jws<Claims> claims = Jwts.parserBuilder()
                     .setSigningKey(secretKey)
                     .build()
                     .parseClaimsJws(token);
@@ -74,8 +74,8 @@ public class JwtTokenProvider implements TokenProvider {
     }
 
     public String createToken(final String payload, final long tokenValidityInSeconds) {
-        Date now = new Date();
-        Date expireDate = new Date(now.getTime() + tokenValidityInSeconds);
+        final Date now = new Date();
+        final Date expireDate = new Date(now.getTime() + tokenValidityInSeconds);
 
         return Jwts.builder()
                 .setSubject(payload)

@@ -1,7 +1,7 @@
 package moheng.auth.exception;
 
 public class NoMatchingSocialTypeException extends RuntimeException {
-    public NoMatchingSocialTypeException(String message) {
+    public NoMatchingSocialTypeException(final String message) {
         super(message);
     }
 
