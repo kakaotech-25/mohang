@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 public class KeywordAcceptenceFixture {
-    public static ExtractableResponse<Response> 키워드를_생성한다(String name) {
+    public static ExtractableResponse<Response> 키워드를_생성한다(final String name) {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(new KeywordCreateRequest(name))
@@ -19,7 +19,7 @@ public class KeywordAcceptenceFixture {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 키워드_리스트로_여행지를_추천받는다(String accessToken, TripsByKeyWordsRequest tripsByKeyWordsRequest) {
+    public static ExtractableResponse<Response> 키워드_리스트로_여행지를_추천받는다(final String accessToken, final TripsByKeyWordsRequest tripsByKeyWordsRequest) {
         return RestAssured.given().log().all()
                 .auth().oauth2(accessToken)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)

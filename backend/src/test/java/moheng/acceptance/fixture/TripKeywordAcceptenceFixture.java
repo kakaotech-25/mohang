@@ -7,7 +7,7 @@ import moheng.trip.dto.TripKeywordCreateRequest;
 import org.springframework.http.MediaType;
 
 public class TripKeywordAcceptenceFixture {
-    public static ExtractableResponse<Response> 여행지_키워드를_생성한다(long keywordId, long tripId) {
+    public static ExtractableResponse<Response> 여행지_키워드를_생성한다(final long keywordId, final long tripId) {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(new TripKeywordCreateRequest(tripId, keywordId))
