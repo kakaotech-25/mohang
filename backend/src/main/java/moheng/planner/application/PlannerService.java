@@ -27,10 +27,10 @@ public class PlannerService {
         return new FindPlannerOrderByRecentResponse(tripScheduleRepository.findByMemberOrderByCreatedAtDesc(member));
     }
 
-    public FindPlannerOrderByDateResponse findPlannerOrderByDate(final long memberId) {
+    public FindPlannerOrderByDateResponse findPlannerOrderByDateAsc(final long memberId) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoExistMemberException("존재하지 않는 유저입니다."));
-        return new FindPlannerOrderByDateResponse(tripScheduleRepository.findByMemberOrderByStartDate(member));
+        return new FindPlannerOrderByDateResponse(tripScheduleRepository.findByMemberOrderByStartDateAsc(member));
     }
 
     public FindPLannerOrderByNameResponse findPlannerOrderByName(final long memberId) {
