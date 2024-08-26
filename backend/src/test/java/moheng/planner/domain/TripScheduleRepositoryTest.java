@@ -2,9 +2,8 @@ package moheng.planner.domain;
 
 import static moheng.fixture.MemberFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.*;
 
 import moheng.config.slice.RepositoryTestConfig;
 import moheng.member.domain.Member;
@@ -82,5 +81,16 @@ public class TripScheduleRepositoryTest extends RepositoryTestConfig {
             assertThat(actual.get(1).getName()).isEqualTo("나 일정");
             assertThat(actual.get(2).getName()).isEqualTo("다 일정");
         });
+    }
+
+    @DisplayName("멤버의 여행 일정중에 이미 일정이 존재하면 참을 리턴한다.")
+    @Test
+    void 맴버의_여행_일정중에_이미_일정이_존재하면_참을_리턴한다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(new TripSchedule("멤버 일정", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
+
+        // when, then
+        assertTrue(tripScheduleRepository.existsByMemberAndName(member, "멤버 일정"));
     }
 }

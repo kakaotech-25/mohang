@@ -171,4 +171,5 @@ public class PlannerServiceTest extends ServiceTestConfig {
         assertThatThrownBy(() -> plannerService.updateTripSchedule(member.getId(), updateTripScheduleRequest))
                 .isInstanceOf(AlreadyExistTripScheduleException.class);
     }
+
 }
