@@ -10,10 +10,10 @@ import java.util.Optional;
 
 public interface KeywordRepository extends JpaRepository<Keyword, Long> {
     @Query("SELECT k.name FROM Keyword k WHERE k.id IN :keywordIds")
-    List<String> findNamesByIds(@Param("keywordIds") List<Long> keywordIds);
+    List<String> findNamesByIds(@Param("keywordIds") final List<Long> keywordIds);
 
     @Query("SELECT k FROM Keyword k WHERE k.id = :id")
-    Optional<Keyword> findKeywordById(@Param("id") Long id);
+    Optional<Keyword> findKeywordById(@Param("id") final Long id);
 
     @Query("SELECT MIN(k.id) FROM Keyword k")
     Long findMinKeywordId();

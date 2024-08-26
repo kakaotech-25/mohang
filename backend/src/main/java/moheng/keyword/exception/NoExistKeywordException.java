@@ -1,7 +1,7 @@
 package moheng.keyword.exception;
 
 public class NoExistKeywordException extends RuntimeException {
-    public NoExistKeywordException(String message) {
+    public NoExistKeywordException(final String message) {
         super(message);
     }
 

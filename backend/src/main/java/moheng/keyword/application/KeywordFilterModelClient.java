@@ -5,5 +5,5 @@ import moheng.keyword.dto.TripRecommendByKeywordRequest;
 
 
 public interface KeywordFilterModelClient {
-    TripContentIdsByKeywordResponse findRecommendTripContentIdsByKeywords(TripRecommendByKeywordRequest request);
+    TripContentIdsByKeywordResponse findRecommendTripContentIdsByKeywords(final TripRecommendByKeywordRequest request);
 }
