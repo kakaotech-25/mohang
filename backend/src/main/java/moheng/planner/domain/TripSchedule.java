@@ -2,14 +2,14 @@ package moheng.planner.domain;
 
 import jakarta.persistence.*;
 import moheng.member.domain.Member;
-import moheng.planner.exception.InvalidPlanDateException;
-import moheng.planner.exception.InvalidPlanNameException;
+import moheng.planner.exception.InvalidTripScheduleDateException;
+import moheng.planner.exception.InvalidTripScheduleNameException;
 
 import java.time.LocalDate;
 
 @Table(name = "plan")
 @Entity
-public class Plan {
+public class TripSchedule {
     private static final int MIN_NAME_LENGTH = 2;
     private static final int MAX_NAME_LENGTH = 100;
 
@@ -30,10 +30,10 @@ public class Plan {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    protected Plan() {
+    protected TripSchedule() {
     }
 
-    public Plan(final String name, final LocalDate startDate, final LocalDate endDate, final Member member) {
+    public TripSchedule(final String name, final LocalDate startDate, final LocalDate endDate, final Member member) {
         validateName(name);
         validateDate(startDate, endDate);
         this.name = name;
@@ -43,13 +43,13 @@ public class Plan {
 
     private void validateName(final String name) {
         if(name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH) {
-            throw new InvalidPlanNameException(String.format("이름은 %d자 이상 1자 %d이하여야 합니다.",  MIN_NAME_LENGTH, MAX_NAME_LENGTH));
+            throw new InvalidTripScheduleNameException(String.format("이름은 %d자 이상 1자 %d이하여야 합니다.",  MIN_NAME_LENGTH, MAX_NAME_LENGTH));
         }
     }
 
     private void validateDate(final LocalDate startDate, final LocalDate endDate) {
         if(startDate.isAfter(endDate)) {
-            throw new InvalidPlanDateException("플래너 일정의 시작날짜가 종료날짜보다 늦을 수 없습니다.");
+            throw new InvalidTripScheduleDateException("플래너 일정의 시작날짜가 종료날짜보다 늦을 수 없습니다.");
         }
     }
 }
