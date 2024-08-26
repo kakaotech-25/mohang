@@ -38,9 +38,4 @@ public class TripScheduleService {
         );
         tripScheduleRepository.save(tripSchedule);
     }
-
-    @Transactional
-    public void removeTripSchedule(final Long tripScheduleId) {
-        tripScheduleRepository.deleteById(tripScheduleId);
-    }
 }

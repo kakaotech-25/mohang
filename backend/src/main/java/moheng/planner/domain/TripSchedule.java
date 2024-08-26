@@ -69,6 +69,10 @@ public class TripSchedule extends BaseEntity {
         return !name.equals(inputName);
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }

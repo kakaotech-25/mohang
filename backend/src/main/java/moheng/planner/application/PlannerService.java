@@ -70,4 +70,9 @@ public class PlannerService {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoExistMemberException("존재하지 않는 유저입니다."));
     }
+
+    @Transactional
+    public void removeTripSchedule(final Long tripScheduleId) {
+        tripScheduleRepository.deleteById(tripScheduleId);
+    }
 }

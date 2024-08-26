@@ -172,4 +172,17 @@ public class PlannerServiceTest extends ServiceTestConfig {
                 .isInstanceOf(AlreadyExistTripScheduleException.class);
     }
 
+    @DisplayName("여행 일정을 삭제한다.")
+    @Test
+    void 여행_일정을_삭제한다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        TripSchedule tripSchedule = tripScheduleRepository.save(new TripSchedule("일정", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
+
+        // when
+        plannerService.removeTripSchedule(tripSchedule.getId());
+
+        // then
+        assertThat(tripScheduleRepository.findAll()).hasSize(0);
+    }
 }
