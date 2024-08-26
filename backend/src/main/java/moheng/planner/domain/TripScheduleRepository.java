@@ -8,4 +8,5 @@ import java.util.List;
 public interface TripScheduleRepository extends JpaRepository<TripSchedule, Long> {
     boolean existsByMemberAndName(final Member member, final String name);
     List<TripSchedule> findByMemberOrderByCreatedAtDesc(final Member member);
+    List<TripSchedule> findByMemberOrderByStartDate(final Member member);
 }
