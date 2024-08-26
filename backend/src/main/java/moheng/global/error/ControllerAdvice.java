@@ -7,6 +7,7 @@ import moheng.keyword.exception.NoExistKeywordException;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
 import moheng.member.exception.*;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
+import moheng.planner.exception.InvalidTripScheduleDateException;
 import moheng.recommendtrip.exception.LackOfRecommendTripException;
 import moheng.trip.exception.NoExistTripException;
 import org.slf4j.LoggerFactory;
@@ -40,7 +41,8 @@ public class ControllerAdvice {
             NoExistTripException.class,
             NoExistKeywordException.class,
             LackOfRecommendTripException.class,
-            AlreadyExistTripScheduleException.class
+            AlreadyExistTripScheduleException.class,
+            InvalidTripScheduleDateException.class
     })
     public ResponseEntity<ExceptionResponse> handleIBadRequestException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
