@@ -11,6 +11,10 @@ import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.KeywordRepository;
 import moheng.keyword.domain.TripKeyword;
 import moheng.keyword.domain.TripKeywordRepository;
+import moheng.liveinformation.domain.LiveInformation;
+import moheng.liveinformation.domain.LiveInformationRepository;
+import moheng.liveinformation.domain.TripLiveInformation;
+import moheng.liveinformation.domain.TripLiveInformationRepository;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
@@ -60,6 +64,12 @@ public class TripServiceTest extends ServiceTestConfig {
 
     @Autowired
     private TripRepository tripRepository;
+
+    @Autowired
+    private LiveInformationRepository liveInformationRepository;
+
+    @Autowired
+    private TripLiveInformationRepository tripLiveInformationRepository;
 
     @DisplayName("여행지를 생성한다.")
     @Test
@@ -167,26 +177,68 @@ public class TripServiceTest extends ServiceTestConfig {
         });
     }
 
-    @DisplayName("현재 여행지를 비슷한 여행지와 함께 조회한다.")
+    @DisplayName("현재 여행지를 비슷한 여행지 10개와 함께 조회한다.")
     @Test
     void 현재_여행지를_비슷한_여행지와_함께_조회한다() {
         // given
         Member member = memberRepository.save(하온_기존());
-        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
-        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
-        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
-        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
-        Trip trip = tripService.findById(1L);
-        recommendTripRepository.save(new RecommendTrip(trip, member, 1L));
+        Trip currentTrip = tripRepository.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
+        Trip trip3 = tripRepository.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
+        Trip trip4 = tripRepository.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
+        Trip trip5 = tripRepository.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
+        Trip trip6 = tripRepository.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
+        Trip trip7 = tripRepository.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
+        Trip trip8 = tripRepository.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
+        Trip trip9 = tripRepository.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
+        Trip trip10 = tripRepository.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
+        Trip trip11 = tripRepository.save(new Trip("여행지11", "서울", 11L, "설명10", "https://image.png", 0L));
+        recommendTripRepository.save(new RecommendTrip(currentTrip, member, 1L));
+        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, currentTrip));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip2)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip3));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip4)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip5));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip6)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip7));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip11));
 
         // when
-        FindTripWithSimilarTripsResponse response = tripService.findWithSimilarOtherTrips(trip.getId(), member.getId());
+        FindTripWithSimilarTripsResponse response = tripService.findWithSimilarOtherTrips(currentTrip.getId(), member.getId());
 
         // then
-        assertAll(() -> {
-            assertThat(response.getFindTripResponse()).isNotNull();
-            assertThat(response.getSimilarTripResponses().getFindTripResponses().size()).isEqualTo(3);
-        });
+        assertThat(response.getFindTripResponse()).isNotNull();
+    }
+
+    @DisplayName("비슷한 여행지를 정확히 10개를 찾는다.")
+    @Test
+    void 비슷한_여행지를_정확히_10개를_찾는다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        Trip currentTrip = tripRepository.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
+        Trip trip3 = tripRepository.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
+        Trip trip4 = tripRepository.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
+        Trip trip5 = tripRepository.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
+        Trip trip6 = tripRepository.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
+        Trip trip7 = tripRepository.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
+        Trip trip8 = tripRepository.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
+        Trip trip9 = tripRepository.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
+        Trip trip10 = tripRepository.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
+        Trip trip11 = tripRepository.save(new Trip("여행지11", "서울", 11L, "설명10", "https://image.png", 0L));
+        recommendTripRepository.save(new RecommendTrip(currentTrip, member, 1L));
+        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, currentTrip));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip2)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip3));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip4)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip5));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip6)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip7));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip11));
+
+        // when
+        FindTripWithSimilarTripsResponse response = tripService.findWithSimilarOtherTrips(currentTrip.getId(), member.getId());
+
+        // then
+        assertThat(response.getSimilarTripResponses().getFindTripResponses()).hasSize(10);
     }
 
 
@@ -195,16 +247,29 @@ public class TripServiceTest extends ServiceTestConfig {
     void 현재_여행지를_조회하면_모든_유저에_대한_총_방문_횟수가_증가한다() {
         // given
         Member member = memberRepository.save(하온_기존());
-        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
-        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
-        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
-        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
-        Trip trip = tripService.findById(1L);
-        recommendTripRepository.save(new RecommendTrip(trip, member, 1L));
+        Trip currentTrip = tripRepository.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
+        Trip trip3 = tripRepository.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
+        Trip trip4 = tripRepository.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
+        Trip trip5 = tripRepository.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
+        Trip trip6 = tripRepository.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
+        Trip trip7 = tripRepository.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
+        Trip trip8 = tripRepository.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
+        Trip trip9 = tripRepository.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
+        Trip trip10 = tripRepository.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
+        Trip trip11 = tripRepository.save(new Trip("여행지11", "서울", 11L, "설명10", "https://image.png", 0L));
+        recommendTripRepository.save(new RecommendTrip(currentTrip, member, 1L));
+        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, currentTrip));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip2)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip3));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip4)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip5));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip6)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip7));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip11));
 
         // when
-        tripService.findWithSimilarOtherTrips(trip.getId(), member.getId());
-        long expected = tripService.findById(1L).getId();
+        tripService.findWithSimilarOtherTrips(currentTrip.getId(), member.getId());
+        long expected = tripService.findById(currentTrip.getId()).getId();
 
         // then
         assertThat(expected).isEqualTo(1L);
@@ -215,15 +280,28 @@ public class TripServiceTest extends ServiceTestConfig {
     void 현재_여행지를_조회하면_각_유저에_대한_방문_횟수가_증가한다() {
         // given
         Member member = memberRepository.save(하온_기존());
-        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
-        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
-        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
-        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
-        Trip trip = tripService.findById(1L);
-        recommendTripRepository.save(new RecommendTrip(trip, member, 1L));
+        Trip currentTrip = tripRepository.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
+        Trip trip3 = tripRepository.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
+        Trip trip4 = tripRepository.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
+        Trip trip5 = tripRepository.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
+        Trip trip6 = tripRepository.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
+        Trip trip7 = tripRepository.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
+        Trip trip8 = tripRepository.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
+        Trip trip9 = tripRepository.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
+        Trip trip10 = tripRepository.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
+        Trip trip11 = tripRepository.save(new Trip("여행지11", "서울", 11L, "설명10", "https://image.png", 0L));
+        recommendTripRepository.save(new RecommendTrip(currentTrip, member, 1L));
+        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, currentTrip));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip2)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip3));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip4)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip5));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip6)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip7));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip11));
 
         // when
-        tripService.findWithSimilarOtherTrips(trip.getId(), member.getId());
+        tripService.findWithSimilarOtherTrips(currentTrip.getId(), member.getId());
 
         // then
         assertThat(recommendTripRepository.findById(1L).get().getRank()).isEqualTo(1L);
@@ -267,14 +345,29 @@ public class TripServiceTest extends ServiceTestConfig {
     void 존재하지_않는_회원이_여행지를_조회하면_예외가_발생한다() {
         // given
         long invalidMemberId = -1L;
-        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
-        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
-        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
-        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
-        Trip trip = tripService.findById(1L);
+        Member member = memberRepository.save(하온_기존());
+        Trip currentTrip = tripRepository.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
+        Trip trip3 = tripRepository.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
+        Trip trip4 = tripRepository.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
+        Trip trip5 = tripRepository.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
+        Trip trip6 = tripRepository.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
+        Trip trip7 = tripRepository.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
+        Trip trip8 = tripRepository.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
+        Trip trip9 = tripRepository.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
+        Trip trip10 = tripRepository.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
+        Trip trip11 = tripRepository.save(new Trip("여행지11", "서울", 11L, "설명10", "https://image.png", 0L));
+        recommendTripRepository.save(new RecommendTrip(currentTrip, member, 1L));
+        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, currentTrip));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip2)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip3));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip4)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip5));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip6)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip7));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip11));
 
         // when, then
-        assertThatThrownBy(() -> tripService.findWithSimilarOtherTrips(trip.getId(), invalidMemberId))
+        assertThatThrownBy(() -> tripService.findWithSimilarOtherTrips(currentTrip.getId(), invalidMemberId))
                 .isInstanceOf(NoExistMemberException.class);
     }
 
@@ -300,23 +393,34 @@ public class TripServiceTest extends ServiceTestConfig {
     void 최근_클릭한_여행지가_10개_미만이라면_가장_높은_rank_에_1을_더한_선호_여행지_정보를_생성한다() {
         // given
         Member member = memberRepository.save(하온_기존());
-        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
-        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
-        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
-        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
-        Trip trip1 = tripService.findById(1L);
-        Trip trip2 = tripService.findById(2L);
-        Trip trip3 = tripService.findById(3L);
-        recommendTripRepository.save(new RecommendTrip(trip1, member, 1L));
-        recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
-        recommendTripRepository.save(new RecommendTrip(trip3, member, 3L));
+        Trip currentTrip = tripRepository.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
+        Trip trip3 = tripRepository.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
+        Trip trip4 = tripRepository.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
+        Trip trip5 = tripRepository.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
+        Trip trip6 = tripRepository.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
+        Trip trip7 = tripRepository.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
+        Trip trip8 = tripRepository.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
+        Trip trip9 = tripRepository.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
+        Trip trip10 = tripRepository.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
+        Trip trip11 = tripRepository.save(new Trip("여행지11", "서울", 11L, "설명10", "https://image.png", 0L));
+        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, currentTrip));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip2)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip3));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip4)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip5));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip6)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip7));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip11));
+
+        recommendTripRepository.save(new RecommendTrip(trip2, member, 1L));
+        recommendTripRepository.save(new RecommendTrip(trip3, member, 2L));
+        recommendTripRepository.save(new RecommendTrip(trip4, member, 3L));
 
         // when
-        Trip trip4 = tripService.findById(4L);
-        tripService.findWithSimilarOtherTrips(trip4.getId(), member.getId());
+        tripService.findWithSimilarOtherTrips(currentTrip.getId(), member.getId());
 
         // then
-        RecommendTrip actual = recommendTripRepository.findById(trip4.getId()).get();
+        RecommendTrip actual = recommendTripRepository.findById(4L).get();
         assertThat(actual.getRank()).isEqualTo(4L);
     }
 
@@ -325,28 +429,39 @@ public class TripServiceTest extends ServiceTestConfig {
     void 최근_클릭한_여행지가_10개라면_기존의_rank를_1씩_감소시키고_rank가_10인_새로운_선호_여행지를_생성한다() {
         // given
         Member member = memberRepository.save(하온_기존());
-        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
-        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
-        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
-        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
-        tripService.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
-        tripService.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
-        tripService.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
-        tripService.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
-        tripService.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
-        tripService.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
-        Trip trip1 = tripService.findById(1L); Trip trip2 = tripService.findById(2L);
-        Trip trip3 = tripService.findById(3L);
+        Trip currentTrip = tripRepository.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
+        Trip trip3 = tripRepository.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
+        Trip trip4 = tripRepository.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
+        Trip trip5 = tripRepository.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
+        Trip trip6 = tripRepository.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
+        Trip trip7 = tripRepository.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
+        Trip trip8 = tripRepository.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
+        Trip trip9 = tripRepository.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
+        Trip trip10 = tripRepository.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
+        Trip trip11 = tripRepository.save(new Trip("여행지11", "서울", 11L, "설명10", "https://image.png", 0L));
 
-        recommendTripRepository.save(new RecommendTrip(trip1, member, 1L)); recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
-        recommendTripRepository.save(new RecommendTrip(trip2, member, 3L)); recommendTripRepository.save(new RecommendTrip(trip3, member, 4L));
-        recommendTripRepository.save(new RecommendTrip(trip3, member, 5L)); recommendTripRepository.save(new RecommendTrip(trip3, member, 6L));
-        recommendTripRepository.save(new RecommendTrip(trip3, member, 7L)); recommendTripRepository.save(new RecommendTrip(trip3, member, 8L));
-        recommendTripRepository.save(new RecommendTrip(trip3, member, 9L)); recommendTripRepository.save(new RecommendTrip(trip3, member, 10L));
+        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, currentTrip));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip2)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip3));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip4)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip5));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip6)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip7));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip11));
+
+        recommendTripRepository.save(new RecommendTrip(trip2, member, 1L));
+        recommendTripRepository.save(new RecommendTrip(trip3, member, 2L));
+        recommendTripRepository.save(new RecommendTrip(trip4, member, 3L));
+        recommendTripRepository.save(new RecommendTrip(trip5, member, 4L));
+        recommendTripRepository.save(new RecommendTrip(trip6, member, 5L));
+        recommendTripRepository.save(new RecommendTrip(trip7, member, 6L));
+        recommendTripRepository.save(new RecommendTrip(trip8, member, 7L));
+        recommendTripRepository.save(new RecommendTrip(trip9, member, 8L));
+        recommendTripRepository.save(new RecommendTrip(trip10, member, 9L));
+        recommendTripRepository.save(new RecommendTrip(trip11, member, 10L));
 
         // when
-        Trip trip = tripService.findById(10L);
-        tripService.findWithSimilarOtherTrips(trip.getId(), member.getId());
+        tripService.findWithSimilarOtherTrips(currentTrip.getId(), member.getId());
 
         // then
         assertAll(() -> {
@@ -359,32 +474,39 @@ public class TripServiceTest extends ServiceTestConfig {
     void 현재_여행지를_조회하고_선호_여행지가_10개라면_랭크가_1_감소한다() {
         // given
         Member member = memberRepository.save(하온_기존());
-        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
-        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
-        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
-        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
-        tripService.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
-        tripService.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
-        tripService.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
-        tripService.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
-        tripService.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
-        tripService.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
-        tripService.save(new Trip("여행지11", "서울", 11L, "설명11", "https://image.png", 0L));
-        Trip trip1 = tripService.findById(1L); Trip trip2 = tripService.findById(2L);
-        Trip trip3 = tripService.findById(3L); Trip trip4 = tripService.findById(4L);
-        Trip trip5 = tripService.findById(5L); Trip trip6 = tripService.findById(6L);
-        Trip trip7 = tripService.findById(7L); Trip trip8 = tripService.findById(8L);
-        Trip trip9 = tripService.findById(9L); Trip trip10 = tripService.findById(10L);
+        Trip currentTrip = tripRepository.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
+        Trip trip3 = tripRepository.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
+        Trip trip4 = tripRepository.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
+        Trip trip5 = tripRepository.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
+        Trip trip6 = tripRepository.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
+        Trip trip7 = tripRepository.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
+        Trip trip8 = tripRepository.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
+        Trip trip9 = tripRepository.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
+        Trip trip10 = tripRepository.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
+        Trip trip11 = tripRepository.save(new Trip("여행지11", "서울", 11L, "설명10", "https://image.png", 0L));
 
-        recommendTripRepository.save(new RecommendTrip(trip1, member, 1L)); recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
-        recommendTripRepository.save(new RecommendTrip(trip3, member, 3L)); recommendTripRepository.save(new RecommendTrip(trip4, member, 4L));
-        recommendTripRepository.save(new RecommendTrip(trip5, member, 5L)); recommendTripRepository.save(new RecommendTrip(trip6, member, 6L));
-        recommendTripRepository.save(new RecommendTrip(trip7, member, 7L)); recommendTripRepository.save(new RecommendTrip(trip8, member, 8L));
-        recommendTripRepository.save(new RecommendTrip(trip9, member, 9L)); recommendTripRepository.save(new RecommendTrip(trip10, member, 10L));
+        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, currentTrip));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip2)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip3));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip4)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip5));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip6)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip7));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip11));
+
+        recommendTripRepository.save(new RecommendTrip(trip2, member, 1L));
+        recommendTripRepository.save(new RecommendTrip(trip3, member, 2L));
+        recommendTripRepository.save(new RecommendTrip(trip4, member, 3L));
+        recommendTripRepository.save(new RecommendTrip(trip5, member, 4L));
+        recommendTripRepository.save(new RecommendTrip(trip6, member, 5L));
+        recommendTripRepository.save(new RecommendTrip(trip7, member, 6L));
+        recommendTripRepository.save(new RecommendTrip(trip8, member, 7L));
+        recommendTripRepository.save(new RecommendTrip(trip9, member, 8L));
+        recommendTripRepository.save(new RecommendTrip(trip10, member, 9L));
+        recommendTripRepository.save(new RecommendTrip(trip11, member, 10L));
 
         // when
-        Trip newVisitTrip = tripService.findById(11L);
-        tripService.findWithSimilarOtherTrips(newVisitTrip.getId(), member.getId());
+        tripService.findWithSimilarOtherTrips(currentTrip.getId(), member.getId());
 
         // then
         assertAll(() -> {
@@ -399,37 +521,44 @@ public class TripServiceTest extends ServiceTestConfig {
     void 가장_높았던_랭크를_보유한_선호_여행지를_제거한다() {
         // given
         Member member = memberRepository.save(하온_기존());
-        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
-        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
-        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
-        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
-        tripService.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
-        tripService.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
-        tripService.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
-        tripService.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
-        tripService.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
-        tripService.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
-        tripService.save(new Trip("여행지11", "서울", 11L, "설명10", "https://image.png", 0L));
-        Trip trip1 = tripService.findById(1L); Trip trip2 = tripService.findById(2L);
-        Trip trip3 = tripService.findById(3L); Trip trip4 = tripService.findById(4L);
-        Trip trip5 = tripService.findById(5L); Trip trip6 = tripService.findById(6L);
-        Trip trip7 = tripService.findById(7L); Trip trip8 = tripService.findById(8L);
-        Trip trip9 = tripService.findById(9L); Trip trip10 = tripService.findById(10L);
+        Trip currentTrip = tripRepository.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
+        Trip trip3 = tripRepository.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
+        Trip trip4 = tripRepository.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
+        Trip trip5 = tripRepository.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
+        Trip trip6 = tripRepository.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
+        Trip trip7 = tripRepository.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
+        Trip trip8 = tripRepository.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
+        Trip trip9 = tripRepository.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
+        Trip trip10 = tripRepository.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
+        Trip trip11 = tripRepository.save(new Trip("여행지11", "서울", 11L, "설명10", "https://image.png", 0L));
 
-        recommendTripRepository.save(new RecommendTrip(trip1, member, 1L)); recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
-        recommendTripRepository.save(new RecommendTrip(trip3, member, 3L)); recommendTripRepository.save(new RecommendTrip(trip4, member, 4L));
-        recommendTripRepository.save(new RecommendTrip(trip5, member, 5L)); recommendTripRepository.save(new RecommendTrip(trip6, member, 6L));
-        recommendTripRepository.save(new RecommendTrip(trip7, member, 7L)); recommendTripRepository.save(new RecommendTrip(trip8, member, 8L));
-        recommendTripRepository.save(new RecommendTrip(trip9, member, 9L)); recommendTripRepository.save(new RecommendTrip(trip10, member, 10L));
+        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, currentTrip));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip2)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip3));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip4)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip5));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip6)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip7));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip11));
+
+        recommendTripRepository.save(new RecommendTrip(trip2, member, 1L));
+        recommendTripRepository.save(new RecommendTrip(trip3, member, 2L));
+        recommendTripRepository.save(new RecommendTrip(trip4, member, 3L));
+        recommendTripRepository.save(new RecommendTrip(trip5, member, 4L));
+        recommendTripRepository.save(new RecommendTrip(trip6, member, 5L));
+        recommendTripRepository.save(new RecommendTrip(trip7, member, 6L));
+        recommendTripRepository.save(new RecommendTrip(trip8, member, 7L));
+        recommendTripRepository.save(new RecommendTrip(trip9, member, 8L));
+        recommendTripRepository.save(new RecommendTrip(trip10, member, 9L));
+        recommendTripRepository.save(new RecommendTrip(trip11, member, 10L));
 
         // when
-        Trip newVisitTrip = tripService.findById(11L);
-        tripService.findWithSimilarOtherTrips(newVisitTrip.getId(), member.getId());
+        tripService.findWithSimilarOtherTrips(currentTrip.getId(), member.getId());
 
         // then
         assertAll(() -> {
             assertThat(recommendTripRepository.findAllByMemberId(member.getId()).size()).isEqualTo(10);
-            assertThat(recommendTripRepository.existsByMemberAndTrip(member, trip1)).isFalse();
+            assertThat(recommendTripRepository.existsByMemberAndTrip(member, trip2)).isFalse();
             assertThat(recommendTripRepository.findById(2L).get().getRank()).isEqualTo(HIGHEST_PRIORITY_RANK);
         });
     }
@@ -439,35 +568,39 @@ public class TripServiceTest extends ServiceTestConfig {
     void 기존에_rank가_1등인_선호_여행지가_존재하지_않으면_예외가_발생한다() {
         // given
         Member member = memberRepository.save(하온_기존());
-        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
-        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
-        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
-        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
-        tripService.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
-        tripService.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
-        tripService.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
-        tripService.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
-        tripService.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
-        tripService.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
-        tripService.save(new Trip("여행지11", "서울", 11L, "설명10", "https://image.png", 0L));
-        Trip trip1 = tripService.findById(1L); Trip trip2 = tripService.findById(2L);
-        Trip trip3 = tripService.findById(3L); Trip trip4 = tripService.findById(4L);
-        Trip trip5 = tripService.findById(5L); Trip trip6 = tripService.findById(6L);
-        Trip trip7 = tripService.findById(7L); Trip trip8 = tripService.findById(8L);
-        Trip trip9 = tripService.findById(9L); Trip trip10 = tripService.findById(10L);
-        Trip trip11 = tripService.findById(11L);
+        Trip currentTrip = tripRepository.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
+        Trip trip3 = tripRepository.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
+        Trip trip4 = tripRepository.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
+        Trip trip5 = tripRepository.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
+        Trip trip6 = tripRepository.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
+        Trip trip7 = tripRepository.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
+        Trip trip8 = tripRepository.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
+        Trip trip9 = tripRepository.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
+        Trip trip10 = tripRepository.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
+        Trip trip11 = tripRepository.save(new Trip("여행지11", "서울", 11L, "설명10", "https://image.png", 0L));
 
-        recommendTripRepository.save(new RecommendTrip(trip1, member, 0L)); recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
-        recommendTripRepository.save(new RecommendTrip(trip3, member, 3L)); recommendTripRepository.save(new RecommendTrip(trip4, member, 4L));
-        recommendTripRepository.save(new RecommendTrip(trip5, member, 5L)); recommendTripRepository.save(new RecommendTrip(trip6, member, 6L));
-        recommendTripRepository.save(new RecommendTrip(trip7, member, 7L)); recommendTripRepository.save(new RecommendTrip(trip8, member, 8L));
-        recommendTripRepository.save(new RecommendTrip(trip9, member, 9L)); recommendTripRepository.save(new RecommendTrip(trip10, member, 10L));
+        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, currentTrip));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip2)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip3));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip4)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip5));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip6)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip7));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip11));
 
-        // when
-        Trip trip = tripService.findById(11L);
+        recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
+        recommendTripRepository.save(new RecommendTrip(trip3, member, 3L));
+        recommendTripRepository.save(new RecommendTrip(trip4, member, 4L));
+        recommendTripRepository.save(new RecommendTrip(trip5, member, 5L));
+        recommendTripRepository.save(new RecommendTrip(trip6, member, 6L));
+        recommendTripRepository.save(new RecommendTrip(trip7, member, 7L));
+        recommendTripRepository.save(new RecommendTrip(trip8, member, 8L));
+        recommendTripRepository.save(new RecommendTrip(trip9, member, 9L));
+        recommendTripRepository.save(new RecommendTrip(trip10, member, 10L));
+        recommendTripRepository.save(new RecommendTrip(trip11, member, 11L));
 
-        // then
-        assertThatThrownBy(() -> tripService.findWithSimilarOtherTrips(trip.getId(), member.getId()))
+        // when, then
+        assertThatThrownBy(() -> tripService.findWithSimilarOtherTrips(currentTrip.getId(), member.getId()))
                 .isInstanceOf(NoExistRecommendTripException.class);
     }
 
@@ -476,32 +609,39 @@ public class TripServiceTest extends ServiceTestConfig {
     void 가장_낮은_우선순위를_가진_랭크가_10인_신규_선호_여행지를_생성한다() {
         // given
         Member member = memberRepository.save(하온_기존());
-        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
-        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
-        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
-        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
-        tripService.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
-        tripService.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
-        tripService.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
-        tripService.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
-        tripService.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
-        tripService.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
-        tripService.save(new Trip("여행지11", "서울", 11L, "설명11", "https://image.png", 0L));
-        Trip trip1 = tripService.findById(1L); Trip trip2 = tripService.findById(2L);
-        Trip trip3 = tripService.findById(3L); Trip trip4 = tripService.findById(4L);
-        Trip trip5 = tripService.findById(5L); Trip trip6 = tripService.findById(6L);
-        Trip trip7 = tripService.findById(7L); Trip trip8 = tripService.findById(8L);
-        Trip trip9 = tripService.findById(9L); Trip trip10 = tripService.findById(10L);
+        Trip currentTrip = tripRepository.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
+        Trip trip3 = tripRepository.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
+        Trip trip4 = tripRepository.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
+        Trip trip5 = tripRepository.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
+        Trip trip6 = tripRepository.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
+        Trip trip7 = tripRepository.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
+        Trip trip8 = tripRepository.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
+        Trip trip9 = tripRepository.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
+        Trip trip10 = tripRepository.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
+        Trip trip11 = tripRepository.save(new Trip("여행지11", "서울", 11L, "설명10", "https://image.png", 0L));
 
-        recommendTripRepository.save(new RecommendTrip(trip1, member, 1L)); recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
-        recommendTripRepository.save(new RecommendTrip(trip3, member, 3L)); recommendTripRepository.save(new RecommendTrip(trip4, member, 4L));
-        recommendTripRepository.save(new RecommendTrip(trip5, member, 5L)); recommendTripRepository.save(new RecommendTrip(trip6, member, 6L));
-        recommendTripRepository.save(new RecommendTrip(trip7, member, 7L)); recommendTripRepository.save(new RecommendTrip(trip8, member, 8L));
-        recommendTripRepository.save(new RecommendTrip(trip9, member, 9L)); recommendTripRepository.save(new RecommendTrip(trip10, member, 10L));
+        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, currentTrip));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip2)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip3));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip4)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip5));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip6)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip7));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip11));
+
+        recommendTripRepository.save(new RecommendTrip(trip2, member, 1L));
+        recommendTripRepository.save(new RecommendTrip(trip3, member, 2L));
+        recommendTripRepository.save(new RecommendTrip(trip4, member, 3L));
+        recommendTripRepository.save(new RecommendTrip(trip5, member, 4L));
+        recommendTripRepository.save(new RecommendTrip(trip6, member, 5L));
+        recommendTripRepository.save(new RecommendTrip(trip7, member, 6L));
+        recommendTripRepository.save(new RecommendTrip(trip8, member, 7L));
+        recommendTripRepository.save(new RecommendTrip(trip9, member, 8L));
+        recommendTripRepository.save(new RecommendTrip(trip10, member, 9L));
+        recommendTripRepository.save(new RecommendTrip(trip11, member, 10L));
 
         // when
-        Trip trip11 = tripService.findById(11L);
-        tripService.findWithSimilarOtherTrips(trip11.getId(), member.getId());
+        tripService.findWithSimilarOtherTrips(currentTrip.getId(), member.getId());
         RecommendTrip recommendTrip = recommendTripRepository.findById(11L).get();
 
         // then
@@ -514,35 +654,42 @@ public class TripServiceTest extends ServiceTestConfig {
     void 처음_방문한_여행지라면_방문_횟수는_1이_된다() {
         // given
         Member member = memberRepository.save(하온_기존());
-        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
-        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
-        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
-        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
-        tripService.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
-        tripService.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
-        tripService.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
-        tripService.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
-        tripService.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
-        tripService.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
-        tripService.save(new Trip("여행지11", "서울", 11L, "설명10", "https://image.png", 0L));
-        Trip trip1 = tripService.findById(1L); Trip trip2 = tripService.findById(2L);
-        Trip trip3 = tripService.findById(3L); Trip trip4 = tripService.findById(4L);
-        Trip trip5 = tripService.findById(5L); Trip trip6 = tripService.findById(6L);
-        Trip trip7 = tripService.findById(7L); Trip trip8 = tripService.findById(8L);
-        Trip trip9 = tripService.findById(9L); Trip trip10 = tripService.findById(10L);
-        Trip firstVisitTrip = tripService.findById(11L);
+        Trip currentTrip = tripRepository.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
+        Trip trip3 = tripRepository.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
+        Trip trip4 = tripRepository.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
+        Trip trip5 = tripRepository.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
+        Trip trip6 = tripRepository.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
+        Trip trip7 = tripRepository.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
+        Trip trip8 = tripRepository.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
+        Trip trip9 = tripRepository.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
+        Trip trip10 = tripRepository.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
+        Trip trip11 = tripRepository.save(new Trip("여행지11", "서울", 11L, "설명10", "https://image.png", 0L));
 
-        recommendTripRepository.save(new RecommendTrip(trip1, member, 1L)); recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
-        recommendTripRepository.save(new RecommendTrip(trip3, member, 3L)); recommendTripRepository.save(new RecommendTrip(trip4, member, 4L));
-        recommendTripRepository.save(new RecommendTrip(trip5, member, 5L)); recommendTripRepository.save(new RecommendTrip(trip6, member, 6L));
-        recommendTripRepository.save(new RecommendTrip(trip7, member, 7L)); recommendTripRepository.save(new RecommendTrip(trip8, member, 8L));
-        recommendTripRepository.save(new RecommendTrip(trip9, member, 9L)); recommendTripRepository.save(new RecommendTrip(trip10, member, 10L));
+        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, currentTrip));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip2)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip3));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip4)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip5));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip6)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip7));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip11));
+
+        recommendTripRepository.save(new RecommendTrip(trip2, member, 1L));
+        recommendTripRepository.save(new RecommendTrip(trip3, member, 2L));
+        recommendTripRepository.save(new RecommendTrip(trip4, member, 3L));
+        recommendTripRepository.save(new RecommendTrip(trip5, member, 4L));
+        recommendTripRepository.save(new RecommendTrip(trip6, member, 5L));
+        recommendTripRepository.save(new RecommendTrip(trip7, member, 6L));
+        recommendTripRepository.save(new RecommendTrip(trip8, member, 7L));
+        recommendTripRepository.save(new RecommendTrip(trip9, member, 8L));
+        recommendTripRepository.save(new RecommendTrip(trip10, member, 9L));
+        recommendTripRepository.save(new RecommendTrip(trip11, member, 10L));
 
         // when
-        tripService.findWithSimilarOtherTrips(firstVisitTrip.getId(), member.getId());
+        tripService.findWithSimilarOtherTrips(currentTrip.getId(), member.getId());
 
         // then
-        assertThat(memberTripRepository.findByMemberAndTrip(member, firstVisitTrip).getVisitedCount()).isEqualTo(1L);
+        assertThat(memberTripRepository.findByMemberAndTrip(member, currentTrip).getVisitedCount()).isEqualTo(1L);
     }
 
     @DisplayName("이전에 방문했던 여행지라면 방문 횟수가 1이 증가한다.")
@@ -550,29 +697,36 @@ public class TripServiceTest extends ServiceTestConfig {
     void 이전에_방문했던_여행지라면_방문_횟수가_1이_증가한다() {
         // given
         Member member = memberRepository.save(하온_기존());
-        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
-        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
-        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
-        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
-        tripService.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
-        tripService.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
-        tripService.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
-        tripService.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
-        tripService.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
-        tripService.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
-        Trip trip1 = tripService.findById(1L); Trip trip2 = tripService.findById(2L);
-        Trip trip3 = tripService.findById(3L); Trip trip4 = tripService.findById(4L);
-        Trip trip5 = tripService.findById(5L); Trip trip6 = tripService.findById(6L);
-        Trip trip7 = tripService.findById(7L); Trip trip8 = tripService.findById(8L);
-        Trip trip9 = tripService.findById(9L);
-        Trip alreadyVisitedTrip = tripService.findById(10L);
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
+        Trip trip3 = tripRepository.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
+        Trip trip4 = tripRepository.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
+        Trip trip5 = tripRepository.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
+        Trip trip6 = tripRepository.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
+        Trip trip7 = tripRepository.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
+        Trip trip8 = tripRepository.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
+        Trip trip9 = tripRepository.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
+        Trip trip10 = tripRepository.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
+        Trip trip11 = tripRepository.save(new Trip("여행지11", "서울", 11L, "설명10", "https://image.png", 0L));
 
-        recommendTripRepository.save(new RecommendTrip(trip1, member, 1L)); recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
-        recommendTripRepository.save(new RecommendTrip(trip3, member, 3L)); recommendTripRepository.save(new RecommendTrip(trip4, member, 4L));
-        recommendTripRepository.save(new RecommendTrip(trip5, member, 5L)); recommendTripRepository.save(new RecommendTrip(trip6, member, 6L));
-        recommendTripRepository.save(new RecommendTrip(trip7, member, 7L)); recommendTripRepository.save(new RecommendTrip(trip8, member, 8L));
-        recommendTripRepository.save(new RecommendTrip(trip9, member, 9L)); recommendTripRepository.save(new RecommendTrip(alreadyVisitedTrip, member, 10L));
+        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip2)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip3));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip4)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip5));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip6)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip7));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip11));
 
+        recommendTripRepository.save(new RecommendTrip(trip2, member, 1L));
+        recommendTripRepository.save(new RecommendTrip(trip3, member, 2L));
+        recommendTripRepository.save(new RecommendTrip(trip4, member, 3L));
+        recommendTripRepository.save(new RecommendTrip(trip5, member, 4L));
+        recommendTripRepository.save(new RecommendTrip(trip6, member, 5L));
+        recommendTripRepository.save(new RecommendTrip(trip7, member, 6L));
+        recommendTripRepository.save(new RecommendTrip(trip8, member, 7L));
+        recommendTripRepository.save(new RecommendTrip(trip9, member, 8L));
+        recommendTripRepository.save(new RecommendTrip(trip10, member, 9L));
+        recommendTripRepository.save(new RecommendTrip(trip11, member, 10L));
+
+        Trip alreadyVisitedTrip = tripRepository.findById(10L).get();
         memberTripRepository.save(new MemberTrip(member, alreadyVisitedTrip, 100L));
 
         // when
@@ -587,28 +741,36 @@ public class TripServiceTest extends ServiceTestConfig {
     void 현재_방문한_여행지가_최근_클릭한_선호_여행지_리스트에_포함된다면_선호_여행지들의_랭크를_수정하지_않는다() {
         // given
         Member member = memberRepository.save(하온_기존());
-        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
-        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
-        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
-        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
-        tripService.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
-        tripService.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
-        tripService.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
-        tripService.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
-        tripService.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
-        tripService.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
-        Trip trip1 = tripService.findById(1L); Trip trip2 = tripService.findById(2L);
-        Trip trip3 = tripService.findById(3L); Trip trip4 = tripService.findById(4L);
-        Trip trip5 = tripService.findById(5L); Trip trip6 = tripService.findById(6L);
-        Trip trip7 = tripService.findById(7L); Trip trip8 = tripService.findById(8L);
-        Trip trip9 = tripService.findById(9L);
-        Trip alreadyVisitedTrip = tripService.findById(10L);
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
+        Trip trip3 = tripRepository.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
+        Trip trip4 = tripRepository.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
+        Trip trip5 = tripRepository.save(new Trip("여행지5", "서울", 5L, "설명5", "https://image.png", 0L));
+        Trip trip6 = tripRepository.save(new Trip("여행지6", "서울", 6L, "설명6", "https://image.png", 0L));
+        Trip trip7 = tripRepository.save(new Trip("여행지7", "서울", 7L, "설명7", "https://image.png", 0L));
+        Trip trip8 = tripRepository.save(new Trip("여행지8", "서울", 8L, "설명8", "https://image.png", 0L));
+        Trip trip9 = tripRepository.save(new Trip("여행지9", "서울", 9L, "설명9", "https://image.png", 0L));
+        Trip trip10 = tripRepository.save(new Trip("여행지10", "서울", 10L, "설명10", "https://image.png", 0L));
+        Trip trip11 = tripRepository.save(new Trip("여행지11", "서울", 11L, "설명10", "https://image.png", 0L));
 
-        recommendTripRepository.save(new RecommendTrip(trip1, member, 1L)); recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
-        recommendTripRepository.save(new RecommendTrip(trip3, member, 3L)); recommendTripRepository.save(new RecommendTrip(trip4, member, 4L));
-        recommendTripRepository.save(new RecommendTrip(trip5, member, 5L)); recommendTripRepository.save(new RecommendTrip(trip6, member, 6L));
-        recommendTripRepository.save(new RecommendTrip(trip7, member, 7L)); recommendTripRepository.save(new RecommendTrip(trip8, member, 8L));
-        recommendTripRepository.save(new RecommendTrip(trip9, member, 9L)); recommendTripRepository.save(new RecommendTrip(alreadyVisitedTrip, member, 10L));
+        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip2)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip3));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip4)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip5));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip6)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip7));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9));
+        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip11));
+
+        recommendTripRepository.save(new RecommendTrip(trip2, member, 1L));
+        recommendTripRepository.save(new RecommendTrip(trip3, member, 2L));
+        recommendTripRepository.save(new RecommendTrip(trip4, member, 3L));
+        recommendTripRepository.save(new RecommendTrip(trip5, member, 4L));
+        recommendTripRepository.save(new RecommendTrip(trip6, member, 5L));
+        recommendTripRepository.save(new RecommendTrip(trip7, member, 6L));
+        recommendTripRepository.save(new RecommendTrip(trip8, member, 7L));
+        recommendTripRepository.save(new RecommendTrip(trip9, member, 8L));
+        recommendTripRepository.save(new RecommendTrip(trip10, member, 9L));
+        recommendTripRepository.save(new RecommendTrip(trip11, member, 10L));
+
+        Trip alreadyVisitedTrip = tripRepository.findById(10L).get();
 
         // when
         tripService.findWithSimilarOtherTrips(alreadyVisitedTrip.getId(), member.getId());

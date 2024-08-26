@@ -108,11 +108,9 @@ public class RecommendTripService {
         }
     }
 
-
     private List<Trip> filterTripsByLiveinformation(final RecommendTripsByVisitedLogsResponse recommendTripsByVisitedLogsResponse, final Long memberId) {
         final List<Trip> trips = tripRepository.findTripsByContentIds(recommendTripsByVisitedLogsResponse.getContentIds());
         final List<LiveInformation> memberLiveInformations = memberLiveInformationRepository.findLiveInformationsByMemberId(memberId);
-        List<Trip> trips1 = filterTripsByMemberInformation(trips, memberLiveInformations);
         return filterTripsByMemberInformation(trips, memberLiveInformations);
     }
 
@@ -132,7 +130,6 @@ public class RecommendTripService {
     public void createRecommendTrip(final long memberId, final RecommendTripCreateRequest request) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoExistMemberException::new);
-
         final Trip trip = tripRepository.findById(request.getTripId())
                 .orElseThrow(NoExistTripException::new);
 

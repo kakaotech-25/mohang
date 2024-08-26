@@ -68,19 +68,19 @@ public class KeywordService {
                 .orElseThrow(() -> new NoExistKeywordException("랜덤 키워드를 찾을 수 없습니다."));
     }
 
-    private void validateKeywordRange(Long minId, Long maxId) {
+    private void validateKeywordRange(final Long minId, final Long maxId) {
         if (minId == null || maxId == null) {
             throw new NoExistKeywordException("랜덤 키워드를 찾을 수 없습니다.");
         }
     }
 
-    private Long generateRandomId(Long minId, Long maxId) {
-        SecureRandom secureRandom = new SecureRandom();
+    private Long generateRandomId(final Long minId, final Long maxId) {
+        final SecureRandom secureRandom = new SecureRandom();
         return minId + secureRandom.nextLong(maxId - minId + 1);
     }
 
 
-    private Map<Trip, Long> findTripsWithVisitedCount(List<TripKeyword> tripKeywords) {
+    private Map<Trip, Long> findTripsWithVisitedCount(final List<TripKeyword> tripKeywords) {
         final Map<Trip, Long> tripClickCounts = new HashMap<>();
         for (TripKeyword tripKeyword : tripKeywords) {
             Trip trip = tripKeyword.getTrip();
@@ -89,7 +89,7 @@ public class KeywordService {
         return tripClickCounts;
     }
 
-    private List<Trip> findTopTripsByVisitedCount(Map<Trip, Long> tripsWithVisitedCount) {
+    private List<Trip> findTopTripsByVisitedCount(final Map<Trip, Long> tripsWithVisitedCount) {
         return tripsWithVisitedCount.entrySet().stream()
                 .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()))
                 .limit(30)

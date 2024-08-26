@@ -1,7 +1,7 @@
 package moheng.trip.exception;
 
 public class NoExistTripException extends RuntimeException {
-    public NoExistTripException(String message) {
+    public NoExistTripException(final String message) {
        super(message);
     }
 

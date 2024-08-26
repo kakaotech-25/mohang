@@ -18,8 +18,8 @@ public class JwtTokenManager implements TokenManager {
 
     @Override
     public MemberToken createMemberToken(final long memberId) {
-        String accessToken = tokenProvider.createAccessToken(memberId);
-        String refreshToken = createRefreshToken(memberId);
+        final String accessToken = tokenProvider.createAccessToken(memberId);
+        final String refreshToken = createRefreshToken(memberId);
         return new MemberToken(accessToken, refreshToken);
     }
 
@@ -27,7 +27,7 @@ public class JwtTokenManager implements TokenManager {
         if (refreshTokenRepository.existsById(memberId)) {
             return refreshTokenRepository.findById(memberId);
         }
-        String refreshToken = tokenProvider.createRefreshToken(memberId);
+        final String refreshToken = tokenProvider.createRefreshToken(memberId);
         refreshTokenRepository.save(memberId, refreshToken);
         return refreshToken;
     }
@@ -36,14 +36,14 @@ public class JwtTokenManager implements TokenManager {
     public RenewalToken generateRenewalAccessToken(final String refreshToken) {
         deleteExpiredRefreshToken(refreshToken);
 
-        Long memberId = tokenProvider.getMemberId(refreshToken);
+        final Long memberId = tokenProvider.getMemberId(refreshToken);
         if(!refreshTokenRepository.existsById(memberId)) {
             throw new NoExistMemberTokenException("존재하지 않는 유저의 토큰입니다.");
         }
 
-        String accessTokenForRenew = tokenProvider.createAccessToken(memberId);
-        String refreshTokenForRenew = refreshTokenRepository.findById(memberId);
-        RenewalToken renewalToken = new RenewalToken(accessTokenForRenew, refreshTokenForRenew);
+        final String accessTokenForRenew = tokenProvider.createAccessToken(memberId);
+        final String refreshTokenForRenew = refreshTokenRepository.findById(memberId);
+        final RenewalToken renewalToken = new RenewalToken(accessTokenForRenew, refreshTokenForRenew);
         renewalToken.validateHasSameRefreshToken(refreshToken);
 
         return renewalToken;
@@ -65,7 +65,7 @@ public class JwtTokenManager implements TokenManager {
     @Override
     public void removeRefreshToken(final String refreshToken) {
         tokenProvider.validateToken(refreshToken);
-        long memberId = getMemberId(refreshToken);
+        final long memberId = getMemberId(refreshToken);
 
         if(!refreshTokenRepository.existsById(memberId)) {
             throw new NoExistMemberTokenException("존재하지 않는 유저의 토큰입니다.");

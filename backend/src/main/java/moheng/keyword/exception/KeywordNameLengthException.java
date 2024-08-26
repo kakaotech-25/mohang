@@ -1,7 +1,7 @@
 package moheng.keyword.exception;
 
 public class KeywordNameLengthException extends RuntimeException {
-    public KeywordNameLengthException(String message) {
+    public KeywordNameLengthException(final String message) {
         super(message);
     }
 }

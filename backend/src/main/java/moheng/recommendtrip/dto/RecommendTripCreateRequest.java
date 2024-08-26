@@ -6,7 +6,7 @@ public class RecommendTripCreateRequest {
     private RecommendTripCreateRequest() {
     }
 
-    public RecommendTripCreateRequest(Long tripId) {
+    public RecommendTripCreateRequest(final Long tripId) {
         this.tripId = tripId;
     }
 

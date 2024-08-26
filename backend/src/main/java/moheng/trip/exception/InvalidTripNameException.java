@@ -1,7 +1,7 @@
 package moheng.trip.exception;
 
 public class InvalidTripNameException extends RuntimeException{
-    public InvalidTripNameException(String message) {
+    public InvalidTripNameException(final String message) {
         super(message);
     }
 }

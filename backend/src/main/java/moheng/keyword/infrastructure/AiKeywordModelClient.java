@@ -22,7 +22,7 @@ public class AiKeywordModelClient implements KeywordFilterModelClient {
         return requestRecommendTrips(request);
     }
 
-    private TripContentIdsByKeywordResponse requestRecommendTrips(TripRecommendByKeywordRequest request) {
+    private TripContentIdsByKeywordResponse requestRecommendTrips(final TripRecommendByKeywordRequest request) {
         final ResponseEntity<TripContentIdsByKeywordResponse> contentIds = restTemplate.postForEntity(RECOMMEND_TRIP_LIST_BY_KEYWORD_REQUEST_URL, request, TripContentIdsByKeywordResponse.class);
 
         if(contentIds.getStatusCode().is2xxSuccessful()) {

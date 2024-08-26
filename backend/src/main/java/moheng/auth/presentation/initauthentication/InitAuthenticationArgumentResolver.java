@@ -53,7 +53,7 @@ public class InitAuthenticationArgumentResolver implements HandlerMethodArgument
         jwtTokenProvider.validateToken(accessToken);
         final Long id = jwtTokenProvider.getMemberId(accessToken);
 
-        Member member = memberRepository.findById(id)
+        final Member member = memberRepository.findById(id)
                 .orElseThrow(NoExistMemberException::new);
 
         if(!member.getAuthority().equals(Authority.INIT_MEMBER)) {

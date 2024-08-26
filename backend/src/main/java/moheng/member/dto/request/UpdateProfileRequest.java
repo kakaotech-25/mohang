@@ -10,7 +10,8 @@ public class UpdateProfileRequest {
     private final GenderType genderType;
     private final String profileImageUrl;
 
-    public UpdateProfileRequest(String nickname, LocalDate birthday, GenderType genderType, String profileImageUrl) {
+    public UpdateProfileRequest(final String nickname, final LocalDate birthday,
+                                final GenderType genderType, final String profileImageUrl) {
         this.nickname = nickname;
         this.birthday = birthday;
         this.genderType = genderType;

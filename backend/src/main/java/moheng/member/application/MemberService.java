@@ -65,7 +65,7 @@ public class MemberService {
     }
 
     @Transactional
-    public void save(Member member) {
+    public void save(final Member member) {
         memberRepository.save(member);
     }
 
@@ -97,7 +97,7 @@ public class MemberService {
         saveMemberLiveInformation(request.getLiveInfoNames(), member);
     }
 
-    private void saveMemberLiveInformation(List<String> liveTypeNames, Member member) {
+    private void saveMemberLiveInformation(final List<String> liveTypeNames, final Member member) {
         validateLiveTypeNames(liveTypeNames);
         final List<MemberLiveInformation> memberLiveInformationList = new ArrayList<>();
 
@@ -108,36 +108,35 @@ public class MemberService {
         memberLiveInformationService.saveAll(memberLiveInformationList);
     }
 
-    private void validateLiveTypeNames(List<String> liveTypeNames) {
+    private void validateLiveTypeNames(final List<String> liveTypeNames) {
         if(liveTypeNames == null || liveTypeNames.isEmpty()) {
             throw new EmptyLiveInformationException("생활정보를 선택하지 않았습니다.");
         }
     }
 
     @Transactional
-    public void signUpByInterestTrips(long memberId, SignUpInterestTripsRequest request) {
+    public void signUpByInterestTrips(final long memberId, final SignUpInterestTripsRequest request) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoExistMemberException("존재하지 않는 회원입니다."));
-
         saveRecommendTrip(request.getContentIds(), member, 1L);
         changeMemberPrivileges(member);
     }
 
-    private void saveRecommendTrip(List<Long> contentIds, Member member, long rank) {
+    private void saveRecommendTrip(final List<Long> contentIds, final Member member, long rank) {
         validateContentIds(contentIds);
         for (final Long contentId : contentIds) {
-            Trip trip = tripService.findByContentId(contentId);
+            final Trip trip = tripService.findByContentId(contentId);
             recommendTripService.saveByRank(trip, member, rank++);
         }
     }
 
-    private void validateContentIds(List<Long> contentIds) {
+    private void validateContentIds(final List<Long> contentIds) {
         if(contentIds.size() < MIN_RECOMMEND_TRIP_SIZE || contentIds.size() > MAX_RECOMMEND_TRIP_SIZE)  {
             throw new ShortContentidsSizeException("AI 맞춤 추천을 위해 관심 여행지를 5개 이상, 10개 이하로 선택해야합니다.");
         }
     }
 
-    private void changeMemberPrivileges(Member member) {
+    private void changeMemberPrivileges(final Member member) {
         member.changePrivilege(Authority.REGULAR_MEMBER);
     }
 
@@ -159,7 +158,7 @@ public class MemberService {
         memberRepository.save(updateMember);
     }
 
-    public void checkIsAlreadyExistNickname(String nickname) {
+    public void checkIsAlreadyExistNickname(final String nickname) {
         if(isAlreadyExistNickname(nickname)) {
             throw new DuplicateNicknameException("중복되는 닉네임이 존재합니다.");
         }

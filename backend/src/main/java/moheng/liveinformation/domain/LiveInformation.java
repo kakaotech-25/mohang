@@ -21,18 +21,18 @@ public class LiveInformation extends BaseEntity {
     protected LiveInformation() {
     }
 
-    public LiveInformation(Long id, String name) {
+    public LiveInformation(final Long id, final String name) {
         validateName(name);
         this.id = id;
         this.name = name;
     }
 
-    public LiveInformation(String name) {
+    public LiveInformation(final String name) {
         validateName(name);
         this.name = name;
     }
 
-    private void validateName(String name) {
+    private void validateName(final String name) {
         if(name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH) {
             throw new LiveInfoNameException("생활정보 이름의 길이는 최소 1자 이상, 최대 100자 이하만 허용됩니다.");
         }

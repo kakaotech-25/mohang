@@ -35,7 +35,7 @@ public class MemberLiveInfoControllerTest extends ControllerTestConfig {
                 )));
 
         // when, then
-        mockMvc.perform(get("/live/info/member")
+        mockMvc.perform(get("/api/live/info/member")
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -60,7 +60,7 @@ public class MemberLiveInfoControllerTest extends ControllerTestConfig {
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
 
         // when, then
-        mockMvc.perform(put("/live/info/member")
+        mockMvc.perform(put("/api/live/info/member")
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)

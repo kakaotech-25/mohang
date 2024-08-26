@@ -6,7 +6,7 @@ public class LiveInformationCreateRequest {
     private LiveInformationCreateRequest() {
     }
 
-    public LiveInformationCreateRequest(String name) {
+    public LiveInformationCreateRequest(final String name) {
         this.name = name;
     }
 

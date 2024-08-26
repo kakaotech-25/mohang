@@ -1,7 +1,7 @@
 package moheng.liveinformation.exception;
 
 public class NoExistLiveInformationException extends RuntimeException {
-    public NoExistLiveInformationException(String message) {
+    public NoExistLiveInformationException(final String message) {
         super(message);
     }
 }

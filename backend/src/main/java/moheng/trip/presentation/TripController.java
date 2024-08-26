@@ -9,7 +9,7 @@ import moheng.trip.dto.TripCreateRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/trip")
+@RequestMapping("/api/trip")
 @RestController
 public class TripController {
     private final TripService tripService;

@@ -10,7 +10,8 @@ public class TripCreateRequest {
     private TripCreateRequest() {
     }
 
-    public TripCreateRequest(String name, String placeName, Long contentId, String description, String tripImageUrl) {
+    public TripCreateRequest(final String name, final String placeName, final Long contentId,
+                             final String description, final String tripImageUrl) {
         this.name = name;
         this.placeName = placeName;
         this.contentId = contentId;

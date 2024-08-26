@@ -1,7 +1,7 @@
 package moheng.member.exception;
 
 public class InvalidGenderFormatException extends RuntimeException {
-    public InvalidGenderFormatException(String message) {
+    public InvalidGenderFormatException(final String message) {
         super(message);
     }
 }

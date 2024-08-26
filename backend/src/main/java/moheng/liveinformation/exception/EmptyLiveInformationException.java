@@ -1,7 +1,7 @@
 package moheng.liveinformation.exception;
 
 public class EmptyLiveInformationException extends RuntimeException {
-    public EmptyLiveInformationException(String message) {
+    public EmptyLiveInformationException(final String message) {
         super(message);
     }
 }

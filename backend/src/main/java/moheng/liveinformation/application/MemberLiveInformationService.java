@@ -33,22 +33,21 @@ public class MemberLiveInformationService {
         this.memberRepository = memberRepository;
     }
 
-    public void saveAll(List<MemberLiveInformation> memberLiveInformations) {
+    public void saveAll(final List<MemberLiveInformation> memberLiveInformations) {
         memberLiveInformationRepository.saveAll(memberLiveInformations);
     }
 
     @Transactional
-    public void updateMemberLiveInformation(long memberId, UpdateMemberLiveInformationRequest request) {
+    public void updateMemberLiveInformation(final long memberId, final UpdateMemberLiveInformationRequest request) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoExistMemberException("존재하지 않는 회원입니다."));
-
-        List<LiveInformation> liveInformations = liveInformationRepository.findAllById(request.getLiveInfoIds());
+        final List<LiveInformation> liveInformations = liveInformationRepository.findAllById(request.getLiveInfoIds());
         memberLiveInformationRepository.deleteByMemberId(memberId);
         saveMemberLiveInformation(liveInformations, member);
     }
 
-    private void saveMemberLiveInformation(List<LiveInformation> liveInformations, Member member) {
-        List<MemberLiveInformation> updateMemberLiveInfoList = new ArrayList<>();
+    private void saveMemberLiveInformation(final List<LiveInformation> liveInformations, final Member member) {
+        final List<MemberLiveInformation> updateMemberLiveInfoList = new ArrayList<>();
 
         for (LiveInformation liveInformation : liveInformations) {
             final MemberLiveInformation memberLiveInformation = new MemberLiveInformation(liveInformation, member);
@@ -57,7 +56,7 @@ public class MemberLiveInformationService {
         memberLiveInformationRepository.saveAll(updateMemberLiveInfoList);
     }
 
-    public FindMemberLiveInformationResponses findMemberSelectedLiveInformation(Long memberId) {
+    public FindMemberLiveInformationResponses findMemberSelectedLiveInformation(final Long memberId) {
         final List<LiveInformation> allLiveInformation = liveInformationRepository.findAll();
         final List<Long> memberLiveInfoIds = findMemberLiveInfoIds(memberId);
         return new FindMemberLiveInformationResponses(findMemberSelectedLiveInfos(allLiveInformation, memberLiveInfoIds));
@@ -69,7 +68,7 @@ public class MemberLiveInformationService {
                 .collect(Collectors.toList());
     }
 
-    private List<LiveInfoResponse> findMemberSelectedLiveInfos(final List<LiveInformation> allLiveInformation, List<Long> selectedLiveInfoIds) {
+    private List<LiveInfoResponse> findMemberSelectedLiveInfos(final List<LiveInformation> allLiveInformation, final List<Long> selectedLiveInfoIds) {
         return allLiveInformation.stream()
                 .map(liveInfo -> new LiveInfoResponse(
                         liveInfo.getId(),

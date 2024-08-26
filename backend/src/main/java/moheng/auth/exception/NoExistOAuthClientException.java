@@ -1,7 +1,7 @@
 package moheng.auth.exception;
 
 public class NoExistOAuthClientException extends RuntimeException {
-    public NoExistOAuthClientException(String message) {
+    public NoExistOAuthClientException(final String message) {
         super(message);
     }
 

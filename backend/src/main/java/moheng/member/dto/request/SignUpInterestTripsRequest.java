@@ -8,7 +8,7 @@ public class SignUpInterestTripsRequest {
     private SignUpInterestTripsRequest() {
     }
 
-    public SignUpInterestTripsRequest(List<Long> contentIds) {
+    public SignUpInterestTripsRequest(final List<Long> contentIds) {
         this.contentIds = contentIds;
     }
 

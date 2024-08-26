@@ -8,7 +8,7 @@ public class LiveInfoResponse {
     private LiveInfoResponse() {
     }
 
-    public LiveInfoResponse(Long liveInfoId, String name, boolean contain) {
+    public LiveInfoResponse(final Long liveInfoId, final String name, boolean contain) {
         this.liveInfoId = liveInfoId;
         this.name = name;
         this.contain = contain;
