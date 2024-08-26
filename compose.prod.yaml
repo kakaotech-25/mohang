@@ -16,7 +16,7 @@ services:
     networks:
       - moheng-network
     expose:
-      - 8080
+      - "8080"
     restart: always
     environment:
       - LOGGING_LEVEL_ROOT=ERROR
@@ -28,7 +28,7 @@ services:
     networks:
       - moheng-network
     expose:
-      - 8000
+      - "8000"
     restart: always
 
 networks:
