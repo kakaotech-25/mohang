@@ -35,4 +35,18 @@ public class TripRepositoryTest extends RepositoryTestConfig {
             }
         });
     }
+
+    @DisplayName("contentId 에 매핑되는 여행지들을 찾는다.")
+    @Test
+    void contentId_에_매핑되는_여행지들을_찾는다() {
+        // given
+        tripRepository.save(new Trip("여행지1", "장소", 1L, "설명", "이미지", 1L));
+        tripRepository.save(new Trip("여행지2", "장소", 2L, "설명", "이미지", 2L));
+        tripRepository.save(new Trip("여행지3", "장소", 3L, "설명", "이미지", 3L));
+        tripRepository.save(new Trip("여행지4", "장소", 4L, "설명", "이미지", 4L));
+        List<Long> contentIds = List.of(1L, 2L, 3L, 4L);
+
+        // when, then
+        assertThat(tripRepository.findTripsByContentIds(contentIds)).hasSize(4);
+    }
 }
