@@ -34,6 +34,16 @@ public class TripSchedule extends BaseEntity {
     protected TripSchedule() {
     }
 
+    public TripSchedule(final Long id, final String name, final LocalDate startDate, final LocalDate endDate, final Member member) {
+        validateName(name);
+        validateDate(startDate, endDate);
+        this.id = id;
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.member = member;
+    }
+
     public TripSchedule(final String name, final LocalDate startDate, final LocalDate endDate, final Member member) {
         validateName(name);
         validateDate(startDate, endDate);

@@ -3,10 +3,12 @@ package moheng.planner.application;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
+import moheng.planner.domain.TripSchedule;
 import moheng.planner.domain.TripScheduleRepository;
 import moheng.planner.dto.FindPLannerOrderByNameResponse;
 import moheng.planner.dto.FindPlannerOrderByDateResponse;
 import moheng.planner.dto.FindPlannerOrderByRecentResponse;
+import moheng.planner.dto.UpdateTripScheduleRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +36,19 @@ public class PlannerService {
     public FindPLannerOrderByNameResponse findPlannerOrderByName(final long memberId) {
         final Member member = findMemberById(memberId);
         return new FindPLannerOrderByNameResponse(tripScheduleRepository.findByMemberOrderByNameAsc(member));
+    }
+
+    @Transactional
+    public void updateTripSchedule(final long memberId, final UpdateTripScheduleRequest updateTripScheduleRequest) {
+        final Member member = findMemberById(memberId);
+        final TripSchedule updateTripSchedule = new TripSchedule(
+                updateTripScheduleRequest.getScheduleId(),
+                updateTripScheduleRequest.getScheduleName(),
+                updateTripScheduleRequest.getStartDate(),
+                updateTripScheduleRequest.getStartDate(),
+                member
+        );
+        tripScheduleRepository.save(updateTripSchedule);
     }
 
     private Member findMemberById(final long memberId) {
