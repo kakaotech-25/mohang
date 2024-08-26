@@ -1,6 +1,11 @@
 package moheng.planner.presentation;
 
+import moheng.auth.dto.Accessor;
+import moheng.auth.presentation.authentication.Authentication;
 import moheng.planner.application.PlannerService;
+import moheng.planner.dto.FindPLannerOrderByNameResponse;
+import moheng.planner.dto.FindPlannerOrderByDateResponse;
+import moheng.planner.dto.FindPlannerOrderByRecentResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,17 +21,17 @@ public class PlannerController {
     }
 
     @GetMapping("/recent")
-    public ResponseEntity<Void> findOrderByRecent() {
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<FindPlannerOrderByRecentResponse> findOrderByRecent(@Authentication final Accessor accessor) {
+        return ResponseEntity.ok(plannerService.findPlannerOrderByRecent(accessor.getId()));
     }
 
     @GetMapping("/name")
-    public ResponseEntity<Void> findOrderByName() {
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<FindPLannerOrderByNameResponse> findOrderByName(@Authentication final Accessor accessor) {
+        return ResponseEntity.ok(plannerService.findPlannerOrderByName(accessor.getId()));
     }
 
     @GetMapping("/date")
-    public ResponseEntity<Void> findOrderByDate() {
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<FindPlannerOrderByDateResponse> findOrderByDate(@Authentication final Accessor accessor) {
+        return ResponseEntity.ok(plannerService.findPlannerOrderByDateAsc(accessor.getId()));
     }
 }
