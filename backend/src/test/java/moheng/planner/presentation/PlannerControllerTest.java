@@ -199,9 +199,9 @@ public class PlannerControllerTest extends ControllerTestConfig {
                 .andExpect(status().isBadRequest());
     }
 
-    @DisplayName("여행지를 삭제하고 상태코드 204를 리턴한다.")
+    @DisplayName("여행 일정을 삭제하고 상태코드 204를 리턴한다.")
     @Test
-    void 여행지를_삭제하고_상태코드_204를_리턴한다() throws Exception {
+    void 여행_일정을_삭제하고_상태코드_204를_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
         doNothing().when(plannerService).removeTripSchedule(anyLong());
@@ -211,6 +211,9 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
+                .andDo(document("planner/schedule/delete",
+                        preprocessRequest(),
+                        preprocessResponse()))
                 .andExpect(status().isNoContent());
     }
 }
