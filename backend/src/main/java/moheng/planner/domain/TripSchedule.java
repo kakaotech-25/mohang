@@ -65,6 +65,10 @@ public class TripSchedule extends BaseEntity {
         }
     }
 
+    public boolean isNameChanged(final String inputName) {
+        return !name.equals(inputName);
+    }
+
     public String getName() {
         return name;
     }

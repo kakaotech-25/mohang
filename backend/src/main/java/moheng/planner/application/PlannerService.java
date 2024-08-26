@@ -9,6 +9,8 @@ import moheng.planner.dto.FindPLannerOrderByNameResponse;
 import moheng.planner.dto.FindPlannerOrderByDateResponse;
 import moheng.planner.dto.FindPlannerOrderByRecentResponse;
 import moheng.planner.dto.UpdateTripScheduleRequest;
+import moheng.planner.exception.AlreadyExistTripScheduleException;
+import moheng.planner.exception.NoExistTripScheduleException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +43,13 @@ public class PlannerService {
     @Transactional
     public void updateTripSchedule(final long memberId, final UpdateTripScheduleRequest updateTripScheduleRequest) {
         final Member member = findMemberById(memberId);
+        final TripSchedule tripSchedule = tripScheduleRepository.findById(updateTripScheduleRequest.getScheduleId())
+                .orElseThrow(NoExistTripScheduleException::new);
+
+        if(tripSchedule.isNameChanged(updateTripScheduleRequest.getScheduleName())) {
+            checkIsDuplicateMemberScheduleName(member, updateTripScheduleRequest.getScheduleName());
+        }
+
         final TripSchedule updateTripSchedule = new TripSchedule(
                 updateTripScheduleRequest.getScheduleId(),
                 updateTripScheduleRequest.getScheduleName(),
@@ -49,6 +58,12 @@ public class PlannerService {
                 member
         );
         tripScheduleRepository.save(updateTripSchedule);
+    }
+
+    private void checkIsDuplicateMemberScheduleName(final Member member, final String scheduleName) {
+        if(tripScheduleRepository.existsByMemberAndName(member, scheduleName)) {
+            throw new AlreadyExistTripScheduleException("동일한 이름의 여행 일정이 이미 존재합니다.");
+        }
     }
 
     private Member findMemberById(final long memberId) {
