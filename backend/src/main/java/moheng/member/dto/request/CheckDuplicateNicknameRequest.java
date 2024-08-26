@@ -5,7 +5,7 @@ public class CheckDuplicateNicknameRequest {
 
     public CheckDuplicateNicknameRequest() {}
 
-    public CheckDuplicateNicknameRequest(String nickname) {
+    public CheckDuplicateNicknameRequest(final String nickname) {
         this.nickname = nickname;
     }
 
