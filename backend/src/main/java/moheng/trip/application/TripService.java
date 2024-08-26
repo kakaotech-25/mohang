@@ -35,7 +35,6 @@ public class TripService {
     private final MemberRepository memberRepository;
     private final MemberTripRepository memberTripRepository;
     private final TripKeywordRepository tripKeywordRepository;
-    private final TripLiveInformationRepository tripLiveInformationRepository;
     private final LiveInformationRepository liveInformationRepository;
 
     public TripService(final TripRepository tripRepository,
@@ -51,7 +50,6 @@ public class TripService {
         this.memberTripRepository = memberTripRepository;
         this.tripKeywordRepository = tripKeywordRepository;
         this.saveRecommendTripStrategyProvider = saveRecommendTripStrategyProvider;
-        this.tripLiveInformationRepository = tripLiveInformationRepository;
         this.liveInformationRepository = liveInformationRepository;
     }
 
