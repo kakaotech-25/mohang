@@ -66,7 +66,7 @@ public class TripService {
         final List<Trip> filteredSimilarTrips = new ArrayList<>();
         long page = 1L;
         while(filteredSimilarTrips.size() < SIMILAR_TRIPS_COUNT) {
-            final FindSimilarTripWithContentIdResponses similarTripWithContentIdResponses = externalSimilarTripModelClient.findSimilarTrips(trip.getContentId());
+            final FindSimilarTripWithContentIdResponses similarTripWithContentIdResponses = externalSimilarTripModelClient.findSimilarTrips(trip.getContentId(), page);
             final List<Trip> filteredTripsByLiveInformation = findFilteredTripsByLiveInformation(trip, similarTripWithContentIdResponses.getContentIds());
             filteredSimilarTrips.addAll(filteredTripsByLiveInformation);
             page++;

@@ -9,7 +9,7 @@ public class StubSimilarTripModelClient implements ExternalSimilarTripModelClien
     private static final List<Long> contentIds = List.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L, 11L, 12L);
 
     @Override
-    public FindSimilarTripWithContentIdResponses findSimilarTrips(long contentId) {
+    public FindSimilarTripWithContentIdResponses findSimilarTrips(final long contentId, final long page) {
         return new FindSimilarTripWithContentIdResponses(contentIds);
     }
 }
