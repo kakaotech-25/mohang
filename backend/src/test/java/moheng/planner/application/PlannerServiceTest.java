@@ -122,4 +122,19 @@ public class PlannerServiceTest extends ServiceTestConfig {
 
         assertDoesNotThrow(() -> plannerService.updateTripSchedule(member.getId(), updateTripScheduleRequest));
     }
+
+    @DisplayName("존재하지 않는 회원의 여행 일정을 수정하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_회원의_여행_일정을_수정하면_예외가_발생한다() {
+        // given
+        long invalidMemberId = -1L;
+
+        UpdateTripScheduleRequest updateTripScheduleRequest = new UpdateTripScheduleRequest(
+                1L, "새로운 일정",
+                LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2));
+
+        // when, then
+        assertThatThrownBy(() -> plannerService.updateTripSchedule(invalidMemberId, updateTripScheduleRequest))
+                .isInstanceOf(NoExistMemberException.class);
+    }
 }
