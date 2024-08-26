@@ -1,27 +1,25 @@
 package moheng.planner.presentation;
 
-import moheng.config.slice.ControllerTestConfig;
-import moheng.planner.dto.CreateTripScheduleRequest;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
-
-import java.time.LocalDate;
-
-import static moheng.fixture.MemberFixtures.비어있는_생활정보로_회원가입_요청;
+import static moheng.fixture.TripScheduleFixtures.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+
+import moheng.config.slice.ControllerTestConfig;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
+import java.time.LocalDate;
 
 public class TripScheduleControllerTest extends ControllerTestConfig {
 
@@ -36,8 +34,16 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
         mockMvc.perform(post("/api/schedule")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new CreateTripScheduleRequest("제주도 여행", LocalDate.of(2020, 1, 1), LocalDate.of(2020, 1, 10))))
+                .content(objectMapper.writeValueAsString(여행_일정_생성_요청()))
                 ).andDo(print())
+                .andDo(document("planner/schedule/create",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("scheduleName").description("생성할 여행 일정 이름"),
+                                fieldWithPath("startDate").description("여행 일정 시작날짜"),
+                                fieldWithPath("endDate").description("여행 일정 종료날짜")
+                        )))
                 .andExpect(status().isNoContent());
     }
 }
