@@ -101,6 +101,7 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
     @DisplayName("플래너의 일정을 이름순으로 조회하고 상태코드 200을 리턴한다.")
     @Test
     void 플래너의_일정을_이름순으로_조회하고_상태코드_200을_라턴한다() {
+        // given
         ExtractableResponse<Response> loginResponse = 자체_토큰을_생성한다("KAKAO", "authorization-code");
         AccessTokenResponse accessTokenResponse = loginResponse.as(AccessTokenResponse.class);
 
@@ -123,9 +124,11 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
                         LocalDate.of(2030, 9, 10)
                 ));
 
+        // when
         ExtractableResponse<Response> findOrderByDateResponse = 플래너_여행지를_이름순으로_조회한다(accessTokenResponse);
         FindPLannerOrderByNameResponse resultResponse = findOrderByDateResponse.as(FindPLannerOrderByNameResponse.class);
 
+        // then
         assertAll(() -> {
             assertThat(findOrderByDateResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
             assertThat(resultResponse.getTripScheduleResponses()).hasSize(3);
@@ -137,6 +140,7 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
     @DisplayName("여행 일정을 수정하고 상태코드 204를 리턴한다.")
     @Test
     void 여행_일정을_수정히고_상태코드_204를_리턴한다() {
+        // given
         ExtractableResponse<Response> loginResponse = 자체_토큰을_생성한다("KAKAO", "authorization-code");
         AccessTokenResponse accessTokenResponse = loginResponse.as(AccessTokenResponse.class);
 
@@ -147,11 +151,42 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
                         LocalDate.of(2030, 9, 10)
                 ));
 
+        // when
         ExtractableResponse<Response> resultResponse = 여행_일정을_수정한다(accessTokenResponse,
                 new UpdateTripScheduleRequest(1L, "새로운 일정명",
                 LocalDate.of(2024, 1, 1),
                 LocalDate.of(2030, 9, 10)));
 
+        // then
+        assertAll(() -> {
+            assertThat(resultResponse.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+        });
+    }
+
+    @DisplayName("여행 일정을 삭제하고 상태코드 204를 리턴한다.")
+    @Test
+    void 여행_일정을_삭제하고_상태코드_204를_리턴한다() {
+        // given
+        ExtractableResponse<Response> loginResponse = 자체_토큰을_생성한다("KAKAO", "authorization-code");
+        AccessTokenResponse accessTokenResponse = loginResponse.as(AccessTokenResponse.class);
+
+        플래너에_여행_일정을_생성한다(
+                accessTokenResponse,
+                new CreateTripScheduleRequest("가 일정",
+                        LocalDate.of(2024, 1, 1),
+                        LocalDate.of(2030, 9, 10)
+                ));
+
+        // when
+        ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessTokenResponse.getAccessToken())
+                .when().delete("/api/planner/schedule/{scheduleId}", 1L)
+                .then().log().all()
+                .statusCode(HttpStatus.NO_CONTENT.value())
+                .extract();
+
+        // then
         assertAll(() -> {
             assertThat(resultResponse.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
         });
