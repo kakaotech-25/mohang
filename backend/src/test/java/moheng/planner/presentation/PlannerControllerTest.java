@@ -8,8 +8,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.mockito.ArgumentMatchers.any;
@@ -22,6 +21,7 @@ import moheng.planner.domain.TripSchedule;
 import moheng.planner.dto.FindPLannerOrderByNameResponse;
 import moheng.planner.dto.FindPlannerOrderByDateResponse;
 import moheng.planner.dto.FindPlannerOrderByRecentResponse;
+import moheng.planner.dto.UpdateTripScheduleRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -119,5 +119,21 @@ public class PlannerControllerTest extends ControllerTestConfig {
                                 fieldWithPath("tripScheduleResponses[].endTime").description("여행 일정 종료날짜")
                         )))
                 .andExpect(status().isOk());
+    }
+
+    @DisplayName("여행 일정을 수정하고 상태코드 204를 리턴한다.")
+    @Test
+    void 여행_일정을_수정하고_상태코드_204를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doNothing().when(plannerService).updateTripSchedule(anyLong(), any());
+
+        // when, then
+        mockMvc.perform(put("/api/planner/schedule")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(여행_일정_수정_요청())))
+                .andDo(print())
+                .andExpect(status().isNoContent());
     }
 }
