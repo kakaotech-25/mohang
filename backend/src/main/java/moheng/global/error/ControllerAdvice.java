@@ -6,6 +6,7 @@ import moheng.keyword.exception.InvalidAIServerException;
 import moheng.keyword.exception.NoExistKeywordException;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
 import moheng.member.exception.*;
+import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.recommendtrip.exception.LackOfRecommendTripException;
 import moheng.trip.exception.NoExistTripException;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,8 @@ public class ControllerAdvice {
             ShortContentidsSizeException.class,
             NoExistTripException.class,
             NoExistKeywordException.class,
-            LackOfRecommendTripException.class
+            LackOfRecommendTripException.class,
+            AlreadyExistTripScheduleException.class
     })
     public ResponseEntity<ExceptionResponse> handleIBadRequestException(final RuntimeException e) {
         logger.error(e.getMessage(), e);

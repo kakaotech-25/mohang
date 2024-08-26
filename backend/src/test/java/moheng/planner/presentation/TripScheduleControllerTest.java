@@ -4,6 +4,7 @@ import static moheng.fixture.TripScheduleFixtures.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -16,6 +17,8 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 
 import moheng.config.slice.ControllerTestConfig;
+import moheng.member.exception.ShortContentidsSizeException;
+import moheng.planner.exception.AlreadyExistTripScheduleException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -45,5 +48,30 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                                 fieldWithPath("endDate").description("여행 일정 종료날짜")
                         )))
                 .andExpect(status().isNoContent());
+    }
+
+    @DisplayName("동일한 이름의 여행 일정이 이미 존재하면 상태코드 400을 리턴한다.")
+    @Test
+    void 동일한_이름의_여행_일정이_이미_존재하면_예외가_발생한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new AlreadyExistTripScheduleException("동일한 이름의 여행 일정이 이미 존재합니다."))
+                .when(tripScheduleService).createTripSchedule(anyLong(), any());
+
+        // when, then
+        mockMvc.perform(post("/api/schedule")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(여행_일정_생성_요청()))
+                ).andDo(print())
+                .andDo(document("planner/schedule/create",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("scheduleName").description("생성할 여행 일정 이름"),
+                                fieldWithPath("startDate").description("여행 일정 시작날짜"),
+                                fieldWithPath("endDate").description("여행 일정 종료날짜")
+                        )))
+                .andExpect(status().isBadRequest());
     }
 }
