@@ -23,11 +23,47 @@
     border-radius: 15px;
   }
   
+  .title-and-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .add-to-planner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 20px;
+  }
+  
+  .planner-button {
+    width: 70px;
+    height: 60px;
+    background-color: #ECE6F0;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .planner-button img {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .add-to-planner span {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #845EC2;
+  }
+  
   .location {
     color: #845EC2;
     font-weight: bold;
     font-size: 20px;
-    margin-top: 10px;
+    margin-top: 0;
     margin-bottom: 30px;
   }
   
@@ -47,5 +83,34 @@
   .description {
     font-size: 18px;
     line-height: 1.8;
+  }
+  
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .modal button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #845EC2;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
   }
   
