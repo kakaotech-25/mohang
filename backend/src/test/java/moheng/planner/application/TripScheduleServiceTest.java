@@ -13,8 +13,10 @@ import moheng.planner.domain.TripSchedule;
 import moheng.planner.domain.TripScheduleRepository;
 import moheng.planner.dto.CreateTripScheduleRequest;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
+import moheng.planner.exception.NoExistTripScheduleException;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.TripRepository;
+import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,5 +89,18 @@ public class TripScheduleServiceTest extends ServiceTestConfig {
 
         // when, then
         assertDoesNotThrow(() -> tripScheduleService.addCurrentTripOnPlannerSchedule(trip.getId(), tripSchedule.getId()));
+    }
+
+    @DisplayName("존재하지 않는 여행지를 플래너 일정에 담으려고하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_여행지를_플래너_일정에_담으려고하면_예외가_발생한다() {
+        // given
+        long invalidTripId = -1L;
+        Member member = memberRepository.save(하온_기존());
+        TripSchedule tripSchedule = tripScheduleRepository.save(new TripSchedule("여행 일정", LocalDate.of(2024, 8, 1), LocalDate.of(2024, 8, 2), member));
+
+        // when, then
+        assertThatThrownBy(() -> tripScheduleService.addCurrentTripOnPlannerSchedule(invalidTripId, tripSchedule.getId()))
+                .isInstanceOf(NoExistTripException.class);
     }
 }
