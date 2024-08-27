@@ -20,6 +20,26 @@ pipeline {
     }
 
     stages {
+        stage('Docker Login Test') {
+            steps {
+                script {
+                    echo 'Testing Docker Login...'
+                    docker.withRegistry("https://${IMAGE_STORAGE}", IMAGE_STORAGE_CREDENTIAL) {
+                        echo 'Docker login successful!'
+                    }
+                }
+            }
+            post {
+                failure {
+                    script {
+                        echo 'Docker login failed. Exiting...'
+                        currentBuild.result = 'FAILURE'
+                        error('Stopping the pipeline due to Docker login failure.')
+                    }
+                }
+            }
+        }
+
         stage('Checkout') {
             steps {
                 script {
