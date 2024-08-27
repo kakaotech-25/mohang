@@ -211,4 +211,27 @@ public class TripScheduleServiceTest extends ServiceTestConfig {
                 tripScheduleService.updateTripOrdersOnSchedule(invalidScheduleId, updateTripOrdersRequest)
         ).isInstanceOf(NoExistTripScheduleException.class);
     }
+
+    @DisplayName("세부 일정내의 특정 여행지를 제거한다.")
+    @Test
+    void 세부_일정내의_특정_여행지를_제거한다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        TripSchedule tripSchedule = tripScheduleRepository.save(new TripSchedule("여행 일정", LocalDate.of(2024, 8, 1), LocalDate.of(2024, 8, 2), member));
+
+        Trip trip1 = tripRepository.save(new Trip("여행지1", "장소명", 1L, "설명1", "https://image.com", 126.3307690830, 36.5309210243));
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "장소명", 2L, "설명2", "https://image.com", 226.3307690830, 46.5309210243));
+        Trip trip3 = tripRepository.save(new Trip("여행지3", "장소명", 3L, "설명3", "https://image.com", 326.3307690830, 56.5309210243));
+
+        tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip1, tripSchedule));
+        tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip2, tripSchedule));
+        tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip3, tripSchedule));
+
+        // when
+        tripScheduleService.deleteTripsOnSchedule(tripSchedule.getId(), trip1.getId());
+
+        // then
+        int exptected = 2;
+        assertThat(tripScheduleRegistryRepository.findAll()).hasSize(exptected);
+    }
 }
