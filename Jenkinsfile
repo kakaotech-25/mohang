@@ -6,17 +6,9 @@ pipeline {
         }
     }
 
-    tools {
-        nodejs 'MyNode'
-        gradle 'MyGradle'
-        jdk 'JDK_22'
-    }
-
     environment {
-        JAVA_HOME = "${tool 'JDK_22'}"
-        PATH = "${env.PATH}:${env.JAVA_HOME}/bin"
         IMAGE_STORAGE_CREDENTIAL = 'dockerhub-access-token'
-        IMAGE_STORAGE = 'docker.io'
+        IMAGE_STORAGE = 'https://registry.hub.docker.com'
     }
 
     stages {
@@ -24,7 +16,7 @@ pipeline {
             steps {
                 script {
                     echo 'Testing Docker Login...'
-                    docker.withRegistry("https://registry.hub.docker.com", IMAGE_STORAGE_CREDENTIAL) {
+                    docker.withRegistry(IMAGE_STORAGE, IMAGE_STORAGE_CREDENTIAL) {
                         echo 'Docker login successful!'
                     }
                 }
@@ -61,7 +53,7 @@ pipeline {
                             echo 'Starting Frontend Build...'
 
                             dir('nginx') {
-                                docker.withRegistry("https://registry.hub.docker.com", IMAGE_STORAGE_CREDENTIAL) {
+                                docker.withRegistry(IMAGE_STORAGE, IMAGE_STORAGE_CREDENTIAL) {
                                     def nginxImage = docker.build("leovim5072/moheng-nginx:latest", "-f Dockerfile.prod ../")
                                     nginxImage.push("latest")
                                 }
@@ -83,7 +75,7 @@ pipeline {
                             echo 'Starting Backend Build...'
                             
                             dir('backend') {
-                                docker.withRegistry("https://registry.hub.docker.com", IMAGE_STORAGE_CREDENTIAL) {
+                                docker.withRegistry(IMAGE_STORAGE, IMAGE_STORAGE_CREDENTIAL) {
                                     def backendImage = docker.build("leovim5072/moheng-backend:latest", "-f Dockerfile.prod .")
                                     backendImage.push("latest")
                                 }
