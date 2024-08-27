@@ -181,4 +181,18 @@ public class TripScheduleServiceTest extends ServiceTestConfig {
             assertThat(findTripsOnSchedules.get(2).getPlaceName()).isEqualTo("여행지2");
         });
     }
+
+    @DisplayName("존재하지 않는 여행지의 정렬 순서를 바꾸려고하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_여행지의_정렬_순서를_바꾸려고하면_예외가_발생한다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        TripSchedule tripSchedule = tripScheduleRepository.save(new TripSchedule("여행 일정", LocalDate.of(2024, 8, 1), LocalDate.of(2024, 8, 2), member));
+
+        // when, then
+        UpdateTripOrdersRequest invalidUpdateTripOrdersRequest = new UpdateTripOrdersRequest(List.of(-1L, -2L, -3L, -4L));
+        assertThatThrownBy(() ->
+                tripScheduleService.updateTripOrdersOnSchedule(tripSchedule.getId(), invalidUpdateTripOrdersRequest)
+        ).isInstanceOf(NoExistTripException.class);
+    }
 }
