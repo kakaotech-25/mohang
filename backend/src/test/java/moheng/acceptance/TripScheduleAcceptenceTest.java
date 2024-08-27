@@ -60,20 +60,10 @@ public class TripScheduleAcceptenceTest extends AcceptanceTestConfig {
                         LocalDate.of(2020, 1, 1),
                         LocalDate.of(2022, 9, 10))
         );
-
         여행지를_생성한다("여행지", 1L);
 
-        long tripId = 1L;
-        long scheduleId = 1L;
-
         // when
-        ExtractableResponse<Response> resultResponse =RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .auth().oauth2(accessTokenResponse.getAccessToken())
-                .when().post("/api/schedule/trip/{tripId}/{scheduleId}", tripId, scheduleId)
-                .then().log().all()
-                .statusCode(HttpStatus.NO_CONTENT.value())
-                .extract();
+        ExtractableResponse<Response> resultResponse = 플래너에_여행지를_담는다(accessTokenResponse, 1L, 1L);
 
         assertAll(() -> {
             assertThat(resultResponse.statusCode()).isEqualTo(204);
