@@ -255,9 +255,9 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                 )).andExpect(status().isNoContent());
     }
 
-    @DisplayName("존재하지 않는 일정 여행지를 삭제하려고 하면 상태코드 400을 리턴한다.")
+    @DisplayName("존재하지 않는 일정 여행지를 삭제하려고 하면 상태코드 404를 리턴한다.")
     @Test
-    void 존재하지_않는_일정_여행지를_삭제하려고_하면_상태코드_400을_리턴한다() throws Exception {
+    void 존재하지_않는_일정_여행지를_삭제하려고_하면_상태코드_404를_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
         doThrow(new NoExistTripScheduleRegistryException("존재하지 않는 일정 여행지입니다."))
@@ -271,6 +271,6 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                 .andDo(document("planner/schedule/trip/delete",
                         preprocessRequest(),
                         preprocessResponse()
-                )).andExpect(status().isBadRequest());
+                )).andExpect(status().isNotFound());
     }
 }
