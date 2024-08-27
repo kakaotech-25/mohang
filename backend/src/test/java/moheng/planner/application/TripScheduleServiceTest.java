@@ -195,4 +195,20 @@ public class TripScheduleServiceTest extends ServiceTestConfig {
                 tripScheduleService.updateTripOrdersOnSchedule(tripSchedule.getId(), invalidUpdateTripOrdersRequest)
         ).isInstanceOf(NoExistTripException.class);
     }
+
+    @DisplayName("존재하지 않는 일정을 수정하려고 하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_일정을_수정하려고_하면_예외가_발생한다() {
+        // given
+        long invalidScheduleId = -1L;
+        Member member = memberRepository.save(하온_기존());
+
+        // when
+        UpdateTripOrdersRequest updateTripOrdersRequest = new UpdateTripOrdersRequest(List.of(3L, 1L, 2L));
+
+        // then
+        assertThatThrownBy(() ->
+                tripScheduleService.updateTripOrdersOnSchedule(invalidScheduleId, updateTripOrdersRequest)
+        ).isInstanceOf(NoExistTripScheduleException.class);
+    }
 }
