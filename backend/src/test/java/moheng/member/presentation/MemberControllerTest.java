@@ -6,6 +6,7 @@ import moheng.auth.domain.oauth.Authority;
 import moheng.auth.exception.InvalidInitAuthorityException;
 import moheng.config.slice.ControllerTestConfig;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
+import moheng.liveinformation.exception.NoExistLiveInformationException;
 import moheng.member.exception.DuplicateNicknameException;
 import moheng.member.exception.NoExistMemberException;
 import moheng.member.exception.ShortContentidsSizeException;
@@ -334,6 +335,34 @@ public class MemberControllerTest extends ControllerTestConfig {
                 ).andExpect(status().isNoContent());
     }
 
+    @DisplayName("존재하지 않는 생활정보를 선택하여 회원가입을 시도하면 상태코드 404를 리턴한다.")
+    @Test
+    void 존재하지_않는_생활정보를_선택하여_회원가입을_시도하면_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_신규()));
+        doThrow(new NoExistLiveInformationException("존재하지 않는 생활정보입니다."))
+                .when(memberService).signUpByLiveInfo(anyLong(), any());
+
+        // when, then
+        mockMvc.perform(post("/api/member/signup/liveinfo")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(생활정보로_회원가입_요청()))
+                ).andDo(print())
+                .andDo(document("member/signup/liveinfo/fail/noExistLiveInfo",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("liveInfoNames").description("선택한 생활정보 이름 리스트")
+                        ))
+                ).andExpect(status().isNotFound());
+    }
+
     @DisplayName("전달받은 여행지 추천에 필요한 생활정보 리스트가 비어있거나 유효하지 않다면 상태코드 400을 리턴한다.")
     @Test
     void 전달받은_여행지_추천에_필요한_생활정보_리스트가_비어있거나_유효하지_않다면_상태코드_400을_리턴한다() throws Exception {
@@ -350,7 +379,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(비어있는_생활정보로_회원가입_요청()))
                 ).andDo(print())
-                .andDo(document("member/signup/liveinfo/fail",
+                .andDo(document("member/signup/liveinfo/fail/emptyLiveInfo",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
