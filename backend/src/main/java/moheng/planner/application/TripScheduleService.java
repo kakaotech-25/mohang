@@ -10,6 +10,7 @@ import moheng.planner.domain.TripScheduleRepository;
 import moheng.planner.dto.*;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.planner.exception.NoExistTripScheduleException;
+import moheng.planner.exception.NoExistTripScheduleRegistryException;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.TripRepository;
 import moheng.trip.exception.NoExistTripException;
@@ -90,5 +91,12 @@ public class TripScheduleService {
             tripScheduleRegistries.add(new TripScheduleRegistry(trip, tripSchedule));
         }
         tripScheduleRegistryRepository.saveAll(tripScheduleRegistries);
+    }
+
+    public void deleteTripsOnSchedule(final long scheduleId, final long tripId) {
+        if(!tripScheduleRegistryRepository.existsByTripIdAndTripScheduleId(tripId, scheduleId)) {
+            throw new NoExistTripScheduleRegistryException("존재하지 않는 일정 여행지입니다.");
+        }
+        tripScheduleRegistryRepository.deleteByTripIdAndTripScheduleId(scheduleId, tripId);
     }
 }
