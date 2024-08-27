@@ -53,4 +53,14 @@ public class TripScheduleAcceptenceTestFixture {
                 .statusCode(HttpStatus.NO_CONTENT.value())
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 세부_일정내_특정_여행지를_제거한다(final long scheduleId, final long tripId, final AccessTokenResponse accessTokenResponse) {
+        return RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessTokenResponse.getAccessToken())
+                .when().delete("/api/schedule/{scheduleId}/{tripId}", scheduleId, tripId)
+                .then().log().all()
+                .statusCode(HttpStatus.NO_CONTENT.value())
+                .extract();
+    }
 }

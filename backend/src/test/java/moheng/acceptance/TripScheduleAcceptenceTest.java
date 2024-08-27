@@ -164,13 +164,7 @@ public class TripScheduleAcceptenceTest extends AcceptanceTestConfig {
         long scheduleId = 1L;
         long tripId = 1L;
 
-        ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .auth().oauth2(accessTokenResponse.getAccessToken())
-                .when().delete("/api/schedule/{scheduleId}/{tripId}", scheduleId, tripId)
-                .then().log().all()
-                .statusCode(HttpStatus.NO_CONTENT.value())
-                .extract();
+        ExtractableResponse<Response> resultResponse = 세부_일정내_특정_여행지를_제거한다(scheduleId, tripId, accessTokenResponse);
 
         FindTripsOnSchedule findTripsOnSchedule = 세부_일정을_찾는다(1L, accessTokenResponse).as(FindTripsOnSchedule.class);
 
