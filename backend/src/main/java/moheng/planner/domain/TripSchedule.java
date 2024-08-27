@@ -55,7 +55,7 @@ public class TripSchedule extends BaseEntity {
 
     private void validateName(final String name) {
         if(name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH) {
-            throw new InvalidTripScheduleNameException(String.format("이름은 %d자 이상 %d이하여야 합니다.",  MIN_NAME_LENGTH, MAX_NAME_LENGTH));
+            throw new InvalidTripScheduleNameException(String.format("일정 이름은 %d자 이상 %d이하여야 합니다.",  MIN_NAME_LENGTH, MAX_NAME_LENGTH));
         }
     }
 
