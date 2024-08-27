@@ -28,17 +28,14 @@ pipeline {
 
         stage('Parallel Build'){
             parallel{
-                stage('Frontend Build') {
+                stage('Frontend Docker Build') {
                     steps {
                         script {
                             echo 'Starting Frontend Build...'
 
-                            dir('frontend') {
-                                echo 'Installing Frontend Dependencies...'
-                                sh 'npm install --legacy-peer-deps'
-
-                                echo 'Building Frontend...'
-                                sh 'npm run build'
+                            dir('nginx') {
+                                sh 'docker build -t leovim5072/moheng-nginx:latest -f Dockerfile.prod ../'
+                                sh 'docker push leovim5072/moheng-nginx:latest'
                             }
 
                             echo 'Frontend Build Completed!'
@@ -51,15 +48,14 @@ pipeline {
                     }
                 }
 
-                stage('Backend Build') {
+                stage('Backend Docker Build') {
                     steps {
                         script {
                             echo 'Starting Backend Build...'
                             
                             dir('backend') {
-                                echo 'Installing Backend Dependencies...'
-                                sh 'chmod +x gradlew'
-                                sh './gradlew build'
+                                sh 'docker build -t leovim5072/moheng-backend:latest -f Dockerfile.prod ../'
+                                sh 'docker push leovim5072/moheng-backend:latest'
                             }
 
                             echo 'Backend Build Completed!'
