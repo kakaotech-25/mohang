@@ -24,7 +24,7 @@ pipeline {
             steps {
                 script {
                     echo 'Testing Docker Login...'
-                    docker.withRegistry("https://${IMAGE_STORAGE}", IMAGE_STORAGE_CREDENTIAL) {
+                    docker.withRegistry("https://registry.hub.docker.com", IMAGE_STORAGE_CREDENTIAL) {
                         echo 'Docker login successful!'
                     }
                 }
@@ -61,7 +61,7 @@ pipeline {
                             echo 'Starting Frontend Build...'
 
                             dir('nginx') {
-                                docker.withRegistry("https://${IMAGE_STORAGE}", IMAGE_STORAGE_CREDENTIAL) {
+                                docker.withRegistry("https://registry.hub.docker.com", IMAGE_STORAGE_CREDENTIAL) {
                                     def nginxImage = docker.build("leovim5072/moheng-nginx:latest", "-f Dockerfile.prod ../")
                                     nginxImage.push("latest")
                                 }
@@ -83,7 +83,7 @@ pipeline {
                             echo 'Starting Backend Build...'
                             
                             dir('backend') {
-                                docker.withRegistry("https://${IMAGE_STORAGE}", IMAGE_STORAGE_CREDENTIAL) {
+                                docker.withRegistry("https://registry.hub.docker.com", IMAGE_STORAGE_CREDENTIAL) {
                                     def backendImage = docker.build("leovim5072/moheng-backend:latest", "-f Dockerfile.prod .")
                                     backendImage.push("latest")
                                 }
