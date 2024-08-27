@@ -23,11 +23,6 @@
     padding-left: 20px;
 }
 
-.travel-image-container {
-    /* 사진 뒤 배경 삭제를 위해 배경 색상과 패딩을 제거 */
-    padding: 0;
-}
-
 .travel-image {
     width: 100%;
     height: auto;
@@ -125,20 +120,26 @@
     border-radius: 5px;
 }
 
+
 .similar-destinations {
-    margin-top: 40px;
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 2px solid #ECE6F0;
+    background-color: #f9f9f9;
+    padding-bottom: 40px;
 }
 
 .similar-destinations h2 {
     font-size: 24px;
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .similar-destinations .highlight {
-    color: #845EC2; /* 여행지명은 보라색 */
+    color: #845EC2;
     font-weight: bold;
 }
 
 .similar-place {
-    margin-left: 10%;
+    margin-left: 0;
 }

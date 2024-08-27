@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import TravelData from '../../data/TravelData';
 import plannerIcon from '../../assets/plannericon.png';
-import TravelCarousel from '../../components/TravelCarousel/TravelCarousel'; // 캐러셀 컴포넌트 임포트
+import TravelCarousel from '../../components/TravelCarousel/TravelCarousel';
 
 const TravelDetails = () => {
   const { id } = useParams();
@@ -66,7 +66,7 @@ const TravelDetails = () => {
 
       <section className="similar-destinations">
         <h2 className='similar-place'>
-          <span className="highlight">{card.title}</span>와/과 비슷한 여행지
+          <span className="highlight">{card.title}</span>와(과) 비슷한 여행지
         </h2>
         <TravelCarousel cards={similarCards} />
       </section>
