@@ -78,7 +78,6 @@ public class TripScheduleService {
                 .orElseThrow(NoExistTripScheduleException::new);
 
         tripScheduleRegistryRepository.deleteAllByTripScheduleId(scheduleId);
-        System.out.println(tripScheduleRegistryRepository.findAll().size());
         addAllTripOnPlannerSchedule(tripSchedule, updateTripOrdersRequest.getTripIds());
     }
 
