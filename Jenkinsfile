@@ -63,8 +63,10 @@ pipeline {
                             echo 'Starting Backend Build...'
                             
                             dir('backend') {
-                                sh 'docker build -t leovim5072/moheng-backend:latest -f Dockerfile.prod ../'
-                                sh 'docker push leovim5072/moheng-backend:latest'
+                                docker.withRegistry("https://${IMAGE_STORAGE}", IMAGE_STORAGE_CREDENTIAL) {
+                                    def backendImage = docker.build("leovim5072/moheng-backend:latest", "-f Dockerfile.prod .")
+                                    backendImage.push("latest")
+                                }
                             }
 
                             echo 'Backend Build Completed!'
