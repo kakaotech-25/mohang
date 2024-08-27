@@ -2,6 +2,7 @@ package moheng.planner.application;
 
 import static moheng.fixture.MemberFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -10,8 +11,11 @@ import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
 import moheng.planner.domain.TripSchedule;
+import moheng.planner.domain.TripScheduleRegistry;
+import moheng.planner.domain.TripScheduleRegistryRepository;
 import moheng.planner.domain.TripScheduleRepository;
 import moheng.planner.dto.CreateTripScheduleRequest;
+import moheng.planner.dto.FindTripsOnSchedule;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.planner.exception.NoExistTripScheduleException;
 import moheng.trip.domain.Trip;
@@ -35,6 +39,9 @@ public class TripScheduleServiceTest extends ServiceTestConfig {
 
     @Autowired
     private TripScheduleRepository tripScheduleRepository;
+
+    @Autowired
+    private TripScheduleRegistryRepository tripScheduleRegistryRepository;
 
     @DisplayName("여행 일정을 생성한다.")
     @Test
@@ -115,5 +122,30 @@ public class TripScheduleServiceTest extends ServiceTestConfig {
         // when, then
         assertThatThrownBy(() -> tripScheduleService.addCurrentTripOnPlannerSchedule(trip.getId(), invalidScheduleId))
                 .isInstanceOf(NoExistTripScheduleException.class);
+    }
+
+    @DisplayName("세부 일정 정보를 찾는다.")
+    @Test
+    void 세부_일정_정보를_찾는다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        TripSchedule tripSchedule = tripScheduleRepository.save(new TripSchedule("여행 일정", LocalDate.of(2024, 8, 1), LocalDate.of(2024, 8, 2), member));
+
+        Trip trip1 = tripRepository.save(new Trip("여행지1", "장소명", 1L, "설명", "https://image.com", 126.3307690830, 36.5309210243));
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "장소명", 1L, "설명", "https://image.com", 226.3307690830, 46.5309210243));
+
+        tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip1, tripSchedule));
+        tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip2, tripSchedule));
+
+        // when
+        FindTripsOnSchedule findTripsOnSchedule = tripScheduleService.findTripsOnSchedule(tripSchedule.getId());
+
+        // then
+        assertAll(() -> {
+            assertThat(findTripsOnSchedule.getTripScheduleResponse().getScheduleName()).isEqualTo("여행 일정");
+            assertThat(findTripsOnSchedule.getFindTripsOnSchedules()).hasSize(2);
+            assertThat(findTripsOnSchedule.getFindTripsOnSchedules().get(0).getCoordinateX()).isEqualTo(126.3307690830);
+            assertThat(findTripsOnSchedule.getFindTripsOnSchedules().get(0).getCoordinateY()).isEqualTo(36.5309210243);
+        });
     }
 }
