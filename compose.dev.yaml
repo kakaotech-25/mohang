@@ -14,7 +14,9 @@ services:
   backend:
     container_name: back
     image: spring:dev
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
     volumes:
       - back-dir:/app
     networks:

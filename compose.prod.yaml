@@ -14,7 +14,9 @@ services:
   backend:
     container_name: back
     image: spring:prod
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
     networks:
       - moheng-network
     expose:
