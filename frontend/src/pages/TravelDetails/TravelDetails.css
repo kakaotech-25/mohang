@@ -1,42 +1,53 @@
 .travel-details-container {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     padding: 20px;
-  }
-  
-  .travel-details-left {
+}
+
+.details-upper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.travel-details-left {
     width: 40%;
     padding-right: 20px;
-  }
-  
-  .travel-details-right {
+}
+
+.travel-details-right {
     width: 60%;
     display: flex;
     align-items: center;
     justify-content: center;
     padding-left: 20px;
-  }
-  
-  .travel-image {
+}
+
+.travel-image-container {
+    /* 사진 뒤 배경 삭제를 위해 배경 색상과 패딩을 제거 */
+    padding: 0;
+}
+
+.travel-image {
     width: 100%;
     height: auto;
     border-radius: 15px;
-  }
-  
-  .title-and-button {
+}
+
+.title-and-button {
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
-  
-  .add-to-planner {
+}
+
+.add-to-planner {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-left: 20px;
-  }
-  
-  .planner-button {
+}
+
+.planner-button {
     width: 70px;
     height: 60px;
     background-color: #ECE6F0;
@@ -46,46 +57,46 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  
-  .planner-button img {
+}
+
+.planner-button img {
     width: 35px;
     height: 35px;
-  }
-  
-  .add-to-planner span {
+}
+
+.add-to-planner span {
     margin-top: 8px;
     font-size: 14px;
     color: #845EC2;
-  }
-  
-  .location {
+}
+
+.location {
     color: #845EC2;
     font-weight: bold;
     font-size: 20px;
     margin-top: 0;
     margin-bottom: 30px;
-  }
-  
-  .tags {
+}
+
+.tags {
     margin-bottom: 30px;
-  }
-  
-  .tag {
+}
+
+.tag {
     background-color: #f0f0f0;
     border-radius: 12px;
     padding: 6px 12px;
     margin-right: 5px;
     display: inline-block;
     font-size: 16px;
-  }
-  
-  .description {
+}
+
+.description {
     font-size: 18px;
     line-height: 1.8;
-  }
-  
-  .modal-overlay {
+}
+
+.modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -95,16 +106,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
-  .modal {
+}
+
+.modal {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
     text-align: center;
-  }
-  
-  .modal button {
+}
+
+.modal button {
     margin-top: 10px;
     padding: 10px 20px;
     background-color: #845EC2;
@@ -112,5 +123,22 @@
     border: none;
     cursor: pointer;
     border-radius: 5px;
-  }
-  
+}
+
+.similar-destinations {
+    margin-top: 40px;
+}
+
+.similar-destinations h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.similar-destinations .highlight {
+    color: #845EC2; /* 여행지명은 보라색 */
+    font-weight: bold;
+}
+
+.similar-place {
+    margin-left: 10%;
+}
