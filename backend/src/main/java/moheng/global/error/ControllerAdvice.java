@@ -9,10 +9,7 @@ import moheng.liveinformation.exception.EmptyLiveInformationException;
 import moheng.liveinformation.exception.LiveInfoNameException;
 import moheng.liveinformation.exception.NoExistLiveInformationException;
 import moheng.member.exception.*;
-import moheng.planner.exception.AlreadyExistTripScheduleException;
-import moheng.planner.exception.InvalidTripScheduleDateException;
-import moheng.planner.exception.NoExistTripScheduleException;
-import moheng.planner.exception.NoExistTripScheduleRegistryException;
+import moheng.planner.exception.*;
 import moheng.recommendtrip.exception.LackOfRecommendTripException;
 import moheng.trip.exception.NoExistTripException;
 import org.slf4j.LoggerFactory;
@@ -48,6 +45,7 @@ public class ControllerAdvice {
             KeywordNameLengthException.class,
             LiveInfoNameException.class,
             NoMatchingSocialTypeException.class,
+            InvalidTripScheduleNameException.class,
     })
     public ResponseEntity<ExceptionResponse> handleIBadRequestException(final RuntimeException e) {
         logger.error(e.getMessage(), e);

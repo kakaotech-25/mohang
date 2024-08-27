@@ -26,6 +26,7 @@ import moheng.planner.dto.FindTripOnSchedule;
 import moheng.planner.dto.FindTripsOnSchedule;
 import moheng.planner.dto.UpdateTripOrdersRequest;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
+import moheng.planner.exception.InvalidTripScheduleNameException;
 import moheng.planner.exception.NoExistTripScheduleException;
 import moheng.planner.exception.NoExistTripScheduleRegistryException;
 import moheng.trip.domain.Trip;
@@ -77,6 +78,31 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(여행_일정_생성_요청()))
+                ).andDo(print())
+                .andDo(document("planner/schedule/create",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("scheduleName").description("생성할 여행 일정 이름"),
+                                fieldWithPath("startDate").description("여행 일정 시작날짜"),
+                                fieldWithPath("endDate").description("여행 일정 종료날짜")
+                        )))
+                .andExpect(status().isBadRequest());
+    }
+
+    @DisplayName("생성할 여행 일정 이름 길이가 유효범위를 벗어났다면 상태코드 400을 리턴한다.")
+    @Test
+    void 생성할_여행_일정_이름_길이가_유효범위를_벗어났다면_상태코드_400을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new InvalidTripScheduleNameException("이름은 2자 이상 1자 100자 이하여야 합니다."))
+                .when(tripScheduleService).createTripSchedule(anyLong(), any());
+
+        // when, then
+        mockMvc.perform(post("/api/schedule")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(유효하지_않은_이름으로_여행_일정_생성_요청()))
                 ).andDo(print())
                 .andDo(document("planner/schedule/create",
                         preprocessRequest(prettyPrint()),
