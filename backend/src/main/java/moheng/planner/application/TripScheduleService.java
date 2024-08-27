@@ -38,4 +38,9 @@ public class TripScheduleService {
         );
         tripScheduleRepository.save(tripSchedule);
     }
+
+    @Transactional
+    public void addTripOnSchedule(final long memberId, final long tripId, final long scheduleId) {
+
+    }
 }
