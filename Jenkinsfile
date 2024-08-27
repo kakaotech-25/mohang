@@ -57,12 +57,6 @@ pipeline {
                                 targetBranch: 'develop',
                                 context: '-f Dockerfile.prod ../'
                             )
-                            // dir('nginx') {
-                            //     docker.withRegistry(IMAGE_STORAGE, IMAGE_STORAGE_CREDENTIAL) {
-                            //         def nginxImage = docker.build("leovim5072/moheng-nginx:latest", "-f Dockerfile.prod ../")
-                            //         nginxImage.push("latest")
-                            //     }
-                            // }
                             echo 'Nginx Build Completed!'
                         }
                     }
@@ -83,12 +77,6 @@ pipeline {
                                 targetBranch: 'develop',
                                 context: '-f Dockerfile.prod .'
                             )
-                            // dir('backend') {
-                            //     docker.withRegistry(IMAGE_STORAGE, IMAGE_STORAGE_CREDENTIAL) {
-                            //         def backendImage = docker.build("leovim5072/moheng-backend:latest", "-f Dockerfile.prod .")
-                            //         backendImage.push("latest")
-                            //     }
-                            // }
                             echo 'Backend Build Completed!'
                         }
                     }
@@ -106,8 +94,8 @@ pipeline {
         always {
             script {
                 def buildStatus = currentBuild.result ?: 'SUCCESS'
-                def durationMinutes = Math.floor(currentBuild.duration / 60000)
-                def durationSeconds = Math.round((currentBuild.duration % 60000) / 1000)
+                def durationMinutes = (currentBuild.duration / 60000).intValue()
+                def durationSeconds = ((currentBuild.duration % 60000) / 1000).intValue()
                 def duration = "${durationMinutes}m ${durationSeconds}s"
                 sendDiscordNotification(buildStatus, duration)
             }
