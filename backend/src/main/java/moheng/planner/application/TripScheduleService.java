@@ -4,9 +4,15 @@ import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
 import moheng.planner.domain.TripSchedule;
+import moheng.planner.domain.TripScheduleRegistry;
+import moheng.planner.domain.TripScheduleRegistryRepository;
 import moheng.planner.domain.TripScheduleRepository;
 import moheng.planner.dto.CreateTripScheduleRequest;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
+import moheng.planner.exception.NoExistTripScheduleException;
+import moheng.trip.domain.Trip;
+import moheng.trip.domain.TripRepository;
+import moheng.trip.exception.NoExistTripException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,10 +21,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class TripScheduleService {
     private final MemberRepository memberRepository;
     private final TripScheduleRepository tripScheduleRepository;
+    private final TripRepository tripRepository;
+    private final TripScheduleRegistryRepository tripScheduleRegistryRepository;
 
-    public TripScheduleService(final MemberRepository memberRepository, final TripScheduleRepository tripScheduleRepository) {
+    public TripScheduleService(final MemberRepository memberRepository,
+                               final TripScheduleRepository tripScheduleRepository,
+                               final TripRepository tripRepository,
+                               final TripScheduleRegistryRepository tripScheduleRegistryRepository) {
         this.memberRepository = memberRepository;
         this.tripScheduleRepository = tripScheduleRepository;
+        this.tripRepository = tripRepository;
+        this.tripScheduleRegistryRepository = tripScheduleRegistryRepository;
     }
 
     @Transactional
@@ -37,5 +50,16 @@ public class TripScheduleService {
                 member
         );
         tripScheduleRepository.save(tripSchedule);
+    }
+
+    @Transactional
+    public void addCurrentTripOnPlannerSchedule(final long tripId, final long scheduleId) {
+        final Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(NoExistTripException::new);
+
+        final TripSchedule tripSchedule = tripScheduleRepository.findById(scheduleId)
+                .orElseThrow(NoExistTripScheduleException::new);
+
+        tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip, tripSchedule));
     }
 }

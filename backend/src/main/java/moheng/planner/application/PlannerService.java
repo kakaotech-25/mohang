@@ -76,7 +76,6 @@ public class PlannerService {
         if(!tripScheduleRepository.existsById(tripScheduleId)) {
             throw new NoExistTripScheduleException("존재하지 않는 여행 일정입니다.");
         }
-
         tripScheduleRepository.deleteById(tripScheduleId);
     }
 }

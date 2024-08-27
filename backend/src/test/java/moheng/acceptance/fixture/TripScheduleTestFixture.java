@@ -22,4 +22,14 @@ public class TripScheduleTestFixture {
                 .statusCode(HttpStatus.NO_CONTENT.value())
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 플래너에_여행지를_담는다(final AccessTokenResponse accessTokenResponse, final long tripId, final long scheduleId) {
+        return RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessTokenResponse.getAccessToken())
+                .when().post("/api/schedule/trip/{tripId}/{scheduleId}", tripId, scheduleId)
+                .then().log().all()
+                .statusCode(HttpStatus.NO_CONTENT.value())
+                .extract();
+    }
 }
