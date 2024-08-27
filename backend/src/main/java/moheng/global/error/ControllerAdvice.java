@@ -41,7 +41,6 @@ public class ControllerAdvice {
             EmptyLiveInformationException.class,
             ShortContentidsSizeException.class,
             NoExistTripException.class,
-            NoExistKeywordException.class,
             LackOfRecommendTripException.class,
             AlreadyExistTripScheduleException.class,
             InvalidTripScheduleDateException.class,
@@ -76,7 +75,8 @@ public class ControllerAdvice {
             InvalidTokenFormatException.class,
             InvalidTokenException.class,
             DuplicateNicknameException.class,
-            InvalidInitAuthorityException.class
+            InvalidInitAuthorityException.class,
+            NoExistKeywordException.class
     })
     public ResponseEntity<ExceptionResponse> handleUnAuthorizedException(final RuntimeException e) {
         logger.error(e.getMessage(), e);

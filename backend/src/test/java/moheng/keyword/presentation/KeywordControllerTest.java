@@ -1,7 +1,9 @@
 package moheng.keyword.presentation;
 
+import moheng.auth.exception.InvalidInitAuthorityException;
 import moheng.config.slice.ControllerTestConfig;
 import moheng.keyword.exception.InvalidAIServerException;
+import moheng.keyword.exception.NoExistKeywordException;
 import moheng.trip.dto.FindTripsResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,6 +13,7 @@ import static moheng.fixture.KeywordFixture.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -60,6 +63,34 @@ public class KeywordControllerTest extends ControllerTestConfig {
                                 fieldWithPath("findTripResponses[].keywords").description("세부 여행지 키워드 리스트")
                         )
                 )).andExpect(status().isOk());
+    }
+
+    @DisplayName("랜덤 키워드를 찾을 수 없다면 상태코드 401을 리턴한다.")
+    @Test
+    void 랜덤_키워드를_찾을_수_없다면_상태코드_400을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistKeywordException("랜덤 키워드를 찾을 수 없습니다."))
+                .when(keywordService).findRecommendTripsByKeywords(any());
+
+        // when, then
+        mockMvc.perform(post("/api/keyword/trip/recommend")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(키워드_기반_추천_여행지_요청()))
+                )
+                .andDo(print())
+                .andDo(document("keyword/travel/model",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("keywordIds").description("키워드 ID 리스트")
+                        )
+                )).andExpect(status().isUnauthorized());
     }
 
     @DisplayName("키워드를 생성하고 상태코드 200을 리턴한다.")
