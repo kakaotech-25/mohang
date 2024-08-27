@@ -42,8 +42,16 @@ public class TripScheduleController {
     @PostMapping("/trips/orders/{scheduleId}")
     public ResponseEntity<Void> updateTripOrdersOnSchedule(@Authentication final Accessor accessor,
                                                            @PathVariable("scheduleId") final Long scheduleId,
-                                                           @RequestBody UpdateTripOrdersRequest updateTripOrdersRequest) {
+                                                           @RequestBody final UpdateTripOrdersRequest updateTripOrdersRequest) {
         tripScheduleService.updateTripOrdersOnSchedule(scheduleId, updateTripOrdersRequest);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{scheduleId}/{tripId}")
+    public ResponseEntity<Void> deleteTripOnSchedule(@Authentication final Accessor accessor,
+                                                     @PathVariable("scheduleId") final Long scheduleId,
+                                                     @PathVariable("tripId") final Long tripId) {
+        tripScheduleService.deleteTripOnSchedule(scheduleId, tripId);
         return ResponseEntity.noContent().build();
     }
 }

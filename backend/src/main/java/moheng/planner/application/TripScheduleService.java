@@ -93,7 +93,7 @@ public class TripScheduleService {
         tripScheduleRegistryRepository.saveAll(tripScheduleRegistries);
     }
 
-    public void deleteTripsOnSchedule(final long scheduleId, final long tripId) {
+    public void deleteTripOnSchedule(final long scheduleId, final long tripId) {
         if(!tripScheduleRegistryRepository.existsByTripIdAndTripScheduleId(tripId, scheduleId)) {
             throw new NoExistTripScheduleRegistryException("존재하지 않는 일정 여행지입니다.");
         }

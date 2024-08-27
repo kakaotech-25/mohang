@@ -229,7 +229,7 @@ public class TripScheduleServiceTest extends ServiceTestConfig {
         tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip3, tripSchedule));
 
         // when
-        tripScheduleService.deleteTripsOnSchedule(trip1.getId(), tripSchedule.getId());
+        tripScheduleService.deleteTripOnSchedule(trip1.getId(), tripSchedule.getId());
 
         // then
         int exptected = 2;
@@ -244,7 +244,7 @@ public class TripScheduleServiceTest extends ServiceTestConfig {
         long invalidTripId = -1L;
 
         // when, then
-        assertThatThrownBy(() -> tripScheduleService.deleteTripsOnSchedule(invalidScheduleId, invalidTripId))
+        assertThatThrownBy(() -> tripScheduleService.deleteTripOnSchedule(invalidScheduleId, invalidTripId))
                 .isInstanceOf(NoExistTripScheduleRegistryException.class);
     }
 }

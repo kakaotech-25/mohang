@@ -219,4 +219,10 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         preprocessResponse()))
                 .andExpect(status().isNoContent());
     }
+
+    @DisplayName("")
+    @Test
+    void a() throws Exception {
+
+    }
 }
