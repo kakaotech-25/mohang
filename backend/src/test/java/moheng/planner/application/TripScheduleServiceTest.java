@@ -103,4 +103,17 @@ public class TripScheduleServiceTest extends ServiceTestConfig {
         assertThatThrownBy(() -> tripScheduleService.addCurrentTripOnPlannerSchedule(invalidTripId, tripSchedule.getId()))
                 .isInstanceOf(NoExistTripException.class);
     }
+
+    @DisplayName("존재하지 않는 여행 일정에 여행지를 담으려고하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_여행_일정에_여행지를_담으려고하면_예외가_발생한다() {
+        // given
+        long invalidScheduleId = -1L;
+        Member member = memberRepository.save(하온_기존());
+        Trip trip = tripRepository.save(new Trip("여행지", "장소명", 1L, "설명", "https://image.com"));
+
+        // when, then
+        assertThatThrownBy(() -> tripScheduleService.addCurrentTripOnPlannerSchedule(trip.getId(), invalidScheduleId))
+                .isInstanceOf(NoExistTripScheduleException.class);
+    }
 }
