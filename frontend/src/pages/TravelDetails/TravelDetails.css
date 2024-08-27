@@ -91,6 +91,13 @@
     line-height: 1.8;
 }
 
+.scrollable-description {
+    max-height: 400px;
+    overflow-y: scroll;
+    padding-right: 10px;
+    box-shadow: inset 0px -10px 10px -10px rgba(0, 0, 0, 0.1);
+}
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -119,7 +126,6 @@
     cursor: pointer;
     border-radius: 5px;
 }
-
 
 .similar-destinations {
     margin-top: 60px;
