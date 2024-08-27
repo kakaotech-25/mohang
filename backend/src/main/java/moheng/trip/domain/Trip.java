@@ -62,19 +62,19 @@ public class Trip extends BaseEntity {
         this.visitedCount = visitedCount;
     }
 
-    void validateName(String name) {
+    void validateName(final String name) {
         if(name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH ) {
             throw new InvalidTripNameException("여행지 이름의 길이는 100자 이하, 2자 이상만 허용됩니다.");
         }
     }
 
-    void validatePlaceName(String placeName) {
+    void validatePlaceName(final String placeName) {
         if(placeName.length() < MIN_NAME_LENGTH || placeName.length() > MAX_NAME_LENGTH ) {
             throw new InvalidTripNameException("여행지 장소명의 길이는 100자 이하, 2자 이상만 허용됩니다.");
         }
     }
 
-    void validateDescription(String description) {
+    void validateDescription(final String description) {
         if(description.isEmpty() || description == null) {
             throw new InvalidTripDescriptionException("여행지 설명은 비어있을 수 없습니다.");
         }
@@ -95,12 +95,10 @@ public class Trip extends BaseEntity {
         return contentId;
     }
 
-    @Generated
     public Long getId() {
         return id;
     }
 
-    @Generated
     public String getDescription() {
         return description;
     }
@@ -109,12 +107,10 @@ public class Trip extends BaseEntity {
         return placeName;
     }
 
-    @Generated
     public String getTripImageUrl() {
         return tripImageUrl;
     }
 
-    @Generated
     public Long getVisitedCount() {
         return visitedCount;
     }

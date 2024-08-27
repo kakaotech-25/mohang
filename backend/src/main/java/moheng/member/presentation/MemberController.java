@@ -10,12 +10,12 @@ import moheng.member.dto.response.MemberResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/member")
+@RequestMapping("/api/member")
 @RestController
 public class MemberController {
     private final MemberService memberService;
 
-    public MemberController(MemberService memberService) {
+    public MemberController(final MemberService memberService) {
         this.memberService = memberService;
     }
 

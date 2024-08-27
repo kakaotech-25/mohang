@@ -38,7 +38,7 @@ public class LiveInformationControllerTest extends ControllerTestConfig {
                 ));
 
         // when, then
-        mockMvc.perform(get("/live/info/all")
+        mockMvc.perform(get("/api/live/info/all")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
         )
@@ -63,7 +63,7 @@ public class LiveInformationControllerTest extends ControllerTestConfig {
         doNothing().when(liveInformationService).createLiveInformation(any());
 
         // when, then
-        mockMvc.perform(post("/live/info")
+        mockMvc.perform(post("/api/live/info")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(비어있는_생활정보로_회원가입_요청()))
@@ -79,7 +79,7 @@ public class LiveInformationControllerTest extends ControllerTestConfig {
         doNothing().when(liveInformationService).createTripLiveInformation(anyLong(), anyLong());
 
         // when, then
-        mockMvc.perform(post("/live/info/trip/{tripId}/{liveInfoId}", 1L, 1L)
+        mockMvc.perform(post("/api/live/info/trip/{tripId}/{liveInfoId}", 1L, 1L)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                 ).andDo(print())

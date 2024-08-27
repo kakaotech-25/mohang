@@ -15,11 +15,11 @@ public class SimilarTripResponses {
     private SimilarTripResponses() {
     }
 
-    public SimilarTripResponses(List<Trip> trips, List<TripKeyword> tripKeywords) {
+    public SimilarTripResponses(final List<Trip> trips, final List<TripKeyword> tripKeywords) {
         this.findTripResponses = toResponse(trips, tripKeywords);
     }
 
-    private List<FindTripResponse> toResponse(List<Trip> trips, List<TripKeyword> tripKeywords) {
+    private List<FindTripResponse> toResponse(final List<Trip> trips, final List<TripKeyword> tripKeywords) {
         Map<Trip, List<String>> tripKeywordMap = new HashMap<>();
         for (TripKeyword tripKeyword : tripKeywords) {
             Trip trip = tripKeyword.getTrip();

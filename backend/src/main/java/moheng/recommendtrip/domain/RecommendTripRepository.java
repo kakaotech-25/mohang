@@ -13,12 +13,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RecommendTripRepository extends JpaRepository<RecommendTrip, Long> {
-    @Query("SELECT new moheng.keyword.dto.RecommendTripResponse(rt.trip.contentId, rt.visitedCount) FROM RecommendTrip rt WHERE rt.member.id = :memberId")
-    List<RecommendTripResponse> findVisitedCountAndTripContentIdByMemberId(@Param("memberId") final Long memberId);
-
     List<RecommendTrip> findAllByMemberId(final Long memberId);
 
-    List<RecommendTrip> findTop10ByMember(Member member);
+    List<RecommendTrip> findTop10ByMember(final Member member);
 
     boolean existsByMemberAndTrip(final Member member, final Trip trip);
 

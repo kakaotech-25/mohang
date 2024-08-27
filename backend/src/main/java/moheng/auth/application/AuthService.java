@@ -61,8 +61,8 @@ public class AuthService {
 
     @Transactional
     public RenewalAccessTokenResponse generateRenewalAccessToken(final RenewalAccessTokenRequest renewalAccessTokenRequest) {
-        String refreshToken = renewalAccessTokenRequest.getRefreshToken();
-        RenewalToken renewalToken = tokenManager.generateRenewalAccessToken(refreshToken);
+        final String refreshToken = renewalAccessTokenRequest.getRefreshToken();
+        final RenewalToken renewalToken = tokenManager.generateRenewalAccessToken(refreshToken);
         return new RenewalAccessTokenResponse(renewalToken.getAccessToken());
     }
 

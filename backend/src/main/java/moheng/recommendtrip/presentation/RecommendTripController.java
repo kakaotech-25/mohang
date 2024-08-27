@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/recommend")
+@RequestMapping("/api/recommend")
 @RestController
 public class RecommendTripController {
     private final RecommendTripService recommendTripService;

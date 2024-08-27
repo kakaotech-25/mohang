@@ -26,46 +26,50 @@ pipeline {
             }
         }
 
-        stage('Frontend Build') {
-            steps {
-                script {
-                    echo 'Starting Frontend Build...'
+        stage('Parallel Build'){
+            parallel{
+                stage('Frontend Build') {
+                    steps {
+                        script {
+                            echo 'Starting Frontend Build...'
 
-                    dir('frontend') {
-                        echo 'Installing Frontend Dependencies...'
-                        sh 'npm install --legacy-peer-deps'
+                            dir('frontend') {
+                                echo 'Installing Frontend Dependencies...'
+                                sh 'npm install --legacy-peer-deps'
 
-                        echo 'Building Frontend...'
-                        sh 'npm run build'
+                                echo 'Building Frontend...'
+                                sh 'npm run build'
+                            }
+
+                            echo 'Frontend Build Completed!'
+                        }
                     }
-
-                    echo 'Frontend Build Completed!'
-                }
-            }
-            post {
-                failure {
-                    sendErrorNotification('Frontend Build')
-                }
-            }
-        }
-
-        stage('Backend Build') {
-            steps {
-                script {
-                    echo 'Starting Backend Build...'
-                    
-                    dir('backend') {
-                        echo 'Installing Backend Dependencies...'
-                        sh 'chmod +x gradlew'
-                        sh './gradlew build'
+                    post {
+                        failure {
+                            sendErrorNotification('Frontend Build')
+                        }
                     }
-
-                    echo 'Backend Build Completed!'
                 }
-            }
-            post {
-                failure {
-                    sendErrorNotification('Backend Build')
+
+                stage('Backend Build') {
+                    steps {
+                        script {
+                            echo 'Starting Backend Build...'
+                            
+                            dir('backend') {
+                                echo 'Installing Backend Dependencies...'
+                                sh 'chmod +x gradlew'
+                                sh './gradlew build'
+                            }
+
+                            echo 'Backend Build Completed!'
+                        }
+                    }
+                    post {
+                        failure {
+                            sendErrorNotification('Backend Build')
+                        }
+                    }
                 }
             }
         }

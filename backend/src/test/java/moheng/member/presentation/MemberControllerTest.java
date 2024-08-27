@@ -38,7 +38,7 @@ public class MemberControllerTest extends ControllerTestConfig {
         given(memberService.findById(anyLong())).willReturn(하온_응답());
 
         // when, then
-        mockMvc.perform(get("/member/me")
+        mockMvc.perform(get("/api/member/me")
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -69,7 +69,7 @@ public class MemberControllerTest extends ControllerTestConfig {
         given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_신규()));
 
         // when, then
-        mockMvc.perform(post("/member/signup/profile")
+        mockMvc.perform(post("/api/member/signup/profile")
                 .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -103,7 +103,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                 .when(memberService).checkIsAlreadyExistNickname(anyString());
 
         // when, then
-        mockMvc.perform(post("/member/signup/profile")
+        mockMvc.perform(post("/api/member/signup/profile")
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -134,7 +134,7 @@ public class MemberControllerTest extends ControllerTestConfig {
         given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_신규()));
 
         // when, then
-        mockMvc.perform(post("/member/check/nickname")
+        mockMvc.perform(post("/api/member/check/nickname")
                 .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -166,7 +166,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                 .when(memberService).checkIsAlreadyExistNickname(anyString());
 
         // when, then
-        mockMvc.perform(post("/member/check/nickname")
+        mockMvc.perform(post("/api/member/check/nickname")
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -195,7 +195,7 @@ public class MemberControllerTest extends ControllerTestConfig {
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
 
         // when, then
-        mockMvc.perform(put("/member/profile")
+        mockMvc.perform(put("/api/member/profile")
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -227,7 +227,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                 .when(memberService).updateByProfile(anyLong(), any());
 
         // when, then
-        mockMvc.perform(put("/member/profile")
+        mockMvc.perform(put("/api/member/profile")
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -258,7 +258,7 @@ public class MemberControllerTest extends ControllerTestConfig {
         doNothing().when(memberService).signUpByLiveInfo(anyLong(), any());
 
         // when, then
-        mockMvc.perform(post("/member/signup/liveinfo")
+        mockMvc.perform(post("/api/member/signup/liveinfo")
                 .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -286,7 +286,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                 .when(memberService).signUpByLiveInfo(anyLong(), any());
 
         // when, then
-        mockMvc.perform(post("/member/signup/liveinfo")
+        mockMvc.perform(post("/api/member/signup/liveinfo")
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -312,7 +312,7 @@ public class MemberControllerTest extends ControllerTestConfig {
         given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_신규()));
 
         // when, then
-        mockMvc.perform(post("/member/signup/trip")
+        mockMvc.perform(post("/api/member/signup/trip")
                 .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -340,7 +340,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                 .when(memberService).signUpByInterestTrips(anyLong(), any());
 
         // when, then
-        mockMvc.perform(post("/member/signup/trip")
+        mockMvc.perform(post("/api/member/signup/trip")
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)

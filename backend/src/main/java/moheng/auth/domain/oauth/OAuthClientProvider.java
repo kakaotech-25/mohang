@@ -13,7 +13,7 @@ public class OAuthClientProvider implements OAuthProvider {
     private final List<OAuthClient> oAuthClients;
     private final List<OAuthUriProvider> oAuthUriProviders;
 
-    public OAuthClientProvider(List<OAuthClient> oAuthClients, List<OAuthUriProvider> oAuthUriProviders) {
+    public OAuthClientProvider(final List<OAuthClient> oAuthClients, final List<OAuthUriProvider> oAuthUriProviders) {
         this.oAuthClients = oAuthClients;
         this.oAuthUriProviders = oAuthUriProviders;
     }

@@ -8,14 +8,14 @@ import java.util.Optional;
 public enum SocialType {
     KAKAO, GOOGLE;
 
-    public static boolean isMatches(SocialType input) {
+    public static boolean isMatches(final SocialType input) {
         for(SocialType type : SocialType.values()) {
             if(type == input) return true;
         }
         return false;
     }
 
-    public static SocialType findByName(String input) {
+    public static SocialType findByName(final String input) {
         return Arrays.stream(SocialType.values())
                 .filter(type -> type.name().equalsIgnoreCase(input))
                 .findFirst()

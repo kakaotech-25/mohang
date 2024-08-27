@@ -1,7 +1,7 @@
 package moheng.member.exception;
 
 public class NoExistSocialTypeException extends RuntimeException {
-    public NoExistSocialTypeException(String message) {
+    public NoExistSocialTypeException(final String message) {
         super(message);
     }
 }

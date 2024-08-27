@@ -1,7 +1,7 @@
 package moheng.auth.exception;
 
 public class InvalidInitAuthorityException extends RuntimeException {
-    public InvalidInitAuthorityException(String message) {
+    public InvalidInitAuthorityException(final String message) {
         super(message);
     }
 }

@@ -9,7 +9,7 @@ public class RenewalAccessTokenResponse {
     private RenewalAccessTokenResponse() {
     }
 
-    public RenewalAccessTokenResponse(String accessToken) {
+    public RenewalAccessTokenResponse(final String accessToken) {
         this.accessToken = accessToken;
     }
 

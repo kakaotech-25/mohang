@@ -17,20 +17,18 @@ public class KakaoOAuthMember implements OAuthMember {
         private String email;
     }
 
-    public KakaoOAuthMember(String email, String socialLoginId) {
+    public KakaoOAuthMember(final String email, final String socialLoginId) {
         this.socialLoginId = socialLoginId;
         this.kakaoAccount = new KakaoAccount();
         this.kakaoAccount.email = email;
     }
 
     @Override
-    @Generated
     public String getSocialLoginId() {
         return socialLoginId;
     }
 
     @Override
-    @Generated
     public String getEmail() {
         return kakaoAccount.email;
     }

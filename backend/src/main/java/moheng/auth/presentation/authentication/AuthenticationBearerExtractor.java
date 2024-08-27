@@ -16,7 +16,7 @@ public class AuthenticationBearerExtractor {
     }
 
     public String extract(final HttpServletRequest httpServletRequest) {
-        String authorizationHeader = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
+        final String authorizationHeader = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
 
         validateEmptyHeader(authorizationHeader);
         validateAuthorizationFormat(authorizationHeader);

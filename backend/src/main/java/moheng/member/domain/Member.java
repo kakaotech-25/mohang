@@ -83,7 +83,7 @@ public class Member extends BaseEntity {
         this.authority = Authority.REGULAR_MEMBER;
     }
 
-    public void changePrivilege(Authority authority) {
+    public void changePrivilege(final Authority authority) {
         this.authority = authority;
     }
 

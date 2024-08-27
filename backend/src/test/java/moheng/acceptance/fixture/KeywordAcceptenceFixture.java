@@ -9,22 +9,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 public class KeywordAcceptenceFixture {
-    public static ExtractableResponse<Response> 키워드를_생성한다(String name) {
+    public static ExtractableResponse<Response> 키워드를_생성한다(final String name) {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(new KeywordCreateRequest(name))
-                .when().post("/keyword")
+                .when().post("/api/keyword")
                 .then().log().all()
                 .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 키워드_리스트로_여행지를_추천받는다(String accessToken, TripsByKeyWordsRequest tripsByKeyWordsRequest) {
+    public static ExtractableResponse<Response> 키워드_리스트로_여행지를_추천받는다(final String accessToken, final TripsByKeyWordsRequest tripsByKeyWordsRequest) {
         return RestAssured.given().log().all()
                 .auth().oauth2(accessToken)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(tripsByKeyWordsRequest)
-                .when().post("/keyword/trip/recommend")
+                .when().post("/api/keyword/trip/recommend")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract();
@@ -33,7 +33,7 @@ public class KeywordAcceptenceFixture {
     public static ExtractableResponse<Response> 랜덤_키워드_리스트로_여행지를_추천받는다() {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .when().get("/keyword/random/trip")
+                .when().get("/api/keyword/random/trip")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract();

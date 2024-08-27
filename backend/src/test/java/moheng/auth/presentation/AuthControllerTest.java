@@ -39,7 +39,7 @@ public class AuthControllerTest extends ControllerTestConfig {
         given(authService.generateUri(anyString())).willReturn("URI");
 
         // when, then
-        mockMvc.perform(get("/auth/{oAuthProvider}/link", "KAKAO"))
+        mockMvc.perform(get("/api/auth/{oAuthProvider}/link", "KAKAO"))
                 .andDo(print())
                 .andDo(document("auth/generate/link",
                         preprocessRequest(prettyPrint()),
@@ -57,7 +57,7 @@ public class AuthControllerTest extends ControllerTestConfig {
         given(authService.generateTokenWithCode(any(), any())).willReturn(토큰_응답());
 
         // when, then
-        mockMvc.perform(post("/auth/{oAuthProvider}/login", "KAKAO")
+        mockMvc.perform(post("/api/auth/{oAuthProvider}/login", "KAKAO")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(토큰_생성_요청())))
@@ -83,7 +83,7 @@ public class AuthControllerTest extends ControllerTestConfig {
         given(authService.generateTokenWithCode(any(), any())).willThrow(new InvalidOAuthServiceException("카카오 OAuth 소셜 로그인 서버에 예기치 못한 오류가 발생했습니다."));
 
         // when, then
-        mockMvc.perform(post("/auth/{oAuthProvider}/token", "KAKAO")
+        mockMvc.perform(post("/api/auth/{oAuthProvider}/token", "KAKAO")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(토큰_생성_요청())))
@@ -103,7 +103,7 @@ public class AuthControllerTest extends ControllerTestConfig {
         given(authService.generateRenewalAccessToken(any())).willReturn(토큰_갱신_응답());
 
         // when, then
-        mockMvc.perform(post("/auth/extend/login")
+        mockMvc.perform(post("/api/auth/extend/login")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .cookie(토큰_갱신_요청()))
@@ -130,7 +130,7 @@ public class AuthControllerTest extends ControllerTestConfig {
         given(authService.generateRenewalAccessToken(any())).willThrow(new InvalidTokenException("변조되었거나 만료된 토큰 입니다."));
 
         // when, then
-        mockMvc.perform(post("/auth/extend/login")
+        mockMvc.perform(post("/api/auth/extend/login")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .cookie(토큰_갱신_요청())
@@ -154,7 +154,7 @@ public class AuthControllerTest extends ControllerTestConfig {
         doNothing().when(authService).removeRefreshToken(any());
 
         // when, then
-        mockMvc.perform(delete("/auth/logout")
+        mockMvc.perform(delete("/api/auth/logout")
                         .header("Authorization", "Bearer aaaaaaaa.bbbbbbbb.cccccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)

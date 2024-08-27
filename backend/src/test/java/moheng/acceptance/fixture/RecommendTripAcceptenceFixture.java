@@ -12,7 +12,7 @@ public class RecommendTripAcceptenceFixture {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .auth().oauth2(accessToken)
                 .body(new RecommendTripCreateRequest(tripId))
-                .when().post("/recommend")
+                .when().post("/api/recommend")
                 .then().log().all()
                 .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())
                 .extract();

@@ -8,7 +8,7 @@ public class SignUpLiveInfoRequest {
     private SignUpLiveInfoRequest() {
     }
 
-    public SignUpLiveInfoRequest(List<String> liveInfoNames) {
+    public SignUpLiveInfoRequest(final List<String> liveInfoNames) {
         this.liveInfoNames = liveInfoNames;
     }
 

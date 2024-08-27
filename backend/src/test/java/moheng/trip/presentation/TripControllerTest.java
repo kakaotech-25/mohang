@@ -33,7 +33,7 @@ public class TripControllerTest extends ControllerTestConfig {
     @Test
     void 여행지를_생성하면_상태코드_204를_리턴한다() throws Exception {
         // given, when, then
-        mockMvc.perform(post("/trip")
+        mockMvc.perform(post("/api/trip")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(롯데월드_여행지_생성_요청()))
@@ -50,7 +50,7 @@ public class TripControllerTest extends ControllerTestConfig {
                 .willReturn(여행지_응답());
 
         // when, then
-        mockMvc.perform(get("/trip/find/interested")
+        mockMvc.perform(get("/api/trip/find/interested")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
         )
@@ -80,7 +80,7 @@ public class TripControllerTest extends ControllerTestConfig {
                 .willReturn(여행지_조회_응답());
 
         // when, then
-        mockMvc.perform(get("/trip/find/{tripId}", 1L)
+        mockMvc.perform(get("/api/trip/find/{tripId}", 1L)
                 .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -114,7 +114,7 @@ public class TripControllerTest extends ControllerTestConfig {
         doNothing().when(tripService).createMemberTrip(anyLong(), anyLong());
 
         // when, then
-        mockMvc.perform(post("/trip/member/{tripId}", 1L)
+        mockMvc.perform(post("/api/trip/member/{tripId}", 1L)
                 .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))

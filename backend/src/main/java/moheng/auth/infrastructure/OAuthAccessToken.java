@@ -20,7 +20,6 @@ public class OAuthAccessToken {
     @JsonProperty("refresh_token")
     private String refreshToken;
 
-    @Generated
     public String getAccessToken() {
         return accessToken;
     }

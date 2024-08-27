@@ -45,7 +45,7 @@ public class KakaoOAuthClient implements OAuthClient {
     }
 
     @Override
-    public boolean isSame(String providerName) {
+    public boolean isSame(final String providerName) {
         return PROVIDER_NAME.equals(providerName);
     }
 
@@ -73,7 +73,7 @@ public class KakaoOAuthClient implements OAuthClient {
         throw new InvalidOAuthServiceException("카카오 OAuth 소셜 로그인 서버에 예기치 못한 오류가 발생했습니다.");
     }
 
-    private String requestKakaoAccessToken(String code) {
+    private String requestKakaoAccessToken(final String code) {
         final MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         final HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setBasicAuth(clientId, clientSecret);

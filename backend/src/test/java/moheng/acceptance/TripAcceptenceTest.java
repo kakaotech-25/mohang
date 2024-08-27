@@ -3,6 +3,7 @@ package moheng.acceptance;
 import static moheng.acceptance.fixture.RecommendTripAcceptenceFixture.*;
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.자체_토큰을_생성한다;
 import static moheng.acceptance.fixture.KeywordAcceptenceFixture.키워드를_생성한다;
+import static moheng.acceptance.fixture.LiveInfoAcceptenceFixture.*;
 import static moheng.acceptance.fixture.TripKeywordAcceptenceFixture.*;
 import static moheng.acceptance.fixture.TripAcceptenceFixture.*;
 import static moheng.acceptance.fixture.HttpStatusAcceptenceFixture.상태코드_200이_반환된다;
@@ -65,7 +66,7 @@ public class TripAcceptenceTest extends AcceptanceTestConfig {
         });
     }
 
-    @DisplayName("현재 여행지를 비슷한 여행지와 함께 조회하고 상태코드 200을 리턴한다.")
+    @DisplayName("현재 여행지를 비슷한 여행지 10개와 함께 조회하고 상태코드 200을 리턴한다.")
     @Test
     void 현재_여행지를_비슷한_여행지와_함께_조회하고_상태코드_200을_리턴한다() {
         // given
@@ -73,11 +74,25 @@ public class TripAcceptenceTest extends AcceptanceTestConfig {
         AccessTokenResponse accessTokenResponse = loginResponse.as(AccessTokenResponse.class);
 
         여행지를_생성한다("롯데월드1", 1L); 여행지를_생성한다("롯데월드2", 2L); 여행지를_생성한다("롯데월드3", 3L);
+        여행지를_생성한다("롯데월드4", 4L); 여행지를_생성한다("롯데월드4", 5L); 여행지를_생성한다("롯데월드6", 6L);
+        여행지를_생성한다("롯데월드7", 7L); 여행지를_생성한다("롯데월드8", 8L); 여행지를_생성한다("롯데월드9", 9L);
+        여행지를_생성한다("롯데월드10", 10L);
+
         키워드를_생성한다("키워드1"); 키워드를_생성한다("키워드2"); 키워드를_생성한다("키워드3");
-        여행지_키워드를_생성한다(1L, 1L);
-        여행지_키워드를_생성한다(2L, 2L);
-        여행지_키워드를_생성한다(2L, 3L);
-        여행지_키워드를_생성한다(3L, 3L);
+
+        여행지_키워드를_생성한다(1L, 1L); 여행지_키워드를_생성한다(2L, 2L);
+        여행지_키워드를_생성한다(2L, 3L); 여행지_키워드를_생성한다(3L, 3L);
+        여행지_키워드를_생성한다(3L, 4L); 여행지_키워드를_생성한다(3L, 5L);
+        여행지_키워드를_생성한다(3L, 6L); 여행지_키워드를_생성한다(3L, 7L);
+        여행지_키워드를_생성한다(3L, 8L); 여행지_키워드를_생성한다(3L, 9L);
+        여행지_키워드를_생성한다(3L, 10L); 여행지_키워드를_생성한다(2L, 10L);
+
+        생활정보를_생성한다("생활정보1");
+        여행지의_생활정보를_생성한다(accessTokenResponse.getAccessToken(), 1L, 1L); 여행지의_생활정보를_생성한다(accessTokenResponse.getAccessToken(), 2L, 1L);
+        여행지의_생활정보를_생성한다(accessTokenResponse.getAccessToken(), 3L, 1L); 여행지의_생활정보를_생성한다(accessTokenResponse.getAccessToken(), 4L, 1L);
+        여행지의_생활정보를_생성한다(accessTokenResponse.getAccessToken(), 5L, 1L); 여행지의_생활정보를_생성한다(accessTokenResponse.getAccessToken(), 6L, 1L);
+        여행지의_생활정보를_생성한다(accessTokenResponse.getAccessToken(), 7L, 1L); 여행지의_생활정보를_생성한다(accessTokenResponse.getAccessToken(), 8L, 1L);
+        여행지의_생활정보를_생성한다(accessTokenResponse.getAccessToken(), 9L, 1L); 여행지의_생활정보를_생성한다(accessTokenResponse.getAccessToken(), 10L, 1L);
 
         선호_여행지를_선택한다(1L, accessTokenResponse.getAccessToken());
         선호_여행지를_선택한다(2L, accessTokenResponse.getAccessToken());
@@ -87,7 +102,7 @@ public class TripAcceptenceTest extends AcceptanceTestConfig {
         ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()
                 .auth().oauth2(accessTokenResponse.getAccessToken())
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .when().get("/trip/find/{tripId}", 1L)
+                .when().get("/api/trip/find/{tripId}", 1L)
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract();
@@ -96,7 +111,7 @@ public class TripAcceptenceTest extends AcceptanceTestConfig {
 
         // then
         assertAll(() -> {
-            assertThat(findTripWithSimilarTripsResponse.getSimilarTripResponses().getFindTripResponses()).hasSize(3);
+            assertThat(findTripWithSimilarTripsResponse.getSimilarTripResponses().getFindTripResponses()).hasSize(10);
             assertThat(findTripWithSimilarTripsResponse.getFindTripResponse()).isNotNull();
             assertThat(resultResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
         });
