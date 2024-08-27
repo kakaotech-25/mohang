@@ -9,6 +9,7 @@ import moheng.planner.domain.TripScheduleRegistryRepository;
 import moheng.planner.domain.TripScheduleRepository;
 import moheng.planner.dto.CreateTripScheduleRequest;
 import moheng.planner.dto.FindTripsOnSchedule;
+import moheng.planner.dto.UpdateTripScheduleRequest;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.planner.exception.NoExistTripScheduleException;
 import moheng.trip.domain.Trip;
@@ -17,6 +18,7 @@ import moheng.trip.exception.NoExistTripException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional(readOnly = true)
@@ -71,5 +73,24 @@ public class TripScheduleService {
                 .orElseThrow(NoExistTripScheduleException::new);
 
         return new FindTripsOnSchedule(tripSchedule, tripRepository.findTripsByScheduleId(scheduleId));
+    }
+
+    public void updateTripOrdersOnSchedule(final long scheduleId, final List<Long> tripIds) {
+        final TripSchedule tripSchedule = tripScheduleRepository.findById(scheduleId)
+                .orElseThrow(NoExistTripScheduleException::new);
+
+        tripScheduleRegistryRepository.deleteAllByTripScheduleId(scheduleId);
+        addAllTripOnPlannerSchedule(tripSchedule, tripIds);
+    }
+
+    private void addAllTripOnPlannerSchedule(final TripSchedule tripSchedule, final List<Long> tripIds) {
+        final List<TripScheduleRegistry> tripScheduleRegistries = new ArrayList<>();
+
+        for (final Long tripId : tripIds) {
+            final Trip trip = tripRepository.findById(tripId)
+                    .orElseThrow(NoExistTripException::new);
+            tripScheduleRegistries.add(new TripScheduleRegistry(trip, tripSchedule));
+        }
+        tripScheduleRegistryRepository.saveAll(tripScheduleRegistries);
     }
 }
