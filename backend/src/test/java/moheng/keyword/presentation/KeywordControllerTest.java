@@ -212,6 +212,6 @@ public class KeywordControllerTest extends ControllerTestConfig {
                         requestFields(
                                 fieldWithPath("keywordIds").description("키워드 ID 리스트")
                         )
-                )).andExpect(status().isUnauthorized());
+                )).andExpect(status().isNotFound());
     }
 }

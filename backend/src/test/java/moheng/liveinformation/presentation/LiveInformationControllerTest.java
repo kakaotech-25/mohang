@@ -70,7 +70,7 @@ public class LiveInformationControllerTest extends ControllerTestConfig {
         mockMvc.perform(post("/api/live/info")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(생활정보로_회원가입_요청()))
+                .content(objectMapper.writeValueAsString(new LiveInformationCreateRequest("생활정보1")))
         ).andDo(print())
                 .andExpect(status().isNoContent());
     }

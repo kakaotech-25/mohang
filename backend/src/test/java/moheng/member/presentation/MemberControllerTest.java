@@ -7,6 +7,7 @@ import moheng.auth.exception.InvalidInitAuthorityException;
 import moheng.config.slice.ControllerTestConfig;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
 import moheng.member.exception.DuplicateNicknameException;
+import moheng.member.exception.NoExistMemberException;
 import moheng.member.exception.ShortContentidsSizeException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -44,7 +45,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
-                .andDo(document("member/me",
+                .andDo(document("member/me/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
@@ -59,6 +60,31 @@ public class MemberControllerTest extends ControllerTestConfig {
                         )
                 ))
                 .andExpect(status().isOk());
+    }
+
+    @DisplayName("존재하지 않는 멤버의 회원 정보를 조회하려고 하면 상태코드 404를 리턴한다.")
+    @Test
+    void 존재하지_않는_멤버의_회원_정보를_조회하려고_하면_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistMemberException("존재하지 않는 회원입니다."))
+                .when(memberService).findById(anyLong());
+
+        // when, then
+        mockMvc.perform(get("/api/member/me")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andDo(document("member/me/fail",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        )
+                ))
+                .andExpect(status().isNotFound());
     }
 
     @DisplayName("프로필 정보로 회원가입에 성공하면 상태코드 204을 리턴한다.")
@@ -76,7 +102,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                 .content(objectMapper.writeValueAsString(프로필_정보로_회원가입_요청()))
         )
                 .andDo(print())
-                .andDo(document("member/signup/profile",
+                .andDo(document("member/signup/profile/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
@@ -90,6 +116,38 @@ public class MemberControllerTest extends ControllerTestConfig {
                         )
                 ))
                 .andExpect(status().isNoContent());
+    }
+
+    @DisplayName("존재하지 않는 멤버가 프로필 정보로 회원가입 하려고 하면 상태코드 404를 리턴한다.")
+    @Test
+    void 존재하지_않는_멤버가_프로필_정보로_회원가입_하려고_하면_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistMemberException("존재하지 않는 회원입니다."))
+                .when(memberService).findById(anyLong());
+
+        // when, then
+        mockMvc.perform(post("/api/member/signup/profile")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(프로필_정보로_회원가입_요청()))
+                )
+                .andDo(print())
+                .andDo(document("member/signup/profile/fail/noExistMember",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("nickname").description("닉네임"),
+                                fieldWithPath("birthday").description("생년월일. 형식:yyyy-MM-dd"),
+                                fieldWithPath("genderType").description("성별. 형식: MEN 또는 WOMEN"),
+                                fieldWithPath("profileImageUrl").description("프로필 이미지 경로.")
+                        )
+                ))
+                .andExpect(status().isNotFound());
     }
 
 
