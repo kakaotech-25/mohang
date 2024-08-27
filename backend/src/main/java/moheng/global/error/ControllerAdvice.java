@@ -76,13 +76,22 @@ public class ControllerAdvice {
             InvalidTokenException.class,
             DuplicateNicknameException.class,
             InvalidInitAuthorityException.class,
-            NoExistKeywordException.class
     })
     public ResponseEntity<ExceptionResponse> handleUnAuthorizedException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
         ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+    }
+
+    @ExceptionHandler({
+            NoExistKeywordException.class,
+    })
+    public ResponseEntity<ExceptionResponse> handleNotFoundResourceException(final RuntimeException e) {
+        logger.error(e.getMessage(), e);
+        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)

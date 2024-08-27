@@ -79,7 +79,6 @@ public class KeywordService {
         return minId + secureRandom.nextLong(maxId - minId + 1);
     }
 
-
     private Map<Trip, Long> findTripsWithVisitedCount(final List<TripKeyword> tripKeywords) {
         final Map<Trip, Long> tripClickCounts = new HashMap<>();
         for (TripKeyword tripKeyword : tripKeywords) {
@@ -103,7 +102,6 @@ public class KeywordService {
                         .filter(tripKeyword -> tripKeyword.getTrip().equals(topTrip)))
                 .collect(Collectors.toList());
     }
-
 
     @Transactional
     public void createTripKeyword(final TripKeywordCreateRequest request) {
