@@ -28,6 +28,17 @@ const TravelCarousel = ({ cards }) => {
     navigate(`/traveldetails/${id}`);
   };
 
+  const formatLocation = (location) => {
+    const parts = location.split(' ');
+    return parts.slice(0, 2).join(' ');
+  };
+
+  const formattedCards = cards.map(card => ({
+    ...card,
+    tags: card.tags.slice(0, 2),
+    location: formatLocation(card.location)
+  }));
+
   return (
     <div className="carousel-container">
       <button className="carousel-button prev" onClick={handlePrevClick}>
@@ -38,7 +49,7 @@ const TravelCarousel = ({ cards }) => {
           className="carousel-track"
           style={{ transform: `translateX(-${currentIndex * (100 / cardsToShow)}%)` }}
         >
-          {cards.map((card, index) => (
+          {formattedCards.map((card, index) => (
             <div key={index} className="carousel-card">
               <TravelCard
                 {...card}
