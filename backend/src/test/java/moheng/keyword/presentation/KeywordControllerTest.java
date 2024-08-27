@@ -3,6 +3,7 @@ package moheng.keyword.presentation;
 import moheng.auth.exception.InvalidInitAuthorityException;
 import moheng.config.slice.ControllerTestConfig;
 import moheng.keyword.exception.InvalidAIServerException;
+import moheng.keyword.exception.KeywordNameLengthException;
 import moheng.keyword.exception.NoExistKeywordException;
 import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.exception.NoExistTripException;
@@ -81,6 +82,25 @@ public class KeywordControllerTest extends ControllerTestConfig {
                 )
                 .andDo(print())
                 .andExpect(status().isNoContent());
+    }
+
+    @DisplayName("생성할 키워드 이름의 길이가 허용범위를 벗어나면 상태코드 400을 리턴한다.")
+    @Test
+    void 생성할_키워드_이름의_길이가_허용범위를_벗어나면_상태코드_400을_리턴한다() throws Exception {
+        // given
+        doNothing().when(keywordService).createKeyword(any());
+        doThrow(new KeywordNameLengthException("키워드 이름의 길이는 최소 2자 이상, 최대 100자 이하만 허용합니다."))
+                .when(keywordService).createKeyword(any());
+
+        // when, then
+        mockMvc.perform(post("/api/keyword")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(키워드_생성_요청()))
+                )
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 
     @DisplayName("여행지의 키워드를 생성하고 상태코드 204를 리턴한다.")
