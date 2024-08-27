@@ -17,6 +17,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 
 import moheng.config.slice.ControllerTestConfig;
+import moheng.member.exception.NoExistMemberException;
 import moheng.planner.domain.TripSchedule;
 import moheng.planner.dto.FindPLannerOrderByNameResponse;
 import moheng.planner.dto.FindPlannerOrderByDateResponse;
@@ -124,6 +125,25 @@ public class PlannerControllerTest extends ControllerTestConfig {
                                 fieldWithPath("tripScheduleResponses[].endTime").description("여행 일정 종료날짜")
                         )))
                 .andExpect(status().isOk());
+    }
+
+    @DisplayName("존재하지 않는 멤버의 플래너를 조회하려고 하면 상태코드 404를 리턴한다.")
+    @Test
+    void 존재하지_않는_멤버의_플래너를_조회하려고_하면_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistMemberException("존재하지 않는 회원입니다."))
+                .when(plannerService).findPlannerOrderByRecent(anyLong());
+
+        // when, then
+        mockMvc.perform(get("/api/planner/recent")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andDo(document("planner/find/recent/fail",
+                        preprocessRequest()
+                ))
+                .andExpect(status().isNotFound());
     }
 
     @DisplayName("여행 일정을 수정하고 상태코드 204를 리턴한다.")

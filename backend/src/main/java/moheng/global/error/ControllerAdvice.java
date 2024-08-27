@@ -49,6 +49,7 @@ public class ControllerAdvice {
             NoExistTripScheduleRegistryException.class,
             KeywordNameLengthException.class,
             LiveInfoNameException.class,
+            NoMatchingSocialTypeException.class,
     })
     public ResponseEntity<ExceptionResponse> handleIBadRequestException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
