@@ -26,6 +26,7 @@ import moheng.planner.dto.FindTripOnSchedule;
 import moheng.planner.dto.FindTripsOnSchedule;
 import moheng.planner.dto.UpdateTripOrdersRequest;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
+import moheng.planner.exception.NoExistTripScheduleRegistryException;
 import moheng.trip.domain.Trip;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -182,5 +183,24 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         preprocessRequest(),
                         preprocessResponse()
                 )).andExpect(status().isNoContent());
+    }
+
+    @DisplayName("존재하지 않는 일정 여행지를 삭제하려고 하면 상태코드 400을 리턴한다.")
+    @Test
+    void 존재하지_않는_일정_여행지를_삭제하려고_하면_상태코드_400을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistTripScheduleRegistryException("존재하지 않는 일정 여행지입니다."))
+                .when(tripScheduleService).deleteTripOnSchedule(anyLong(), anyLong());
+
+        // when, then
+        mockMvc.perform(delete("/api/schedule/{scheduleId}/{tripId}", 1L, 1L)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andDo(document("planner/schedule/trip/delete",
+                        preprocessRequest(),
+                        preprocessResponse()
+                )).andExpect(status().isBadRequest());
     }
 }
