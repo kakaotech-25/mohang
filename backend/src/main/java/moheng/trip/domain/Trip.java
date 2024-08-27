@@ -35,10 +35,33 @@ public class Trip extends BaseEntity {
     @Column(name = "visited_count")
     private Long visitedCount;
 
+    @Column(name = "coordinate_x")
+    private Double coordinateX;
+
+    @Column(name = "coordinate_y")
+    private Double coordinateY;
+
     protected Trip() {
     }
 
-    public Trip(final String name, final String placeName, final Long contentId, final String description, final String tripImageUrl) {
+    public Trip(final String name, final String placeName, final Long contentId,
+                final String description, final String tripImageUrl, final Double coordinateX,
+                 final Double coordinateY) {
+        validateName(name);
+        validatePlaceName(placeName);
+        validateDescription(description);
+        this.name = name;
+        this.placeName = placeName;
+        this.contentId = contentId;
+        this.description = description;
+        this.tripImageUrl = tripImageUrl;
+        this.visitedCount = 0L;
+        this.coordinateX = coordinateX;
+        this.coordinateY = coordinateY;
+    }
+
+    public Trip(final String name, final String placeName, final Long contentId,
+                final String description, final String tripImageUrl) {
         validateName(name);
         validatePlaceName(placeName);
         validateDescription(description);
@@ -113,5 +136,13 @@ public class Trip extends BaseEntity {
 
     public Long getVisitedCount() {
         return visitedCount;
+    }
+
+    public Double getCoordinateX() {
+        return coordinateX;
+    }
+
+    public Double getCoordinateY() {
+        return coordinateY;
     }
 }
