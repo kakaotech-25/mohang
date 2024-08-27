@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 public class LiveInfoAcceptenceFixture {
-    public static ExtractableResponse<Response> 생활정보를_생성한다(String name) {
+    public static ExtractableResponse<Response> 생활정보를_생성한다(final String name) {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(new LiveInformationCreateRequest(name))
@@ -28,7 +28,7 @@ public class LiveInfoAcceptenceFixture {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 멤버의_생활정보를_찾는다(AccessTokenResponse accessTokenResponse) {
+    public static ExtractableResponse<Response> 멤버의_생활정보를_찾는다(final AccessTokenResponse accessTokenResponse) {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .auth().oauth2(accessTokenResponse.getAccessToken())

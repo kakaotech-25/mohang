@@ -43,7 +43,7 @@ public class AuthAcceptanceFixture {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 로그아웃을_한다(AccessTokenResponse accessTokenResponse, String refreshToken) {
+    public static ExtractableResponse<Response> 로그아웃을_한다(final AccessTokenResponse accessTokenResponse, final String refreshToken) {
         return RestAssured.given().log().all()
                 .auth().oauth2(accessTokenResponse.getAccessToken())
                 .contentType(MediaType.APPLICATION_JSON_VALUE)

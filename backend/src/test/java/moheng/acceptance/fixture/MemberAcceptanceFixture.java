@@ -14,7 +14,7 @@ import java.time.LocalDate;
 
 public class MemberAcceptanceFixture {
 
-    public static ExtractableResponse<Response> 회원_본인의_정보를_조회한다(String accessToken) {
+    public static ExtractableResponse<Response> 회원_본인의_정보를_조회한다(final String accessToken) {
         return RestAssured.given().log().all()
                 .auth().oauth2(accessToken)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -24,7 +24,7 @@ public class MemberAcceptanceFixture {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 프로필_정보로_회원가입을_한다(String accessToken) {
+    public static ExtractableResponse<Response> 프로필_정보로_회원가입을_한다(final String accessToken) {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .auth().oauth2(accessToken)
@@ -35,7 +35,7 @@ public class MemberAcceptanceFixture {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 닉네임을_중복_체크한다(String accessToken) {
+    public static ExtractableResponse<Response> 닉네임을_중복_체크한다(final String accessToken) {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .auth().oauth2(accessToken)
@@ -46,7 +46,7 @@ public class MemberAcceptanceFixture {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 회원_프로필을_업데이트한다(String accessToken) {
+    public static ExtractableResponse<Response> 회원_프로필을_업데이트한다(final String accessToken) {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .auth().oauth2(accessToken)
