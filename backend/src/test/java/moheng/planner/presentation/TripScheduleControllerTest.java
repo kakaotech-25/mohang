@@ -64,7 +64,7 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
 
     @DisplayName("동일한 이름의 여행 일정이 이미 존재하면 상태코드 400을 리턴한다.")
     @Test
-    void 동일한_이름의_여행_일정이_이미_존재하면_예외가_발생한다() throws Exception {
+    void 동일한_이름의_여행_일정이_이미_존재하면_상태코드_400을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
         doThrow(new AlreadyExistTripScheduleException("동일한 이름의 여행 일정이 이미 존재합니다."))
@@ -149,7 +149,7 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                 ).andDo(print())
-                .andDo(document("planner/schedule/trip/add",
+                .andDo(document("planner/schedule/trip/add/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         pathParameters(
@@ -173,7 +173,7 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                 ).andDo(print())
-                .andDo(document("planner/schedule/trip/add",
+                .andDo(document("planner/schedule/trip/add/fail/noExistTrip",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         pathParameters(
@@ -197,7 +197,7 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                 ).andDo(print())
-                .andDo(document("planner/schedule/trip/add",
+                .andDo(document("planner/schedule/trip/add/fail/noExistSchedule",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         pathParameters(
@@ -279,13 +279,33 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new UpdateTripOrdersRequest(List.of(1L, 2L, 3L)))))
                 .andDo(print())
-                .andDo(document("planner/schedule/order/update",
+                .andDo(document("planner/schedule/order/update/success",
                         preprocessRequest(),
                         preprocessResponse()
                 )).andExpect(status().isNoContent());
     }
 
-    @DisplayName("세부 일정내의 특정 여핼지를 제거하고 상태코드 204를 리턴한다.")
+    @DisplayName("존재하지 않는 여행지로 세부 일정내의 여행지 리스트 순서를 수정하려고 하면 상태코드 404를 리턴한다.")
+    @Test
+    void 존재하지_않는_여행지로_세부_일정내의_여행지_리스트_순서를_수정하려고_하면_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistTripScheduleException("존재하지 않는 여행 일정입니다."))
+                .when(tripScheduleService).updateTripOrdersOnSchedule(anyLong(), any());
+
+        // when, then
+        mockMvc.perform(post("/api/schedule/trips/orders/{scheduleId}", 1L)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new UpdateTripOrdersRequest(List.of(1L, 2L, 3L)))))
+                .andDo(print())
+                .andDo(document("planner/schedule/order/update/fail",
+                        preprocessRequest(),
+                        preprocessResponse()
+                )).andExpect(status().isNotFound());
+    }
+
+    @DisplayName("세부 일정내의 특정 여행지를 제거하고 상태코드 204를 리턴한다.")
     @Test
     void 세부_일정내의_특정_여행지를_제거하고_상태코드_204를_리턴한다() throws Exception {
         // given
