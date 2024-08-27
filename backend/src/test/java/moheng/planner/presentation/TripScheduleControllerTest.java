@@ -7,6 +7,8 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -22,6 +24,8 @@ import moheng.planner.exception.AlreadyExistTripScheduleException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+
 import java.time.LocalDate;
 
 public class TripScheduleControllerTest extends ControllerTestConfig {
@@ -74,4 +78,28 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         )))
                 .andExpect(status().isBadRequest());
     }
+
+    @DisplayName("현재 여행지를 플래너 일정에 담고 상태코드 204를 리턴한다.")
+    @Test
+    void 현재_여행지를_플래너_일정에_담고_상태코드_204를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doNothing().when(tripScheduleService).addCurrentTripOnPlannerSchedule(anyLong(), anyLong());
+
+        // when, then
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/schedule/trip/{tripId}/{scheduleId}", 1L, 1L)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                ).andDo(print())
+                .andDo(document("planner/schedule/trip/add",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("tripId").description("플래너에 담을 현재 여행지의 고유 ID 값"),
+                                parameterWithName("scheduleId").description("여행 일정 고유 ID 값")
+                        )
+                ))
+                .andExpect(status().isNoContent());
+    }
+
 }
