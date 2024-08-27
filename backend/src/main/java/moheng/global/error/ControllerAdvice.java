@@ -40,7 +40,6 @@ public class ControllerAdvice {
             NoExistSocialTypeException.class,
             EmptyLiveInformationException.class,
             ShortContentidsSizeException.class,
-            NoExistTripException.class,
             LackOfRecommendTripException.class,
             AlreadyExistTripScheduleException.class,
             InvalidTripScheduleDateException.class,
@@ -62,6 +61,7 @@ public class ControllerAdvice {
     }
 
     @ExceptionHandler({
+            NoExistTripException.class,
             InvalidAIServerException.class
     })
     public ResponseEntity<ExceptionResponse> handleAIServerException(final RuntimeException e) {

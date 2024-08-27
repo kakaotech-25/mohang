@@ -119,6 +119,25 @@ public class KeywordControllerTest extends ControllerTestConfig {
                 .andExpect(status().isNoContent());
     }
 
+    @DisplayName("존재하지 않는 키워드의 여행 키워드를 생성하려고 하면 상태코드 404를 리턴한다.")
+    @Test
+    void 존재하지_않는_키워드의_여행_키워드를_생성하려고_하면_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistKeywordException("존재하지 않는 키워드입니다."))
+                .when(keywordService).createTripKeyword(any());
+
+        // when, then
+        mockMvc.perform(post("/api/keyword")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(키워드_생성_요청()))
+                )
+                .andDo(print())
+                .andExpect(status().isNoContent());
+    }
+
     @DisplayName("무작위 랜덤 키워드로 추천 여행지를 찾고 상태코드 200을 리턴한다.")
     @Test
     void 무작위_랜덤_키워드로_추천_여행지를_찾고_상태코드_200을_리턴한다() throws Exception {
