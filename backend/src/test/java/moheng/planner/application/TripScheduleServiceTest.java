@@ -20,6 +20,7 @@ import moheng.planner.dto.FindTripsOnSchedule;
 import moheng.planner.dto.UpdateTripOrdersRequest;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.planner.exception.NoExistTripScheduleException;
+import moheng.planner.exception.NoExistTripScheduleRegistryException;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.TripRepository;
 import moheng.trip.exception.NoExistTripException;
@@ -233,5 +234,17 @@ public class TripScheduleServiceTest extends ServiceTestConfig {
         // then
         int exptected = 2;
         assertThat(tripScheduleRegistryRepository.findAll()).hasSize(exptected);
+    }
+
+    @DisplayName("존재하지 않는 일정 여행지를 제거하려고 하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_일정_여행지를_제거하려고_하면_예외가_발생한다() {
+        // given
+        long invalidScheduleId = -1L;
+        long invalidTripId = -1L;
+
+        // when, then
+        assertThatThrownBy(() -> tripScheduleService.deleteTripsOnSchedule(invalidScheduleId, invalidTripId))
+                .isInstanceOf(NoExistTripScheduleRegistryException.class);
     }
 }
