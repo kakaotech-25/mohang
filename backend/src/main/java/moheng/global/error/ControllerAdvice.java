@@ -78,13 +78,22 @@ public class ControllerAdvice {
             InvalidTokenFormatException.class,
             InvalidTokenException.class,
             DuplicateNicknameException.class,
-            InvalidInitAuthorityException.class,
     })
     public ResponseEntity<ExceptionResponse> handleUnAuthorizedException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
         ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+    }
+
+    @ExceptionHandler({
+            InvalidInitAuthorityException.class,
+    })
+    public ResponseEntity<ExceptionResponse> handleForbiddenException(final RuntimeException e) {
+        logger.error(e.getMessage(), e);
+        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
     }
 
     @ExceptionHandler({

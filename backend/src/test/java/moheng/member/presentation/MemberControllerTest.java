@@ -151,9 +151,9 @@ public class MemberControllerTest extends ControllerTestConfig {
     }
 
 
-    @DisplayName("이미 회원가입을 마친 멤버가 프로필 정보로 회원가입을 요청하면 상태코드 401을 리턴한다.")
+    @DisplayName("이미 회원가입을 마친 멤버가 프로필 정보로 회원가입을 요청하면 상태코드 403을 리턴한다.")
     @Test
-    void 이미_회원가입을_마친_멤버가_프로필_정보로_회원가입에_요청하면_상태코드_401을_리턴한다() throws Exception {
+    void 이미_회원가입을_마친_멤버가_프로필_정보로_회원가입에_요청하면_상태코드_403을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
         given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_기존()));
@@ -181,7 +181,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                                 fieldWithPath("profileImageUrl").description("프로필 이미지 경로.")
                         )
                 ))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 
     @DisplayName("중복되는 닉네임 없이 사용 가능한 닉네임이라면 메시지와 상태코드 200을 리턴한다.")
