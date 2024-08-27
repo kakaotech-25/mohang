@@ -7,9 +7,7 @@ import moheng.planner.domain.TripSchedule;
 import moheng.planner.domain.TripScheduleRegistry;
 import moheng.planner.domain.TripScheduleRegistryRepository;
 import moheng.planner.domain.TripScheduleRepository;
-import moheng.planner.dto.CreateTripScheduleRequest;
-import moheng.planner.dto.FindTripsOnSchedule;
-import moheng.planner.dto.UpdateTripScheduleRequest;
+import moheng.planner.dto.*;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.planner.exception.NoExistTripScheduleException;
 import moheng.trip.domain.Trip;
@@ -75,12 +73,13 @@ public class TripScheduleService {
         return new FindTripsOnSchedule(tripSchedule, tripRepository.findTripsByScheduleId(scheduleId));
     }
 
-    public void updateTripOrdersOnSchedule(final long scheduleId, final List<Long> tripIds) {
+    public void updateTripOrdersOnSchedule(final long scheduleId, final UpdateTripOrdersRequest updateTripOrdersRequest) {
         final TripSchedule tripSchedule = tripScheduleRepository.findById(scheduleId)
                 .orElseThrow(NoExistTripScheduleException::new);
 
         tripScheduleRegistryRepository.deleteAllByTripScheduleId(scheduleId);
-        addAllTripOnPlannerSchedule(tripSchedule, tripIds);
+        System.out.println(tripScheduleRegistryRepository.findAll().size());
+        addAllTripOnPlannerSchedule(tripSchedule, updateTripOrdersRequest.getTripIds());
     }
 
     private void addAllTripOnPlannerSchedule(final TripSchedule tripSchedule, final List<Long> tripIds) {

@@ -13,7 +13,7 @@ public class FindTripOnSchedule {
 
     public FindTripOnSchedule(final Trip trip) {
         this.tripId = trip.getId();
-        this.placeName = trip.getPlaceName();
+        this.placeName = trip.getName();
         this.coordinateX = trip.getCoordinateX();
         this.coordinateY = trip.getCoordinateY();
     }
