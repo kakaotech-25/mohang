@@ -229,7 +229,7 @@ public class TripScheduleServiceTest extends ServiceTestConfig {
         tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip3, tripSchedule));
 
         // when
-        tripScheduleService.deleteTripsOnSchedule(tripSchedule.getId(), trip1.getId());
+        tripScheduleService.deleteTripsOnSchedule(trip1.getId(), tripSchedule.getId());
 
         // then
         int exptected = 2;
