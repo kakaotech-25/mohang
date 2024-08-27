@@ -18,6 +18,7 @@ import moheng.config.slice.ControllerTestConfig;
 import moheng.keyword.exception.NoExistKeywordException;
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.dto.FindAllLiveInformationResponse;
+import moheng.liveinformation.exception.NoExistLiveInformationException;
 import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -99,7 +100,25 @@ public class LiveInformationControllerTest extends ControllerTestConfig {
         mockMvc.perform(post("/api/live/info/trip/{tripId}/{liveInfoId}", 1L, 1L)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                ).andDo(print())
+                )
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @DisplayName("존재하지 않는 생활정보의 여행 생활정보를 생성하려고 하면 상태코드 404를 리턴한다.")
+    @Test
+    void 존재하지_않는_생활정보의_여행_생활정보를_생성하려고_하면_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistLiveInformationException("랜덤 키워드를 찾을 수 없습니다."))
+                .when(liveInformationService).createTripLiveInformation(anyLong(), anyLong());
+
+        // when, then
+        mockMvc.perform(post("/api/live/info/trip/{tripId}/{liveInfoId}", 1L, 1L)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
                 .andExpect(status().isNotFound());
     }
 }

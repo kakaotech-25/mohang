@@ -6,6 +6,7 @@ import moheng.keyword.exception.InvalidAIServerException;
 import moheng.keyword.exception.KeywordNameLengthException;
 import moheng.keyword.exception.NoExistKeywordException;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
+import moheng.liveinformation.exception.NoExistLiveInformationException;
 import moheng.member.exception.*;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.planner.exception.InvalidTripScheduleDateException;
@@ -88,6 +89,7 @@ public class ControllerAdvice {
     @ExceptionHandler({
             NoExistKeywordException.class,
             NoExistTripException.class,
+            NoExistLiveInformationException.class,
     })
     public ResponseEntity<ExceptionResponse> handleNotFoundResourceException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
