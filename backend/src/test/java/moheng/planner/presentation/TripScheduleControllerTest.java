@@ -1,5 +1,6 @@
 package moheng.planner.presentation;
 
+import static moheng.fixture.MemberFixtures.하온_기존;
 import static moheng.fixture.TripScheduleFixtures.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
@@ -20,13 +21,19 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 
 import moheng.config.slice.ControllerTestConfig;
 import moheng.member.exception.ShortContentidsSizeException;
+import moheng.planner.domain.TripSchedule;
+import moheng.planner.dto.FindPlannerOrderByDateResponse;
+import moheng.planner.dto.FindTripOnSchedule;
+import moheng.planner.dto.FindTripsOnSchedule;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
+import moheng.trip.domain.Trip;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class TripScheduleControllerTest extends ControllerTestConfig {
 
@@ -102,4 +109,41 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                 .andExpect(status().isNoContent());
     }
 
+    @DisplayName("세부 일정 정보를 여행지 리스트와 함께 조회하고 상태코드 200을 리턴한다.")
+    @Test
+    void 세부_일정_정보를_여행지_리스트와_함께_조회하고_상태코드_200을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(tripScheduleService.findTripsOnSchedule(anyLong())).willReturn(
+                new FindTripsOnSchedule(
+                        new TripSchedule("제주도 여행", LocalDate.of(2024, 3, 10), LocalDate.of(2030, 1, 10), 하온_기존()),
+                        List.of(
+                                new Trip("롯데월드1", "서울1 어딘가", 1L, "설명1", "https://lotte.png", 126.3307690830, 36.5309210243),
+                                new Trip("롯데월드2", "서울2 어딘가", 2L, "설명2", "https://lotte.png", 226.3307690830, 46.5309210243),
+                                new Trip("롯데월드3", "서울3 어딘가", 3L, "설명3", "https://lotte.png", 326.3307690830, 56.5309210243)
+                        )
+                )
+        );
+
+        // when, then
+        mockMvc.perform(get("/api/schedule/trips/{scheduleId}", 1L)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andDo(document("planner/schedule/find",
+                        preprocessRequest(),
+                        responseFields(
+                                fieldWithPath("tripScheduleResponse").description("세부 일정"),
+                                fieldWithPath("tripScheduleResponse.scheduleId").description("여행 일정 고유 ID 값"),
+                                fieldWithPath("tripScheduleResponse.scheduleName").description("여행 일정 이름"),
+                                fieldWithPath("tripScheduleResponse.startTime").description("여행 일정 시작날짜"),
+                                fieldWithPath("tripScheduleResponse.endTime").description("여행 일정 종료날짜"),
+                                fieldWithPath("findTripsOnSchedules").description("세부 일정내의 여행지 리스트"),
+                                fieldWithPath("findTripsOnSchedules[].tripId").description("여행지 고유 ID 값"),
+                                fieldWithPath("findTripsOnSchedules[].placeName").description("여행지 장소명"),
+                                fieldWithPath("findTripsOnSchedules[].coordinateX").description("여행지 X축 좌표값"),
+                                fieldWithPath("findTripsOnSchedules[].coordinateY").description("여행지 Y축 좌표값")
+                        )))
+                .andExpect(status().isOk());
+    }
 }
