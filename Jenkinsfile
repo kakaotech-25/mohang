@@ -106,7 +106,9 @@ pipeline {
         always {
             script {
                 def buildStatus = currentBuild.result ?: 'SUCCESS'
-                def duration = "${currentBuild.duration / 60000}m ${currentBuild.duration % 60000 / 1000}s"
+                def durationMinutes = Math.floor(currentBuild.duration / 60000)
+                def durationSeconds = Math.round((currentBuild.duration % 60000) / 1000)
+                def duration = "${durationMinutes}m ${durationSeconds}s"
                 sendDiscordNotification(buildStatus, duration)
             }
         }
