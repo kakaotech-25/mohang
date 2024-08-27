@@ -42,8 +42,8 @@ pipeline {
 
                             dir('nginx') {
                                 docker.withRegistry("https://${IMAGE_STORAGE}", IMAGE_STORAGE_CREDENTIAL) {
-                                    def customImage = docker.build("leovim5072/moheng-nginx:latest", "-f Dockerfile.prod ../")
-                                    customImage.push("latest")
+                                    def nginxImage = docker.build("leovim5072/moheng-nginx:latest", "-f Dockerfile.prod ../")
+                                    nginxImage.push("latest")
                                 }
                             }
 
