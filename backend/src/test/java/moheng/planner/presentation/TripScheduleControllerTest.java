@@ -181,8 +181,9 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andDo(document("planner/schedule/find",
+                .andDo(document("planner/schedule/find/success",
                         preprocessRequest(),
+                        preprocessResponse(),
                         responseFields(
                                 fieldWithPath("tripScheduleResponse").description("세부 일정"),
                                 fieldWithPath("tripScheduleResponse.scheduleId").description("여행 일정 고유 ID 값"),
@@ -196,6 +197,25 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                                 fieldWithPath("findTripsOnSchedules[].coordinateY").description("여행지 Y축 좌표값")
                         )))
                 .andExpect(status().isOk());
+    }
+
+    @DisplayName("존재하지 않는 일정 정보를 여행지 리스트와 함께 조회하려고 하면 상태코드 404를 리턴한다.")
+    @Test
+    void 존재하지_않는_일정_정보를_여행지_리스트와_함께_조회하려고_하면_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistTripScheduleException("존재하지 않는 여행 일정입니다."))
+                .when(tripScheduleService).findTripsOnSchedule(anyLong());
+
+        // when, then
+        mockMvc.perform(get("/api/schedule/trips/{scheduleId}", 1L)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andDo(document("planner/schedule/find/fail",
+                        preprocessRequest(),
+                        preprocessResponse()))
+                .andExpect(status().isNotFound());
     }
 
     @DisplayName("세부 일정내의 여행지 리스트 순서를 수정하고 상태코드 204를 리턴한다.")
