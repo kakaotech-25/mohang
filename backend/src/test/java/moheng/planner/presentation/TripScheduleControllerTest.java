@@ -10,8 +10,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.mockito.ArgumentMatchers.any;
@@ -162,6 +161,24 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         .content(objectMapper.writeValueAsString(new UpdateTripOrdersRequest(List.of(1L, 2L, 3L)))))
                 .andDo(print())
                 .andDo(document("planner/schedule/order/update",
+                        preprocessRequest(),
+                        preprocessResponse()
+                )).andExpect(status().isNoContent());
+    }
+
+    @DisplayName("세부 일정내의 특정 여핼지를 제거하고 상태코드 204를 리턴한다.")
+    @Test
+    void 세부_일정내의_특정_여행지를_제거하고_상태코드_204를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doNothing().when(tripScheduleService).deleteTripOnSchedule(anyLong(), anyLong());
+
+        // when, then
+        mockMvc.perform(delete("/api/schedule/{scheduleId}/{tripId}", 1L, 1L)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andDo(document("planner/schedule/trip/delete",
                         preprocessRequest(),
                         preprocessResponse()
                 )).andExpect(status().isNoContent());
