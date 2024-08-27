@@ -16,6 +16,8 @@ import moheng.trip.exception.NoExistTripException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Transactional(readOnly = true)
 @Service
 public class TripScheduleService {
@@ -61,5 +63,9 @@ public class TripScheduleService {
                 .orElseThrow(NoExistTripScheduleException::new);
 
         tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip, tripSchedule));
+    }
+
+    public List<Trip> findTripsOnSchedule(final long scheduleId) {
+        return tripRepository.findTripsByScheduleId(scheduleId);
     }
 }
