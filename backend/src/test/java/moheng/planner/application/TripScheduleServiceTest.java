@@ -9,8 +9,12 @@ import moheng.config.slice.ServiceTestConfig;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
+import moheng.planner.domain.TripSchedule;
+import moheng.planner.domain.TripScheduleRepository;
 import moheng.planner.dto.CreateTripScheduleRequest;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
+import moheng.trip.domain.Trip;
+import moheng.trip.domain.TripRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +27,12 @@ public class TripScheduleServiceTest extends ServiceTestConfig {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private TripRepository tripRepository;
+
+    @Autowired
+    private TripScheduleRepository tripScheduleRepository;
 
     @DisplayName("여행 일정을 생성한다.")
     @Test
@@ -65,5 +75,17 @@ public class TripScheduleServiceTest extends ServiceTestConfig {
                 tripScheduleService.createTripSchedule(invalidMemberId,
                         new CreateTripScheduleRequest("신규일정", LocalDate.of(2024, 6, 1), LocalDate.of(2024, 6, 2))
                 )).isInstanceOf(NoExistMemberException.class);
+    }
+
+    @DisplayName("현재 여행지를 플래너 일정에 담는다.")
+    @Test
+    void 현재_여행지를_플래너_일정에_담는다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        Trip trip = tripRepository.save(new Trip("여행지", "장소명", 1L, "설명", "https://image.com"));
+        TripSchedule tripSchedule = tripScheduleRepository.save(new TripSchedule("여행 일정", LocalDate.of(2024, 8, 1), LocalDate.of(2024, 8, 2), member));
+
+        // when, then
+        assertDoesNotThrow(() -> tripScheduleService.addCurrentTripOnPlannerSchedule(trip.getId(), tripSchedule.getId()));
     }
 }
