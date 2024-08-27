@@ -196,7 +196,7 @@ public class PlannerControllerTest extends ControllerTestConfig {
                 .andExpect(status().isBadRequest());
     }
 
-    @DisplayName("존재하지 않는 여행 일정을 수정하면 상태코드 400을 리턴한다.")
+    @DisplayName("존재하지 않는 여행 일정을 수정하면 상태코드 404을 리턴한다.")
     @Test
     void 존재하지_않는_여행_일정을_수정하면_상태코드_400을_리턴한다() throws Exception {
         // given
@@ -219,7 +219,7 @@ public class PlannerControllerTest extends ControllerTestConfig {
                                 fieldWithPath("startDate").description("일정 시작날짜"),
                                 fieldWithPath("endDate").description("일정 종료날짜")
                         )))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
     }
 
     @DisplayName("여행 일정을 삭제하고 상태코드 204를 리턴한다.")
@@ -234,9 +234,28 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andDo(document("planner/schedule/delete",
+                .andDo(document("planner/schedule/delete/success",
                         preprocessRequest(),
                         preprocessResponse()))
                 .andExpect(status().isNoContent());
+    }
+
+    @DisplayName("존재하지 않는 여행 일정을 삭제하려고 하면 상태코드 404를 리턴한다.")
+    @Test
+    void 존재하지_않는_여행_일정을_삭제하려고_하면_상태코드_400을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistTripScheduleException("존재하지 않는 여행 일정입니다."))
+                .when(plannerService).removeTripSchedule(anyLong());
+
+        // when, then
+        mockMvc.perform(delete("/api/planner/schedule/{scheduleId}", 1L)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andDo(document("planner/schedule/delete/fail",
+                        preprocessRequest(),
+                        preprocessResponse()))
+                .andExpect(status().isNotFound());
     }
 }

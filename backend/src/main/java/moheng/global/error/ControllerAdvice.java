@@ -45,7 +45,6 @@ public class ControllerAdvice {
             LackOfRecommendTripException.class,
             AlreadyExistTripScheduleException.class,
             InvalidTripScheduleDateException.class,
-            NoExistTripScheduleException.class,
             NoExistTripScheduleRegistryException.class,
             KeywordNameLengthException.class,
             LiveInfoNameException.class,
@@ -102,6 +101,7 @@ public class ControllerAdvice {
             NoExistTripException.class,
             NoExistLiveInformationException.class,
             NoExistMemberException.class,
+            NoExistTripScheduleException.class,
     })
     public ResponseEntity<ExceptionResponse> handleNotFoundResourceException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
