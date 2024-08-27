@@ -1,10 +1,7 @@
 services:
   nginx:
     container_name: nginx
-    image: nginx:prod
-    build:
-      context: .
-      dockerfile: nginx/Dockerfile.prod
+    image: leovim5072/moheng-nginx:latest
     networks:
       - moheng-network
     ports:
@@ -13,10 +10,7 @@ services:
 
   backend:
     container_name: back
-    image: spring:prod
-    build:
-      context: ./backend
-      dockerfile: Dockerfile.prod
+    image: leovim5072/moheng-backend:latest
     networks:
       - moheng-network
     expose:
@@ -27,8 +21,7 @@ services:
 
   ai:
     container_name: ai
-    image: fastapi:prod
-    build: ./ai
+    image: leovim5072/moheng-ai:latest
     networks:
       - moheng-network
     expose:
