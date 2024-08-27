@@ -61,7 +61,6 @@ public class ControllerAdvice {
     }
 
     @ExceptionHandler({
-            NoExistTripException.class,
             InvalidAIServerException.class
     })
     public ResponseEntity<ExceptionResponse> handleAIServerException(final RuntimeException e) {
@@ -86,6 +85,7 @@ public class ControllerAdvice {
 
     @ExceptionHandler({
             NoExistKeywordException.class,
+            NoExistTripException.class,
     })
     public ResponseEntity<ExceptionResponse> handleNotFoundResourceException(final RuntimeException e) {
         logger.error(e.getMessage(), e);

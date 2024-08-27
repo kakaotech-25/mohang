@@ -109,14 +109,14 @@ public class KeywordControllerTest extends ControllerTestConfig {
                 .when(keywordService).createTripKeyword(any());
 
         // when, then
-        mockMvc.perform(post("/api/keyword")
+        mockMvc.perform(post("/api/keyword/trip")
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(키워드_생성_요청()))
                 )
                 .andDo(print())
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNotFound());
     }
 
     @DisplayName("존재하지 않는 키워드의 여행 키워드를 생성하려고 하면 상태코드 404를 리턴한다.")
@@ -128,14 +128,14 @@ public class KeywordControllerTest extends ControllerTestConfig {
                 .when(keywordService).createTripKeyword(any());
 
         // when, then
-        mockMvc.perform(post("/api/keyword")
+        mockMvc.perform(post("/api/keyword/trip")
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(키워드_생성_요청()))
                 )
                 .andDo(print())
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNotFound());
     }
 
     @DisplayName("무작위 랜덤 키워드로 추천 여행지를 찾고 상태코드 200을 리턴한다.")
