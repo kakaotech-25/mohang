@@ -1,0 +1,45 @@
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:prod
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile.prod
+    networks:
+      - moheng-network
+    ports:
+      - "80:80"
+    restart: always
+
+  backend:
+    container_name: back
+    image: spring:prod
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    networks:
+      - moheng-network
+    expose:
+      - "8080"
+    restart: always
+    environment:
+      - LOGGING_LEVEL_ROOT=ERROR
+
+  ai:
+    container_name: ai
+    image: fastapi:prod
+    build: ./ai
+    networks:
+      - moheng-network
+    expose:
+      - "8000"
+    restart: always
+
+networks:
+  moheng-network:
+    driver: bridge
+#todo
+# nginx 로깅레벨 설정
+# 데이터 베이스 컨테이너로 관리할지, 별도의 머신으로 관리할지 결정
+# 의존성 여부에 따라 depens_on, health_check 설정
+# 최소가용성 & 무중단 배포를 위한 레플리카셋 설정

@@ -1,5 +1,3 @@
-# https://taskfile.dev
-
 version: "3"
 
 vars:
@@ -7,21 +5,32 @@ vars:
 
 tasks:
   default:
-    cmds:
-      - echo "{{.GREETING}}"
+    desc: 도움말
+    cmd: task --list-all
     silent: true
+
   front:
-    cmds: # 프론트 개발 서버 실행
-      - docker compose -f compose.frontend.yaml up --build
+    desc: 프론트 UI 개발 서버 실행
+    cmd: docker compose -f compose.frontend.yaml up --build
+
   dev:
-    cmds:
-      - docker compose -f compose.dev.yaml up --build
+    preconditions:
+      - test -f compose.dev.yaml
+    desc: 통합 개발 환경 실행
+    cmd: docker compose -f compose.dev.yaml up --build
+
+  prod:
+    desc: 프로덕션 환경 실행
+    cmd: docker compose -f compose.prod.yaml up --build
+
   up:
-    cmds: # 서버 컨테이너 빌드 실행
-      - docker compose up --build
+    desc: 컨테이너 실행
+    cmd: docker compose up --build
+
   down:
-    cmds: # 컨테이너 중지
-      - docker compose down
+    desc: 컨테이너 중지
+    cmd: docker compose down
+
   clean:
-    cmds: # 중지된 컨테이너, 이미지, 네트워크, 빌드 캐시 삭제
-      - docker system prune -a
+    desc: 컨테이너 삭제, 네트워크 삭제, 볼륨 삭제, 이미지 삭제, 빌드 캐시 삭제
+    cmd: docker system prune -a
