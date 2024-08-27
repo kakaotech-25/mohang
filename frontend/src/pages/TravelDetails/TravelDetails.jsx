@@ -45,7 +45,7 @@ const TravelDetails = () => {
               <span key={index} className="tag">#{tag} </span>
             ))}
           </div>
-          <p className={`description ${card.descriptionLength > 560 ? 'scrollable-description' : ''}`}>
+          <p className={`description ${card.description.length > 560 ? 'scrollable-description' : ''}`}>
             {card.description}
           </p>
         </div>
