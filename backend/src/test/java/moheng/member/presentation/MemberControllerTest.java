@@ -152,6 +152,39 @@ public class MemberControllerTest extends ControllerTestConfig {
                 .andExpect(status().isBadRequest());
     }
 
+    @DisplayName("프로필 정보로 회원가입시 입력한 생년월일 날짜가 현재 날짜보다 더 이후라면 상태코드 400을 리턴한다.")
+    @Test
+    void 프로필_정보로_회원가입시_입력한_생년월일_날짜가_현재_날짜보다_더_이후라면_상태코드_400을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_신규()));
+        doThrow(new InvalidBirthdayException("생년월일은 현재 날짜보다 더 이후일 수 없습니다."))
+                .when(memberService).signUpByProfile(anyLong(), any());
+
+        // when, then
+        mockMvc.perform(post("/api/member/signup/profile")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(유효하지_않은_닉네임_프로필_정보로_회원가입_요청()))
+                )
+                .andDo(print())
+                .andDo(document("member/signup/profile/fail/nickname",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("nickname").description("닉네임"),
+                                fieldWithPath("birthday").description("생년월일. 형식:yyyy-MM-dd"),
+                                fieldWithPath("genderType").description("성별. 형식: MEN 또는 WOMEN"),
+                                fieldWithPath("profileImageUrl").description("프로필 이미지 경로.")
+                        )
+                ))
+                .andExpect(status().isBadRequest());
+    }
+
     @DisplayName("프로필 정보로 회원가입에 성공하면 상태코드 204을 리턴한다.")
     @Test
     void 프로필_정보로_회원가입에_성공하면_상태코드_204을_리턴한다() throws Exception {
