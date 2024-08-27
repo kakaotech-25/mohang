@@ -26,6 +26,7 @@ import moheng.planner.dto.FindTripOnSchedule;
 import moheng.planner.dto.FindTripsOnSchedule;
 import moheng.planner.dto.UpdateTripOrdersRequest;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
+import moheng.planner.exception.NoExistTripScheduleException;
 import moheng.planner.exception.NoExistTripScheduleRegistryException;
 import moheng.trip.domain.Trip;
 import moheng.trip.exception.NoExistTripException;
@@ -117,6 +118,30 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
         doThrow(new NoExistTripException("존재하지 않는 여행지입니다."))
+                .when(tripScheduleService).addCurrentTripOnPlannerSchedule(anyLong(), anyLong());
+
+        // when, then
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/schedule/trip/{tripId}/{scheduleId}", 1L, 1L)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                ).andDo(print())
+                .andDo(document("planner/schedule/trip/add",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("tripId").description("플래너에 담을 현재 여행지의 고유 ID 값"),
+                                parameterWithName("scheduleId").description("여행 일정 고유 ID 값")
+                        )
+                ))
+                .andExpect(status().isNotFound());
+    }
+
+    @DisplayName("존재하지 않는 일정에 여행지를 추가하려고 하면 상태코드 404를 리턴한다.")
+    @Test
+    void 존재하지_않는_일정에_여행지를_추가하려고_하면_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistTripScheduleException("존재하지 않는 여행 일정입니다."))
                 .when(tripScheduleService).addCurrentTripOnPlannerSchedule(anyLong(), anyLong());
 
         // when, then
