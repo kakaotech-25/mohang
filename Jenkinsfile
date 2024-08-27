@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'docker:latest'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }
+    agent { dockerfile true }
 
     tools {
         nodejs 'MyNode'
@@ -15,6 +10,8 @@ pipeline {
     environment {
         JAVA_HOME = "${tool 'JDK_22'}"
         PATH = "${env.PATH}:${env.JAVA_HOME}/bin"
+        IMAGE_STORAGE_CREDENTIAL = 'dockerhub-access-token'
+        IMAGE_STORAGE = 'docker.io'
     }
 
     stages {
@@ -39,8 +36,10 @@ pipeline {
                             echo 'Starting Frontend Build...'
 
                             dir('nginx') {
-                                sh 'docker build -t leovim5072/moheng-nginx:latest -f Dockerfile.prod ../'
-                                sh 'docker push leovim5072/moheng-nginx:latest'
+                                docker.withRegistry("https://${IMAGE_STORAGE}", IMAGE_STORAGE_CREDENTIAL) {
+                                    def customImage = docker.build("leovim5072/moheng-nginx:latest", "-f Dockerfile.prod ../")
+                                    customImage.push("latest")
+                                }
                             }
 
                             echo 'Frontend Build Completed!'
