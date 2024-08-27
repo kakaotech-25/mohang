@@ -8,6 +8,7 @@ import moheng.planner.domain.TripScheduleRegistry;
 import moheng.planner.domain.TripScheduleRegistryRepository;
 import moheng.planner.domain.TripScheduleRepository;
 import moheng.planner.dto.CreateTripScheduleRequest;
+import moheng.planner.dto.FindTripsOnSchedule;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.planner.exception.NoExistTripScheduleException;
 import moheng.trip.domain.Trip;
@@ -65,7 +66,10 @@ public class TripScheduleService {
         tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip, tripSchedule));
     }
 
-    public List<Trip> findTripsOnSchedule(final long scheduleId) {
-        return tripRepository.findTripsByScheduleId(scheduleId);
+    public FindTripsOnSchedule findTripsOnSchedule(final long scheduleId) {
+        final TripSchedule tripSchedule = tripScheduleRepository.findById(scheduleId)
+                .orElseThrow(NoExistTripScheduleException::new);
+
+        return new FindTripsOnSchedule(tripSchedule, tripRepository.findTripsByScheduleId(scheduleId));
     }
 }
