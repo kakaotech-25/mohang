@@ -25,6 +25,7 @@ import moheng.planner.domain.TripSchedule;
 import moheng.planner.dto.FindPlannerOrderByDateResponse;
 import moheng.planner.dto.FindTripOnSchedule;
 import moheng.planner.dto.FindTripsOnSchedule;
+import moheng.planner.dto.UpdateTripOrdersRequest;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.trip.domain.Trip;
 import org.junit.jupiter.api.DisplayName;
@@ -147,9 +148,22 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                 .andExpect(status().isOk());
     }
 
-    @DisplayName("")
+    @DisplayName("세부 일정내의 여행지 리스트 순서를 수정하고 상태코드 204를 리턴한다.")
     @Test
-    void a() {
+    void 세부_일정내의_여행지_리스트_순서를_수정하고_상태코드_204를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doNothing().when(tripScheduleService).updateTripOrdersOnSchedule(anyLong(), any());
 
+        // when, then
+        mockMvc.perform(post("/api/schedule/trips/orders/{scheduleId}", 1L)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new UpdateTripOrdersRequest(List.of(1L, 2L, 3L)))))
+                .andDo(print())
+                .andDo(document("planner/schedule/order/update",
+                        preprocessRequest(),
+                        preprocessResponse()
+                )).andExpect(status().isNoContent());
     }
 }
