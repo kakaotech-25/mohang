@@ -74,6 +74,7 @@ public class TripScheduleService {
         return new FindTripsOnSchedule(tripSchedule, tripRepository.findTripsByScheduleId(scheduleId));
     }
 
+    @Transactional
     public void updateTripOrdersOnSchedule(final long scheduleId, final UpdateTripOrdersRequest updateTripOrdersRequest) {
         final TripSchedule tripSchedule = tripScheduleRepository.findById(scheduleId)
                 .orElseThrow(NoExistTripScheduleException::new);
@@ -93,6 +94,7 @@ public class TripScheduleService {
         tripScheduleRegistryRepository.saveAll(tripScheduleRegistries);
     }
 
+    @Transactional
     public void deleteTripOnSchedule(final long scheduleId, final long tripId) {
         if(!tripScheduleRegistryRepository.existsByTripIdAndTripScheduleId(tripId, scheduleId)) {
             throw new NoExistTripScheduleRegistryException("존재하지 않는 일정 여행지입니다.");

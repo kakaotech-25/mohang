@@ -146,4 +146,10 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         )))
                 .andExpect(status().isOk());
     }
+
+    @DisplayName("")
+    @Test
+    void a() {
+
+    }
 }
