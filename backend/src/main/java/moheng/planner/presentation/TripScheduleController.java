@@ -22,4 +22,12 @@ public class TripScheduleController {
         tripScheduleService.createTripSchedule(accessor.getId(), createTripScheduleRequest);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/trip/{tripId}/{scheduleId}")
+    public ResponseEntity<Void> addTripOnSchedule(@Authentication final Accessor accessor,
+                                                  @PathVariable("tripId") final Long tripId,
+                                                  @PathVariable("scheduleId") final Long scheduleId) {
+        tripScheduleService.addCurrentTripOnPlannerSchedule(tripId, scheduleId);
+        return ResponseEntity.noContent().build();
+    }
 }
