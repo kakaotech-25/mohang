@@ -47,24 +47,28 @@ pipeline {
 
         stage('Parallel Build'){
             parallel{
-                stage('Frontend Docker Build') {
+                stage('Nginx Docker Build') {
                     steps {
                         script {
-                            echo 'Starting Frontend Build...'
-
-                            dir('nginx') {
-                                docker.withRegistry(IMAGE_STORAGE, IMAGE_STORAGE_CREDENTIAL) {
-                                    def nginxImage = docker.build("leovim5072/moheng-nginx:latest", "-f Dockerfile.prod ../")
-                                    nginxImage.push("latest")
-                                }
-                            }
-
-                            echo 'Frontend Build Completed!'
+                            echo 'Starting Nginx Build...'
+                            buildAndPushDockerImage(
+                                directory: 'nginx',
+                                imageName: 'leovim5072/moheng-nginx:latest',
+                                targetBranch: 'develop',
+                                context: '-f Dockerfile.prod ../'
+                            )
+                            // dir('nginx') {
+                            //     docker.withRegistry(IMAGE_STORAGE, IMAGE_STORAGE_CREDENTIAL) {
+                            //         def nginxImage = docker.build("leovim5072/moheng-nginx:latest", "-f Dockerfile.prod ../")
+                            //         nginxImage.push("latest")
+                            //     }
+                            // }
+                            echo 'Nginx Build Completed!'
                         }
                     }
                     post {
                         failure {
-                            sendErrorNotification('Frontend Build')
+                            sendErrorNotification('Nginx Build')
                         }
                     }
                 }
@@ -73,14 +77,18 @@ pipeline {
                     steps {
                         script {
                             echo 'Starting Backend Build...'
-                            
-                            dir('backend') {
-                                docker.withRegistry(IMAGE_STORAGE, IMAGE_STORAGE_CREDENTIAL) {
-                                    def backendImage = docker.build("leovim5072/moheng-backend:latest", "-f Dockerfile.prod .")
-                                    backendImage.push("latest")
-                                }
-                            }
-
+                            buildAndPushDockerImage(
+                                directory: 'backend',
+                                imageName: 'leovim5072/moheng-backend:latest',
+                                targetBranch: 'develop',
+                                context: '-f Dockerfile.prod .'
+                            )
+                            // dir('backend') {
+                            //     docker.withRegistry(IMAGE_STORAGE, IMAGE_STORAGE_CREDENTIAL) {
+                            //         def backendImage = docker.build("leovim5072/moheng-backend:latest", "-f Dockerfile.prod .")
+                            //         backendImage.push("latest")
+                            //     }
+                            // }
                             echo 'Backend Build Completed!'
                         }
                     }
@@ -95,43 +103,41 @@ pipeline {
     }
 
     post {
-        success {
-            withCredentials([string(credentialsId: 'discord-webhook', variable: 'DISCORD')]) {
-                discordSend description: """
-                제목 : ${currentBuild.displayName}
-                결과 : ${currentBuild.result}
-                실행 시간 : ${currentBuild.duration / 1000}s
-                """,
-                link: env.BUILD_URL, result: currentBuild.currentResult, 
-                title: "${env.JOB_NAME} : ${currentBuild.displayName} 성공", 
-                webhookURL: "$DISCORD"
+        always {
+            script {
+                def buildStatus = currentBuild.result ?: 'SUCCESS'
+                def duration = "${currentBuild.duration / 60000}m ${currentBuild.duration % 60000 / 1000}s"
+                sendDiscordNotification(buildStatus, duration)
             }
         }
     }
 }
 
-def sendErrorNotification(stageName) {
-    script {
-        def errorMessage = ''
-        try {
-            errorMessage = currentBuild.rawBuild.getLog(50).join("\n")
-        } catch (Exception e) {
-            errorMessage = 'Failed to retrieve error message.'
+def buildAndPushDockerImage(Map params) {
+    def directory = params.directory
+    def imageName = params.imageName
+    def targetBranch = params.targetBranch
+    def context = params.context
+    
+    dir(directory) {
+        def image = docker.build(imageName, context)
+        if (env.BRANCH_NAME == targetBranch) {
+            docker.withRegistry(IMAGE_STORAGE, IMAGE_STORAGE_CREDENTIAL) {
+                image.push("latest")
+            }
         }
+    }
+}
         
-        errorMessage = errorMessage.take(2000)  // 메시지 길이를 제한
-
-        withCredentials([string(credentialsId: 'discord-webhook', variable: 'DISCORD')]) {
-            discordSend description: """
-            제목 : ${currentBuild.displayName}
-            결과 : ${currentBuild.result}
-            실패 단계: ${stageName}
-            실행 시간 : ${currentBuild.duration / 1000}s
-            오류 메시지: ${errorMessage}
-            """,
-            link: env.BUILD_URL, result: currentBuild.currentResult, 
-            title: "${env.JOB_NAME} : ${currentBuild.displayName} 실패", 
-            webhookURL: "$DISCORD"
-        }
+def sendDiscordNotification(buildStatus, duration) {
+    withCredentials([string(credentialsId: 'discord-webhook', variable: 'DISCORD')]) {
+        discordSend description: """
+        제목 : ${currentBuild.displayName}
+        결과 : ${buildStatus}
+        실행 시간 : ${duration}
+        """,
+        link: env.BUILD_URL, result: buildStatus, 
+        title: "${env.JOB_NAME} : ${currentBuild.displayName} ${buildStatus}", 
+        webhookURL: "$DISCORD"
     }
 }
