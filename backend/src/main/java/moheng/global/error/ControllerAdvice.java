@@ -6,6 +6,7 @@ import moheng.keyword.exception.InvalidAIServerException;
 import moheng.keyword.exception.KeywordNameLengthException;
 import moheng.keyword.exception.NoExistKeywordException;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
+import moheng.liveinformation.exception.LiveInfoNameException;
 import moheng.liveinformation.exception.NoExistLiveInformationException;
 import moheng.member.exception.*;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
@@ -47,6 +48,7 @@ public class ControllerAdvice {
             NoExistTripScheduleException.class,
             NoExistTripScheduleRegistryException.class,
             KeywordNameLengthException.class,
+            LiveInfoNameException.class,
     })
     public ResponseEntity<ExceptionResponse> handleIBadRequestException(final RuntimeException e) {
         logger.error(e.getMessage(), e);

@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface MemberLiveInformationRepository extends JpaRepository<MemberLiveInformation, Long> {
     List<MemberLiveInformation> findByMemberId(final Long memberId);
+
     @Transactional
     void deleteByMemberId(Long memberId);
 
