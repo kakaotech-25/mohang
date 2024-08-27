@@ -5,8 +5,11 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.auth.dto.AccessTokenResponse;
 import moheng.planner.dto.CreateTripScheduleRequest;
+import moheng.planner.dto.UpdateTripOrdersRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+
+import java.util.List;
 
 public class TripScheduleAcceptenceTestFixture {
     public static ExtractableResponse<Response> 플래너에_여행_일정을_생성한다(final AccessTokenResponse accessTokenResponse, final CreateTripScheduleRequest createTripScheduleRequest) {
@@ -37,6 +40,17 @@ public class TripScheduleAcceptenceTestFixture {
                 .when().get("/api/schedule/trips/{scheduleId}", scheduleId)
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 세부_일정내_여행지_정렬_순서를_수정한다(final long scheduleId, final AccessTokenResponse accessTokenResponse) {
+        return RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessTokenResponse.getAccessToken())
+                .body(new UpdateTripOrdersRequest(List.of(3L, 1L, 2L)))
+                .when().post("/api/schedule/trips/orders/{scheduleId}", scheduleId)
+                .then().log().all()
+                .statusCode(HttpStatus.NO_CONTENT.value())
                 .extract();
     }
 }

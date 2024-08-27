@@ -125,19 +125,9 @@ public class TripScheduleAcceptenceTest extends AcceptanceTestConfig {
         플래너에_여행지를_담는다(accessTokenResponse, 3L, 1L);
 
         // when
-        long scheduleId = 1L;
+        ExtractableResponse<Response> resultResponse = 세부_일정내_여행지_정렬_순서를_수정한다(1L, accessTokenResponse);
 
-        ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .auth().oauth2(accessTokenResponse.getAccessToken())
-                .body(new UpdateTripOrdersRequest(List.of(3L, 1L, 2L)))
-                .when().post("/api/schedule/trips/orders/{scheduleId}", scheduleId)
-                .then().log().all()
-                .statusCode(HttpStatus.NO_CONTENT.value())
-                .extract();
-
-
-        FindTripsOnSchedule findTripsOnSchedule = 세부_일정을_찾는다(scheduleId, accessTokenResponse).as(FindTripsOnSchedule.class);
+        FindTripsOnSchedule findTripsOnSchedule = 세부_일정을_찾는다(1L, accessTokenResponse).as(FindTripsOnSchedule.class);
 
         // then
         assertAll(() -> {
