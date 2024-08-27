@@ -38,7 +38,6 @@ public class ControllerAdvice {
             InvalidGenderFormatException.class,
             InvalidNicknameFormatException.class,
             NoExistMemberTokenException.class,
-            NoExistMemberException.class,
             NoExistSocialTypeException.class,
             EmptyLiveInformationException.class,
             ShortContentidsSizeException.class,
@@ -90,6 +89,7 @@ public class ControllerAdvice {
             NoExistKeywordException.class,
             NoExistTripException.class,
             NoExistLiveInformationException.class,
+            NoExistMemberException.class,
     })
     public ResponseEntity<ExceptionResponse> handleNotFoundResourceException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
