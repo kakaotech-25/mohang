@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import PlannerData from '../../data/PlannerData';
 import seemoreIcon from '../../assets/seemore.png';
+import PlannerModal from '../../components/PlannerModal/PlannerModal';
 import './Planner.css';
 
 const Planner = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [sortCriteria, setSortCriteria] = useState('newest'); // 기본 정렬 기준은 최신순
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(null);
 
   const toggleDropdown = (id) => {
     if (activeDropdown === id) {
@@ -16,13 +19,20 @@ const Planner = () => {
   };
 
   const handleEdit = (id) => {
-    // 수정하기 로직
-    console.log(`수정하기 클릭: ${id}`);
+    const planToEdit = PlannerData.find(plan => plan.id === id);
+    setSelectedPlan(planToEdit); // 수정할 일정 설정
+    setIsModalOpen(true); // 모달 열기
   };
 
   const handleDelete = (id) => {
     // 삭제하기 로직
     console.log(`삭제하기 클릭: ${id}`);
+  };
+
+  const handleSave = (updatedPlan) => {
+    // 이 부분은 백엔드와 연동하여 업데이트된 플래너 데이터를 저장하는 로직을 구현 필요
+    console.log('저장된 플랜:', updatedPlan);
+    setIsModalOpen(false);
   };
 
   const handleSort = (criteria) => {
@@ -45,28 +55,30 @@ const Planner = () => {
 
   return (
     <div className="planner-page">
-      <h1 className="planner-title">여행 플래너</h1>
-      <div className="sort-options">
-        <span 
-          className={`sort-option ${sortCriteria === 'newest' ? 'active' : ''}`} 
-          onClick={() => handleSort('newest')}
-        >
-          최신순
-        </span>
-        <span className="sort-divider">|</span>
-        <span 
-          className={`sort-option ${sortCriteria === 'name' ? 'active' : ''}`} 
-          onClick={() => handleSort('name')}
-        >
-          이름순
-        </span>
-        <span className="sort-divider">|</span>
-        <span 
-          className={`sort-option ${sortCriteria === 'date' ? 'active' : ''}`} 
-          onClick={() => handleSort('date')}
-        >
-          날짜순
-        </span>
+      <div className="planner-header">
+        <h1 className="planner-title">여행 플래너</h1>
+        <div className="sort-options">
+          <span 
+            className={`sort-option ${sortCriteria === 'newest' ? 'active' : ''}`} 
+            onClick={() => handleSort('newest')}
+          >
+            최신순
+          </span>
+          <span className="sort-divider">|</span>
+          <span 
+            className={`sort-option ${sortCriteria === 'name' ? 'active' : ''}`} 
+            onClick={() => handleSort('name')}
+          >
+            이름순
+          </span>
+          <span className="sort-divider">|</span>
+          <span 
+            className={`sort-option ${sortCriteria === 'date' ? 'active' : ''}`} 
+            onClick={() => handleSort('date')}
+          >
+            날짜순
+          </span>
+        </div>
       </div>
       <div className="planner-list">
         {sortedPlans.map((plan) => (
@@ -92,6 +104,14 @@ const Planner = () => {
           </div>
         ))}
       </div>
+
+      <PlannerModal
+        isOpen={isModalOpen}
+        title="일정 수정하기"
+        plan={selectedPlan}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSave}
+      />
     </div>
   );
 };
