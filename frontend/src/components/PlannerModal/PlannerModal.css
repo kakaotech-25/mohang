@@ -10,26 +10,26 @@
     align-items: center;
     z-index: 1000;
 }
-  
+
 .modal-content {
     background-color: #FFFFEC;
     border-radius: 10px;
     width: 500px;
-    padding: 0px;
+    padding: 0;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .modal-header {
-    background-color: #845EC2;
-    padding: 10px;
+    background-color: #C493FF;
+    padding: 1px;
     border-radius: 10px 10px 0 0;
     color: #FFFFFF;
     text-align: center;
-    margin: 0;
 }
 
 .modal-body {
     padding: 20px;
+    margin: 10px 10px;
 }
 
 .modal-input-group {
@@ -43,21 +43,25 @@
 }
 
 .modal-input-group input {
-    width: 100%;
+    width: calc(100% - 20px);
     padding: 8px;
+    margin-right: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
     background-color: #fff;
 }
 
 .calendar-container {
+    display: flex;
+    justify-content: center;
     margin-top: 20px;
 }
 
 .modal-footer {
     display: flex;
     justify-content: flex-end;
-    margin-top: 20px;
+    padding: 20px;
+    margin-top: 10px;
 }
 
 .save-button {
@@ -78,4 +82,3 @@
     border-radius: 5px;
     cursor: pointer;
 }
-  
