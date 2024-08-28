@@ -14,8 +14,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Aspect
 @Component
 public class QueryCounterAop {
+    private static final int MAX_SAFE_QUERY_COUNT = 5;
     private static final Logger logger = LoggerFactory.getLogger(QueryCounterAop.class);
-
     private final ThreadLocal<QueryLog> currentLoggingForm;
 
     public QueryCounterAop() {
@@ -26,21 +26,12 @@ public class QueryCounterAop {
     public Object captureConnection(final ProceedingJoinPoint joinPoint) throws Throwable {
         final Object connection = joinPoint.proceed();
 
-        return new ConnectionProxyHandler(connection, getCurrentLoggingForm()).getProxy();
+        return new ConnectionProxyHandler(connection, getCurrentLog()).getProxy();
     }
 
-    private QueryLog getCurrentLoggingForm() {
-        if (currentLoggingForm.get() == null) {
-            currentLoggingForm.set(new QueryLog());
-        }
-        return currentLoggingForm.get();
-    }
-
-    @After("within(@org.springframework.stereotype.Service *) || " +
-            "within(@org.springframework.stereotype.Repository *)")
-    public void loggingAfterApiFinish() {
-        final QueryLog loggingForm = getCurrentLoggingForm();
-
+    @After("within(@org.springframework.stereotype.Service *)")
+    public void loggingAfterLogicFinish() {
+        final QueryLog loggingForm = getCurrentLog();
         final ServletRequestAttributes attributes =
                 (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 
@@ -51,11 +42,23 @@ public class QueryCounterAop {
             loggingForm.setApiUrl(request.getRequestURI());
         }
 
-        logger.info("count: {}", getCurrentLoggingForm().getQueryCounts());
-        logger.info("url: {}", getCurrentLoggingForm().getApiUrl());
-        logger.info("time: {}", getCurrentLoggingForm().getQueryTime());
-        logger.info("method: {}", getCurrentLoggingForm().getApiMethod());
+        final QueryLog currentQueryLog = getCurrentLog();
+
+        if(currentQueryLog.getQueryCounts() > MAX_SAFE_QUERY_COUNT) {
+            logger.warn("count: {}", currentQueryLog.getQueryCounts());
+            logger.warn("url: {}", currentQueryLog.getApiUrl());
+            logger.warn("time: {}", currentQueryLog.getQueryTime());
+            logger.warn("method: {}", currentQueryLog.getApiMethod());
+        }
+
         currentLoggingForm.remove();
+    }
+
+    private QueryLog getCurrentLog() {
+        if (currentLoggingForm.get() == null) {
+            currentLoggingForm.set(new QueryLog());
+        }
+        return currentLoggingForm.get();
     }
 
     private boolean isInRequestScope(final ServletRequestAttributes attributes) {
