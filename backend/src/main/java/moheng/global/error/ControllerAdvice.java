@@ -3,14 +3,16 @@ package moheng.global.error;
 import moheng.auth.exception.*;
 import moheng.global.error.dto.ExceptionResponse;
 import moheng.keyword.exception.InvalidAIServerException;
+import moheng.keyword.exception.KeywordNameLengthException;
 import moheng.keyword.exception.NoExistKeywordException;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
+import moheng.liveinformation.exception.LiveInfoNameException;
+import moheng.liveinformation.exception.NoExistLiveInformationException;
 import moheng.member.exception.*;
-import moheng.planner.exception.AlreadyExistTripScheduleException;
-import moheng.planner.exception.InvalidTripScheduleDateException;
-import moheng.planner.exception.NoExistTripScheduleException;
+import moheng.planner.exception.*;
 import moheng.recommendtrip.exception.LackOfRecommendTripException;
-import moheng.trip.exception.NoExistTripException;
+import moheng.recommendtrip.exception.NoExistMemberTripException;
+import moheng.trip.exception.*;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,16 +37,17 @@ public class ControllerAdvice {
             InvalidGenderFormatException.class,
             InvalidNicknameFormatException.class,
             NoExistMemberTokenException.class,
-            NoExistMemberException.class,
             NoExistSocialTypeException.class,
             EmptyLiveInformationException.class,
             ShortContentidsSizeException.class,
-            NoExistTripException.class,
-            NoExistKeywordException.class,
-            LackOfRecommendTripException.class,
             AlreadyExistTripScheduleException.class,
             InvalidTripScheduleDateException.class,
-            NoExistTripScheduleException.class
+            KeywordNameLengthException.class,
+            LiveInfoNameException.class,
+            NoMatchingSocialTypeException.class,
+            InvalidTripScheduleNameException.class,
+            InvalidTripNameException.class,
+            InvalidTripDescriptionException.class,
     })
     public ResponseEntity<ExceptionResponse> handleIBadRequestException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
@@ -74,13 +77,50 @@ public class ControllerAdvice {
             InvalidTokenFormatException.class,
             InvalidTokenException.class,
             DuplicateNicknameException.class,
-            InvalidInitAuthorityException.class
     })
     public ResponseEntity<ExceptionResponse> handleUnAuthorizedException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
         ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+    }
+
+    @ExceptionHandler({
+            InvalidInitAuthorityException.class,
+    })
+    public ResponseEntity<ExceptionResponse> handleForbiddenException(final RuntimeException e) {
+        logger.error(e.getMessage(), e);
+        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
+    }
+
+    @ExceptionHandler({
+            NoExistKeywordException.class,
+            NoExistTripException.class,
+            NoExistLiveInformationException.class,
+            NoExistMemberException.class,
+            NoExistTripScheduleException.class,
+            NoExistTripScheduleRegistryException.class,
+            NoExistMemberTripException.class,
+    })
+    public ResponseEntity<ExceptionResponse> handleNotFoundResourceException(final RuntimeException e) {
+        logger.error(e.getMessage(), e);
+        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
+    @ExceptionHandler({
+            LackOfRecommendTripException.class,
+            NoExistRecommendTripException.class,
+            NoExistRecommendTripStrategyException.class,
+    })
+    public ResponseEntity<ExceptionResponse> handleUnprocessableEntityException(final RuntimeException e) {
+        logger.error(e.getMessage(), e);
+        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)

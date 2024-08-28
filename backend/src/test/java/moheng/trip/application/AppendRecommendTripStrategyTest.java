@@ -22,6 +22,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class AppendRecommendTripStrategyTest extends ServiceTestConfig {
     private static final long MAX_SIZE = 10L;
+    private static final long MIN_SIZE = 5L;
 
     @Autowired
     private AppendRecommendTripStrategy appendRecommendTripStrategy;
@@ -66,7 +67,7 @@ public class AppendRecommendTripStrategyTest extends ServiceTestConfig {
         });
     }
 
-    @DisplayName("선호 여행지 추가 전략은 현재 선호 여행지 개수가 MAX SIZE 보다 작을 때 수행된다.")
+    @DisplayName("선호 여행지 추가 전략은 현재 선호 여행지 개수가 MAX SIZE 보다 작고 MIN SIZE 보다 클 때 수행된다.")
     @Test
     void 선호_여행지_추가_전략은_MAX_SIZE_보다_작을_때_수행된다() {
         // given
@@ -75,16 +76,21 @@ public class AppendRecommendTripStrategyTest extends ServiceTestConfig {
         tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
         tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
         tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
+        tripService.save(new Trip("여행지5", "서울", 5L, "설명4", "https://image.png", 0L));
         Trip trip1 = tripService.findById(1L);
         Trip trip2 = tripService.findById(2L);
         Trip trip3 = tripService.findById(3L);
+        Trip trip4 = tripService.findById(4L);
+        Trip trip5 = tripService.findById(5L);
         recommendTripRepository.save(new RecommendTrip(trip1, member, 1L));
         recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
         recommendTripRepository.save(new RecommendTrip(trip3, member, 3L));
+        recommendTripRepository.save(new RecommendTrip(trip4, member, 4L));
+        recommendTripRepository.save(new RecommendTrip(trip5, member, 5L));
 
         long recommendSize = recommendTripRepository.findAllByMemberId(member.getId()).size();
 
-        assertThat(appendRecommendTripStrategy.isMatch(recommendSize, MAX_SIZE)).isTrue();
+        assertThat(appendRecommendTripStrategy.isMatch(recommendSize, MAX_SIZE, MIN_SIZE)).isTrue();
     }
 
     @DisplayName("멤버의 선호 여행지가 비어있으면 선호 여행지 추가 전략에 예외가 발생한다.")

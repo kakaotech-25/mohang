@@ -84,6 +84,10 @@ public class MemberFixtures {
         return new SignUpProfileRequest("devhaon", LocalDate.of(1999, 9, 20), GenderType.MEN, "https://profile-image.com");
     }
 
+    public static SignUpProfileRequest 유효하지_않은_닉네임_프로필_정보로_회원가입_요청() {
+        return new SignUpProfileRequest("a", LocalDate.of(1999, 9, 20), GenderType.MEN, "https://profile-image.com");
+    }
+
     public static SignUpLiveInfoRequest 생활정보로_회원가입_요청() {
         return new SignUpLiveInfoRequest(List.of("생활정보1", "생활정보2"));
     }

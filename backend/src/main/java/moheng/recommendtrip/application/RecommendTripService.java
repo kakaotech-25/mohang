@@ -96,7 +96,7 @@ public class RecommendTripService {
             final MemberTrip memberTrip = memberTrips.stream()
                     .filter(mt -> mt.getTrip().getContentId().equals(trip.getContentId()))
                     .findFirst()
-                    .orElseThrow(() -> new NoExistMemberTripException("존재하지 않는 멤버의 여행지입니다."));
+                    .orElseThrow(() -> new NoExistMemberTripException("존재하지 않는 멤버의 선호 여행지입니다."));
             preferredLocations.put(trip.getContentId(), memberTrip.getVisitedCount());
         }
         return preferredLocations;
@@ -104,7 +104,7 @@ public class RecommendTripService {
 
     private void validateRecommendTrips(final List<RecommendTrip> recommendTrips) {
         if(recommendTrips.size() < MIN_RECOMMEND_TRIPS_COUNT) {
-            throw new LackOfRecommendTripException("추천을 받기위해 선호 여행지 데이터 수가 부족합니다.");
+            throw new LackOfRecommendTripException("추천을 받기위한 선호 여행지 데이터 수가 부족합니다.");
         }
     }
 

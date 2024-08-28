@@ -1,4 +1,4 @@
-name: SonarQube Scan
+name: SonarCloud Backend
 
 on:
   push:
@@ -40,6 +40,6 @@ jobs:
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACK }}
         run: ./gradlew build sonar --info
         working-directory: ./backend/

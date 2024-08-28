@@ -6,8 +6,8 @@ import moheng.auth.domain.oauth.Authority;
 import moheng.auth.exception.InvalidInitAuthorityException;
 import moheng.config.slice.ControllerTestConfig;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
-import moheng.member.exception.DuplicateNicknameException;
-import moheng.member.exception.ShortContentidsSizeException;
+import moheng.liveinformation.exception.NoExistLiveInformationException;
+import moheng.member.exception.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -44,7 +44,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
-                .andDo(document("member/me",
+                .andDo(document("member/me/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
@@ -59,6 +59,163 @@ public class MemberControllerTest extends ControllerTestConfig {
                         )
                 ))
                 .andExpect(status().isOk());
+    }
+
+    @DisplayName("존재하지 않는 멤버의 회원 정보를 조회하려고 하면 상태코드 404를 리턴한다.")
+    @Test
+    void 존재하지_않는_멤버의_회원_정보를_조회하려고_하면_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistMemberException("존재하지 않는 회원입니다."))
+                .when(memberService).findById(anyLong());
+
+        // when, then
+        mockMvc.perform(get("/api/member/me")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andDo(document("member/me/fail",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        )
+                ))
+                .andExpect(status().isNotFound());
+    }
+
+    @DisplayName("프로필 정보로 회원가입시 입력한 닉네임의 길이가 유효범위를 벗어나면 상태코드 400을 리턴한다.")
+    @Test
+    void 프로필_정보로_회원가입시_입력한_닉네임의_길이가_유효범위를_벗어나면_상태코드_400을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_신규()));
+        doThrow(new InvalidNicknameFormatException("이름은 1자 이상 50이하만 허용합니다."))
+                .when(memberService).signUpByProfile(anyLong(), any());
+
+        // when, then
+        mockMvc.perform(post("/api/member/signup/profile")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(유효하지_않은_닉네임_프로필_정보로_회원가입_요청()))
+                )
+                .andDo(print())
+                .andDo(document("member/signup/profile/fail/nickname",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("nickname").description("닉네임"),
+                                fieldWithPath("birthday").description("생년월일. 형식:yyyy-MM-dd"),
+                                fieldWithPath("genderType").description("성별. 형식: MEN 또는 WOMEN"),
+                                fieldWithPath("profileImageUrl").description("프로필 이미지 경로.")
+                        )
+                ))
+                .andExpect(status().isBadRequest());
+    }
+
+    @DisplayName("프로필 정보로 회원가입시 입력한 소셜 로그인 제공처가 유효하지 않다면 상태코드 400을 리턴한다.")
+    @Test
+    void 프로필_정보로_회원가입시_입력한_소셜_로그인_재공처가_유효하지_않다면_상태코드_400을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_신규()));
+        doThrow(new NoExistSocialTypeException("존재하지 않는 소셜 로그인 제공처입니다."))
+                .when(memberService).signUpByProfile(anyLong(), any());
+
+        // when, then
+        mockMvc.perform(post("/api/member/signup/profile")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(유효하지_않은_닉네임_프로필_정보로_회원가입_요청()))
+                )
+                .andDo(print())
+                .andDo(document("member/signup/profile/fail/nickname",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("nickname").description("닉네임"),
+                                fieldWithPath("birthday").description("생년월일. 형식:yyyy-MM-dd"),
+                                fieldWithPath("genderType").description("성별. 형식: MEN 또는 WOMEN"),
+                                fieldWithPath("profileImageUrl").description("프로필 이미지 경로.")
+                        )
+                ))
+                .andExpect(status().isBadRequest());
+    }
+
+    @DisplayName("프로필 정보로 회원가입시 입력한 생년월일 날짜가 현재 날짜보다 더 이후라면 상태코드 400을 리턴한다.")
+    @Test
+    void 프로필_정보로_회원가입시_입력한_생년월일_날짜가_현재_날짜보다_더_이후라면_상태코드_400을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_신규()));
+        doThrow(new InvalidBirthdayException("생년월일은 현재 날짜보다 더 이후일 수 없습니다."))
+                .when(memberService).signUpByProfile(anyLong(), any());
+
+        // when, then
+        mockMvc.perform(post("/api/member/signup/profile")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(유효하지_않은_닉네임_프로필_정보로_회원가입_요청()))
+                )
+                .andDo(print())
+                .andDo(document("member/signup/profile/fail/birthday",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("nickname").description("닉네임"),
+                                fieldWithPath("birthday").description("생년월일. 형식:yyyy-MM-dd"),
+                                fieldWithPath("genderType").description("성별. 형식: MEN 또는 WOMEN"),
+                                fieldWithPath("profileImageUrl").description("프로필 이미지 경로.")
+                        )
+                ))
+                .andExpect(status().isBadRequest());
+    }
+
+    @DisplayName("프로필 정보로 회원가입시 입력한 성별이 유효하지 않다면 상태코드 400을 리턴한다.")
+    @Test
+    void 프로필_정보로_회원가입시_입력한_성별이_유효하지_않다면_상태코드_400을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_신규()));
+        doThrow(new InvalidGenderFormatException("유효하지 않은 성별 입니다."))
+                .when(memberService).signUpByProfile(anyLong(), any());
+
+        // when, then
+        mockMvc.perform(post("/api/member/signup/profile")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(유효하지_않은_닉네임_프로필_정보로_회원가입_요청()))
+                )
+                .andDo(print())
+                .andDo(document("member/signup/profile/fail/genderType",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("nickname").description("닉네임"),
+                                fieldWithPath("birthday").description("생년월일. 형식:yyyy-MM-dd"),
+                                fieldWithPath("genderType").description("성별. 형식: MEN 또는 WOMEN"),
+                                fieldWithPath("profileImageUrl").description("프로필 이미지 경로.")
+                        )
+                ))
+                .andExpect(status().isBadRequest());
     }
 
     @DisplayName("프로필 정보로 회원가입에 성공하면 상태코드 204을 리턴한다.")
@@ -76,7 +233,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                 .content(objectMapper.writeValueAsString(프로필_정보로_회원가입_요청()))
         )
                 .andDo(print())
-                .andDo(document("member/signup/profile",
+                .andDo(document("member/signup/profile/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
@@ -92,10 +249,42 @@ public class MemberControllerTest extends ControllerTestConfig {
                 .andExpect(status().isNoContent());
     }
 
-
-    @DisplayName("이미 회원가입을 마친 멤버가 프로필 정보로 회원가입을 요청하면 상태코드 401을 리턴한다.")
+    @DisplayName("존재하지 않는 멤버가 프로필 정보로 회원가입 하려고 하면 상태코드 404를 리턴한다.")
     @Test
-    void 이미_회원가입을_마친_멤버가_프로필_정보로_회원가입에_요청하면_상태코드_401을_리턴한다() throws Exception {
+    void 존재하지_않는_멤버가_프로필_정보로_회원가입_하려고_하면_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistMemberException("존재하지 않는 회원입니다."))
+                .when(memberService).findById(anyLong());
+
+        // when, then
+        mockMvc.perform(post("/api/member/signup/profile")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(프로필_정보로_회원가입_요청()))
+                )
+                .andDo(print())
+                .andDo(document("member/signup/profile/fail/noExistMember",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("nickname").description("닉네임"),
+                                fieldWithPath("birthday").description("생년월일. 형식:yyyy-MM-dd"),
+                                fieldWithPath("genderType").description("성별. 형식: MEN 또는 WOMEN"),
+                                fieldWithPath("profileImageUrl").description("프로필 이미지 경로.")
+                        )
+                ))
+                .andExpect(status().isNotFound());
+    }
+
+
+    @DisplayName("이미 회원가입을 마친 멤버가 프로필 정보로 회원가입을 요청하면 상태코드 403을 리턴한다.")
+    @Test
+    void 이미_회원가입을_마친_멤버가_프로필_정보로_회원가입에_요청하면_상태코드_403을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
         given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_기존()));
@@ -123,7 +312,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                                 fieldWithPath("profileImageUrl").description("프로필 이미지 경로.")
                         )
                 ))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 
     @DisplayName("중복되는 닉네임 없이 사용 가능한 닉네임이라면 메시지와 상태코드 200을 리턴한다.")
@@ -276,6 +465,34 @@ public class MemberControllerTest extends ControllerTestConfig {
                 ).andExpect(status().isNoContent());
     }
 
+    @DisplayName("존재하지 않는 생활정보를 선택하여 회원가입을 시도하면 상태코드 404를 리턴한다.")
+    @Test
+    void 존재하지_않는_생활정보를_선택하여_회원가입을_시도하면_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_신규()));
+        doThrow(new NoExistLiveInformationException("존재하지 않는 생활정보입니다."))
+                .when(memberService).signUpByLiveInfo(anyLong(), any());
+
+        // when, then
+        mockMvc.perform(post("/api/member/signup/liveinfo")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(생활정보로_회원가입_요청()))
+                ).andDo(print())
+                .andDo(document("member/signup/liveinfo/fail/noExistLiveInfo",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("liveInfoNames").description("선택한 생활정보 이름 리스트")
+                        ))
+                ).andExpect(status().isNotFound());
+    }
+
     @DisplayName("전달받은 여행지 추천에 필요한 생활정보 리스트가 비어있거나 유효하지 않다면 상태코드 400을 리턴한다.")
     @Test
     void 전달받은_여행지_추천에_필요한_생활정보_리스트가_비어있거나_유효하지_않다면_상태코드_400을_리턴한다() throws Exception {
@@ -292,7 +509,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(비어있는_생활정보로_회원가입_요청()))
                 ).andDo(print())
-                .andDo(document("member/signup/liveinfo/fail",
+                .andDo(document("member/signup/liveinfo/fail/emptyLiveInfo",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(

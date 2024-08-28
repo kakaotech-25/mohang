@@ -3,6 +3,7 @@ package moheng.liveinformation.presentation;
 import static moheng.fixture.MemberLiveInfoFixture.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -15,6 +16,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import moheng.config.slice.ControllerTestConfig;
 import moheng.liveinformation.dto.FindMemberLiveInformationResponses;
 import moheng.liveinformation.dto.LiveInfoResponse;
+import moheng.liveinformation.exception.NoExistLiveInformationException;
+import moheng.member.exception.NoExistMemberException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -40,7 +43,7 @@ public class MemberLiveInfoControllerTest extends ControllerTestConfig {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andDo(document("live/info/member/find",
+                .andDo(document("live/info/member/find/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         responseFields(
@@ -51,6 +54,27 @@ public class MemberLiveInfoControllerTest extends ControllerTestConfig {
                         )
                 ))
                 .andExpect(status().isOk());
+    }
+
+    @DisplayName("존재하지 않는 멤버의 생활정보를 조회하려고 하면 상태코드 404를 리턴한다.")
+    @Test
+    void 존재하지_않는_멤버의_생활정보를_조회하려고_하면_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistMemberException("존재하지 않는 회원입니다."))
+                .when(memberLiveInformationService).findMemberSelectedLiveInformation(anyLong());
+
+        // when, then
+        mockMvc.perform(get("/api/live/info/member")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andDo(document("live/info/member/find/fail",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ))
+                .andExpect(status().isNotFound());
     }
 
     @DisplayName("멤버의 생활정보를 수정하고 상태코드 204를 리턴한다.")

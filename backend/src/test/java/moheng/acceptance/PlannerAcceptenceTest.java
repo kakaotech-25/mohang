@@ -1,17 +1,13 @@
 package moheng.acceptance;
 
 import static moheng.acceptance.fixture.PlannerAcceptenceFixture.*;
-import static moheng.acceptance.fixture.AuthAcceptanceFixture.생활정보로_회원가입_한다;
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.자체_토큰을_생성한다;
-import static moheng.acceptance.fixture.TripScheduleTestFixture.플래너에_여행_일정을_생성한다;
+import static moheng.acceptance.fixture.TripScheduleAcceptenceTestFixture.플래너에_여행_일정을_생성한다;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.assertj.core.api.Assertions.assertThat;
-import static moheng.acceptance.fixture.TripAcceptenceFixture.*;
-import static moheng.acceptance.fixture.LiveInfoAcceptenceFixture.*;
 
-import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
@@ -20,7 +16,6 @@ import moheng.planner.dto.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 
 import java.time.LocalDate;
 

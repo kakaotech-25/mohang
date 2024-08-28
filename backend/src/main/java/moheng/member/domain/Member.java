@@ -97,7 +97,7 @@ public class Member extends BaseEntity {
     private void validateNickName(final String displayName) {
         if (displayName.isEmpty() || displayName.length() < MIN_NICK_NAME_LENGTH ||
                 displayName.length() > MAX_NICK_NAME_LENGTH) {
-            throw new InvalidNicknameFormatException(String.format("이름은 %d자 이상 1자 %d이하여야 합니다.",  MIN_NICK_NAME_LENGTH, MAX_NICK_NAME_LENGTH));
+            throw new InvalidNicknameFormatException(String.format("이름은 %d자 이상 %d이하만 허용합니다.",  MIN_NICK_NAME_LENGTH, MAX_NICK_NAME_LENGTH));
         }
     }
 
