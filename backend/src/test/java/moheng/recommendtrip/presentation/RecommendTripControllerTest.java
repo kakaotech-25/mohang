@@ -124,10 +124,31 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
-                .andDo(document("trip/recommend/ai/fail",
+                .andDo(document("trip/recommend/ai/fail/server",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())
                 ))
                 .andExpect(status().isInternalServerError());
+    }
+
+    @DisplayName("존재하지 않는 멤버가 AI 맞춤 추천 여행지 조회시 상태코드 404를 리턴한다.")
+    @Test
+    void 존재하지_않는_멤버가_AI_맞춤_추천_여행지_조회시_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(recommendTripService.findRecommendTripsByModel(anyLong()))
+                .willThrow(new NoExistMemberException("존재하지 않는 회원입니다."));
+
+        // when, then
+        mockMvc.perform(get("/api/recommend")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(document("trip/recommend/ai/fail/member",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ))
+                .andExpect(status().isNotFound());
     }
 }
