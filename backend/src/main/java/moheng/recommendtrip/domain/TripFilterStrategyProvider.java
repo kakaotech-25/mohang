@@ -20,19 +20,21 @@ import java.util.stream.Collectors;
 // 1. 선호 여행지 (+ 멤버 생활정보)  (-> AI 맞춤 추천 여행지)  / 2. 생활정보 (-> 비슷한 여행지)
 
 @Component
-public class TripFilterProvider {
+public class TripFilterStrategyProvider {
     private static final int RECOMMEND_TRIPS_COUNT = 10;
+    private final List<TripFilterStrategy> tripFilterStrategies;
     private final ExternalRecommendModelClient externalRecommendModelClient;
     private final ExternalSimilarTripModelClient externalSimilarTripModelClient;
     private final TripRepository tripRepository;
     private final MemberLiveInformationRepository memberLiveInformationRepository;
     private final TripLiveInformationRepository tripLiveInformationRepository;
 
-    public TripFilterProvider(final ExternalRecommendModelClient externalRecommendModelClient,
-                              final ExternalSimilarTripModelClient externalSimilarTripModelClient,
-                              final TripRepository tripRepository,
-                              final MemberLiveInformationRepository memberLiveInformationRepository,
-                              final TripLiveInformationRepository tripLiveInformationRepository) {
+    public TripFilterStrategyProvider(final List<TripFilterStrategy> tripFilterStrategies,
+                                      final ExternalRecommendModelClient externalRecommendModelClient,
+                                      final ExternalSimilarTripModelClient externalSimilarTripModelClient,
+                                      final TripRepository tripRepository,
+                                      final MemberLiveInformationRepository memberLiveInformationRepository,
+                                      final TripLiveInformationRepository tripLiveInformationRepository) {
         this.externalRecommendModelClient = externalRecommendModelClient;
         this.externalSimilarTripModelClient = externalSimilarTripModelClient;
         this.tripRepository = tripRepository;
@@ -40,8 +42,11 @@ public class TripFilterProvider {
         this.tripLiveInformationRepository = tripLiveInformationRepository;
     }
 
-    public List<Trip> findFilterTripsByFilterStrategy(final String filterStrategyName) {
-
+    public TripFilterStrategy findFilterTripsByFilterStrategy(final String filterStrategyName) {
+        return tripFilterStrategies.stream()
+                .filter(tripFilterStrategy -> tripFilterStrategy.isMatch(filterStrategyName))
+                .findFirst()
+                .orElseThrow();
     }
 
     public List<Trip> findFilteredTripsWithPreferredLocations(final Map<Long, Long> preferredLocations, final long memberId) {

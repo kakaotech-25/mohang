@@ -5,7 +5,8 @@ import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
 import moheng.recommendtrip.domain.RecommendTrip;
-import moheng.recommendtrip.domain.TripFilterProvider;
+import moheng.recommendtrip.domain.TripFilterStrategy;
+import moheng.recommendtrip.domain.TripFilterStrategyProvider;
 import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.recommendtrip.dto.RecommendTripCreateRequest;
 import moheng.recommendtrip.exception.LackOfRecommendTripException;
@@ -23,20 +24,21 @@ import java.util.*;
 public class RecommendTripService {
     private static final int RECOMMEND_TRIPS_COUNT = 10;
     private static final int MIN_RECOMMEND_TRIPS_COUNT = 5;
-    private final TripFilterProvider tripFilterProvider;
+    private static final String PREFERRED_LOCATIONS_STRATEGY = "PREFERRED_LOCATIONS";
+    private final TripFilterStrategyProvider tripFilterStrategyProvider;
     private final RecommendTripRepository recommendTripRepository;
     private final MemberRepository memberRepository;
     private final TripRepository tripRepository;
     private final MemberTripRepository memberTripRepository;
     private final TripKeywordRepository tripKeywordRepository;
 
-    public RecommendTripService(final TripFilterProvider tripFilterProvider,
+    public RecommendTripService(final TripFilterStrategyProvider tripFilterStrategyProvider,
                                 final RecommendTripRepository recommendTripRepository,
                                 final MemberRepository memberRepository,
                                 final TripRepository tripRepository,
                                 final MemberTripRepository memberTripRepository,
                                 final TripKeywordRepository tripKeywordRepository) {
-        this.tripFilterProvider = tripFilterProvider;
+        this.tripFilterStrategyProvider = tripFilterStrategyProvider;
         this.recommendTripRepository = recommendTripRepository;
         this.memberRepository = memberRepository;
         this.tripRepository = tripRepository;
@@ -50,7 +52,8 @@ public class RecommendTripService {
         final List<MemberTrip> memberTrips = memberTripRepository.findByMember(member);
         final List<RecommendTrip> recommendTrips = recommendTripRepository.findTop10ByMember(member);
         final Map<Long, Long> preferredLocations = findMemberPreferredLocations(memberTrips, recommendTrips);
-        final List<Trip> filteredTrips = tripFilterProvider.findFilteredTripsWithPreferredLocations(preferredLocations, memberId);
+        final TripFilterStrategy tripFilterStrategy = tripFilterStrategyProvider.findFilterTripsByFilterStrategy(PREFERRED_LOCATIONS_STRATEGY);
+        final List<Trip> filteredTrips = tripFilterStrategy.execute();
         return new FindTripsResponse(tripKeywordRepository.findByTrips(filteredTrips));
     }
 
