@@ -1,18 +1,37 @@
 pipeline {
-    agent any
-
-    tools {
-        nodejs 'MyNode'
-        gradle 'MyGradle'
-        jdk 'JDK_22'
+    agent {
+        docker {
+            image 'docker:latest'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
     }
 
     environment {
-        JAVA_HOME = "${tool 'JDK_22'}"
-        PATH = "${env.PATH}:${env.JAVA_HOME}/bin"
+        IMAGE_STORAGE_CREDENTIAL = 'dockerhub-access-token'
+        IMAGE_STORAGE = 'https://registry.hub.docker.com'
     }
 
     stages {
+        stage('Docker Login Test') {
+            steps {
+                script {
+                    echo 'Testing Docker Login...'
+                    docker.withRegistry(IMAGE_STORAGE, IMAGE_STORAGE_CREDENTIAL) {
+                        echo 'Docker login successful!'
+                    }
+                }
+            }
+            post {
+                failure {
+                    script {
+                        echo 'Docker login failed. Exiting...'
+                        currentBuild.result = 'FAILURE'
+                        error('Stopping the pipeline due to Docker login failure.')
+                    }
+                }
+            }
+        }
+
         stage('Checkout') {
             steps {
                 script {
@@ -28,40 +47,36 @@ pipeline {
 
         stage('Parallel Build'){
             parallel{
-                stage('Frontend Build') {
+                stage('Nginx Docker Build') {
                     steps {
                         script {
-                            echo 'Starting Frontend Build...'
-
-                            dir('frontend') {
-                                echo 'Installing Frontend Dependencies...'
-                                sh 'npm install --legacy-peer-deps'
-
-                                echo 'Building Frontend...'
-                                sh 'npm run build'
-                            }
-
-                            echo 'Frontend Build Completed!'
+                            echo 'Starting Nginx Build...'
+                            buildAndPushDockerImage(
+                                directory: 'nginx',
+                                imageName: 'leovim5072/moheng-nginx:latest',
+                                targetBranch: 'develop',
+                                context: '-f Dockerfile.prod ../'
+                            )
+                            echo 'Nginx Build Completed!'
                         }
                     }
                     post {
                         failure {
-                            sendErrorNotification('Frontend Build')
+                            sendErrorNotification('Nginx Build')
                         }
                     }
                 }
 
-                stage('Backend Build') {
+                stage('Backend Docker Build') {
                     steps {
                         script {
                             echo 'Starting Backend Build...'
-                            
-                            dir('backend') {
-                                echo 'Installing Backend Dependencies...'
-                                sh 'chmod +x gradlew'
-                                sh './gradlew build'
-                            }
-
+                            buildAndPushDockerImage(
+                                directory: 'backend',
+                                imageName: 'leovim5072/moheng-backend:latest',
+                                targetBranch: 'develop',
+                                context: '-f Dockerfile.prod .'
+                            )
                             echo 'Backend Build Completed!'
                         }
                     }
@@ -76,43 +91,43 @@ pipeline {
     }
 
     post {
-        success {
-            withCredentials([string(credentialsId: 'discord-webhook', variable: 'DISCORD')]) {
-                discordSend description: """
-                제목 : ${currentBuild.displayName}
-                결과 : ${currentBuild.result}
-                실행 시간 : ${currentBuild.duration / 1000}s
-                """,
-                link: env.BUILD_URL, result: currentBuild.currentResult, 
-                title: "${env.JOB_NAME} : ${currentBuild.displayName} 성공", 
-                webhookURL: "$DISCORD"
+        always {
+            script {
+                def buildStatus = currentBuild.result ?: 'SUCCESS'
+                def durationMinutes = (currentBuild.duration / 60000).intValue()
+                def durationSeconds = ((currentBuild.duration % 60000) / 1000).intValue()
+                def duration = "${durationMinutes}m ${durationSeconds}s"
+                sendDiscordNotification(buildStatus, duration)
             }
         }
     }
 }
 
-def sendErrorNotification(stageName) {
-    script {
-        def errorMessage = ''
-        try {
-            errorMessage = currentBuild.rawBuild.getLog(50).join("\n")
-        } catch (Exception e) {
-            errorMessage = 'Failed to retrieve error message.'
+def buildAndPushDockerImage(Map params) {
+    def directory = params.directory
+    def imageName = params.imageName
+    def targetBranch = params.targetBranch
+    def context = params.context
+    
+    dir(directory) {
+        def image = docker.build(imageName, context)
+        if (env.BRANCH_NAME == targetBranch) {
+            docker.withRegistry(IMAGE_STORAGE, IMAGE_STORAGE_CREDENTIAL) {
+                image.push("latest")
+            }
         }
+    }
+}
         
-        errorMessage = errorMessage.take(2000)  // 메시지 길이를 제한
-
-        withCredentials([string(credentialsId: 'discord-webhook', variable: 'DISCORD')]) {
-            discordSend description: """
-            제목 : ${currentBuild.displayName}
-            결과 : ${currentBuild.result}
-            실패 단계: ${stageName}
-            실행 시간 : ${currentBuild.duration / 1000}s
-            오류 메시지: ${errorMessage}
-            """,
-            link: env.BUILD_URL, result: currentBuild.currentResult, 
-            title: "${env.JOB_NAME} : ${currentBuild.displayName} 실패", 
-            webhookURL: "$DISCORD"
-        }
+def sendDiscordNotification(buildStatus, duration) {
+    withCredentials([string(credentialsId: 'discord-webhook', variable: 'DISCORD')]) {
+        discordSend description: """
+        제목 : ${currentBuild.displayName}
+        결과 : ${buildStatus}
+        실행 시간 : ${duration}
+        """,
+        link: env.BUILD_URL, result: buildStatus, 
+        title: "${env.JOB_NAME} : ${currentBuild.displayName} ${buildStatus}", 
+        webhookURL: "$DISCORD"
     }
 }
