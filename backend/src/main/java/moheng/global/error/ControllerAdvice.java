@@ -40,7 +40,6 @@ public class ControllerAdvice {
             NoExistSocialTypeException.class,
             EmptyLiveInformationException.class,
             ShortContentidsSizeException.class,
-            LackOfRecommendTripException.class,
             AlreadyExistTripScheduleException.class,
             InvalidTripScheduleDateException.class,
             KeywordNameLengthException.class,
@@ -108,6 +107,16 @@ public class ControllerAdvice {
         ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
+    @ExceptionHandler({
+            LackOfRecommendTripException.class,
+    })
+    public ResponseEntity<ExceptionResponse> handleUnprocessableEntityException(final RuntimeException e) {
+        logger.error(e.getMessage(), e);
+        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)

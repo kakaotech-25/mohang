@@ -4,6 +4,7 @@ import moheng.config.slice.ControllerTestConfig;
 import moheng.keyword.exception.InvalidAIServerException;
 import moheng.member.exception.NoExistMemberException;
 import moheng.planner.exception.NoExistTripScheduleRegistryException;
+import moheng.recommendtrip.exception.LackOfRecommendTripException;
 import moheng.recommendtrip.exception.NoExistMemberTripException;
 import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.exception.NoExistTripException;
@@ -153,6 +154,27 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
                 .andExpect(status().isNotFound());
     }
 
+    @DisplayName("AI 맞춤 여행지 추천을 받기위한 멤버의 선호 여행지 데이터 수가 5개 미만으로 부족하다면 상태코드 422를 리턴한다.")
+    @Test
+    void AI_맞춤_여행지_추천을_받기위한_멤버의_선호_여행지_데이터_수가_5개_미만으로_부족하다면_상태코드_422를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(recommendTripService.findRecommendTripsByModel(anyLong()))
+                .willThrow(new LackOfRecommendTripException("추천을 받기위한 선호 여행지 데이터 수가 부족합니다."));
+
+        // when, then
+        mockMvc.perform(get("/api/recommend")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(document("trip/recommend/ai/fail/lackOfPreferredTrip",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
     @DisplayName("AI 맞춤 여행지 추천시 멤버의 선호 여행지가 없다면 상태코드 404를 리턴한다.")
     @Test
     void AI_맞춤_여행지_추천시_멤버의_선호_여행지가_없다면_상태코드_404를_리턴한다() throws Exception {
@@ -167,7 +189,7 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
-                .andDo(document("trip/recommend/ai/fail/preferredTrip",
+                .andDo(document("trip/recommend/ai/fail/noExistPreferredTrip",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())
                 ))
