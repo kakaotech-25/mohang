@@ -30,6 +30,7 @@ import moheng.trip.dto.FindTripWithSimilarTripsResponse;
 import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.dto.TripCreateRequest;
 import moheng.trip.exception.NoExistRecommendTripException;
+import moheng.trip.exception.NoExistRecommendTripStrategyException;
 import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
