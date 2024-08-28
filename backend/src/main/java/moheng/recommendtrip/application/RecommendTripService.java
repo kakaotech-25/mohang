@@ -50,7 +50,7 @@ public class RecommendTripService {
         final List<MemberTrip> memberTrips = memberTripRepository.findByMember(member);
         final List<RecommendTrip> recommendTrips = recommendTripRepository.findTop10ByMember(member);
         final Map<Long, Long> preferredLocations = findMemberPreferredLocations(memberTrips, recommendTrips);
-        final List<Trip> filteredTrips = tripFilterProvider.findFilteredTrips(preferredLocations, memberId);
+        final List<Trip> filteredTrips = tripFilterProvider.findFilteredTripsWithPreferredLocations(preferredLocations, memberId);
         return new FindTripsResponse(tripKeywordRepository.findByTrips(filteredTrips));
     }
 

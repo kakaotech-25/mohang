@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+// 필터 전략 2가지 종류
+// 1. 선호 여행지 (+ 멤버 생활정보)  (-> AI 맞춤 추천 여행지)  / 2. 생활정보 (-> 비슷한 여행지)
+
 @Component
 public class TripFilterProvider {
     private static final int RECOMMEND_TRIPS_COUNT = 10;
@@ -37,7 +40,11 @@ public class TripFilterProvider {
         this.tripLiveInformationRepository = tripLiveInformationRepository;
     }
 
-    public List<Trip> findFilteredTrips(final Map<Long, Long> preferredLocations, final long memberId) {
+    public List<Trip> findFilterTripsByFilterStrategy(final String filterStrategyName) {
+
+    }
+
+    public List<Trip> findFilteredTripsWithPreferredLocations(final Map<Long, Long> preferredLocations, final long memberId) {
         final List<Trip> filteredTrips = new ArrayList<>();
         long page = 1L;
         while (filteredTrips.size() < RECOMMEND_TRIPS_COUNT) {
