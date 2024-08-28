@@ -1,15 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './PlannerModal.css';
 
-const PlannerModal = ({ isOpen, title, plan, onClose, onSave }) => {
-  const [currentPlan, setCurrentPlan] = useState(plan || { title: '', period: '' });
+const PlannerModal = ({ isOpen, mode, title, plan, onClose, onSave }) => {
+  const [currentPlan, setCurrentPlan] = useState({ title: '', period: '' });
   const [selectedDates, setSelectedDates] = useState([null, null]);
   const [startDate, endDate] = selectedDates;
 
+  useEffect(() => {
+    if (mode === 'edit' && plan) {
+      setCurrentPlan(plan);
+      if (plan.period) {
+        const [start, end] = plan.period.split(' ~ ');
+        setSelectedDates([new Date(start), new Date(end)]);
+      }
+    } else if (mode === 'add') {
+      setCurrentPlan({ title: '', period: '' });
+      setSelectedDates([null, null]);
+    }
+  }, [mode, plan]);
+
   const formatDate = (date) => {
-    return date ? date.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\./g, '').replace(/\s/g, '.') : '';
+    return date
+      ? date.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' })
+          .replace(/\./g, '')
+          .replace(/\s/g, '.')
+      : '';
   };
 
   const handleSave = () => {
@@ -63,8 +80,12 @@ const PlannerModal = ({ isOpen, title, plan, onClose, onSave }) => {
             </div>
           </div>
           <div className="modal-footer">
-            <button className="save-button" onClick={handleSave}>저장</button>
-            <button className="cancel-button" onClick={onClose}>취소</button>
+            <button className="save-button" onClick={handleSave}>
+              저장
+            </button>
+            <button className="cancel-button" onClick={onClose}>
+              취소
+            </button>
           </div>
         </div>
       </div>
