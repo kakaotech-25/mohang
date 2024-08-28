@@ -5,6 +5,7 @@ import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
 import moheng.recommendtrip.domain.RecommendTrip;
+import moheng.recommendtrip.domain.filterinfo.PreferredLocationsFilterInfo;
 import moheng.recommendtrip.domain.tripfilterstrategy.TripFilterStrategy;
 import moheng.recommendtrip.domain.tripfilterstrategy.TripFilterStrategyProvider;
 import moheng.recommendtrip.domain.RecommendTripRepository;
@@ -29,26 +30,23 @@ public class RecommendTripService {
     private final RecommendTripRepository recommendTripRepository;
     private final MemberRepository memberRepository;
     private final TripRepository tripRepository;
-    private final MemberTripRepository memberTripRepository;
     private final TripKeywordRepository tripKeywordRepository;
 
     public RecommendTripService(final TripFilterStrategyProvider tripFilterStrategyProvider,
                                 final RecommendTripRepository recommendTripRepository,
                                 final MemberRepository memberRepository,
                                 final TripRepository tripRepository,
-                                final MemberTripRepository memberTripRepository,
                                 final TripKeywordRepository tripKeywordRepository) {
         this.tripFilterStrategyProvider = tripFilterStrategyProvider;
         this.recommendTripRepository = recommendTripRepository;
         this.memberRepository = memberRepository;
         this.tripRepository = tripRepository;
-        this.memberTripRepository = memberTripRepository;
         this.tripKeywordRepository = tripKeywordRepository;
     }
 
     public FindTripsResponse findRecommendTripsByModel(final long memberId) {
         final TripFilterStrategy tripFilterStrategy = tripFilterStrategyProvider.findTripsByFilterStrategy(PREFERRED_LOCATIONS_STRATEGY);
-        final List<Trip> filteredTrips = tripFilterStrategy.execute(memberId);
+        final List<Trip> filteredTrips = tripFilterStrategy.execute(new PreferredLocationsFilterInfo(memberId));
         return new FindTripsResponse(tripKeywordRepository.findByTrips(filteredTrips));
     }
 

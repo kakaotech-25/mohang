@@ -4,6 +4,7 @@ import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.domain.MemberLiveInformationRepository;
 import moheng.liveinformation.domain.TripLiveInformationRepository;
 import moheng.recommendtrip.domain.PreferredLocationsProvider;
+import moheng.recommendtrip.domain.filterinfo.FilterStandardInfo;
 import moheng.trip.domain.ExternalRecommendModelClient;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.TripRepository;
@@ -44,9 +45,9 @@ public class TripPreferredLocationsFilterStrategy implements TripFilterStrategy 
     }
 
     @Override
-    public List<Trip> execute(final long memberId) {
-        final Map<Long, Long> preferredLocations = preferredLocationsProvider.findPreferredLocations(memberId);
-        return findFilteredTripsWithPreferredLocations(preferredLocations, memberId);
+    public List<Trip> execute(final FilterStandardInfo filterStandardInfo) {
+        final Map<Long, Long> preferredLocations = preferredLocationsProvider.findPreferredLocations(filterStandardInfo.getInfo());
+        return findFilteredTripsWithPreferredLocations(preferredLocations, filterStandardInfo.getInfo());
     }
 
     public List<Trip> findFilteredTripsWithPreferredLocations(final Map<Long, Long> preferredLocations, final long memberId) {

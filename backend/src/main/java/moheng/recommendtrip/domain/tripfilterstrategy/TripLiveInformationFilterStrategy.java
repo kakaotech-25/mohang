@@ -1,21 +1,10 @@
 package moheng.recommendtrip.domain.tripfilterstrategy;
 
-import moheng.liveinformation.domain.LiveInformation;
-import moheng.liveinformation.domain.MemberLiveInformationRepository;
-import moheng.liveinformation.domain.TripLiveInformationRepository;
-import moheng.recommendtrip.domain.PreferredLocationsProvider;
-import moheng.trip.domain.ExternalRecommendModelClient;
-import moheng.trip.domain.ExternalSimilarTripModelClient;
+import moheng.recommendtrip.domain.filterinfo.FilterStandardInfo;
 import moheng.trip.domain.Trip;
-import moheng.trip.domain.TripRepository;
-import moheng.trip.dto.RecommendTripsByVisitedLogsRequest;
-import moheng.trip.dto.RecommendTripsByVisitedLogsResponse;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Component
 public class TripLiveInformationFilterStrategy implements TripFilterStrategy {
@@ -30,7 +19,7 @@ public class TripLiveInformationFilterStrategy implements TripFilterStrategy {
     }
 
     @Override
-    public List<Trip> execute(final long memberId) {
+    public List<Trip> execute(final FilterStandardInfo filterInfo) {
         return List.of();
     }
 }
