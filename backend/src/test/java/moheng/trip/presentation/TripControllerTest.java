@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static moheng.fixture.TripFixture.*;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -17,9 +18,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import moheng.config.slice.ControllerTestConfig;
+import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.trip.domain.Trip;
 import moheng.trip.dto.FindTripWithSimilarTripsResponse;
 import moheng.trip.dto.FindTripsResponse;
+import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -73,7 +76,7 @@ public class TripControllerTest extends ControllerTestConfig {
 
     @DisplayName("현재 여행지를 비슷한 여행지와 함께 조회하고 상태코드 200을 리턴한다.")
     @Test
-    void 현재_여행지를_비슷한_여행지와_함꼐_조회하고_상태코드_200을_리턴한다() throws Exception {
+    void 현재_여행지를_비슷한_여행지와_함께_조회하고_상태코드_200을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
         given(tripService.findWithSimilarOtherTrips(anyLong(), anyLong()))
@@ -85,7 +88,10 @@ public class TripControllerTest extends ControllerTestConfig {
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
         )
-                .andDo(document("trip/find/current",
+                .andDo(document("trip/find/current/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        responseFields(),
                         responseFields(
                                 fieldWithPath("findTripResponse.name").description("선택한 여행지의 이름"),
                                 fieldWithPath("findTripResponse.placeName").description("선택한 여행지의 장소명"),
@@ -104,6 +110,27 @@ public class TripControllerTest extends ControllerTestConfig {
                 ))
                 .andDo(print())
                 .andExpect(status().isOk());
+    }
+
+    @DisplayName("존재하지 않는 여행지를 조회하려고 하면 상태코드 404를 리턴한다.")
+    @Test
+    void 존재하지_않는_여행지를_조회하려고_하면_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistTripException("존재하지 않는 여행지입니다."))
+                .when(tripService).findWithSimilarOtherTrips(anyLong(), anyLong());
+
+        // when, then
+        mockMvc.perform(get("/api/trip/find/{tripId}", 1L)
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(document("trip/find/current/fail",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ))
+                .andExpect(status().isNotFound());
     }
 
     @DisplayName("멤버의 여행지를 생성하고 상태코드 200을 리턴한다.")
