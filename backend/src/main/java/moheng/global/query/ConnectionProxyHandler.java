@@ -1,13 +1,11 @@
-package moheng.global.detector;
+package moheng.global.query;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.aop.framework.ProxyFactory;
-import org.springframework.web.context.request.RequestContextHolder;
 
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
 public class ConnectionProxyHandler implements MethodInterceptor {

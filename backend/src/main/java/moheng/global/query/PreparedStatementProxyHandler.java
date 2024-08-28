@@ -1,4 +1,4 @@
-package moheng.global.detector;
+package moheng.global.query;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;

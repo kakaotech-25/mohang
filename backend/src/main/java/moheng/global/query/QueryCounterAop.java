@@ -1,4 +1,4 @@
-package moheng.global.detector;
+package moheng.global.query;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.aspectj.lang.ProceedingJoinPoint;

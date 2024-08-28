@@ -1,4 +1,4 @@
-package moheng.global.detector;
+package moheng.global.query;
 
 public class QueryLog {
     private String apiUrl;
