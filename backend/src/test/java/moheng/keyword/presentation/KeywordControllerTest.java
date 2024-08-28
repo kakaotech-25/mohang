@@ -1,8 +1,12 @@
 package moheng.keyword.presentation;
 
+import moheng.auth.exception.InvalidInitAuthorityException;
 import moheng.config.slice.ControllerTestConfig;
 import moheng.keyword.exception.InvalidAIServerException;
+import moheng.keyword.exception.KeywordNameLengthException;
+import moheng.keyword.exception.NoExistKeywordException;
 import moheng.trip.dto.FindTripsResponse;
+import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -11,6 +15,7 @@ import static moheng.fixture.KeywordFixture.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -41,7 +46,7 @@ public class KeywordControllerTest extends ControllerTestConfig {
                         .content(objectMapper.writeValueAsString(키워드_기반_추천_여행지_요청()))
                 )
                 .andDo(print())
-                .andDo(document("keyword/travel/model",
+                .andDo(document("keyword/travel/recommend/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
@@ -79,6 +84,25 @@ public class KeywordControllerTest extends ControllerTestConfig {
                 .andExpect(status().isNoContent());
     }
 
+    @DisplayName("생성할 키워드 이름의 길이가 허용범위를 벗어나면 상태코드 400을 리턴한다.")
+    @Test
+    void 생성할_키워드_이름의_길이가_허용범위를_벗어나면_상태코드_400을_리턴한다() throws Exception {
+        // given
+        doNothing().when(keywordService).createKeyword(any());
+        doThrow(new KeywordNameLengthException("키워드 이름의 길이는 최소 2자 이상, 최대 100자 이하만 허용합니다."))
+                .when(keywordService).createKeyword(any());
+
+        // when, then
+        mockMvc.perform(post("/api/keyword")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(키워드_생성_요청()))
+                )
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
     @DisplayName("여행지의 키워드를 생성하고 상태코드 204를 리턴한다.")
     @Test
     void 여행지의_키워드를_생성하고_상태코드_204를_리턴한다() throws Exception {
@@ -93,6 +117,45 @@ public class KeywordControllerTest extends ControllerTestConfig {
                 )
                 .andDo(print())
                 .andExpect(status().isNoContent());
+    }
+
+
+    @DisplayName("존재하지 않는 여행지의 여행 키워드를 생성하려고 하면 상태코드 404를 리턴한다.")
+    @Test
+    void 존재하지_않는_여행지의_여행_키워드를_생성하려고_하면_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistTripException("존재하지 않는 여행지입니다."))
+                .when(keywordService).createTripKeyword(any());
+
+        // when, then
+        mockMvc.perform(post("/api/keyword/trip")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(키워드_생성_요청()))
+                )
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @DisplayName("존재하지 않는 키워드의 여행 키워드를 생성하려고 하면 상태코드 404를 리턴한다.")
+    @Test
+    void 존재하지_않는_키워드의_여행_키워드를_생성하려고_하면_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistKeywordException("존재하지 않는 키워드입니다."))
+                .when(keywordService).createTripKeyword(any());
+
+        // when, then
+        mockMvc.perform(post("/api/keyword/trip")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(키워드_생성_요청()))
+                )
+                .andDo(print())
+                .andExpect(status().isNotFound());
     }
 
     @DisplayName("무작위 랜덤 키워드로 추천 여행지를 찾고 상태코드 200을 리턴한다.")
@@ -122,5 +185,33 @@ public class KeywordControllerTest extends ControllerTestConfig {
                         )
                 ))
                 .andExpect(status().isOk());
+    }
+
+    @DisplayName("랜덤 키워드를 찾을 수 없다면 상태코드 401을 리턴한다.")
+    @Test
+    void 랜덤_키워드를_찾을_수_없다면_상태코드_401을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistKeywordException("랜덤 키워드를 찾을 수 없습니다."))
+                .when(keywordService).findRecommendTripsByKeywords(any());
+
+        // when, then
+        mockMvc.perform(post("/api/keyword/trip/recommend")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(키워드_기반_추천_여행지_요청()))
+                )
+                .andDo(print())
+                .andDo(document("keyword/travel/recommend/fail",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("keywordIds").description("키워드 ID 리스트")
+                        )
+                )).andExpect(status().isNotFound());
     }
 }

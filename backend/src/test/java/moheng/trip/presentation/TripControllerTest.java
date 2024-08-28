@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static moheng.fixture.TripFixture.*;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -17,9 +18,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import moheng.config.slice.ControllerTestConfig;
+import moheng.keyword.exception.InvalidAIServerException;
+import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.trip.domain.Trip;
 import moheng.trip.dto.FindTripWithSimilarTripsResponse;
 import moheng.trip.dto.FindTripsResponse;
+import moheng.trip.exception.NoExistRecommendTripException;
+import moheng.trip.exception.NoExistRecommendTripStrategyException;
+import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -81,10 +87,10 @@ public class TripControllerTest extends ControllerTestConfig {
 
         // when, then
         mockMvc.perform(get("/api/trip/find/{tripId}", 1L)
-                .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-        )
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
                 .andDo(document("trip/find/current",
                         responseFields(
                                 fieldWithPath("findTripResponse.name").description("선택한 여행지의 이름"),
@@ -106,6 +112,90 @@ public class TripControllerTest extends ControllerTestConfig {
                 .andExpect(status().isOk());
     }
 
+    @DisplayName("존재하지 않는 여행지를 조회하려고 하면 상태코드 404를 리턴한다.")
+    @Test
+    void 존재하지_않는_여행지를_조회하려고_하면_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistTripException("존재하지 않는 여행지입니다."))
+                .when(tripService).findWithSimilarOtherTrips(anyLong(), anyLong());
+
+        // when, then
+        mockMvc.perform(get("/api/trip/find/{tripId}", 1L)
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(document("trip/find/current/fail/noExistTrip",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ))
+                .andExpect(status().isNotFound());
+    }
+
+    @DisplayName("현재 여행지를 비슷한 여행지와 함께 조회시 AI 서버에 예기치 못한 문제가 발생했다면 상태코드 500을 리턴한다.")
+    @Test
+    void 현재_여행지를_비슷한_여행지와_함께_조회시_AI_서버에_예기치_못한_문제가_발생했다면_상태코드_500을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new InvalidAIServerException("AI 서버에 예기치 못한 오류가 발생했습니다."))
+                .when(tripService).findWithSimilarOtherTrips(anyLong(), anyLong());
+
+        // when, then
+        mockMvc.perform(get("/api/trip/find/{tripId}", 1L)
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(document("trip/find/current/fail/aiServer",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @DisplayName("멤버의 선호 여행지 정보가 아예 없어서 현재 방문한 여행지를 선호 여행지로 추가할 수 없다면 상태코드 422를 리턴한다.")
+    @Test
+    void 멤버의_선호_여행지_정보가_아예_없어서_현재_방문한_여행지를_선호_여행지로_추가할_수_없다면_상태코드_422를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistRecommendTripException("선호 여행지 정보가 없습니다."))
+                .when(tripService).findWithSimilarOtherTrips(anyLong(), anyLong());
+
+        // when, then
+        mockMvc.perform(get("/api/trip/find/{tripId}", 1L)
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(document("trip/find/current/fail/noExistRecommendTrip",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @DisplayName("멤버의 선호 여행지 갯수에 따른 적절한 선호 여행지 저장 전략이 존재하지 않는다면 상태코드 422를 리턴한다.")
+    @Test
+    void 멤버의_선호_여행지_갯수에_따른_적절한_선호_여행지_저장_전략이_존재하지_않는다면_상태코드_422를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistRecommendTripStrategyException("제공되지 않는 선호 여행지 저장 전략입니다."))
+                .when(tripService).findWithSimilarOtherTrips(anyLong(), anyLong());
+
+        // when, then
+        mockMvc.perform(get("/api/trip/find/{tripId}", 1L)
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(document("trip/find/current/fail/noExistRecommendTripStrategy",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
     @DisplayName("멤버의 여행지를 생성하고 상태코드 200을 리턴한다.")
     @Test
     void 멤버의_여행지를_생성하고_상태코드_200을_리턴한다() throws Exception {
@@ -120,5 +210,22 @@ public class TripControllerTest extends ControllerTestConfig {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNoContent());
+    }
+
+    @DisplayName("존재하지 않는 여행지로 멤버의 선호 여행지를 선택하려고 하면 상태코드 404를 리턴한다.")
+    @Test
+    void 존재하지_않는_여행지로_멤버의_선호_여행지를_선택하려고_하면_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistTripException("존재하지 않는 여행지입니다."))
+                .when(tripService).createMemberTrip(anyLong(), anyLong());
+
+        // when, then
+        mockMvc.perform(post("/api/trip/member/{tripId}", 1L)
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
     }
 }

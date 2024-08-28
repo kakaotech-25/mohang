@@ -97,6 +97,8 @@ public class TripAcceptenceTest extends AcceptanceTestConfig {
         선호_여행지를_선택한다(1L, accessTokenResponse.getAccessToken());
         선호_여행지를_선택한다(2L, accessTokenResponse.getAccessToken());
         선호_여행지를_선택한다(3L, accessTokenResponse.getAccessToken());
+        선호_여행지를_선택한다(4L, accessTokenResponse.getAccessToken());
+        선호_여행지를_선택한다(5L, accessTokenResponse.getAccessToken());
 
         // when
         ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()

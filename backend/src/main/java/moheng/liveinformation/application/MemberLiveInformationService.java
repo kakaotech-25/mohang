@@ -58,6 +58,10 @@ public class MemberLiveInformationService {
 
     public FindMemberLiveInformationResponses findMemberSelectedLiveInformation(final Long memberId) {
         final List<LiveInformation> allLiveInformation = liveInformationRepository.findAll();
+
+        if(!memberRepository.existsById(memberId)) {
+            throw new NoExistMemberException("존재하지 않는 회원입니다.");
+        }
         final List<Long> memberLiveInfoIds = findMemberLiveInfoIds(memberId);
         return new FindMemberLiveInformationResponses(findMemberSelectedLiveInfos(allLiveInformation, memberLiveInfoIds));
     }
