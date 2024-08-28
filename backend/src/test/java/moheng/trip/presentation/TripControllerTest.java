@@ -78,7 +78,7 @@ public class TripControllerTest extends ControllerTestConfig {
 
     @DisplayName("현재 여행지를 비슷한 여행지와 함께 조회하고 상태코드 200을 리턴한다.")
     @Test
-    void 현재_여행지를_비슷한_여행지와_함께_조회하고_상태코드_200을_리턴한다() throws Exception {
+    void 현재_여행지를_비슷한_여행지와_함꼐_조회하고_상태코드_200을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
         given(tripService.findWithSimilarOtherTrips(anyLong(), anyLong()))
@@ -86,14 +86,11 @@ public class TripControllerTest extends ControllerTestConfig {
 
         // when, then
         mockMvc.perform(get("/api/trip/find/{tripId}", 1L)
-                .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-        )
-                .andDo(document("trip/find/current/success",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        responseFields(),
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(document("trip/find/current",
                         responseFields(
                                 fieldWithPath("findTripResponse.name").description("선택한 여행지의 이름"),
                                 fieldWithPath("findTripResponse.placeName").description("선택한 여행지의 장소명"),
