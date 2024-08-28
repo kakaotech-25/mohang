@@ -45,30 +45,28 @@ const Planner = () => {
 
   return (
     <div className="planner-page">
-      <div className="planner-header">
-        <h1 className="planner-title">여행 플래너</h1>
-        <div className="sort-options">
-          <span 
-            className={`sort-option ${sortCriteria === 'newest' ? 'active' : ''}`} 
-            onClick={() => handleSort('newest')}
-          >
-            최신순
-          </span>
-          <span className="sort-divider">|</span>
-          <span 
-            className={`sort-option ${sortCriteria === 'name' ? 'active' : ''}`} 
-            onClick={() => handleSort('name')}
-          >
-            이름순
-          </span>
-          <span className="sort-divider">|</span>
-          <span 
-            className={`sort-option ${sortCriteria === 'date' ? 'active' : ''}`} 
-            onClick={() => handleSort('date')}
-          >
-            날짜순
-          </span>
-        </div>
+      <h1 className="planner-title">여행 플래너</h1>
+      <div className="sort-options">
+        <span 
+          className={`sort-option ${sortCriteria === 'newest' ? 'active' : ''}`} 
+          onClick={() => handleSort('newest')}
+        >
+          최신순
+        </span>
+        <span className="sort-divider">|</span>
+        <span 
+          className={`sort-option ${sortCriteria === 'name' ? 'active' : ''}`} 
+          onClick={() => handleSort('name')}
+        >
+          이름순
+        </span>
+        <span className="sort-divider">|</span>
+        <span 
+          className={`sort-option ${sortCriteria === 'date' ? 'active' : ''}`} 
+          onClick={() => handleSort('date')}
+        >
+          날짜순
+        </span>
       </div>
       <div className="planner-list">
         {sortedPlans.map((plan) => (
