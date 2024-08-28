@@ -23,8 +23,6 @@ import java.util.*;
 @Transactional(readOnly = true)
 @Service
 public class RecommendTripService {
-    private static final int RECOMMEND_TRIPS_COUNT = 10;
-    private static final int MIN_RECOMMEND_TRIPS_COUNT = 5;
     private static final String PREFERRED_LOCATIONS_STRATEGY = "PREFERRED_LOCATIONS";
     private final TripFilterStrategyProvider tripFilterStrategyProvider;
     private final RecommendTripRepository recommendTripRepository;

@@ -10,6 +10,9 @@ import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
 import moheng.recommendtrip.domain.RecommendTrip;
 import moheng.recommendtrip.domain.RecommendTripRepository;
+import moheng.recommendtrip.domain.filterinfo.LiveInformationFilterInfo;
+import moheng.recommendtrip.domain.tripfilterstrategy.TripFilterStrategy;
+import moheng.recommendtrip.domain.tripfilterstrategy.TripFilterStrategyProvider;
 import moheng.trip.domain.*;
 import moheng.trip.domain.recommendstrategy.RecommendTripStrategy;
 import moheng.trip.domain.recommendstrategy.SaveRecommendTripStrategyProvider;
@@ -27,61 +30,39 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @Service
 public class TripService {
-    private static final int SIMILAR_TRIPS_COUNT = 10;
-    private final ExternalSimilarTripModelClient externalSimilarTripModelClient;
+    private static final String LIVE_INFO_STRATEGY = "LIVE_INFO";
+    private final TripFilterStrategyProvider tripFilterStrategyProvider;
     private final SaveRecommendTripStrategyProvider saveRecommendTripStrategyProvider;
     private final TripRepository tripRepository;
     private final RecommendTripRepository recommendTripRepository;
     private final MemberRepository memberRepository;
     private final MemberTripRepository memberTripRepository;
     private final TripKeywordRepository tripKeywordRepository;
-    private final LiveInformationRepository liveInformationRepository;
 
-    public TripService(final TripRepository tripRepository,
-                       final ExternalSimilarTripModelClient externalSimilarTripModelClient,
+    public TripService(final TripFilterStrategyProvider tripFilterStrategyProvider,
+                       final TripRepository tripRepository,
                        final RecommendTripRepository recommendTripRepository,
                        final MemberRepository memberRepository,
                        final MemberTripRepository memberTripRepository,
                        final TripKeywordRepository tripKeywordRepository,
-                       final SaveRecommendTripStrategyProvider saveRecommendTripStrategyProvider,
-                       final LiveInformationRepository liveInformationRepository) {
+                       final SaveRecommendTripStrategyProvider saveRecommendTripStrategyProvider) {
+        this.tripFilterStrategyProvider = tripFilterStrategyProvider;
         this.tripRepository = tripRepository;
-        this.externalSimilarTripModelClient = externalSimilarTripModelClient;
         this.recommendTripRepository = recommendTripRepository;
         this.memberRepository = memberRepository;
         this.memberTripRepository = memberTripRepository;
         this.tripKeywordRepository = tripKeywordRepository;
         this.saveRecommendTripStrategyProvider = saveRecommendTripStrategyProvider;
-        this.liveInformationRepository = liveInformationRepository;
     }
 
     @Transactional
     public FindTripWithSimilarTripsResponse findWithSimilarOtherTrips(final long tripId, final long memberId) {
         final Trip trip = findById(tripId);
-        final List<Trip> filteredSimilarTrips = findFilteredSimilarTripsByLiveInformation(trip);
+        final TripFilterStrategy tripFilterStrategy = tripFilterStrategyProvider.findTripsByFilterStrategy(LIVE_INFO_STRATEGY);
+        final List<Trip> filteredSimilarTrips = tripFilterStrategy.execute(new LiveInformationFilterInfo(tripId));
         trip.incrementVisitedCount();
         saveRecommendTripByClickedLogs(memberId, trip);
         return new FindTripWithSimilarTripsResponse(trip, findKeywordsByTrip(trip), findTripsWithKeywords(filteredSimilarTrips));
-    }
-
-    private List<Trip> findFilteredSimilarTripsByLiveInformation(final Trip trip) {
-        final List<Trip> filteredSimilarTrips = new ArrayList<>();
-        long page = 1L;
-        while(filteredSimilarTrips.size() < SIMILAR_TRIPS_COUNT) {
-            final FindSimilarTripWithContentIdResponses similarTripWithContentIdResponses = externalSimilarTripModelClient.findSimilarTrips(trip.getContentId(), page);
-            final List<Trip> filteredTripsByLiveInformation = findFilteredTripsByLiveInformation(trip, similarTripWithContentIdResponses.getContentIds());
-            filteredSimilarTrips.addAll(filteredTripsByLiveInformation);
-            page++;
-        }
-        if(filteredSimilarTrips.size() > SIMILAR_TRIPS_COUNT) {
-            return filteredSimilarTrips.subList(0, SIMILAR_TRIPS_COUNT);
-        }
-        return filteredSimilarTrips;
-    }
-
-    private List<Trip> findFilteredTripsByLiveInformation(final Trip currentTrip, final List<Long> contentIds) {
-        final LiveInformation liveInformation = liveInformationRepository.findLiveInformationByTrip(currentTrip);
-        return tripRepository.findFilteredTripsByLiveInformation(liveInformation.getId(), contentIds);
     }
 
     private SimilarTripResponses findTripsWithKeywords(final List<Trip> trips) {
