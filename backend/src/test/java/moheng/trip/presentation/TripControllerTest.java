@@ -189,4 +189,21 @@ public class TripControllerTest extends ControllerTestConfig {
                 .andDo(print())
                 .andExpect(status().isNoContent());
     }
+
+    @DisplayName("존재하지 않는 여행지로 멤버의 선호 여행지를 선택하려고 하면 상태코드 404를 리턴한다.")
+    @Test
+    void 존재하지_않는_여행지로_멤버의_선호_여행지를_선택하려고_하면_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistTripException("존재하지 않는 여행지입니다."))
+                .when(tripService).createMemberTrip(anyLong(), anyLong());
+
+        // when, then
+        mockMvc.perform(post("/api/trip/member/{tripId}", 1L)
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
 }
