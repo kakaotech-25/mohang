@@ -2,6 +2,7 @@ import { useState } from 'react';
 import PlannerData from '../../data/PlannerData';
 import seemoreIcon from '../../assets/seemore.png';
 import PlannerModal from '../../components/PlannerModal/PlannerModal';
+import addIcon from '../../assets/editicon.png'; // 일정 추가 아이콘 이미지 불러오기
 import './Planner.css';
 
 const Planner = () => {
@@ -31,7 +32,6 @@ const Planner = () => {
   const handleDelete = (id) => {
     // 삭제하기 로직
     console.log(`삭제하기 클릭: ${id}`);
-
   };
 
   const handleSave = (updatedPlan) => {
@@ -50,11 +50,11 @@ const Planner = () => {
   };
 
   const sortedPlans = [...PlannerData].sort((a, b) => {
-    if (sortCriteria === 'newest') { // id를 기준으로 최신순 정렬 (연동전 임시로 id를 사용)
+    if (sortCriteria === 'newest') { // id를 기준으로 최신순 정렬 (연동 전 임시로 id를 사용)
       return b.id - a.id;
     } else if (sortCriteria === 'name') { // 이름순 정렬 (가나다순)
       return a.title.localeCompare(b.title);
-    } else if (sortCriteria === 'date') { // 날짜순 정렬 (여행기간이 가장 가까운순)
+    } else if (sortCriteria === 'date') { // 날짜순 정렬 (여행기간이 가장 가까운 순)
       const dateA = new Date(a.period.split(' ~ ')[0]);
       const dateB = new Date(b.period.split(' ~ ')[0]);
       return dateA - dateB;
@@ -65,29 +65,34 @@ const Planner = () => {
   return (
     <div className="planner-page">
       <h1 className="planner-title">여행 플래너</h1>
-      <div className="sort-options">
-        <span
-          className={`sort-option ${sortCriteria === 'newest' ? 'active' : ''}`}
-          onClick={() => handleSort('newest')}
-        >
-          최신순
-        </span>
-        <span className="sort-divider">|</span>
-        <span
-          className={`sort-option ${sortCriteria === 'name' ? 'active' : ''}`}
-          onClick={() => handleSort('name')}
-        >
-          이름순
-        </span>
-        <span className="sort-divider">|</span>
-        <span
-          className={`sort-option ${sortCriteria === 'date' ? 'active' : ''}`}
-          onClick={() => handleSort('date')}
-        >
-          날짜순
-        </span>
+      <div className="header-controls">
+        <div className="sort-options">
+          <span
+            className={`sort-option ${sortCriteria === 'newest' ? 'active' : ''}`}
+            onClick={() => handleSort('newest')}
+          >
+            최신순
+          </span>
+          <span className="sort-divider">|</span>
+          <span
+            className={`sort-option ${sortCriteria === 'name' ? 'active' : ''}`}
+            onClick={() => handleSort('name')}
+          >
+            이름순
+          </span>
+          <span className="sort-divider">|</span>
+          <span
+            className={`sort-option ${sortCriteria === 'date' ? 'active' : ''}`}
+            onClick={() => handleSort('date')}
+          >
+            날짜순
+          </span>
+        </div>
+        <button onClick={handleAdd} className="add-plan-button">
+          <img src={addIcon} alt="추가 아이콘" className="add-icon" />
+          일정 추가
+        </button>
       </div>
-      <button onClick={handleAdd} className="add-plan-button">일정 추가하기</button> //test
       <div className="planner-list">
         {sortedPlans.map((plan) => (
           <div key={plan.id} className="planner-item">
