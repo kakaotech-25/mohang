@@ -7,14 +7,18 @@ import moheng.planner.domain.TripSchedule;
 import moheng.planner.domain.TripScheduleRegistry;
 import moheng.planner.domain.TripScheduleRegistryRepository;
 import moheng.planner.domain.TripScheduleRepository;
-import moheng.planner.dto.CreateTripScheduleRequest;
+import moheng.planner.dto.*;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.planner.exception.NoExistTripScheduleException;
+import moheng.planner.exception.NoExistTripScheduleRegistryException;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.TripRepository;
 import moheng.trip.exception.NoExistTripException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Transactional(readOnly = true)
 @Service
@@ -61,5 +65,40 @@ public class TripScheduleService {
                 .orElseThrow(NoExistTripScheduleException::new);
 
         tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip, tripSchedule));
+    }
+
+    public FindTripsOnSchedule findTripsOnSchedule(final long scheduleId) {
+        final TripSchedule tripSchedule = tripScheduleRepository.findById(scheduleId)
+                .orElseThrow(NoExistTripScheduleException::new);
+
+        return new FindTripsOnSchedule(tripSchedule, tripRepository.findTripsByScheduleId(scheduleId));
+    }
+
+    @Transactional
+    public void updateTripOrdersOnSchedule(final long scheduleId, final UpdateTripOrdersRequest updateTripOrdersRequest) {
+        final TripSchedule tripSchedule = tripScheduleRepository.findById(scheduleId)
+                .orElseThrow(NoExistTripScheduleException::new);
+
+        tripScheduleRegistryRepository.deleteAllByTripScheduleId(scheduleId);
+        addAllTripOnPlannerSchedule(tripSchedule, updateTripOrdersRequest.getTripIds());
+    }
+
+    private void addAllTripOnPlannerSchedule(final TripSchedule tripSchedule, final List<Long> tripIds) {
+        final List<TripScheduleRegistry> tripScheduleRegistries = new ArrayList<>();
+
+        for (final Long tripId : tripIds) {
+            final Trip trip = tripRepository.findById(tripId)
+                    .orElseThrow(NoExistTripException::new);
+            tripScheduleRegistries.add(new TripScheduleRegistry(trip, tripSchedule));
+        }
+        tripScheduleRegistryRepository.saveAll(tripScheduleRegistries);
+    }
+
+    @Transactional
+    public void deleteTripOnSchedule(final long scheduleId, final long tripId) {
+        if(!tripScheduleRegistryRepository.existsByTripIdAndTripScheduleId(tripId, scheduleId)) {
+            throw new NoExistTripScheduleRegistryException("존재하지 않는 일정 여행지입니다.");
+        }
+        tripScheduleRegistryRepository.deleteByTripIdAndTripScheduleId(scheduleId, tripId);
     }
 }

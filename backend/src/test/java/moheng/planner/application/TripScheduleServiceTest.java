@@ -2,6 +2,7 @@ package moheng.planner.application;
 
 import static moheng.fixture.MemberFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -10,10 +11,16 @@ import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
 import moheng.planner.domain.TripSchedule;
+import moheng.planner.domain.TripScheduleRegistry;
+import moheng.planner.domain.TripScheduleRegistryRepository;
 import moheng.planner.domain.TripScheduleRepository;
 import moheng.planner.dto.CreateTripScheduleRequest;
+import moheng.planner.dto.FindTripOnSchedule;
+import moheng.planner.dto.FindTripsOnSchedule;
+import moheng.planner.dto.UpdateTripOrdersRequest;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.planner.exception.NoExistTripScheduleException;
+import moheng.planner.exception.NoExistTripScheduleRegistryException;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.TripRepository;
 import moheng.trip.exception.NoExistTripException;
@@ -22,6 +29,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class TripScheduleServiceTest extends ServiceTestConfig {
     @Autowired
@@ -35,6 +43,9 @@ public class TripScheduleServiceTest extends ServiceTestConfig {
 
     @Autowired
     private TripScheduleRepository tripScheduleRepository;
+
+    @Autowired
+    private TripScheduleRegistryRepository tripScheduleRegistryRepository;
 
     @DisplayName("여행 일정을 생성한다.")
     @Test
@@ -115,5 +126,125 @@ public class TripScheduleServiceTest extends ServiceTestConfig {
         // when, then
         assertThatThrownBy(() -> tripScheduleService.addCurrentTripOnPlannerSchedule(trip.getId(), invalidScheduleId))
                 .isInstanceOf(NoExistTripScheduleException.class);
+    }
+
+    @DisplayName("세부 일정 정보를 찾는다.")
+    @Test
+    void 세부_일정_정보를_찾는다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        TripSchedule tripSchedule = tripScheduleRepository.save(new TripSchedule("여행 일정", LocalDate.of(2024, 8, 1), LocalDate.of(2024, 8, 2), member));
+
+        Trip trip1 = tripRepository.save(new Trip("여행지1", "장소명", 1L, "설명", "https://image.com", 126.3307690830, 36.5309210243));
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "장소명", 1L, "설명", "https://image.com", 226.3307690830, 46.5309210243));
+
+        tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip1, tripSchedule));
+        tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip2, tripSchedule));
+
+        // when
+        FindTripsOnSchedule findTripsOnSchedule = tripScheduleService.findTripsOnSchedule(tripSchedule.getId());
+
+        // then
+        assertAll(() -> {
+            assertThat(findTripsOnSchedule.getTripScheduleResponse().getScheduleName()).isEqualTo("여행 일정");
+            assertThat(findTripsOnSchedule.getFindTripsOnSchedules()).hasSize(2);
+            assertThat(findTripsOnSchedule.getFindTripsOnSchedules().get(0).getCoordinateX()).isEqualTo(126.3307690830);
+            assertThat(findTripsOnSchedule.getFindTripsOnSchedules().get(0).getCoordinateY()).isEqualTo(36.5309210243);
+        });
+    }
+
+    @DisplayName("세부 일정내의 여행지들의 정렬 순서를 바꾼다.")
+    @Test
+    void 세부_일정내의_여행지들의_정렬_순서를_바꾼다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        TripSchedule tripSchedule = tripScheduleRepository.save(new TripSchedule("여행 일정", LocalDate.of(2024, 8, 1), LocalDate.of(2024, 8, 2), member));
+
+        Trip trip1 = tripRepository.save(new Trip("여행지1", "장소명", 1L, "설명1", "https://image.com", 126.3307690830, 36.5309210243));
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "장소명", 2L, "설명2", "https://image.com", 226.3307690830, 46.5309210243));
+        Trip trip3 = tripRepository.save(new Trip("여행지3", "장소명", 3L, "설명3", "https://image.com", 326.3307690830, 56.5309210243));
+
+        tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip1, tripSchedule));
+        tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip2, tripSchedule));
+        tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip3, tripSchedule));
+
+        // when
+        UpdateTripOrdersRequest updateTripOrdersRequest = new UpdateTripOrdersRequest(List.of(3L, 1L, 2L));
+        tripScheduleService.updateTripOrdersOnSchedule(tripSchedule.getId(), updateTripOrdersRequest);
+
+        // then
+        List<FindTripOnSchedule> findTripsOnSchedules = tripScheduleService.findTripsOnSchedule(tripSchedule.getId()).getFindTripsOnSchedules();
+
+        assertAll(() -> {
+            assertThat(findTripsOnSchedules).hasSize(3);
+            assertThat(findTripsOnSchedules.get(0).getPlaceName()).isEqualTo("여행지3");
+            assertThat(findTripsOnSchedules.get(1).getPlaceName()).isEqualTo("여행지1");
+            assertThat(findTripsOnSchedules.get(2).getPlaceName()).isEqualTo("여행지2");
+        });
+    }
+
+    @DisplayName("존재하지 않는 여행지의 정렬 순서를 바꾸려고하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_여행지의_정렬_순서를_바꾸려고하면_예외가_발생한다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        TripSchedule tripSchedule = tripScheduleRepository.save(new TripSchedule("여행 일정", LocalDate.of(2024, 8, 1), LocalDate.of(2024, 8, 2), member));
+
+        // when, then
+        UpdateTripOrdersRequest invalidUpdateTripOrdersRequest = new UpdateTripOrdersRequest(List.of(-1L, -2L, -3L, -4L));
+        assertThatThrownBy(() ->
+                tripScheduleService.updateTripOrdersOnSchedule(tripSchedule.getId(), invalidUpdateTripOrdersRequest)
+        ).isInstanceOf(NoExistTripException.class);
+    }
+
+    @DisplayName("존재하지 않는 일정을 수정하려고 하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_일정을_수정하려고_하면_예외가_발생한다() {
+        // given
+        long invalidScheduleId = -1L;
+        Member member = memberRepository.save(하온_기존());
+
+        // when
+        UpdateTripOrdersRequest updateTripOrdersRequest = new UpdateTripOrdersRequest(List.of(3L, 1L, 2L));
+
+        // then
+        assertThatThrownBy(() ->
+                tripScheduleService.updateTripOrdersOnSchedule(invalidScheduleId, updateTripOrdersRequest)
+        ).isInstanceOf(NoExistTripScheduleException.class);
+    }
+
+    @DisplayName("세부 일정내의 특정 여행지를 제거한다.")
+    @Test
+    void 세부_일정내의_특정_여행지를_제거한다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        TripSchedule tripSchedule = tripScheduleRepository.save(new TripSchedule("여행 일정", LocalDate.of(2024, 8, 1), LocalDate.of(2024, 8, 2), member));
+
+        Trip trip1 = tripRepository.save(new Trip("여행지1", "장소명", 1L, "설명1", "https://image.com", 126.3307690830, 36.5309210243));
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "장소명", 2L, "설명2", "https://image.com", 226.3307690830, 46.5309210243));
+        Trip trip3 = tripRepository.save(new Trip("여행지3", "장소명", 3L, "설명3", "https://image.com", 326.3307690830, 56.5309210243));
+
+        tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip1, tripSchedule));
+        tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip2, tripSchedule));
+        tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip3, tripSchedule));
+
+        // when
+        tripScheduleService.deleteTripOnSchedule(trip1.getId(), tripSchedule.getId());
+
+        // then
+        int exptected = 2;
+        assertThat(tripScheduleRegistryRepository.findAll()).hasSize(exptected);
+    }
+
+    @DisplayName("존재하지 않는 일정 여행지를 제거하려고 하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_일정_여행지를_제거하려고_하면_예외가_발생한다() {
+        // given
+        long invalidScheduleId = -1L;
+        long invalidTripId = -1L;
+
+        // when, then
+        assertThatThrownBy(() -> tripScheduleService.deleteTripOnSchedule(invalidScheduleId, invalidTripId))
+                .isInstanceOf(NoExistTripScheduleRegistryException.class);
     }
 }
