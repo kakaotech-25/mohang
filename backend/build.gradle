@@ -147,6 +147,7 @@ bootJar {
 sonar {
 	properties {
 		property "sonar.projectKey", "moheng_backend"
+		property "sonar.projectName", "moheng-backend"
 		property "sonar.organization", "kakaotech-25"
 		property "sonar.host.url", "https://sonarcloud.io"
 		property "sonar.sources", "src"
