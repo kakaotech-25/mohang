@@ -1,10 +1,10 @@
-package moheng.recommendtrip.domain;
+package moheng.recommendtrip.domain.tripfilterstrategy;
 
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.domain.MemberLiveInformationRepository;
 import moheng.liveinformation.domain.TripLiveInformationRepository;
+import moheng.recommendtrip.domain.PreferredLocationsProvider;
 import moheng.trip.domain.ExternalRecommendModelClient;
-import moheng.trip.domain.ExternalSimilarTripModelClient;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.TripRepository;
 import moheng.trip.dto.RecommendTripsByVisitedLogsRequest;
@@ -16,37 +16,37 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-// 필터 전략 2가지 종류
-// 1. 선호 여행지 (+ 멤버 생활정보)  (-> AI 맞춤 추천 여행지)  / 2. 생활정보 (-> 비슷한 여행지)
-
 @Component
-public class TripFilterStrategyProvider {
+public class TripPreferredLocationsFilterStrategy implements TripFilterStrategy {
+    private static final String STRATEGY_NAME = "PREFERRED_LOCATIONS";
     private static final int RECOMMEND_TRIPS_COUNT = 10;
-    private final List<TripFilterStrategy> tripFilterStrategies;
+    private final PreferredLocationsProvider preferredLocationsProvider;
     private final ExternalRecommendModelClient externalRecommendModelClient;
-    private final ExternalSimilarTripModelClient externalSimilarTripModelClient;
     private final TripRepository tripRepository;
     private final MemberLiveInformationRepository memberLiveInformationRepository;
     private final TripLiveInformationRepository tripLiveInformationRepository;
 
-    public TripFilterStrategyProvider(final List<TripFilterStrategy> tripFilterStrategies,
-                                      final ExternalRecommendModelClient externalRecommendModelClient,
-                                      final ExternalSimilarTripModelClient externalSimilarTripModelClient,
-                                      final TripRepository tripRepository,
-                                      final MemberLiveInformationRepository memberLiveInformationRepository,
-                                      final TripLiveInformationRepository tripLiveInformationRepository) {
+    public TripPreferredLocationsFilterStrategy(final PreferredLocationsProvider preferredLocationsProvider,
+                                             final ExternalRecommendModelClient externalRecommendModelClient,
+                                             final TripRepository tripRepository,
+                                             final MemberLiveInformationRepository memberLiveInformationRepository,
+                                             final TripLiveInformationRepository tripLiveInformationRepository) {
+        this.preferredLocationsProvider = preferredLocationsProvider;
         this.externalRecommendModelClient = externalRecommendModelClient;
-        this.externalSimilarTripModelClient = externalSimilarTripModelClient;
         this.tripRepository = tripRepository;
         this.memberLiveInformationRepository = memberLiveInformationRepository;
         this.tripLiveInformationRepository = tripLiveInformationRepository;
     }
 
-    public TripFilterStrategy findFilterTripsByFilterStrategy(final String filterStrategyName) {
-        return tripFilterStrategies.stream()
-                .filter(tripFilterStrategy -> tripFilterStrategy.isMatch(filterStrategyName))
-                .findFirst()
-                .orElseThrow();
+    @Override
+    public boolean isMatch(final String strategyName) {
+        return STRATEGY_NAME.equals(strategyName);
+    }
+
+    @Override
+    public List<Trip> execute(final long memberId) {
+        final Map<Long, Long> preferredLocations = preferredLocationsProvider.findPreferredLocations(memberId);
+        return findFilteredTripsWithPreferredLocations(preferredLocations, memberId);
     }
 
     public List<Trip> findFilteredTripsWithPreferredLocations(final Map<Long, Long> preferredLocations, final long memberId) {
