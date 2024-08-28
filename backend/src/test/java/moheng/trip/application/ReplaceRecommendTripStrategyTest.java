@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class ReplaceRecommendTripStrategyTest extends ServiceTestConfig {
     private static final long MAX_SIZE = 10L;
+    private static final long MIN_SIZE = 5L;
 
     @Autowired
     private ReplaceRecommendTripStrategy replaceRecommendTripStrategy;
@@ -248,6 +249,6 @@ public class ReplaceRecommendTripStrategyTest extends ServiceTestConfig {
 
         long recommendSize = recommendTripRepository.findAllByMemberId(member.getId()).size();
 
-        assertThat(replaceRecommendTripStrategy.isMatch(recommendSize, MAX_SIZE)).isTrue();
+        assertThat(replaceRecommendTripStrategy.isMatch(recommendSize, MAX_SIZE, MIN_SIZE)).isTrue();
     }
 }
