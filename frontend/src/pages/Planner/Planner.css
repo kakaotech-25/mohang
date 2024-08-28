@@ -1,0 +1,87 @@
+.planner-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  
+  .planner-title {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .planner-list {
+    background-color: #FFFFEC;
+    border-radius: 10px;
+    width: 60%;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .planner-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding: 15px 0;
+  }
+  
+  .planner-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .planner-title-text {
+    font-size: 24px;
+    margin: 0;
+    color: #333;
+  }
+  
+  .planner-period {
+    font-size: 18px;
+    color: #666;
+    text-align: right;
+    flex-grow: 1;
+    margin-left: 20px;
+  }
+  
+  .planner-actions {
+    position: relative;
+  }
+  
+  .seemore-icon {
+    height: 24px;
+    cursor: pointer;
+    margin-left: 20px;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .dropdown-menu button {
+    width: 100%;
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .dropdown-menu button:hover {
+    background-color: #f0f0f0;
+  }
+  
