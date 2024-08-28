@@ -96,7 +96,7 @@ public class RecommendTripService {
             final MemberTrip memberTrip = memberTrips.stream()
                     .filter(mt -> mt.getTrip().getContentId().equals(trip.getContentId()))
                     .findFirst()
-                    .orElseThrow(() -> new NoExistMemberTripException("존재하지 않는 멤버의 여행지입니다."));
+                    .orElseThrow(() -> new NoExistMemberTripException("존재하지 않는 멤버의 선호 여행지입니다."));
             preferredLocations.put(trip.getContentId(), memberTrip.getVisitedCount());
         }
         return preferredLocations;

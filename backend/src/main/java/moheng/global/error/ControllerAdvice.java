@@ -11,6 +11,7 @@ import moheng.liveinformation.exception.NoExistLiveInformationException;
 import moheng.member.exception.*;
 import moheng.planner.exception.*;
 import moheng.recommendtrip.exception.LackOfRecommendTripException;
+import moheng.recommendtrip.exception.NoExistMemberTripException;
 import moheng.trip.exception.NoExistTripException;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -100,6 +101,7 @@ public class ControllerAdvice {
             NoExistMemberException.class,
             NoExistTripScheduleException.class,
             NoExistTripScheduleRegistryException.class,
+            NoExistMemberTripException.class,
     })
     public ResponseEntity<ExceptionResponse> handleNotFoundResourceException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
