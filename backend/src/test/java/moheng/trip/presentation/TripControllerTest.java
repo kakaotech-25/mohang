@@ -23,6 +23,7 @@ import moheng.trip.domain.Trip;
 import moheng.trip.dto.FindTripWithSimilarTripsResponse;
 import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.exception.NoExistRecommendTripException;
+import moheng.trip.exception.NoExistRecommendTripStrategyException;
 import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -138,7 +139,7 @@ public class TripControllerTest extends ControllerTestConfig {
     @Test
     void 멤버의_선호_여행지_정보가_아예_없어서_현재_방문한_여행지를_선호_여행지로_추가할_수_없다면_상태코드_422를_리턴한다() throws Exception {
         // given
-        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);g
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
         doThrow(new NoExistRecommendTripException("선호 여행지 정보가 없습니다."))
                 .when(tripService).findWithSimilarOtherTrips(anyLong(), anyLong());
 
@@ -149,6 +150,27 @@ public class TripControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(document("trip/find/current/fail/noExistRecommendTrip",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @DisplayName("멤버의 선호 여행지 갯수에 따른 적절한 선호 여행지 저장 전략이 존재하지 않는다면 상태코드 422를 리턴한다.")
+    @Test
+    void 멤버의_선호_여행지_갯수에_따른_적절한_선호_여행지_저장_전략이_존재하지_않는다면_상태코드_422를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistRecommendTripStrategyException("제공되지 않는 선호 여행지 저장 전략입니다."))
+                .when(tripService).findWithSimilarOtherTrips(anyLong(), anyLong());
+
+        // when, then
+        mockMvc.perform(get("/api/trip/find/{tripId}", 1L)
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(document("trip/find/current/fail/noExistRecommendTripStrategy",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())
                 ))
