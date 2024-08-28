@@ -104,7 +104,7 @@ public class RecommendTripService {
 
     private void validateRecommendTrips(final List<RecommendTrip> recommendTrips) {
         if(recommendTrips.size() < MIN_RECOMMEND_TRIPS_COUNT) {
-            throw new LackOfRecommendTripException("추천을 받기위해 선호 여행지 데이터 수가 부족합니다.");
+            throw new LackOfRecommendTripException("추천을 받기위한 선호 여행지 데이터 수가 부족합니다.");
         }
     }
 
