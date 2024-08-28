@@ -18,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import moheng.config.slice.ControllerTestConfig;
+import moheng.keyword.exception.InvalidAIServerException;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.trip.domain.Trip;
 import moheng.trip.dto.FindTripWithSimilarTripsResponse;
@@ -130,6 +131,27 @@ public class TripControllerTest extends ControllerTestConfig {
                         preprocessResponse(prettyPrint())
                 ))
                 .andExpect(status().isNotFound());
+    }
+
+    @DisplayName("현재 여행지를 비슷한 여행지와 함께 조회시 AI 서버에 예기치 못한 문제가 발생했다면 상태코드 500을 리턴한다.")
+    @Test
+    void 현재_여행지를_비슷한_여행지와_함께_조회시_AI_서버에_예기치_못한_문제가_발생했다면_상태코드_500을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new InvalidAIServerException("AI 서버에 예기치 못한 오류가 발생했습니다."))
+                .when(tripService).findWithSimilarOtherTrips(anyLong(), anyLong());
+
+        // when, then
+        mockMvc.perform(get("/api/trip/find/{tripId}", 1L)
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(document("trip/find/current/fail/aiServer",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ))
+                .andExpect(status().isInternalServerError());
     }
 
     @DisplayName("멤버의 선호 여행지 정보가 아예 없어서 현재 방문한 여행지를 선호 여행지로 추가할 수 없다면 상태코드 422를 리턴한다.")

@@ -12,9 +12,7 @@ import moheng.member.exception.*;
 import moheng.planner.exception.*;
 import moheng.recommendtrip.exception.LackOfRecommendTripException;
 import moheng.recommendtrip.exception.NoExistMemberTripException;
-import moheng.trip.exception.NoExistRecommendTripException;
-import moheng.trip.exception.NoExistRecommendTripStrategyException;
-import moheng.trip.exception.NoExistTripException;
+import moheng.trip.exception.*;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +46,8 @@ public class ControllerAdvice {
             LiveInfoNameException.class,
             NoMatchingSocialTypeException.class,
             InvalidTripScheduleNameException.class,
+            InvalidTripNameException.class,
+            InvalidTripDescriptionException.class,
     })
     public ResponseEntity<ExceptionResponse> handleIBadRequestException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
