@@ -5,6 +5,7 @@ import moheng.keyword.exception.InvalidAIServerException;
 import moheng.member.exception.NoExistMemberException;
 import moheng.planner.exception.NoExistTripScheduleRegistryException;
 import moheng.trip.dto.FindTripsResponse;
+import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -49,6 +50,24 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
         doThrow(new NoExistMemberException("존재하지 않는 회원입니다."))
+                .when(recommendTripService).createRecommendTrip(anyLong(), any());
+
+        // when, then
+        mockMvc.perform(post("/api/recommend")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(선호_여행지_생성_요청()))
+                )
+                .andExpect(status().isNotFound());
+    }
+
+    @DisplayName("존재하지 않는 여행지를 선호 여행지로 선택하려고 하면 상태코드 404를 리턴한다.")
+    @Test
+    void 존재하지_않는_여행지를_선호_여행지로_선택하려고_하면_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistTripException("존재하지 않는 여행지입니다."))
                 .when(recommendTripService).createRecommendTrip(anyLong(), any());
 
         // when, then
