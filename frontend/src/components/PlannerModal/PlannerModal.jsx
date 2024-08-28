@@ -8,9 +8,13 @@ const PlannerModal = ({ isOpen, title, plan, onClose, onSave }) => {
   const [selectedDates, setSelectedDates] = useState([null, null]);
   const [startDate, endDate] = selectedDates;
 
+  const formatDate = (date) => {
+    return date ? date.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\./g, '').replace(/\s/g, '.') : '';
+  };
+
   const handleSave = () => {
     if (startDate && endDate) {
-      const period = `${startDate.toISOString().split('T')[0].replace(/-/g, '.')} ~ ${endDate.toISOString().split('T')[0].replace(/-/g, '.')}`;
+      const period = `${formatDate(startDate)} ~ ${formatDate(endDate)}`;
       onSave({ ...currentPlan, period });
       onClose();
     }
@@ -40,7 +44,7 @@ const PlannerModal = ({ isOpen, title, plan, onClose, onSave }) => {
                 name="period"
                 value={
                   startDate && endDate
-                    ? `${startDate.toISOString().split('T')[0].replace(/-/g, '.')} ~ ${endDate.toISOString().split('T')[0].replace(/-/g, '.')}`
+                    ? `${formatDate(startDate)} ~ ${formatDate(endDate)}`
                     : ''
                 }
                 readOnly
