@@ -12,6 +12,7 @@ import moheng.member.exception.*;
 import moheng.planner.exception.*;
 import moheng.recommendtrip.exception.LackOfRecommendTripException;
 import moheng.recommendtrip.exception.NoExistMemberTripException;
+import moheng.trip.exception.NoExistRecommendTripException;
 import moheng.trip.exception.NoExistTripException;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -111,6 +112,7 @@ public class ControllerAdvice {
 
     @ExceptionHandler({
             LackOfRecommendTripException.class,
+            NoExistRecommendTripException.class,
     })
     public ResponseEntity<ExceptionResponse> handleUnprocessableEntityException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
