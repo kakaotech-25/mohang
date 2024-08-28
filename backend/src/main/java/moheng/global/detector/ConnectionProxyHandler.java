@@ -11,24 +11,24 @@ public class ConnectionProxyHandler implements InvocationHandler {
     private final Object connection;
     private final QueryCounter queryCounter;
 
-    public ConnectionProxyHandler(Object connection, QueryCounter queryCounter) {
+    public ConnectionProxyHandler(final Object connection, final QueryCounter queryCounter) {
         this.connection = connection;
         this.queryCounter = queryCounter;
     }
 
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
         countQuery(method);
         return method.invoke(connection, args);
     }
 
-    private void countQuery(Method method) {
+    private void countQuery(final Method method) {
         if (isPrepareStatement(method) && isRequest()) {
             queryCounter.increaseCount();
         }
     }
 
-    private boolean isPrepareStatement(Method method) {
+    private boolean isPrepareStatement(final Method method) {
         return method.getName().equals(QUERY_PREPARE_STATEMENT);
     }
 
