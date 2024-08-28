@@ -20,8 +20,8 @@ const Planner = () => {
 
   const handleEdit = (id) => {
     const planToEdit = PlannerData.find(plan => plan.id === id);
-    setSelectedPlan(planToEdit); // 수정할 일정 설정
-    setIsModalOpen(true); // 모달 열기
+    setSelectedPlan(planToEdit);
+    setIsModalOpen(true);
   };
 
   const handleDelete = (id) => {
@@ -43,42 +43,39 @@ const Planner = () => {
     if (sortCriteria === 'newest') { // id를 기준으로 최신순 정렬 (연동전 임시로 id를 사용)
       return b.id - a.id; 
     } else if (sortCriteria === 'name') { // 이름순 정렬 (가나다순)
-      return a.title.localeCompare(b.title);
+      return a.title.localeCompare(b.title); 
     } else if (sortCriteria === 'date') { // 날짜순 정렬 (여행기간이 가장 가까운순)
-      const currentDate = new Date();
       const dateA = new Date(a.period.split(' ~ ')[0]);
       const dateB = new Date(b.period.split(' ~ ')[0]);
-      return dateA - dateB;
+      return dateA - dateB; 
     }
     return 0;
   });
 
   return (
     <div className="planner-page">
-      <div className="planner-header">
-        <h1 className="planner-title">여행 플래너</h1>
-        <div className="sort-options">
-          <span 
-            className={`sort-option ${sortCriteria === 'newest' ? 'active' : ''}`} 
-            onClick={() => handleSort('newest')}
-          >
-            최신순
-          </span>
-          <span className="sort-divider">|</span>
-          <span 
-            className={`sort-option ${sortCriteria === 'name' ? 'active' : ''}`} 
-            onClick={() => handleSort('name')}
-          >
-            이름순
-          </span>
-          <span className="sort-divider">|</span>
-          <span 
-            className={`sort-option ${sortCriteria === 'date' ? 'active' : ''}`} 
-            onClick={() => handleSort('date')}
-          >
-            날짜순
-          </span>
-        </div>
+      <h1 className="planner-title">여행 플래너</h1>
+      <div className="sort-options">
+        <span 
+          className={`sort-option ${sortCriteria === 'newest' ? 'active' : ''}`} 
+          onClick={() => handleSort('newest')}
+        >
+          최신순
+        </span>
+        <span className="sort-divider">|</span>
+        <span 
+          className={`sort-option ${sortCriteria === 'name' ? 'active' : ''}`} 
+          onClick={() => handleSort('name')}
+        >
+          이름순
+        </span>
+        <span className="sort-divider">|</span>
+        <span 
+          className={`sort-option ${sortCriteria === 'date' ? 'active' : ''}`} 
+          onClick={() => handleSort('date')}
+        >
+          날짜순
+        </span>
       </div>
       <div className="planner-list">
         {sortedPlans.map((plan) => (
