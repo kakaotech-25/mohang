@@ -206,6 +206,17 @@ public class TripServiceTest extends ServiceTestConfig {
         tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9));
         tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip11));
 
+        recommendTripRepository.save(new RecommendTrip(trip2, member, 1L));
+        recommendTripRepository.save(new RecommendTrip(trip3, member, 2L));
+        recommendTripRepository.save(new RecommendTrip(trip4, member, 3L));
+        recommendTripRepository.save(new RecommendTrip(trip5, member, 4L));
+        recommendTripRepository.save(new RecommendTrip(trip6, member, 5L));
+        recommendTripRepository.save(new RecommendTrip(trip7, member, 6L));
+        recommendTripRepository.save(new RecommendTrip(trip8, member, 7L));
+        recommendTripRepository.save(new RecommendTrip(trip9, member, 8L));
+        recommendTripRepository.save(new RecommendTrip(trip10, member, 9L));
+        recommendTripRepository.save(new RecommendTrip(trip11, member, 10L));
+
         // when
         FindTripWithSimilarTripsResponse response = tripService.findWithSimilarOtherTrips(currentTrip.getId(), member.getId());
 
@@ -237,6 +248,17 @@ public class TripServiceTest extends ServiceTestConfig {
         tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip6)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip7));
         tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9));
         tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip11));
+
+        recommendTripRepository.save(new RecommendTrip(trip2, member, 1L));
+        recommendTripRepository.save(new RecommendTrip(trip3, member, 2L));
+        recommendTripRepository.save(new RecommendTrip(trip4, member, 3L));
+        recommendTripRepository.save(new RecommendTrip(trip5, member, 4L));
+        recommendTripRepository.save(new RecommendTrip(trip6, member, 5L));
+        recommendTripRepository.save(new RecommendTrip(trip7, member, 6L));
+        recommendTripRepository.save(new RecommendTrip(trip8, member, 7L));
+        recommendTripRepository.save(new RecommendTrip(trip9, member, 8L));
+        recommendTripRepository.save(new RecommendTrip(trip10, member, 9L));
+        recommendTripRepository.save(new RecommendTrip(trip11, member, 10L));
 
         // when
         FindTripWithSimilarTripsResponse response = tripService.findWithSimilarOtherTrips(currentTrip.getId(), member.getId());
@@ -271,6 +293,17 @@ public class TripServiceTest extends ServiceTestConfig {
         tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9));
         tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip11));
 
+        recommendTripRepository.save(new RecommendTrip(trip2, member, 1L));
+        recommendTripRepository.save(new RecommendTrip(trip3, member, 2L));
+        recommendTripRepository.save(new RecommendTrip(trip4, member, 3L));
+        recommendTripRepository.save(new RecommendTrip(trip5, member, 4L));
+        recommendTripRepository.save(new RecommendTrip(trip6, member, 5L));
+        recommendTripRepository.save(new RecommendTrip(trip7, member, 6L));
+        recommendTripRepository.save(new RecommendTrip(trip8, member, 7L));
+        recommendTripRepository.save(new RecommendTrip(trip9, member, 8L));
+        recommendTripRepository.save(new RecommendTrip(trip10, member, 9L));
+        recommendTripRepository.save(new RecommendTrip(trip11, member, 10L));
+
         // when
         tripService.findWithSimilarOtherTrips(currentTrip.getId(), member.getId());
         long expected = tripService.findById(currentTrip.getId()).getId();
@@ -303,6 +336,17 @@ public class TripServiceTest extends ServiceTestConfig {
         tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip6)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip7));
         tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9));
         tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip11));
+
+        recommendTripRepository.save(new RecommendTrip(trip2, member, 1L));
+        recommendTripRepository.save(new RecommendTrip(trip3, member, 2L));
+        recommendTripRepository.save(new RecommendTrip(trip4, member, 3L));
+        recommendTripRepository.save(new RecommendTrip(trip5, member, 4L));
+        recommendTripRepository.save(new RecommendTrip(trip6, member, 5L));
+        recommendTripRepository.save(new RecommendTrip(trip7, member, 6L));
+        recommendTripRepository.save(new RecommendTrip(trip8, member, 7L));
+        recommendTripRepository.save(new RecommendTrip(trip9, member, 8L));
+        recommendTripRepository.save(new RecommendTrip(trip10, member, 9L));
+        recommendTripRepository.save(new RecommendTrip(trip11, member, 10L));
 
         // when
         tripService.findWithSimilarOtherTrips(currentTrip.getId(), member.getId());
@@ -416,13 +460,16 @@ public class TripServiceTest extends ServiceTestConfig {
         recommendTripRepository.save(new RecommendTrip(trip2, member, 1L));
         recommendTripRepository.save(new RecommendTrip(trip3, member, 2L));
         recommendTripRepository.save(new RecommendTrip(trip4, member, 3L));
+        recommendTripRepository.save(new RecommendTrip(trip5, member, 4L));
+        recommendTripRepository.save(new RecommendTrip(trip6, member, 5L));
+        recommendTripRepository.save(new RecommendTrip(trip7, member, 6L));
 
         // when
         tripService.findWithSimilarOtherTrips(currentTrip.getId(), member.getId());
 
         // then
-        RecommendTrip actual = recommendTripRepository.findById(4L).get();
-        assertThat(actual.getRank()).isEqualTo(4L);
+        RecommendTrip actual = recommendTripRepository.findById(7L).get();
+        assertThat(actual.getRank()).isEqualTo(7L);
     }
 
     @DisplayName("최근 클릭한 여행지가 10개라면 기존의 rank를 1씩 감소시키고, rank가 10인 새로운 선호 여행지를 생성한다.")
