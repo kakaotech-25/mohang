@@ -23,3 +23,22 @@ include::{snippets}/keyword/random/trip/http-response.adoc[]
 ===== Response Body
 
 include::{snippets}/keyword/random/trip/response-fields.adoc[]
+
+
+=== 상위 30개의 여행지를 방문 수 기준으로 조회하는 API
+
+==== HTTP Request
+
+include::{snippets}/trip/find/interested/http-request.adoc[]
+
+===== Request Body
+
+include::{snippets}/trip/find/interested/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/trip/find/interested/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/trip/find/interested/response-fields.adoc[]
