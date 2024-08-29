@@ -142,8 +142,12 @@ public class TripPreferredLocationsFilterStrategyTest extends ServiceTestConfig 
 
         // then
         List<LiveInformation> liveInformations = tripLiveInformationRepository.findLiveInformationByTrips(trips);
-        assertThat(liveInformations)
-                .allMatch(liveInfo -> "생활정보1".equals(liveInfo.getName()));
+
+        assertAll(() -> {
+            assertThat(liveInformations).isNotEmpty();
+            assertThat(liveInformations)
+                    .allMatch(liveInfo -> "생활정보1".equals(liveInfo.getName()));
+        });
     }
 
     @DisplayName("멤버의 생활정보가 없으면 추가적인 생활정보 기반 필터링이 수행되지 않는다.")
