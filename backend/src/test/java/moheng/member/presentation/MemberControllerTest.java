@@ -488,7 +488,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                                 headerWithName("Authorization").description("엑세스 토큰")
                         ),
                         requestFields(
-                                fieldWithPath("liveInfoNames").description("선택한 생활정보 이름 리스트")
+                                fieldWithPath("liveInfoIds").description("선택한 생활정보 고유 ID 값 리스트")
                         ))
                 ).andExpect(status().isNotFound());
     }
