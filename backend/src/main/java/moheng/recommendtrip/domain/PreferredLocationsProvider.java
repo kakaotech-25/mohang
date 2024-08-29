@@ -44,13 +44,17 @@ public class PreferredLocationsProvider {
         final Map<Long, Long> preferredLocations = new HashMap<>();
         for (final RecommendTrip recommendTrip : recommendTrips) {
             final Trip trip = recommendTrip.getTrip();
-            final MemberTrip memberTrip = memberTrips.stream()
-                    .filter(mt -> mt.getTrip().getContentId().equals(trip.getContentId()))
-                    .findFirst()
-                    .orElseThrow(() -> new NoExistMemberTripException("존재하지 않는 멤버의 선호 여행지입니다."));
+            final MemberTrip memberTrip = findMemberTripByContentId(memberTrips, trip);
             preferredLocations.put(trip.getContentId(), memberTrip.getVisitedCount());
         }
         return preferredLocations;
+    }
+
+    private MemberTrip findMemberTripByContentId(final List<MemberTrip> memberTrips, final Trip trip) {
+        return memberTrips.stream()
+                .filter(mt -> mt.getTrip().getContentId().equals(trip.getContentId()))
+                .findFirst()
+                .orElseThrow(() -> new NoExistMemberTripException("존재하지 않는 멤버의 선호 여행지입니다."));
     }
 
     private void validateRecommendTrips(final List<RecommendTrip> recommendTrips) {

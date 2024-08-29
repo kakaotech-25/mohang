@@ -62,4 +62,10 @@ public class PreferredLocationsProviderTest extends ServiceTestConfig {
         // when, then
         assertDoesNotThrow(() -> preferredLocationsProvider.findPreferredLocations(member.getId()));
     }
+
+    @DisplayName("")
+    @Test
+    void a() {
+
+    }
 }
