@@ -87,6 +87,67 @@ public class MemberControllerTest extends ControllerTestConfig {
                 .andExpect(status().isNotFound());
     }
 
+    @DisplayName("화원 프로필을 업데이트하면 상태코드 200을 리턴한다.")
+    @Test
+    void 회원_프로필을_업데이트하면_상태코드_200을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+
+        // when, then
+        mockMvc.perform(put("/api/member/profile")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(프로필_업데이트_요청()))
+                )
+                .andDo(print())
+                .andDo(document("member/update/profile/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("nickname").description("닉네임"),
+                                fieldWithPath("birthday").description("생년월일"),
+                                fieldWithPath("genderType").description("성별"),
+                                fieldWithPath("profileImageUrl").description("프로필 이미지 경로")
+                        )
+                )).andExpect(status().isNoContent());
+    }
+
+    @DisplayName("회원 프로필 업데이트시 본인을 제외한 중복 닉네임이 존재한다면 상태코드 401을 리턴한다.")
+    @Test
+    void 회원_프로필_업데이트시_본인을_제외한_중복_닉네임이_존재한다면_상태코드_401을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_기존()));
+        doThrow(new DuplicateNicknameException("중복되는 닉네임이 존재합니다."))
+                .when(memberService).updateByProfile(anyLong(), any());
+
+        // when, then
+        mockMvc.perform(put("/api/member/profile")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(프로필_업데이트_요청()))
+                )
+                .andDo(print())
+                .andDo(document("member/update/profile/fail",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("nickname").description("닉네임"),
+                                fieldWithPath("birthday").description("생년월일"),
+                                fieldWithPath("genderType").description("성별"),
+                                fieldWithPath("profileImageUrl").description("프로필 이미지 경로")
+                        )
+                )).andExpect(status().isUnauthorized());
+    }
+
     @DisplayName("프로필 정보로 회원가입에 성공하면 상태코드 204을 리턴한다.")
     @Test
     void 프로필_정보로_회원가입에_성공하면_상태코드_204을_리턴한다() throws Exception {
@@ -485,66 +546,5 @@ public class MemberControllerTest extends ControllerTestConfig {
                                 fieldWithPath("contentIds").description("관심 여행지의 contentId 리스트")
                         ))
                 ).andExpect(status().isBadRequest());
-    }
-
-    @DisplayName("화원 프로필을 업데이트하면 상태코드 200을 리턴한다.")
-    @Test
-    void 회원_프로필을_업데이트하면_상태코드_200을_리턴한다() throws Exception {
-        // given
-        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-
-        // when, then
-        mockMvc.perform(put("/api/member/profile")
-                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(프로필_업데이트_요청()))
-                )
-                .andDo(print())
-                .andDo(document("member/update/profile/success",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        requestHeaders(
-                                headerWithName("Authorization").description("엑세스 토큰")
-                        ),
-                        requestFields(
-                                fieldWithPath("nickname").description("닉네임"),
-                                fieldWithPath("birthday").description("생년월일"),
-                                fieldWithPath("genderType").description("성별"),
-                                fieldWithPath("profileImageUrl").description("프로필 이미지 경로")
-                        )
-                )).andExpect(status().isNoContent());
-    }
-
-    @DisplayName("회원 프로필 업데이트시 본인을 제외한 중복 닉네임이 존재한다면 상태코드 401을 리턴한다.")
-    @Test
-    void 회원_프로필_업데이트시_본인을_제외한_중복_닉네임이_존재한다면_상태코드_401을_리턴한다() throws Exception {
-        // given
-        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_기존()));
-        doThrow(new DuplicateNicknameException("중복되는 닉네임이 존재합니다."))
-                .when(memberService).updateByProfile(anyLong(), any());
-
-        // when, then
-        mockMvc.perform(put("/api/member/profile")
-                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(프로필_업데이트_요청()))
-                )
-                .andDo(print())
-                .andDo(document("member/update/profile/fail",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        requestHeaders(
-                                headerWithName("Authorization").description("엑세스 토큰")
-                        ),
-                        requestFields(
-                                fieldWithPath("nickname").description("닉네임"),
-                                fieldWithPath("birthday").description("생년월일"),
-                                fieldWithPath("genderType").description("성별"),
-                                fieldWithPath("profileImageUrl").description("프로필 이미지 경로")
-                        )
-                )).andExpect(status().isUnauthorized());
     }
 }
