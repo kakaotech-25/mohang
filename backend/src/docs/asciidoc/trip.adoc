@@ -42,3 +42,22 @@ include::{snippets}/trip/find/interested/http-response.adoc[]
 ===== Response Body
 
 include::{snippets}/trip/find/interested/response-fields.adoc[]
+
+
+=== 상세 여행지 조회 (with. 비슷한 여행지)
+
+==== HTTP Request
+
+include::{snippets}/trip/find/current/http-request.adoc[]
+
+===== Request Body
+
+include::{snippets}/trip/find/current/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/trip/find/current/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/trip/find/current/response-fields.adoc[]
