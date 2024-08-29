@@ -7,6 +7,7 @@ import static org.mockito.BDDMockito.given;
 import static moheng.fixture.TripFixture.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -64,6 +65,9 @@ public class TripControllerTest extends ControllerTestConfig {
                 .andDo(document("trip/find/interested",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
                         responseFields(
                                 fieldWithPath("findTripResponses").description("여행지 리스트"),
                                 fieldWithPath("findTripResponses[].name").description("세부 여행지 이름"),
@@ -92,6 +96,9 @@ public class TripControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(document("trip/find/current",
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
                         responseFields(
                                 fieldWithPath("findTripResponse.name").description("선택한 여행지의 이름"),
                                 fieldWithPath("findTripResponse.placeName").description("선택한 여행지의 장소명"),
@@ -128,7 +135,10 @@ public class TripControllerTest extends ControllerTestConfig {
                 )
                 .andDo(document("trip/find/current/fail/noExistTrip",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        )
                 ))
                 .andExpect(status().isNotFound());
     }
@@ -149,7 +159,10 @@ public class TripControllerTest extends ControllerTestConfig {
                 )
                 .andDo(document("trip/find/current/fail/aiServer",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        )
                 ))
                 .andExpect(status().isInternalServerError());
     }
@@ -170,7 +183,10 @@ public class TripControllerTest extends ControllerTestConfig {
                 )
                 .andDo(document("trip/find/current/fail/noExistRecommendTrip",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        )
                 ))
                 .andExpect(status().isUnprocessableEntity());
     }
@@ -191,7 +207,10 @@ public class TripControllerTest extends ControllerTestConfig {
                 )
                 .andDo(document("trip/find/current/fail/noExistRecommendTripStrategy",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        )
                 ))
                 .andExpect(status().isUnprocessableEntity());
     }
