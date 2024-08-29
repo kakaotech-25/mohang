@@ -6,44 +6,6 @@
 :toclevels: 2
 
 
-=== 비회원에게 추천하는 무작위 랜덤 키워드 기반 여행지 정보 조회(여행지) API
-
-==== HTTP Request
-
-include::{snippets}/keyword/random/trip/http-request.adoc[]
-
-===== Request Body
-
-include::{snippets}/keyword/random/trip/request-body.adoc[]
-
-==== HTTP Response
-
-include::{snippets}/keyword/random/trip/http-response.adoc[]
-
-===== Response Body
-
-include::{snippets}/keyword/random/trip/response-fields.adoc[]
-
-
-=== 상위 30개의 여행지를 방문 수 기준으로 조회하는 API
-
-==== HTTP Request
-
-include::{snippets}/trip/find/interested/http-request.adoc[]
-
-===== Request Body
-
-include::{snippets}/trip/find/interested/request-body.adoc[]
-
-==== HTTP Response
-
-include::{snippets}/trip/find/interested/http-response.adoc[]
-
-===== Response Body
-
-include::{snippets}/trip/find/interested/response-fields.adoc[]
-
-
 === 상세 여행지 조회 (with. 비슷한 여행지) API
 
 ==== HTTP Request
