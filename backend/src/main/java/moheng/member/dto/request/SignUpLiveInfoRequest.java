@@ -3,16 +3,16 @@ package moheng.member.dto.request;
 import java.util.List;
 
 public class SignUpLiveInfoRequest {
-    private List<String> liveInfoNames;
+    private List<Long> liveInfoIds;
 
     private SignUpLiveInfoRequest() {
     }
 
-    public SignUpLiveInfoRequest(final List<String> liveInfoNames) {
-        this.liveInfoNames = liveInfoNames;
+    public SignUpLiveInfoRequest(final List<Long> liveInfoIds) {
+        this.liveInfoIds = liveInfoIds;
     }
 
-    public List<String> getLiveInfoNames() {
-        return liveInfoNames;
+    public List<Long> getLiveInfoIds() {
+        return liveInfoIds;
     }
 }

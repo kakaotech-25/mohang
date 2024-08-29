@@ -3,9 +3,11 @@ package moheng.member.application;
 import moheng.auth.domain.oauth.Authority;
 import moheng.liveinformation.application.LiveInformationService;
 import moheng.liveinformation.domain.LiveInformation;
+import moheng.liveinformation.domain.LiveInformationRepository;
 import moheng.liveinformation.domain.MemberLiveInformation;
 import moheng.liveinformation.application.MemberLiveInformationService;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
+import moheng.liveinformation.exception.NoExistLiveInformationException;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.dto.request.SignUpInterestTripsRequest;
@@ -32,21 +34,21 @@ public class MemberService {
     private static final long MIN_RECOMMEND_TRIP_SIZE = 5L;
 
     private final MemberRepository memberRepository;
-    private final LiveInformationService liveInformationService;
     private final MemberLiveInformationService memberLiveInformationService;
     private final TripService tripService;
     private final RecommendTripService recommendTripService;
+    private final LiveInformationRepository liveInformationRepository;
 
     public MemberService(final MemberRepository memberRepository,
                          final LiveInformationService liveInformationService,
                          final MemberLiveInformationService memberLiveInformationService,
                          final TripService tripService,
-                         final RecommendTripService recommendTripService) {
+                         final RecommendTripService recommendTripService, LiveInformationRepository liveInformationRepository) {
         this.memberRepository = memberRepository;
-        this.liveInformationService = liveInformationService;
         this.memberLiveInformationService = memberLiveInformationService;
         this.tripService = tripService;
         this.recommendTripService = recommendTripService;
+        this.liveInformationRepository = liveInformationRepository;
     }
 
     public MemberResponse findById(final Long id) {
@@ -94,24 +96,18 @@ public class MemberService {
     public void signUpByLiveInfo(final long memberId, final SignUpLiveInfoRequest request) {
         final Member member = memberRepository.findById(memberId)
                         .orElseThrow(() -> new NoExistMemberException("존재하지 않는 회원입니다."));
-        saveMemberLiveInformation(request.getLiveInfoNames(), member);
+        saveMemberLiveInformation(request.getLiveInfoIds(), member);
     }
 
-    private void saveMemberLiveInformation(final List<String> liveTypeNames, final Member member) {
-        validateLiveTypeNames(liveTypeNames);
+    private void saveMemberLiveInformation(final List<Long> liveInfoIds, final Member member) {
         final List<MemberLiveInformation> memberLiveInformationList = new ArrayList<>();
 
-        for(String liveTypeName : liveTypeNames) {
-            final LiveInformation liveInformation = liveInformationService.findByName(liveTypeName);
+        for(final Long liveInfoId : liveInfoIds) {
+            final LiveInformation liveInformation = liveInformationRepository.findById(liveInfoId)
+                            .orElseThrow(() -> new NoExistLiveInformationException("존재하지 않는 생활정보입니다."));
             memberLiveInformationList.add(new MemberLiveInformation(liveInformation, member));
         }
         memberLiveInformationService.saveAll(memberLiveInformationList);
-    }
-
-    private void validateLiveTypeNames(final List<String> liveTypeNames) {
-        if(liveTypeNames == null || liveTypeNames.isEmpty()) {
-            throw new EmptyLiveInformationException("생활정보를 선택하지 않았습니다.");
-        }
     }
 
     @Transactional
