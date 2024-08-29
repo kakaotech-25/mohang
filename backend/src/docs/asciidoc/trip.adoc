@@ -75,3 +75,25 @@ include::{snippets}/trip/find/current/fail/noExistRecommendTrip/http-response.ad
 ===== Response Body
 
 include::{snippets}/trip/find/current/fail/noExistRecommendTrip/response-body.adoc[]
+
+=== 상세 여행지 조회 with. 비슷한 여행지 API 실패 (회원의 비정상적인 선호 여행지 개수(5~10개 범위값을 벗어남)가 보유된 것으로 판단한 경우 ex) 2개, 13개)
+
+==== HTTP Request
+
+include::{snippets}/trip/find/current/fail/noExistRecommendTripStrategy/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/trip/find/current/fail/noExistRecommendTripStrategy/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/trip/find/current/fail/noExistRecommendTripStrategy/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/trip/find/current/fail/noExistRecommendTripStrategy/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/trip/find/current/fail/noExistRecommendTripStrategy/response-body.adoc[]
