@@ -139,3 +139,8 @@
 .dropdown-menu button:hover {
   background-color: #f0f0f0;
 }
+
+.planner-link {
+  text-decoration: none;
+  color: inherit;
+}

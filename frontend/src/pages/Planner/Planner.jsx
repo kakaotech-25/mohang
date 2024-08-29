@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import PlannerData from '../../data/PlannerData';
 import seemoreIcon from '../../assets/seemore.png';
 import PlannerModal from '../../components/PlannerModal/PlannerModal';
@@ -95,26 +96,31 @@ const Planner = () => {
       </div>
       <div className="planner-list">
         {sortedPlans.map((plan) => (
-          <div key={plan.id} className="planner-item">
-            <div className="planner-info">
-              <h2 className="planner-title-text">{plan.title}</h2>
+          <Link to={`/plannerdetails/${plan.id}`} key={plan.id} className="planner-link">
+            <div className="planner-item">
+              <div className="planner-info">
+                <h2 className="planner-title-text">{plan.title}</h2>
+              </div>
+              <div className="planner-period">{plan.period}</div>
+              <div className="planner-actions">
+                <img
+                  src={seemoreIcon}
+                  alt="더보기"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleDropdown(plan.id);
+                  }}
+                  className="seemore-icon"
+                />
+                {activeDropdown === plan.id && (
+                  <div className="dropdown-menu">
+                    <button onClick={() => handleEdit(plan.id)}>수정하기</button>
+                    <button onClick={() => handleDelete(plan.id)}>삭제하기</button>
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="planner-period">{plan.period}</div>
-            <div className="planner-actions">
-              <img
-                src={seemoreIcon}
-                alt="더보기"
-                onClick={() => toggleDropdown(plan.id)}
-                className="seemore-icon"
-              />
-              {activeDropdown === plan.id && (
-                <div className="dropdown-menu">
-                  <button onClick={() => handleEdit(plan.id)}>수정하기</button>
-                  <button onClick={() => handleDelete(plan.id)}>삭제하기</button>
-                </div>
-              )}
-            </div>
-          </div>
+          </Link>
         ))}
       </div>
 
