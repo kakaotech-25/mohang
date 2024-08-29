@@ -12,6 +12,10 @@
 
 include::{snippets}/trip/find/current/http-request.adoc[]
 
+===== Request Header
+
+include::{snippets}/trip/find/current/request-headers.adoc[]
+
 ===== Request Body
 
 include::{snippets}/trip/find/current/request-body.adoc[]
@@ -30,6 +34,10 @@ include::{snippets}/trip/find/current/response-fields.adoc[]
 ==== HTTP Request
 
 include::{snippets}/trip/find/current/fail/noExistRecommendTrip/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/trip/find/current/fail/noExistRecommendTrip/request-headers.adoc[]
 
 ===== Request Body
 
@@ -51,7 +59,7 @@ include::{snippets}/trip/find/current/fail/aiServer/http-request.adoc[]
 
 ===== Request Header
 
-include::{snippets}/trip/find/current/fail/aiServer/request-hedx
+include::{snippets}/trip/find/current/fail/aiServer/request-headers.adoc[]
 
 
 === 상세 여행지 조회 with. 비슷한 여행지 API 실패 (회원의 현재 보유 선호 여행지가 0개인 경우)
