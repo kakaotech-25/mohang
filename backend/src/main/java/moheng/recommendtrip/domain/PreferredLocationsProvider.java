@@ -9,11 +9,13 @@ import moheng.trip.domain.MemberTrip;
 import moheng.trip.domain.MemberTripRepository;
 import moheng.trip.domain.Trip;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Transactional(readOnly = true)
 @Component
 public class PreferredLocationsProvider {
     private static final int MIN_RECOMMEND_TRIPS_COUNT = 5;
