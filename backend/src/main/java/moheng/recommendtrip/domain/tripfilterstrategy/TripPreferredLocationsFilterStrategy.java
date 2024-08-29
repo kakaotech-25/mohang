@@ -13,6 +13,7 @@ import moheng.trip.dto.RecommendTripsByVisitedLogsResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -74,8 +75,13 @@ public class TripPreferredLocationsFilterStrategy implements TripFilterStrategy 
     private List<Trip> filterTripsByLiveinformation(final RecommendTripsByVisitedLogsResponse recommendTripsByVisitedLogsResponse, final Long memberId) {
         final List<Trip> trips = tripRepository.findTripsByContentIds(recommendTripsByVisitedLogsResponse.getContentIds());
         final List<LiveInformation> memberLiveInformations = memberLiveInformationRepository.findLiveInformationsByMemberId(memberId);
+
+        if (memberLiveInformations == null || memberLiveInformations.isEmpty()) {
+            return trips;
+        }
         return filterTripsByMemberInformation(trips, memberLiveInformations);
     }
+
 
     private List<Trip> filterTripsByMemberInformation(final List<Trip> trips, final List<LiveInformation> memberLiveInformations) {
         return trips.stream()

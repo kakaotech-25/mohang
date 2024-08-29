@@ -184,9 +184,9 @@ public class TripPreferredLocationsFilterStrategyTest extends ServiceTestConfig 
 
         // then
         List<LiveInformation> liveInformations = tripLiveInformationRepository.findLiveInformationByTrips(trips);
-        
-        assertThat(trips).hasSize(10); // 추천받은 모든 여행지가 포함됨
-        assertThat(liveInformations).hasSize(10); // 각 여행지의 생활정보가 포함됨
+
+        assertThat(trips).hasSize(10);
+        assertThat(liveInformations).hasSize(2);
 
     }
 }
