@@ -9,4 +9,7 @@ import java.util.List;
 
 public interface TripLiveInformationRepository extends JpaRepository<TripLiveInformation, Long> {
     boolean existsByTripAndLiveInformationIn(final Trip trip, final List<LiveInformation> liveInformations);
+
+    @Query("SELECT tli.liveInformation FROM TripLiveInformation tli WHERE tli.trip IN :trips")
+    List<LiveInformation> findLiveInformationByTrips(@Param("trips") final List<Trip> trips);
 }
