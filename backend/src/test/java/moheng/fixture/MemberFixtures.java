@@ -89,7 +89,7 @@ public class MemberFixtures {
     }
 
     public static SignUpLiveInfoRequest 생활정보로_회원가입_요청() {
-        return new SignUpLiveInfoRequest(List.of("생활정보1", "생활정보2"));
+        return new SignUpLiveInfoRequest(List.of(1L, 2L));
     }
 
     public static SignUpLiveInfoRequest 비어있는_생활정보로_회원가입_요청() {
