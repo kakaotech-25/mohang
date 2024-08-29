@@ -46,7 +46,6 @@ import java.util.concurrent.Executors;
 public class TripServiceTest extends ServiceTestConfig {
     private static final long HIGHEST_PRIORITY_RANK = 1L;
     private static final long LOWEST_PRIORITY_RANK = 10L;
-    private static final Logger log = LoggerFactory.getLogger(TripServiceTest.class);
 
     @Autowired
     private TripService tripService;

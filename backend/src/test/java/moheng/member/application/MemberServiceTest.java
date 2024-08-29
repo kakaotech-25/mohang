@@ -9,7 +9,9 @@ import moheng.auth.domain.oauth.Authority;
 import moheng.config.slice.ServiceTestConfig;
 import moheng.liveinformation.application.LiveInformationService;
 import moheng.liveinformation.domain.LiveInformation;
+import moheng.liveinformation.domain.LiveInformationRepository;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
+import moheng.liveinformation.exception.NoExistLiveInformationException;
 import moheng.member.domain.Member;
 import moheng.member.domain.SocialType;
 import moheng.member.dto.request.SignUpInterestTripsRequest;
@@ -34,7 +36,7 @@ public class MemberServiceTest extends ServiceTestConfig {
     private MemberService memberService;
 
     @Autowired
-    private LiveInformationService liveInformationService;
+    private LiveInformationRepository liveInformationRepository;
 
     @Autowired
     private TripService tripService;
@@ -201,9 +203,9 @@ public class MemberServiceTest extends ServiceTestConfig {
         memberService.save(하온_기존());
         long memberId = memberService.findByEmail(하온_이메일).getId();
 
-        liveInformationService.save(new LiveInformation("생활정보1"));
-        liveInformationService.save(new LiveInformation("생활정보2"));
-        SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(List.of("생활정보1", "생활정보2"));
+        LiveInformation liveInformation1 = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        LiveInformation liveInformation2 = liveInformationRepository.save(new LiveInformation("생활정보2"));
+        SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(List.of(liveInformation1.getId(), liveInformation2.getId()));
 
         // when, then
         assertDoesNotThrow(() ->memberService.signUpByLiveInfo(memberId, request));
@@ -213,37 +215,24 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 존재하지_않는_회원의_생활정보를_추가하면_예외가_발생한다() {
         // given
-        SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(List.of("생활정보1", "생활정보2"));
+        SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(List.of(1L, 2L));
 
         // when, then
         assertThatThrownBy(() -> memberService.signUpByLiveInfo(-1L, request))
                 .isInstanceOf(NoExistMemberException.class);
     }
 
-    @DisplayName("생활정보를 선택하지 않고 비어있다면 예외가 발생한다.")
+    @DisplayName("존재하지 않는 생활정보를 선택하여 회원가입를 시도하면 예외가 발생한다.")
     @Test
-    void 생활정보를_선택하지_않고_비어있다면_예외가_발생한다() {
+    void 존재하지_않는_생활정보를_선택하여_회원가입을_시도하면__예외가_발생한다() {
         // given
         memberService.save(하온_기존());
         long memberId = memberService.findByEmail(하온_이메일).getId();
-        SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(new ArrayList<>());
+        SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(List.of(-1L, -2L));
 
         // when, then
         assertThatThrownBy(() -> memberService.signUpByLiveInfo(memberId, request))
-                .isInstanceOf(EmptyLiveInformationException.class);
-    }
-
-    @DisplayName("생활정보를 선택하지 않고 null 을 전달하면 예외가 발생한다.")
-    @Test
-    void 생활정보를_선택하지_않고_null을_전달하면_예외가_발생한다() {
-        // given
-        memberService.save(하온_기존());
-        long memberId = memberService.findByEmail(하온_이메일).getId();
-        SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(null);
-
-        // when, then
-        assertThatThrownBy(() -> memberService.signUpByLiveInfo(memberId, request))
-                .isInstanceOf(EmptyLiveInformationException.class);
+                .isInstanceOf(NoExistLiveInformationException.class);
     }
 
     @DisplayName("회원의 관심 여행지를 저장한다.")

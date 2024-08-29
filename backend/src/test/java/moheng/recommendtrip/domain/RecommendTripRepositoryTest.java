@@ -60,7 +60,7 @@ public class RecommendTripRepositoryTest extends RepositoryTestConfig {
         recommendTripRepository.save(new RecommendTrip(trip, member));
 
         // when, then
-        assertThat(recommendTripRepository.findTop10ByMember(member)).hasSize(2);
+        assertThat(recommendTripRepository.findByMemberOrderByRankDesc(member)).hasSize(2);
     }
 
     @DisplayName("모든 선호 여행지의 rank 를 1씩 감소시킨다.")
