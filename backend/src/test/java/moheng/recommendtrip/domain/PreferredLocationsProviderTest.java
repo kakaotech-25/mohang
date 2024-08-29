@@ -9,6 +9,7 @@ import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.TripKeyword;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
+import moheng.recommendtrip.exception.LackOfRecommendTripException;
 import moheng.trip.domain.MemberTrip;
 import moheng.trip.domain.MemberTripRepository;
 import moheng.trip.domain.Trip;
@@ -63,9 +64,22 @@ public class PreferredLocationsProviderTest extends ServiceTestConfig {
         assertDoesNotThrow(() -> preferredLocationsProvider.findPreferredLocations(member.getId()));
     }
 
-    @DisplayName("")
+    @DisplayName("추천을 받기위한 멤버의 선호 여행지 개수가 5개 미만으로 부족하면 예외가 발생한다.")
     @Test
-    void a() {
+    void 추천을_받기위한_멤버의_선호_여행지_개수가_5개_미만으로_부족하면_예외가_발생한다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        Trip trip1 = tripRepository.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로1"));
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "장소명2", 2L, "설명2", "이미지 경로2"));
+        Trip trip3 = tripRepository.save(new Trip("여행지3", "장소명3", 3L, "설명3", "이미지 경로3"));
+        Trip trip4 = tripRepository.save(new Trip("여행지4", "장소명3", 4L, "설명3", "이미지 경로3"));
+        memberTripRepository.save(new MemberTrip(member, trip1, 10L)); memberTripRepository.save(new MemberTrip(member, trip2, 20L));
+        memberTripRepository.save(new MemberTrip(member, trip3, 30L)); memberTripRepository.save(new MemberTrip(member, trip4, 30L));
+        recommendTripRepository.save(new RecommendTrip(trip1, member, 1L)); recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
+        recommendTripRepository.save(new RecommendTrip(trip3, member, 3L)); recommendTripRepository.save(new RecommendTrip(trip4, member, 4L));
 
+        // when, then
+        assertThatThrownBy(() -> preferredLocationsProvider.findPreferredLocations(member.getId()))
+                .isInstanceOf(LackOfRecommendTripException.class);
     }
 }
