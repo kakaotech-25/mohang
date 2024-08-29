@@ -86,6 +86,26 @@ pipeline {
                         }
                     }
                 }
+                
+                stage('AI Docker Build') {
+                    steps {
+                        script {
+                            echo 'Starting AI Build...'
+                            buildAndPushDockerImage(
+                                directory: 'ai',
+                                imageName: 'leovim5072/moheng-ai:latest',
+                                targetBranch: 'develop',
+                                context: '-f Dockerfile .'
+                            )
+                            echo 'AI Build Completed!'
+                        }
+                    }
+                    post {
+                        failure {
+                            sendErrorNotification('AI Build')
+                        }
+                    }
+                }                
             }
         }
     }
