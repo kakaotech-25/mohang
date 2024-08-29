@@ -146,23 +146,23 @@ include::{snippets}/member/signup/profile/fail/birthday/response-body.adoc[]
 
 ==== HTTP Request
 
-include::{snippets}/member/signup/profile/fail/birthday/http-request.adoc[]
+include::{snippets}/member/signup/profile/fail/genderType/http-request.adoc[]
 
 ===== Request Header
 
-include::{snippets}/member/signup/profile/fail/birthday/request-headers.adoc[]
+include::{snippets}/member/signup/profile/fail/genderType/request-headers.adoc[]
 
 ===== Request Body
 
-include::{snippets}/member/signup/profile/fail/birthday/request-fields.adoc[]
+include::{snippets}/member/signup/profile/fail/genderType/request-fields.adoc[]
 
 ==== HTTP Response
 
-include::{snippets}/member/signup/profile/fail/birthday/http-response.adoc[]
+include::{snippets}/member/signup/profile/fail/genderType/http-response.adoc[]
 
 ===== Response Body
 
-include::{snippets}/member/signup/profile/fail/birthday/response-body.adoc[]
+include::{snippets}/member/signup/profile/fail/genderType/response-body.adoc[]
 
 ---
 
