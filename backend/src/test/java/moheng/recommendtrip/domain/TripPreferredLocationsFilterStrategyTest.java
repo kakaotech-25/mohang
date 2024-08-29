@@ -187,6 +187,5 @@ public class TripPreferredLocationsFilterStrategyTest extends ServiceTestConfig 
 
         assertThat(trips).hasSize(10);
         assertThat(liveInformations).hasSize(2);
-
     }
 }

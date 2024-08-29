@@ -35,7 +35,7 @@ public class PreferredLocationsProvider {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoExistMemberException::new);
         final List<MemberTrip> memberTrips = memberTripRepository.findByMember(member);
-        final List<RecommendTrip> recommendTrips = recommendTripRepository.findTop10ByMember(member);
+        final List<RecommendTrip> recommendTrips = recommendTripRepository.findByMemberOrderByRankDesc(member);
         return findMemberPreferredLocations(memberTrips, recommendTrips);
     }
 
