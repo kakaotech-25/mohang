@@ -4,6 +4,7 @@ import static moheng.fixture.MemberFixtures.*;
 
 import moheng.auth.domain.oauth.Authority;
 import moheng.auth.exception.InvalidInitAuthorityException;
+import moheng.auth.exception.InvalidOAuthServiceException;
 import moheng.config.slice.ControllerTestConfig;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
 import moheng.liveinformation.exception.NoExistLiveInformationException;
@@ -66,8 +67,8 @@ public class MemberControllerTest extends ControllerTestConfig {
     void 존재하지_않는_멤버의_회원_정보를_조회하려고_하면_상태코드_404를_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        doThrow(new NoExistMemberException("존재하지 않는 회원입니다."))
-                .when(memberService).findById(anyLong());
+        given(memberService.findById(anyLong()))
+                .willThrow(new NoExistMemberException("존재하지 않는 회원입니다."));
 
         // when, then
         mockMvc.perform(get("/api/member/me")
@@ -94,6 +95,9 @@ public class MemberControllerTest extends ControllerTestConfig {
         given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_신규()));
         doThrow(new InvalidNicknameFormatException("이름은 1자 이상 50이하만 허용합니다."))
                 .when(memberService).signUpByProfile(anyLong(), any());
+
+        // given(memberService.signUpByProfile(anyLong(), any()))
+        //        .willThrow(new InvalidNicknameFormatException("이름은 1자 이상 50이하만 허용합니다."));
 
         // when, then
         mockMvc.perform(post("/api/member/signup/profile")

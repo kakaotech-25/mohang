@@ -31,7 +31,7 @@ include::{snippets}/member/signup/authority/fail/response-body.adoc[]
 
 ---
 
-=== 회원가입 (by 프로필 정보) API
+=== 회원가입 by 프로필 정보 API
 
 ==== HTTP Request
 
@@ -49,6 +49,28 @@ include::{snippets}/member/signup/profile/request-fields.adoc[]
 ==== HTTP Response
 
 include::{snippets}/member/signup/profile/http-response.adoc[]
+
+=== 회원가입 by 프로필 정보 API 실패 (존재하지 않는 유저)
+
+==== HTTP Request
+
+include::{snippets}/member/signup/profile/fail/noExistMember/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/member/signup/profile/fail/noExistMember/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/member/signup/profile/fail/noExistMember/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/member/signup/profile/fail/noExistMember/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/member/signup/profile/fail/noExistMember/response-body.adoc[]
 
 ---
 
