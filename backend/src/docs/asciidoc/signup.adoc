@@ -72,7 +72,7 @@ include::{snippets}/member/signup/profile/fail/noExistMember/http-response.adoc[
 
 include::{snippets}/member/signup/profile/fail/noExistMember/response-body.adoc[]
 
-=== 회원가입 by 프로필 정보 API 실패 (존재하지 않는 유저)
+=== 회원가입 by 프로필 정보 API 실패 (닉네임 길이 유효범위 초과)
 
 ==== HTTP Request
 
@@ -94,9 +94,33 @@ include::{snippets}/member/signup/profile/fail/nickname/http-response.adoc[]
 
 include::{snippets}/member/signup/profile/fail/nickname/response-body.adoc[]
 
+=== 회원가입 by 프로필 정보 API 실패 (제공되지 않는 소셜 로그인 제공처인 경우)
+
+==== HTTP Request
+
+include::{snippets}/member/signup/profile/fail/invalidSocialType/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/member/signup/profile/fail/invalidSocialType/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/member/signup/profile/fail/invalidSocialType/request-fields.adoc[]
+
+==== HTTP Response
+
+===== Response Header
+
+include::{snippets}/member/signup/profile/fail/invalidSocialType/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/member/signup/profile/fail/invalidSocialType/response-body.adoc[]
+
 ---
 
-=== 닉네임 중복체크 API (사용 가능한 닉네임인 경우)
+=== 닉네임 중복체크 API
 
 ==== HTTP Request
 

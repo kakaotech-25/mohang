@@ -96,9 +96,6 @@ public class MemberControllerTest extends ControllerTestConfig {
         doThrow(new InvalidNicknameFormatException("이름은 1자 이상 50이하만 허용합니다."))
                 .when(memberService).signUpByProfile(anyLong(), any());
 
-        // given(memberService.signUpByProfile(anyLong(), any()))
-        //        .willThrow(new InvalidNicknameFormatException("이름은 1자 이상 50이하만 허용합니다."));
-
         // when, then
         mockMvc.perform(post("/api/member/signup/profile")
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
@@ -140,7 +137,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                         .content(objectMapper.writeValueAsString(유효하지_않은_닉네임_프로필_정보로_회원가입_요청()))
                 )
                 .andDo(print())
-                .andDo(document("member/signup/profile/fail/nickname",
+                .andDo(document("member/signup/profile/fail/invalidSocialType",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
