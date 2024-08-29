@@ -55,9 +55,9 @@ public class TripPreferredLocationsFilterStrategyTest extends ServiceTestConfig 
         assertTrue(() -> tripPreferredLocationsFilterStrategy.isMatch(PREFERRED_LOCATIONS));
     }
 
-    @DisplayName("선호 여행지 기반 필터링을 수행한다.")
+    @DisplayName("선호 여행지로 필터링된 여행지 리스트는 정확히 10개가 리턴된다.")
     @Test
-    void 선호_여행지_기반_필터링을_수행한다() {
+    void 선호_여행지로_필터링된_여행지_리스트는_정확히_10개가_리턴된다() {
         // given
         Member member = memberRepository.save(하온_기존());
         Trip trip1 = tripRepository.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로1"));
