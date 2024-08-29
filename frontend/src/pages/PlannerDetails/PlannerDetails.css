@@ -1,0 +1,84 @@
+.planner-details-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items to the top */
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    gap: 20px; /* Add space between the sections */
+}
+
+.planner-details-list,
+.planner-details-map {
+    background-color: #FFFFEC;
+    border-radius: 10px;
+    width: 45%;
+    padding: 0; /* Remove padding */
+    box-sizing: border-box;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 10px; /* Add some margin to the top */
+    margin-bottom: 10px; /* Add some margin to the bottom */
+    height: auto; /* Make both sections adjust to the content */
+    min-height: 500px; /* Ensure both sections have the same height */
+}
+
+.planner-details-header {
+    background-color: #C493FF;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    border-radius: 10px 10px 0 0; /* Rounded corners */
+    box-sizing: border-box; /* Include padding in width/height */
+}
+
+.planner-details-title {
+    margin: 0;
+    font-size: 24px;
+}
+
+.planner-details-period {
+    margin: 0;
+    font-size: 16px;
+}
+
+.planner-destinations-list {
+    list-style-type: none;
+    padding: 20px; /* Add padding for the list items */
+    margin: 0;
+}
+
+.planner-destination-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.hamburger-button,
+.delete-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.delete-button {
+    color: #ff0000;
+}
+
+.destination-name {
+    flex-grow: 1;
+    margin: 0 10px;
+}
+
+.planner-details-map {
+    background-color: #d3d3d3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: #333;
+}
