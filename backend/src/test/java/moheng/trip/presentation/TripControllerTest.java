@@ -65,9 +65,6 @@ public class TripControllerTest extends ControllerTestConfig {
                 .andDo(document("trip/find/interested",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        requestHeaders(
-                                headerWithName("Authorization").description("엑세스 토큰")
-                        ),
                         responseFields(
                                 fieldWithPath("findTripResponses").description("여행지 리스트"),
                                 fieldWithPath("findTripResponses[].name").description("세부 여행지 이름"),
