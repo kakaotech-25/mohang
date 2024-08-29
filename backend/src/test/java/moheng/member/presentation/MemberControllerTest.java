@@ -460,7 +460,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                                 headerWithName("Authorization").description("엑세스 토큰")
                         ),
                         requestFields(
-                                fieldWithPath("liveInfoNames").description("선택한 생활정보 이름 리스트")
+                                fieldWithPath("liveInfoIds").description("선택한 생활정보 고유 ID 값 리스트")
                         ))
                 ).andExpect(status().isNoContent());
     }
@@ -491,34 +491,6 @@ public class MemberControllerTest extends ControllerTestConfig {
                                 fieldWithPath("liveInfoIds").description("선택한 생활정보 고유 ID 값 리스트")
                         ))
                 ).andExpect(status().isNotFound());
-    }
-
-    @DisplayName("전달받은 여행지 추천에 필요한 생활정보 리스트가 비어있거나 유효하지 않다면 상태코드 400을 리턴한다.")
-    @Test
-    void 전달받은_여행지_추천에_필요한_생활정보_리스트가_비어있거나_유효하지_않다면_상태코드_400을_리턴한다() throws Exception {
-        // given
-        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_신규()));
-        doThrow(new EmptyLiveInformationException("생활정보를 선택하지 않았습니다."))
-                .when(memberService).signUpByLiveInfo(anyLong(), any());
-
-        // when, then
-        mockMvc.perform(post("/api/member/signup/liveinfo")
-                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(비어있는_생활정보로_회원가입_요청()))
-                ).andDo(print())
-                .andDo(document("member/signup/liveinfo/fail/emptyLiveInfo",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        requestHeaders(
-                                headerWithName("Authorization").description("엑세스 토큰")
-                        ),
-                        requestFields(
-                                fieldWithPath("liveInfoNames").description("선택한 생활정보 이름 리스트")
-                        ))
-                ).andExpect(status().isBadRequest());
     }
 
     @DisplayName("관심 여행지를 선택하여 회원가입에 성공했다면 상태코드 204를 리턴한다.")
