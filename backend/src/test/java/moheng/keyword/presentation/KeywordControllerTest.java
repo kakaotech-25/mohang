@@ -83,7 +83,7 @@ public class KeywordControllerTest extends ControllerTestConfig {
                         .content(objectMapper.writeValueAsString(키워드_기반_추천_여행지_요청()))
                 )
                 .andDo(print())
-                .andDo(document("keyword/travel/recommend/success",
+                .andDo(document("keyword/travel/recommend/fail/noExistKeyword",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(

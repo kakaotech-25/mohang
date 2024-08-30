@@ -27,6 +27,29 @@ include::{snippets}/keyword/travel/recommend/success/http-response.adoc[]
 
 include::{snippets}/keyword/travel/recommend/success/response-fields.adoc[]
 
+=== 키워드 기반 여행지 추천 (메인페이지) API 실패 (존재하지 않는 일부 키워드로 요청한 경우)
+
+==== HTTP Request
+
+include::{snippets}/keyword/travel/recommend/fail/noExistKeyword/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/keyword/travel/recommend/fail/noExistKeyword/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/keyword/travel/recommend/fail/noExistKeyword/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/keyword/travel/recommend/fail/noExistKeyword/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/keyword/travel/recommend/fail/noExistKeyword/response-body.adoc[]
+
+
 === 비회원에게 추천하는 무작위 랜덤 키워드 기반 여행지 리스트 조회 (로그인 전) API
 
 ==== HTTP Request
