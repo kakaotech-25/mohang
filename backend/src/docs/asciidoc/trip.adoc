@@ -99,6 +99,10 @@ include::{snippets}/trip/recommend/ai/fail/lackOfPreferredTrip/response-body.ado
 
 include::{snippets}/trip/find/current/http-request.adoc[]
 
+===== Request Path Variable
+
+include::{snippets}/trip/find/current/path-parameters.adoc[]
+
 ===== Request Header
 
 include::{snippets}/trip/find/current/request-headers.adoc[]
@@ -122,6 +126,10 @@ include::{snippets}/trip/find/current/response-fields.adoc[]
 
 include::{snippets}/trip/find/current/fail/noExistRecommendTrip/http-request.adoc[]
 
+===== Request Path Variable
+
+include::{snippets}/trip/find/current/fail/noExistRecommendTrip/path-parameters.adoc[]
+
 ===== Request Header
 
 include::{snippets}/trip/find/current/fail/noExistRecommendTrip/request-headers.adoc[]
@@ -144,6 +152,10 @@ include::{snippets}/trip/find/current/fail/request-body.adoc[]
 
 include::{snippets}/trip/find/current/fail/aiServer/http-request.adoc[]
 
+===== Request Path Variable
+
+include::{snippets}/trip/find/current/fail/aiServer/path-parameters.adoc[]
+
 ===== Request Header
 
 include::{snippets}/trip/find/current/fail/aiServer/request-headers.adoc[]
@@ -154,6 +166,10 @@ include::{snippets}/trip/find/current/fail/aiServer/request-headers.adoc[]
 ==== HTTP Request
 
 include::{snippets}/trip/find/current/fail/noExistRecommendTrip/http-request.adoc[]
+
+===== Request Path Variable
+
+include::{snippets}/trip/find/current/fail/noExistRecommendTrip/path-parameters.adoc[]
 
 ===== Request Header
 
@@ -176,6 +192,10 @@ include::{snippets}/trip/find/current/fail/noExistRecommendTrip/response-body.ad
 ==== HTTP Request
 
 include::{snippets}/trip/find/current/fail/noExistRecommendTripStrategy/http-request.adoc[]
+
+===== Request Path Variable
+
+include::{snippets}/trip/find/current/fail/noExistRecommendTripStrategy/path-parameters.adoc[]
 
 ===== Request Header
 

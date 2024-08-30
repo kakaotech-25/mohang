@@ -32,6 +32,7 @@ import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 
 import java.util.List;
 import java.util.Optional;
@@ -89,7 +90,7 @@ public class TripControllerTest extends ControllerTestConfig {
                 .willReturn(여행지_조회_응답());
 
         // when, then
-        mockMvc.perform(get("/api/trip/find/{tripId}", 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/trip/find/{tripId}", 1L)
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -131,7 +132,7 @@ public class TripControllerTest extends ControllerTestConfig {
                 .when(tripService).findWithSimilarOtherTrips(anyLong(), anyLong());
 
         // when, then
-        mockMvc.perform(get("/api/trip/find/{tripId}", 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/trip/find/{tripId}", 1L)
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -158,7 +159,7 @@ public class TripControllerTest extends ControllerTestConfig {
                 .when(tripService).findWithSimilarOtherTrips(anyLong(), anyLong());
 
         // when, then
-        mockMvc.perform(get("/api/trip/find/{tripId}", 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/trip/find/{tripId}", 1L)
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -185,7 +186,7 @@ public class TripControllerTest extends ControllerTestConfig {
                 .when(tripService).findWithSimilarOtherTrips(anyLong(), anyLong());
 
         // when, then
-        mockMvc.perform(get("/api/trip/find/{tripId}", 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/trip/find/{tripId}", 1L)
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -212,7 +213,7 @@ public class TripControllerTest extends ControllerTestConfig {
                 .when(tripService).findWithSimilarOtherTrips(anyLong(), anyLong());
 
         // when, then
-        mockMvc.perform(get("/api/trip/find/{tripId}", 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/trip/find/{tripId}", 1L)
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
