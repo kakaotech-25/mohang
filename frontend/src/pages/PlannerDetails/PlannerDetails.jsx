@@ -41,9 +41,13 @@ const PlannerDetails = () => {
                         className="planner-destination-item"
                         ref={provided.innerRef}
                         {...provided.draggableProps}
-                        {...provided.dragHandleProps}
                       >
-                        <button className="hamburger-button" {...provided.dragHandleProps}>☰</button>
+                        <span
+                          className="hamburger-button"
+                          {...provided.dragHandleProps}  // 햄버거 버튼에만 드래그앤드롭
+                        >
+                          ☰
+                        </span>
                         <span className="destination-name">{destination}</span>
                         <button className="delete-button">삭제</button>
                       </li>
