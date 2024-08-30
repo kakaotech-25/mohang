@@ -29,6 +29,22 @@ const PlannerDetails = () => {
           level: 3,
         };
         const map = new window.kakao.maps.Map(container, options);
+
+        // 각 여행지에 마커 추가
+        destinations.forEach(destination => {
+          const markerPosition = new window.kakao.maps.LatLng(destination.y, destination.x);
+          const marker = new window.kakao.maps.Marker({
+            position: markerPosition,
+            map: map,
+          });
+        });
+
+        // 지도의 중심을 마지막 마커 위치로 설정
+        if (destinations.length > 0) {
+          const lastDestination = destinations[destinations.length - 1];
+          const centerPosition = new window.kakao.maps.LatLng(lastDestination.y, lastDestination.x);
+          map.setCenter(centerPosition);
+        }
       });
     };
 
