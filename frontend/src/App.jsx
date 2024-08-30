@@ -9,7 +9,7 @@ import LivingInfo from './pages/LivingInfo/LivingInfo.jsx'
 import InterestedPlace from './pages/InterestedPlace/InterestedPlace.jsx'
 import Mypage from './pages/Mypage/Mypage.jsx'
 import Planner from './pages/Planner/Planner.jsx'
-import PlannerList from './pages/PlannerList/PlannerList.jsx'
+import PlannerDetails from './pages/PlannerDetails/PlannerDetails.jsx'
 import TravelDetails from './pages/TravelDetails/TravelDetails.jsx'
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/traveldetails/:id" element={<TravelDetails />} />
         <Route path="/planner" element={<Planner />} />
-        <Route path="/plannerlist" element={<PlannerList />} />
+        <Route path="/plannerdetails/:id" element={<PlannerDetails />} />
       </Routes>
       <Footer />
     </>

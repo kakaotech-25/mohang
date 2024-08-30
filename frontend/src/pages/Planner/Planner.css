@@ -81,11 +81,13 @@
   align-items: center;
   border-bottom: 1px solid #ccc;
   padding: 15px 0;
+  cursor: pointer;
 }
 
 .planner-info {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
 }
 
 .planner-title-text {
@@ -96,19 +98,20 @@
 .planner-period {
   font-size: 18px;
   color: #666;
-  text-align: right;
-  flex-grow: 1;
-  margin-left: 20px;
+  margin-left: auto;
+  margin-right: 20px;
+  white-space: nowrap;
 }
 
 .planner-actions {
+  display: flex;
+  align-items: center;
   position: relative;
 }
 
 .seemore-icon {
   height: 24px;
   cursor: pointer;
-  margin-left: 20px;
 }
 
 .dropdown-menu {
@@ -138,4 +141,17 @@
 
 .dropdown-menu button:hover {
   background-color: #f0f0f0;
+}
+
+.planner-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.planner-link:hover,
+.planner-link:focus,
+.planner-link:active {
+  text-decoration: none;
+  color: inherit;
 }
