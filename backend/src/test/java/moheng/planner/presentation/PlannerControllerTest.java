@@ -128,7 +128,7 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andDo(document("planner/find/name",
+                .andDo(document("planner/find/date",
                         preprocessRequest(),
                         preprocessResponse(),
                         requestHeaders(
