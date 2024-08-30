@@ -1,4 +1,4 @@
-== ⛳️ Keyword (키워드) - 키워드 기반 여행지 추천 API
+== ⛳️ Keyword (키워드) - 키워드 기반 여행지 추천 API, 비회원에게 추천하는 무작위 랜덤 키워드 기반 여행지 리스트 API 등
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
