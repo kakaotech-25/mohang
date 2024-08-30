@@ -70,3 +70,25 @@ include::{snippets}/planner/schedule/create/fail/invalidName/http-response.adoc[
 ===== Response Body
 
 include::{snippets}/planner/schedule/create/fail/invalidName/response-body.adoc[]
+
+=== 여행 일정 생성 API 실패 (시작날짜보다 종료날짜가 늦는 경우)
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/create/fail/invalidDate/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/create/fail/invalidDate/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/create/fail/invalidDate/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/create/fail/invalidDate/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/create/fail/invalidDate/response-body.adoc[]
