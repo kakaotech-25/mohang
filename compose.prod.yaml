@@ -6,7 +6,11 @@ services:
       - moheng-network
     ports:
       - "80:80"
-    restart: always
+      - "443:443"
+    restart: unless-stopped
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
 
   backend:
     container_name: back
@@ -15,7 +19,7 @@ services:
       - moheng-network
     expose:
       - "8080"
-    restart: always
+    restart: unless-stopped
     environment:
       - LOGGING_LEVEL_ROOT=ERROR
 
@@ -26,7 +30,7 @@ services:
       - moheng-network
     expose:
       - "8000"
-    restart: always
+    restart: unless-stopped
 
 networks:
   moheng-network:

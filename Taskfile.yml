@@ -34,3 +34,7 @@ tasks:
   clean:
     desc: 컨테이너 삭제, 네트워크 삭제, 볼륨 삭제, 이미지 삭제, 빌드 캐시 삭제
     cmd: docker system prune -a
+
+  initssl:
+    desc: SSL 인증서 생성
+    cmd: sh -c ./nginx/ssl/init_tls.sh

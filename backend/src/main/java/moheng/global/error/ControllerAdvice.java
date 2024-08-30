@@ -103,6 +103,7 @@ public class ControllerAdvice {
             NoExistTripScheduleException.class,
             NoExistTripScheduleRegistryException.class,
             NoExistMemberTripException.class,
+
     })
     public ResponseEntity<ExceptionResponse> handleNotFoundResourceException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
