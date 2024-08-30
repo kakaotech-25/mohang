@@ -93,6 +93,8 @@ public class TripControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(document("trip/find/current",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         ),
@@ -103,7 +105,6 @@ public class TripControllerTest extends ControllerTestConfig {
                                 fieldWithPath("findTripResponse.tripImageUrl").description("선택한 여행지의 이미지 URL"),
                                 fieldWithPath("findTripResponse.description").description("선택한 여행지에 대한 설명"),
                                 fieldWithPath("findTripResponse.keywords[]").description("선택한 여행지와 관련된 키워드 목록"),
-
                                 fieldWithPath("similarTripResponses.findTripResponses[].name").description("유사한 여행지의 이름"),
                                 fieldWithPath("similarTripResponses.findTripResponses[].placeName").description("유사한 여행지의 장소명"),
                                 fieldWithPath("similarTripResponses.findTripResponses[].contentId").description("유사한 여행지의 컨텐츠 ID"),
