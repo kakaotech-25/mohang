@@ -177,3 +177,25 @@ include::{snippets}/planner/schedule/delete/success/http-response.adoc[]
 ===== Response Body
 
 include::{snippets}/planner/schedule/delete/success/response-body.adoc[]
+
+=== 플래너 내의 여행 일정 삭제 API 실패 (존재하지 않는 여행 일정을 삭제하려는 경우)
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/delete/fail/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/delete/fail/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/delete/fail/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/delete/fail/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/delete/fail/response-body.adoc[]
