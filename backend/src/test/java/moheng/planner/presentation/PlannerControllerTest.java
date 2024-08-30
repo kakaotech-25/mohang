@@ -10,6 +10,8 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.headerWit
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,6 +32,7 @@ import moheng.planner.exception.NoExistTripScheduleException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -264,7 +267,7 @@ public class PlannerControllerTest extends ControllerTestConfig {
         doNothing().when(plannerService).removeTripSchedule(anyLong());
 
         // when, then
-        mockMvc.perform(delete("/api/planner/schedule/{scheduleId}", 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.delete("/api/planner/schedule/{scheduleId}", 1L)
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -272,6 +275,9 @@ public class PlannerControllerTest extends ControllerTestConfig {
                 .andDo(document("planner/schedule/delete/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("scheduleId").description("여행 일정 고유 ID 값")
+                        ),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         )
@@ -288,7 +294,7 @@ public class PlannerControllerTest extends ControllerTestConfig {
                 .when(plannerService).removeTripSchedule(anyLong());
 
         // when, then
-        mockMvc.perform(delete("/api/planner/schedule/{scheduleId}", 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.delete("/api/planner/schedule/{scheduleId}", 1L)
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -296,6 +302,9 @@ public class PlannerControllerTest extends ControllerTestConfig {
                 .andDo(document("planner/schedule/delete/fail",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("scheduleId").description("여행 일정 고유 ID 값")
+                        ),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         )

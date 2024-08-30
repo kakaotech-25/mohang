@@ -162,6 +162,10 @@ include::{snippets}/planner/schedule/update/fail/noExistTripSchedule/response-bo
 
 include::{snippets}/planner/schedule/delete/success/http-request.adoc[]
 
+==== Request Path Variable
+
+include::{snippets}/planner/schedule/delete/success/path-parameters.adoc[]
+
 ===== Request Header
 
 include::{snippets}/planner/schedule/delete/success/request-headers.adoc[]
@@ -183,6 +187,10 @@ include::{snippets}/planner/schedule/delete/success/response-body.adoc[]
 ==== HTTP Request
 
 include::{snippets}/planner/schedule/delete/fail/http-request.adoc[]
+
+==== Request Path Variable
+
+include::{snippets}/planner/schedule/delete/fail/path-parameters.adoc[]
 
 ===== Request Header
 

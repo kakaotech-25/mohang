@@ -468,12 +468,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_회원가입_by_프로필_정보_api_실패_성별이_올바르지_않은_경우">회원가입 by 프로필 정보 API 실패 (성별이 올바르지 않은 경우)</a></li>
 <li><a href="#_닉네임_중복체크_api">닉네임 중복체크 API</a></li>
 <li><a href="#_닉네임_중복체크_api_사용_불가능한_닉네임인_경우">닉네임 중복체크 API (사용 불가능한 닉네임인 경우)</a></li>
-<li><a href="#_회원가입_by_생활정보_입력_api_성공한_경우">회원가입 by 생활정보 입력 API (성공한 경우)</a></li>
-<li><a href="#_회원가입_by_생활정보_입력_api_실패한_경우">회원가입 by 생활정보 입력 API (실패한 경우)</a></li>
+<li><a href="#_회원가입_by_생활정보_입력_api">회원가입 by 생활정보 입력 API</a></li>
+<li><a href="#_회원가입_by_생활정보_입력_api_실패_존재하지_않는_생활정보_입력한_경우">회원가입 by 생활정보 입력 API 실패 (존재하지 않는 생활정보 입력한 경우)</a></li>
 <li><a href="#_생활정보_리스트_조회_api_생활정보_선택시_활용하는_api">생활정보 리스트 조회 API : 생활정보 선택시 활용하는 API</a></li>
-<li><a href="#_http_response_18">HTTP Response</a></li>
-<li><a href="#_회원가입_by_관심_여행지_입력_api_성공한_경우">회원가입 by 관심 여행지 입력 API (성공한 경우)</a></li>
-<li><a href="#_회원가입_by_관심_여행지_입력_api_실패한_경우">회원가입 by 관심 여행지 입력 API (실패한 경우)</a></li>
+<li><a href="#_회원가입_by_관심_여행지_입력_api">회원가입 by 관심 여행지 입력 API</a></li>
+<li><a href="#_회원가입_by_관심_여행지_입력_api_관심_여행지_입력_개수가_유효범위에_들어맞지_않은_경우">회원가입 by 관심 여행지 입력 API (관심 여행지 입력 개수가 유효범위에 들어맞지 않은 경우)</a></li>
 <li><a href="#_선택할_선호_여행지_리스트_조회_api_상위_30개의_여행지들을_방문_수_기준으로_조회">선택할 선호 여행지 리스트 조회 API : 상위 30개의 여행지들을 방문 수 기준으로 조회</a></li>
 <li><a href="#_선택할_선호_여행지_리스트_조회_api_실패_선호_여행지를_5개_이상_10개_이하_범위로_선택하지_않은_경우">선택할 선호 여행지 리스트 조회 API 실패 (선호 여행지를 5개 이상, 10개 이하 범위로 선택하지 않은 경우)</a></li>
 </ul>
@@ -696,7 +695,7 @@ Host: localhost:8080
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: refresh-token=refresh-token; Path=/; Max-Age=604800; Expires=Fri, 6 Sep 2024 06:12:11 GMT; Secure; HttpOnly; SameSite=None
+Set-Cookie: refresh-token=refresh-token; Path=/; Max-Age=604800; Expires=Fri, 6 Sep 2024 06:48:56 GMT; Secure; HttpOnly; SameSite=None
 Content-Type: application/json
 Content-Length: 36
 
@@ -2016,7 +2015,7 @@ Content-Length: 62
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원가입_by_생활정보_입력_api_성공한_경우">회원가입 by 생활정보 입력 API (성공한 경우)</h3>
+<h3 id="_회원가입_by_생활정보_입력_api">회원가입 by 생활정보 입력 API</h3>
 <div class="sect3">
 <h4 id="_http_request_16">HTTP Request</h4>
 <div class="listingblock">
@@ -2097,7 +2096,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원가입_by_생활정보_입력_api_실패한_경우">회원가입 by 생활정보 입력 API (실패한 경우)</h3>
+<h3 id="_회원가입_by_생활정보_입력_api_실패_존재하지_않는_생활정보_입력한_경우">회원가입 by 생활정보 입력 API 실패 (존재하지 않는 생활정보 입력한 경우)</h3>
 <div class="sect3">
 <h4 id="_http_request_17">HTTP Request</h4>
 <div class="listingblock">
@@ -2106,11 +2105,11 @@ Vary: Access-Control-Request-Headers</code></pre>
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer aaaaaa.bbbbbb.cccccc
 Accept: application/json
-Content-Length: 27
+Content-Length: 30
 Host: localhost:8080
 
 {
-  "liveInfoNames" : [ ]
+  "liveInfoIds" : [ 1, 2 ]
 }</code></pre>
 </div>
 </div>
@@ -2122,11 +2121,11 @@ Host: localhost:8080
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer aaaaaa.bbbbbb.cccccc
 Accept: application/json
-Content-Length: 27
+Content-Length: 30
 Host: localhost:8080
 
 {
-  "liveInfoNames" : [ ]
+  "liveInfoIds" : [ 1, 2 ]
 }</code></pre>
 </div>
 </div>
@@ -2149,9 +2148,9 @@ Host: localhost:8080
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>liveInfoNames</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>liveInfoIds</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">선택한 생활정보 이름 리스트</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">선택한 생활정보 고유 ID 값 리스트</p></td>
 </tr>
 </tbody>
 </table>
@@ -2160,15 +2159,15 @@ Host: localhost:8080
 <h4 id="_http_response_17">HTTP Response</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 65
+Content-Length: 62
 
 {
-  "message" : "생활정보를 선택하지 않았습니다."
+  "message" : "존재하지 않는 생활정보입니다."
 }</code></pre>
 </div>
 </div>
@@ -2177,7 +2176,7 @@ Content-Length: 65
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
-  "message" : "생활정보를 선택하지 않았습니다."
+  "message" : "존재하지 않는 생활정보입니다."
 }</code></pre>
 </div>
 </div>
@@ -2206,9 +2205,8 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_http_response_18">HTTP Response</h3>
+<div class="sect3">
+<h4 id="_http_response_18">HTTP Response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2232,8 +2230,8 @@ Content-Length: 187
 }</code></pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_response_body_14">Response Body</h4>
+<div class="sect4">
+<h5 id="_response_body_14">Response Body</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -2268,8 +2266,9 @@ Content-Length: 187
 <hr>
 </div>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_회원가입_by_관심_여행지_입력_api_성공한_경우">회원가입 by 관심 여행지 입력 API (성공한 경우)</h3>
+<h3 id="_회원가입_by_관심_여행지_입력_api">회원가입 by 관심 여행지 입력 API</h3>
 <div class="sect3">
 <h4 id="_http_request_19">HTTP Request</h4>
 <div class="listingblock">
@@ -2354,7 +2353,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원가입_by_관심_여행지_입력_api_실패한_경우">회원가입 by 관심 여행지 입력 API (실패한 경우)</h3>
+<h3 id="_회원가입_by_관심_여행지_입력_api_관심_여행지_입력_개수가_유효범위에_들어맞지_않은_경우">회원가입 by 관심 여행지 입력 API (관심 여행지 입력 개수가 유효범위에 들어맞지 않은 경우)</h3>
 <div class="sect3">
 <h4 id="_http_request_20">HTTP Request</h4>
 <div class="listingblock">
@@ -3850,6 +3849,28 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect4">
+<h5 id="_request_path_variable">Request Path Variable</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. /api/trip/find/{tripId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tripId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행지 고유 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
 <h5 id="_request_header_25">Request Header</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -4014,6 +4035,28 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect4">
+<h5 id="_request_path_variable_2">Request Path Variable</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. /api/trip/find/{tripId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tripId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행지 고유 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
 <h5 id="_request_header_26">Request Header</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -4107,6 +4150,28 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect4">
+<h5 id="_request_path_variable_3">Request Path Variable</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. /api/trip/find/{tripId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tripId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행지 고유 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
 <h5 id="_request_header_27">Request Header</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -4141,6 +4206,28 @@ Authorization: Bearer aaaaaa.bbbbbb.cccccc
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
+</div>
+<div class="sect4">
+<h5 id="_request_path_variable_4">Request Path Variable</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 7. /api/trip/find/{tripId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tripId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행지 고유 ID</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect4">
 <h5 id="_request_header_28">Request Header</h5>
@@ -4212,6 +4299,28 @@ Authorization: Bearer aaaaaa.bbbbbb.cccccc
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
+</div>
+<div class="sect4">
+<h5 id="_request_path_variable_5">Request Path Variable</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 8. /api/trip/find/{tripId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tripId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행지 고유 ID</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect4">
 <h5 id="_request_header_29">Request Header</h5>
@@ -4788,9 +4897,31 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 432
+Content-Length: 567
 
-{"tripScheduleResponses":[{"scheduleId":null,"scheduleName":"제주도 여행","startTime":"2020-03-10","endTime":"2030-01-10"},{"scheduleId":null,"scheduleName":"카카오 여행","startTime":"2024-02-15","endTime":"2030-01-10"},{"scheduleId":null,"scheduleName":"네이버 여행","startTime":"2022-01-08","endTime":"2030-01-10"},{"scheduleId":null,"scheduleName":"우주 여행","startTime":"2023-01-01","endTime":"2030-01-10"}]}</code></pre>
+{
+  "tripScheduleResponses" : [ {
+    "scheduleId" : null,
+    "scheduleName" : "제주도 여행",
+    "startTime" : "2020-03-10",
+    "endTime" : "2030-01-10"
+  }, {
+    "scheduleId" : null,
+    "scheduleName" : "카카오 여행",
+    "startTime" : "2024-02-15",
+    "endTime" : "2030-01-10"
+  }, {
+    "scheduleId" : null,
+    "scheduleName" : "네이버 여행",
+    "startTime" : "2022-01-08",
+    "endTime" : "2030-01-10"
+  }, {
+    "scheduleId" : null,
+    "scheduleName" : "우주 여행",
+    "startTime" : "2023-01-01",
+    "endTime" : "2030-01-10"
+  } ]
+}</code></pre>
 </div>
 </div>
 <div class="sect4">
@@ -4891,9 +5022,31 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 411
+Content-Length: 546
 
-{"tripScheduleResponses":[{"scheduleId":null,"scheduleName":"가 여행","startTime":"2024-03-10","endTime":"2030-01-10"},{"scheduleId":null,"scheduleName":"나 여행","startTime":"2023-02-15","endTime":"2030-01-10"},{"scheduleId":null,"scheduleName":"다 여행","startTime":"2022-01-08","endTime":"2030-01-10"},{"scheduleId":null,"scheduleName":"라 여행","startTime":"2021-01-01","endTime":"2030-01-10"}]}</code></pre>
+{
+  "tripScheduleResponses" : [ {
+    "scheduleId" : null,
+    "scheduleName" : "가 여행",
+    "startTime" : "2024-03-10",
+    "endTime" : "2030-01-10"
+  }, {
+    "scheduleId" : null,
+    "scheduleName" : "나 여행",
+    "startTime" : "2023-02-15",
+    "endTime" : "2030-01-10"
+  }, {
+    "scheduleId" : null,
+    "scheduleName" : "다 여행",
+    "startTime" : "2022-01-08",
+    "endTime" : "2030-01-10"
+  }, {
+    "scheduleId" : null,
+    "scheduleName" : "라 여행",
+    "startTime" : "2021-01-01",
+    "endTime" : "2030-01-10"
+  } ]
+}</code></pre>
 </div>
 </div>
 <div class="sect4">
@@ -4994,9 +5147,31 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 432
+Content-Length: 567
 
-{"tripScheduleResponses":[{"scheduleId":null,"scheduleName":"제주도 여행","startTime":"2024-03-10","endTime":"2030-01-10"},{"scheduleId":null,"scheduleName":"카카오 여행","startTime":"2023-02-15","endTime":"2030-01-10"},{"scheduleId":null,"scheduleName":"네이버 여행","startTime":"2022-01-08","endTime":"2030-01-10"},{"scheduleId":null,"scheduleName":"우주 여행","startTime":"2021-01-01","endTime":"2030-01-10"}]}</code></pre>
+{
+  "tripScheduleResponses" : [ {
+    "scheduleId" : null,
+    "scheduleName" : "제주도 여행",
+    "startTime" : "2024-03-10",
+    "endTime" : "2030-01-10"
+  }, {
+    "scheduleId" : null,
+    "scheduleName" : "카카오 여행",
+    "startTime" : "2023-02-15",
+    "endTime" : "2030-01-10"
+  }, {
+    "scheduleId" : null,
+    "scheduleName" : "네이버 여행",
+    "startTime" : "2022-01-08",
+    "endTime" : "2030-01-10"
+  }, {
+    "scheduleId" : null,
+    "scheduleName" : "우주 여행",
+    "startTime" : "2021-01-01",
+    "endTime" : "2030-01-10"
+  } ]
+}</code></pre>
 </div>
 </div>
 <div class="sect4">
@@ -5097,16 +5272,20 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 50
+Content-Length: 56
 
-{"message":"존재하지 않는 회원입니다."}</code></pre>
+{
+  "message" : "존재하지 않는 회원입니다."
+}</code></pre>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_response_body_41">Response Body</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{"message":"존재하지 않는 회원입니다."}</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
+  "message" : "존재하지 않는 회원입니다."
+}</code></pre>
 </div>
 </div>
 </div>
@@ -5122,10 +5301,15 @@ Content-Length: 50
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer aaaaaa.bbbbbb.cccccc
 Accept: application/json
-Content-Length: 108
+Content-Length: 129
 Host: localhost:8080
 
-{"scheduleId":1,"scheduleName":"수정된 제주도 여행","startDate":"2020-01-01","endDate":"2020-01-10"}</code></pre>
+{
+  "scheduleId" : 1,
+  "scheduleName" : "수정된 제주도 여행",
+  "startDate" : "2020-01-01",
+  "endDate" : "2020-01-10"
+}</code></pre>
 </div>
 </div>
 <div class="sect4">
@@ -5219,10 +5403,15 @@ Vary: Access-Control-Request-Headers</code></pre>
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer aaaaaa.bbbbbb.cccccc
 Accept: application/json
-Content-Length: 108
+Content-Length: 129
 Host: localhost:8080
 
-{"scheduleId":1,"scheduleName":"수정된 제주도 여행","startDate":"2020-01-01","endDate":"2020-01-10"}</code></pre>
+{
+  "scheduleId" : 1,
+  "scheduleName" : "수정된 제주도 여행",
+  "startDate" : "2020-01-01",
+  "endDate" : "2020-01-10"
+}</code></pre>
 </div>
 </div>
 <div class="sect4">
@@ -5295,16 +5484,20 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 74
+Content-Length: 80
 
-{"message":"동일한 이름의 여행 일정이 이미 존재합니다."}</code></pre>
+{
+  "message" : "동일한 이름의 여행 일정이 이미 존재합니다."
+}</code></pre>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_response_body_43">Response Body</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{"message":"동일한 이름의 여행 일정이 이미 존재합니다."}</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
+  "message" : "동일한 이름의 여행 일정이 이미 존재합니다."
+}</code></pre>
 </div>
 </div>
 </div>
@@ -5320,10 +5513,15 @@ Content-Length: 74
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer aaaaaa.bbbbbb.cccccc
 Accept: application/json
-Content-Length: 108
+Content-Length: 129
 Host: localhost:8080
 
-{"scheduleId":1,"scheduleName":"수정된 제주도 여행","startDate":"2020-01-01","endDate":"2020-01-10"}</code></pre>
+{
+  "scheduleId" : 1,
+  "scheduleName" : "수정된 제주도 여행",
+  "startDate" : "2020-01-01",
+  "endDate" : "2020-01-10"
+}</code></pre>
 </div>
 </div>
 <div class="sect4">
@@ -5393,7 +5591,9 @@ Host: localhost:8080
 <h5 id="_response_body_44">Response Body</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{"message":"존재하지 않는 여행 일정입니다."}</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
+  "message" : "존재하지 않는 여행 일정입니다."
+}</code></pre>
 </div>
 </div>
 </div>
@@ -5514,16 +5714,20 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 57
+Content-Length: 63
 
-{"message":"존재하지 않는 여행 일정입니다."}</code></pre>
+{
+  "message" : "존재하지 않는 여행 일정입니다."
+}</code></pre>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_response_body_46">Response Body</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{"message":"존재하지 않는 여행 일정입니다."}</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
+  "message" : "존재하지 않는 여행 일정입니다."
+}</code></pre>
 </div>
 </div>
 </div>
@@ -6350,16 +6554,20 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 57
+Content-Length: 63
 
-{"message":"존재하지 않는 여행 일정입니다."}</code></pre>
+{
+  "message" : "존재하지 않는 여행 일정입니다."
+}</code></pre>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_response_body_55">Response Body</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{"message":"존재하지 않는 여행 일정입니다."}</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
+  "message" : "존재하지 않는 여행 일정입니다."
+}</code></pre>
 </div>
 </div>
 </div>
@@ -6375,10 +6583,12 @@ Content-Length: 57
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer aaaaaa.bbbbbb.cccccc
 Accept: application/json
-Content-Length: 19
+Content-Length: 29
 Host: localhost:8080
 
-{"tripIds":[1,2,3]}</code></pre>
+{
+  "tripIds" : [ 1, 2, 3 ]
+}</code></pre>
 </div>
 </div>
 <div class="sect4">
@@ -6457,10 +6667,12 @@ Vary: Access-Control-Request-Headers</code></pre>
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer aaaaaa.bbbbbb.cccccc
 Accept: application/json
-Content-Length: 19
+Content-Length: 29
 Host: localhost:8080
 
-{"tripIds":[1,2,3]}</code></pre>
+{
+  "tripIds" : [ 1, 2, 3 ]
+}</code></pre>
 </div>
 </div>
 <div class="sect4">
@@ -6518,16 +6730,20 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 57
+Content-Length: 63
 
-{"message":"존재하지 않는 여행 일정입니다."}</code></pre>
+{
+  "message" : "존재하지 않는 여행 일정입니다."
+}</code></pre>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_response_body_57">Response Body</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{"message":"존재하지 않는 여행 일정입니다."}</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
+  "message" : "존재하지 않는 여행 일정입니다."
+}</code></pre>
 </div>
 </div>
 </div>
