@@ -67,6 +67,34 @@ public class KeywordControllerTest extends ControllerTestConfig {
                 )).andExpect(status().isOk());
     }
 
+    @DisplayName("키워드 기반 추천 여행지를 받을때 일부 존재하지 않는 키워드가 존재하는 경우 상태코드 404를 리턴한다.")
+    @Test
+    void 키워드_기반_추천_여행지를_받을때_일부_존재하지_않는_키워드가_존재하는_경우_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistKeywordException("일부 키워드가 존재하지 않습니다."))
+                .when(keywordService).findRecommendTripsByKeywords(any());
+
+        // when, then
+        mockMvc.perform(post("/api/keyword/trip/recommend")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(키워드_기반_추천_여행지_요청()))
+                )
+                .andDo(print())
+                .andDo(document("keyword/travel/recommend/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("keywordIds").description("키워드 ID 리스트")
+                        )
+                )).andExpect(status().isNotFound());
+    }
+
     @DisplayName("키워드를 생성하고 상태코드 200을 리턴한다.")
     @Test
     void 키워드를_생성하고_상태코드_200을_리턴한다() throws Exception {
