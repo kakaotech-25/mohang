@@ -26,3 +26,24 @@ include::{snippets}/planner/find/recent/http-response.adoc[]
 
 include::{snippets}/planner/find/recent/response-fields.adoc[]
 
+=== 플래너 조회 (이름순) API
+
+==== HTTP Request
+
+include::{snippets}/planner/find/name/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/find/name/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/find/name/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/find/name/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/find/name/response-fields.adoc[]
