@@ -7,7 +7,25 @@
 
 === AI 맞춤 추천 여행지 (메인페이지) API
 
+==== HTTP Request
+
 include::{snippets}/trip/recommend/ai/success/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/trip/recommend/ai/success/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/trip/recommend/ai/success/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/trip/recommend/ai/success/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/trip/recommend/ai/success/response-fields.adoc[]
 
 === 상세 여행지 조회 with. 비슷한 여행지 API
 
