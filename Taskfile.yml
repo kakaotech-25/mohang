@@ -38,3 +38,7 @@ tasks:
   initssl:
     desc: SSL 인증서 생성
     cmd: sh -c ./nginx/ssl/init_tls.sh
+
+  deploy:
+    desc: 애플리케이션 배포
+    cmd: sh -c ./deploy.sh
