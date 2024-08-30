@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import TravelData from '../../data/TravelData';
 import plannerIcon from '../../assets/plannericon.png';
 import TravelCarousel from '../../components/TravelCarousel/TravelCarousel';
+import PlannerData from '../../data/PlannerData';
 
 const TravelDetails = () => {
   const { id } = useParams();
@@ -57,11 +58,25 @@ const TravelDetails = () => {
       </div>
 
       {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h2>여행 일정</h2>
-            <p>----리스트 공간----</p>
-            <button onClick={closeModal}>Save</button>
+        <div className="td-modal-overlay">
+          <div className="td-modal-content">
+            <div className="td-modal-header">
+              <h2>여행 일정</h2>
+            </div>
+            <div className="td-modal-body">
+              <ul className="td-planner-list">
+                {PlannerData.map((item) => (
+                  <li key={item.id} className="td-planner-list-item">
+                    <span className="td-planner-title">{item.title}</span>
+                    <input type="checkbox" className="td-planner-checkbox" />
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="td-modal-footer">
+              <button className="td-modal-save-button">저장</button>
+              <button onClick={closeModal} className="td-modal-cancel-button">취소</button>
+            </div>
           </div>
         </div>
       )}
