@@ -11,6 +11,7 @@ import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.domain.MemberLiveInformation;
 import moheng.liveinformation.dto.LiveInfoResponse;
 import moheng.liveinformation.dto.UpdateMemberLiveInformationRequest;
+import moheng.liveinformation.exception.NoExistLiveInformationException;
 import moheng.member.application.MemberService;
 import moheng.member.domain.Member;
 import moheng.member.exception.NoExistMemberException;
@@ -123,5 +124,18 @@ public class MemberLiveInformationServiceTest extends ServiceTestConfig {
 
         // then
          assertThat(memberLiveInformationService.findMemberLiveInfoIds(member.getId())).hasSize(3);
+    }
+
+    @DisplayName("업데이트 하려는 멤버 생활정보중에 일부 생활정보가 존재하지 않을 경우 예외가 발생한다.")
+    @Test
+    void 업데이트_하려는_멤버_생활정보중에_일부_생활정보가_존재하지_않을_경우_예외가_발생한다() {
+        // given
+        memberService.save(하온_기존());
+        Member member = memberService.findByEmail(하온_이메일);
+
+        // when, then
+        UpdateMemberLiveInformationRequest request = new UpdateMemberLiveInformationRequest(List.of(-1L, -2L, -3L));
+        assertThatThrownBy(() -> memberLiveInformationService.updateMemberLiveInformation(member.getId(), request))
+                .isInstanceOf(NoExistLiveInformationException.class);
     }
 }
