@@ -30,21 +30,23 @@ const PlannerDetails = () => {
         };
         const map = new window.kakao.maps.Map(container, options);
 
-        // 각 여행지에 마커 추가
+        // LatLngBounds 객체 생성
+        const bounds = new window.kakao.maps.LatLngBounds();
+
+        // 각 여행지에 마커 추가 및 bounds 확장
         destinations.forEach(destination => {
           const markerPosition = new window.kakao.maps.LatLng(destination.y, destination.x);
           const marker = new window.kakao.maps.Marker({
             position: markerPosition,
             map: map,
           });
+
+          // bounds에 현재 마커의 위치를 포함
+          bounds.extend(markerPosition);
         });
 
-        // 지도의 중심을 마지막 마커 위치로 설정
-        if (destinations.length > 0) {
-          const lastDestination = destinations[destinations.length - 1];
-          const centerPosition = new window.kakao.maps.LatLng(lastDestination.y, lastDestination.x);
-          map.setCenter(centerPosition);
-        }
+        // 모든 마커가 포함되도록 지도의 영역을 bounds로 설정
+        map.setBounds(bounds);
       });
     };
 
