@@ -30,19 +30,17 @@ const PlannerDetails = () => {
 
   return (
     <div className="planner-details-page">
-      <div className="planner-controls">
-        <button className="back-button" onClick={() => navigate(-1)}>
-          <img src={backIcon} alt="뒤로가기 아이콘" className="back-icon" />
-          뒤로가기
-        </button>
-        <button className="edit-plan-button">
-          <img src={editIcon} alt="수정 아이콘" className="edit-icon" />
-          일정 수정
-        </button>
-      </div>
+      <button className="back-button" onClick={() => navigate(-1)}>
+        <img src={backIcon} alt="뒤로가기 아이콘" className="back-icon" />
+        뒤로가기
+      </button>
 
       <div className="planner-details-container">
         <div className="planner-details-list">
+          <button className="edit-plan-button">
+            <img src={editIcon} alt="수정 아이콘" className="edit-icon" />
+            일정 수정
+          </button>
           <div className="planner-details-header">
             <h1 className="planner-details-title">{plan.title}</h1>
             <p className="planner-details-period">{plan.period}</p>
