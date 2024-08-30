@@ -1,11 +1,11 @@
-== ⛳️ Keyword (키워드)
+== ⛳️ Keyword (키워드) - 키워드 기반 여행지 추천 API
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
 :toc: left
 :toclevels: 2
 
-=== 키워드 기반 여행지 추천 API
+=== 키워드 기반 여행지 추천 (메인페이지) API
 
 ==== HTTP Request
 
@@ -27,7 +27,7 @@ include::{snippets}/keyword/travel/recommend/success/http-response.adoc[]
 
 include::{snippets}/keyword/travel/recommend/success/response-fields.adoc[]
 
-=== 비회원에게 추천하는 무작위 랜덤 키워드 기반 여행지 리스트 조회 API
+=== 비회원에게 추천하는 무작위 랜덤 키워드 기반 여행지 리스트 조회 (로그인 전) API
 
 ==== HTTP Request
 
@@ -46,7 +46,7 @@ include::{snippets}/keyword/random/trip/success/http-response.adoc[]
 include::{snippets}/keyword/random/trip/success/response-fields.adoc[]
 
 
-=== 비회원에게 추천하는 무작위 랜덤 키워드 기반 여행지 리스트 조회 API 실패 (백엔드 내에서 적절한 랜덤 키워드를 못찾는 경우)
+=== 비회원에게 추천하는 무작위 랜덤 키워드 기반 여행지 리스트 조회 (로그인 전) API 실패 (백엔드 내에서 적절한 랜덤 키워드를 못찾는 경우)
 
 ==== HTTP Request
 

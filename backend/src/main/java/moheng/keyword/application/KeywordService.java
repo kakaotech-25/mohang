@@ -48,6 +48,10 @@ public class KeywordService {
 
     public FindTripsResponse findRecommendTripsByKeywords(final TripsByKeyWordsRequest request) {
         final List<TripKeyword> trips = tripKeywordRepository.findTripKeywordsByKeywordIds(request.getKeywordIds());
+
+        if (request.getKeywordIds().size() != trips.size()) {
+            throw new NoExistKeywordException("일부 키워드가 존재하지 않습니다.");
+        }
         return new FindTripsResponse(trips);
     }
 
