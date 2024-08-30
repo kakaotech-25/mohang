@@ -140,4 +140,33 @@ public class MemberLiveInfoControllerTest extends ControllerTestConfig {
                 ))
                 .andExpect(status().isNotFound());
     }
+
+    @DisplayName("존재하지 않는 멤버의 생활정보를 업데이트 하려고하면 상태코드 404를 리턴한다.")
+    @Test
+    void 존재하지_않는_멤버의_생활정보를_업데이트_하려고하면_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistMemberException("존재하지 않는 회원입니다."))
+                .when(memberLiveInformationService).updateMemberLiveInformation(anyLong(), any());
+
+        // when, then
+        mockMvc.perform(put("/api/live/info/member")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(없는_생활정보로_멤버_생활정보_수정_요청()))
+                )
+                .andDo(print())
+                .andDo(document("live/info/member/update",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("liveInfoIds").description("멤버가 새롭게 수정하고자 선택한 생활정보 id 리스트")
+                        )
+                ))
+                .andExpect(status().isNotFound());
+    }
 }
