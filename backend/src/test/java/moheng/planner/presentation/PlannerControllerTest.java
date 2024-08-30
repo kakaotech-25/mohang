@@ -182,7 +182,7 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(여행_일정_수정_요청())))
                 .andDo(print())
-                .andDo(document("planner/schedule/update",
+                .andDo(document("planner/schedule/update/success",
                         preprocessRequest(),
                         preprocessResponse(),
                         requestHeaders(
@@ -211,7 +211,7 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(여행_일정_수정_요청())))
-                .andDo(document("planner/schedule/update",
+                .andDo(document("planner/schedule/update/fail/duplicateName",
                         preprocessRequest(),
                         preprocessResponse(),
                         requestHeaders(
@@ -241,7 +241,7 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(여행_일정_수정_요청())))
                 .andDo(print())
-                .andDo(document("planner/schedule/update",
+                .andDo(document("planner/schedule/update/fail/noExistTripSchedule",
                         preprocessRequest(),
                         preprocessResponse(),
                         requestHeaders(

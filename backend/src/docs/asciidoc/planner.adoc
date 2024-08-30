@@ -96,20 +96,42 @@ include::{snippets}/planner/find/recent/fail/response-body.adoc[]
 
 ==== HTTP Request
 
-include::{snippets}/planner/schedule/update/http-request.adoc[]
+include::{snippets}/planner/schedule/update/success/http-request.adoc[]
 
 ===== Request Header
 
-include::{snippets}/planner/schedule/update/request-headers.adoc[]
+include::{snippets}/planner/schedule/update/success/request-headers.adoc[]
 
 ===== Request Body
 
-include::{snippets}/planner/schedule/update/request-fields.adoc[]
+include::{snippets}/planner/schedule/update/success/request-fields.adoc[]
 
 ==== HTTP Response
 
-include::{snippets}/planner/schedule/update/http-response.adoc[]
+include::{snippets}/planner/schedule/update/success/http-response.adoc[]
 
 ===== Response Body
 
-include::{snippets}/planner/schedule/update/response-body.adoc[]
+include::{snippets}/planner/schedule/update/success/response-body.adoc[]
+
+=== 플래너 내의 여행 일정 수정 API 실패 (여행 일정의 이름 중복이 발생한 경우)
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/update/fail/duplicateName/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/update/fail/duplicateName/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/update/fail/duplicateName/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/update/fail/duplicateName/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/update/fail/duplicateName/response-body.adoc[]
