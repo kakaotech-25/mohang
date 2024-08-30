@@ -87,7 +87,7 @@ const PlannerDetails = () => {
                   ref={provided.innerRef}
                 >
                   {destinations.map((destination, index) => (
-                    <Draggable key={destination} draggableId={destination} index={index}>
+                    <Draggable key={destination.name} draggableId={destination.name} index={index}>
                       {(provided) => (
                         <li
                           className="planner-destination-item"
@@ -100,7 +100,7 @@ const PlannerDetails = () => {
                           >
                             ☰
                           </span>
-                          <span className="destination-name">{destination}</span>
+                          <span className="destination-name">{destination.name}</span>
                           <button 
                             className="delete-button" 
                             onClick={() => handleDelete(index)}
