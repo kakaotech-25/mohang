@@ -138,3 +138,11 @@
     font-size: 24px;
     color: #333;
 }
+
+.planner-destination-item.selected .destination-name {
+    color: #845EC2;
+    font-weight: bold;
+}
+  
+
+  

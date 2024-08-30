@@ -13,6 +13,7 @@ const PlannerDetails = () => {
   const plan = PlannerData.find((p) => p.id === parseInt(id));
   const [destinations, setDestinations] = useState(plan.destinations);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDestination, setSelectedDestination] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,6 +40,11 @@ const PlannerDetails = () => {
           const marker = new window.kakao.maps.Marker({
             position: markerPosition,
             map: map,
+          });
+
+          // 마커 클릭 이벤트 추가
+          window.kakao.maps.event.addListener(marker, 'click', () => {
+            setSelectedDestination(destination.name);
           });
 
           // bounds에 현재 마커의 위치를 포함
@@ -108,7 +114,7 @@ const PlannerDetails = () => {
                     <Draggable key={destination.name} draggableId={destination.name} index={index}>
                       {(provided) => (
                         <li
-                          className="planner-destination-item"
+                          className={`planner-destination-item ${selectedDestination === destination.name ? 'selected' : ''}`}
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                         >
