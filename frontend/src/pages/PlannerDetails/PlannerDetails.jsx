@@ -6,11 +6,13 @@ import { useState } from 'react';
 import deleteIcon from '../../assets/delete-icon.png';
 import backIcon from '../../assets/back-icon.png';
 import editIcon from '../../assets/editicon.png';
+import PlannerModal from '../../components/PlannerModal/PlannerModal';
 
 const PlannerDetails = () => {
   const { id } = useParams();
   const plan = PlannerData.find((p) => p.id === parseInt(id));
   const [destinations, setDestinations] = useState(plan.destinations);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleDragEnd = (result) => {
@@ -28,6 +30,15 @@ const PlannerDetails = () => {
     setDestinations(updatedDestinations);
   };
 
+  const handleEditClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleSave = (updatedPlan) => {
+    // 일정 수정 로직 추가 필요
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="planner-details-page">
       <button className="back-button" onClick={() => navigate(-1)}>
@@ -37,7 +48,7 @@ const PlannerDetails = () => {
 
       <div className="planner-details-container">
         <div className="planner-details-list">
-          <button className="edit-plan-button">
+          <button className="edit-plan-button" onClick={handleEditClick}>
             <img src={editIcon} alt="수정 아이콘" className="edit-icon" />
             일정 수정
           </button>
@@ -88,6 +99,17 @@ const PlannerDetails = () => {
           <p>지도 공간</p>
         </div>
       </div>
+
+      {isModalOpen && (
+        <PlannerModal
+          isOpen={isModalOpen}
+          mode="edit"
+          title="일정 수정"
+          plan={{ title: plan.title, period: plan.period }}
+          onClose={() => setIsModalOpen(false)}
+          onSave={handleSave}
+        />
+      )}
     </div>
   );
 };
