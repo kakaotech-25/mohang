@@ -370,7 +370,7 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andDo(document("planner/schedule/trip/delete",
+                .andDo(document("planner/schedule/trip/delete/success",
                         preprocessRequest(),
                         preprocessResponse(),
                         requestHeaders(
@@ -393,7 +393,7 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andDo(document("planner/schedule/trip/delete",
+                .andDo(document("planner/schedule/trip/delete/fail",
                         preprocessRequest(),
                         preprocessResponse(),
                         requestHeaders(

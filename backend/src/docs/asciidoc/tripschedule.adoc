@@ -246,3 +246,47 @@ include::{snippets}/planner/schedule/order/update/fail/http-response.adoc[]
 ===== Response Body
 
 include::{snippets}/planner/schedule/order/update/fail/response-body.adoc[]
+
+=== 세부 일정내의 특정 여행지 삭제 API
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/trip/delete/success/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/trip/delete/success/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/trip/delete/success/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/trip/delete/success/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/trip/delete/success/response-body.adoc[]
+
+==== 세부 일정내의 특정 여행지 삭제 API 실패 (존재하지 않는 여행지를 삭제하려는 경우)
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/trip/delete/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/trip/delete/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/trip/delete/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/trip/delete/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/trip/delete/response-body.adoc[]
