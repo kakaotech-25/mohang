@@ -135,3 +135,24 @@ include::{snippets}/planner/schedule/update/fail/duplicateName/http-response.ado
 ===== Response Body
 
 include::{snippets}/planner/schedule/update/fail/duplicateName/response-body.adoc[]
+
+=== 플래너 내의 여행 일정 수정 API 실패 (존재하지 않는 여행 일정을 수정하려는 경우)
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/update/fail/noExistTripSchedule/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/update/fail/noExistTripSchedule/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/update/fail/noExistTripSchedule/request-fields.adoc[]
+
+==== HTTP Response
+
+===== Response Body
+
+include::{snippets}/planner/schedule/update/fail/noExistTripSchedule/response-body.adoc[]
+
