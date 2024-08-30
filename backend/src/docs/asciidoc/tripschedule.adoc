@@ -224,3 +224,25 @@ include::{snippets}/planner/schedule/order/update/success/http-response.adoc[]
 ===== Response Body
 
 include::{snippets}/planner/schedule/order/update/success/response-body.adoc[]
+
+=== 세부 일정내의 여행지 리스트 순서 변경 API 실패 (존재하지 않는 여행지에 대한 순서 변경 요청)
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/order/update/fail/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/order/update/fail/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/order/update/fail/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/order/update/fail/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/order/update/fail/response-body.adoc[]
