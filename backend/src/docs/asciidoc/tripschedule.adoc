@@ -48,3 +48,25 @@ include::{snippets}/planner/schedule/create/fail/alreadyExistTripSchedule/http-r
 ===== Response Body
 
 include::{snippets}/planner/schedule/create/fail/alreadyExistTripSchedule/response-body.adoc[]
+
+=== 여행 일정 생성 API 실패 (일정 이름의 길이가 유효범위를 벗어난 경우)
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/create/fail/invalidName/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/create/fail/invalidName/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/create/fail/invalidName/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/create/fail/invalidName/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/create/fail/invalidName/response-body.adoc[]
