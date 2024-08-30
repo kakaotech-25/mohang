@@ -7,11 +7,14 @@ import static org.mockito.BDDMockito.given;
 import static moheng.fixture.TripFixture.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -29,6 +32,7 @@ import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 
 import java.util.List;
 import java.util.Optional;
@@ -79,19 +83,27 @@ public class TripControllerTest extends ControllerTestConfig {
 
     @DisplayName("현재 여행지를 비슷한 여행지와 함께 조회하고 상태코드 200을 리턴한다.")
     @Test
-    void 현재_여행지를_비슷한_여행지와_함꼐_조회하고_상태코드_200을_리턴한다() throws Exception {
+    void 현재_여행지를_비슷한_여행지와_함께_조회하고_상태코드_200을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
         given(tripService.findWithSimilarOtherTrips(anyLong(), anyLong()))
                 .willReturn(여행지_조회_응답());
 
         // when, then
-        mockMvc.perform(get("/api/trip/find/{tripId}", 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/trip/find/{tripId}", 1L)
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(document("trip/find/current",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("tripId").description("여행지 고유 ID")
+                        ),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
                         responseFields(
                                 fieldWithPath("findTripResponse.name").description("선택한 여행지의 이름"),
                                 fieldWithPath("findTripResponse.placeName").description("선택한 여행지의 장소명"),
@@ -99,7 +111,6 @@ public class TripControllerTest extends ControllerTestConfig {
                                 fieldWithPath("findTripResponse.tripImageUrl").description("선택한 여행지의 이미지 URL"),
                                 fieldWithPath("findTripResponse.description").description("선택한 여행지에 대한 설명"),
                                 fieldWithPath("findTripResponse.keywords[]").description("선택한 여행지와 관련된 키워드 목록"),
-
                                 fieldWithPath("similarTripResponses.findTripResponses[].name").description("유사한 여행지의 이름"),
                                 fieldWithPath("similarTripResponses.findTripResponses[].placeName").description("유사한 여행지의 장소명"),
                                 fieldWithPath("similarTripResponses.findTripResponses[].contentId").description("유사한 여행지의 컨텐츠 ID"),
@@ -121,14 +132,20 @@ public class TripControllerTest extends ControllerTestConfig {
                 .when(tripService).findWithSimilarOtherTrips(anyLong(), anyLong());
 
         // when, then
-        mockMvc.perform(get("/api/trip/find/{tripId}", 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/trip/find/{tripId}", 1L)
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(document("trip/find/current/fail/noExistTrip",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("tripId").description("여행지 고유 ID")
+                        ),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        )
                 ))
                 .andExpect(status().isNotFound());
     }
@@ -142,14 +159,20 @@ public class TripControllerTest extends ControllerTestConfig {
                 .when(tripService).findWithSimilarOtherTrips(anyLong(), anyLong());
 
         // when, then
-        mockMvc.perform(get("/api/trip/find/{tripId}", 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/trip/find/{tripId}", 1L)
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(document("trip/find/current/fail/aiServer",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("tripId").description("여행지 고유 ID")
+                        ),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        )
                 ))
                 .andExpect(status().isInternalServerError());
     }
@@ -163,14 +186,20 @@ public class TripControllerTest extends ControllerTestConfig {
                 .when(tripService).findWithSimilarOtherTrips(anyLong(), anyLong());
 
         // when, then
-        mockMvc.perform(get("/api/trip/find/{tripId}", 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/trip/find/{tripId}", 1L)
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(document("trip/find/current/fail/noExistRecommendTrip",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("tripId").description("여행지 고유 ID")
+                        ),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        )
                 ))
                 .andExpect(status().isUnprocessableEntity());
     }
@@ -184,14 +213,20 @@ public class TripControllerTest extends ControllerTestConfig {
                 .when(tripService).findWithSimilarOtherTrips(anyLong(), anyLong());
 
         // when, then
-        mockMvc.perform(get("/api/trip/find/{tripId}", 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/trip/find/{tripId}", 1L)
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(document("trip/find/current/fail/noExistRecommendTripStrategy",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("tripId").description("여행지 고유 ID")
+                        )
                 ))
                 .andExpect(status().isUnprocessableEntity());
     }

@@ -1,0 +1,92 @@
+== ⛳️ Keyword (키워드) - 키워드 기반 여행지 추천 API, 비회원에게 추천하는 무작위 랜덤 키워드 기반 여행지 리스트 API 등
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+
+=== 키워드 기반 여행지 추천 (메인페이지) API
+
+==== HTTP Request
+
+include::{snippets}/keyword/travel/recommend/success/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/keyword/travel/recommend/success/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/keyword/travel/recommend/success/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/keyword/travel/recommend/success/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/keyword/travel/recommend/success/response-fields.adoc[]
+
+=== 키워드 기반 여행지 추천 (메인페이지) API 실패 (존재하지 않는 일부 키워드로 요청한 경우)
+
+==== HTTP Request
+
+include::{snippets}/keyword/travel/recommend/fail/noExistKeyword/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/keyword/travel/recommend/fail/noExistKeyword/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/keyword/travel/recommend/fail/noExistKeyword/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/keyword/travel/recommend/fail/noExistKeyword/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/keyword/travel/recommend/fail/noExistKeyword/response-body.adoc[]
+
+
+=== 비회원에게 추천하는 무작위 랜덤 키워드 기반 여행지 리스트 조회 (로그인 전) API
+
+==== HTTP Request
+
+include::{snippets}/keyword/random/trip/success/http-request.adoc[]
+
+===== Request Body
+
+include::{snippets}/keyword/random/trip/success/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/keyword/random/trip/success/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/keyword/random/trip/success/response-fields.adoc[]
+
+
+=== 비회원에게 추천하는 무작위 랜덤 키워드 기반 여행지 리스트 조회 (로그인 전) API 실패 (백엔드 내에서 적절한 랜덤 키워드를 못찾는 경우)
+
+==== HTTP Request
+
+include::{snippets}/keyword/random/trip/fail/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/keyword/random/trip/fail/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/keyword/random/trip/fail/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/keyword/random/trip/fail/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/keyword/random/trip/fail/response-body.adoc[]

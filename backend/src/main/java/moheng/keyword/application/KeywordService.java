@@ -47,8 +47,22 @@ public class KeywordService {
     }
 
     public FindTripsResponse findRecommendTripsByKeywords(final TripsByKeyWordsRequest request) {
+        validateKeywords(request.getKeywordIds());
         final List<TripKeyword> trips = tripKeywordRepository.findTripKeywordsByKeywordIds(request.getKeywordIds());
         return new FindTripsResponse(trips);
+    }
+
+    private void validateKeywords(final List<Long> keywordIds) {
+        final List<Long> existingKeywords = findAllByIds(keywordIds);
+        if (existingKeywords.size() != keywordIds.size()) {
+            throw new NoExistKeywordException("일부 키워드가 존재하지 않습니다.");
+        }
+    }
+
+    private List<Long> findAllByIds(final List<Long> keywordIds) {
+        return keywordRepository.findAllById(keywordIds)
+                .stream().map(Keyword::getId)
+                .collect(Collectors.toList());
     }
 
     public FindTripsResponse findRecommendTripsByRandomKeyword() {

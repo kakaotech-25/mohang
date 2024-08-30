@@ -4,6 +4,8 @@ import static moheng.fixture.MemberLiveInfoFixture.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -46,6 +48,9 @@ public class MemberLiveInfoControllerTest extends ControllerTestConfig {
                 .andDo(document("live/info/member/find/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
                         responseFields(
                                 fieldWithPath("liveInfoResponses").description("멤버가 선택한, 선택하지 않은 모든 생활정보"),
                                 fieldWithPath("liveInfoResponses[].liveInfoId").description("생활정보 ID"),
@@ -72,7 +77,10 @@ public class MemberLiveInfoControllerTest extends ControllerTestConfig {
                 .andDo(print())
                 .andDo(document("live/info/member/find/fail",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        )
                 ))
                 .andExpect(status().isNotFound());
     }
@@ -91,13 +99,74 @@ public class MemberLiveInfoControllerTest extends ControllerTestConfig {
                         .content(objectMapper.writeValueAsString(멤버_생활정보_수정_요청()))
                 )
                 .andDo(print())
-                .andDo(document("live/info/member/update",
+                .andDo(document("live/info/member/update/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
                         requestFields(
                                 fieldWithPath("liveInfoIds").description("멤버가 새롭게 수정하고자 선택한 생활정보 id 리스트")
                         )
                 ))
                 .andExpect(status().isNoContent());
+    }
+
+    @DisplayName("업데이트 요청받은 생활정보중에 일부 생활정보가 존재하지 않을 경우 상태코드 404를 리턴한다.")
+    @Test
+    void 업데이트_요청받은_생활정보중에_일부_생활정보가_존재하지_않을_경우_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistLiveInformationException("일부 생활정보가 존재하지 않습니다."))
+                .when(memberLiveInformationService).updateMemberLiveInformation(anyLong(), any());
+
+        // when, then
+        mockMvc.perform(put("/api/live/info/member")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(없는_생활정보로_멤버_생활정보_수정_요청()))
+                )
+                .andDo(print())
+                .andDo(document("live/info/member/update/fail/noExistLiveInformation",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("liveInfoIds").description("멤버가 새롭게 수정하고자 선택한 생활정보 id 리스트")
+                        )
+                ))
+                .andExpect(status().isNotFound());
+    }
+
+    @DisplayName("존재하지 않는 멤버의 생활정보를 업데이트 하려고하면 상태코드 404를 리턴한다.")
+    @Test
+    void 존재하지_않는_멤버의_생활정보를_업데이트_하려고하면_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistMemberException("존재하지 않는 회원입니다."))
+                .when(memberLiveInformationService).updateMemberLiveInformation(anyLong(), any());
+
+        // when, then
+        mockMvc.perform(put("/api/live/info/member")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(멤버_생활정보_수정_요청()))
+                )
+                .andDo(print())
+                .andDo(document("live/info/member/update/fail/noExistMember",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("liveInfoIds").description("멤버가 새롭게 수정하고자 선택한 생활정보 id 리스트")
+                        )
+                ))
+                .andExpect(status().isNotFound());
     }
 }

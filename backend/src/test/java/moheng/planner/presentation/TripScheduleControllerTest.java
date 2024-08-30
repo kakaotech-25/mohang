@@ -6,6 +6,8 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -47,13 +49,17 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
 
         // when, then
         mockMvc.perform(post("/api/schedule")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(여행_일정_생성_요청()))
+                                .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                                .accept(MediaType.APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(여행_일정_생성_요청()))
                 ).andDo(print())
-                .andDo(document("planner/schedule/create",
+                .andDo(document("planner/schedule/create/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
                         requestFields(
                                 fieldWithPath("scheduleName").description("생성할 여행 일정 이름"),
                                 fieldWithPath("startDate").description("여행 일정 시작날짜"),
@@ -72,13 +78,17 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
 
         // when, then
         mockMvc.perform(post("/api/schedule")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(여행_일정_생성_요청()))
                 ).andDo(print())
-                .andDo(document("planner/schedule/create",
+                .andDo(document("planner/schedule/create/fail/alreadyExistTripSchedule",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
                         requestFields(
                                 fieldWithPath("scheduleName").description("생성할 여행 일정 이름"),
                                 fieldWithPath("startDate").description("여행 일정 시작날짜"),
@@ -97,13 +107,17 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
 
         // when, then
         mockMvc.perform(post("/api/schedule")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(유효하지_않은_이름으로_여행_일정_생성_요청()))
                 ).andDo(print())
-                .andDo(document("planner/schedule/create",
+                .andDo(document("planner/schedule/create/fail/invalidName",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
                         requestFields(
                                 fieldWithPath("scheduleName").description("생성할 여행 일정 이름"),
                                 fieldWithPath("startDate").description("여행 일정 시작날짜"),
@@ -122,13 +136,17 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
 
         // when, then
         mockMvc.perform(post("/api/schedule")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(유효하지_않은_날짜로_여행_일정_생성_요청()))
                 ).andDo(print())
-                .andDo(document("planner/schedule/create",
+                .andDo(document("planner/schedule/create/fail/invalidDate",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
                         requestFields(
                                 fieldWithPath("scheduleName").description("생성할 여행 일정 이름"),
                                 fieldWithPath("startDate").description("여행 일정 시작날짜"),
@@ -146,12 +164,16 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.post("/api/schedule/trip/{tripId}/{scheduleId}", 1L, 1L)
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                 ).andDo(print())
                 .andDo(document("planner/schedule/trip/add/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
                         pathParameters(
                                 parameterWithName("tripId").description("플래너에 담을 현재 여행지의 고유 ID 값"),
                                 parameterWithName("scheduleId").description("여행 일정 고유 ID 값")
@@ -170,12 +192,16 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.post("/api/schedule/trip/{tripId}/{scheduleId}", 1L, 1L)
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                 ).andDo(print())
                 .andDo(document("planner/schedule/trip/add/fail/noExistTrip",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
                         pathParameters(
                                 parameterWithName("tripId").description("플래너에 담을 현재 여행지의 고유 ID 값"),
                                 parameterWithName("scheduleId").description("여행 일정 고유 ID 값")
@@ -194,12 +220,16 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.post("/api/schedule/trip/{tripId}/{scheduleId}", 1L, 1L)
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                 ).andDo(print())
                 .andDo(document("planner/schedule/trip/add/fail/noExistSchedule",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
                         pathParameters(
                                 parameterWithName("tripId").description("플래너에 담을 현재 여행지의 고유 ID 값"),
                                 parameterWithName("scheduleId").description("여행 일정 고유 ID 값")
@@ -225,13 +255,20 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
         );
 
         // when, then
-        mockMvc.perform(get("/api/schedule/trips/{scheduleId}", 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/schedule/trips/{scheduleId}", 1L)
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("planner/schedule/find/success",
-                        preprocessRequest(),
-                        preprocessResponse(),
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("scheduleId").description("여행 일정 고유 ID 값")
+                        ),
                         responseFields(
                                 fieldWithPath("tripScheduleResponse").description("세부 일정"),
                                 fieldWithPath("tripScheduleResponse.scheduleId").description("여행 일정 고유 ID 값"),
@@ -256,13 +293,20 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                 .when(tripScheduleService).findTripsOnSchedule(anyLong());
 
         // when, then
-        mockMvc.perform(get("/api/schedule/trips/{scheduleId}", 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/schedule/trips/{scheduleId}", 1L)
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("planner/schedule/find/fail",
-                        preprocessRequest(),
-                        preprocessResponse()))
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("scheduleId").description("여행 일정 고유 ID 값")
+                        )))
                 .andExpect(status().isNotFound());
     }
 
@@ -274,14 +318,24 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
         doNothing().when(tripScheduleService).updateTripOrdersOnSchedule(anyLong(), any());
 
         // when, then
-        mockMvc.perform(post("/api/schedule/trips/orders/{scheduleId}", 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/schedule/trips/orders/{scheduleId}", 1L)
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new UpdateTripOrdersRequest(List.of(1L, 2L, 3L)))))
                 .andDo(print())
                 .andDo(document("planner/schedule/order/update/success",
-                        preprocessRequest(),
-                        preprocessResponse()
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("scheduleId").description("여행 일정 고유 ID 값")
+                        ),
+                        requestFields(
+                                fieldWithPath("tripIds").description("새롭게 수정할 여행지 리스트 ID 값 리스트. (순서가 변경되지 않은 내용들도 포함하여 일정내의 ID 리스트 값 전체를 모두 전송해주세요)")
+                        )
                 )).andExpect(status().isNoContent());
     }
 
@@ -294,14 +348,24 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                 .when(tripScheduleService).updateTripOrdersOnSchedule(anyLong(), any());
 
         // when, then
-        mockMvc.perform(post("/api/schedule/trips/orders/{scheduleId}", 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/schedule/trips/orders/{scheduleId}", 1L)
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new UpdateTripOrdersRequest(List.of(1L, 2L, 3L)))))
                 .andDo(print())
                 .andDo(document("planner/schedule/order/update/fail",
-                        preprocessRequest(),
-                        preprocessResponse()
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("scheduleId").description("여행 일정 고유 ID 값")
+                        ),
+                        requestFields(
+                                fieldWithPath("tripIds").description("새롭게 수정할 여행지 리스트 ID 값 리스트. (순서가 변경되지 않은 내용들도 포함하여 일정내의 ID 리스트 값 전체를 모두 전송해주세요)")
+                        )
                 )).andExpect(status().isNotFound());
     }
 
@@ -313,13 +377,21 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
         doNothing().when(tripScheduleService).deleteTripOnSchedule(anyLong(), anyLong());
 
         // when, then
-        mockMvc.perform(delete("/api/schedule/{scheduleId}/{tripId}", 1L, 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.delete("/api/schedule/{scheduleId}/{tripId}", 1L, 1L)
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andDo(document("planner/schedule/trip/delete",
-                        preprocessRequest(),
-                        preprocessResponse()
+                .andDo(document("planner/schedule/trip/delete/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("scheduleId").description("여행 일정 고유 ID 값"),
+                                parameterWithName("tripId").description("여행지 고유 ID 값")
+                        ),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        )
                 )).andExpect(status().isNoContent());
     }
 
@@ -332,13 +404,21 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                 .when(tripScheduleService).deleteTripOnSchedule(anyLong(), anyLong());
 
         // when, then
-        mockMvc.perform(delete("/api/schedule/{scheduleId}/{tripId}", 1L, 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.delete("/api/schedule/{scheduleId}/{tripId}", 1L, 1L)
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andDo(document("planner/schedule/trip/delete",
-                        preprocessRequest(),
-                        preprocessResponse()
+                .andDo(document("planner/schedule/trip/delete/fail",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("scheduleId").description("여행 일정 고유 ID 값"),
+                                parameterWithName("tripId").description("여행지 고유 ID 값")
+                        ),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        )
                 )).andExpect(status().isNotFound());
     }
 }
