@@ -128,7 +128,7 @@ public class MemberLiveInfoControllerTest extends ControllerTestConfig {
                         .content(objectMapper.writeValueAsString(없는_생활정보로_멤버_생활정보_수정_요청()))
                 )
                 .andDo(print())
-                .andDo(document("live/info/member/update/noExistLiveInformation",
+                .andDo(document("live/info/member/update/fail/noExistLiveInformation",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
