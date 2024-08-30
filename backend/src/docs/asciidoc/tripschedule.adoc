@@ -1,0 +1,16 @@
+== ⛳️ 세부 여행 일정 (플래너내의 상세 여행 일정 관련)
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+
+=== 여행 일정 생성 API
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/create/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/create/requeste
