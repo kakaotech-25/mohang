@@ -13,6 +13,8 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -95,6 +97,9 @@ public class TripControllerTest extends ControllerTestConfig {
                 .andDo(document("trip/find/current",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("tripId").description("여행지 고유 ID")
+                        ),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         ),
@@ -134,6 +139,9 @@ public class TripControllerTest extends ControllerTestConfig {
                 .andDo(document("trip/find/current/fail/noExistTrip",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("tripId").description("여행지 고유 ID")
+                        ),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         )
@@ -158,6 +166,9 @@ public class TripControllerTest extends ControllerTestConfig {
                 .andDo(document("trip/find/current/fail/aiServer",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("tripId").description("여행지 고유 ID")
+                        ),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         )
@@ -182,6 +193,9 @@ public class TripControllerTest extends ControllerTestConfig {
                 .andDo(document("trip/find/current/fail/noExistRecommendTrip",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("tripId").description("여행지 고유 ID")
+                        ),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         )
@@ -208,6 +222,9 @@ public class TripControllerTest extends ControllerTestConfig {
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("tripId").description("여행지 고유 ID")
                         )
                 ))
                 .andExpect(status().isUnprocessableEntity());
