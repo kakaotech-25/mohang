@@ -323,6 +323,9 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         preprocessResponse(),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("tripIds").description("새롭게 수정할 여행지 리스트 ID 값 리스트. (순서가 변경되지 않은 내용들도 포함하여 일정내의 ID 리스트 값 전체를 모두 전송해주세요)")
                         )
                 )).andExpect(status().isNoContent());
     }
@@ -347,6 +350,9 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         preprocessResponse(),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("tripIds").description("새롭게 수정할 여행지 리스트 ID 값 리스트. (순서가 변경되지 않은 내용들도 포함하여 일정내의 ID 리스트 값 전체를 모두 전송해주세요)")
                         )
                 )).andExpect(status().isNotFound());
     }

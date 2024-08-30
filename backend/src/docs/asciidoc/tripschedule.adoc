@@ -202,3 +202,25 @@ include::{snippets}/planner/schedule/find/fail/http-response.adoc[]
 ===== Response Body
 
 include::{snippets}/planner/schedule/find/fail/response-body.adoc[]
+
+=== 세부 일정내의 여행지 리스트 순서 변경 API
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/order/update/success/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/order/update/success/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/order/update/success/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/order/update/success/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/order/update/success/response-body.adoc[]
