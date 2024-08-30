@@ -17,49 +17,50 @@ const PlannerDetails = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    loadKakaoMapScript(() => initializeMap(destinations, setSelectedDestination));
+  }, [destinations]);
+
+  const loadKakaoMapScript = (callback) => {
     const script = document.createElement('script');
     script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=1068045215b2426f764f379d3ed6c315&autoload=false`;
     script.async = true;
+    script.onload = () => window.kakao.maps.load(callback);
     document.head.appendChild(script);
-
-    script.onload = () => {
-      window.kakao.maps.load(() => {
-        const container = document.getElementById('map'); 
-        const options = {
-          center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-          level: 3,
-        };
-        const map = new window.kakao.maps.Map(container, options);
-
-        // LatLngBounds 객체 생성
-        const bounds = new window.kakao.maps.LatLngBounds();
-
-        // 각 여행지에 마커 추가 및 bounds 확장
-        destinations.forEach(destination => {
-          const markerPosition = new window.kakao.maps.LatLng(destination.y, destination.x);
-          const marker = new window.kakao.maps.Marker({
-            position: markerPosition,
-            map: map,
-          });
-
-          // 마커 클릭 이벤트 추가
-          window.kakao.maps.event.addListener(marker, 'click', () => {
-            setSelectedDestination(destination.name);
-          });
-
-          // bounds에 현재 마커의 위치를 포함
-          bounds.extend(markerPosition);
-        });
-
-        // 모든 마커가 포함되도록 지도의 영역을 bounds로 설정
-        map.setBounds(bounds);
-      });
-    };
 
     return () => {
       document.head.removeChild(script);
     };
-  }, [destinations]);
+  };
+
+  const initializeMap = (destinations, setSelectedDestination) => {
+    const container = document.getElementById('map'); 
+    const options = {
+      center: new window.kakao.maps.LatLng(33.450701, 126.570667),
+      level: 3,
+    };
+    const map = new window.kakao.maps.Map(container, options);
+
+    const bounds = new window.kakao.maps.LatLngBounds();
+    destinations.forEach(destination => {
+      addMarkerToMap(map, destination, bounds, setSelectedDestination);
+    });
+
+    map.setBounds(bounds);
+  };
+
+  const addMarkerToMap = (map, destination, bounds, setSelectedDestination) => {
+    const markerPosition = new window.kakao.maps.LatLng(destination.y, destination.x);
+    const marker = new window.kakao.maps.Marker({
+      position: markerPosition,
+      map: map,
+    });
+
+    window.kakao.maps.event.addListener(marker, 'click', () => {
+      setSelectedDestination(destination.name);
+    });
+
+    bounds.extend(markerPosition);
+  };
 
   const handleDragEnd = (result) => {
     if (!result.destination) return;
