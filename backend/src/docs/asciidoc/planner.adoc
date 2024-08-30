@@ -69,3 +69,26 @@ include::{snippets}/planner/find/date/http-response.adoc[]
 ===== Response Body
 
 include::{snippets}/planner/find/date/response-fields.adoc[]
+
+
+=== 플래너 조회 API 실패 (존재하지 않는 회원)
+
+==== HTTP Request
+
+include::{snippets}/planner/find/recent/fail/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/find/recent/fail/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/find/recent/fail/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/find/recent/fail/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/find/recent/fail/response-body.adoc[]
