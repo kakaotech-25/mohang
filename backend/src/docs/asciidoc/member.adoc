@@ -172,3 +172,25 @@ include::{snippets}/live/info/member/update/fail/noExistLiveInformation/request-
 ==== HTTP Response
 
 include::{snippets}/live/info/member/update/fail/noExistLiveInformation/http-response.adoc[]
+
+=== 회원의 생활정보 수정 API 실패 (존재하지 않는 멤버의 생활정보 수정)
+
+==== HTTP Request
+
+include::{snippets}/live/info/member/update/fail/noExistMember/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/live/info/member/update/fail/noExistMember/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/live/info/member/update/fail/noExistMember/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/live/info/member/update/fail/noExistMember/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/live/info/member/update/fail/noExistMember/response-body.adoc[]
