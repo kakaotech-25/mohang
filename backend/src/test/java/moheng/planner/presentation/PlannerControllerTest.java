@@ -52,8 +52,9 @@ public class PlannerControllerTest extends ControllerTestConfig {
 
         // when, then
         mockMvc.perform(get("/api/planner/recent")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("planner/find/recent",
                         preprocessRequest(),
@@ -87,6 +88,7 @@ public class PlannerControllerTest extends ControllerTestConfig {
 
         // when, then
         mockMvc.perform(get("/api/planner/name")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -122,6 +124,7 @@ public class PlannerControllerTest extends ControllerTestConfig {
 
         // when, then
         mockMvc.perform(get("/api/planner/date")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -151,6 +154,7 @@ public class PlannerControllerTest extends ControllerTestConfig {
 
         // when, then
         mockMvc.perform(get("/api/planner/recent")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -173,9 +177,10 @@ public class PlannerControllerTest extends ControllerTestConfig {
 
         // when, then
         mockMvc.perform(put("/api/planner/schedule")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(여행_일정_수정_요청())))
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(여행_일정_수정_요청())))
                 .andDo(print())
                 .andDo(document("planner/schedule/update",
                         preprocessRequest(),
@@ -202,9 +207,10 @@ public class PlannerControllerTest extends ControllerTestConfig {
 
         // when, then
         mockMvc.perform(put("/api/planner/schedule")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(여행_일정_수정_요청())))
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(여행_일정_수정_요청())))
                 .andDo(document("planner/schedule/update",
                         preprocessRequest(),
                         preprocessResponse(),
@@ -230,6 +236,7 @@ public class PlannerControllerTest extends ControllerTestConfig {
 
         // when, then
         mockMvc.perform(put("/api/planner/schedule")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(여행_일정_수정_요청())))
@@ -258,6 +265,7 @@ public class PlannerControllerTest extends ControllerTestConfig {
 
         // when, then
         mockMvc.perform(delete("/api/planner/schedule/{scheduleId}", 1L)
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -281,6 +289,7 @@ public class PlannerControllerTest extends ControllerTestConfig {
 
         // when, then
         mockMvc.perform(delete("/api/planner/schedule/{scheduleId}", 1L)
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
