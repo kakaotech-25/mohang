@@ -4,6 +4,8 @@ import static moheng.fixture.MemberLiveInfoFixture.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -46,6 +48,9 @@ public class MemberLiveInfoControllerTest extends ControllerTestConfig {
                 .andDo(document("live/info/member/find/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
                         responseFields(
                                 fieldWithPath("liveInfoResponses").description("멤버가 선택한, 선택하지 않은 모든 생활정보"),
                                 fieldWithPath("liveInfoResponses[].liveInfoId").description("생활정보 ID"),
@@ -72,7 +77,10 @@ public class MemberLiveInfoControllerTest extends ControllerTestConfig {
                 .andDo(print())
                 .andDo(document("live/info/member/find/fail",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        )
                 ))
                 .andExpect(status().isNotFound());
     }
@@ -94,6 +102,9 @@ public class MemberLiveInfoControllerTest extends ControllerTestConfig {
                 .andDo(document("live/info/member/update",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
                         requestFields(
                                 fieldWithPath("liveInfoIds").description("멤버가 새롭게 수정하고자 선택한 생활정보 id 리스트")
                         )
