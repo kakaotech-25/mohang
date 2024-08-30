@@ -99,7 +99,7 @@ public class MemberLiveInfoControllerTest extends ControllerTestConfig {
                         .content(objectMapper.writeValueAsString(멤버_생활정보_수정_요청()))
                 )
                 .andDo(print())
-                .andDo(document("live/info/member/update",
+                .andDo(document("live/info/member/update/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
@@ -128,7 +128,7 @@ public class MemberLiveInfoControllerTest extends ControllerTestConfig {
                         .content(objectMapper.writeValueAsString(없는_생활정보로_멤버_생활정보_수정_요청()))
                 )
                 .andDo(print())
-                .andDo(document("live/info/member/update",
+                .andDo(document("live/info/member/update/noExistLiveInformation",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
@@ -154,10 +154,10 @@ public class MemberLiveInfoControllerTest extends ControllerTestConfig {
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(없는_생활정보로_멤버_생활정보_수정_요청()))
+                        .content(objectMapper.writeValueAsString(멤버_생활정보_수정_요청()))
                 )
                 .andDo(print())
-                .andDo(document("live/info/member/update",
+                .andDo(document("live/info/member/update/fail/noExistMember",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
