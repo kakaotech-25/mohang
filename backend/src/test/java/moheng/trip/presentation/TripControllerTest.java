@@ -80,7 +80,7 @@ public class TripControllerTest extends ControllerTestConfig {
 
     @DisplayName("현재 여행지를 비슷한 여행지와 함께 조회하고 상태코드 200을 리턴한다.")
     @Test
-    void 현재_여행지를_비슷한_여행지와_함꼐_조회하고_상태코드_200을_리턴한다() throws Exception {
+    void 현재_여행지를_비슷한_여행지와_함께_조회하고_상태코드_200을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
         given(tripService.findWithSimilarOtherTrips(anyLong(), anyLong()))

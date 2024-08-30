@@ -1,9 +1,13 @@
-== ⛳️ Trip (여행지) - 상세 여행지 조회
+== ⛳️ Trip (여행지) - 상세 여행지 조회, AI 맞춤 추천 여행지 등
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
 :toc: left
 :toclevels: 2
+
+=== AI 맞춤 추천 여행지 (메인페이지) API
+
+include::{snippets}/trip/recommend/ai/success/http-request.adoc[]
 
 === 상세 여행지 조회 with. 비슷한 여행지 API
 
