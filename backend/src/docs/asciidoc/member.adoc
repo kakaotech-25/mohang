@@ -132,3 +132,25 @@ include::{snippets}/live/info/member/find/fail/http-response.adoc[]
 ===== Response Body
 
 include::{snippets}/live/info/member/find/fail/response-body.adoc[]
+
+=== 회원의 생활정보 수정 API
+
+==== HTTP Request
+
+include::{snippets}/live/info/member/update/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/live/info/member/update/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/live/info/member/update/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/live/info/member/update/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/live/info/member/update/response-body.adoc[]
