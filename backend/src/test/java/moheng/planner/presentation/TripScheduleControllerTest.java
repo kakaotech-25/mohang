@@ -54,7 +54,7 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                                 .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(여행_일정_생성_요청()))
                 ).andDo(print())
-                .andDo(document("planner/schedule/create",
+                .andDo(document("planner/schedule/create/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
@@ -83,7 +83,7 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(여행_일정_생성_요청()))
                 ).andDo(print())
-                .andDo(document("planner/schedule/create",
+                .andDo(document("planner/schedule/create/fail/alreadyExistTripSchedule",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
@@ -112,7 +112,7 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(유효하지_않은_이름으로_여행_일정_생성_요청()))
                 ).andDo(print())
-                .andDo(document("planner/schedule/create",
+                .andDo(document("planner/schedule/create/fail/invalidName",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
@@ -141,7 +141,7 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(유효하지_않은_날짜로_여행_일정_생성_요청()))
                 ).andDo(print())
-                .andDo(document("planner/schedule/create",
+                .andDo(document("planner/schedule/create/fail/invalidDate",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(

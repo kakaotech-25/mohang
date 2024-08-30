@@ -13,4 +13,16 @@ include::{snippets}/planner/schedule/create/http-request.adoc[]
 
 ===== Request Header
 
-include::{snippets}/planner/schedule/create/requeste
+include::{snippets}/planner/schedule/create/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/create/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/create/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/create/response-body.adoc[]
