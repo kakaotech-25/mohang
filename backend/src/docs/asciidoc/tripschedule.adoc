@@ -9,20 +9,20 @@
 
 ==== HTTP Request
 
-include::{snippets}/planner/schedule/create/http-request.adoc[]
+include::{snippets}/planner/schedule/create/success/http-request.adoc[]
 
 ===== Request Header
 
-include::{snippets}/planner/schedule/create/request-headers.adoc[]
+include::{snippets}/planner/schedule/create/success/request-headers.adoc[]
 
 ===== Request Body
 
-include::{snippets}/planner/schedule/create/request-fields.adoc[]
+include::{snippets}/planner/schedule/create/success/request-fields.adoc[]
 
 ==== HTTP Response
 
-include::{snippets}/planner/schedule/create/http-response.adoc[]
+include::{snippets}/planner/schedule/create/success/http-response.adoc[]
 
 ===== Response Body
 
-include::{snippets}/planner/schedule/create/response-body.adoc[]
+include::{snippets}/planner/schedule/create/success/response-body.adoc[]
