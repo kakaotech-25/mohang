@@ -3,14 +3,17 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import TravelData from '../../data/TravelData';
 import plannerIcon from '../../assets/plannericon.png';
+import addIcon from '../../assets/editicon.png';
 import TravelCarousel from '../../components/TravelCarousel/TravelCarousel';
 import PlannerData from '../../data/PlannerData';
+import PlannerModal from '../../components/PlannerModal/PlannerModal';
 
 const TravelDetails = () => {
   const { id } = useParams();
   const card = TravelData.find(item => item.id === parseInt(id));
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddPlanModalOpen, setIsAddPlanModalOpen] = useState(false);
 
   const handleAddToPlanner = () => {
     setIsModalOpen(true);
@@ -18,6 +21,14 @@ const TravelDetails = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleAddPlan = () => {
+    setIsAddPlanModalOpen(true);
+  };
+
+  const closeAddPlanModal = () => {
+    setIsAddPlanModalOpen(false);
   };
 
   // 현재 여행지와 비슷한 여행지 필터링 (예: 같은 태그가 있는 여행지)
@@ -74,11 +85,30 @@ const TravelDetails = () => {
               </ul>
             </div>
             <div className="td-modal-footer">
-              <button className="td-modal-save-button">저장</button>
-              <button onClick={closeModal} className="td-modal-cancel-button">취소</button>
+              <button onClick={handleAddPlan} className="td-add-plan-button">
+                <img src={addIcon} alt="추가 아이콘" className="add-icon" />
+                일정 추가
+              </button>
+              <div className="td-save-cancel-group">
+                <button className="td-modal-save-button">저장</button>
+                <button onClick={closeModal} className="td-modal-cancel-button">취소</button>
+              </div>
             </div>
           </div>
         </div>
+      )}
+
+      {isAddPlanModalOpen && (
+        <PlannerModal
+          isOpen={isAddPlanModalOpen}
+          mode="add"
+          title="새 일정 추가"
+          onClose={closeAddPlanModal}
+          onSave={(newPlan) => {
+            PlannerData.push(newPlan);
+            closeAddPlanModal();
+          }}
+        />
       )}
 
       <section className="similar-destinations">

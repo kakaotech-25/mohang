@@ -179,8 +179,30 @@
 
 .td-modal-footer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
     padding: 20px;
+}
+
+.td-add-plan-button {
+    display: flex;
+    align-items: center;
+    background-color: #845EC2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.td-add-plan-button:hover {
+    background-color: #724BB7;
+}
+
+.td-save-cancel-group {
+    display: flex;
+    align-items: center;
 }
 
 .td-modal-save-button {
@@ -200,4 +222,10 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.add-icon {
+    width: 15px;
+    height: 15px;
+    margin-right: 8px;
 }
