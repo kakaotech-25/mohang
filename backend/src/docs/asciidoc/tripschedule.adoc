@@ -177,6 +177,10 @@ include::{snippets}/planner/schedule/trip/add/fail/noExistSchedule/response-body
 
 include::{snippets}/planner/schedule/find/success/http-request.adoc[]
 
+===== Request Path Variable
+
+include::{snippets}/planner/schedule/find/success/path-parameters.adoc[]
+
 ===== Request Header
 
 include::{snippets}/planner/schedule/find/success/request-headers.adoc[]
@@ -198,6 +202,10 @@ include::{snippets}/planner/schedule/find/success/response-fields.adoc[]
 ==== HTTP Request
 
 include::{snippets}/planner/schedule/find/fail/http-request.adoc[]
+
+===== Request Path Variable
+
+include::{snippets}/planner/schedule/find/fail/path-parameters.adoc[]
 
 ===== Request Header
 
@@ -221,6 +229,10 @@ include::{snippets}/planner/schedule/find/fail/response-body.adoc[]
 
 include::{snippets}/planner/schedule/order/update/success/http-request.adoc[]
 
+===== Request Path Variable
+
+include::{snippets}/planner/schedule/order/update/success/path-parameters.adoc[]
+
 ===== Request Header
 
 include::{snippets}/planner/schedule/order/update/success/request-headers.adoc[]
@@ -242,6 +254,10 @@ include::{snippets}/planner/schedule/order/update/success/response-body.adoc[]
 ==== HTTP Request
 
 include::{snippets}/planner/schedule/order/update/fail/http-request.adoc[]
+
+===== Request Path Variable
+
+include::{snippets}/planner/schedule/order/update/fail/path-parameters.adoc[]
 
 ===== Request Header
 
@@ -265,6 +281,10 @@ include::{snippets}/planner/schedule/order/update/fail/response-body.adoc[]
 
 include::{snippets}/planner/schedule/trip/delete/success/http-request.adoc[]
 
+===== Request Path Variable
+
+include::{snippets}/planner/schedule/trip/delete/success/path-parameters.adoc[]
+
 ===== Request Header
 
 include::{snippets}/planner/schedule/trip/delete/success/request-headers.adoc[]
@@ -281,11 +301,15 @@ include::{snippets}/planner/schedule/trip/delete/success/http-response.adoc[]
 
 include::{snippets}/planner/schedule/trip/delete/success/response-body.adoc[]
 
-==== 세부 일정내의 특정 여행지 삭제 API 실패 (존재하지 않는 여행지를 삭제하려는 경우)
+=== 세부 일정내의 특정 여행지 삭제 API 실패 (존재하지 않는 여행지를 삭제하려는 경우)
 
 ==== HTTP Request
 
 include::{snippets}/planner/schedule/trip/delete/http-request.adoc[]
+
+===== Request Path Variable
+
+include::{snippets}/planner/schedule/trip/delete/fail/path-parameters.adoc[]
 
 ===== Request Header
 
