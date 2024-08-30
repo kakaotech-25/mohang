@@ -261,8 +261,8 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("planner/schedule/find/success",
-                        preprocessRequest(),
-                        preprocessResponse(),
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         ),

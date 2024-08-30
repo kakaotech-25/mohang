@@ -180,3 +180,25 @@ include::{snippets}/planner/schedule/find/success/http-response.adoc[]
 ===== Response Body
 
 include::{snippets}/planner/schedule/find/success/response-fields.adoc[]
+
+=== 세부 일정 정보 조회 API 실패 (존재하지 않는 일정 조회)
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/find/fail/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/find/fail/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/find/fail/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/find/fail/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/find/fail/response-body.adoc[]
