@@ -27,6 +27,28 @@ include::{snippets}/trip/recommend/ai/success/http-response.adoc[]
 
 include::{snippets}/trip/recommend/ai/success/response-fields.adoc[]
 
+=== AI 맞춤 추천 여행지 (메인페이지) API 실패 (AI 서버에 문제가 발생한 경우)
+
+==== HTTP Request
+
+include::{snippets}/trip/recommend/ai/fail/server/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/trip/recommend/ai/fail/server/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/trip/recommend/ai/fail/server/request-body.adoc[]
+
+===== HTTP Response
+
+include::{snippets}/trip/recommend/ai/fail/server/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/trip/recommend/ai/fail/server/response-body.adoc[]
+
 === 상세 여행지 조회 with. 비슷한 여행지 API
 
 ==== HTTP Request
