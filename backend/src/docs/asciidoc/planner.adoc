@@ -12,8 +12,17 @@ include::{snippets}/planner/find/recent/http-request.adoc[]
 
 ===== Request Header
 
-
+include::{snippets}/planner/find/recent/request-headers.adoc[]
 
 ===== Request Body
 
 include::{snippets}/planner/find/recent/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/find/recent/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/find/recent/response-fields.adoc[]
+
