@@ -2,7 +2,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useParams, useNavigate } from 'react-router-dom';
 import PlannerData from '../../data/PlannerData';
 import './PlannerDetails.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import deleteIcon from '../../assets/delete-icon.png';
 import backIcon from '../../assets/back-icon.png';
 import editIcon from '../../assets/editicon.png';
@@ -14,6 +14,28 @@ const PlannerDetails = () => {
   const [destinations, setDestinations] = useState(plan.destinations);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=1068045215b2426f764f379d3ed6c315&autoload=false`;
+    script.async = true;
+    document.head.appendChild(script);
+
+    script.onload = () => {
+      window.kakao.maps.load(() => {
+        const container = document.getElementById('map'); 
+        const options = {
+          center: new window.kakao.maps.LatLng(33.450701, 126.570667),
+          level: 3,
+        };
+        const map = new window.kakao.maps.Map(container, options);
+      });
+    };
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, [destinations]);
 
   const handleDragEnd = (result) => {
     if (!result.destination) return;
@@ -95,8 +117,8 @@ const PlannerDetails = () => {
             </Droppable>
           </DragDropContext>
         </div>
-        <div className="planner-details-map">
-          <p>지도 공간</p>
+        <div className="planner-details-map" id="map">
+          {/* 지도가 렌더링될 공간 */}
         </div>
       </div>
 
