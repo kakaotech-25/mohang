@@ -6,6 +6,8 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -55,6 +57,10 @@ public class PlannerControllerTest extends ControllerTestConfig {
                 .andDo(print())
                 .andDo(document("planner/find/recent",
                         preprocessRequest(),
+                        preprocessResponse(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
                         responseFields(
                                 fieldWithPath("tripScheduleResponses").description("여행 일정 리스트 : 최신순조회"),
                                 fieldWithPath("tripScheduleResponses[].scheduleId").description("여행 일정 고유 ID 값"),
@@ -86,6 +92,10 @@ public class PlannerControllerTest extends ControllerTestConfig {
                 .andDo(print())
                 .andDo(document("planner/find/name",
                         preprocessRequest(),
+                        preprocessResponse(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
                         responseFields(
                                 fieldWithPath("tripScheduleResponses").description("여행 일정 리스트 : 이름순조회"),
                                 fieldWithPath("tripScheduleResponses[].scheduleId").description("여행 일정 고유 ID 값"),
@@ -117,6 +127,10 @@ public class PlannerControllerTest extends ControllerTestConfig {
                 .andDo(print())
                 .andDo(document("planner/find/name",
                         preprocessRequest(),
+                        preprocessResponse(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
                         responseFields(
                                 fieldWithPath("tripScheduleResponses").description("여행 일정 리스트 : 날짜순조회"),
                                 fieldWithPath("tripScheduleResponses[].scheduleId").description("여행 일정 고유 ID 값"),
@@ -141,7 +155,11 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("planner/find/recent/fail",
-                        preprocessRequest()
+                        preprocessRequest(),
+                        preprocessResponse(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        )
                 ))
                 .andExpect(status().isNotFound());
     }
@@ -162,6 +180,9 @@ public class PlannerControllerTest extends ControllerTestConfig {
                 .andDo(document("planner/schedule/update",
                         preprocessRequest(),
                         preprocessResponse(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
                         requestFields(
                                 fieldWithPath("scheduleId").description("여행 일정 고유 ID 값"),
                                 fieldWithPath("scheduleName").description("여행 일정 이름"),
@@ -187,6 +208,9 @@ public class PlannerControllerTest extends ControllerTestConfig {
                 .andDo(document("planner/schedule/update",
                         preprocessRequest(),
                         preprocessResponse(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
                         requestFields(
                                 fieldWithPath("scheduleId").description("여행 일정 고유 ID 값"),
                                 fieldWithPath("scheduleName").description("여행 일정 이름"),
@@ -213,6 +237,9 @@ public class PlannerControllerTest extends ControllerTestConfig {
                 .andDo(document("planner/schedule/update",
                         preprocessRequest(),
                         preprocessResponse(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
                         requestFields(
                                 fieldWithPath("scheduleId").description("여행 일정 고유 ID 값"),
                                 fieldWithPath("scheduleName").description("여행 일정 이름"),
@@ -236,7 +263,11 @@ public class PlannerControllerTest extends ControllerTestConfig {
                 .andDo(print())
                 .andDo(document("planner/schedule/delete/success",
                         preprocessRequest(),
-                        preprocessResponse()))
+                        preprocessResponse(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        )
+                        ))
                 .andExpect(status().isNoContent());
     }
 
@@ -255,7 +286,11 @@ public class PlannerControllerTest extends ControllerTestConfig {
                 .andDo(print())
                 .andDo(document("planner/schedule/delete/fail",
                         preprocessRequest(),
-                        preprocessResponse()))
+                        preprocessResponse(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        )
+                ))
                 .andExpect(status().isNotFound());
     }
 }
