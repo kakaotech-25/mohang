@@ -156,3 +156,24 @@ include::{snippets}/planner/schedule/update/fail/noExistTripSchedule/request-fie
 
 include::{snippets}/planner/schedule/update/fail/noExistTripSchedule/response-body.adoc[]
 
+=== 플래너 내의 여행 일정 삭제 API
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/delete/success/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/delete/success/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/delete/success/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/delete/success/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/delete/success/response-body.adoc[]
