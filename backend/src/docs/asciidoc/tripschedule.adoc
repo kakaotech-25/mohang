@@ -136,3 +136,25 @@ include::{snippets}/planner/schedule/trip/add/fail/noExistTrip/http-response.ado
 ===== Response Body
 
 include::{snippets}/planner/schedule/trip/add/fail/noExistTrip/response-body.adoc[]
+
+=== 현재 여행지를 플래너 일정에 담는 API 실패 (존재하지 않는 일정)
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/trip/add/fail/noExistSchedule/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/trip/add/fail/noExistSchedule/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/trip/add/fail/noExistSchedule/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/trip/add/fail/noExistSchedule/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/trip/add/fail/noExistSchedule/response-body.adoc[]
