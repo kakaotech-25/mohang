@@ -1,4 +1,4 @@
-== ⛳️ Member (회원) - 최초 회원가입 API 제외
+== ⛳️ Member (회원) 마이페이지
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
@@ -89,3 +89,24 @@ include::{snippets}/member/update/profile/fail/http-response.adoc[]
 
 include::{snippets}/member/update/profile/fail/response-body.adoc[]
 
+=== 회원의 생활정보 조회 (마이페이지) API
+
+==== HTTP Request
+
+include::{snippets}/live/info/member/find/success/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/live/info/member/find/success/request
+
+===== Request Body
+
+include::{snippets}/live/info/member/find/success/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/live/info/member/find/success/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/live/info/member/find/success/response-fields.adoc[]
