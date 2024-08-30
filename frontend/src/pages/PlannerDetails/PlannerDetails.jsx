@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import PlannerData from '../../data/PlannerData';
 import './PlannerDetails.css';
 import { useState } from 'react';
+import deleteIcon from '../../assets/delete-icon.png';
 
 const PlannerDetails = () => {
   const { id } = useParams();
@@ -16,6 +17,11 @@ const PlannerDetails = () => {
     const [reorderedItem] = updatedDestinations.splice(result.source.index, 1);
     updatedDestinations.splice(result.destination.index, 0, reorderedItem);
 
+    setDestinations(updatedDestinations);
+  };
+
+  const handleDelete = (index) => {
+    const updatedDestinations = destinations.filter((_, i) => i !== index);
     setDestinations(updatedDestinations);
   };
 
@@ -44,12 +50,17 @@ const PlannerDetails = () => {
                       >
                         <span
                           className="hamburger-button"
-                          {...provided.dragHandleProps}  // 햄버거 버튼에만 드래그앤드롭
+                          {...provided.dragHandleProps}
                         >
                           ☰
                         </span>
                         <span className="destination-name">{destination}</span>
-                        <button className="delete-button">삭제</button>
+                        <button 
+                          className="delete-button" 
+                          onClick={() => handleDelete(index)}
+                        >
+                          <img src={deleteIcon} alt="삭제" />
+                        </button>
                       </li>
                     )}
                   </Draggable>

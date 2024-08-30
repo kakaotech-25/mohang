@@ -1,11 +1,11 @@
 .planner-details-container {
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Align items to the top */
+    align-items: flex-start;
     width: 100%;
     padding: 20px;
     box-sizing: border-box;
-    gap: 20px; /* Add space between the sections */
+    gap: 20px;
 }
 
 .planner-details-list,
@@ -13,13 +13,13 @@
     background-color: #FFFFEC;
     border-radius: 10px;
     width: 45%;
-    padding: 0; /* Remove padding */
+    padding: 0;
     box-sizing: border-box;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 10px; /* Add some margin to the top */
-    margin-bottom: 10px; /* Add some margin to the bottom */
-    height: auto; /* Make both sections adjust to the content */
-    min-height: 500px; /* Ensure both sections have the same height */
+    margin-top: 10px; 
+    margin-bottom: 10px;
+    height: auto;
+    min-height: 500px;
 }
 
 .planner-details-header {
@@ -29,8 +29,8 @@
     justify-content: space-between;
     align-items: center;
     color: #fff;
-    border-radius: 10px 10px 0 0; /* Rounded corners */
-    box-sizing: border-box; /* Include padding in width/height */
+    border-radius: 10px 10px 0 0;
+    box-sizing: border-box;
 }
 
 .planner-details-title {
@@ -45,7 +45,7 @@
 
 .planner-destinations-list {
     list-style-type: none;
-    padding: 20px; /* Add padding for the list items */
+    padding: 20px;
     margin: 0;
 }
 
@@ -57,21 +57,36 @@
     border-bottom: 1px solid #ccc;
 }
 
-.hamburger-button,
-.delete-button {
+.hamburger-button {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .delete-button {
-    color: #ff0000;
+    background-color: #845EC2;
+    color: #FFFFFF;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+}
+
+.delete-icon {
+    width: 16px;
+    height: 16px;
 }
 
 .destination-name {
     flex-grow: 1;
     margin: 0 10px;
+    font-size: 20px;
 }
 
 .planner-details-map {
