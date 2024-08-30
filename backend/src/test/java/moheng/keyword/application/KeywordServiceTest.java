@@ -130,6 +130,21 @@ public class KeywordServiceTest extends ServiceTestConfig {
         assertThat(response.getFindTripResponses()).hasSize(3);
     }
 
+    @DisplayName("존재하지 않는 일부 키워드가 존재하는 경우 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_일부_키워드가_존재하는_경우_예외가_발생한다() {
+        // given
+        memberService.save(하온_기존());
+        Member member = memberService.findByEmail(하온_이메일);
+
+        List<Long> keywordIds = List.of(-1L, -2L, -3L);
+        TripsByKeyWordsRequest request = new TripsByKeyWordsRequest(keywordIds);
+
+        // when, then
+        assertThatThrownBy(() -> keywordService.findRecommendTripsByKeywords(request))
+                .isInstanceOf(NoExistKeywordException.class);
+    }
+
     @DisplayName("여행지의 키워드를 생성한다.")
     @Test
     void 여행지의_키워드를_생성한다() {
