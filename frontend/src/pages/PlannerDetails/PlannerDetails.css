@@ -1,9 +1,64 @@
+.planner-details-page {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.planner-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.back-button {
+    display: flex;
+    align-items: center;
+    background-color: #845EC2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.back-button:hover {
+    background-color: #724BB7;
+}
+
+.back-icon {
+    height: 20px;
+    margin-right: 10px;
+}
+
+.edit-plan-button {
+    display: flex;
+    align-items: center;
+    background-color: #845EC2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.edit-plan-button:hover {
+    background-color: #724BB7;
+}
+
+.edit-icon {
+    height: 20px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
 .planner-details-container {
     display: flex;
     justify-content: center;
     align-items: flex-start;
     width: 100%;
-    padding: 20px;
     box-sizing: border-box;
     gap: 20px;
 }
