@@ -26,3 +26,25 @@ include::{snippets}/planner/schedule/create/success/http-response.adoc[]
 ===== Response Body
 
 include::{snippets}/planner/schedule/create/success/response-body.adoc[]
+
+=== 여행 일정 생성 API 실패 (동일한 이름의 일정이 이미 존재하는 경우)
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/create/fail/alreadyExistTripSchedule/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/create/fail/alreadyExistTripSchedule/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/create/fail/alreadyExistTripSchedule/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/create/fail/alreadyExistTripSchedule/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/create/fail/alreadyExistTripSchedule/response-body.adoc[]
