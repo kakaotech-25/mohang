@@ -296,8 +296,8 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("planner/schedule/find/fail",
-                        preprocessRequest(),
-                        preprocessResponse(),
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         )))
@@ -319,8 +319,8 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         .content(objectMapper.writeValueAsString(new UpdateTripOrdersRequest(List.of(1L, 2L, 3L)))))
                 .andDo(print())
                 .andDo(document("planner/schedule/order/update/success",
-                        preprocessRequest(),
-                        preprocessResponse(),
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         ),
@@ -346,8 +346,8 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         .content(objectMapper.writeValueAsString(new UpdateTripOrdersRequest(List.of(1L, 2L, 3L)))))
                 .andDo(print())
                 .andDo(document("planner/schedule/order/update/fail",
-                        preprocessRequest(),
-                        preprocessResponse(),
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         ),
@@ -371,8 +371,8 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("planner/schedule/trip/delete/success",
-                        preprocessRequest(),
-                        preprocessResponse(),
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         )
@@ -394,8 +394,8 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("planner/schedule/trip/delete/fail",
-                        preprocessRequest(),
-                        preprocessResponse(),
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         )

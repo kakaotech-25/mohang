@@ -57,8 +57,8 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("planner/find/recent",
-                        preprocessRequest(),
-                        preprocessResponse(),
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         ),
@@ -93,8 +93,8 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("planner/find/name",
-                        preprocessRequest(),
-                        preprocessResponse(),
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         ),
@@ -129,8 +129,8 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("planner/find/date",
-                        preprocessRequest(),
-                        preprocessResponse(),
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         ),
@@ -159,8 +159,8 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("planner/find/recent/fail",
-                        preprocessRequest(),
-                        preprocessResponse(),
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         )
@@ -183,8 +183,8 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         .content(objectMapper.writeValueAsString(여행_일정_수정_요청())))
                 .andDo(print())
                 .andDo(document("planner/schedule/update/success",
-                        preprocessRequest(),
-                        preprocessResponse(),
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         ),
@@ -212,8 +212,8 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(여행_일정_수정_요청())))
                 .andDo(document("planner/schedule/update/fail/duplicateName",
-                        preprocessRequest(),
-                        preprocessResponse(),
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         ),
@@ -242,8 +242,8 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         .content(objectMapper.writeValueAsString(여행_일정_수정_요청())))
                 .andDo(print())
                 .andDo(document("planner/schedule/update/fail/noExistTripSchedule",
-                        preprocessRequest(),
-                        preprocessResponse(),
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         ),
@@ -270,8 +270,8 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("planner/schedule/delete/success",
-                        preprocessRequest(),
-                        preprocessResponse(),
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         )
@@ -294,8 +294,8 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("planner/schedule/delete/fail",
-                        preprocessRequest(),
-                        preprocessResponse(),
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         )
