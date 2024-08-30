@@ -99,6 +99,10 @@ include::{snippets}/planner/schedule/create/fail/invalidDate/response-body.adoc[
 
 include::{snippets}/planner/schedule/trip/add/success/http-request.adoc[]
 
+===== Request Path Variable
+
+include::{snippets}/planner/schedule/trip/add/success/path-parameters.adoc[]
+
 ===== Request Header
 
 include::{snippets}/planner/schedule/trip/add/success/request-headers.adoc[]
@@ -121,6 +125,10 @@ include::{snippets}/planner/schedule/trip/add/success/response-body.adoc[]
 
 include::{snippets}/planner/schedule/trip/add/fail/noExistTrip/http-request.adoc[]
 
+===== Request Path Variable
+
+include::{snippets}/planner/schedule/trip/add/fail/noExistTrip/path-parameters.adoc[]
+
 ===== Request Header
 
 include::{snippets}/planner/schedule/trip/add/fail/noExistTrip/request-headers.adoc[]
@@ -142,6 +150,10 @@ include::{snippets}/planner/schedule/trip/add/fail/noExistTrip/response-body.ado
 ==== HTTP Request
 
 include::{snippets}/planner/schedule/trip/add/fail/noExistSchedule/http-request.adoc[]
+
+===== Request Path Variable
+
+include::{snippets}/planner/schedule/trip/add/fail/noExistSchedule/path-parameters.adoc[]
 
 ===== Request Header
 
