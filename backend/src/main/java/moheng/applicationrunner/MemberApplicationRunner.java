@@ -23,7 +23,7 @@ public class MemberApplicationRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        memberRepository.save(new Member(1L, "moheng@kakao.com", "moheng",
+        memberRepository.save(new Member(1L, "msung6924@kakao.com", "moheng",
                 "https://default.png", SocialType.KAKAO,
                 LocalDate.of(2000, 1, 1), GenderType.MEN));
     }
