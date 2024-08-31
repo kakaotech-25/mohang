@@ -8,7 +8,7 @@ import moheng.planner.exception.InvalidTripScheduleNameException;
 
 import java.time.LocalDate;
 
-@Table(name = "plan")
+@Table(name = "trip_schedule")
 @Entity
 public class TripSchedule extends BaseEntity {
     private static final int MIN_NAME_LENGTH = 2;

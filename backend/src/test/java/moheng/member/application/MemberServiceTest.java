@@ -26,6 +26,7 @@ import moheng.recommendtrip.domain.RecommendTrip;
 import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.trip.application.TripService;
 import moheng.trip.domain.Trip;
+import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -370,5 +371,19 @@ public class MemberServiceTest extends ServiceTestConfig {
         // then
         Member member = memberService.findByEmail(하온_이메일);
         assertThat(member.getAuthority()).isEqualTo(Authority.REGULAR_MEMBER);
+    }
+
+    @DisplayName("선택한 관심 여행지중에 존재하지 않는 여행지가 일부 존재한다면 예외가 발생한다.")
+    @Test
+    void 선택한_관심_여행지중에_존재하지_않는_여행지가_일부_존재한다면_예외가_발생한다() {
+        /// given
+        memberService.save(하온_기존());
+        long memberId = memberService.findByEmail(하온_이메일).getId();
+
+        SignUpInterestTripsRequest request = new SignUpInterestTripsRequest(List.of(-1L, -2L, -3L, -4L, -5L));
+
+        // when, then
+        assertThatThrownBy(() -> memberService.signUpByInterestTrips(memberId, request))
+                .isInstanceOf(NoExistTripException.class);
     }
 }
