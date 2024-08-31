@@ -1,4 +1,4 @@
-package moheng.eventlistener;
+package moheng.applicationrunner;
 
 
 import moheng.member.domain.GenderType;
@@ -7,7 +7,6 @@ import moheng.member.domain.SocialType;
 import moheng.member.domain.repository.MemberRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package moheng.eventlistener;
+package moheng.applicationrunner;
 
 import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.KeywordRepository;
@@ -6,10 +6,8 @@ import moheng.keyword.domain.TripKeyword;
 import moheng.keyword.domain.TripKeywordRepository;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.TripRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
