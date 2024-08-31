@@ -368,3 +368,25 @@ include::{snippets}/member/signup/trip/fail/invalidSelectedCounts/http-response.
 ===== Response Body
 
 include::{snippets}/member/signup/trip/fail/invalidSelectedCounts/response-body.adoc[]
+
+=== 선택한 선호 여행지 리스트 조회 API 실패 (선택한 관심 여행지중에 존재하지 않는 여행지가 일부 존재하는 경우)
+
+==== HTTP Request
+
+include::{snippets}/member/signup/trip/fail/noExistTrip/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/member/signup/trip/fail/noExistTrip/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/member/signup/trip/fail/noExistTrip/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/member/signup/trip/fail/noExistTrip/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/member/signup/trip/fail/noExistTrip/response-body.adoc[]

@@ -563,7 +563,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(잘못된_관심_여행지로_회원가입_요청()))
+                        .content(objectMapper.writeValueAsString(존재하지_않는_여행지로_회원가입_요청()))
                 ).andDo(print())
                 .andDo(document("member/signup/trip/fail/noExistTrip",
                         preprocessRequest(prettyPrint()),
