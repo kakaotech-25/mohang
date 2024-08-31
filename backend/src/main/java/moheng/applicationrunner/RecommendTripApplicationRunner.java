@@ -9,8 +9,10 @@ import moheng.trip.domain.TripRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 @Order(8)
+@Component
 public class RecommendTripApplicationRunner implements ApplicationRunner {
     private final RecommendTripRepository recommendTripRepository;
     private final MemberRepository memberRepository;
@@ -36,7 +38,6 @@ public class RecommendTripApplicationRunner implements ApplicationRunner {
         Trip trip7 = tripRepository.findById(7L).get();
         Trip trip8 = tripRepository.findById(8L).get();
         Trip trip9 = tripRepository.findById(9L).get();
-        Trip trip10 = tripRepository.findById(10L).get();
 
         recommendTripRepository.save(new RecommendTrip(trip1, member, 1L));
         recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
