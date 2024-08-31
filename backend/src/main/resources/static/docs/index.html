@@ -538,6 +538,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_세부_일정내의_여행지_리스트_순서_변경_api">세부 일정내의 여행지 리스트 순서 변경 API</a></li>
 <li><a href="#_세부_일정내의_여행지_리스트_순서_변경_api_실패_존재하지_않는_여행지에_대한_순서_변경_요청">세부 일정내의 여행지 리스트 순서 변경 API 실패 (존재하지 않는 여행지에 대한 순서 변경 요청)</a></li>
 <li><a href="#_세부_일정내의_특정_여행지_삭제_api">세부 일정내의 특정 여행지 삭제 API</a></li>
+<li><a href="#_세부_일정내의_특정_여행지_삭제_api_실패_존재하지_않는_여행지를_삭제하려는_경우">세부 일정내의 특정 여행지 삭제 API 실패 (존재하지 않는 여행지를 삭제하려는 경우)</a></li>
 </ul>
 </li>
 </ul>
@@ -695,7 +696,7 @@ Host: localhost:8080
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: refresh-token=refresh-token; Path=/; Max-Age=604800; Expires=Fri, 6 Sep 2024 06:48:56 GMT; Secure; HttpOnly; SameSite=None
+Set-Cookie: refresh-token=refresh-token; Path=/; Max-Age=604800; Expires=Sat, 7 Sep 2024 08:32:08 GMT; Secure; HttpOnly; SameSite=None
 Content-Type: application/json
 Content-Length: 36
 
@@ -5612,6 +5613,28 @@ Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_request_path_variable_6">Request Path Variable</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 9. /api/planner/schedule/{scheduleId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>scheduleId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 일정 고유 ID 값</p></td>
+</tr>
+</tbody>
+</table>
 <div class="sect4">
 <h5 id="_request_header_40">Request Header</h5>
 <table class="tableblock frame-all grid-all stretch">
@@ -5675,6 +5698,28 @@ Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_request_path_variable_7">Request Path Variable</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 10. /api/planner/schedule/{scheduleId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>scheduleId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 일정 고유 ID 값</p></td>
+</tr>
+</tbody>
+</table>
 <div class="sect4">
 <h5 id="_request_header_41">Request Header</h5>
 <table class="tableblock frame-all grid-all stretch">
@@ -6160,6 +6205,32 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect4">
+<h5 id="_request_path_variable_8">Request Path Variable</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 11. /api/schedule/trip/{tripId}/{scheduleId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tripId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">플래너에 담을 현재 여행지의 고유 ID 값</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>scheduleId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 일정 고유 ID 값</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
 <h5 id="_request_header_46">Request Header</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -6221,6 +6292,32 @@ Authorization: Bearer aaaaaa.bbbbbb.cccccc
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
+</div>
+<div class="sect4">
+<h5 id="_request_path_variable_9">Request Path Variable</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 12. /api/schedule/trip/{tripId}/{scheduleId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tripId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">플래너에 담을 현재 여행지의 고유 ID 값</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>scheduleId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 일정 고유 ID 값</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect4">
 <h5 id="_request_header_47">Request Header</h5>
@@ -6294,6 +6391,32 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect4">
+<h5 id="_request_path_variable_10">Request Path Variable</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 13. /api/schedule/trip/{tripId}/{scheduleId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tripId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">플래너에 담을 현재 여행지의 고유 ID 값</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>scheduleId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 일정 고유 ID 값</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
 <h5 id="_request_header_48">Request Header</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -6363,6 +6486,28 @@ Authorization: Bearer aaaaaa.bbbbbb.cccccc
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
+</div>
+<div class="sect4">
+<h5 id="_request_path_variable_11">Request Path Variable</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 14. /api/schedule/trips/{scheduleId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>scheduleId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 일정 고유 ID 값</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect4">
 <h5 id="_request_header_49">Request Header</h5>
@@ -6516,6 +6661,28 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect4">
+<h5 id="_request_path_variable_12">Request Path Variable</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 15. /api/schedule/trips/{scheduleId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>scheduleId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 일정 고유 ID 값</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
 <h5 id="_request_header_50">Request Header</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -6590,6 +6757,28 @@ Host: localhost:8080
   "tripIds" : [ 1, 2, 3 ]
 }</code></pre>
 </div>
+</div>
+<div class="sect4">
+<h5 id="_request_path_variable_13">Request Path Variable</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 16. /api/schedule/trips/orders/{scheduleId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>scheduleId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 일정 고유 ID 값</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect4">
 <h5 id="_request_header_51">Request Header</h5>
@@ -6674,6 +6863,28 @@ Host: localhost:8080
   "tripIds" : [ 1, 2, 3 ]
 }</code></pre>
 </div>
+</div>
+<div class="sect4">
+<h5 id="_request_path_variable_14">Request Path Variable</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 17. /api/schedule/trips/orders/{scheduleId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>scheduleId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 일정 고유 ID 값</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect4">
 <h5 id="_request_header_52">Request Header</h5>
@@ -6763,6 +6974,32 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect4">
+<h5 id="_request_path_variable_15">Request Path Variable</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 18. /api/schedule/{scheduleId}/{tripId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>scheduleId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 일정 고유 ID 값</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tripId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행지 고유 ID 값</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
 <h5 id="_request_header_53">Request Header</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -6811,10 +7048,9 @@ Vary: Access-Control-Request-Headers</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_세부_일정내의_특정_여행지_삭제_api_실패_존재하지_않는_여행지를_삭제하려는_경우">세부 일정내의 특정 여행지 삭제 API 실패 (존재하지 않는 여행지를 삭제하려는 경우)</h4>
-
 </div>
+<div class="sect2">
+<h3 id="_세부_일정내의_특정_여행지_삭제_api_실패_존재하지_않는_여행지를_삭제하려는_경우">세부 일정내의 특정 여행지 삭제 API 실패 (존재하지 않는 여행지를 삭제하려는 경우)</h3>
 <div class="sect3">
 <h4 id="_http_request_66">HTTP Request</h4>
 <div class="listingblock">
@@ -6825,6 +7061,32 @@ Authorization: Bearer aaaaaa.bbbbbb.cccccc
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
+</div>
+<div class="sect4">
+<h5 id="_request_path_variable_16">Request Path Variable</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 19. /api/schedule/{scheduleId}/{tripId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>scheduleId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 일정 고유 ID 값</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tripId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행지 고유 ID 값</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect4">
 <h5 id="_request_header_54">Request Header</h5>
@@ -6886,7 +7148,7 @@ Content-Length: 60
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-08-30 13:45:54 +0900
+Last updated 2024-08-30 17:09:05 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

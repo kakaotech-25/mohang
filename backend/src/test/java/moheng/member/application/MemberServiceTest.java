@@ -144,6 +144,9 @@ public class MemberServiceTest extends ServiceTestConfig {
                 .isInstanceOf(DuplicateNicknameException.class);
     }
 
+    @DisplayName("")
+    @Test
+
     @DisplayName("회원의 프로필을 업데이트한다.")
     @Test
     void 회원의_프로필을_업데이트한다() {

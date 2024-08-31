@@ -56,6 +56,8 @@ public class InitAuthenticationArgumentResolver implements HandlerMethodArgument
         final Member member = memberRepository.findById(id)
                 .orElseThrow(NoExistMemberException::new);
 
+        System.out.println("Current Authority:" + member.getAuthority());
+
         if(!member.getAuthority().equals(Authority.INIT_MEMBER)) {
             throw new InvalidInitAuthorityException("초기 회원가입 기능에 대한 접근 권한이 없습니다.");
         }
