@@ -1,5 +1,6 @@
 package moheng.eventlistener;
 
+import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.KeywordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -20,6 +21,10 @@ public class KeywordApplicationRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-
+        keywordRepository.save(new Keyword("키워드1"));
+        keywordRepository.save(new Keyword("키워드2"));
+        keywordRepository.save(new Keyword("키워드3"));
+        keywordRepository.save(new Keyword("키워드4"));
+        keywordRepository.save(new Keyword("키워드5"));
     }
 }
