@@ -36,5 +36,5 @@ security:
     token:
       secret_key: secretsecretsecretsecretsecretsecret
       expire_length:
-        access_token: 360000
-        refresh_token: 360000
+        access_token: 36000000
+        refresh_token: 36000000
