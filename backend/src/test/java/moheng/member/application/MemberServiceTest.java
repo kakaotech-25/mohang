@@ -14,6 +14,7 @@ import moheng.liveinformation.exception.EmptyLiveInformationException;
 import moheng.liveinformation.exception.NoExistLiveInformationException;
 import moheng.member.domain.Member;
 import moheng.member.domain.SocialType;
+import moheng.member.domain.repository.MemberRepository;
 import moheng.member.dto.request.SignUpInterestTripsRequest;
 import moheng.member.dto.request.SignUpLiveInfoRequest;
 import moheng.member.dto.request.SignUpProfileRequest;
@@ -40,6 +41,9 @@ public class MemberServiceTest extends ServiceTestConfig {
 
     @Autowired
     private TripService tripService;
+
+    @Autowired
+    private MemberRepository memberRepository;
 
     @DisplayName("회원을 저장한다.")
     @Test
@@ -110,12 +114,27 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 프로필_정보를_입력하여_회원가입한다() {
         // given
-        Member member = new Member(하온_이메일, 하온_소셜_타입_카카오);
-        memberService.save(member);
+        Member member = memberRepository.save(new Member(하온_이메일, 하온_소셜_타입_카카오));
         SignUpProfileRequest signUpProfileRequest = new SignUpProfileRequest(하온_닉네임, 하온_생년월일, 하온_성별, 하온_프로필_경로);
 
+        // when, then
         assertDoesNotThrow(() ->
                 memberService.signUpByProfile(member.getId(), signUpProfileRequest));
+    }
+
+    @DisplayName("프로필 정보로 회원가입 후 멤버의 권한은 INIT_MEMBER 로 그대로 유지된다.")
+    @Test
+    void 프로필_정보로_회원가입_후_멤버의_권한은_INIT_MEMBER_로_그대로_유지된다() {
+        // given
+        Member member = memberRepository.save(new Member(하온_이메일, 하온_소셜_타입_카카오));
+        SignUpProfileRequest signUpProfileRequest = new SignUpProfileRequest(하온_닉네임, 하온_생년월일, 하온_성별, 하온_프로필_경로);
+
+        // when
+        memberService.signUpByProfile(member.getId(), signUpProfileRequest);
+
+        // then
+        Member initMember = memberRepository.findById(member.getId()).get();
+        assertEquals(initMember.getAuthority(), Authority.INIT_MEMBER);
     }
 
     @DisplayName("존재하지 않는 회원의 프로필 정보로 회원가입하면 예외가 발생한다.")
@@ -143,9 +162,6 @@ public class MemberServiceTest extends ServiceTestConfig {
                 memberService.signUpByProfile(1L, signUpProfileRequest))
                 .isInstanceOf(DuplicateNicknameException.class);
     }
-
-    @DisplayName("")
-    @Test
 
     @DisplayName("회원의 프로필을 업데이트한다.")
     @Test
