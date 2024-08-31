@@ -51,9 +51,13 @@ public class KeywordApplicationRunner implements ApplicationRunner {
         tripKeywordRepository.save(new TripKeyword(trip2, keyword1));
         tripKeywordRepository.save(new TripKeyword(trip2, keyword2));
         tripKeywordRepository.save(new TripKeyword(trip3, keyword2));
-
         tripKeywordRepository.save(new TripKeyword(trip3, keyword3));
         tripKeywordRepository.save(new TripKeyword(trip4, keyword4));
         tripKeywordRepository.save(new TripKeyword(trip5, keyword5));
+        tripKeywordRepository.save(new TripKeyword(trip6, keyword1));
+        tripKeywordRepository.save(new TripKeyword(trip7, keyword2));
+        tripKeywordRepository.save(new TripKeyword(trip8, keyword3));
+        tripKeywordRepository.save(new TripKeyword(trip9, keyword4));
+        tripKeywordRepository.save(new TripKeyword(trip10, keyword5));
     }
 }
