@@ -22,6 +22,8 @@ import moheng.member.dto.request.UpdateProfileRequest;
 import moheng.member.exception.DuplicateNicknameException;
 import moheng.member.exception.NoExistMemberException;
 import moheng.member.exception.ShortContentidsSizeException;
+import moheng.recommendtrip.domain.RecommendTrip;
+import moheng.recommendtrip.domain.RecommendTripRepository;
 import moheng.trip.application.TripService;
 import moheng.trip.domain.Trip;
 import org.junit.jupiter.api.DisplayName;
@@ -44,6 +46,9 @@ public class MemberServiceTest extends ServiceTestConfig {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private RecommendTripRepository recommendTripRepository;
 
     @DisplayName("회원을 저장한다.")
     @Test
@@ -269,6 +274,30 @@ public class MemberServiceTest extends ServiceTestConfig {
 
         // when, then
         assertDoesNotThrow(() -> memberService.signUpByInterestTrips(memberId, request));
+    }
+
+    @DisplayName("회원이 선택한 관심 여행지 우선순위를 1위부터 시작하여 순차대로 저장한다.")
+    @Test
+    void 회원이_선택한_관심_여행지_우선순위를_1위부터_시작하여_순차대로_저장한다() {
+        // given
+        memberService.save(하온_기존());
+        long memberId = memberService.findByEmail(하온_이메일).getId();
+
+        for(long contentId=1; contentId<=5; contentId++) {
+            tripService.save(new Trip("롯데월드", "서울특별시 송파구", contentId,
+                    "설명", "https://image.com"));
+        }
+        SignUpInterestTripsRequest request = new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L));
+
+        // when
+        memberService.signUpByInterestTrips(memberId, request);
+
+        // then
+        assertAll(() -> {
+            for(long rank=1; rank<=5; rank++) {
+                assertEquals(recommendTripRepository.findById(rank).get().getRank(), rank);
+            }
+        });
     }
 
     @DisplayName("존재하지 않는 회원의 관심 여행지를 저장하면 예외가 발생한다.")
