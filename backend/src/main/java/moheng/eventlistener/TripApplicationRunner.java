@@ -51,11 +51,5 @@ public class TripApplicationRunner implements ApplicationRunner {
         tripRepository.save(new Trip("여행지10", "서울특별시 송파구10", 10L, "여행지 설명10",
                 "https://lotte-world.ong"));
 
-        tripRepository.save(new Trip("여행지11", "서울특별시 송파구11", 11L, "여행지 설명11",
-                "https://lotte-world.ong"));
-
-        tripRepository.save(new Trip("여행지12", "서울특별시 송파구12", 12L, "여행지 설명12",
-                "https://lotte-world.ong"));
-
     }
 }
