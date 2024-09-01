@@ -1,6 +1,8 @@
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Landing.css';
+import TravelCarousel from '../../components/TravelCarousel/TravelCarousel';
+import TravelData from '../../data/TravelData';
 
 const Landing = () => {
   const secondSectionRef = useRef(null);
@@ -35,6 +37,14 @@ const Landing = () => {
       <div ref={secondSectionRef} className="second-section">
         <h2>영상 공간</h2>
       </div>
+
+      <section className='keyword-recommendation'>
+        <div className='carousel-description'>
+          <span className="keyword-highlight">#키워드</span>로 추천하는 여행지
+        </div>
+        <TravelCarousel cards={TravelData} />
+      </section>
+
     </div>
   );
 };
