@@ -39,12 +39,12 @@
   color: white;
   background-color: #845EC2;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   margin-right: 10px;
 }
 
-.landing-button:hover {
+.landing-button:hover, .login-button:hover {
   background-color: #724BB7;
 }
 
@@ -65,3 +65,27 @@
 .keyword-highlight {
   color: #845EC2;
 }
+
+.login-prompt {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.login-prompt p {
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.login-button {
+  padding: 10px 40px;
+  font-size: 1.5rem;
+  color: white;
+  background-color: #845EC2;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+}
+

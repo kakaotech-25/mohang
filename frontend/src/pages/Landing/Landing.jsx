@@ -43,10 +43,17 @@ const Landing = () => {
           <span className="keyword-highlight">#키워드</span>로 추천하는 여행지
         </div>
         <TravelCarousel cards={TravelData} />
+
+        <div className="login-prompt">
+          <p>로그인하고 여행지를 추천받아보세요!</p>
+          <button className="login-button" onClick={handleLoginRedirect}>
+            로그인
+          </button>
+        </div>
       </section>
 
     </div>
   );
 };
 
-export default Landing
+export default Landing;
