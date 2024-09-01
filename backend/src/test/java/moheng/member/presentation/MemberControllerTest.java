@@ -9,6 +9,7 @@ import moheng.config.slice.ControllerTestConfig;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
 import moheng.liveinformation.exception.NoExistLiveInformationException;
 import moheng.member.exception.*;
+import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -520,9 +521,9 @@ public class MemberControllerTest extends ControllerTestConfig {
                 ).andExpect(status().isNoContent());
     }
 
-    @DisplayName("관심 여행지를 선택을 잘못하여 회원가입에 실패했다면 상태코드 400을 리턴한다.")
+    @DisplayName("선택한 관심 여행지 개수가 유효하지 않아 회원가입에 실패했다면 상태코드 400을 리턴한다.")
     @Test
-    void 관심_여행지_선택을_잘못하여_회원가입에_실패했다면_상태코드_400를_리턴한다() throws Exception {
+    void 선택한_관심_여행지_개수가_유효하지_않아_회원가입에_실패했다면_상태코드_400를_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
         given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_신규()));
@@ -536,7 +537,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(잘못된_관심_여행지로_회원가입_요청()))
                 ).andDo(print())
-                .andDo(document("member/signup/trip/fail",
+                .andDo(document("member/signup/trip/fail/invalidSelectedCounts",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
@@ -546,5 +547,33 @@ public class MemberControllerTest extends ControllerTestConfig {
                                 fieldWithPath("contentIds").description("관심 여행지의 contentId 리스트")
                         ))
                 ).andExpect(status().isBadRequest());
+    }
+
+    @DisplayName("선택한 관심 여행지중에 존재하지 않는 여행지가 일부 존재한다면 상태코드 400을 리턴한다.")
+    @Test
+    void 선택한_관심_여행지중에_존재하지_않는_여행지가_일부_존재한다면_상태코드_400을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberRepository.findById(anyLong())).willReturn(Optional.of(하온_신규()));
+        doThrow(new NoExistTripException("존재하지 않는 여행지입니다."))
+                .when(memberService).signUpByInterestTrips(anyLong(), any());
+
+        // when, then
+        mockMvc.perform(post("/api/member/signup/trip")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(존재하지_않는_여행지로_회원가입_요청()))
+                ).andDo(print())
+                .andDo(document("member/signup/trip/fail/noExistTrip",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("contentIds").description("관심 여행지의 contentId 리스트")
+                        ))
+                ).andExpect(status().isNotFound());
     }
 }

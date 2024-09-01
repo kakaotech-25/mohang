@@ -104,6 +104,10 @@ public class MemberFixtures {
         return new SignUpInterestTripsRequest(List.of());
     }
 
+    public static SignUpInterestTripsRequest 존재하지_않는_여행지로_회원가입_요청() {
+        return new SignUpInterestTripsRequest(List.of(-1L, -2L, -3L, -4L, -5L));
+    }
+
     // 닉네임 중복확인 요청
     public static CheckDuplicateNicknameRequest 닉네임_중복확인_요청() {
         return new CheckDuplicateNicknameRequest("devhaon");
