@@ -12,10 +12,26 @@ const Callback = () => {
 
       if (code) {
         try {
-          // 카카오 로그인 인증 코드를 백엔드에 전송하여 인증 처리
-          await axios.post("http://localhost:8080/api/auth/KAKAO/login", { "code": code });
-          
-          navigate('/'); 
+          // 카카오 로그인 인증 코드를 백엔드로 전송하여 인증 처리
+          const response = await axios.post("http://localhost:8080/api/auth/KAKAO/login", { "code": code });
+
+          // 백엔드에서 받은 엑세스 토큰을 저장
+          const accessToken = response.data.accessToken;
+          if (accessToken) {
+            localStorage.setItem('accessToken', accessToken);
+          }
+
+          // 백엔드에서 Set-Cookie 헤더로 리프레시 토큰을 보내는 경우, 이를 처리
+          const cookies = response.headers['set-cookie'];
+          if (cookies) {
+            const refreshToken = cookies.find(cookie => cookie.startsWith('refresh-token'))?.split(';')[0]?.split('=')[1];
+            if (refreshToken) {
+              localStorage.setItem('refreshToken', refreshToken);
+            }
+          }
+
+          // 로그인 성공 후 /mypage로 리디렉션
+          navigate('/');
         } catch (error) {
           console.error('Failed to login with Kakao:', error);
           navigate('/login?error=oauth');
