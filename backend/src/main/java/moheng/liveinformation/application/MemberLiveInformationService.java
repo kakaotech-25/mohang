@@ -7,6 +7,7 @@ import moheng.liveinformation.domain.MemberLiveInformationRepository;
 import moheng.liveinformation.dto.FindMemberLiveInformationResponses;
 import moheng.liveinformation.dto.LiveInfoResponse;
 import moheng.liveinformation.dto.UpdateMemberLiveInformationRequest;
+import moheng.liveinformation.exception.NoExistLiveInformationException;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
@@ -42,6 +43,11 @@ public class MemberLiveInformationService {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoExistMemberException("존재하지 않는 회원입니다."));
         final List<LiveInformation> liveInformations = liveInformationRepository.findAllById(request.getLiveInfoIds());
+
+        if (request.getLiveInfoIds().size() != liveInformations.size()) {
+            throw new NoExistLiveInformationException("일부 생활정보가 존재하지 않습니다.");
+        }
+
         memberLiveInformationRepository.deleteByMemberId(memberId);
         saveMemberLiveInformation(liveInformations, member);
     }

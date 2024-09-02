@@ -12,6 +12,8 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+  flyway:
+    enabled: true
 
 logging:
   level:
@@ -21,11 +23,10 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
-
 oauth:
   kakao:
     authorize_uri: https://kauth.kakao.com/oauth/authorize
-    redirect_uri: http://localhost:8080
+    redirect_uri: http://localhost:3000/callback/kakao
     client_secret: 3ZPJ93VC9MCuCXmPCDzrGmum2M3A7tif
     token_uri: https://kauth.kakao.com/oauth/token
     user_uri: https://kapi.kakao.com/v2/user/me
@@ -36,5 +37,5 @@ security:
     token:
       secret_key: secretsecretsecretsecretsecretsecret
       expire_length:
-        access_token: 3600
-        refresh_token: 3600
+        access_token: 36000000
+        refresh_token: 36000000

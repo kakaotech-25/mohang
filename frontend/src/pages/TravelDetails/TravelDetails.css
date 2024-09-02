@@ -98,35 +98,6 @@
     box-shadow: inset 0px -10px 10px -10px rgba(0, 0, 0, 0.1);
 }
 
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-}
-
-.modal button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #845EC2;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
 .similar-destinations {
     margin-top: 60px;
     padding-top: 40px;
@@ -148,4 +119,113 @@
 
 .similar-place {
     margin-left: 0;
+}
+
+
+.td-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.td-modal-content {
+    background-color: #FFFFEC;
+    border-radius: 10px;
+    width: 450px;
+    text-align: left;
+}
+
+.td-modal-header {
+    background-color: #C493FF;
+    color: white;
+    padding: 1px;
+    border-radius: 10px 10px 0 0;
+    text-align: center;
+}
+
+.td-modal-body {
+    padding: 20px;
+}
+
+.td-planner-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.td-planner-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ECE6F0;
+}
+
+.td-planner-title {
+    font-size: 20px;
+    color: #333;
+}
+
+.td-planner-checkbox {
+    transform: scale(2);
+}
+
+.td-modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.td-add-plan-button {
+    display: flex;
+    align-items: center;
+    background-color: #845EC2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.td-add-plan-button:hover {
+    background-color: #724BB7;
+}
+
+.td-save-cancel-group {
+    display: flex;
+    align-items: center;
+}
+
+.td-modal-save-button {
+    background-color: #845EC2;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.td-modal-cancel-button {
+    background-color: #ccc;
+    color: #333;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-icon {
+    width: 15px;
+    height: 15px;
+    margin-right: 8px;
 }

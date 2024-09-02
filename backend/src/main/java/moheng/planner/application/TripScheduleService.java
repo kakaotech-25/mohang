@@ -57,14 +57,16 @@ public class TripScheduleService {
     }
 
     @Transactional
-    public void addCurrentTripOnPlannerSchedule(final long tripId, final long scheduleId) {
+    public void addCurrentTripOnPlannerSchedule(final long tripId, final AddTripOnScheduleRequests addTripOnScheduleRequests) {
         final Trip trip = tripRepository.findById(tripId)
                 .orElseThrow(NoExistTripException::new);
 
-        final TripSchedule tripSchedule = tripScheduleRepository.findById(scheduleId)
-                .orElseThrow(NoExistTripScheduleException::new);
+        for(final Long scheduleId : addTripOnScheduleRequests.getScheduleIds()) {
+            final TripSchedule tripSchedule = tripScheduleRepository.findById(scheduleId)
+                    .orElseThrow(NoExistTripScheduleException::new);
 
-        tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip, tripSchedule));
+            tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip, tripSchedule));
+        }
     }
 
     public FindTripsOnSchedule findTripsOnSchedule(final long scheduleId) {

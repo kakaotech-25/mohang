@@ -2,6 +2,9 @@ package moheng.keyword.presentation;
 
 import moheng.auth.exception.InvalidInitAuthorityException;
 import moheng.config.slice.ControllerTestConfig;
+import moheng.keyword.domain.Keyword;
+import moheng.keyword.dto.FindAllKeywordResponse;
+import moheng.keyword.dto.FindAllKeywordResponses;
 import moheng.keyword.exception.InvalidAIServerException;
 import moheng.keyword.exception.KeywordNameLengthException;
 import moheng.keyword.exception.NoExistKeywordException;
@@ -10,6 +13,8 @@ import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+
+import java.util.List;
 
 import static moheng.fixture.KeywordFixture.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -30,6 +35,34 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class KeywordControllerTest extends ControllerTestConfig {
+
+    @DisplayName("모든 키워드를 찾고 상태코드 200을 리턴한다.")
+    @Test
+    void 모든_키워드를_찾고_상태코드_200을_리턴한다() throws Exception {
+        // given
+        given(keywordService.findAllKeywords()).willReturn(new FindAllKeywordResponses(
+                List.of(new Keyword("키워드1"), new Keyword("키워드2"), new Keyword("키워드3"))
+        ));
+
+        // when, then
+        mockMvc.perform(get("/api/keyword")
+                .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                ).andDo(print())
+                .andDo(document("keyword/find/all",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("findAllKeywordResponses").description("키워드 리스트"),
+                                fieldWithPath("findAllKeywordResponses[].keywordId").description("키워드 고유 ID 값"),
+                                fieldWithPath("findAllKeywordResponses[].name").description("키워드 이름")
+                        )
+                )).andExpect(status().isOk());
+    }
 
     @DisplayName("키워드 기반 여행지를 추천을 받고 상태코드 200을 리턴한다.")
     @Test
@@ -65,6 +98,34 @@ public class KeywordControllerTest extends ControllerTestConfig {
                                 fieldWithPath("findTripResponses[].keywords").description("세부 여행지 키워드 리스트")
                         )
                 )).andExpect(status().isOk());
+    }
+
+    @DisplayName("키워드 기반 추천 여행지를 받을때 일부 존재하지 않는 키워드가 존재하는 경우 상태코드 404를 리턴한다.")
+    @Test
+    void 키워드_기반_추천_여행지를_받을때_일부_존재하지_않는_키워드가_존재하는_경우_상태코드_404를_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new NoExistKeywordException("일부 키워드가 존재하지 않습니다."))
+                .when(keywordService).findRecommendTripsByKeywords(any());
+
+        // when, then
+        mockMvc.perform(post("/api/keyword/trip/recommend")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(키워드_기반_추천_여행지_요청()))
+                )
+                .andDo(print())
+                .andDo(document("keyword/travel/recommend/fail/noExistKeyword",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("keywordIds").description("키워드 ID 리스트")
+                        )
+                )).andExpect(status().isNotFound());
     }
 
     @DisplayName("키워드를 생성하고 상태코드 200을 리턴한다.")
@@ -171,7 +232,7 @@ public class KeywordControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
-                .andDo(document("keyword/random/trip",
+                .andDo(document("keyword/random/trip/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         responseFields(
@@ -203,7 +264,7 @@ public class KeywordControllerTest extends ControllerTestConfig {
                         .content(objectMapper.writeValueAsString(키워드_기반_추천_여행지_요청()))
                 )
                 .andDo(print())
-                .andDo(document("keyword/travel/recommend/fail",
+                .andDo(document("keyword/random/trip/fail",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(

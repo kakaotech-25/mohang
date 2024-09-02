@@ -14,10 +14,7 @@ import moheng.planner.domain.TripSchedule;
 import moheng.planner.domain.TripScheduleRegistry;
 import moheng.planner.domain.TripScheduleRegistryRepository;
 import moheng.planner.domain.TripScheduleRepository;
-import moheng.planner.dto.CreateTripScheduleRequest;
-import moheng.planner.dto.FindTripOnSchedule;
-import moheng.planner.dto.FindTripsOnSchedule;
-import moheng.planner.dto.UpdateTripOrdersRequest;
+import moheng.planner.dto.*;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.planner.exception.NoExistTripScheduleException;
 import moheng.planner.exception.NoExistTripScheduleRegistryException;
@@ -96,10 +93,11 @@ public class TripScheduleServiceTest extends ServiceTestConfig {
         // given
         Member member = memberRepository.save(하온_기존());
         Trip trip = tripRepository.save(new Trip("여행지", "장소명", 1L, "설명", "https://image.com"));
-        TripSchedule tripSchedule = tripScheduleRepository.save(new TripSchedule("여행 일정", LocalDate.of(2024, 8, 1), LocalDate.of(2024, 8, 2), member));
+        TripSchedule tripSchedule1 = tripScheduleRepository.save(new TripSchedule("여행 일정1", LocalDate.of(2024, 8, 1), LocalDate.of(2024, 8, 2), member));
+        TripSchedule tripSchedule2 = tripScheduleRepository.save(new TripSchedule("여행 일정2", LocalDate.of(2024, 8, 1), LocalDate.of(2024, 8, 2), member));
 
         // when, then
-        assertDoesNotThrow(() -> tripScheduleService.addCurrentTripOnPlannerSchedule(trip.getId(), tripSchedule.getId()));
+        assertDoesNotThrow(() -> tripScheduleService.addCurrentTripOnPlannerSchedule(trip.getId(), new AddTripOnScheduleRequests(List.of(tripSchedule1.getId(), tripSchedule2.getId()))));
     }
 
     @DisplayName("존재하지 않는 여행지를 플래너 일정에 담으려고하면 예외가 발생한다.")
@@ -108,10 +106,11 @@ public class TripScheduleServiceTest extends ServiceTestConfig {
         // given
         long invalidTripId = -1L;
         Member member = memberRepository.save(하온_기존());
-        TripSchedule tripSchedule = tripScheduleRepository.save(new TripSchedule("여행 일정", LocalDate.of(2024, 8, 1), LocalDate.of(2024, 8, 2), member));
+        TripSchedule tripSchedule1 = tripScheduleRepository.save(new TripSchedule("여행 일정1", LocalDate.of(2024, 8, 1), LocalDate.of(2024, 8, 2), member));
+        TripSchedule tripSchedule2 = tripScheduleRepository.save(new TripSchedule("여행 일정2", LocalDate.of(2024, 8, 1), LocalDate.of(2024, 8, 2), member));
 
         // when, then
-        assertThatThrownBy(() -> tripScheduleService.addCurrentTripOnPlannerSchedule(invalidTripId, tripSchedule.getId()))
+        assertThatThrownBy(() -> tripScheduleService.addCurrentTripOnPlannerSchedule(invalidTripId, new AddTripOnScheduleRequests(List.of(tripSchedule1.getId(), tripSchedule2.getId()))))
                 .isInstanceOf(NoExistTripException.class);
     }
 
@@ -124,7 +123,7 @@ public class TripScheduleServiceTest extends ServiceTestConfig {
         Trip trip = tripRepository.save(new Trip("여행지", "장소명", 1L, "설명", "https://image.com"));
 
         // when, then
-        assertThatThrownBy(() -> tripScheduleService.addCurrentTripOnPlannerSchedule(trip.getId(), invalidScheduleId))
+        assertThatThrownBy(() -> tripScheduleService.addCurrentTripOnPlannerSchedule(trip.getId(), new AddTripOnScheduleRequests(List.of(-1L, -2L))))
                 .isInstanceOf(NoExistTripScheduleException.class);
     }
 

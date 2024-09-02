@@ -16,6 +16,7 @@ import static moheng.fixture.RecommendTripFixture.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -99,6 +100,9 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
                 .andDo(document("trip/recommend/ai/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
                         responseFields(
                                 fieldWithPath("findTripResponses").description("여행지 리스트"),
                                 fieldWithPath("findTripResponses[].name").description("세부 여행지 이름"),
@@ -128,7 +132,10 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
                 )
                 .andDo(document("trip/recommend/ai/fail/server",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        )
                 ))
                 .andExpect(status().isInternalServerError());
     }
@@ -149,7 +156,10 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
                 )
                 .andDo(document("trip/recommend/ai/fail/member",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        )
                 ))
                 .andExpect(status().isNotFound());
     }
@@ -170,7 +180,10 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
                 )
                 .andDo(document("trip/recommend/ai/fail/lackOfPreferredTrip",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        )
                 ))
                 .andExpect(status().isUnprocessableEntity());
     }
@@ -191,7 +204,10 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
                 )
                 .andDo(document("trip/recommend/ai/fail/noExistPreferredTrip",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        )
                 ))
                 .andExpect(status().isNotFound());
     }

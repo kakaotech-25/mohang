@@ -4,6 +4,7 @@ import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.KeywordRepository;
 import moheng.keyword.domain.TripKeyword;
 import moheng.keyword.domain.TripKeywordRepository;
+import moheng.keyword.dto.FindAllKeywordResponses;
 import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
 import moheng.keyword.exception.NoExistKeywordException;
@@ -37,6 +38,10 @@ public class KeywordService {
         this.tripKeywordRepository = tripKeywordRepository;
     }
 
+    public FindAllKeywordResponses findAllKeywords() {
+        return new FindAllKeywordResponses(keywordRepository.findAll());
+    }
+
     @Transactional
     public void createKeyword(final KeywordCreateRequest request) {
         keywordRepository.save(new Keyword(request.getKeyword()));
@@ -47,8 +52,22 @@ public class KeywordService {
     }
 
     public FindTripsResponse findRecommendTripsByKeywords(final TripsByKeyWordsRequest request) {
+        validateKeywords(request.getKeywordIds());
         final List<TripKeyword> trips = tripKeywordRepository.findTripKeywordsByKeywordIds(request.getKeywordIds());
         return new FindTripsResponse(trips);
+    }
+
+    private void validateKeywords(final List<Long> keywordIds) {
+        final List<Long> existingKeywords = findAllByIds(keywordIds);
+        if (existingKeywords.size() != keywordIds.size()) {
+            throw new NoExistKeywordException("일부 키워드가 존재하지 않습니다.");
+        }
+    }
+
+    private List<Long> findAllByIds(final List<Long> keywordIds) {
+        return keywordRepository.findAllById(keywordIds)
+                .stream().map(Keyword::getId)
+                .collect(Collectors.toList());
     }
 
     public FindTripsResponse findRecommendTripsByRandomKeyword() {
