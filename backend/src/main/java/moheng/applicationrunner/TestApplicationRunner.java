@@ -44,7 +44,9 @@ public class TestApplicationRunner implements ApplicationRunner {
 
         for(final LiveInformationRunner liveInformationRunner : liveInformationRunners) {
             for(final String liveInfoName : liveInformationRunner.getLiveinformation()) {
-                liveInformationRepository.save(new LiveInformation(liveInfoName));
+                if(!liveInformationRepository.existsByName(liveInfoName)) {
+                    liveInformationRepository.save(new LiveInformation(liveInfoName));
+                }
             }
         }
     }
