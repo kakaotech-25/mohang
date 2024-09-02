@@ -18,11 +18,11 @@ import java.time.LocalDateTime;
 
 @Order(9)
 @Component
-public class TestApplicationRunner implements ApplicationRunner {
+public class LiveInformationDevApplicationRunner implements ApplicationRunner {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public TestApplicationRunner(final JdbcTemplate jdbcTemplate) {
+    public LiveInformationDevApplicationRunner(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

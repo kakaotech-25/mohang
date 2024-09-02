@@ -1,4 +1,4 @@
-package moheng.applicationrunner.dev;
+package moheng.applicationrunner.test;
 
 
 import moheng.member.domain.GenderType;

@@ -1,4 +1,4 @@
-package moheng.applicationrunner.dev;
+package moheng.applicationrunner.test;
 
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.TripRepository;

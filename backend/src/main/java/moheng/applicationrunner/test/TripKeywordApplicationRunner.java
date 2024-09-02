@@ -1,4 +1,4 @@
-package moheng.applicationrunner.dev;
+package moheng.applicationrunner.test;
 
 import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.KeywordRepository;
