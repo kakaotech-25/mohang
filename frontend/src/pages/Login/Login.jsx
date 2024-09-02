@@ -1,6 +1,6 @@
 import './Login.css';
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from './axiosInstance';
 import Left from '../../assets/login-left.png';
 import Right from '../../assets/login-right.png';
 import KakaoBtn from '../../assets/kakao-login.png';
@@ -11,7 +11,7 @@ const Login = () => {
   useEffect(() => {
     const fetchKakaoLink = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/auth/KAKAO/link");
+        const response = await axiosInstance.get("/auth/KAKAO/link");
         setKakaoLink(response.data.oAuthUri);
       } catch (error) {
         console.error("Failed to fetch Kakao login link:", error);

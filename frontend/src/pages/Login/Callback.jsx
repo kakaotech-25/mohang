@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from 'axios';
+import axiosInstance from './axiosInstance';
 
 const Callback = () => {
   const location = useLocation();
@@ -13,7 +13,7 @@ const Callback = () => {
       if (code) {
         try {
           // 카카오 로그인 인증 코드를 백엔드로 전송하여 인증 처리
-          const response = await axios.post("http://localhost:8080/api/auth/KAKAO/login", { "code": code });
+          const response = await axiosInstance.post("/auth/KAKAO/login", { code });
 
           // 백엔드에서 받은 엑세스 토큰을 저장
           const accessToken = response.data.accessToken;
@@ -30,7 +30,6 @@ const Callback = () => {
             }
           }
 
-          // 로그인 성공 후 /mypage로 리디렉션
           navigate('/');
         } catch (error) {
           console.error('Failed to login with Kakao:', error);
