@@ -19,9 +19,17 @@ tasks:
     desc: 통합 개발 환경 실행
     cmd: docker compose -f compose.dev.yaml up --build
 
+  dev-down:
+    desc: 통합 개발 환경 중지
+    cmd: docker compose -f compose.dev.yaml down
+
   prod:
     desc: 프로덕션 환경 실행
     cmd: docker compose -f compose.prod.yaml up --build
+
+  prod-down:
+    desc: 프로덕션 환경 중지
+    cmd: docker compose -f compose.prod.yaml down
 
   up:
     desc: 컨테이너 실행

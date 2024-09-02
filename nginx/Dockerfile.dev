@@ -10,7 +10,8 @@ RUN     apt-get update && \
         rm -f /etc/nginx/conf.d/default.conf
 
 # Copy files
+COPY    nginx.conf	/etc/nginx/
 COPY	tools/develop.conf	/etc/nginx/conf.d/
 
 # Start nginx
-CMD		["nginx", "-g", "daemon off;"]
+CMD	["nginx", "-g", "daemon off;"]
