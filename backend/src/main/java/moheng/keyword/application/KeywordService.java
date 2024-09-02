@@ -4,6 +4,7 @@ import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.KeywordRepository;
 import moheng.keyword.domain.TripKeyword;
 import moheng.keyword.domain.TripKeywordRepository;
+import moheng.keyword.dto.FindAllKeywordResponses;
 import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
 import moheng.keyword.exception.NoExistKeywordException;
@@ -35,6 +36,10 @@ public class KeywordService {
         this.keywordRepository = keywordRepository;
         this.tripRepository = tripRepository;
         this.tripKeywordRepository = tripKeywordRepository;
+    }
+
+    public FindAllKeywordResponses findAllKeywords() {
+        return new FindAllKeywordResponses(keywordRepository.findAll());
     }
 
     @Transactional
