@@ -4,6 +4,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.auth.dto.AccessTokenResponse;
+import moheng.planner.dto.AddTripOnScheduleRequests;
 import moheng.planner.dto.CreateTripScheduleRequest;
 import moheng.planner.dto.UpdateTripOrdersRequest;
 import org.springframework.http.HttpStatus;
@@ -23,11 +24,12 @@ public class TripScheduleAcceptenceTestFixture {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 플래너에_여행지를_담는다(final AccessTokenResponse accessTokenResponse, final long tripId, final long scheduleId) {
+    public static ExtractableResponse<Response> 플래너에_여행지를_담는다(final AccessTokenResponse accessTokenResponse, final long tripId, final AddTripOnScheduleRequests addTripOnScheduleRequests) {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .auth().oauth2(accessTokenResponse.getAccessToken())
-                .when().post("/api/schedule/trip/{tripId}/{scheduleId}", tripId, scheduleId)
+                .body(addTripOnScheduleRequests)
+                .when().post("/api/schedule/trip/{tripId}", tripId)
                 .then().log().all()
                 .statusCode(HttpStatus.NO_CONTENT.value())
                 .extract();

@@ -160,10 +160,10 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
     void 현재_여행지를_플래너_일정에_담고_상태코드_204를_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        doNothing().when(tripScheduleService).addCurrentTripOnPlannerSchedule(anyLong(), anyLong());
+        doNothing().when(tripScheduleService).addCurrentTripOnPlannerSchedule(anyLong(), any());
 
         // when, then
-        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/schedule/trip/{tripId}/{scheduleId}", 1L, 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/schedule/trip/{tripId}", 1L)
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -188,7 +188,7 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
         doThrow(new NoExistTripException("존재하지 않는 여행지입니다."))
-                .when(tripScheduleService).addCurrentTripOnPlannerSchedule(anyLong(), anyLong());
+                .when(tripScheduleService).addCurrentTripOnPlannerSchedule(anyLong(), any());
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.post("/api/schedule/trip/{tripId}/{scheduleId}", 1L, 1L)
@@ -216,10 +216,10 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
         doThrow(new NoExistTripScheduleException("존재하지 않는 여행 일정입니다."))
-                .when(tripScheduleService).addCurrentTripOnPlannerSchedule(anyLong(), anyLong());
+                .when(tripScheduleService).addCurrentTripOnPlannerSchedule(anyLong(), any());
 
         // when, then
-        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/schedule/trip/{tripId}/{scheduleId}", 1L, 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/schedule/trip/{tripId}", 1L, 1L)
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
