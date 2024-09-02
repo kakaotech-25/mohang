@@ -32,21 +32,13 @@ public class KeywordAcceptenceTest extends AcceptanceTestConfig {
         // given
         ExtractableResponse<Response> response = 자체_토큰을_생성한다("KAKAO", "authorization-code");
         AccessTokenResponse accessTokenResponse = response.as(AccessTokenResponse.class);
-        String accessToken = accessTokenResponse.getAccessToken();
 
         키워드를_생성한다("키워드1");
         키워드를_생성한다("키워드2");
         키워드를_생성한다("키워드3");
 
         // when
-        ExtractableResponse<Response> findAllKeywordResponse = RestAssured.given().log().all()
-                .auth().oauth2(accessToken)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .when().get("/api/keyword")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .extract();
-
+        ExtractableResponse<Response> findAllKeywordResponse = 모든_키워드를_찾는다(accessTokenResponse);
         FindAllKeywordResponses findAllKeywordResponses = findAllKeywordResponse.as(FindAllKeywordResponses.class);
 
         // then
