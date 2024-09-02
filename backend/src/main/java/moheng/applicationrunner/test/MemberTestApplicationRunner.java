@@ -14,10 +14,10 @@ import java.time.LocalDate;
 
 @Order(1)
 @Component
-public class MemberApplicationRunner implements ApplicationRunner {
+public class MemberTestApplicationRunner implements ApplicationRunner {
     private final MemberRepository memberRepository;
 
-    public MemberApplicationRunner(final MemberRepository memberRepository) {
+    public MemberTestApplicationRunner(final MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
 

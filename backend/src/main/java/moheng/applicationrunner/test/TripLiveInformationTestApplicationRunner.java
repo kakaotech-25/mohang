@@ -13,14 +13,14 @@ import org.springframework.stereotype.Component;
 
 @Order(6)
 @Component
-public class TripLiveInformationApplicationRunner implements ApplicationRunner {
+public class TripLiveInformationTestApplicationRunner implements ApplicationRunner {
     private final TripLiveInformationRepository tripLiveInformationRepository;
     private final TripRepository tripRepository;
     private final LiveInformationRepository liveInformationRepository;
 
-    public TripLiveInformationApplicationRunner(final TripLiveInformationRepository tripLiveInformationRepository,
-                                                final TripRepository tripRepository,
-                                                final LiveInformationRepository liveInformationRepository) {
+    public TripLiveInformationTestApplicationRunner(final TripLiveInformationRepository tripLiveInformationRepository,
+                                                    final TripRepository tripRepository,
+                                                    final LiveInformationRepository liveInformationRepository) {
         this.tripLiveInformationRepository = tripLiveInformationRepository;
         this.tripRepository = tripRepository;
         this.liveInformationRepository = liveInformationRepository;

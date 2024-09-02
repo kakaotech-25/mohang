@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 
 @Order(2)
 @Component
-public class TripApplicationRunner implements ApplicationRunner {
+public class TripTestApplicationRunner implements ApplicationRunner {
     private final TripRepository tripRepository;
 
-    public TripApplicationRunner(final TripRepository tripRepository) {
+    public TripTestApplicationRunner(final TripRepository tripRepository) {
         this.tripRepository = tripRepository;
     }
 
