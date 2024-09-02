@@ -49,8 +49,19 @@ public class KeywordControllerTest extends ControllerTestConfig {
                 .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-        ).andDo(print())
-                .andExpect(status().isOk());
+                ).andDo(print())
+                .andDo(document("keyword/find/all",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("findAllKeywordResponses").description("키워드 리스트"),
+                                fieldWithPath("findAllKeywordResponses[].keywordId").description("키워드 고유 ID 값"),
+                                fieldWithPath("findAllKeywordResponses[].name").description("키워드 이름")
+                        )
+                )).andExpect(status().isOk());
     }
 
     @DisplayName("키워드 기반 여행지를 추천을 받고 상태코드 200을 리턴한다.")
