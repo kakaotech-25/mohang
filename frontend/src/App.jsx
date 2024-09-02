@@ -12,6 +12,7 @@ import Planner from './pages/Planner/Planner.jsx'
 import PlannerDetails from './pages/PlannerDetails/PlannerDetails.jsx'
 import TravelDetails from './pages/TravelDetails/TravelDetails.jsx'
 import Landing from './pages/Landing/Landing.jsx'
+import Callback from './pages/Login/Callback.jsx'
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/callback/kakao" element={<Callback />} />
         <Route path="/landing" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup/profile" element={<Profile />} />
