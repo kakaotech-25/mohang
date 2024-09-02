@@ -30,7 +30,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class KeywordControllerTest extends ControllerTestConfig {
-
     @DisplayName("키워드 기반 여행지를 추천을 받고 상태코드 200을 리턴한다.")
     @Test
     void 키워드_기반_여행지를_추천을_받고_상태코드_200을_리턴한다() throws Exception {
