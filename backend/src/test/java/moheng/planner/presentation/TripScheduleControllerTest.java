@@ -23,10 +23,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import moheng.config.slice.ControllerTestConfig;
 import moheng.member.exception.ShortContentidsSizeException;
 import moheng.planner.domain.TripSchedule;
-import moheng.planner.dto.FindPlannerOrderByDateResponse;
-import moheng.planner.dto.FindTripOnSchedule;
-import moheng.planner.dto.FindTripsOnSchedule;
-import moheng.planner.dto.UpdateTripOrdersRequest;
+import moheng.planner.dto.*;
 import moheng.planner.exception.*;
 import moheng.trip.domain.Trip;
 import moheng.trip.exception.NoExistTripException;
@@ -167,6 +164,7 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new AddTripOnScheduleRequests(List.of(1L, 2L))))
                 ).andDo(print())
                 .andDo(document("planner/schedule/trip/add/success",
                         preprocessRequest(prettyPrint()),
@@ -174,9 +172,11 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         ),
+                        requestFields(
+                                fieldWithPath("scheduleIds").description("키워드 ID 리스트")
+                        ),
                         pathParameters(
-                                parameterWithName("tripId").description("플래너에 담을 현재 여행지의 고유 ID 값"),
-                                parameterWithName("scheduleId").description("여행 일정 고유 ID 값")
+                                parameterWithName("tripId").description("플래너에 담을 현재 여행지의 고유 ID 값")
                         )
                 ))
                 .andExpect(status().isNoContent());
@@ -191,10 +191,11 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                 .when(tripScheduleService).addCurrentTripOnPlannerSchedule(anyLong(), any());
 
         // when, then
-        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/schedule/trip/{tripId}/{scheduleId}", 1L, 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/schedule/trip/{tripId}", 1L, 1L)
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new AddTripOnScheduleRequests(List.of(1L, 2L))))
                 ).andDo(print())
                 .andDo(document("planner/schedule/trip/add/fail/noExistTrip",
                         preprocessRequest(prettyPrint()),
@@ -202,9 +203,11 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         ),
+                        requestFields(
+                                fieldWithPath("scheduleIds").description("키워드 ID 리스트")
+                        ),
                         pathParameters(
-                                parameterWithName("tripId").description("플래너에 담을 현재 여행지의 고유 ID 값"),
-                                parameterWithName("scheduleId").description("여행 일정 고유 ID 값")
+                                parameterWithName("tripId").description("플래너에 담을 현재 여행지의 고유 ID 값")
                         )
                 ))
                 .andExpect(status().isNotFound());
@@ -223,6 +226,7 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new AddTripOnScheduleRequests(List.of(1L, 2L))))
                 ).andDo(print())
                 .andDo(document("planner/schedule/trip/add/fail/noExistSchedule",
                         preprocessRequest(prettyPrint()),
@@ -230,9 +234,11 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         ),
+                        requestFields(
+                                fieldWithPath("scheduleIds").description("키워드 ID 리스트")
+                        ),
                         pathParameters(
-                                parameterWithName("tripId").description("플래너에 담을 현재 여행지의 고유 ID 값"),
-                                parameterWithName("scheduleId").description("여행 일정 고유 ID 값")
+                                parameterWithName("tripId").description("플래너에 담을 현재 여행지의 고유 ID 값")
                         )
                 ))
                 .andExpect(status().isNotFound());
