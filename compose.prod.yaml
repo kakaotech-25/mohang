@@ -11,7 +11,7 @@ services:
     volumes:
       - ./nginx/letsencrypt:/etc/letsencrypt
       - ./nginx/nginx.conf/:/etc/nginx/nginx.conf
-      - ./nginx/conf.d/production.conf:/etc/nginx/conf.d/production.conf
+      - ./nginx/tools/production.conf:/etc/nginx/conf.d/production.conf
 
   backend:
     container_name: back
