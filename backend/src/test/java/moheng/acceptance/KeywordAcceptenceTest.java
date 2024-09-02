@@ -9,18 +9,44 @@ import static moheng.acceptance.fixture.AuthAcceptanceFixture.자체_토큰을_�
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
 import moheng.auth.dto.AccessTokenResponse;
+import moheng.keyword.dto.FindAllKeywordResponses;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
 import moheng.trip.dto.FindTripsResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 
 import java.util.List;
 
 public class KeywordAcceptenceTest extends AcceptanceTestConfig {
+
+    @DisplayName("모든 키워드를 찾고 상태코드 200을 리턴한다.")
+    @Test
+    void 모든_키워드를_찾고_상태코드_200을_리턴한다() {
+        // given
+        ExtractableResponse<Response> response = 자체_토큰을_생성한다("KAKAO", "authorization-code");
+        AccessTokenResponse accessTokenResponse = response.as(AccessTokenResponse.class);
+
+        키워드를_생성한다("키워드1");
+        키워드를_생성한다("키워드2");
+        키워드를_생성한다("키워드3");
+
+        // when
+        ExtractableResponse<Response> findAllKeywordResponse = 모든_키워드를_찾는다(accessTokenResponse);
+        FindAllKeywordResponses findAllKeywordResponses = findAllKeywordResponse.as(FindAllKeywordResponses.class);
+
+        // then
+        assertAll(() -> {
+            상태코드_200이_반환된다(findAllKeywordResponse);
+            assertThat(findAllKeywordResponses.getFindAllKeywordResponses().size()).isEqualTo(3L);
+        });
+    }
 
     @DisplayName("키워드 기반 여행지를 추천하고 상태코드 200을 리턴한다.")
     @Test

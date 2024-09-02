@@ -2,6 +2,9 @@ package moheng.keyword.presentation;
 
 import moheng.auth.exception.InvalidInitAuthorityException;
 import moheng.config.slice.ControllerTestConfig;
+import moheng.keyword.domain.Keyword;
+import moheng.keyword.dto.FindAllKeywordResponse;
+import moheng.keyword.dto.FindAllKeywordResponses;
 import moheng.keyword.exception.InvalidAIServerException;
 import moheng.keyword.exception.KeywordNameLengthException;
 import moheng.keyword.exception.NoExistKeywordException;
@@ -10,6 +13,8 @@ import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+
+import java.util.List;
 
 import static moheng.fixture.KeywordFixture.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -30,6 +35,34 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class KeywordControllerTest extends ControllerTestConfig {
+
+    @DisplayName("모든 키워드를 찾고 상태코드 200을 리턴한다.")
+    @Test
+    void 모든_키워드를_찾고_상태코드_200을_리턴한다() throws Exception {
+        // given
+        given(keywordService.findAllKeywords()).willReturn(new FindAllKeywordResponses(
+                List.of(new Keyword("키워드1"), new Keyword("키워드2"), new Keyword("키워드3"))
+        ));
+
+        // when, then
+        mockMvc.perform(get("/api/keyword")
+                .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                ).andDo(print())
+                .andDo(document("keyword/find/all",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("findAllKeywordResponses").description("키워드 리스트"),
+                                fieldWithPath("findAllKeywordResponses[].keywordId").description("키워드 고유 ID 값"),
+                                fieldWithPath("findAllKeywordResponses[].name").description("키워드 이름")
+                        )
+                )).andExpect(status().isOk());
+    }
 
     @DisplayName("키워드 기반 여행지를 추천을 받고 상태코드 200을 리턴한다.")
     @Test
