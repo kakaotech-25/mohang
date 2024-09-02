@@ -1,4 +1,4 @@
-package moheng.applicationrunner;
+package moheng.applicationrunner.dev;
 
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.domain.LiveInformationRepository;
