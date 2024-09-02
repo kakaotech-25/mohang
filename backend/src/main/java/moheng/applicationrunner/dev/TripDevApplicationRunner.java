@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Order(10)
+@Order(9)
 @Component
 public class TripDevApplicationRunner implements ApplicationRunner {
     private final TripRepository tripRepository;

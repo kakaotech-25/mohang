@@ -3,6 +3,14 @@ package moheng.applicationrunner.dev;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import moheng.applicationrunner.dto.LiveInformationRunner;
+import moheng.liveinformation.domain.LiveInformation;
+import moheng.liveinformation.domain.LiveInformationRepository;
+import moheng.liveinformation.domain.TripLiveInformation;
+import moheng.liveinformation.domain.TripLiveInformationRepository;
+import moheng.liveinformation.exception.NoExistLiveInformationException;
+import moheng.trip.domain.Trip;
+import moheng.trip.domain.TripRepository;
+import moheng.trip.exception.NoExistTripException;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
@@ -12,17 +20,22 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import java.time.LocalDateTime;
-
-@Order(9)
+@Order(10)
 @Component
 public class LiveInformationDevApplicationRunner implements ApplicationRunner {
-
+    private final TripRepository tripRepository;
+    private final LiveInformationRepository liveInformationRepository;
+    private final TripLiveInformationRepository tripLiveInformationRepository;
     private final JdbcTemplate jdbcTemplate;
 
-    public LiveInformationDevApplicationRunner(final JdbcTemplate jdbcTemplate) {
+    public LiveInformationDevApplicationRunner(final TripRepository tripRepository,
+                                               final LiveInformationRepository liveInformationRepository,
+                                               final TripLiveInformationRepository tripLiveInformationRepository,
+                                               final JdbcTemplate jdbcTemplate) {
+        this.tripRepository = tripRepository;
+        this.liveInformationRepository = liveInformationRepository;
+        this.tripLiveInformationRepository = tripLiveInformationRepository;
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -32,26 +45,22 @@ public class LiveInformationDevApplicationRunner implements ApplicationRunner {
         final ObjectMapper objectMapper = new ObjectMapper();
         final List<LiveInformationRunner> liveInformationRunners = objectMapper.readValue(resource.getInputStream(), new TypeReference<List<LiveInformationRunner>>() {});
 
-        List<String> uniqueNames = liveInformationRunners.stream()
-                .flatMap(runner -> runner.getLiveinformation().stream())
-                .distinct()
-                .filter(name -> !existsByName(name))
-                .collect(Collectors.toList());
+        for(final LiveInformationRunner liveInformationRunner : liveInformationRunners) {
+            final Trip trip = tripRepository.findByContentId(liveInformationRunner.getContentid())
+                    .orElseThrow(NoExistTripException::new);
 
-        if (!uniqueNames.isEmpty()) {
-            String sql = "INSERT INTO live_information (name, created_at, updated_at) VALUES (?, ?, ?)";
-            LocalDateTime now = LocalDateTime.now();
-            List<Object[]> batchArgs = uniqueNames.stream()
-                    .map(name -> new Object[]{name, now, now})
-                    .collect(Collectors.toList());
-
-            jdbcTemplate.batchUpdate(sql, batchArgs);
+            for(final String liveInfoName : liveInformationRunner.getLiveinformation()) {
+                final LiveInformation liveInformation = findOrCreateLiveInformation(liveInfoName);
+                tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip));
+            }
         }
     }
 
-    private boolean existsByName(String name) {
-        String sql = "SELECT COUNT(*) FROM live_information WHERE name = ?";
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, name);
-        return count != null && count > 0;
+    private LiveInformation findOrCreateLiveInformation(final String liveInfoName) {
+        if(liveInformationRepository.existsByName(liveInfoName)) {
+            return liveInformationRepository.findByName(liveInfoName)
+                    .orElseThrow(NoExistLiveInformationException::new);
+        }
+        return liveInformationRepository.save(new LiveInformation(liveInfoName));
     }
 }
