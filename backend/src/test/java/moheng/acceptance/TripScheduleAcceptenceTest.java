@@ -14,6 +14,7 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
 import moheng.auth.dto.AccessTokenResponse;
+import moheng.planner.dto.AddTripOnScheduleRequests;
 import moheng.planner.dto.CreateTripScheduleRequest;
 import moheng.planner.dto.FindTripsOnSchedule;
 import moheng.planner.dto.UpdateTripOrdersRequest;
@@ -64,7 +65,7 @@ public class TripScheduleAcceptenceTest extends AcceptanceTestConfig {
         여행지를_생성한다("여행지", 1L);
 
         // when
-        ExtractableResponse<Response> resultResponse = 플래너에_여행지를_담는다(accessTokenResponse, 1L, 1L);
+        ExtractableResponse<Response> resultResponse = 플래너에_여행지를_담는다(accessTokenResponse, 1L, new AddTripOnScheduleRequests(List.of(1L)));
 
         assertAll(() -> {
             assertThat(resultResponse.statusCode()).isEqualTo(204);
@@ -88,9 +89,9 @@ public class TripScheduleAcceptenceTest extends AcceptanceTestConfig {
         여행지를_생성한다("여행지2", 2L);
         여행지를_생성한다("여행지3", 3L);
 
-        플래너에_여행지를_담는다(accessTokenResponse, 1L, 1L);
-        플래너에_여행지를_담는다(accessTokenResponse, 2L, 1L);
-        플래너에_여행지를_담는다(accessTokenResponse, 3L, 1L);
+        플래너에_여행지를_담는다(accessTokenResponse, 1L, new AddTripOnScheduleRequests(List.of(1L)));
+        플래너에_여행지를_담는다(accessTokenResponse, 2L, new AddTripOnScheduleRequests(List.of(1L)));
+        플래너에_여행지를_담는다(accessTokenResponse, 3L, new AddTripOnScheduleRequests(List.of(1L)));
 
         // when
         ExtractableResponse<Response> resultResponse = 세부_일정을_찾는다(1L, accessTokenResponse);
@@ -120,9 +121,9 @@ public class TripScheduleAcceptenceTest extends AcceptanceTestConfig {
         여행지를_생성한다("여행지2", 2L);
         여행지를_생성한다("여행지3", 3L);
 
-        플래너에_여행지를_담는다(accessTokenResponse, 1L, 1L);
-        플래너에_여행지를_담는다(accessTokenResponse, 2L, 1L);
-        플래너에_여행지를_담는다(accessTokenResponse, 3L, 1L);
+        플래너에_여행지를_담는다(accessTokenResponse, 1L, new AddTripOnScheduleRequests(List.of(1L)));
+        플래너에_여행지를_담는다(accessTokenResponse, 2L, new AddTripOnScheduleRequests(List.of(1L)));
+        플래너에_여행지를_담는다(accessTokenResponse, 3L, new AddTripOnScheduleRequests(List.of(1L)));
 
         // when
         ExtractableResponse<Response> resultResponse = 세부_일정내_여행지_정렬_순서를_수정한다(1L, accessTokenResponse);
@@ -156,9 +157,9 @@ public class TripScheduleAcceptenceTest extends AcceptanceTestConfig {
         여행지를_생성한다("여행지2", 2L);
         여행지를_생성한다("여행지3", 3L);
 
-        플래너에_여행지를_담는다(accessTokenResponse, 1L, 1L);
-        플래너에_여행지를_담는다(accessTokenResponse, 2L, 1L);
-        플래너에_여행지를_담는다(accessTokenResponse, 3L, 1L);
+        플래너에_여행지를_담는다(accessTokenResponse, 1L, new AddTripOnScheduleRequests(List.of(1L)));
+        플래너에_여행지를_담는다(accessTokenResponse, 2L, new AddTripOnScheduleRequests(List.of(1L)));
+        플래너에_여행지를_담는다(accessTokenResponse, 3L, new AddTripOnScheduleRequests(List.of(1L)));
 
         // when
         long scheduleId = 1L;

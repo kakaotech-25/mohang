@@ -4,6 +4,7 @@ import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
 import moheng.planner.domain.TripSchedule;
+import moheng.planner.domain.TripScheduleRegistryRepository;
 import moheng.planner.domain.TripScheduleRepository;
 import moheng.planner.dto.FindPLannerOrderByNameResponse;
 import moheng.planner.dto.FindPlannerOrderByDateResponse;
@@ -19,10 +20,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class PlannerService {
     private final TripScheduleRepository tripScheduleRepository;
     private final MemberRepository memberRepository;
+    private final TripScheduleRegistryRepository tripScheduleRegistryRepository;
 
-    public PlannerService(final TripScheduleRepository tripScheduleRepository, final MemberRepository memberRepository) {
+    public PlannerService(final TripScheduleRepository tripScheduleRepository,
+                          final MemberRepository memberRepository,
+                          final TripScheduleRegistryRepository tripScheduleRegistryRepository) {
         this.tripScheduleRepository = tripScheduleRepository;
         this.memberRepository = memberRepository;
+        this.tripScheduleRegistryRepository = tripScheduleRegistryRepository;
     }
 
     public FindPlannerOrderByRecentResponse findPlannerOrderByRecent(final long memberId) {
@@ -76,6 +81,7 @@ public class PlannerService {
         if(!tripScheduleRepository.existsById(tripScheduleId)) {
             throw new NoExistTripScheduleException("존재하지 않는 여행 일정입니다.");
         }
+        tripScheduleRegistryRepository.deleteAllByTripScheduleId(tripScheduleId);
         tripScheduleRepository.deleteById(tripScheduleId);
     }
 }

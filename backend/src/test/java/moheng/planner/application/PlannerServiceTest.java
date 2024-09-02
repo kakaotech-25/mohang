@@ -10,10 +10,14 @@ import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
 import moheng.planner.domain.TripSchedule;
+import moheng.planner.domain.TripScheduleRegistry;
+import moheng.planner.domain.TripScheduleRegistryRepository;
 import moheng.planner.domain.TripScheduleRepository;
 import moheng.planner.dto.*;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.planner.exception.NoExistTripScheduleException;
+import moheng.trip.domain.Trip;
+import moheng.trip.domain.TripRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +34,12 @@ public class PlannerServiceTest extends ServiceTestConfig {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private TripScheduleRegistryRepository tripScheduleRegistryRepository;
+
+    @Autowired
+    private TripRepository tripRepository;
 
     @DisplayName("플래너 여행 일정을 최신순인 생성날짜를 기준으로 내림차순 정렬한다.")
     @Test
@@ -195,5 +205,26 @@ public class PlannerServiceTest extends ServiceTestConfig {
         // when, then
         assertThatThrownBy(() -> plannerService.removeTripSchedule(invalidScheduleId))
                 .isInstanceOf(NoExistTripScheduleException.class);
+    }
+
+    @DisplayName("여행 일정을 삭제하면 그 안의 여행지들도 함께 삭제된다.")
+    @Test
+    void 여행_일정을_삭제하면_그_안의_여행지들도_함께_삭제된다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        Trip trip1 = tripRepository.save(new Trip("여행지1", "장소명1", 1L, "설명", "https://trip.png", 123.1, 123.1));
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "장소명2", 2L, "설명", "https://trip.png", 123.1, 123.1));
+        TripSchedule tripSchedule = tripScheduleRepository.save(new TripSchedule("일정", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
+        tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip1, tripSchedule));
+        tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip2, tripSchedule));
+
+        // when
+        plannerService.removeTripSchedule(tripSchedule.getId());
+
+        // then
+        assertAll(() -> {
+            assertThat(tripScheduleRepository.findAll()).hasSize(0);
+            assertThat(tripScheduleRegistryRepository.findAll()).hasSize(0);
+        });
     }
 }
