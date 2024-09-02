@@ -3,6 +3,7 @@ package moheng.planner.presentation;
 import moheng.auth.dto.Accessor;
 import moheng.auth.presentation.authentication.Authentication;
 import moheng.planner.application.TripScheduleService;
+import moheng.planner.dto.AddTripOnScheduleRequests;
 import moheng.planner.dto.CreateTripScheduleRequest;
 import moheng.planner.dto.FindTripsOnSchedule;
 import moheng.planner.dto.UpdateTripOrdersRequest;
@@ -25,11 +26,11 @@ public class TripScheduleController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/trip/{tripId}/{scheduleId}")
+    @PostMapping("/trip/{tripId}")
     public ResponseEntity<Void> addTripOnSchedule(@Authentication final Accessor accessor,
                                                   @PathVariable("tripId") final Long tripId,
-                                                  @PathVariable("scheduleId") final Long scheduleId) {
-        tripScheduleService.addCurrentTripOnPlannerSchedule(tripId, scheduleId);
+                                                  @RequestBody final AddTripOnScheduleRequests addTripOnScheduleRequests) {
+        tripScheduleService.addCurrentTripOnPlannerSchedule(tripId, addTripOnScheduleRequests);
         return ResponseEntity.noContent().build();
     }
 
