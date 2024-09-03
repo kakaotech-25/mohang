@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import logo from '../../assets/logo.png';
 import "./Header.css";
 import { Link } from 'react-router-dom';
-import profileimg from "../../assets/profileimg1.png" //예시로 넣어 볼 프로필 이미지
+import profileimg from "../../assets/profileimg.png" //예시로 넣어 볼 프로필 이미지
 
 const Header = () => {
   // 로그인 상태와 사용자 정보를 관리할 상태 변수
