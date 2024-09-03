@@ -1,4 +1,4 @@
-package moheng.applicationrunner;
+package moheng.applicationrunner.test;
 
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.domain.LiveInformationRepository;
@@ -13,14 +13,14 @@ import org.springframework.stereotype.Component;
 
 @Order(5)
 @Component
-public class MemberLiveInformationApplicationRunner implements ApplicationRunner {
+public class MemberLiveInformationTestApplicationRunner implements ApplicationRunner {
     private final MemberLiveInformationRepository memberLiveInformationRepository;
     private final MemberRepository memberRepository;
     private final LiveInformationRepository liveInformationRepository;
 
-    public MemberLiveInformationApplicationRunner(final MemberLiveInformationRepository memberLiveInformationRepository,
-                                                  final MemberRepository memberRepository,
-                                                  final LiveInformationRepository liveInformationRepository) {
+    public MemberLiveInformationTestApplicationRunner(final MemberLiveInformationRepository memberLiveInformationRepository,
+                                                      final MemberRepository memberRepository,
+                                                      final LiveInformationRepository liveInformationRepository) {
         this.memberLiveInformationRepository = memberLiveInformationRepository;
         this.memberRepository = memberRepository;
         this.liveInformationRepository = liveInformationRepository;

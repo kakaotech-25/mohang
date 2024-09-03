@@ -1,4 +1,4 @@
-package moheng.applicationrunner;
+package moheng.applicationrunner.test;
 
 import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.KeywordRepository;
@@ -13,14 +13,14 @@ import org.springframework.stereotype.Component;
 
 @Order(7)
 @Component
-public class TripKeywordApplicationRunner implements ApplicationRunner {
+public class TripKeywordTestApplicationRunner implements ApplicationRunner {
     private final TripKeywordRepository tripKeywordRepository;
     private final TripRepository tripRepository;
     private final KeywordRepository keywordRepository;
 
-    public TripKeywordApplicationRunner(final TripKeywordRepository tripKeywordRepository,
-                                        final TripRepository tripRepository,
-                                        final KeywordRepository keywordRepository) {
+    public TripKeywordTestApplicationRunner(final TripKeywordRepository tripKeywordRepository,
+                                            final TripRepository tripRepository,
+                                            final KeywordRepository keywordRepository) {
         this.tripKeywordRepository = tripKeywordRepository;
         this.tripRepository = tripRepository;
         this.keywordRepository = keywordRepository;

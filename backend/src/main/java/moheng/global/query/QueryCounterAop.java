@@ -29,7 +29,7 @@ public class QueryCounterAop {
         return new ConnectionProxyHandler(connection, getCurrentLog()).getProxy();
     }
 
-    @After("within(@org.springframework.stereotype.Service *)")
+    @After("within(@org.springframework.stereotype.Controller *)")
     public void loggingAfterLogicFinish() {
         final QueryLog loggingForm = getCurrentLog();
         final ServletRequestAttributes attributes =

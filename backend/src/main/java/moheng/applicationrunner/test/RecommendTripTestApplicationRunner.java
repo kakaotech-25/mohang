@@ -1,4 +1,4 @@
-package moheng.applicationrunner;
+package moheng.applicationrunner.test;
 
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
@@ -13,14 +13,14 @@ import org.springframework.stereotype.Component;
 
 @Order(8)
 @Component
-public class RecommendTripApplicationRunner implements ApplicationRunner {
+public class RecommendTripTestApplicationRunner implements ApplicationRunner {
     private final RecommendTripRepository recommendTripRepository;
     private final MemberRepository memberRepository;
     private final TripRepository tripRepository;
 
-    public RecommendTripApplicationRunner(final RecommendTripRepository recommendTripRepository,
-                                          final MemberRepository memberRepository,
-                                          final TripRepository tripRepository) {
+    public RecommendTripTestApplicationRunner(final RecommendTripRepository recommendTripRepository,
+                                              final MemberRepository memberRepository,
+                                              final TripRepository tripRepository) {
         this.recommendTripRepository = recommendTripRepository;
         this.memberRepository = memberRepository;
         this.tripRepository = tripRepository;

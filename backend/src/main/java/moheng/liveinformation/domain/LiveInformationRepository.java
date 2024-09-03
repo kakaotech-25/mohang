@@ -12,4 +12,6 @@ public interface LiveInformationRepository extends JpaRepository<LiveInformation
 
     @Query("SELECT tli.liveInformation FROM TripLiveInformation tli WHERE tli.trip = :trip")
     LiveInformation findLiveInformationByTrip(@Param("trip") final Trip trip);
+
+    boolean existsByName(String name);
 }
