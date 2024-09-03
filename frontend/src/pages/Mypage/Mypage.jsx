@@ -1,18 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './Mypage.css';
 import LivingBtn from '../../components/LivingBtn/LivingBtn';
 import Button from '../../components/Button/Button';
 import UserForm from "../../components/UserForm/UserForm";
-import profileimg from "../../assets/profileimg.png";
-import changebtn from "../../assets/mypage-change-img.png";
+import UserData from "../../data/UserData";
 
 const Mypage = () => {
   const [activeTab, setActiveTab] = useState('tab1');
-  const [profileImage, setProfileImage] = useState(profileimg);
   const [input, setInput] = useState({
     name: "",
     birth: "",
+    gender: "",
   });
+
+  useEffect(() => {
+    setInput({
+      name: UserData.nickname,
+      birth: UserData.birthday,
+      gender: UserData.genderType,
+    });
+  }, []);
 
   const onChange = (e) => {
     setInput({
@@ -27,17 +34,6 @@ const Mypage = () => {
 
   const handleLivingSelectionChange = (selectedOptions) => {
     console.log("Selected options:", selectedOptions);
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setProfileImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
   };
 
   return (
@@ -61,17 +57,7 @@ const Mypage = () => {
         {activeTab === 'tab1' && (
           <div id="tab1">
             <section className="mypage-img">
-              <img src={profileImage} className="user-img" />
-              <label htmlFor="image-upload">
-                <img src={changebtn} className="change-btn" />
-              </label>
-              <input
-                id="image-upload"
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                style={{ display: 'none' }}
-              />
+              <img src={UserData.profileImageUrl} className="user-img" alt="User Profile" />
             </section>
             <UserForm input={input} onChange={onChange} />
             <section className="mypage-btn">

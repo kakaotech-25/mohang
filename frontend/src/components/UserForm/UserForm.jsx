@@ -1,6 +1,6 @@
+import React from 'react';
 import Button from "../../components/Button/Button";
-import Radio from "../../components/Radio";
-import './UserForm.css'
+import './UserForm.css';
 
 const UserForm = ({ input, onChange }) => {
   return (
@@ -30,12 +30,26 @@ const UserForm = ({ input, onChange }) => {
 
       <section className="gender">
         <div>성별</div>
-        <Radio name="contact" value="MAN" defaultChecked>
+        <label>
+          <input
+            type="radio"
+            name="gender"
+            value="MEN"
+            checked={input.gender === "MEN"}
+            onChange={onChange}
+          />
           남성
-        </Radio>
-        <Radio name="contact" value="WOMAN">
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="gender"
+            value="WOMEN"
+            checked={input.gender === "WOMEN"}
+            onChange={onChange}
+          />
           여성
-        </Radio>
+        </label>
       </section>
     </div>
   );
