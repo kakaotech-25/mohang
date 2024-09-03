@@ -173,8 +173,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                         requestFields(
                                 fieldWithPath("nickname").description("닉네임"),
                                 fieldWithPath("birthday").description("생년월일. 형식:yyyy-MM-dd"),
-                                fieldWithPath("genderType").description("성별. 형식: MEN 또는 WOMEN"),
-                                fieldWithPath("profileImageUrl").description("프로필 이미지 경로.")
+                                fieldWithPath("genderType").description("성별. 형식: MEN 또는 WOMEN")
                         )
                 ))
                 .andExpect(status().isNoContent());
@@ -206,8 +205,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                         requestFields(
                                 fieldWithPath("nickname").description("닉네임"),
                                 fieldWithPath("birthday").description("생년월일. 형식:yyyy-MM-dd"),
-                                fieldWithPath("genderType").description("성별. 형식: MEN 또는 WOMEN"),
-                                fieldWithPath("profileImageUrl").description("프로필 이미지 경로.")
+                                fieldWithPath("genderType").description("성별. 형식: MEN 또는 WOMEN")
                         )
                 ))
                 .andExpect(status().isBadRequest());
@@ -239,8 +237,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                         requestFields(
                                 fieldWithPath("nickname").description("닉네임"),
                                 fieldWithPath("birthday").description("생년월일. 형식:yyyy-MM-dd"),
-                                fieldWithPath("genderType").description("성별. 형식: MEN 또는 WOMEN"),
-                                fieldWithPath("profileImageUrl").description("프로필 이미지 경로.")
+                                fieldWithPath("genderType").description("성별. 형식: MEN 또는 WOMEN")
                         )
                 ))
                 .andExpect(status().isBadRequest());
@@ -272,8 +269,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                         requestFields(
                                 fieldWithPath("nickname").description("닉네임"),
                                 fieldWithPath("birthday").description("생년월일. 형식:yyyy-MM-dd"),
-                                fieldWithPath("genderType").description("성별. 형식: MEN 또는 WOMEN"),
-                                fieldWithPath("profileImageUrl").description("프로필 이미지 경로.")
+                                fieldWithPath("genderType").description("성별. 형식: MEN 또는 WOMEN")
                         )
                 ))
                 .andExpect(status().isBadRequest());
@@ -305,8 +301,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                         requestFields(
                                 fieldWithPath("nickname").description("닉네임"),
                                 fieldWithPath("birthday").description("생년월일. 형식:yyyy-MM-dd"),
-                                fieldWithPath("genderType").description("성별. 형식: MEN 또는 WOMEN"),
-                                fieldWithPath("profileImageUrl").description("프로필 이미지 경로.")
+                                fieldWithPath("genderType").description("성별. 형식: MEN 또는 WOMEN")
                         )
                 ))
                 .andExpect(status().isBadRequest());
@@ -337,8 +332,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                         requestFields(
                                 fieldWithPath("nickname").description("닉네임"),
                                 fieldWithPath("birthday").description("생년월일. 형식:yyyy-MM-dd"),
-                                fieldWithPath("genderType").description("성별. 형식: MEN 또는 WOMEN"),
-                                fieldWithPath("profileImageUrl").description("프로필 이미지 경로.")
+                                fieldWithPath("genderType").description("성별. 형식: MEN 또는 WOMEN")
                         )
                 ))
                 .andExpect(status().isNotFound());
@@ -371,8 +365,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                         requestFields(
                                 fieldWithPath("nickname").description("닉네임"),
                                 fieldWithPath("birthday").description("생년월일. 형식:yyyy-MM-dd"),
-                                fieldWithPath("genderType").description("성별. 형식: MEN 또는 WOMEN"),
-                                fieldWithPath("profileImageUrl").description("프로필 이미지 경로.")
+                                fieldWithPath("genderType").description("성별. 형식: MEN 또는 WOMEN")
                         )
                 ))
                 .andExpect(status().isForbidden());
