@@ -26,7 +26,7 @@ public class Trip extends BaseEntity {
     @Column(name = "content_id", nullable = false)
     private Long contentId;
 
-    @Column(name = "description", nullable = false, length = 2500)
+    @Column(name = "description", nullable = false, length = 8000)
     private String description;
 
     @Column(name = "trip_image_url", nullable = false)
