@@ -81,11 +81,11 @@ public class MemberFixtures {
 
     // 회원가입 요청
     public static SignUpProfileRequest 프로필_정보로_회원가입_요청() {
-        return new SignUpProfileRequest("devhaon", LocalDate.of(1999, 9, 20), GenderType.MEN, "https://profile-image.com");
+        return new SignUpProfileRequest("devhaon", LocalDate.of(1999, 9, 20), GenderType.MEN);
     }
 
     public static SignUpProfileRequest 유효하지_않은_닉네임_프로필_정보로_회원가입_요청() {
-        return new SignUpProfileRequest("a", LocalDate.of(1999, 9, 20), GenderType.MEN, "https://profile-image.com");
+        return new SignUpProfileRequest("a", LocalDate.of(1999, 9, 20), GenderType.MEN);
     }
 
     public static SignUpLiveInfoRequest 생활정보로_회원가입_요청() {

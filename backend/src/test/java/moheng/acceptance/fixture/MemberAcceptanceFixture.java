@@ -28,7 +28,7 @@ public class MemberAcceptanceFixture {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .auth().oauth2(accessToken)
-                .body(new SignUpProfileRequest("devhaon", LocalDate.of(2000, 1, 1), GenderType.MEN, "https://profile-image.com"))
+                .body(new SignUpProfileRequest("devhaon", LocalDate.of(2000, 1, 1), GenderType.MEN))
                 .when().post("/api/member/signup/profile")
                 .then().log().all()
                 .statusCode(HttpStatus.NO_CONTENT.value())
