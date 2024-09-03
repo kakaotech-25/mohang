@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axiosInstance from './axiosInstance';
 
@@ -15,13 +15,12 @@ const Callback = () => {
           // 카카오 로그인 인증 코드를 백엔드로 전송하여 인증 처리
           const response = await axiosInstance.post("/auth/KAKAO/login", { code });
 
-          // 백엔드에서 받은 엑세스 토큰을 저장
+          // 백엔드에서 받은 엑세스 토큰과 리프레시 토큰을 저장
           const accessToken = response.data.accessToken;
           if (accessToken) {
             localStorage.setItem('accessToken', accessToken);
           }
 
-          // 백엔드에서 Set-Cookie 헤더로 리프레시 토큰을 보내는 경우, 이를 처리
           const cookies = response.headers['set-cookie'];
           if (cookies) {
             const refreshToken = cookies.find(cookie => cookie.startsWith('refresh-token'))?.split(';')[0]?.split('=')[1];
