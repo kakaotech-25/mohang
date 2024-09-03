@@ -1,8 +1,8 @@
-import profileimg from "../../assets/profileimg.png";
+import profileimg from "../assets/profileimg.png";
 
 const UserData = {
-    nickname: "devhaon",
-    birthday: "1999-09-20",
+    nickname: "mohenguser",
+    birthday: "2000-01-01",
     genderType: "MEN",
     profileImageUrl: profileimg
 };
