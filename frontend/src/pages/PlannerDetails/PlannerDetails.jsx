@@ -21,8 +21,15 @@ const PlannerDetails = () => {
   }, [destinations]);
 
   const loadKakaoMapScript = (callback) => {
+    const kakaoMapApiKey = import.meta.env.VITE_KAKAO_MAP_API_KEY;
+
+    if (!kakaoMapApiKey) {
+      console.error('Kakao Map API key is missing');
+      return;
+    }
+
     const script = document.createElement('script');
-    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=1068045215b2426f764f379d3ed6c315&autoload=false`;
+    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapApiKey}&autoload=false`;
     script.async = true;
     script.onload = () => window.kakao.maps.load(callback);
     document.head.appendChild(script);
