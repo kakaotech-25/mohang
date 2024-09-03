@@ -13,7 +13,7 @@ class IModelRepository(metaclass=ABCMeta):
     @abstractmethod
     def similar_content(
             self,
-            location: int,
+            contentId: int,
     ):
         raise NotImplementedError
 

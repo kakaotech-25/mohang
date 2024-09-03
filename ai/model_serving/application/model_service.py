@@ -20,9 +20,9 @@ class ModelService:
 
     def similar_content(
             self,
-            location: int,
+            contentId: int,
             page: int,
     ) -> list[int]:
-        locations = self.model_repo.similar_content(location=location)
+        locations = self.model_repo.similar_content(contentId=contentId)
         return locations
 
