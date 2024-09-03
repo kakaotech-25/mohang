@@ -49,11 +49,12 @@ public class Member extends BaseEntity {
     protected Member() {
     }
 
-    public Member(final String email, final SocialType socialType) {
+    public Member(final String email, final SocialType socialType, final String profileImageUrl) {
         validateEmail(email);
         this.email = email;
         this.socialType = socialType;
         this.authority = Authority.INIT_MEMBER;
+        this.profileImageUrl = profileImageUrl;
     }
 
     public Member(final long id, final String nickName, final LocalDate birthday, final GenderType genderType) {
