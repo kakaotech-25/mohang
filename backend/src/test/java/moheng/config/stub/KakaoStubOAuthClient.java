@@ -10,7 +10,7 @@ public class KakaoStubOAuthClient implements OAuthClient {
 
     @Override
     public OAuthMember getOAuthMember(String code) {
-        return new KakaoOAuthMember("stub@kakao.com", "kakao_login_id");
+        return new KakaoOAuthMember("stub@kakao.com", "kakao_login_id", "profile_image_url");
     }
 
     @Override

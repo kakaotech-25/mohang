@@ -1,14 +1,6 @@
 package moheng.member.domain;
 
-import static moheng.fixture.MemberFixtures.래오_이메일;
-import static moheng.fixture.MemberFixtures.래오_소셜_타입_카카오;
-import static moheng.fixture.MemberFixtures.리안_이메일;
-import static moheng.fixture.MemberFixtures.리안_소셜_타입_카카오;
-import static moheng.fixture.MemberFixtures.하온_이메일;
-import static moheng.fixture.MemberFixtures.하온_프로필_경로;
-import static moheng.fixture.MemberFixtures.하온_소셜_타입_카카오;
-import static moheng.fixture.MemberFixtures.하온_생년월일;
-import static moheng.fixture.MemberFixtures.하온_성별;
+import static moheng.fixture.MemberFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -31,7 +23,7 @@ public class MemberRepositoryTest extends RepositoryTestConfig {
     @Test
     void 이메일을_통해_회원을_찾는다() {
         // given
-        Member member = new Member(래오_이메일, 래오_소셜_타입_카카오);
+        Member member = new Member(래오_이메일, 래오_소셜_타입_카카오, 래오_프로필_경로);
         Member savedMember = memberRepository.save(member);
 
         // when
@@ -45,7 +37,7 @@ public class MemberRepositoryTest extends RepositoryTestConfig {
     @Test
     void 중복된_이메일이_존재하면_참을_리턴한다() {
         // given
-        memberRepository.save(new Member(리안_이메일, 리안_소셜_타입_카카오));
+        memberRepository.save(new Member(리안_이메일, 리안_소셜_타입_카카오, 리안_프로필_경로));
 
         // when & then
         assertTrue(memberRepository.existsByEmail(리안_이메일));

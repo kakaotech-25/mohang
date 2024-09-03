@@ -8,15 +8,12 @@ public class SignUpProfileRequest {
     private final String nickname;
     private final LocalDate birthday;
     private final GenderType genderType;
-    private final String profileImageUrl;
 
     public SignUpProfileRequest(final String nickname, final LocalDate birthday,
-                                final GenderType genderType, final String profileImageUrl) {
+                                final GenderType genderType) {
         this.nickname = nickname;
         this.birthday = birthday;
-        this.genderType = genderType;
-        this.profileImageUrl = profileImageUrl;
-    }
+        this.genderType = genderType;}
 
     public String getNickname() {
         return nickname;
@@ -28,9 +25,5 @@ public class SignUpProfileRequest {
 
     public GenderType getGenderType() {
         return genderType;
-    }
-
-    public String getProfileImageUrl() {
-        return profileImageUrl;
     }
 }

@@ -56,7 +56,7 @@ public class AuthService {
 
 
     private Member generateMember(final OAuthMember oAuthMember, final String providerName) {
-        return new Member(oAuthMember.getEmail(), oAuthProvider.getSocialType(providerName));
+        return new Member(oAuthMember.getEmail(), oAuthProvider.getSocialType(providerName), oAuthMember.getProfileImageUrl());
     }
 
     @Transactional
