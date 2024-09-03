@@ -3,12 +3,12 @@ import './Mypage.css';
 import LivingBtn from '../../components/LivingBtn/LivingBtn';
 import Button from '../../components/Button/Button';
 import UserForm from "../../components/UserForm/UserForm";
-import profileimg1 from "../../assets/profileimg1.png";
+import profileimg from "../../assets/profileimg.png";
 import changebtn from "../../assets/mypage-change-img.png";
 
 const Mypage = () => {
   const [activeTab, setActiveTab] = useState('tab1');
-  const [profileImage, setProfileImage] = useState(profileimg1);
+  const [profileImage, setProfileImage] = useState(profileimg);
   const [input, setInput] = useState({
     name: "",
     birth: "",
