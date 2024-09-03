@@ -35,20 +35,20 @@ include::{snippets}/member/signup/authority/fail/response-body.adoc[]
 
 ==== HTTP Request
 
-include::{snippets}/member/signup/profile/http-request.adoc[]
+include::{snippets}/member/signup/profile/success/http-request.adoc[]
 
 ===== Request Header (Authorization)
 
-include::{snippets}/member/signup/profile/request-headers.adoc[]
+include::{snippets}/member/signup/profile/success/request-headers.adoc[]
 
 ====== Request Body
 
-include::{snippets}/member/signup/profile/request-fields.adoc[]
+include::{snippets}/member/signup/profile/success/request-fields.adoc[]
 
 
 ==== HTTP Response
 
-include::{snippets}/member/signup/profile/http-response.adoc[]
+include::{snippets}/member/signup/profile/success/http-response.adoc[]
 
 === 회원가입 by 프로필 정보 API 실패 (존재하지 않는 유저)
 
