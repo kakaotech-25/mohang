@@ -35,7 +35,7 @@ public class MemberFixtures {
     }
 
     public static Member 하온_신규() {
-        return new Member(하온_이메일, 하온_소셜_타입_카카오);
+        return new Member(하온_이메일, 하온_소셜_타입_카카오, 하온_프로필_경로);
     }
 
     public static MemberResponse 하온_응답() {
@@ -56,7 +56,7 @@ public class MemberFixtures {
     }
 
     public static Member 리안_기존() {
-        return new Member(리안_이메일, 리안_소셜_타입_카카오);
+        return new Member(리안_이메일, 리안_소셜_타입_카카오, 리안_프로필_경로);
     }
 
     // 레오
@@ -73,7 +73,7 @@ public class MemberFixtures {
     }
 
     public static Member 래오_신규() {
-        return new Member(래오_이메일, 래오_소셜_타입_카카오);
+        return new Member(래오_이메일, 래오_소셜_타입_카카오, 래오_프로필_경로);
     }
 
     // 스텁(가짜) 회원

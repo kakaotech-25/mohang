@@ -55,7 +55,7 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 회원을_저장한다() {
         // given
-        Member member = new Member(하온_이메일, 하온_소셜_타입_카카오);
+        Member member = new Member(하온_이메일, 하온_소셜_타입_카카오, 하온_프로필_경로);
 
         // when, then
         assertDoesNotThrow(() -> memberService.save(member));
@@ -65,7 +65,7 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 소셜_로그인을_시도한_회원을_저장한다() {
         // given
-        Member member = new Member(하온_이메일, 하온_소셜_타입_카카오);
+        Member member = new Member(하온_이메일, 하온_소셜_타입_카카오, 하온_프로필_경로);
 
         // when, then
         assertDoesNotThrow(() -> memberService.save(member));
@@ -79,7 +79,7 @@ public class MemberServiceTest extends ServiceTestConfig {
         String nickname = "msung99";
         String profileImageUrl = "https://image";
 
-        Member member = new Member(리안_이메일, SocialType.KAKAO);
+        Member member = new Member(리안_이메일, SocialType.KAKAO, 리안_프로필_경로);
         memberService.save(member);
 
         // when
@@ -94,7 +94,7 @@ public class MemberServiceTest extends ServiceTestConfig {
     void 주어진_이메일로_가입된_회원이_존재하는지_확인한다() {
         // given
 
-        Member member = new Member(래오_이메일, 래오_소셜_타입_카카오);
+        Member member = new Member(래오_이메일, 래오_소셜_타입_카카오, 래오_프로필_경로);
         memberService.save(member);
 
         // when
@@ -120,7 +120,7 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 프로필_정보를_입력하여_회원가입한다() {
         // given
-        Member member = memberRepository.save(new Member(하온_이메일, 하온_소셜_타입_카카오));
+        Member member = memberRepository.save(new Member(하온_이메일, 하온_소셜_타입_카카오, 하온_프로필_경로));
         SignUpProfileRequest signUpProfileRequest = new SignUpProfileRequest(하온_닉네임, 하온_생년월일, 하온_성별);
 
         // when, then
@@ -132,7 +132,7 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 프로필_정보로_회원가입_후_멤버의_권한은_INIT_MEMBER_로_그대로_유지된다() {
         // given
-        Member member = memberRepository.save(new Member(하온_이메일, 하온_소셜_타입_카카오));
+        Member member = memberRepository.save(new Member(하온_이메일, 하온_소셜_타입_카카오, 하온_프로필_경로));
         SignUpProfileRequest signUpProfileRequest = new SignUpProfileRequest(하온_닉네임, 하온_생년월일, 하온_성별);
 
         // when

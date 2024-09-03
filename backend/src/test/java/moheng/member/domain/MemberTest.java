@@ -23,7 +23,7 @@ public class MemberTest {
     void 카카오_소셜로그인_회원을_생성한다() {
         // given, when, then
         assertDoesNotThrow(() ->
-                new Member(하온_이메일, 하온_소셜_타입_카카오));
+                new Member(하온_이메일, 하온_소셜_타입_카카오, 하온_프로필_경로));
     }
 
     @DisplayName("구글 소셜로그인 회원을 생성한다.")
@@ -31,7 +31,7 @@ public class MemberTest {
     void 구글_소셜로그인_회원을_생성한다() {
         // given, when, then
         assertDoesNotThrow(() ->
-                new Member(하온_이메일, 하온_소셜_타입_구글));
+                new Member(하온_이메일, 하온_소셜_타입_구글, 하온_프로필_경로));
     }
 
     @DisplayName("이메일 형식이 올바르지 않다면 예외가 발생한다.")
@@ -39,7 +39,7 @@ public class MemberTest {
     @ParameterizedTest
     void 이메일_형식이_올바르지_않다면_예외가_발생한다(final String email) {
         // given, when, then
-        assertThatThrownBy(() -> new Member(email, 하온_소셜_타입_구글))
+        assertThatThrownBy(() -> new Member(email, 하온_소셜_타입_구글, 하온_프로필_경로))
                 .isInstanceOf(InvalidEmailFormatException.class);
     }
 
@@ -104,7 +104,7 @@ public class MemberTest {
     @DisplayName("권한을 변경한다.")
     @Test
     void 권한을_변경한다() {
-        Member member = new Member(하온_이메일, 하온_소셜_타입_카카오);
+        Member member = new Member(하온_이메일, 하온_소셜_타입_카카오, 하온_프로필_경로);
         member.changePrivilege(Authority.REGULAR_MEMBER);
         assertThat(member.getAuthority()).isEqualTo(Authority.REGULAR_MEMBER);
     }
