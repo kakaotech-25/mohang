@@ -16,8 +16,8 @@ class ModelRepository(IModelRepository):
 
     def similar_content(
             self,
-            location: int,
+            contentId: int,
     ) -> list[int]:
         # TODO: 단순히 해당 컨텐츠와 관련된 여행지를 추천
         # return personalized_recommendation(UserPreferences(preferred_destinations=[location]))
-        return [location]
+        return [contentId]
