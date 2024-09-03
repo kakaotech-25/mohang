@@ -23,6 +23,7 @@ coverage/
 
 # Local environment settings
 *.local
+.env
 .env.local
 .env.development.local
 .env.test.local
