@@ -14,6 +14,7 @@ class UserPreferences(BaseModel):
 # 사용자 임베딩 생성 함수
 def get_user_embedding(preferred_destinations, destination_data):
     embeddings = destination_data[destination_data['contentid'].isin(preferred_destinations)]['embedding']
+    print(embeddings)
     return torch.tensor(np.vstack(embeddings)).mean(dim=0).cpu().numpy()
 
 # 추천 시스템 함수

@@ -3,11 +3,17 @@ from pydantic import BaseModel
 from dependency_injector.wiring import inject, Provide
 from model_serving.application.model_service import ModelService
 from containers import Container
+from typing import List
 router = APIRouter(prefix='/travel')
 
 
+class PreferredLocation(BaseModel):
+    contentId: int
+    clicked: int
+
+
 class CustomTravelListRequest(BaseModel):
-    preferredLocation: dict[int, int]
+    preferredLocation: List[PreferredLocation]
 
 
 class CustomTravelListResponse(BaseModel):
