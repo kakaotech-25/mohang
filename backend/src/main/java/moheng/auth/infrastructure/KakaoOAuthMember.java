@@ -12,15 +12,28 @@ public class KakaoOAuthMember implements OAuthMember {
     private KakaoAccount kakaoAccount;
 
     private static class KakaoAccount {
-
         @JsonProperty("email")
         private String email;
+
+        @JsonProperty("profile")
+        private KakaoProfile kakaoProfile;
+
+        // Constructor to initialize KakaoProfile
+        public KakaoAccount() {
+            this.kakaoProfile = new KakaoProfile();
+        }
     }
 
-    public KakaoOAuthMember(final String email, final String socialLoginId) {
+    private static class KakaoProfile {
+        @JsonProperty("profile_image_url")
+        private String image;
+    }
+
+    public KakaoOAuthMember(final String email, final String socialLoginId, final String profileImage) {
         this.socialLoginId = socialLoginId;
         this.kakaoAccount = new KakaoAccount();
         this.kakaoAccount.email = email;
+        this.kakaoAccount.kakaoProfile.image = profileImage;
     }
 
     @Override
@@ -32,5 +45,9 @@ public class KakaoOAuthMember implements OAuthMember {
     public String getEmail() {
         return kakaoAccount.email;
     }
-}
 
+    @Override
+    public String getProfileImageUrl() {
+        return kakaoAccount.kakaoProfile.image;
+    }
+}
