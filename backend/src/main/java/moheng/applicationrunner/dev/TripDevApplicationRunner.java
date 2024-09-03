@@ -26,7 +26,7 @@ public class TripDevApplicationRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        final Resource resource = new ClassPathResource("triptmp.json");
+        final Resource resource = new ClassPathResource("trip.json");
         final ObjectMapper objectMapper = new ObjectMapper();
         final List<TripRunner> tripRunners = objectMapper.readValue(resource.getInputStream(), new TypeReference<List<TripRunner>>() {});
 
