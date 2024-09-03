@@ -86,8 +86,7 @@ public class MemberService {
                 member.getId(),
                 request.getNickname(),
                 request.getBirthday(),
-                request.getGenderType(),
-                request.getProfileImageUrl()
+                request.getGenderType()
         );
         memberRepository.save(updateProfileMember);
     }
