@@ -3,7 +3,8 @@ import Button from "../../components/Button/Button";
 import './UserForm.css';
 import axiosInstance from "../../pages/Login/axiosInstance";
 
-const UserForm = ({ input, onChange, setIsNameValid }) => {
+const UserForm = ({ input, onChange }) => {
+  const [isNameValid, setIsNameValid] = useState(null); // 닉네임 중복 검사 결과
   const [loading, setLoading] = useState(false); // 중복 검사 요청 상태
 
   const checkNickname = async () => {
@@ -19,18 +20,40 @@ const UserForm = ({ input, onChange, setIsNameValid }) => {
       });
 
       if (response.data.message === "사용 가능한 닉네임입니다.") {
-        setIsNameValid(true); // 중복 검사 성공
+        setIsNameValid(true);
         alert("사용 가능한 닉네임입니다.");
       } else {
-        setIsNameValid(false); // 중복된 닉네임
+        setIsNameValid(false);
         alert("이미 사용 중인 닉네임입니다.");
       }
     } catch (error) {
-      setIsNameValid(false); // 오류 시에도 중복된 닉네임으로 처리
+      setIsNameValid(false);
       console.error("닉네임 중복 검사 실패:", error);
       alert("닉네임 중복 검사 중 오류가 발생했습니다.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const validateBirthDate = (birthDate) => {
+    const today = new Date();
+    const selectedDate = new Date(birthDate);
+
+    // 생년월일이 현재 날짜보다 이후일 경우
+    if (selectedDate > today) {
+      alert("생년월일은 현재 날짜보다 이후일 수 없습니다.");
+      return false; // 유효하지 않음
+    } else {
+      return true; // 유효함
+    }
+  };
+
+  const handleBirthChange = (e) => {
+    const { value } = e.target;
+
+    // 생년월일이 유효한 경우에만 상태를 업데이트
+    if (validateBirthDate(value)) {
+      onChange(e); // 생년월일이 유효할 때만 상태를 업데이트
     }
   };
 
@@ -58,7 +81,7 @@ const UserForm = ({ input, onChange, setIsNameValid }) => {
         <input
           name="birth"
           value={input.birth}
-          onChange={onChange}
+          onChange={handleBirthChange}
           type="date"
         />
       </section>
