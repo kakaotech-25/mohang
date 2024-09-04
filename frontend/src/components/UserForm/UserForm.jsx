@@ -13,6 +13,11 @@ const UserForm = ({ input, onChange }) => {
       return;
     }
 
+    if (input.name.length > 50) {
+      alert("닉네임은 1자 이상 50자 이하만 허용됩니다.");
+      return;
+    }
+
     setLoading(true);
     try {
       const response = await axiosInstance.post("/member/check/nickname", {
@@ -57,6 +62,18 @@ const UserForm = ({ input, onChange }) => {
     }
   };
 
+  // 닉네임 입력 시 글자 수 제한 및 유효성 검사
+  const handleNameChange = (e) => {
+    const { value } = e.target;
+
+    if (value.length > 50) {
+      alert("닉네임은 1자 이상 50자 이하만 허용됩니다.");
+      return; // 50자를 초과하면 입력 중단
+    }
+
+    onChange(e); // 유효한 입력일 경우 상태 업데이트
+  };
+
   return (
     <div className="user-form">
       <section className="nickname">
@@ -64,7 +81,7 @@ const UserForm = ({ input, onChange }) => {
         <input
           name="name"
           value={input.name}
-          onChange={onChange}
+          onChange={handleNameChange} // 닉네임 입력 시 글자 수 체크
           placeholder="닉네임을 입력하세요."
         />
         <div className="nickname-button">
