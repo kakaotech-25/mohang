@@ -3,8 +3,7 @@ import Button from "../../components/Button/Button";
 import './UserForm.css';
 import axiosInstance from "../../pages/Login/axiosInstance";
 
-const UserForm = ({ input, onChange }) => {
-  const [isNameValid, setIsNameValid] = useState(null); // 중복 검사 결과 상태
+const UserForm = ({ input, onChange, setIsNameValid }) => {
   const [loading, setLoading] = useState(false); // 중복 검사 요청 상태
 
   const checkNickname = async () => {
@@ -20,14 +19,14 @@ const UserForm = ({ input, onChange }) => {
       });
 
       if (response.data.message === "사용 가능한 닉네임입니다.") {
-        setIsNameValid(true);
+        setIsNameValid(true); // 중복 검사 성공
         alert("사용 가능한 닉네임입니다.");
       } else {
-        setIsNameValid(false);
+        setIsNameValid(false); // 중복된 닉네임
         alert("이미 사용 중인 닉네임입니다.");
       }
     } catch (error) {
-      setIsNameValid(false);
+      setIsNameValid(false); // 오류 시에도 중복된 닉네임으로 처리
       console.error("닉네임 중복 검사 실패:", error);
       alert("닉네임 중복 검사 중 오류가 발생했습니다.");
     } finally {
