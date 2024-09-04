@@ -5,7 +5,7 @@ WORKDIR /app
 
 RUN pip install -U poetry
 
-# Poetry를 가상환경에서 사용하지 않도록 설정
+# Poetry를 가상환경에서 사용하지 않도록 설정 (가상화 오버헤드 최소화)
 RUN poetry config virtualenvs.create false 
 
 # Poetry 설치
