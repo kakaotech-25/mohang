@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Order(11)
+@Order(4)
 @Component
 public class KeywordDevApplicationRunner implements ApplicationRunner {
     private final KeywordRepository keywordRepository;
@@ -44,6 +44,7 @@ public class KeywordDevApplicationRunner implements ApplicationRunner {
         for(final KeywordRunner keywordRunner : keywordRunners) {
             Trip trip = tripRepository.findByContentId(keywordRunner.getContentid())
                     .orElseThrow(NoExistTripException::new);
+
             for(final String keywordName : keywordRunner.getFiltered_labels()) {
                 final Keyword keyword = findOrCreateKeyword(keywordName);
                 tripKeywordRepository.save(new TripKeyword(trip, keyword));
