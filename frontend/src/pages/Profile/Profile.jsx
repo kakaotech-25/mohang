@@ -14,14 +14,26 @@ const Profile = () => {
     birth: "",
     gender: "",
   });
-  
-  const [isNameValid, setIsNameValid] = useState(null);
-  const [loading, setLoading] = useState(false);
 
+  const [isNameValid, setIsNameValid] = useState(null); // 닉네임 중복 검사 상태
+  const [loading, setLoading] = useState(false); // 로딩 상태
+
+  // 현재 날짜를 구함
+  const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD 형식으로 변환
+
+  // 입력 값 변경 처리 함수
   const onChange = (e) => {
+    const { name, value } = e.target;
+
+    // 생년월일 유효성 검사
+    if (name === "birth" && value > today) {
+      alert("생년월일은 현재 날짜보다 이후일 수 없습니다.");
+      return; // 잘못된 입력일 경우 처리 중단
+    }
+
     setInput({
       ...input,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
