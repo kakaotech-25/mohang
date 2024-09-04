@@ -23,4 +23,5 @@ RUN poetry install --no-root
 # 로컬에 있는 소스코드 컨테이너로 복사
 COPY . /app
 
-CMD ["poetry", "run", "uvicorn", "main:app"]
+# 주의 --host 구문 : poetry도 가상환경이라 포트포워딩 안하면 요청이 안 들어옵니다. 
+CMD ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
