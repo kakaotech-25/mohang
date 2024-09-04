@@ -29,7 +29,21 @@ const Callback = () => {
             }
           }
 
-          navigate('/');
+          // 로그인 성공 후 프로필 정보 입력 여부 판단
+          try {
+            await axiosInstance.get("/member/me");
+            // 프로필 정보 조회 성공, 아직 프로필이 설정되지 않은 것으로 간주하여 프로필 설정 페이지로 리다이렉트
+            navigate('/signup/profile');
+          } catch (profileError) {
+            if (profileError.response && profileError.response.status === 403) {
+              // 403 에러가 발생하면, 이미 프로필 정보가 입력된 것으로 간주하고 메인 페이지로 리다이렉트
+              navigate('/');
+            } else {
+              console.error('Failed to fetch user profile:', profileError);
+              navigate('/login?error=profile_fetch');
+            }
+          }
+
         } catch (error) {
           console.error('Failed to login with Kakao:', error);
           navigate('/login?error=oauth');

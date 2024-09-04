@@ -1,8 +1,39 @@
-import React from 'react';
+import { useState } from 'react';
 import Button from "../../components/Button/Button";
 import './UserForm.css';
+import axiosInstance from "../../pages/Login/axiosInstance";
 
-const UserForm = ({ input, onChange }) => {
+const UserForm = ({ input, onChange, setIsNameValid }) => {
+  const [loading, setLoading] = useState(false); // 중복 검사 요청 상태
+
+  const checkNickname = async () => {
+    if (!input.name) {
+      alert("닉네임을 입력해주세요.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await axiosInstance.post("/member/check/nickname", {
+        nickname: input.name,
+      });
+
+      if (response.data.message === "사용 가능한 닉네임입니다.") {
+        setIsNameValid(true); // 중복 검사 성공
+        alert("사용 가능한 닉네임입니다.");
+      } else {
+        setIsNameValid(false); // 중복된 닉네임
+        alert("이미 사용 중인 닉네임입니다.");
+      }
+    } catch (error) {
+      setIsNameValid(false); // 오류 시에도 중복된 닉네임으로 처리
+      console.error("닉네임 중복 검사 실패:", error);
+      alert("닉네임 중복 검사 중 오류가 발생했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="user-form">
       <section className="nickname">
@@ -14,7 +45,11 @@ const UserForm = ({ input, onChange }) => {
           placeholder="닉네임을 입력하세요."
         />
         <div className="nickname-button">
-          <Button text={"중복 검사"} />
+          <Button
+            text={loading ? "검사 중..." : "중복 검사"}
+            onClick={checkNickname}
+            disabled={loading} // 검사 중에는 버튼 비활성화
+          />
         </div>
       </section>
 
