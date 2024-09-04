@@ -33,13 +33,14 @@ public class TripDevApplicationRunner implements ApplicationRunner {
         for(final TripRunner tripRunner : tripRunners) {
             final Long contentId = tripRunner.getContentid();
             final String title = tripRunner.getTitle();
+            final String placeName = tripRunner.getArea_sigungu_combined();
             final String tripImageUrl = tripRunner.getFirstimage();
             final Double mapX = tripRunner.getMapx();
             final Double mapY = tripRunner.getMapy();
             final String description = tripRunner.getOverview();
 
             if(!description.isEmpty()) {
-                tripRepository.save(new Trip(title, title, contentId, description, tripImageUrl, mapX, mapY));
+                tripRepository.save(new Trip(title, placeName, contentId, description, tripImageUrl, mapX, mapY));
             }
         }
     }
