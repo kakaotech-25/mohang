@@ -25,6 +25,12 @@ const Profile = () => {
   const onChange = (e) => {
     const { name, value } = e.target;
 
+    // 닉네임 길이 검사 (50글자 이하만 허용)
+    if (name === "name" && value.length > 50) {
+      alert("닉네임은 1자 이상 50자 이하만 허용됩니다.");
+      return; // 50자를 넘으면 입력을 막음
+    }
+
     // 생년월일 유효성 검사
     if (name === "birth" && value > today) {
       alert("생년월일은 현재 날짜보다 이후일 수 없습니다.");
