@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Component
 public class ExternalAiSimilarTripModelClient implements ExternalSimilarTripModelClient {
-    private static final String SIMILAR_TRIP_LIST_REQUEST_URL = "http://localhost:8000/{contentId}/{page}";
+    private static final String SIMILAR_TRIP_LIST_REQUEST_URL = "http://localhost:8000/travel/similar/{contentId}/{page}";
     private final RestTemplate restTemplate;
 
     public ExternalAiSimilarTripModelClient(final RestTemplate restTemplate) {
