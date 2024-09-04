@@ -5,8 +5,8 @@ WORKDIR /app
 
 RUN pip install -U poetry
 
-# Poetry를 이용하여 의존성 설치
-# RUN poetry config virtualenvs.create false 
+# Poetry를 가상환경에서 사용하지 않도록 설정
+RUN poetry config virtualenvs.create false 
 
 # Poetry 설치
 RUN curl -sSL https://install.python-poetry.org | python3 -
