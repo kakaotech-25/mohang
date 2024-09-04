@@ -21,4 +21,7 @@ public interface KeywordRepository extends JpaRepository<Keyword, Long> {
     @Query("SELECT MAX(k.id) FROM Keyword k")
     Long findMaxKeywordId();
 
+    Keyword findByName(final String name);
+
+    boolean existsByName(final String name);
 }

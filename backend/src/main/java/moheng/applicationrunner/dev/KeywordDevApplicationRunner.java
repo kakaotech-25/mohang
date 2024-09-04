@@ -4,9 +4,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import moheng.applicationrunner.dto.KeywordRunner;
 import moheng.applicationrunner.dto.LiveInformationRunner;
+import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.KeywordRepository;
+import moheng.keyword.domain.TripKeyword;
 import moheng.keyword.domain.TripKeywordRepository;
+import moheng.trip.domain.Trip;
 import moheng.trip.domain.TripRepository;
+import moheng.trip.exception.NoExistTripException;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
@@ -36,5 +40,21 @@ public class KeywordDevApplicationRunner implements ApplicationRunner {
         final Resource resource = new ClassPathResource("keyword.json");
         final ObjectMapper objectMapper = new ObjectMapper();
         final List<KeywordRunner> keywordRunners = objectMapper.readValue(resource.getInputStream(), new TypeReference<List<KeywordRunner>>() {});
+
+        for(final KeywordRunner keywordRunner : keywordRunners) {
+            Trip trip = tripRepository.findByContentId(keywordRunner.getContentid())
+                    .orElseThrow(NoExistTripException::new);
+            for(final String keywordName : keywordRunner.getFiltered_labels()) {
+                final Keyword keyword = findOrCreateKeyword(keywordName);
+                tripKeywordRepository.save(new TripKeyword(trip, keyword));
+            }
+        }
+    }
+
+    private Keyword findOrCreateKeyword(final String name) {
+        if(keywordRepository.existsByName(name)) {
+            return keywordRepository.findByName(name);
+        }
+        return keywordRepository.save(new Keyword(name));
     }
 }
