@@ -2,8 +2,7 @@ package moheng.keyword.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import moheng.config.slice.ServiceTestConfig;
 import moheng.keyword.domain.random.strategy.FindMaxKeywordStrategy;
@@ -51,5 +50,15 @@ public class FindKeywordStrategyTest extends ServiceTestConfig {
 
         // then
         assertEquals(actual, 1L);
+    }
+
+    @DisplayName("최소 ID 키워드 찾기 전략의 매핑 조건은 RANDOM_MIN 이다.")
+    @Test
+    void 최소_ID_키워드_찾기_전략의_매핑_조건은_RANDOM_MIN_이다() {
+        // given
+        String STRATEGY_NAME = "RANDOM_MIN";
+
+        // when, then
+        assertTrue(findMinKeywordIdStrategy.isMatch(STRATEGY_NAME));
     }
 }
