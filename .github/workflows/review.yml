@@ -1,0 +1,26 @@
+name: Pull Request Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  code-review:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 깃 리포지토리 체크아웃
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Pull Request Code Review Bot 사용
+      - name: Pull Request Code Review Bot
+        uses: kakaotech-25/Hackerton-PR-Review@v1
+        with:
+          # 필요에 따라 액션에 전달할 입력 값 설정
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      # 코드 리뷰 후 결과를 보고하는 단계
+      - name: Post Review Results
+        run: |
+          echo "Code review completed!"
