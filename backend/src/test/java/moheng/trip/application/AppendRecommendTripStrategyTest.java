@@ -63,7 +63,7 @@ public class AppendRecommendTripStrategyTest extends ServiceTestConfig {
 
         assertAll(() -> {
             assertThat(recommendTripRepository.findAllByMemberId(member.getId()).size()).isEqualTo(4L);
-            assertThat(actual.getRank()).isEqualTo(4L);
+            assertThat(actual.getRanking()).isEqualTo(4L);
         });
     }
 

@@ -351,7 +351,7 @@ public class TripServiceTest extends ServiceTestConfig {
         tripService.findWithSimilarOtherTrips(currentTrip.getId(), member.getId());
 
         // then
-        assertThat(recommendTripRepository.findById(1L).get().getRank()).isEqualTo(1L);
+        assertThat(recommendTripRepository.findById(1L).get().getRanking()).isEqualTo(1L);
     }
 
     @DisplayName("동시간대에 여러 유저가 여행지를 조회하면 방문 횟수에 동시성 이슈가 발생한다.")
@@ -468,7 +468,7 @@ public class TripServiceTest extends ServiceTestConfig {
 
         // then
         RecommendTrip actual = recommendTripRepository.findById(7L).get();
-        assertThat(actual.getRank()).isEqualTo(7L);
+        assertThat(actual.getRanking()).isEqualTo(7L);
     }
 
     @DisplayName("최근 클릭한 여행지가 10개라면 기존의 rank를 1씩 감소시키고, rank가 10인 새로운 선호 여행지를 생성한다.")
@@ -512,7 +512,7 @@ public class TripServiceTest extends ServiceTestConfig {
 
         // then
         assertAll(() -> {
-            assertThat(recommendTripRepository.findById(11L).get().getRank()).isEqualTo(10L);
+            assertThat(recommendTripRepository.findById(11L).get().getRanking()).isEqualTo(10L);
         });
     }
 
@@ -558,7 +558,7 @@ public class TripServiceTest extends ServiceTestConfig {
         // then
         assertAll(() -> {
             for(long id=2; id<=11; id++) {
-                assertThat(recommendTripRepository.findById(id).get().getRank()).isEqualTo(id-1);
+                assertThat(recommendTripRepository.findById(id).get().getRanking()).isEqualTo(id-1);
             }
         });
     }
@@ -606,7 +606,7 @@ public class TripServiceTest extends ServiceTestConfig {
         assertAll(() -> {
             assertThat(recommendTripRepository.findAllByMemberId(member.getId()).size()).isEqualTo(10);
             assertThat(recommendTripRepository.existsByMemberAndTrip(member, trip2)).isFalse();
-            assertThat(recommendTripRepository.findById(2L).get().getRank()).isEqualTo(HIGHEST_PRIORITY_RANK);
+            assertThat(recommendTripRepository.findById(2L).get().getRanking()).isEqualTo(HIGHEST_PRIORITY_RANK);
         });
     }
 
@@ -692,7 +692,7 @@ public class TripServiceTest extends ServiceTestConfig {
         RecommendTrip recommendTrip = recommendTripRepository.findById(11L).get();
 
         // then
-        assertThat(recommendTrip.getRank()).isEqualTo(LOWEST_PRIORITY_RANK);
+        assertThat(recommendTrip.getRanking()).isEqualTo(LOWEST_PRIORITY_RANK);
     }
 
 
@@ -825,7 +825,7 @@ public class TripServiceTest extends ServiceTestConfig {
         // then
         assertAll(() -> {
             for(long id=1; id<=10; id++) {
-                assertThat(recommendTripRepository.findById(id).get().getRank()).isEqualTo(id);
+                assertThat(recommendTripRepository.findById(id).get().getRanking()).isEqualTo(id);
             }
         });
     }

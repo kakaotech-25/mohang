@@ -66,7 +66,7 @@ public class ReplaceRecommendTripStrategyTest extends ServiceTestConfig {
 
         // then
         assertAll(() -> {
-            assertThat(recommendTripRepository.findById(11L).get().getRank()).isEqualTo(10L);
+            assertThat(recommendTripRepository.findById(11L).get().getRanking()).isEqualTo(10L);
         });
     }
 
@@ -101,7 +101,7 @@ public class ReplaceRecommendTripStrategyTest extends ServiceTestConfig {
 
         // then
         assertAll(() -> {
-            assertThat(recommendTripRepository.findById(11L).get().getRank()).isEqualTo(10L);
+            assertThat(recommendTripRepository.findById(11L).get().getRanking()).isEqualTo(10L);
         });
     }
 
@@ -178,7 +178,7 @@ public class ReplaceRecommendTripStrategyTest extends ServiceTestConfig {
         // then
         assertAll(() -> {
             for(long id=1; id<=10; id++) {
-                assertThat(recommendTripRepository.findById(id).get().getRank()).isEqualTo(id);
+                assertThat(recommendTripRepository.findById(id).get().getRanking()).isEqualTo(id);
             }
         });
     }

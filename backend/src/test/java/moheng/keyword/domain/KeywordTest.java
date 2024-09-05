@@ -22,11 +22,10 @@ public class KeywordTest {
     @ParameterizedTest
     @ValueSource(strings = {
             "일이삼자오육칠팔구십 일이삼자오육칠팔구십 일이삼자오육칠팔구십 일이삼자오육칠팔구십 일이삼자오육칠팔구십 일이삼자오육칠팔구십 일이삼자오육칠팔구십 일이삼자오육칠팔구십 일이삼자오육칠팔구십 일이삼자오육칠팔구십 ",
+            "일이삼자오육칠팔구십 일이삼자오육칠팔구십 일이삼자오육칠팔구십",
             "",
-            "a",
-            "오"
     })
-    void 키워드_이름의_길이가_2자_이하라면_예외가_발생한다(final String name) {
+    void 키워드_이름의_길이가_유효하지_않다면_예외가_발생한다(final String name) {
         assertThatThrownBy(() -> new Keyword(name))
                 .isInstanceOf(KeywordNameLengthException.class);
     }

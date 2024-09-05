@@ -249,8 +249,8 @@ public class RecommendTripServiceTest extends ServiceTestConfig {
         Keyword keyword5 = keywordRepository.save(new Keyword("키워드5")); Keyword keyword6 = keywordRepository.save(new Keyword("키워드6"));
         Keyword keyword7 = keywordRepository.save(new Keyword("키워드7")); Keyword keyword8 = keywordRepository.save(new Keyword("키워드8"));
         Keyword keyword9 = keywordRepository.save(new Keyword("키워드9")); Keyword keyword10 = keywordRepository.save(new Keyword("키워드10"));
-        Keyword keyword11 = keywordRepository.save(new Keyword("멤버가 관심없는 생활정보 관련 여행지의 키워드"));
-        Keyword keyword12 = keywordRepository.save(new Keyword("멤버가 관심없는 생활정보 관련 여행지의 키워드"));
+        Keyword keyword11 = keywordRepository.save(new Keyword("멤버가 관심없는 생활정보 여행지 키워드"));
+        Keyword keyword12 = keywordRepository.save(new Keyword("멤버가 관심없는 생활정보 여행지 키워드"));
         tripKeywordRepository.save(new TripKeyword(trip1, keyword1)); tripKeywordRepository.save(new TripKeyword(trip2, keyword2));
         tripKeywordRepository.save(new TripKeyword(trip3, keyword3)); tripKeywordRepository.save(new TripKeyword(trip4, keyword4));
         tripKeywordRepository.save(new TripKeyword(trip5, keyword5)); tripKeywordRepository.save(new TripKeyword(trip6, keyword6));
