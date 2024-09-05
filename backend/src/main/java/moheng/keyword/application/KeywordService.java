@@ -86,17 +86,6 @@ public class KeywordService {
         return randomKeywordGeneratable.generate();
     }
 
-    private void validateKeywordRange(final Long minId, final Long maxId) {
-        if (minId == null || maxId == null) {
-            throw new NoExistKeywordException("랜덤 키워드를 찾을 수 없습니다.");
-        }
-    }
-
-    private Long generateRandomId(final Long minId, final Long maxId) {
-        final SecureRandom secureRandom = new SecureRandom();
-        return minId + secureRandom.nextLong(maxId - minId + 1);
-    }
-
     private Map<Trip, Long> findTripsWithVisitedCount(final List<TripKeyword> tripKeywords) {
         final Map<Trip, Long> tripClickCounts = new HashMap<>();
         for (TripKeyword tripKeyword : tripKeywords) {
