@@ -47,12 +47,13 @@ public class LiveInformationDevApplicationRunner implements ApplicationRunner {
             final List<LiveInformationRunner> liveInformationRunners = objectMapper.readValue(resource.getInputStream(), new TypeReference<List<LiveInformationRunner>>() {});
 
             for(final LiveInformationRunner liveInformationRunner : liveInformationRunners) {
-                tripRepository.findByContentId(liveInformationRunner.getContentid()).ifPresent(trip -> {
-                    for(final String liveInfoName : liveInformationRunner.getLiveinformation()) {
-                        final LiveInformation liveInformation = findOrCreateLiveInformation(liveInfoName);
-                        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip));
-                    }
-                });
+                final Trip trip = tripRepository.findByContentId(liveInformationRunner.getContentid())
+                                .orElseThrow(NoExistTripException::new);
+
+                for(final String liveInfoName : liveInformationRunner.getLiveinformation()) {
+                    final LiveInformation liveInformation = findOrCreateLiveInformation(liveInfoName);
+                    tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip));
+                }
             }
         }
     }
