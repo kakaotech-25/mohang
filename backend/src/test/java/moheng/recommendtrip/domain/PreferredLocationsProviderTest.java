@@ -5,15 +5,14 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import moheng.config.slice.ServiceTestConfig;
-import moheng.keyword.domain.Keyword;
-import moheng.keyword.domain.TripKeyword;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
+import moheng.recommendtrip.domain.repository.RecommendTripRepository;
 import moheng.recommendtrip.exception.LackOfRecommendTripException;
 import moheng.trip.domain.MemberTrip;
-import moheng.trip.domain.MemberTripRepository;
+import moheng.trip.domain.repository.MemberTripRepository;
 import moheng.trip.domain.Trip;
-import moheng.trip.domain.TripRepository;
+import moheng.trip.domain.repository.TripRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

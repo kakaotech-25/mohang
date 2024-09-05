@@ -1,14 +1,15 @@
 package moheng.keyword.domain;
 
-import static moheng.fixture.MemberFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import moheng.config.slice.RepositoryTestConfig;
+import moheng.keyword.domain.repository.KeywordRepository;
+import moheng.keyword.domain.repository.TripKeywordRepository;
 import moheng.trip.domain.Trip;
-import moheng.trip.domain.TripRepository;
+import moheng.trip.domain.repository.TripRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

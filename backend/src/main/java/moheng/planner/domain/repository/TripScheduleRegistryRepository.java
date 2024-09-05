@@ -1,11 +1,10 @@
-package moheng.planner.domain;
+package moheng.planner.domain.repository;
 
+import moheng.planner.domain.TripScheduleRegistry;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
-import java.util.Optional;
 
 public interface TripScheduleRegistryRepository extends JpaRepository<TripScheduleRegistry, Long> {
     @Modifying

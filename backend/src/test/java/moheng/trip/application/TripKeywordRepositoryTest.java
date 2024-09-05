@@ -1,15 +1,14 @@
 package moheng.trip.application;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 import moheng.config.slice.RepositoryTestConfig;
 import moheng.keyword.domain.Keyword;
-import moheng.keyword.domain.KeywordRepository;
+import moheng.keyword.domain.repository.KeywordRepository;
 import moheng.keyword.domain.TripKeyword;
-import moheng.keyword.domain.TripKeywordRepository;
+import moheng.keyword.domain.repository.TripKeywordRepository;
 import moheng.trip.domain.Trip;
-import moheng.trip.domain.TripRepository;
+import moheng.trip.domain.repository.TripRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

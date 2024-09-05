@@ -2,7 +2,7 @@ package moheng.trip.domain.recommendstrategy;
 
 import moheng.member.domain.Member;
 import moheng.recommendtrip.domain.RecommendTrip;
-import moheng.recommendtrip.domain.RecommendTripRepository;
+import moheng.recommendtrip.domain.repository.RecommendTripRepository;
 import moheng.trip.domain.Trip;
 import moheng.trip.exception.NoExistRecommendTripException;
 import org.springframework.stereotype.Component;

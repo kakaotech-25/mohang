@@ -1,9 +1,9 @@
 package moheng.keyword.application;
 
 import moheng.keyword.domain.Keyword;
-import moheng.keyword.domain.KeywordRepository;
+import moheng.keyword.domain.repository.KeywordRepository;
 import moheng.keyword.domain.TripKeyword;
-import moheng.keyword.domain.TripKeywordRepository;
+import moheng.keyword.domain.repository.TripKeywordRepository;
 import moheng.keyword.dto.FindAllKeywordResponses;
 import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
@@ -12,7 +12,7 @@ import moheng.trip.domain.Trip;
 import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.dto.TripKeywordCreateRequest;
 import moheng.trip.exception.NoExistTripException;
-import moheng.trip.domain.TripRepository;
+import moheng.trip.domain.repository.TripRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +20,6 @@ import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)

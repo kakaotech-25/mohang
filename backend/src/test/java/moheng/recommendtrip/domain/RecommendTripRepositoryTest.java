@@ -6,18 +6,14 @@ import static moheng.fixture.MemberFixtures.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import moheng.config.slice.RepositoryTestConfig;
-import moheng.config.TestConfig;
-import moheng.keyword.dto.RecommendTripResponse;
-import moheng.member.application.MemberService;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
-import moheng.trip.application.TripService;
+import moheng.recommendtrip.domain.repository.RecommendTripRepository;
 import moheng.trip.domain.Trip;
-import moheng.trip.domain.TripRepository;
+import moheng.trip.domain.repository.TripRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 

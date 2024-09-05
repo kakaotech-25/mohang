@@ -1,5 +1,7 @@
-package moheng.liveinformation.domain;
+package moheng.liveinformation.domain.repository;
 
+import moheng.liveinformation.domain.LiveInformation;
+import moheng.liveinformation.domain.MemberLiveInformation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

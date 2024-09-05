@@ -1,4 +1,4 @@
-package moheng.global.query;
+package moheng.global.aopquery;
 
 public class QueryLog {
     private String apiUrl;

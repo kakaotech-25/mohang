@@ -1,12 +1,10 @@
 package moheng.applicationrunner.prod;
 
-import moheng.liveinformation.domain.LiveInformationRepository;
-import moheng.liveinformation.domain.MemberLiveInformationRepository;
+import moheng.liveinformation.domain.repository.LiveInformationRepository;
+import moheng.liveinformation.domain.repository.MemberLiveInformationRepository;
 import moheng.member.domain.repository.MemberRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 
 
 public class MemberLiveInformationTestApplicationRunner implements ApplicationRunner {
