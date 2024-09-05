@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @Service
 public class KeywordService {
+    private static final int TOP_TRIPS_COUNT = 30;
     private final KeywordRepository keywordRepository;
     private final TripRepository tripRepository;
     private final TripKeywordRepository tripKeywordRepository;
@@ -109,7 +110,7 @@ public class KeywordService {
     private List<Trip> findTopTripsByVisitedCount(final Map<Trip, Long> tripsWithVisitedCount) {
         return tripsWithVisitedCount.entrySet().stream()
                 .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()))
-                .limit(30)
+                .limit(TOP_TRIPS_COUNT)
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }
