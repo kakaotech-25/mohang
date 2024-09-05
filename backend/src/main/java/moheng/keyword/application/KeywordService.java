@@ -1,6 +1,7 @@
 package moheng.keyword.application;
 
 import moheng.keyword.domain.Keyword;
+import moheng.keyword.domain.RandomKeywordGeneratable;
 import moheng.keyword.domain.repository.KeywordRepository;
 import moheng.keyword.domain.TripKeyword;
 import moheng.keyword.domain.repository.TripKeywordRepository;
@@ -26,13 +27,16 @@ import java.util.stream.Collectors;
 @Service
 public class KeywordService {
     private static final int TOP_TRIPS_COUNT = 30;
+    private final RandomKeywordGeneratable randomKeywordGeneratable;
     private final KeywordRepository keywordRepository;
     private final TripRepository tripRepository;
     private final TripKeywordRepository tripKeywordRepository;
 
-    public KeywordService(final KeywordRepository keywordRepository,
+    public KeywordService(final RandomKeywordGeneratable randomKeywordGeneratable,
+                          final KeywordRepository keywordRepository,
                           final TripRepository tripRepository,
                           final TripKeywordRepository tripKeywordRepository) {
+        this.randomKeywordGeneratable = randomKeywordGeneratable;
         this.keywordRepository = keywordRepository;
         this.tripRepository = tripRepository;
         this.tripKeywordRepository = tripKeywordRepository;
@@ -79,12 +83,7 @@ public class KeywordService {
     }
 
     private Keyword findRandomKeyword() {
-        final Long minId = keywordRepository.findMinKeywordId();
-        final Long maxId = keywordRepository.findMaxKeywordId();
-        validateKeywordRange(minId, maxId);
-        final Long randomId = generateRandomId(minId, maxId);
-        return keywordRepository.findKeywordById(randomId)
-                .orElseThrow(() -> new NoExistKeywordException("랜덤 키워드를 찾을 수 없습니다."));
+        return randomKeywordGeneratable.generate();
     }
 
     private void validateKeywordRange(final Long minId, final Long maxId) {

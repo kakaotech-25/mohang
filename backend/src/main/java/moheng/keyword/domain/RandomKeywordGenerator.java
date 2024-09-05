@@ -7,13 +7,14 @@ import org.springframework.stereotype.Component;
 import java.security.SecureRandom;
 
 @Component
-public class RandomKeywordGenerator {
+public class RandomKeywordGenerator implements RandomKeywordGeneratable {
     private final KeywordRepository keywordRepository;
 
     public RandomKeywordGenerator(final KeywordRepository keywordRepository) {
         this.keywordRepository = keywordRepository;
     }
 
+    @Override
     public Keyword generate() {
         final Long minId = keywordRepository.findMinKeywordId();
         final Long maxId = keywordRepository.findMaxKeywordId();
