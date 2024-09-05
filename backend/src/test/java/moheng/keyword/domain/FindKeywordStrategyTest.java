@@ -37,4 +37,19 @@ public class FindKeywordStrategyTest extends ServiceTestConfig {
         // then
         assertEquals(actual, 3L);
     }
+
+    @DisplayName("ID 값이 가장 작은 키워드의 ID를 리턴한다.")
+    @Test
+    void ID_값이_가장_작은_키워드의_ID를_리턴한다() {
+        // given
+        keywordRepository.save(new Keyword("키워드1"));
+        keywordRepository.save(new Keyword("키워드2"));
+        keywordRepository.save(new Keyword("키워드3"));
+
+        // when
+        long actual = findMinKeywordIdStrategy.findKeywordId();
+
+        // then
+        assertEquals(actual, 1L);
+    }
 }
