@@ -2,7 +2,7 @@ package moheng.config.stub;
 
 import moheng.keyword.dto.TripContentIdsByKeywordResponse;
 import moheng.keyword.dto.TripRecommendByKeywordRequest;
-import moheng.keyword.application.KeywordFilterModelClient;
+import moheng.keyword.domain.KeywordFilterModelClient;
 
 import java.util.List;
 
