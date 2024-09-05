@@ -1,5 +1,6 @@
-package moheng.keyword.domain;
+package moheng.keyword.domain.randomstrategy;
 
+import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.repository.KeywordRepository;
 import moheng.keyword.exception.NoExistKeywordException;
 import org.springframework.stereotype.Component;
