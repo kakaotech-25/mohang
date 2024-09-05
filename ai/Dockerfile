@@ -5,8 +5,8 @@ WORKDIR /app
 
 RUN pip install -U poetry
 
-# Poetry를 이용하여 의존성 설치
-# RUN poetry config virtualenvs.create false 
+# Poetry를 가상환경에서 사용하지 않도록 설정 (가상화 오버헤드 최소화)
+RUN poetry config virtualenvs.create false 
 
 # Poetry 설치
 RUN curl -sSL https://install.python-poetry.org | python3 -
@@ -23,4 +23,5 @@ RUN poetry install --no-root
 # 로컬에 있는 소스코드 컨테이너로 복사
 COPY . /app
 
-CMD ["poetry", "run", "uvicorn", "main:app"]
+# 주의 --host 구문 : poetry도 가상환경이라 포트포워딩 안하면 요청이 안 들어옵니다. 
+CMD ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
