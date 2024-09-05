@@ -1,4 +1,4 @@
-package moheng.keyword.domain.randomstrategy;
+package moheng.keyword.domain.random;
 
 import moheng.keyword.domain.Keyword;
 

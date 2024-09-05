@@ -1,4 +1,4 @@
-package moheng.keyword.domain.randomstrategy;
+package moheng.keyword.domain.random;
 
 import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.repository.KeywordRepository;
@@ -9,9 +9,12 @@ import java.security.SecureRandom;
 
 @Component
 public class RandomKeywordGenerator implements RandomKeywordGeneratable {
+    private final RandomKeywordStrategyProvider randomKeywordStrategyProvider;
     private final KeywordRepository keywordRepository;
 
-    public RandomKeywordGenerator(final KeywordRepository keywordRepository) {
+    public RandomKeywordGenerator(final RandomKeywordStrategyProvider randomKeywordStrategyProvider,
+                                  final KeywordRepository keywordRepository) {
+        this.randomKeywordStrategyProvider = randomKeywordStrategyProvider;
         this.keywordRepository = keywordRepository;
     }
 
@@ -25,13 +28,5 @@ public class RandomKeywordGenerator implements RandomKeywordGeneratable {
     private Long generateRandomId(final Long minId, final Long maxId) {
         final SecureRandom secureRandom = new SecureRandom();
         return minId + secureRandom.nextLong(maxId - minId + 1);
-    }
-
-    private Long findMinKeywordId() {
-        return keywordRepository.findMinKeywordId();
-    }
-
-    private Long findMaxKeywordId() {
-        return keywordRepository.findMaxKeywordId();
     }
 }
