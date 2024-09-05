@@ -296,7 +296,7 @@ public class MemberServiceTest extends ServiceTestConfig {
         // then
         assertAll(() -> {
             for(long rank=1; rank<=5; rank++) {
-                assertEquals(recommendTripRepository.findById(rank).get().getRank(), rank);
+                assertEquals(recommendTripRepository.findById(rank).get().getRanking(), rank);
             }
         });
     }

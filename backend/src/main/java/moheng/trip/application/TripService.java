@@ -73,7 +73,7 @@ public class TripService {
     private void saveRecommendTripByClickedLogs(final long memberId, final Trip trip) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoExistMemberException::new);
-        final List<RecommendTrip> recommendTrips = recommendTripRepository.findByMemberOrderByRankDesc(member);
+        final List<RecommendTrip> recommendTrips = recommendTripRepository.findByMemberOrderByRankingDesc(member);
         final MemberTrip memberTrip = findOrCreateMemberTrip(member, trip);
         memberTrip.incrementVisitedCount();
         saveRecommendLogsByStrategy(trip, member, recommendTrips);

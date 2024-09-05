@@ -26,8 +26,8 @@ public class AppendRecommendTripStrategy implements RecommendTripStrategy {
 
     private long findHighestRecommendTripRank(final List<RecommendTrip> recommendTrips) {
         return recommendTrips.stream()
-                .max(Comparator.comparing(RecommendTrip::getRank))
-                .map(RecommendTrip::getRank)
+                .max(Comparator.comparing(RecommendTrip::getRanking))
+                .map(RecommendTrip::getRanking)
                 .orElseThrow(() -> new NoExistRecommendTripException("선호 여행지 정보가 없습니다."));
     }
 

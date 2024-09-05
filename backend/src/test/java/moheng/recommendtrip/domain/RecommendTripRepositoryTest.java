@@ -91,10 +91,10 @@ public class RecommendTripRepositoryTest extends RepositoryTestConfig {
 
         // then
         assertAll(() -> {
-            assertThat(recommendTripRepository.findById(recommendTrip1.getId()).get().getRank()).isEqualTo(1L);
-            assertThat(recommendTripRepository.findById(recommendTrip2.getId()).get().getRank()).isEqualTo(2L);
-            assertThat(recommendTripRepository.findById(recommendTrip3.getId()).get().getRank()).isEqualTo(3L);
-            assertThat(recommendTripRepository.findById(recommendTrip4.getId()).get().getRank()).isEqualTo(4L);
+            assertThat(recommendTripRepository.findById(recommendTrip1.getId()).get().getRanking()).isEqualTo(1L);
+            assertThat(recommendTripRepository.findById(recommendTrip2.getId()).get().getRanking()).isEqualTo(2L);
+            assertThat(recommendTripRepository.findById(recommendTrip3.getId()).get().getRanking()).isEqualTo(3L);
+            assertThat(recommendTripRepository.findById(recommendTrip4.getId()).get().getRanking()).isEqualTo(4L);
         });
     }
 
