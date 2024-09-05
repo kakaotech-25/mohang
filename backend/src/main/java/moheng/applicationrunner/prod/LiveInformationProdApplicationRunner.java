@@ -1,4 +1,4 @@
-package moheng.applicationrunner.dev;
+package moheng.applicationrunner.prod;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,26 +13,23 @@ import moheng.trip.domain.repository.TripRepository;
 import moheng.trip.exception.NoExistTripException;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Order(3)
-@Component
-public class LiveInformationDevApplicationRunner implements ApplicationRunner {
+
+public class LiveInformationProdApplicationRunner implements ApplicationRunner {
     private final TripRepository tripRepository;
     private final LiveInformationRepository liveInformationRepository;
     private final TripLiveInformationRepository tripLiveInformationRepository;
     private final JdbcTemplate jdbcTemplate;
 
-    public LiveInformationDevApplicationRunner(final TripRepository tripRepository,
-                                               final LiveInformationRepository liveInformationRepository,
-                                               final TripLiveInformationRepository tripLiveInformationRepository,
-                                               final JdbcTemplate jdbcTemplate) {
+    public LiveInformationProdApplicationRunner(final TripRepository tripRepository,
+                                                final LiveInformationRepository liveInformationRepository,
+                                                final TripLiveInformationRepository tripLiveInformationRepository,
+                                                final JdbcTemplate jdbcTemplate) {
         this.tripRepository = tripRepository;
         this.liveInformationRepository = liveInformationRepository;
         this.tripLiveInformationRepository = tripLiveInformationRepository;

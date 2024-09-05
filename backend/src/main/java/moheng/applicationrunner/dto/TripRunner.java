@@ -7,7 +7,7 @@ public class TripRunner {
     private Double mapx;
     private Double mapy;
     private String overview;
-    private Long mlevel;
+    private String area_sigungu_combined;
 
     public Long getContentid() {
         return contentid;
@@ -33,7 +33,7 @@ public class TripRunner {
         return overview;
     }
 
-    public Long getMlevel() {
-        return mlevel;
+    public String getArea_sigungu_combined() {
+        return area_sigungu_combined;
     }
 }

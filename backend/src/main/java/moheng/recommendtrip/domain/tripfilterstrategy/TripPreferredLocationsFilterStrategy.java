@@ -1,19 +1,18 @@
 package moheng.recommendtrip.domain.tripfilterstrategy;
 
 import moheng.liveinformation.domain.LiveInformation;
-import moheng.liveinformation.domain.MemberLiveInformationRepository;
-import moheng.liveinformation.domain.TripLiveInformationRepository;
+import moheng.liveinformation.domain.repository.MemberLiveInformationRepository;
+import moheng.liveinformation.domain.repository.TripLiveInformationRepository;
 import moheng.recommendtrip.domain.PreferredLocationsProvider;
 import moheng.recommendtrip.domain.filterinfo.FilterStandardInfo;
 import moheng.trip.domain.ExternalRecommendModelClient;
 import moheng.trip.domain.Trip;
-import moheng.trip.domain.TripRepository;
+import moheng.trip.domain.repository.TripRepository;
 import moheng.trip.dto.RecommendTripsByVisitedLogsRequest;
 import moheng.trip.dto.RecommendTripsByVisitedLogsResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;

@@ -5,27 +5,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
-import groovy.transform.AutoImplement;
 import moheng.config.slice.ServiceTestConfig;
 import moheng.keyword.domain.Keyword;
-import moheng.keyword.domain.KeywordRepository;
+import moheng.keyword.domain.repository.KeywordRepository;
 import moheng.keyword.domain.TripKeyword;
-import moheng.keyword.domain.TripKeywordRepository;
+import moheng.keyword.domain.repository.TripKeywordRepository;
 import moheng.liveinformation.domain.LiveInformation;
-import moheng.liveinformation.domain.LiveInformationRepository;
+import moheng.liveinformation.domain.repository.LiveInformationRepository;
 import moheng.liveinformation.domain.TripLiveInformation;
-import moheng.liveinformation.domain.TripLiveInformationRepository;
+import moheng.liveinformation.domain.repository.TripLiveInformationRepository;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
-import moheng.recommendtrip.application.RecommendTripService;
 import moheng.recommendtrip.domain.RecommendTrip;
-import moheng.recommendtrip.domain.RecommendTripRepository;
+import moheng.recommendtrip.domain.repository.RecommendTripRepository;
 import moheng.trip.domain.MemberTrip;
-import moheng.trip.domain.MemberTripRepository;
+import moheng.trip.domain.repository.MemberTripRepository;
 import moheng.trip.domain.Trip;
-import moheng.trip.domain.TripRepository;
-import moheng.trip.dto.FindTripResponse;
+import moheng.trip.domain.repository.TripRepository;
 import moheng.trip.dto.FindTripWithSimilarTripsResponse;
 import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.dto.TripCreateRequest;
@@ -34,11 +31,8 @@ import moheng.trip.exception.NoExistRecommendTripStrategyException;
 import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -351,7 +345,7 @@ public class TripServiceTest extends ServiceTestConfig {
         tripService.findWithSimilarOtherTrips(currentTrip.getId(), member.getId());
 
         // then
-        assertThat(recommendTripRepository.findById(1L).get().getRank()).isEqualTo(1L);
+        assertThat(recommendTripRepository.findById(1L).get().getRanking()).isEqualTo(1L);
     }
 
     @DisplayName("동시간대에 여러 유저가 여행지를 조회하면 방문 횟수에 동시성 이슈가 발생한다.")
@@ -468,7 +462,7 @@ public class TripServiceTest extends ServiceTestConfig {
 
         // then
         RecommendTrip actual = recommendTripRepository.findById(7L).get();
-        assertThat(actual.getRank()).isEqualTo(7L);
+        assertThat(actual.getRanking()).isEqualTo(7L);
     }
 
     @DisplayName("최근 클릭한 여행지가 10개라면 기존의 rank를 1씩 감소시키고, rank가 10인 새로운 선호 여행지를 생성한다.")
@@ -512,7 +506,7 @@ public class TripServiceTest extends ServiceTestConfig {
 
         // then
         assertAll(() -> {
-            assertThat(recommendTripRepository.findById(11L).get().getRank()).isEqualTo(10L);
+            assertThat(recommendTripRepository.findById(11L).get().getRanking()).isEqualTo(10L);
         });
     }
 
@@ -558,7 +552,7 @@ public class TripServiceTest extends ServiceTestConfig {
         // then
         assertAll(() -> {
             for(long id=2; id<=11; id++) {
-                assertThat(recommendTripRepository.findById(id).get().getRank()).isEqualTo(id-1);
+                assertThat(recommendTripRepository.findById(id).get().getRanking()).isEqualTo(id-1);
             }
         });
     }
@@ -606,7 +600,7 @@ public class TripServiceTest extends ServiceTestConfig {
         assertAll(() -> {
             assertThat(recommendTripRepository.findAllByMemberId(member.getId()).size()).isEqualTo(10);
             assertThat(recommendTripRepository.existsByMemberAndTrip(member, trip2)).isFalse();
-            assertThat(recommendTripRepository.findById(2L).get().getRank()).isEqualTo(HIGHEST_PRIORITY_RANK);
+            assertThat(recommendTripRepository.findById(2L).get().getRanking()).isEqualTo(HIGHEST_PRIORITY_RANK);
         });
     }
 
@@ -692,7 +686,7 @@ public class TripServiceTest extends ServiceTestConfig {
         RecommendTrip recommendTrip = recommendTripRepository.findById(11L).get();
 
         // then
-        assertThat(recommendTrip.getRank()).isEqualTo(LOWEST_PRIORITY_RANK);
+        assertThat(recommendTrip.getRanking()).isEqualTo(LOWEST_PRIORITY_RANK);
     }
 
 
@@ -825,7 +819,7 @@ public class TripServiceTest extends ServiceTestConfig {
         // then
         assertAll(() -> {
             for(long id=1; id<=10; id++) {
-                assertThat(recommendTripRepository.findById(id).get().getRank()).isEqualTo(id);
+                assertThat(recommendTripRepository.findById(id).get().getRanking()).isEqualTo(id);
             }
         });
     }

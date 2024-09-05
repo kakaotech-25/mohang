@@ -2,7 +2,7 @@ package moheng.trip.domain.recommendstrategy;
 
 import moheng.member.domain.Member;
 import moheng.recommendtrip.domain.RecommendTrip;
-import moheng.recommendtrip.domain.RecommendTripRepository;
+import moheng.recommendtrip.domain.repository.RecommendTripRepository;
 import moheng.trip.domain.Trip;
 import moheng.trip.exception.NoExistRecommendTripException;
 import org.springframework.stereotype.Component;
@@ -29,10 +29,10 @@ public class ReplaceRecommendTripStrategy implements RecommendTripStrategy {
     }
 
     private void deleteHighestPriorityRankRecommendTrip(final Member member) {
-        if(!recommendTripRepository.existsByMemberAndRank(member, HIGHEST_PRIORITY_RANK - 1)) {
+        if(!recommendTripRepository.existsByMemberAndRanking(member, HIGHEST_PRIORITY_RANK - 1)) {
             throw new NoExistRecommendTripException("존재하지 않는 선호 여행지 정보입니다.");
         }
-        recommendTripRepository.deleteByMemberAndRank(member, HIGHEST_PRIORITY_RANK - 1);
+        recommendTripRepository.deleteByMemberAndRanking(member, HIGHEST_PRIORITY_RANK - 1);
     }
 
     private void downAllRanks(final List<RecommendTrip> recommendTrips) {

@@ -1,4 +1,4 @@
-package moheng.applicationrunner.dev;
+package moheng.applicationrunner.prod;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,21 +7,18 @@ import moheng.trip.domain.Trip;
 import moheng.trip.domain.repository.TripRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Order(2)
-@Component
-public class TripDevApplicationRunner implements ApplicationRunner {
+
+public class TripProdApplicationRunner implements ApplicationRunner {
     private final TripRepository tripRepository;
 
-    public TripDevApplicationRunner(final TripRepository tripRepository) {
+    public TripProdApplicationRunner(final TripRepository tripRepository) {
         this.tripRepository = tripRepository;
     }
 

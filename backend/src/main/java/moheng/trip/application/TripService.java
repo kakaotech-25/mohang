@@ -1,29 +1,25 @@
 package moheng.trip.application;
 
 import moheng.keyword.domain.TripKeyword;
-import moheng.keyword.domain.TripKeywordRepository;
-import moheng.liveinformation.domain.LiveInformation;
-import moheng.liveinformation.domain.LiveInformationRepository;
-import moheng.liveinformation.domain.TripLiveInformationRepository;
+import moheng.keyword.domain.repository.TripKeywordRepository;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
 import moheng.recommendtrip.domain.RecommendTrip;
-import moheng.recommendtrip.domain.RecommendTripRepository;
+import moheng.recommendtrip.domain.repository.RecommendTripRepository;
 import moheng.recommendtrip.domain.filterinfo.LiveInformationFilterInfo;
 import moheng.recommendtrip.domain.tripfilterstrategy.TripFilterStrategy;
 import moheng.recommendtrip.domain.tripfilterstrategy.TripFilterStrategyProvider;
 import moheng.trip.domain.*;
 import moheng.trip.domain.recommendstrategy.RecommendTripStrategy;
 import moheng.trip.domain.recommendstrategy.SaveRecommendTripStrategyProvider;
+import moheng.trip.domain.repository.MemberTripRepository;
+import moheng.trip.domain.repository.TripRepository;
 import moheng.trip.dto.*;
-import moheng.trip.exception.NoExistRecommendTripException;
 import moheng.trip.exception.NoExistTripException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -73,7 +69,7 @@ public class TripService {
     private void saveRecommendTripByClickedLogs(final long memberId, final Trip trip) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoExistMemberException::new);
-        final List<RecommendTrip> recommendTrips = recommendTripRepository.findByMemberOrderByRankDesc(member);
+        final List<RecommendTrip> recommendTrips = recommendTripRepository.findByMemberOrderByRankingDesc(member);
         final MemberTrip memberTrip = findOrCreateMemberTrip(member, trip);
         memberTrip.incrementVisitedCount();
         saveRecommendLogsByStrategy(trip, member, recommendTrips);

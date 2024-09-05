@@ -6,13 +6,13 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import moheng.config.slice.RepositoryTestConfig;
-import moheng.config.TestConfig;
+import moheng.liveinformation.domain.repository.LiveInformationRepository;
+import moheng.liveinformation.domain.repository.MemberLiveInformationRepository;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;

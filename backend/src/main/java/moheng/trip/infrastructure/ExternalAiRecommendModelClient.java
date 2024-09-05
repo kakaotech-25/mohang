@@ -4,6 +4,7 @@ import moheng.keyword.exception.InvalidAIServerException;
 import moheng.trip.domain.ExternalRecommendModelClient;
 import moheng.trip.dto.RecommendTripsByVisitedLogsRequest;
 import moheng.trip.dto.RecommendTripsByVisitedLogsResponse;
+import moheng.trip.dto.RecommendTripsRequest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import java.util.Map;
 
 @Component
 public class ExternalAiRecommendModelClient implements ExternalRecommendModelClient {
-    private static final String RECOMMEND_TRIP_LIST_REQUEST_URL = "http://localhost:8000/{page}";
+    private static final String RECOMMEND_TRIP_LIST_REQUEST_URL = "http://localhost:8000/travel/custom/model/{page}";
     private final RestTemplate restTemplate;
 
     public ExternalAiRecommendModelClient(final RestTemplate restTemplate) {
@@ -34,7 +35,7 @@ public class ExternalAiRecommendModelClient implements ExternalRecommendModelCli
         final ResponseEntity<RecommendTripsByVisitedLogsResponse> responseEntity = restTemplate.exchange(
                 RECOMMEND_TRIP_LIST_REQUEST_URL,
                 HttpMethod.POST,
-                new HttpEntity<>(request),
+                new HttpEntity<>(new RecommendTripsRequest(request.getPreferredLocations())),
                 RecommendTripsByVisitedLogsResponse.class,
                 uriVariables
         );

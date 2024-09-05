@@ -1,6 +1,7 @@
-package moheng.planner.domain;
+package moheng.planner.domain.repository;
 
 import moheng.member.domain.Member;
+import moheng.planner.domain.TripSchedule;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

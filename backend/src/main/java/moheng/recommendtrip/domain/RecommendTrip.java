@@ -21,30 +21,30 @@ public class RecommendTrip extends BaseEntity {
     @JoinColumn(name = "trip_id", nullable = false)
     private Trip trip;
 
-    @Column(name = "rank")
-    private Long rank;
+    @Column(name = "ranking")
+    private Long ranking;
 
     protected RecommendTrip() {
     }
 
-    public RecommendTrip(final Trip trip, final Member member, final Long rank) {
+    public RecommendTrip(final Trip trip, final Member member, final Long ranking) {
         this.trip = trip;
         this.member = member;
-        this.rank = rank;
+        this.ranking = ranking;
     }
 
     public RecommendTrip(final Trip trip, final Member member) {
         this.trip = trip;
         this.member = member;
-        this.rank = 1L;
+        this.ranking = 1L;
     }
 
     public Long getId() {
         return id;
     }
 
-    public Long getRank() {
-        return rank;
+    public Long getRanking() {
+        return ranking;
     }
 
     public Trip getTrip() {

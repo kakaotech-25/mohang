@@ -1,5 +1,6 @@
-package moheng.trip.domain;
+package moheng.trip.domain.repository;
 
+import moheng.trip.domain.Trip;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -6,18 +6,14 @@ import static moheng.fixture.MemberFixtures.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import moheng.config.slice.RepositoryTestConfig;
-import moheng.config.TestConfig;
-import moheng.keyword.dto.RecommendTripResponse;
-import moheng.member.application.MemberService;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
-import moheng.trip.application.TripService;
+import moheng.recommendtrip.domain.repository.RecommendTripRepository;
 import moheng.trip.domain.Trip;
-import moheng.trip.domain.TripRepository;
+import moheng.trip.domain.repository.TripRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
@@ -60,7 +56,7 @@ public class RecommendTripRepositoryTest extends RepositoryTestConfig {
         recommendTripRepository.save(new RecommendTrip(trip, member));
 
         // when, then
-        assertThat(recommendTripRepository.findByMemberOrderByRankDesc(member)).hasSize(2);
+        assertThat(recommendTripRepository.findByMemberOrderByRankingDesc(member)).hasSize(2);
     }
 
     @DisplayName("모든 선호 여행지의 rank 를 1씩 감소시킨다.")
@@ -91,10 +87,10 @@ public class RecommendTripRepositoryTest extends RepositoryTestConfig {
 
         // then
         assertAll(() -> {
-            assertThat(recommendTripRepository.findById(recommendTrip1.getId()).get().getRank()).isEqualTo(1L);
-            assertThat(recommendTripRepository.findById(recommendTrip2.getId()).get().getRank()).isEqualTo(2L);
-            assertThat(recommendTripRepository.findById(recommendTrip3.getId()).get().getRank()).isEqualTo(3L);
-            assertThat(recommendTripRepository.findById(recommendTrip4.getId()).get().getRank()).isEqualTo(4L);
+            assertThat(recommendTripRepository.findById(recommendTrip1.getId()).get().getRanking()).isEqualTo(1L);
+            assertThat(recommendTripRepository.findById(recommendTrip2.getId()).get().getRanking()).isEqualTo(2L);
+            assertThat(recommendTripRepository.findById(recommendTrip3.getId()).get().getRanking()).isEqualTo(3L);
+            assertThat(recommendTripRepository.findById(recommendTrip4.getId()).get().getRanking()).isEqualTo(4L);
         });
     }
 

@@ -7,10 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import moheng.auth.domain.oauth.Authority;
 import moheng.config.slice.ServiceTestConfig;
-import moheng.liveinformation.application.LiveInformationService;
 import moheng.liveinformation.domain.LiveInformation;
-import moheng.liveinformation.domain.LiveInformationRepository;
-import moheng.liveinformation.exception.EmptyLiveInformationException;
+import moheng.liveinformation.domain.repository.LiveInformationRepository;
 import moheng.liveinformation.exception.NoExistLiveInformationException;
 import moheng.member.domain.Member;
 import moheng.member.domain.SocialType;
@@ -22,8 +20,7 @@ import moheng.member.dto.request.UpdateProfileRequest;
 import moheng.member.exception.DuplicateNicknameException;
 import moheng.member.exception.NoExistMemberException;
 import moheng.member.exception.ShortContentidsSizeException;
-import moheng.recommendtrip.domain.RecommendTrip;
-import moheng.recommendtrip.domain.RecommendTripRepository;
+import moheng.recommendtrip.domain.repository.RecommendTripRepository;
 import moheng.trip.application.TripService;
 import moheng.trip.domain.Trip;
 import moheng.trip.exception.NoExistTripException;
@@ -31,7 +28,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -296,7 +292,7 @@ public class MemberServiceTest extends ServiceTestConfig {
         // then
         assertAll(() -> {
             for(long rank=1; rank<=5; rank++) {
-                assertEquals(recommendTripRepository.findById(rank).get().getRank(), rank);
+                assertEquals(recommendTripRepository.findById(rank).get().getRanking(), rank);
             }
         });
     }

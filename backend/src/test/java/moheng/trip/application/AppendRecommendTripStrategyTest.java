@@ -4,7 +4,7 @@ import moheng.config.slice.ServiceTestConfig;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.recommendtrip.domain.RecommendTrip;
-import moheng.recommendtrip.domain.RecommendTripRepository;
+import moheng.recommendtrip.domain.repository.RecommendTripRepository;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.recommendstrategy.AppendRecommendTripStrategy;
 import moheng.trip.exception.NoExistRecommendTripException;
@@ -63,7 +63,7 @@ public class AppendRecommendTripStrategyTest extends ServiceTestConfig {
 
         assertAll(() -> {
             assertThat(recommendTripRepository.findAllByMemberId(member.getId()).size()).isEqualTo(4L);
-            assertThat(actual.getRank()).isEqualTo(4L);
+            assertThat(actual.getRanking()).isEqualTo(4L);
         });
     }
 

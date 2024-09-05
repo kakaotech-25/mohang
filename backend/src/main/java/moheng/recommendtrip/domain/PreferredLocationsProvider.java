@@ -3,10 +3,11 @@ package moheng.recommendtrip.domain;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
+import moheng.recommendtrip.domain.repository.RecommendTripRepository;
 import moheng.recommendtrip.exception.LackOfRecommendTripException;
 import moheng.recommendtrip.exception.NoExistMemberTripException;
 import moheng.trip.domain.MemberTrip;
-import moheng.trip.domain.MemberTripRepository;
+import moheng.trip.domain.repository.MemberTripRepository;
 import moheng.trip.domain.Trip;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +36,7 @@ public class PreferredLocationsProvider {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoExistMemberException::new);
         final List<MemberTrip> memberTrips = memberTripRepository.findByMember(member);
-        final List<RecommendTrip> recommendTrips = recommendTripRepository.findByMemberOrderByRankDesc(member);
+        final List<RecommendTrip> recommendTrips = recommendTripRepository.findByMemberOrderByRankingDesc(member);
         return findMemberPreferredLocations(memberTrips, recommendTrips);
     }
 

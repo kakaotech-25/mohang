@@ -3,19 +3,19 @@ package moheng.trip.dto;
 import java.util.Map;
 
 public class RecommendTripsByVisitedLogsRequest {
-    private Map<Long, Long> preferredLocations;
+    private Map<Long, Long> preferredLocation;
     private Long page;
 
     private RecommendTripsByVisitedLogsRequest() {
     }
 
-    public RecommendTripsByVisitedLogsRequest(final Map<Long, Long> preferredLocations, final Long page) {
-        this.preferredLocations = preferredLocations;
+    public RecommendTripsByVisitedLogsRequest(final Map<Long, Long> preferredLocation, final Long page) {
+        this.preferredLocation = preferredLocation;
         this.page = page;
     }
 
     public Map<Long, Long> getPreferredLocations() {
-        return preferredLocations;
+        return preferredLocation;
     }
 
     public Long getPage() {

@@ -1,10 +1,10 @@
-package moheng.keyword.domain;
+package moheng.keyword.domain.repository;
 
+import moheng.keyword.domain.Keyword;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,4 +21,7 @@ public interface KeywordRepository extends JpaRepository<Keyword, Long> {
     @Query("SELECT MAX(k.id) FROM Keyword k")
     Long findMaxKeywordId();
 
+    Keyword findByName(final String name);
+
+    boolean existsByName(final String name);
 }

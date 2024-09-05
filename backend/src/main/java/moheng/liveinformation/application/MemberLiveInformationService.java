@@ -1,9 +1,9 @@
 package moheng.liveinformation.application;
 
 import moheng.liveinformation.domain.LiveInformation;
-import moheng.liveinformation.domain.LiveInformationRepository;
+import moheng.liveinformation.domain.repository.LiveInformationRepository;
 import moheng.liveinformation.domain.MemberLiveInformation;
-import moheng.liveinformation.domain.MemberLiveInformationRepository;
+import moheng.liveinformation.domain.repository.MemberLiveInformationRepository;
 import moheng.liveinformation.dto.FindMemberLiveInformationResponses;
 import moheng.liveinformation.dto.LiveInfoResponse;
 import moheng.liveinformation.dto.UpdateMemberLiveInformationRequest;

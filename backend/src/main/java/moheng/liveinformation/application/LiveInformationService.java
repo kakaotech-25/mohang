@@ -1,19 +1,17 @@
 package moheng.liveinformation.application;
 
 import moheng.liveinformation.domain.LiveInformation;
-import moheng.liveinformation.domain.LiveInformationRepository;
+import moheng.liveinformation.domain.repository.LiveInformationRepository;
 import moheng.liveinformation.domain.TripLiveInformation;
-import moheng.liveinformation.domain.TripLiveInformationRepository;
+import moheng.liveinformation.domain.repository.TripLiveInformationRepository;
 import moheng.liveinformation.dto.FindAllLiveInformationResponse;
 import moheng.liveinformation.dto.LiveInformationCreateRequest;
 import moheng.liveinformation.exception.NoExistLiveInformationException;
 import moheng.trip.domain.Trip;
-import moheng.trip.domain.TripRepository;
+import moheng.trip.domain.repository.TripRepository;
 import moheng.trip.exception.NoExistTripException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Transactional(readOnly = true)
 @Service
