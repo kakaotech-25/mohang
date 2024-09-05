@@ -4757,9 +4757,6 @@
     {
         "contentid":644085,
         "filtered_labels":[
-            "친구",
-            "체험",
-            "역사",
             "예술"
         ]
     },
@@ -11709,7 +11706,7 @@
     {
         "contentid":127676,
         "filtered_labels":[
-            "자연"
+            "역사"
         ]
     },
     {
@@ -12448,7 +12445,7 @@
     {
         "contentid":2583158,
         "filtered_labels":[
-            "자연"
+            "교육"
         ]
     },
     {
@@ -12838,7 +12835,9 @@
     {
         "contentid":2390957,
         "filtered_labels":[
-            "자연"
+            "친구",
+            "유아여행",
+            "효도여행"
         ]
     },
     {
@@ -12999,6 +12998,7 @@
     {
         "contentid":125761,
         "filtered_labels":[
+            "교육",
             "자연"
         ]
     },
@@ -13115,7 +13115,7 @@
     {
         "contentid":2779454,
         "filtered_labels":[
-            "자연"
+            "맛집"
         ]
     },
     {
@@ -13421,7 +13421,8 @@
     {
         "contentid":264394,
         "filtered_labels":[
-            "자연"
+            "교육",
+            "역사"
         ]
     },
     {
@@ -13552,7 +13553,7 @@
     {
         "contentid":753558,
         "filtered_labels":[
-            "자연"
+            "친구"
         ]
     },
     {
@@ -13760,7 +13761,7 @@
     {
         "contentid":754003,
         "filtered_labels":[
-            "자연"
+            "역사"
         ]
     },
     {
@@ -15033,7 +15034,7 @@
     {
         "contentid":126622,
         "filtered_labels":[
-            "자연"
+            "역사"
         ]
     },
     {
@@ -15811,7 +15812,8 @@
     {
         "contentid":250408,
         "filtered_labels":[
-            "자연"
+            "역사",
+            "교육"
         ]
     },
     {
@@ -16194,7 +16196,7 @@
     {
         "contentid":2820370,
         "filtered_labels":[
-            "자연"
+            "맛집"
         ]
     },
     {
@@ -17052,7 +17054,7 @@
     {
         "contentid":126184,
         "filtered_labels":[
-            "자연"
+            "역사"
         ]
     },
     {
@@ -23809,7 +23811,8 @@
     {
         "contentid":231899,
         "filtered_labels":[
-            "자연"
+            "역사",
+            "교육"
         ]
     },
     {
@@ -23898,7 +23901,7 @@
     {
         "contentid":1619170,
         "filtered_labels":[
-            "자연"
+            "역사"
         ]
     },
     {
@@ -23929,7 +23932,7 @@
     {
         "contentid":317499,
         "filtered_labels":[
-            "자연"
+            "역사"
         ]
     },
     {
@@ -24184,7 +24187,8 @@
     {
         "contentid":126512,
         "filtered_labels":[
-            "자연"
+            "역사",
+            "친구"
         ]
     },
     {
