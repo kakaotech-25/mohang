@@ -41,17 +41,19 @@ public class LiveInformationDevApplicationRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        final Resource resource = new ClassPathResource("liveinformation.json");
-        final ObjectMapper objectMapper = new ObjectMapper();
-        final List<LiveInformationRunner> liveInformationRunners = objectMapper.readValue(resource.getInputStream(), new TypeReference<List<LiveInformationRunner>>() {});
+        if(liveInformationRepository.count() == 0) {
+            final Resource resource = new ClassPathResource("liveinformation.json");
+            final ObjectMapper objectMapper = new ObjectMapper();
+            final List<LiveInformationRunner> liveInformationRunners = objectMapper.readValue(resource.getInputStream(), new TypeReference<List<LiveInformationRunner>>() {});
 
-        for(final LiveInformationRunner liveInformationRunner : liveInformationRunners) {
-            tripRepository.findByContentId(liveInformationRunner.getContentid()).ifPresent(trip -> {
-                for(final String liveInfoName : liveInformationRunner.getLiveinformation()) {
-                    final LiveInformation liveInformation = findOrCreateLiveInformation(liveInfoName);
-                    tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip));
-                }
-            });
+            for(final LiveInformationRunner liveInformationRunner : liveInformationRunners) {
+                tripRepository.findByContentId(liveInformationRunner.getContentid()).ifPresent(trip -> {
+                    for(final String liveInfoName : liveInformationRunner.getLiveinformation()) {
+                        final LiveInformation liveInformation = findOrCreateLiveInformation(liveInfoName);
+                        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip));
+                    }
+                });
+            }
         }
     }
 

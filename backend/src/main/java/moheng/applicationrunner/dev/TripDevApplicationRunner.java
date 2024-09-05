@@ -28,26 +28,28 @@ public class TripDevApplicationRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        final Resource resource1 = new ClassPathResource("trip.json");
-        final Resource resource2 = new ClassPathResource("trip2.json");
-        final Resource resource3 = new ClassPathResource("trip3.json");
-        final ObjectMapper objectMapper = new ObjectMapper();
+        if(tripRepository.count() == 0) {
+            final Resource resource1 = new ClassPathResource("trip.json");
+            final Resource resource2 = new ClassPathResource("trip2.json");
+            final Resource resource3 = new ClassPathResource("trip3.json");
+            final ObjectMapper objectMapper = new ObjectMapper();
 
-        final List<TripRunner> tripRunners = new ArrayList<>();
-        tripRunners.addAll(findTripRunnersByResource(resource1, objectMapper));
-        tripRunners.addAll(findTripRunnersByResource(resource2, objectMapper));
-        tripRunners.addAll(findTripRunnersByResource(resource3, objectMapper));
+            final List<TripRunner> tripRunners = new ArrayList<>();
+            tripRunners.addAll(findTripRunnersByResource(resource1, objectMapper));
+            tripRunners.addAll(findTripRunnersByResource(resource2, objectMapper));
+            tripRunners.addAll(findTripRunnersByResource(resource3, objectMapper));
 
-        for(final TripRunner tripRunner : tripRunners) {
-            final Long contentId = tripRunner.getContentid();
-            final String title = tripRunner.getTitle();
-            final String placeName = tripRunner.getArea_sigungu_combined();
-            final String tripImageUrl = tripRunner.getFirstimage();
-            final Double mapX = tripRunner.getMapx();
-            final Double mapY = tripRunner.getMapy();
-            final String description = tripRunner.getOverview();
+            for(final TripRunner tripRunner : tripRunners) {
+                final Long contentId = tripRunner.getContentid();
+                final String title = tripRunner.getTitle();
+                final String placeName = tripRunner.getArea_sigungu_combined();
+                final String tripImageUrl = tripRunner.getFirstimage();
+                final Double mapX = tripRunner.getMapx();
+                final Double mapY = tripRunner.getMapy();
+                final String description = tripRunner.getOverview();
 
-            tripRepository.save(new Trip(title, placeName, contentId, description, tripImageUrl, mapX, mapY));
+                tripRepository.save(new Trip(title, placeName, contentId, description, tripImageUrl, mapX, mapY));
+            }
         }
     }
 

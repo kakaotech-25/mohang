@@ -28,6 +28,6 @@ public class MemberLiveInformationTestApplicationRunner implements ApplicationRu
 
     @Override
     public void run(ApplicationArguments args) {
-        System.out.println("qwekqwekopqwekpoqwkpodmvnndfbiherwbnevwiuui");
+
     }
 }

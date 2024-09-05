@@ -37,17 +37,19 @@ public class KeywordDevApplicationRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        final Resource resource = new ClassPathResource("keyword.json");
-        final ObjectMapper objectMapper = new ObjectMapper();
-        final List<KeywordRunner> keywordRunners = objectMapper.readValue(resource.getInputStream(), new TypeReference<List<KeywordRunner>>() {});
+        if(keywordRepository.count() == 0) {
+            final Resource resource = new ClassPathResource("keyword.json");
+            final ObjectMapper objectMapper = new ObjectMapper();
+            final List<KeywordRunner> keywordRunners = objectMapper.readValue(resource.getInputStream(), new TypeReference<List<KeywordRunner>>() {});
 
-        for(final KeywordRunner keywordRunner : keywordRunners) {
-            Trip trip = tripRepository.findByContentId(keywordRunner.getContentid())
-                    .orElseThrow(NoExistTripException::new);
+            for(final KeywordRunner keywordRunner : keywordRunners) {
+                Trip trip = tripRepository.findByContentId(keywordRunner.getContentid())
+                        .orElseThrow(NoExistTripException::new);
 
-            for(final String keywordName : keywordRunner.getFiltered_labels()) {
-                final Keyword keyword = findOrCreateKeyword(keywordName);
-                tripKeywordRepository.save(new TripKeyword(trip, keyword));
+                for(final String keywordName : keywordRunner.getFiltered_labels()) {
+                    final Keyword keyword = findOrCreateKeyword(keywordName);
+                    tripKeywordRepository.save(new TripKeyword(trip, keyword));
+                }
             }
         }
     }
