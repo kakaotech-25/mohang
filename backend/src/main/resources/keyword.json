@@ -4756,7 +4756,12 @@
     },
     {
         "contentid":644085,
-        "filtered_labels":null
+        "filtered_labels":[
+            "친구",
+            "체험",
+            "역사",
+            "예술"
+        ]
     },
     {
         "contentid":1907589,
@@ -11534,7 +11539,9 @@
     },
     {
         "contentid":2465437,
-        "filtered_labels":null
+        "filtered_labels":[
+            "자연"
+        ]
     },
     {
         "contentid":645823,
@@ -11701,7 +11708,9 @@
     },
     {
         "contentid":127676,
-        "filtered_labels":null
+        "filtered_labels":[
+            "자연"
+        ]
     },
     {
         "contentid":2414753,
@@ -12438,7 +12447,9 @@
     },
     {
         "contentid":2583158,
-        "filtered_labels":null
+        "filtered_labels":[
+            "자연"
+        ]
     },
     {
         "contentid":1942337,
@@ -12826,7 +12837,9 @@
     },
     {
         "contentid":2390957,
-        "filtered_labels":null
+        "filtered_labels":[
+            "자연"
+        ]
     },
     {
         "contentid":128641,
@@ -12985,7 +12998,9 @@
     },
     {
         "contentid":125761,
-        "filtered_labels":null
+        "filtered_labels":[
+            "자연"
+        ]
     },
     {
         "contentid":2784730,
@@ -13099,7 +13114,9 @@
     },
     {
         "contentid":2779454,
-        "filtered_labels":null
+        "filtered_labels":[
+            "자연"
+        ]
     },
     {
         "contentid":987913,
@@ -13403,7 +13420,9 @@
     },
     {
         "contentid":264394,
-        "filtered_labels":null
+        "filtered_labels":[
+            "자연"
+        ]
     },
     {
         "contentid":2736436,
@@ -13532,7 +13551,9 @@
     },
     {
         "contentid":753558,
-        "filtered_labels":null
+        "filtered_labels":[
+            "자연"
+        ]
     },
     {
         "contentid":126938,
@@ -13738,7 +13759,9 @@
     },
     {
         "contentid":754003,
-        "filtered_labels":null
+        "filtered_labels":[
+            "자연"
+        ]
     },
     {
         "contentid":1710166,
@@ -15009,7 +15032,9 @@
     },
     {
         "contentid":126622,
-        "filtered_labels":null
+        "filtered_labels":[
+            "자연"
+        ]
     },
     {
         "contentid":126551,
@@ -15785,7 +15810,9 @@
     },
     {
         "contentid":250408,
-        "filtered_labels":null
+        "filtered_labels":[
+            "자연"
+        ]
     },
     {
         "contentid":250396,
@@ -16166,7 +16193,9 @@
     },
     {
         "contentid":2820370,
-        "filtered_labels":null
+        "filtered_labels":[
+            "자연"
+        ]
     },
     {
         "contentid":1818945,
@@ -17022,7 +17051,9 @@
     },
     {
         "contentid":126184,
-        "filtered_labels":null
+        "filtered_labels":[
+            "자연"
+        ]
     },
     {
         "contentid":923263,
@@ -20353,7 +20384,9 @@
     },
     {
         "contentid":129560,
-        "filtered_labels":null
+        "filtered_labels":[
+            "자연"
+        ]
     },
     {
         "contentid":2778036,
@@ -23775,7 +23808,9 @@
     },
     {
         "contentid":231899,
-        "filtered_labels":null
+        "filtered_labels":[
+            "자연"
+        ]
     },
     {
         "contentid":126915,
@@ -23862,7 +23897,9 @@
     },
     {
         "contentid":1619170,
-        "filtered_labels":null
+        "filtered_labels":[
+            "자연"
+        ]
     },
     {
         "contentid":780768,
@@ -23891,7 +23928,9 @@
     },
     {
         "contentid":317499,
-        "filtered_labels":null
+        "filtered_labels":[
+            "자연"
+        ]
     },
     {
         "contentid":1827191,
@@ -24144,7 +24183,9 @@
     },
     {
         "contentid":126512,
-        "filtered_labels":null
+        "filtered_labels":[
+            "자연"
+        ]
     },
     {
         "contentid":2757127,

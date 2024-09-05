@@ -8,7 +8,7 @@ import moheng.keyword.exception.KeywordNameLengthException;
 @Entity
 public class Keyword extends BaseEntity {
     private static final int MAX_NAME_LENGTH = 100;
-    private static final int MIN_NAME_LENGTH = 2;
+    private static final int MIN_NAME_LENGTH = 1;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +28,7 @@ public class Keyword extends BaseEntity {
 
     private void validateName(final String name) {
         if(name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH) {
-            throw new KeywordNameLengthException("키워드 이름의 길이는 최소 2자 이상, 최대 100자 이하만 허용합니다.");
+            throw new KeywordNameLengthException("키워드 이름의 길이는 최소 1자 이상, 최대 100자 이하만 허용합니다.");
         }
     }
 
