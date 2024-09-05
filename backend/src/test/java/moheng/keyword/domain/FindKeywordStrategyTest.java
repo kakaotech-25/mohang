@@ -61,4 +61,14 @@ public class FindKeywordStrategyTest extends ServiceTestConfig {
         // when, then
         assertTrue(findMinKeywordIdStrategy.isMatch(STRATEGY_NAME));
     }
+
+    @DisplayName("최대 ID 키워드 찾기 전략의 매핑 조건은 RANDOM_MAX 이다.")
+    @Test
+    void 최대_ID_키워드_찾기_전략의_매핑_조건은_RANDOM_MAX_이다() {
+        // given
+        String STRATEGY_NAME = "RANDOM_MAX";
+
+        // when, then
+        assertTrue(findMaxKeywordStrategy.isMatch(STRATEGY_NAME));
+    }
 }
