@@ -3,7 +3,7 @@ package moheng.recommendtrip.domain.tripfilterstrategy;
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.domain.repository.MemberLiveInformationRepository;
 import moheng.liveinformation.domain.repository.TripLiveInformationRepository;
-import moheng.recommendtrip.domain.PreferredLocationsProvider;
+import moheng.recommendtrip.domain.PreferredLocationsFinder;
 import moheng.recommendtrip.domain.filterinfo.FilterStandardInfo;
 import moheng.trip.domain.ExternalRecommendModelClient;
 import moheng.trip.domain.Trip;
@@ -21,13 +21,13 @@ import java.util.stream.Collectors;
 public class TripPreferredLocationsFilterStrategy implements TripFilterStrategy {
     private static final String STRATEGY_NAME = "PREFERRED_LOCATIONS";
     private static final int RECOMMEND_TRIPS_COUNT = 10;
-    private final PreferredLocationsProvider preferredLocationsProvider;
+    private final PreferredLocationsFinder preferredLocationsProvider;
     private final ExternalRecommendModelClient externalRecommendModelClient;
     private final TripRepository tripRepository;
     private final MemberLiveInformationRepository memberLiveInformationRepository;
     private final TripLiveInformationRepository tripLiveInformationRepository;
 
-    public TripPreferredLocationsFilterStrategy(final PreferredLocationsProvider preferredLocationsProvider,
+    public TripPreferredLocationsFilterStrategy(final PreferredLocationsFinder preferredLocationsProvider,
                                              final ExternalRecommendModelClient externalRecommendModelClient,
                                              final TripRepository tripRepository,
                                              final MemberLiveInformationRepository memberLiveInformationRepository,
