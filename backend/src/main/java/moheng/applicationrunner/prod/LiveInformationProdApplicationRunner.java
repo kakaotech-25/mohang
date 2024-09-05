@@ -20,16 +20,16 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import java.util.List;
 
 
-public class LiveInformationDevApplicationRunner implements ApplicationRunner {
+public class LiveInformationProdApplicationRunner implements ApplicationRunner {
     private final TripRepository tripRepository;
     private final LiveInformationRepository liveInformationRepository;
     private final TripLiveInformationRepository tripLiveInformationRepository;
     private final JdbcTemplate jdbcTemplate;
 
-    public LiveInformationDevApplicationRunner(final TripRepository tripRepository,
-                                               final LiveInformationRepository liveInformationRepository,
-                                               final TripLiveInformationRepository tripLiveInformationRepository,
-                                               final JdbcTemplate jdbcTemplate) {
+    public LiveInformationProdApplicationRunner(final TripRepository tripRepository,
+                                                final LiveInformationRepository liveInformationRepository,
+                                                final TripLiveInformationRepository tripLiveInformationRepository,
+                                                final JdbcTemplate jdbcTemplate) {
         this.tripRepository = tripRepository;
         this.liveInformationRepository = liveInformationRepository;
         this.tripLiveInformationRepository = tripLiveInformationRepository;

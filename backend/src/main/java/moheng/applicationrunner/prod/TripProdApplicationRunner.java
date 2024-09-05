@@ -15,10 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TripDevApplicationRunner implements ApplicationRunner {
+public class TripProdApplicationRunner implements ApplicationRunner {
     private final TripRepository tripRepository;
 
-    public TripDevApplicationRunner(final TripRepository tripRepository) {
+    public TripProdApplicationRunner(final TripRepository tripRepository) {
         this.tripRepository = tripRepository;
     }
 

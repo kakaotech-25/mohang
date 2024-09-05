@@ -7,12 +7,12 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 
 
-public class MemberLiveInformationTestApplicationRunner implements ApplicationRunner {
+public class MemberLiveInformationProdApplicationRunner implements ApplicationRunner {
     private final MemberLiveInformationRepository memberLiveInformationRepository;
     private final MemberRepository memberRepository;
     private final LiveInformationRepository liveInformationRepository;
 
-    public MemberLiveInformationTestApplicationRunner(final MemberLiveInformationRepository memberLiveInformationRepository,
+    public MemberLiveInformationProdApplicationRunner(final MemberLiveInformationRepository memberLiveInformationRepository,
                                                       final MemberRepository memberRepository,
                                                       final LiveInformationRepository liveInformationRepository) {
         this.memberLiveInformationRepository = memberLiveInformationRepository;

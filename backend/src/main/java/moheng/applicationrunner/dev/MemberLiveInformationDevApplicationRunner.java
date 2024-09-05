@@ -10,14 +10,14 @@ import org.springframework.stereotype.Component;
 
 @Order(1)
 @Component
-public class MemberLiveInformationTestApplicationRunner implements ApplicationRunner {
+public class MemberLiveInformationDevApplicationRunner implements ApplicationRunner {
     private final MemberLiveInformationRepository memberLiveInformationRepository;
     private final MemberRepository memberRepository;
     private final LiveInformationRepository liveInformationRepository;
 
-    public MemberLiveInformationTestApplicationRunner(final MemberLiveInformationRepository memberLiveInformationRepository,
-                                                      final MemberRepository memberRepository,
-                                                      final LiveInformationRepository liveInformationRepository) {
+    public MemberLiveInformationDevApplicationRunner(final MemberLiveInformationRepository memberLiveInformationRepository,
+                                                     final MemberRepository memberRepository,
+                                                     final LiveInformationRepository liveInformationRepository) {
         this.memberLiveInformationRepository = memberLiveInformationRepository;
         this.memberRepository = memberRepository;
         this.liveInformationRepository = liveInformationRepository;

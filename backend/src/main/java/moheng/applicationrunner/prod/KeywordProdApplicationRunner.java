@@ -17,14 +17,14 @@ import org.springframework.core.io.Resource;
 
 import java.util.List;
 
-public class KeywordDevApplicationRunner implements ApplicationRunner {
+public class KeywordProdApplicationRunner implements ApplicationRunner {
     private final KeywordRepository keywordRepository;
     private final TripRepository tripRepository;
     private final TripKeywordRepository tripKeywordRepository;
 
-    public KeywordDevApplicationRunner(final KeywordRepository keywordRepository,
-                                       final TripRepository tripRepository,
-                                       final TripKeywordRepository tripKeywordRepository) {
+    public KeywordProdApplicationRunner(final KeywordRepository keywordRepository,
+                                        final TripRepository tripRepository,
+                                        final TripKeywordRepository tripKeywordRepository) {
         this.keywordRepository = keywordRepository;
         this.tripRepository = tripRepository;
         this.tripKeywordRepository = tripKeywordRepository;
