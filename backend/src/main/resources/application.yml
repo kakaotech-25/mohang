@@ -2,8 +2,10 @@ spring:
   application:
     name: moheng
   datasource:
-    url: jdbc:h2:mem:~/moheng;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=FALSE
-    username: sa
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/moheng
+    username: moheng_user
+    password: 1234
   jpa:
     properties:
       hibernate:

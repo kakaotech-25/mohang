@@ -37,7 +37,7 @@ public class KeywordDevApplicationRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        if(keywordRepository.count() == 0) {
+        /* if(keywordRepository.count() == 0) {
             final Resource resource = new ClassPathResource("keyword.json");
             final ObjectMapper objectMapper = new ObjectMapper();
             final List<KeywordRunner> keywordRunners = objectMapper.readValue(resource.getInputStream(), new TypeReference<List<KeywordRunner>>() {});
@@ -51,7 +51,7 @@ public class KeywordDevApplicationRunner implements ApplicationRunner {
                     tripKeywordRepository.save(new TripKeyword(trip, keyword));
                 }
             }
-        }
+        } */
     }
 
     private Keyword findOrCreateKeyword(final String name) {
