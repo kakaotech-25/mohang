@@ -48,7 +48,6 @@ public class TripDevApplicationRunner implements ApplicationRunner {
                 tripRepository.save(new Trip(title, placeName, contentId, description, tripImageUrl, mapX, mapY));
             }
         }
-        System.out.println(tripRepository.count());
     }
 
     private List<TripRunner> findTripRunnersByResource(final Resource resource, final ObjectMapper objectMapper) throws IOException {

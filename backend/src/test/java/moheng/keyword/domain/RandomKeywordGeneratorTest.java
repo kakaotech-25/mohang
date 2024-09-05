@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import moheng.config.slice.ServiceTestConfig;
 import moheng.keyword.domain.random.RandomKeywordGenerator;
 import moheng.keyword.domain.repository.KeywordRepository;
+import moheng.keyword.exception.NoExistKeywordException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

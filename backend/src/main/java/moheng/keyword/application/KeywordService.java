@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @Service
 public class KeywordService {
+    private static final int RECOMMEND_BY_KEYWORD_TRIPS_COUNT = 30;
     private static final int TOP_TRIPS_COUNT = 30;
     private final RandomKeywordGeneratable randomKeywordGeneratable;
     private final KeywordRepository keywordRepository;
@@ -57,8 +58,14 @@ public class KeywordService {
 
     public FindTripsResponse findRecommendTripsByKeywords(final TripsByKeyWordsRequest request) {
         validateKeywords(request.getKeywordIds());
-        final List<TripKeyword> trips = tripKeywordRepository.findTripKeywordsByKeywordIds(request.getKeywordIds());
+        final List<TripKeyword> trips = filterTop30Trips(tripKeywordRepository.findTripKeywordsByKeywordIds(request.getKeywordIds()));
         return new FindTripsResponse(trips);
+    }
+
+    private List<TripKeyword> filterTop30Trips(final List<TripKeyword> trips) {
+        return trips.stream()
+                .limit(RECOMMEND_BY_KEYWORD_TRIPS_COUNT)
+                .collect(Collectors.toList());
     }
 
     private void validateKeywords(final List<Long> keywordIds) {
@@ -89,7 +96,7 @@ public class KeywordService {
     private Map<Trip, Long> findTripsWithVisitedCount(final List<TripKeyword> tripKeywords) {
         final Map<Trip, Long> tripClickCounts = new HashMap<>();
         for (TripKeyword tripKeyword : tripKeywords) {
-            Trip trip = tripKeyword.getTrip();
+            final Trip trip = tripKeyword.getTrip();
             tripClickCounts.put(tripKeyword.getTrip(), trip.getVisitedCount());
         }
         return tripClickCounts;
