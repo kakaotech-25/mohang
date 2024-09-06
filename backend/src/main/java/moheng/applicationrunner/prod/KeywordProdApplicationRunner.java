@@ -33,7 +33,7 @@ public class KeywordProdApplicationRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         if(keywordRepository.count() == 0) {
-            final Resource resource = new ClassPathResource("keyword.json");
+            final Resource resource = new ClassPathResource("json/keyword.json");
             final ObjectMapper objectMapper = new ObjectMapper();
             final List<KeywordRunner> keywordRunners = objectMapper.readValue(resource.getInputStream(), new TypeReference<List<KeywordRunner>>() {});
 

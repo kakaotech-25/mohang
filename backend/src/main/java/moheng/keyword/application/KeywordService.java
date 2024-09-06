@@ -1,6 +1,7 @@
 package moheng.keyword.application;
 
 import moheng.keyword.domain.Keyword;
+import moheng.keyword.domain.random.RandomKeywordGeneratable;
 import moheng.keyword.domain.repository.KeywordRepository;
 import moheng.keyword.domain.TripKeyword;
 import moheng.keyword.domain.repository.TripKeywordRepository;
@@ -25,13 +26,18 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @Service
 public class KeywordService {
+    private static final int RECOMMEND_BY_KEYWORD_TRIPS_COUNT = 30;
+    private static final int TOP_TRIPS_COUNT = 30;
+    private final RandomKeywordGeneratable randomKeywordGeneratable;
     private final KeywordRepository keywordRepository;
     private final TripRepository tripRepository;
     private final TripKeywordRepository tripKeywordRepository;
 
-    public KeywordService(final KeywordRepository keywordRepository,
+    public KeywordService(final RandomKeywordGeneratable randomKeywordGeneratable,
+                          final KeywordRepository keywordRepository,
                           final TripRepository tripRepository,
                           final TripKeywordRepository tripKeywordRepository) {
+        this.randomKeywordGeneratable = randomKeywordGeneratable;
         this.keywordRepository = keywordRepository;
         this.tripRepository = tripRepository;
         this.tripKeywordRepository = tripKeywordRepository;
@@ -52,8 +58,14 @@ public class KeywordService {
 
     public FindTripsResponse findRecommendTripsByKeywords(final TripsByKeyWordsRequest request) {
         validateKeywords(request.getKeywordIds());
-        final List<TripKeyword> trips = tripKeywordRepository.findTripKeywordsByKeywordIds(request.getKeywordIds());
+        final List<TripKeyword> trips = filterTop30Trips(tripKeywordRepository.findTripKeywordsByKeywordIds(request.getKeywordIds()));
         return new FindTripsResponse(trips);
+    }
+
+    private List<TripKeyword> filterTop30Trips(final List<TripKeyword> trips) {
+        return trips.stream()
+                .limit(RECOMMEND_BY_KEYWORD_TRIPS_COUNT)
+                .collect(Collectors.toList());
     }
 
     private void validateKeywords(final List<Long> keywordIds) {
@@ -78,29 +90,13 @@ public class KeywordService {
     }
 
     private Keyword findRandomKeyword() {
-        final Long minId = keywordRepository.findMinKeywordId();
-        final Long maxId = keywordRepository.findMaxKeywordId();
-        validateKeywordRange(minId, maxId);
-        final Long randomId = generateRandomId(minId, maxId);
-        return keywordRepository.findKeywordById(randomId)
-                .orElseThrow(() -> new NoExistKeywordException("랜덤 키워드를 찾을 수 없습니다."));
-    }
-
-    private void validateKeywordRange(final Long minId, final Long maxId) {
-        if (minId == null || maxId == null) {
-            throw new NoExistKeywordException("랜덤 키워드를 찾을 수 없습니다.");
-        }
-    }
-
-    private Long generateRandomId(final Long minId, final Long maxId) {
-        final SecureRandom secureRandom = new SecureRandom();
-        return minId + secureRandom.nextLong(maxId - minId + 1);
+        return randomKeywordGeneratable.generate();
     }
 
     private Map<Trip, Long> findTripsWithVisitedCount(final List<TripKeyword> tripKeywords) {
         final Map<Trip, Long> tripClickCounts = new HashMap<>();
         for (TripKeyword tripKeyword : tripKeywords) {
-            Trip trip = tripKeyword.getTrip();
+            final Trip trip = tripKeyword.getTrip();
             tripClickCounts.put(tripKeyword.getTrip(), trip.getVisitedCount());
         }
         return tripClickCounts;
@@ -109,7 +105,7 @@ public class KeywordService {
     private List<Trip> findTopTripsByVisitedCount(final Map<Trip, Long> tripsWithVisitedCount) {
         return tripsWithVisitedCount.entrySet().stream()
                 .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()))
-                .limit(30)
+                .limit(TOP_TRIPS_COUNT)
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }

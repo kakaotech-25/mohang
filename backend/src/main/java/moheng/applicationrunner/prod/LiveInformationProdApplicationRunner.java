@@ -39,7 +39,7 @@ public class LiveInformationProdApplicationRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         if(liveInformationRepository.count() == 0) {
-            final Resource resource = new ClassPathResource("liveinformation.json");
+            final Resource resource = new ClassPathResource("json/liveinformation.json");
             final ObjectMapper objectMapper = new ObjectMapper();
             final List<LiveInformationRunner> liveInformationRunners = objectMapper.readValue(resource.getInputStream(), new TypeReference<List<LiveInformationRunner>>() {});
 

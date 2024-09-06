@@ -18,15 +18,15 @@ import java.util.Map;
 
 @Transactional(readOnly = true)
 @Component
-public class PreferredLocationsProvider {
+public class PreferredLocationsFinder {
     private static final int MIN_RECOMMEND_TRIPS_COUNT = 5;
     private final MemberRepository memberRepository;
     private final RecommendTripRepository recommendTripRepository;
     private final MemberTripRepository memberTripRepository;
 
-    public PreferredLocationsProvider(final MemberRepository memberRepository,
-                                      final RecommendTripRepository recommendTripRepository,
-                                      final MemberTripRepository memberTripRepository) {
+    public PreferredLocationsFinder(final MemberRepository memberRepository,
+                                    final RecommendTripRepository recommendTripRepository,
+                                    final MemberTripRepository memberTripRepository) {
         this.memberRepository = memberRepository;
         this.recommendTripRepository = recommendTripRepository;
         this.memberTripRepository = memberTripRepository;

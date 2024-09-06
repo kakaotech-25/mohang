@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class PreferredLocationsProviderTest extends ServiceTestConfig {
     @Autowired
-    private PreferredLocationsProvider preferredLocationsProvider;
+    private PreferredLocationsFinder preferredLocationsProvider;
 
     @Autowired
     private MemberRepository memberRepository;

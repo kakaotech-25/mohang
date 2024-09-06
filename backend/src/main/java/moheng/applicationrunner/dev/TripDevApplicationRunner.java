@@ -28,8 +28,8 @@ public class TripDevApplicationRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         if(tripRepository.count() == 0) {
-            final Resource resource1 = new ClassPathResource("trip1.json");
-            final Resource resource2 = new ClassPathResource("trip2.json");
+            final Resource resource1 = new ClassPathResource("json/trip1.json");
+            final Resource resource2 = new ClassPathResource("json/trip2.json");
             final ObjectMapper objectMapper = new ObjectMapper();
 
             final List<TripRunner> tripRunners = new ArrayList<>();
@@ -48,7 +48,6 @@ public class TripDevApplicationRunner implements ApplicationRunner {
                 tripRepository.save(new Trip(title, placeName, contentId, description, tripImageUrl, mapX, mapY));
             }
         }
-        System.out.println(tripRepository.count());
     }
 
     private List<TripRunner> findTripRunnersByResource(final Resource resource, final ObjectMapper objectMapper) throws IOException {
