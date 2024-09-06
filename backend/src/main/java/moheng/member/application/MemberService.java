@@ -94,14 +94,14 @@ public class MemberService {
     public void signUpByLiveInfo(final long memberId, final SignUpLiveInfoRequest request) {
         final Member member = memberRepository.findById(memberId)
                         .orElseThrow(() -> new NoExistMemberException("존재하지 않는 회원입니다."));
-        saveMemberLiveInformation(request.getLiveInfoIds(), member);
+        saveMemberLiveInformation(request.getLiveInfoNames(), member);
     }
 
-    private void saveMemberLiveInformation(final List<Long> liveInfoIds, final Member member) {
+    private void saveMemberLiveInformation(final List<String> liveInfoNames, final Member member) {
         final List<MemberLiveInformation> memberLiveInformationList = new ArrayList<>();
 
-        for(final Long liveInfoId : liveInfoIds) {
-            final LiveInformation liveInformation = liveInformationRepository.findById(liveInfoId)
+        for(final String liveInfoName : liveInfoNames) {
+            final LiveInformation liveInformation = liveInformationRepository.findByName(liveInfoName)
                             .orElseThrow(() -> new NoExistLiveInformationException("존재하지 않는 생활정보입니다."));
             memberLiveInformationList.add(new MemberLiveInformation(liveInformation, member));
         }

@@ -58,7 +58,7 @@ public class AuthAcceptanceFixture {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .auth().oauth2(accessTokenResponse.getAccessToken())
-                .body(new SignUpLiveInfoRequest(List.of(1L, 2L)))
+                .body(new SignUpLiveInfoRequest(List.of("생활정보1", "생활정보2")))
                 .when().post("/api/member/signup/liveinfo")
                 .then().log().all()
                 .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())

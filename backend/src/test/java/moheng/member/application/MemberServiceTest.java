@@ -226,7 +226,7 @@ public class MemberServiceTest extends ServiceTestConfig {
 
         LiveInformation liveInformation1 = liveInformationRepository.save(new LiveInformation("생활정보1"));
         LiveInformation liveInformation2 = liveInformationRepository.save(new LiveInformation("생활정보2"));
-        SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(List.of(liveInformation1.getId(), liveInformation2.getId()));
+        SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(List.of(liveInformation1.getName(), liveInformation2.getName()));
 
         // when, then
         assertDoesNotThrow(() ->memberService.signUpByLiveInfo(memberId, request));
@@ -236,7 +236,7 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 존재하지_않는_회원의_생활정보를_추가하면_예외가_발생한다() {
         // given
-        SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(List.of(1L, 2L));
+        SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(List.of("생활정보1", "생활정보2"));
 
         // when, then
         assertThatThrownBy(() -> memberService.signUpByLiveInfo(-1L, request))
@@ -249,7 +249,7 @@ public class MemberServiceTest extends ServiceTestConfig {
         // given
         memberService.save(하온_기존());
         long memberId = memberService.findByEmail(하온_이메일).getId();
-        SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(List.of(-1L, -2L));
+        SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(List.of("없는 생활정보"));
 
         // when, then
         assertThatThrownBy(() -> memberService.signUpByLiveInfo(memberId, request))
