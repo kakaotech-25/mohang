@@ -32,12 +32,17 @@ const InterestedPlace = () => {
 
     const handleSubmit = () => {
         const selectedCount = selectedCards.length;
-        if (selectedCount < 5) {
-            alert(`관심여행지를 5개 이상 선택해주세요! (${selectedCount}/5)`);
+        if (selectedCount < 5 || selectedCount > 11) {
+            alert(
+              selectedCount < 5
+                ? `관심여행지를 5개 이상 선택해주세요! (${selectedCount}/5)`
+                : `관심여행지는 최대 10개까지만 선택 가능합니다! (${selectedCount}/10)`
+            );
         } else {
-            navigate(`/`); // 선택된 카드가 5개 이상일 때 지정된 URL로 이동
+            navigate(`/`); // 선택된 카드가 5개 이상 10개 이하일 때 지정된 URL로 이동
         }
     };
+    
 
     return (
         <section className="interested-page">
