@@ -7,5 +7,5 @@
 pip install poetry
 poetry shell
 poetry install
-python3 src/main.py
+python3 main.py
 ```
