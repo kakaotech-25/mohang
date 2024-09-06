@@ -71,8 +71,9 @@ const Profile = () => {
         profileImageUrl: "https://profile-image.com", // 프로필 이미지 경로는 필요에 따라 수정필요
       });
   
-      // 응답이 성공적이면 생활정보 입력 페이지로 이동
+      // 응답이 성공적이면 로그를 출력하고, 생활정보 입력 페이지로 이동
       if (response.status === 204) {
+        console.log("POST 요청 성공:", response);
         navigate(`/signup/livinginfo`);
         return;
       }
@@ -80,28 +81,31 @@ const Profile = () => {
       const status = error.response?.status;
   
       if (status === 403) {
+        console.error("POST 요청 실패: 이미 가입된 회원입니다.");
         alert("이미 가입된 회원입니다. 메인 페이지로 이동합니다.");
         navigate('/');
         return;
       }
   
       if (status === 404) {
+        console.error("POST 요청 실패: 존재하지 않는 회원입니다.");
         alert("존재하지 않는 회원입니다.");
         return;
       }
   
       if (status === 400) {
+        console.error("POST 요청 실패: 잘못된 요청입니다.");
         alert("잘못된 요청입니다. 입력 내용을 다시 확인해주세요.");
         return;
       }
   
       // 서버 오류 처리
+      console.error("POST 요청 실패: 서버에 오류가 발생했습니다.", error);
       alert("서버에 오류가 발생했습니다. 다시 시도해주세요.");
     } finally {
       setLoading(false);
     }
   };
-  
 
   return (
     <section className="profile-page">
