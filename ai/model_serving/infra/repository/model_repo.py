@@ -1,12 +1,13 @@
 from model_serving.domain.repository.model_repo import IModelRepository
 from model.Recommendation import personalized_recommendation, UserPreferences
 from typing import List
+from model_serving.interface.model.location import PreferredLocation
 
 
 class ModelRepository(IModelRepository):
     def custom_location_list(
             self,
-            preferred_location: List,
+            preferred_location: List[PreferredLocation],
             page: int,
     ) -> list[int]:
         # TODO: 방문 컨텐츠 리스트와 방문 수를 반영한 추천 모듈 실행

@@ -4,12 +4,10 @@ from dependency_injector.wiring import inject, Provide
 from model_serving.application.model_service import ModelService
 from containers import Container
 from typing import List
+from model_serving.interface.model.location import PreferredLocation
+
+
 router = APIRouter(prefix='/travel')
-
-
-class PreferredLocation(BaseModel):
-    contentId: int
-    clicked: int
 
 
 class CustomTravelListRequest(BaseModel):
