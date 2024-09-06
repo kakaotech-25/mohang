@@ -10,7 +10,7 @@ import axiosInstance from "../Login/axiosInstance";
 const InterestedPlace = () => {
   const navigate = useNavigate();
   const [locations, setLocations] = useState([]);
-  const [selectedCards, setSelectedCards] = useState([]); // 선택된 카드를 저장하는 상태
+  const [selectedCards, setSelectedCards] = useState([]); // 선택된 여행지의 contentId 저장
 
   // API 호출로 여행지 데이터 불러오기
   useEffect(() => {
@@ -37,6 +37,7 @@ const InterestedPlace = () => {
     fetchData();
   }, []);
 
+  // 여행지 선택 처리
   const handleCardClick = (id) => {
     setSelectedCards((prevSelected) => {
       if (prevSelected.includes(id)) {
@@ -47,7 +48,8 @@ const InterestedPlace = () => {
     });
   };
 
-  const handleSubmit = () => {
+  // 완료 버튼 클릭 시 선택된 여행지 contentId를 POST 요청으로 전송
+  const handleSubmit = async () => {
     const selectedCount = selectedCards.length;
     if (selectedCount < 5 || selectedCount > 11) {
       alert(
@@ -55,8 +57,24 @@ const InterestedPlace = () => {
           ? `관심 여행지를 5개 이상 선택해주세요! (${selectedCount}/5)`
           : `관심 여행지는 최대 10개까지만 선택 가능합니다! (${selectedCount}/10)`
       );
-    } else {
-      navigate("/"); // 선택된 카드가 5개 이상 10개 이하일 때 지정된 URL로 이동
+      return;
+    }
+
+    try {
+      const payload = {
+        contentIds: selectedCards, // 선택된 여행지의 contentId 리스트 전송
+      };
+
+      const response = await axiosInstance.post("/member/signup/trip", payload);
+
+      if (response.status === 204) {
+        console.log("POST 요청 성공");
+        navigate(`/`); // 성공 시 메인 페이지로 이동
+      } else {
+        console.error("응답 실패:", response);
+      }
+    } catch (error) {
+      console.error("POST 요청 실패:", error);
     }
   };
 
