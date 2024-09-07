@@ -47,7 +47,7 @@ public class TripDevApplicationRunner implements ApplicationRunner {
             for (final TripRunner tripRunner : tripRunners) {
                 batchArgs.add(new Object[]{
                         tripRunner.getTitle(),
-                        tripRunner.getArea_sigungu_combined(),
+                        tripRunner.getAddr1(),
                         tripRunner.getContentid(),
                         tripRunner.getOverview(),
                         tripRunner.getFirstimage(),

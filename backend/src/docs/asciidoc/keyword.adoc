@@ -5,6 +5,28 @@
 :toc: left
 :toclevels: 2
 
+=== 모든 키워드 조회 (메인페이지) API
+
+==== HTTP Request
+
+include::{snippets}/keyword/find/all/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/keyword/find/all/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/keyword/find/all/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/keyword/find/all/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/keyword/find/all/response-fields.adoc[]
+
 === 키워드 기반 여행지 추천 (메인페이지) API
 
 ==== HTTP Request

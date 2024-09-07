@@ -7,6 +7,7 @@ public class TripRunner {
     private Double mapx;
     private Double mapy;
     private String overview;
+    private String addr1;
     private String area_sigungu_combined;
 
     public Long getContentid() {
@@ -31,6 +32,10 @@ public class TripRunner {
 
     public String getOverview() {
         return overview;
+    }
+
+    public String getAddr1() {
+        return addr1;
     }
 
     public String getArea_sigungu_combined() {
