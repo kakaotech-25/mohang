@@ -3,7 +3,7 @@ import './Mypage.css';
 import LivingBtn from '../../components/LivingBtn/LivingBtn';
 import Button from '../../components/Button/Button';
 import UserForm from "../../components/UserForm/UserForm";
-import UserData from "../../data/UserData";
+import axiosInstance from '../Login/axiosInstance';
 
 const Mypage = () => {
   const [activeTab, setActiveTab] = useState('tab1');
@@ -11,16 +11,33 @@ const Mypage = () => {
     name: "",
     birth: "",
     gender: "",
+    profileImageUrl: ""
   });
+  const [loading, setLoading] = useState(true);
 
+  // API 호출로 사용자 정보 가져오기
   useEffect(() => {
-    setInput({
-      name: UserData.nickname,
-      birth: UserData.birthday,
-      gender: UserData.genderType,
-    });
+    const fetchUserData = async () => {
+      try {
+        const response = await axiosInstance.get('/member/me');
+        const userData = response.data;
+        setInput({
+          name: userData.nickname,
+          birth: userData.birthday,
+          gender: userData.genderType,
+          profileImageUrl: userData.profileImageUrl
+        });
+        setLoading(false);
+      } catch (error) {
+        console.error('사용자 정보 불러오기 실패:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
   }, []);
 
+  // 입력 값 변경 처리 함수
   const onChange = (e) => {
     setInput({
       ...input,
@@ -35,6 +52,10 @@ const Mypage = () => {
   const handleLivingSelectionChange = (selectedOptions) => {
     console.log("Selected options:", selectedOptions);
   };
+
+  if (loading) {
+    return <div>로딩 중...</div>;
+  }
 
   return (
     <div className="my-page">
@@ -57,7 +78,7 @@ const Mypage = () => {
         {activeTab === 'tab1' && (
           <div id="tab1">
             <section className="mypage-img">
-              <img src={UserData.profileImageUrl} className="user-img" alt="User Profile" />
+              <img src={input.profileImageUrl} className="user-img" alt="User Profile" />
             </section>
             <UserForm input={input} onChange={onChange} />
             <section className="mypage-btn">
