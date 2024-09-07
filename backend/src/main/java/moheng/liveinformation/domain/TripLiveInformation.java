@@ -1,11 +1,12 @@
 package moheng.liveinformation.domain;
 
 import jakarta.persistence.*;
+import moheng.global.entity.BaseEntity;
 import moheng.trip.domain.Trip;
 
 @Table(name = "trip_information")
 @Entity
-public class TripLiveInformation {
+public class TripLiveInformation extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
