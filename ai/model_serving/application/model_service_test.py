@@ -17,14 +17,14 @@ def test_custom_location_list(model_service_dependencies):
         model_repo_mock
     )
 
-    preferred_location = {"123123": 2}
+    preferred_location = {"126302": 2}
 
-    model_repo_mock.custom_location_list.return_value = ["123456"]
+    model_repo_mock.custom_location_list.return_value = ["126302"]
 
     custom_location_list = model_service.custom_location_list(
         preferred_location=preferred_location,
         page=1,
     )
 
-    assert custom_location_list == ["123456"]
+    assert custom_location_list == ["126302"]
     # model_service.model_repo.custom_location_list.assert_called_once_with()
