@@ -12,6 +12,9 @@ import java.util.List;
 public interface MemberLiveInformationRepository extends JpaRepository<MemberLiveInformation, Long> {
     List<MemberLiveInformation> findByMemberId(final Long memberId);
 
+    @Query("SELECT mli FROM MemberLiveInformation mli JOIN FETCH mli.liveInformation WHERE mli.member.id = :memberId")
+    List<MemberLiveInformation> findByMemberIdWithLiveInformation(@Param("memberId") Long memberId);
+
     @Transactional
     void deleteByMemberId(Long memberId);
 

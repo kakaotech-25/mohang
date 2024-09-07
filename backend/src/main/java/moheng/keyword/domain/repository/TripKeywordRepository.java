@@ -10,11 +10,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface TripKeywordRepository extends JpaRepository<TripKeyword, Long> {
-
     @EntityGraph(attributePaths = {"trip"})
     @Query("SELECT tk FROM TripKeyword tk WHERE tk.keyword.id IN :keywordIds")
     List<TripKeyword> findTripKeywordsByKeywordIds(@Param("keywordIds") final List<Long> keywordIds);
-
 
     @Query("SELECT tk FROM TripKeyword tk WHERE tk.keyword.id = :keywordId")
     List<TripKeyword> findTripKeywordsByKeywordId(@Param("keywordId") final Long keywordId);
