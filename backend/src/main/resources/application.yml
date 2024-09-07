@@ -3,7 +3,6 @@ spring:
     name: moheng
   datasource:
     url: jdbc:h2:mem:~/moheng;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=FALSE
-    # jdbc:mysql://localhost:3306/moheng
     username: root
     password: 1234
   jpa:
@@ -16,7 +15,6 @@ spring:
       ddl-auto: update
   flyway:
     enabled: true
-
 logging:
   level:
     org:
