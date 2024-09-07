@@ -36,7 +36,7 @@ public class TripProdApplicationRunner implements ApplicationRunner {
             for(final TripRunner tripRunner : tripRunners) {
                 final Long contentId = tripRunner.getContentid();
                 final String title = tripRunner.getTitle();
-                final String placeName = tripRunner.getArea_sigungu_combined();
+                final String placeName = tripRunner.getAddr1();
                 final String tripImageUrl = tripRunner.getFirstimage();
                 final Double mapX = tripRunner.getMapx();
                 final Double mapY = tripRunner.getMapy();
