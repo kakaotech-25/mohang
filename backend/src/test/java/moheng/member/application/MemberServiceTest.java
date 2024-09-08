@@ -428,10 +428,10 @@ public class MemberServiceTest extends ServiceTestConfig {
         );
     }
 
-
     @DisplayName("소셜 로그인 후 최초 회원가입을 마친 멤버의 프로필 정보와 생활정보와 관심 여행지 정보는 비어있을 수 없다.")
-    @Test
-    void 소셜_로그인_후_최초_회원가입을_마친_멤버의_프로필_정보와_생활정보와_관심_여행지_정보는_비어있을_수_없다() {
+    @ParameterizedTest
+    @MethodSource("provideMemberProfileFieldsAndValues")
+    void 소셜_로그인_후_최초_회원가입을_마친_멤버의_프로필_정보와_생활정보와_관심_여행지_정보는_비어있을_수_없다(Function<Member, Object> fieldExtractor, int expectedLiveInfoSize, int expectedTripSize) {
         // given
         authService.generateTokenWithCode("code", "KAKAO");
         Member member = memberRepository.findByEmail("stub@kakao.com").get();
@@ -446,36 +446,40 @@ public class MemberServiceTest extends ServiceTestConfig {
         memberService.signUpByLiveInfo(member.getId(), liveInfoRequest);
 
         // 관심 여행지 회원가입
-        for(long contentId=1; contentId<=5; contentId++) {
-            tripService.save(new Trip("롯데월드", "서울특별시 송파구", contentId,
-                    "설명", "https://image.com"));
+        for (long contentId = 1; contentId <= 5; contentId++) {
+            tripService.save(new Trip("롯데월드", "서울특별시 송파구", contentId, "설명", "https://image.com"));
         }
         SignUpInterestTripsRequest interestTripsRequest = new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L));
         memberService.signUpByInterestTrips(member.getId(), interestTripsRequest);
 
         Member actual = memberRepository.findByEmail("stub@kakao.com").get();
 
-        // when, then
+        // when
+        Object fieldValue = fieldExtractor.apply(actual);
+
+        // then
         assertAll(() -> {
-            // 프로필 검증
-            assertThat(actual.getId()).isNotNull();
-            assertThat(actual.getNickName()).isNotNull();
-            assertThat(actual.getProfileImageUrl()).isNotNull();
-            assertThat(actual.getSocialType()).isNotNull();
-            assertThat(actual.getBirthday()).isNotNull();
-            assertThat(actual.getGenderType()).isNotNull();
-
-            // 생활정보 검증
-            assertEquals(memberLiveInformationRepository.findLiveInformationsByMemberId(member.getId()).size(), 2L);
-
-            // 관심 여행지 검증
-            assertEquals(recommendTripRepository.findAllByMemberId(member.getId()).size(), 5);
+            assertThat(fieldValue).isNotNull();
+            assertEquals(memberLiveInformationRepository.findLiveInformationsByMemberId(member.getId()).size(), expectedLiveInfoSize);
+            assertEquals(recommendTripRepository.findAllByMemberId(member.getId()).size(), expectedTripSize);
         });
     }
 
-    @DisplayName("멤버의 프로필을 수정했을 떄 멤버의 모든 프로필 정보는 null 일 수 없으며 생활정보는 변하지 않는다.")
-    @Test
-    void 멤버의_프로필을_수정했을_떄_멤버의_모든_프로필_정보는_null_일_수_없으며_멤버의_생활정보는_변하지_않는다() {
+    static Stream<Arguments> provideMemberProfileFieldsAndValues() {
+        return Stream.of(
+                Arguments.of((Function<Member, Object>) Member::getId, 2, 5),
+                Arguments.of((Function<Member, Object>) Member::getNickName, 2, 5),
+                Arguments.of((Function<Member, Object>) Member::getProfileImageUrl, 2, 5),
+                Arguments.of((Function<Member, Object>) Member::getSocialType, 2, 5),
+                Arguments.of((Function<Member, Object>) Member::getBirthday, 2, 5),
+                Arguments.of((Function<Member, Object>) Member::getGenderType, 2, 5)
+        );
+    }
+
+    @DisplayName("멤버의 프로필을 수정했을 때 멤버의 모든 프로필 정보는 null 일 수 없으며 생활정보는 변하지 않는다.")
+    @ParameterizedTest
+    @MethodSource("provideMemberProfileFieldsForUpdate")
+    void 멤버의_프로필을_수정했을_때_멤버의_모든_프로필_정보는_null_일_수_없으며_멤버의_생활정보는_변하지_않는다(Function<Member, Object> fieldExtractor, int expectedLiveInfoSize) {
         // given
         authService.generateTokenWithCode("code", "KAKAO");
         Member member = memberRepository.findByEmail("stub@kakao.com").get();
@@ -489,23 +493,29 @@ public class MemberServiceTest extends ServiceTestConfig {
         SignUpLiveInfoRequest liveInfoRequest = new SignUpLiveInfoRequest(List.of(liveInformation1.getName(), liveInformation2.getName()));
         memberService.signUpByLiveInfo(member.getId(), liveInfoRequest);
 
-        // when
+        // 프로필 수정
         memberService.updateByProfile(member.getId(), new UpdateProfileRequest("수정된 닉네임", LocalDate.of(2000, 1, 1), GenderType.MEN, "profile img url"));
 
         // then
         Member actual = memberRepository.findByEmail("stub@kakao.com").get();
+        Object fieldValue = fieldExtractor.apply(actual);
 
+        // when, then
         assertAll(() -> {
-            // 프로필 검증
-            assertThat(actual.getId()).isNotNull();
-            assertThat(actual.getNickName()).isNotNull();
-            assertThat(actual.getProfileImageUrl()).isNotNull();
-            assertThat(actual.getSocialType()).isNotNull();
-            assertThat(actual.getBirthday()).isNotNull();
-            assertThat(actual.getGenderType()).isNotNull();
-
-            // 생활정보 검증
-            assertEquals(memberLiveInformationRepository.findLiveInformationsByMemberId(member.getId()).size(), 2L);
+            assertThat(fieldValue).isNotNull();
+            assertEquals(memberLiveInformationRepository.findLiveInformationsByMemberId(member.getId()).size(), expectedLiveInfoSize);
         });
     }
+
+    static Stream<Arguments> provideMemberProfileFieldsForUpdate() {
+        return Stream.of(
+                Arguments.of((Function<Member, Object>) Member::getId, 2),
+                Arguments.of((Function<Member, Object>) Member::getNickName, 2),
+                Arguments.of((Function<Member, Object>) Member::getProfileImageUrl, 2),
+                Arguments.of((Function<Member, Object>) Member::getSocialType, 2),
+                Arguments.of((Function<Member, Object>) Member::getBirthday, 2),
+                Arguments.of((Function<Member, Object>) Member::getGenderType, 2)
+        );
+    }
+
 }
