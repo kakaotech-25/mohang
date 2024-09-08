@@ -181,7 +181,7 @@ const Mypage = () => {
             <section className="mypage-img">
               <img src={input.profileImageUrl} className="user-img" alt="User Profile" />
             </section>
-            <UserForm input={input} onChange={onChange} />
+            <UserForm input={input} onChange={onChange} showNicknameCheck={false} />
             <section className="mypage-btn">
               <Button text={savingProfile ? "저장 중..." : "저장"} onClick={handleProfileSaveClick} disabled={savingProfile} />
             </section>
