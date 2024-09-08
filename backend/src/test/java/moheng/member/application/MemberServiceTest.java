@@ -29,10 +29,17 @@ import moheng.trip.domain.Trip;
 import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 
 public class MemberServiceTest extends ServiceTestConfig {
@@ -393,25 +400,34 @@ public class MemberServiceTest extends ServiceTestConfig {
                 .isInstanceOf(NoExistTripException.class);
     }
 
-    @DisplayName("소셜 로그인 후 최초 회원가입을 마친 멤버의 모든 프로필 정보는 null 일 수 없다.")
-    @Test
-    void 소셜_로그인_후_최초_회원가입을_마친_멤버의_모든_프로필_정보는_null_일_수_없다() {
-        // given, when
+    @DisplayName("소셜 로그인 후 최초 회원가입을 마친 멤버의 각 프로필 정보는 null 일 수 없다.")
+    @ParameterizedTest
+    @MethodSource("provideMemberFieldAndValue")
+    void 소셜_로그인_후_최초_회원가입을_마친_멤버의_프로필_정보가_null_아님을_확인(Function<Member, Object> fieldExtractor) {
+        // given
         authService.generateTokenWithCode("code", "KAKAO");
         Member member = memberRepository.findByEmail("stub@kakao.com").get();
         memberService.signUpByProfile(member.getId(), new SignUpProfileRequest("닉네임", LocalDate.of(2000, 1, 1), GenderType.MEN));
         Member actual = memberRepository.findByEmail("stub@kakao.com").get();
 
+        // when
+        Object fieldValue = fieldExtractor.apply(actual);
+
         // then
-        assertAll(() -> {
-            assertThat(actual.getId()).isNotNull();
-            assertThat(actual.getNickName()).isNotNull();
-            assertThat(actual.getProfileImageUrl()).isNotNull();
-            assertThat(actual.getSocialType()).isNotNull();
-            assertThat(actual.getBirthday()).isNotNull();
-            assertThat(actual.getGenderType()).isNotNull();
-        });
+        assertThat(fieldValue).isNotNull();
     }
+
+    static Stream<Arguments> provideMemberFieldAndValue() {
+        return Stream.of(
+                Arguments.of((Function<Member, Object>) Member::getId),
+                Arguments.of((Function<Member, Object>) Member::getNickName),
+                Arguments.of((Function<Member, Object>) Member::getProfileImageUrl),
+                Arguments.of((Function<Member, Object>) Member::getSocialType),
+                Arguments.of((Function<Member, Object>) Member::getBirthday),
+                Arguments.of((Function<Member, Object>) Member::getGenderType)
+        );
+    }
+
 
     @DisplayName("소셜 로그인 후 최초 회원가입을 마친 멤버의 프로필 정보와 생활정보와 관심 여행지 정보는 비어있을 수 없다.")
     @Test
