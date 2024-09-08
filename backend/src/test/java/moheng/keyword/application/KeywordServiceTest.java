@@ -220,7 +220,6 @@ public class KeywordServiceTest extends ServiceTestConfig {
         assertThat(response.getFindTripResponses()).isNotEmpty();
     }
 
-
     @DisplayName("무작위 키워드에 관련한 여행지를 상위 조회순으로 찾는다.")
     @Test
     void 무작위_키워드에_관련한_여행지를_상위_조회순으로_찾는다() {

@@ -84,14 +84,10 @@ public class KeywordService {
     }
 
     public FindTripsWithRandomKeywordResponse findRecommendTripsByRandomKeyword() {
-        final Keyword randomKeyword = findRandomKeyword();
+        final Keyword randomKeyword = randomKeywordGeneratable.generate();
         final List<TripKeyword> tripKeywords = tripKeywordRepository.findTop30ByKeywordId(randomKeyword.getId());
         final List<Trip> topTrips = tripStatisticsFinder.findTripsWithVisitedCount(tripKeywords);
         return new FindTripsWithRandomKeywordResponse(extractAllTripKeywordsByTopTrips(topTrips), randomKeyword);
-    }
-
-    private Keyword findRandomKeyword() {
-        return randomKeywordGeneratable.generate();
     }
 
     private List<TripKeyword> extractAllTripKeywordsByTopTrips(final List<Trip> topTrips) {
