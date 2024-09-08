@@ -10,6 +10,7 @@ import moheng.auth.domain.oauth.Authority;
 import moheng.config.slice.ServiceTestConfig;
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.domain.repository.LiveInformationRepository;
+import moheng.liveinformation.domain.repository.MemberLiveInformationRepository;
 import moheng.liveinformation.exception.NoExistLiveInformationException;
 import moheng.member.domain.GenderType;
 import moheng.member.domain.Member;
@@ -52,6 +53,9 @@ public class MemberServiceTest extends ServiceTestConfig {
 
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    private MemberLiveInformationRepository memberLiveInformationRepository;
 
     @DisplayName("회원을 저장한다.")
     @Test
@@ -406,6 +410,50 @@ public class MemberServiceTest extends ServiceTestConfig {
             assertThat(actual.getSocialType()).isNotNull();
             assertThat(actual.getBirthday()).isNotNull();
             assertThat(actual.getGenderType()).isNotNull();
+        });
+    }
+
+    @DisplayName("소셜 로그인 후 최초 회원가입을 마친 멤버의 프로필 정보와 생활정보와 관심 여행지 정보는 비어있을 수 없다.")
+    @Test
+    void 소셜_로그인_후_최초_회원가입을_마친_멤버의_프로필_정보와_생활정보와_관심_여행지_정보는_비어있을_수_없다() {
+        // given
+        authService.generateTokenWithCode("code", "KAKAO");
+        Member member = memberRepository.findByEmail("stub@kakao.com").get();
+
+        // 프로필 회원가입
+        memberService.signUpByProfile(member.getId(), new SignUpProfileRequest("닉네임", LocalDate.of(2000, 1, 1), GenderType.MEN));
+
+        // 생활정보 회원가입
+        LiveInformation liveInformation1 = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        LiveInformation liveInformation2 = liveInformationRepository.save(new LiveInformation("생활정보2"));
+        SignUpLiveInfoRequest liveInfoRequest = new SignUpLiveInfoRequest(List.of(liveInformation1.getName(), liveInformation2.getName()));
+        memberService.signUpByLiveInfo(member.getId(), liveInfoRequest);
+
+        // 관심 여행지 회원가입
+        for(long contentId=1; contentId<=5; contentId++) {
+            tripService.save(new Trip("롯데월드", "서울특별시 송파구", contentId,
+                    "설명", "https://image.com"));
+        }
+        SignUpInterestTripsRequest interestTripsRequest = new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L));
+        memberService.signUpByInterestTrips(member.getId(), interestTripsRequest);
+
+        Member actual = memberRepository.findByEmail("stub@kakao.com").get();
+
+        // when, then
+        assertAll(() -> {
+            // 프로필 검증
+            assertThat(actual.getId()).isNotNull();
+            assertThat(actual.getNickName()).isNotNull();
+            assertThat(actual.getProfileImageUrl()).isNotNull();
+            assertThat(actual.getSocialType()).isNotNull();
+            assertThat(actual.getBirthday()).isNotNull();
+            assertThat(actual.getGenderType()).isNotNull();
+
+            // 생활정보 검증
+            assertEquals(memberLiveInformationRepository.findLiveInformationsByMemberId(member.getId()).size(), 2L);
+
+            // 관심 여행지 검증
+            assertEquals(recommendTripRepository.findAllByMemberId(member.getId()).size(), 5);
         });
     }
 }

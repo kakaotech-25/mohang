@@ -153,9 +153,9 @@ public class MemberAcceptanceTest extends AcceptanceTestConfig {
         });
     }
 
-    @DisplayName("소셜 로그인 후 최초 회원가입을 마친 멤버의 프로필 정보와 생활정보 정보는 비어있을 수 없다.")
+    @DisplayName("소셜 로그인 후 최초 회원가입을 마친 멤버의 프로필 정보와 생활정보는 비어있을 수 없다.")
     @Test
-    void 소셜_로그인_후_최초_회원가입을_마친_멤버의_생활정보는_비어있을_수_없다() {
+    void 소셜_로그인_후_최초_회원가입을_마친_멤버의_프로필_정보와_생활정보는_비어있을_수_없다() {
         // given
         ExtractableResponse<Response> response = 자체_토큰을_생성한다("KAKAO", "authorization-code");
         AccessTokenResponse accessTokenResponse = response.as(AccessTokenResponse.class);
