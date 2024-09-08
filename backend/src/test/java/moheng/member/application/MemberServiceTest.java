@@ -291,15 +291,15 @@ public class MemberServiceTest extends ServiceTestConfig {
     }
 
     @DisplayName("회원이 선택한 관심 여행지 우선순위를 1위부터 시작하여 순차대로 저장한다.")
-    @Test
-    void 회원이_선택한_관심_여행지_우선순위를_1위부터_시작하여_순차대로_저장한다() {
+    @ParameterizedTest
+    @MethodSource("관심_여행지_랭크_값을_찾는다")
+    void 회원이_선택한_관심_여행지_우선순위를_1위부터_시작하여_순차대로_저장한다(long expectedRank) {
         // given
         memberService.save(하온_기존());
         long memberId = memberService.findByEmail(하온_이메일).getId();
 
-        for(long contentId=1; contentId<=5; contentId++) {
-            tripService.save(new Trip("롯데월드", "서울특별시 송파구", contentId,
-                    "설명", "https://image.com"));
+        for (long contentId = 1; contentId <= 5; contentId++) {
+            tripService.save(new Trip("롯데월드", "서울특별시 송파구", contentId, "설명", "https://image.com"));
         }
         SignUpInterestTripsRequest request = new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L));
 
@@ -308,10 +308,18 @@ public class MemberServiceTest extends ServiceTestConfig {
 
         // then
         assertAll(() -> {
-            for(long rank=1; rank<=5; rank++) {
-                assertEquals(recommendTripRepository.findById(rank).get().getRanking(), rank);
-            }
+            assertEquals(recommendTripRepository.findById(expectedRank).get().getRanking(), expectedRank);
         });
+    }
+
+    static Stream<Arguments> 관심_여행지_랭크_값을_찾는다() {
+        return Stream.of(
+                Arguments.of(1L),
+                Arguments.of(2L),
+                Arguments.of(3L),
+                Arguments.of(4L),
+                Arguments.of(5L)
+        );
     }
 
     @DisplayName("존재하지 않는 회원의 관심 여행지를 저장하면 예외가 발생한다.")
