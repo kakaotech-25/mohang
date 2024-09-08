@@ -199,9 +199,9 @@ public class KeywordServiceTest extends ServiceTestConfig {
                 .isInstanceOf(NoExistKeywordException.class);
     }
 
-    @DisplayName("무작위 키워드로 추천 여행지를 찾는다.")
+    @DisplayName("랜덤 키워드로 추천 여행지를 찾는다.")
     @Test
-    void 무작위_키워드로_추천_여행지를_찾는다() {
+    void 랜덤_키워드로_추천_여행지를_찾는다() {
         // given
         keywordRepository.save(new Keyword("키워드1"));
         keywordRepository.save(new Keyword("키워드2"));
@@ -220,9 +220,9 @@ public class KeywordServiceTest extends ServiceTestConfig {
         assertThat(response.getFindTripResponses()).isNotEmpty();
     }
 
-    @DisplayName("무작위 키워드에 관련한 여행지를 상위 조회순으로 찾는다.")
+    @DisplayName("랜덤 키워드에 관련한 여행지를 상위 조회순으로 찾는다.")
     @Test
-    void 무작위_키워드에_관련한_여행지를_상위_조회순으로_찾는다() {
+    void 랜덤_키워드에_관련한_여행지를_상위_조회순으로_찾는다() {
         // given
         keywordRepository.save(new Keyword("키워드1"));
 
@@ -242,6 +242,38 @@ public class KeywordServiceTest extends ServiceTestConfig {
             assertThat(response.getFindTripResponses().get(0).getName()).isEqualTo("여행지2");
             assertThat(response.getFindTripResponses().get(1).getName()).isEqualTo("여행지3");
             assertThat(response.getFindTripResponses().get(2).getName()).isEqualTo("여행지1");
+        });
+    }
+
+    @DisplayName("랜덤 키워드로 여행지 리스트 조회시 각 여행지에 관련된 모든 키워드를 함께 조회한다.")
+    @Test
+    void 랜덤_키워드로_여행지_리스트_조회시_각_여행지에_관련된_모든_키워드를_함꼐_조회한다() {
+        // given
+        Keyword keyword1 = keywordRepository.save(new Keyword("현재 키워드"));
+        Keyword keyword2 = keywordRepository.save(new Keyword("다른 키워드2"));
+        Keyword keyword3 = keywordRepository.save(new Keyword("다른 키워드3"));
+
+        Trip trip1 = tripRepository.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로1", 100L));
+        Trip trip2 = tripRepository.save(new Trip("여행지2", "장소명2", 2L, "설명2", "이미지 경로2", 300L));
+        Trip trip3 = tripRepository.save(new Trip("여행지3", "장소명3", 3L, "설명3", "이미지 경로3", 200L));
+
+        tripKeywordRepository.save(new TripKeyword(trip1, keyword1));
+        tripKeywordRepository.save(new TripKeyword(trip1, keyword2));
+        tripKeywordRepository.save(new TripKeyword(trip1, keyword3));
+        tripKeywordRepository.save(new TripKeyword(trip2, keyword1));
+        tripKeywordRepository.save(new TripKeyword(trip2, keyword2));
+        tripKeywordRepository.save(new TripKeyword(trip2, keyword3));
+        tripKeywordRepository.save(new TripKeyword(trip3, keyword1));
+        tripKeywordRepository.save(new TripKeyword(trip3, keyword2));
+        tripKeywordRepository.save(new TripKeyword(trip3, keyword3));
+
+        // when
+        FindTripsWithRandomKeywordResponse response = keywordService.findRecommendTripsByRandomKeyword();
+
+        assertAll(() -> {
+            assertThat(response.getFindTripResponses().get(0).getKeywords()).hasSize(3);
+            assertThat(response.getFindTripResponses().get(1).getKeywords()).hasSize(3);
+            assertThat(response.getFindTripResponses().get(2).getKeywords()).hasSize(3);
         });
     }
 }
