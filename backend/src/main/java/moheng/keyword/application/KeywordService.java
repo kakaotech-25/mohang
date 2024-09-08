@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 public class KeywordService {
     private final TripsByStatisticsFinder tripsByStatisticsFinder;
     private static final int RECOMMEND_BY_KEYWORD_TRIPS_COUNT = 30;
-    private static final int TOP_TRIPS_COUNT = 30;
     private final RandomKeywordGeneratable randomKeywordGeneratable;
     private final KeywordRepository keywordRepository;
     private final TripRepository tripRepository;
