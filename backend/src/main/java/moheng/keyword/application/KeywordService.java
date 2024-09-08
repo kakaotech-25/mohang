@@ -88,30 +88,12 @@ public class KeywordService {
     public FindTripsResponse findRecommendTripsByRandomKeyword() {
         final Keyword randomKeyword = findRandomKeyword();
         final List<TripKeyword> tripKeywords = tripKeywordRepository.findTop30ByKeywordId(randomKeyword.getId());
-        final Map<Trip, Long> tripsWithVisitedCount = findTripsWithVisitedCount(tripKeywords);
-        final List<Trip> topTrips = findTopTripsByVisitedCount(tripsWithVisitedCount);
+        final List<Trip> topTrips = tripStatisticsFinder.findTripsWithVisitedCount(tripKeywords);
         return new FindTripsResponse(extractTripKeywordsByTopTrips(topTrips, tripKeywords));
     }
 
     private Keyword findRandomKeyword() {
         return randomKeywordGeneratable.generate();
-    }
-
-    private Map<Trip, Long> findTripsWithVisitedCount(final List<TripKeyword> tripKeywords) {
-        final Map<Trip, Long> tripClickCounts = new HashMap<>();
-        for (TripKeyword tripKeyword : tripKeywords) {
-            final Trip trip = tripKeyword.getTrip();
-            tripClickCounts.put(tripKeyword.getTrip(), trip.getVisitedCount());
-        }
-        return tripClickCounts;
-    }
-
-    private List<Trip> findTopTripsByVisitedCount(final Map<Trip, Long> tripsWithVisitedCount) {
-        return tripsWithVisitedCount.entrySet().stream()
-                .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()))
-                .limit(TOP_TRIPS_COUNT)
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
     }
 
     private List<TripKeyword> extractTripKeywordsByTopTrips(final List<Trip> topTrips, final List<TripKeyword> tripKeywords) {

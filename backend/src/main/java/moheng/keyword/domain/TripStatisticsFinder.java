@@ -6,5 +6,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface TripStatisticsFinder {
-    Map<Trip, Long> findTripsWithVisitedCount(final List<TripKeyword> tripKeywords);
+    List<Trip> findTripsWithVisitedCount(final List<TripKeyword> tripKeywords);
 }
