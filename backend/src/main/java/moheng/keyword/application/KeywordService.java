@@ -12,6 +12,7 @@ import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
 import moheng.keyword.exception.NoExistKeywordException;
 import moheng.trip.domain.Trip;
+import moheng.trip.dto.FindTripResponse;
 import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.dto.TripKeywordCreateRequest;
 import moheng.trip.exception.NoExistTripException;
@@ -19,7 +20,10 @@ import moheng.trip.domain.repository.TripRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
@@ -90,7 +94,16 @@ public class KeywordService {
     }
 
     private List<TripKeyword> extractAllTripKeywordsByTopTrips(final List<Trip> topTrips) {
-        return tripKeywordRepository.findByTripIn(topTrips);
+        final Map<Trip, List<TripKeyword>> tripWithKeywords = findTripsWithTripKeywords(topTrips);
+        return topTrips.stream()
+                .flatMap(trip -> tripWithKeywords.getOrDefault(trip, Collections.emptyList()).stream())
+                .collect(Collectors.toList());
+    }
+
+    private Map<Trip, List<TripKeyword>> findTripsWithTripKeywords(final List<Trip> topTrips) {
+        return tripKeywordRepository.findByTripIn(topTrips)
+                .stream()
+                .collect(Collectors.groupingBy(TripKeyword::getTrip));
     }
 
     @Transactional

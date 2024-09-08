@@ -44,6 +44,7 @@ public class TripDevApplicationRunner implements ApplicationRunner {
             String sql = "INSERT INTO trip (name, place_name, content_id, description, trip_image_url, visited_count, coordinate_x, coordinate_y, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             List<Object[]> batchArgs = new ArrayList<>();
+            long cnt = 1;
             for (final TripRunner tripRunner : tripRunners) {
                 batchArgs.add(new Object[]{
                         tripRunner.getTitle(),
@@ -51,7 +52,7 @@ public class TripDevApplicationRunner implements ApplicationRunner {
                         tripRunner.getContentid(),
                         tripRunner.getOverview(),
                         tripRunner.getFirstimage(),
-                        0L,
+                        cnt++,
                         tripRunner.getMapx(),
                         tripRunner.getMapy(),
                         LocalDate.now(),

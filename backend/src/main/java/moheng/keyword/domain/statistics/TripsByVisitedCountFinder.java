@@ -14,7 +14,7 @@ public class TripsByVisitedCountFinder implements TripsByStatisticsFinder {
 
     public List<Trip> findTripsWithVisitedCount(final List<TripKeyword> tripKeywords) {
         final Map<Trip, Long> tripClickCounts = new HashMap<>();
-        for (TripKeyword tripKeyword : tripKeywords) {
+        for (final TripKeyword tripKeyword : tripKeywords) {
             final Trip trip = tripKeyword.getTrip();
             tripClickCounts.put(tripKeyword.getTrip(), trip.getVisitedCount());
         }
