@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @Service
 public class KeywordService {
-    private final TripsByStatisticsFinder tripStatisticsFinder;
+    private final TripsByStatisticsFinder tripsByStatisticsFinder;
     private static final int RECOMMEND_BY_KEYWORD_TRIPS_COUNT = 30;
     private static final int TOP_TRIPS_COUNT = 30;
     private final RandomKeywordGeneratable randomKeywordGeneratable;
@@ -33,12 +33,12 @@ public class KeywordService {
     private final TripRepository tripRepository;
     private final TripKeywordRepository tripKeywordRepository;
 
-    public KeywordService(final TripsByStatisticsFinder tripStatisticsFinder,
+    public KeywordService(final TripsByStatisticsFinder tripsByStatisticsFinder,
                           final RandomKeywordGeneratable randomKeywordGeneratable,
                           final KeywordRepository keywordRepository,
                           final TripRepository tripRepository,
                           final TripKeywordRepository tripKeywordRepository) {
-        this.tripStatisticsFinder = tripStatisticsFinder;
+        this.tripsByStatisticsFinder = tripsByStatisticsFinder;
         this.randomKeywordGeneratable = randomKeywordGeneratable;
         this.keywordRepository = keywordRepository;
         this.tripRepository = tripRepository;
@@ -86,7 +86,7 @@ public class KeywordService {
     public FindTripsWithRandomKeywordResponse findRecommendTripsByRandomKeyword() {
         final Keyword randomKeyword = randomKeywordGeneratable.generate();
         final List<TripKeyword> tripKeywords = tripKeywordRepository.findTop30ByKeywordId(randomKeyword.getId());
-        final List<Trip> topTrips = tripStatisticsFinder.findTripsWithVisitedCount(tripKeywords);
+        final List<Trip> topTrips = tripsByStatisticsFinder.findTripsWithVisitedCount(tripKeywords);
         return new FindTripsWithRandomKeywordResponse(extractAllTripKeywordsByTopTrips(topTrips), randomKeyword);
     }
 
