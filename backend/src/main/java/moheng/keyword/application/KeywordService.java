@@ -90,9 +90,7 @@ public class KeywordService {
     }
 
     private List<TripKeyword> extractAllTripKeywordsByTopTrips(final List<Trip> topTrips) {
-        return topTrips.stream()
-                .flatMap(topTrip -> tripKeywordRepository.findByTrip(topTrip).stream())
-                .collect(Collectors.toList());
+        return tripKeywordRepository.findByTripIn(topTrips);
     }
 
     @Transactional
