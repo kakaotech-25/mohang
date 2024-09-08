@@ -14,27 +14,5 @@ RUN chmod +x ./gradlew \
 # 소스코드 복사
 COPY src /app/src
 
-# 소스코드 빌드
-RUN ./gradlew build
-
-# 최종 이미지
-FROM openjdk:22-slim
-
-WORKDIR /app
-
-ENV BUILD_DIR=/app/build/libs/
-
-# 빌드된 결과물 복사
-COPY --from=build ${BUILD_DIR} ${BUILD_DIR}
-
-# 최소권한 설정 - 모행 유저
-RUN groupadd -r appgroup && useradd -r -g appgroup mohenguser \
-    && mkdir -p /home/mohenguser/.gradle \
-    && chown -R mohenguser:appgroup /app /home/mohenguser/.gradle
-
-USER mohenguser
-
 # CMD ["tail", "-f"]
-
-# 추후 jar파일의 이름이 변경되어도 첫번째 행을 실행시키도록 함
-CMD ["sh", "-c", "java -jar ${BUILD_DIR}/*SNAPSHOT.jar"]
+CMD ["./gradlew", "bootRun"]
