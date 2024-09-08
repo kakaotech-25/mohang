@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Order(2)
+@Order(1)
 @Component
 public class TripDevApplicationRunner implements ApplicationRunner {
     private final JdbcTemplate jdbcTemplate;

@@ -21,6 +21,7 @@ import moheng.recommendtrip.domain.repository.RecommendTripRepository;
 import moheng.trip.application.TripService;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.repository.TripRepository;
+import moheng.trip.dto.FindTripResponse;
 import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.dto.TripKeywordCreateRequest;
 import moheng.trip.exception.NoExistTripException;
@@ -231,8 +232,12 @@ public class KeywordServiceTest extends ServiceTestConfig {
         // given
         keywordRepository.save(new Keyword("키워드1"));
 
-        for (final Trip trip : trips) {
-            tripRepository.save(trip);
+        tripRepository.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로1", 100L));
+        tripRepository.save(new Trip("여행지2", "장소명1", 1L, "설명1", "이미지 경로1", 300L));
+        tripRepository.save(new Trip("여행지3", "장소명1", 1L, "설명1", "이미지 경로1", 200L));
+
+        for (final Trip inputTrip : trips) {
+            Trip trip = tripRepository.save(inputTrip);
             tripKeywordRepository.save(new TripKeyword(trip, keywordRepository.findById(1L).get()));
         }
 
