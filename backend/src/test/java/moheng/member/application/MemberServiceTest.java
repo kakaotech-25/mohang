@@ -402,7 +402,7 @@ public class MemberServiceTest extends ServiceTestConfig {
 
     @DisplayName("소셜 로그인 후 최초 회원가입을 마친 멤버의 각 프로필 정보는 null 일 수 없다.")
     @ParameterizedTest
-    @MethodSource("provideMemberFieldAndValue")
+    @MethodSource("멤버의_프로필_정보를_찾는다")
     void 소셜_로그인_후_최초_회원가입을_마친_멤버의_프로필_정보가_null_아님을_확인(Function<Member, Object> fieldExtractor) {
         // given
         authService.generateTokenWithCode("code", "KAKAO");
@@ -417,7 +417,7 @@ public class MemberServiceTest extends ServiceTestConfig {
         assertThat(fieldValue).isNotNull();
     }
 
-    static Stream<Arguments> provideMemberFieldAndValue() {
+    static Stream<Arguments> 멤버의_프로필_정보를_찾는다() {
         return Stream.of(
                 Arguments.of((Function<Member, Object>) Member::getId),
                 Arguments.of((Function<Member, Object>) Member::getNickName),
@@ -430,7 +430,7 @@ public class MemberServiceTest extends ServiceTestConfig {
 
     @DisplayName("소셜 로그인 후 최초 회원가입을 마친 멤버의 프로필 정보와 생활정보와 관심 여행지 정보는 비어있을 수 없다.")
     @ParameterizedTest
-    @MethodSource("provideMemberProfileFieldsAndValues")
+    @MethodSource("멤버의_프로필_정보와_생활정보_및_관심_여행지_기댓값을_찾는다")
     void 소셜_로그인_후_최초_회원가입을_마친_멤버의_프로필_정보와_생활정보와_관심_여행지_정보는_비어있을_수_없다(Function<Member, Object> fieldExtractor, int expectedLiveInfoSize, int expectedTripSize) {
         // given
         authService.generateTokenWithCode("code", "KAKAO");
@@ -465,7 +465,7 @@ public class MemberServiceTest extends ServiceTestConfig {
         });
     }
 
-    static Stream<Arguments> provideMemberProfileFieldsAndValues() {
+    static Stream<Arguments> 멤버의_프로필_정보와_생활정보_및_관심_여행지_기댓값을_찾는다() {
         return Stream.of(
                 Arguments.of((Function<Member, Object>) Member::getId, 2, 5),
                 Arguments.of((Function<Member, Object>) Member::getNickName, 2, 5),
@@ -478,7 +478,7 @@ public class MemberServiceTest extends ServiceTestConfig {
 
     @DisplayName("멤버의 프로필을 수정했을 때 멤버의 모든 프로필 정보는 null 일 수 없으며 생활정보는 변하지 않는다.")
     @ParameterizedTest
-    @MethodSource("provideMemberProfileFieldsForUpdate")
+    @MethodSource("멤버의_프로필_정보와_생활정보_기댓값을_찾는다")
     void 멤버의_프로필을_수정했을_때_멤버의_모든_프로필_정보는_null_일_수_없으며_멤버의_생활정보는_변하지_않는다(Function<Member, Object> fieldExtractor, int expectedLiveInfoSize) {
         // given
         authService.generateTokenWithCode("code", "KAKAO");
@@ -507,7 +507,7 @@ public class MemberServiceTest extends ServiceTestConfig {
         });
     }
 
-    static Stream<Arguments> provideMemberProfileFieldsForUpdate() {
+    static Stream<Arguments> 멤버의_프로필_정보와_생활정보_기댓값을_찾는다() {
         return Stream.of(
                 Arguments.of((Function<Member, Object>) Member::getId, 2),
                 Arguments.of((Function<Member, Object>) Member::getNickName, 2),
