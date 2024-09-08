@@ -13,13 +13,14 @@ const Mypage = () => {
     gender: "",
     profileImageUrl: ""
   });
+  const [selectedLivingInfo, setSelectedLivingInfo] = useState([]); // 선택된 생활정보 저장
   const [loading, setLoading] = useState(true);
+  const [livingLoading, setLivingLoading] = useState(true); // 생활정보 로딩 상태
 
-  // API 호출로 사용자 정보 가져오기
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axiosInstance.get('/member/me');
+        const response = await axiosInstance.get('/member/me'); // 사용자 정보 호출
         const userData = response.data;
         setInput({
           name: userData.nickname,
@@ -37,7 +38,29 @@ const Mypage = () => {
     fetchUserData();
   }, []);
 
-  // 입력 값 변경 처리 함수
+  // 생활정보 불러오기
+  useEffect(() => {
+    const fetchLivingInfo = async () => {
+      try {
+        const response = await axiosInstance.get('/live/info/member'); // 생활정보 API 호출
+        const livingInfoData = response.data.liveInfoResponses;
+
+        // 선택된 생활정보 필터링
+        const selectedInfo = livingInfoData
+          .filter(info => info.contain) // 선택된 정보만 필터링
+          .map(info => info.name); // 이름만 추출하여 저장
+
+        setSelectedLivingInfo(selectedInfo.length > 0 ? selectedInfo : ["해당없음"]); // 선택된 정보가 없으면 "해당없음"
+        setLivingLoading(false);
+      } catch (error) {
+        console.error('생활정보 불러오기 실패:', error);
+        setLivingLoading(false);
+      }
+    };
+
+    fetchLivingInfo();
+  }, []);
+
   const onChange = (e) => {
     setInput({
       ...input,
@@ -50,10 +73,10 @@ const Mypage = () => {
   };
 
   const handleLivingSelectionChange = (selectedOptions) => {
-    console.log("Selected options:", selectedOptions);
+    setSelectedLivingInfo(selectedOptions); // 선택된 생활정보 변경
   };
 
-  if (loading) {
+  if (loading || livingLoading) {
     return <div>로딩 중...</div>;
   }
 
@@ -88,7 +111,10 @@ const Mypage = () => {
         )}
         {activeTab === 'tab2' && (
           <div id="tab2" className='mypage-living'>
-            <LivingBtn onChangeSelection={handleLivingSelectionChange} />
+            <LivingBtn 
+              onChangeSelection={handleLivingSelectionChange} 
+              selectedOptions={selectedLivingInfo} // 선택된 생활정보 전달
+            />
             <section>
               <Button text={"저장"} />
             </section>
@@ -97,6 +123,6 @@ const Mypage = () => {
       </section>
     </div>
   );
-}
+};
 
 export default Mypage;
