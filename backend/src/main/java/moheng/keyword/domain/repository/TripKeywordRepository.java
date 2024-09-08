@@ -17,7 +17,7 @@ public interface TripKeywordRepository extends JpaRepository<TripKeyword, Long> 
     @EntityGraph(attributePaths = {"trip"})
     List<TripKeyword> findTop30ByKeywordId(@Param("keywordId") final Long keywordId);
 
-    @EntityGraph(attributePaths = {"trip"})
+    @EntityGraph(attributePaths = {"trip", "keyword"})
     List<TripKeyword> findByTripIn(@Param("trips") final List<Trip> trips);
 
     @Query("SELECT tk FROM TripKeyword tk WHERE tk.trip IN :trips")
