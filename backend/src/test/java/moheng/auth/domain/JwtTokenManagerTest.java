@@ -17,17 +17,20 @@ import moheng.auth.exception.InvalidTokenException;
 import moheng.auth.exception.NoExistMemberTokenException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class JwtTokenManagerTest {
     private final InMemoryRefreshTokenRepository refreshTokenRepository = new InMemoryRefreshTokenRepository();
     private final JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(SECRET_KEY, ACCESS_TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME);
     private final JwtTokenManager jwtTokenManager = new JwtTokenManager(refreshTokenRepository, jwtTokenProvider);
 
-    @DisplayName("memberId 로 엑세스 토큰과 리프레시 토큰을 생성한다.")
-    @Test
-    void memberId_로_엑세스_토큰과_리프레시_토큰을_생성한다() {
+    @DisplayName("memberId로 엑세스 토큰과 리프레시 토큰을 생성한다.")
+    @ParameterizedTest
+    @ValueSource(longs = {1L, 2L, 3L})
+    void memberId_로_엑세스_토큰과_리프레시_토큰을_생성한다(long memberId) {
         // given, when
-        MemberToken memberToken = jwtTokenManager.createMemberToken(MEMBER_ID_1);
+        MemberToken memberToken = jwtTokenManager.createMemberToken(memberId);
 
         // then
         assertAll(
@@ -35,6 +38,7 @@ public class JwtTokenManagerTest {
                 () -> assertThat(memberToken.getRefreshToken()).isNotEmpty()
         );
     }
+
 
     @DisplayName("리프레시 토큰으로 새로운 엑세스 토큰을 발급받는다.")
     @Test
