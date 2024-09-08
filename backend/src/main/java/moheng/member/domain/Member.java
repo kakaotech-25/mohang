@@ -155,4 +155,8 @@ public class Member extends BaseEntity {
     public Authority getAuthority() {
         return authority;
     }
+
+    public SocialType getSocialType() {
+        return socialType;
+    }
 }

@@ -698,7 +698,7 @@ Host: localhost:8080
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: refresh-token=refresh-token; Path=/; Max-Age=604800; Expires=Sat, 14 Sep 2024 08:17:41 GMT; Secure; HttpOnly; SameSite=None
+Set-Cookie: refresh-token=refresh-token; Path=/; Max-Age=604800; Expires=Sun, 15 Sep 2024 07:56:40 GMT; Secure; HttpOnly; SameSite=None
 Content-Type: application/json
 Content-Length: 36
 
@@ -4821,9 +4821,10 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 742
+Content-Length: 774
 
 {
+  "keywordName" : "키워드1",
   "findTripResponses" : [ {
     "name" : "롯데월드1",
     "placeName" : "서울특별시 송파구1",
@@ -4837,14 +4838,14 @@ Content-Length: 742
     "contentId" : 1182080,
     "tripImageUrl" : "https://lotte-world.ong",
     "description" : "롯데월드 설명2",
-    "keywords" : [ "키워드2" ]
+    "keywords" : [ "키워드1" ]
   }, {
     "name" : "롯데월드3",
     "placeName" : "서울특별시 송파구3",
     "contentId" : 9820280,
     "tripImageUrl" : "https://lotte-world.ong",
     "description" : "롯데월드 설명3",
-    "keywords" : [ "키워드3" ]
+    "keywords" : [ "키워드1" ]
   } ]
 }</code></pre>
 </div>
@@ -4865,6 +4866,11 @@ Content-Length: 742
 </tr>
 </thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>keywordName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">랜덤으로 선택된 현재 키워드 이름</p></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>findTripResponses</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>

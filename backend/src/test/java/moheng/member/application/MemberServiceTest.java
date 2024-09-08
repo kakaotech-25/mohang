@@ -5,11 +5,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
+import moheng.auth.application.AuthService;
 import moheng.auth.domain.oauth.Authority;
 import moheng.config.slice.ServiceTestConfig;
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.domain.repository.LiveInformationRepository;
 import moheng.liveinformation.exception.NoExistLiveInformationException;
+import moheng.member.domain.GenderType;
 import moheng.member.domain.Member;
 import moheng.member.domain.SocialType;
 import moheng.member.domain.repository.MemberRepository;
@@ -28,6 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -46,6 +49,9 @@ public class MemberServiceTest extends ServiceTestConfig {
 
     @Autowired
     private RecommendTripRepository recommendTripRepository;
+
+    @Autowired
+    private AuthService authService;
 
     @DisplayName("회원을 저장한다.")
     @Test
@@ -381,5 +387,25 @@ public class MemberServiceTest extends ServiceTestConfig {
         // when, then
         assertThatThrownBy(() -> memberService.signUpByInterestTrips(memberId, request))
                 .isInstanceOf(NoExistTripException.class);
+    }
+
+    @DisplayName("소셜 로그인 후 최초 회원가입을 마친 멤버의 모든 프로필 정보는 null 일 수 없다.")
+    @Test
+    void 소셜_로그인_후_최초_회원가입을_마친_멤버의_모든_프로필_정보는_null_일_수_없다() {
+        // given, when
+        authService.generateTokenWithCode("code", "KAKAO");
+        Member member = memberRepository.findByEmail("stub@kakao.com").get();
+        memberService.signUpByProfile(member.getId(), new SignUpProfileRequest("닉네임", LocalDate.of(2000, 1, 1), GenderType.MEN));
+        Member actual = memberRepository.findByEmail("stub@kakao.com").get();
+
+        // then
+        assertAll(() -> {
+            assertThat(actual.getId()).isNotNull();
+            assertThat(actual.getNickName()).isNotNull();
+            assertThat(actual.getProfileImageUrl()).isNotNull();
+            assertThat(actual.getSocialType()).isNotNull();
+            assertThat(actual.getBirthday()).isNotNull();
+            assertThat(actual.getGenderType()).isNotNull();
+        });
     }
 }
