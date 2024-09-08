@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class TripsByVisitedCountFinder implements TripsByStatisticsFinder {
-    private static final int TOP_TRIPS_COUNT = 30;
 
     public List<Trip> findTripsWithVisitedCount(final List<TripKeyword> tripKeywords) {
         final Map<Trip, Long> tripClickCounts = new HashMap<>();
@@ -18,13 +17,12 @@ public class TripsByVisitedCountFinder implements TripsByStatisticsFinder {
             final Trip trip = tripKeyword.getTrip();
             tripClickCounts.put(tripKeyword.getTrip(), trip.getVisitedCount());
         }
-        return findTopTripsByVisitedCount(tripClickCounts);
+        return findSortedTripsByVisitedCount(tripClickCounts);
     }
 
-    private List<Trip> findTopTripsByVisitedCount(final Map<Trip, Long> tripsWithVisitedCount) {
+    private List<Trip> findSortedTripsByVisitedCount(final Map<Trip, Long> tripsWithVisitedCount) {
         return tripsWithVisitedCount.entrySet().stream()
-                .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()))
-                .limit(TOP_TRIPS_COUNT)
+                .sorted((visitedCnt1, visitedCnt2) -> visitedCnt2.getValue().compareTo(visitedCnt1.getValue()))
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }
