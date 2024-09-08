@@ -96,7 +96,7 @@ public class KeywordService {
 
     private List<TripKeyword> extractAllTripKeywordsByTopTrips(final List<Trip> topTrips) {
         return topTrips.stream()
-                .flatMap(topTrip -> tripKeywordRepository.findByTrip(topTrip).stream())  // 여행지와 연관된 모든 키워드를 가져옴
+                .flatMap(topTrip -> tripKeywordRepository.findByTrip(topTrip).stream())
                 .collect(Collectors.toList());
     }
 

@@ -11,6 +11,7 @@ import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.repository.KeywordRepository;
 import moheng.keyword.domain.TripKeyword;
 import moheng.keyword.domain.repository.TripKeywordRepository;
+import moheng.keyword.dto.FindTripsWithRandomKeywordResponse;
 import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
 import moheng.keyword.exception.NoExistKeywordException;
@@ -215,7 +216,7 @@ public class KeywordServiceTest extends ServiceTestConfig {
         tripKeywordRepository.save(new TripKeyword(tripService.findById(3L), keywordRepository.findById(3L).get()));
 
         // when
-        FindTripsResponse response = keywordService.findRecommendTripsByRandomKeyword();
+        FindTripsWithRandomKeywordResponse response = keywordService.findRecommendTripsByRandomKeyword();
         assertThat(response.getFindTripResponses()).isNotEmpty();
     }
 
@@ -235,7 +236,7 @@ public class KeywordServiceTest extends ServiceTestConfig {
         tripKeywordRepository.save(new TripKeyword(tripService.findById(3L), keywordRepository.findById(1L).get()));
 
         // when
-        FindTripsResponse response = keywordService.findRecommendTripsByRandomKeyword();
+        FindTripsWithRandomKeywordResponse response = keywordService.findRecommendTripsByRandomKeyword();
 
         assertAll(() -> {
             assertThat(response.getFindTripResponses()).hasSize(3);
