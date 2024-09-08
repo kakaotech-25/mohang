@@ -2,12 +2,7 @@ package moheng.auth.domain;
 
 import static moheng.fixture.JwtTokenFixtures.*;
 import static moheng.fixture.JwtTokenFixtures.EXPIRED_TOKEN_TIME;
-import static moheng.fixture.MemberFixtures.MEMBER_ID_1;
-import static moheng.fixture.MemberFixtures.MEMBER_ID_2;
-import static moheng.fixture.MemberFixtures.MEMBER_ID_3;
-import static moheng.fixture.MemberFixtures.MEMBER_ID_4;
-import static moheng.fixture.MemberFixtures.MEMBER_ID_5;
-import static moheng.fixture.MemberFixtures.MEMBER_ID_6;
+import static moheng.fixture.MemberFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,7 +22,7 @@ public class JwtTokenManagerTest {
 
     @DisplayName("memberId로 엑세스 토큰과 리프레시 토큰을 생성한다.")
     @ParameterizedTest
-    @ValueSource(longs = {1L, 2L, 3L})
+    @ValueSource(longs = {MEMBER_ID_1, MEMBER_ID_2, MEMBER_ID_3})
     void memberId_로_엑세스_토큰과_리프레시_토큰을_생성한다(long memberId) {
         // given, when
         MemberToken memberToken = jwtTokenManager.createMemberToken(memberId);
@@ -38,7 +33,6 @@ public class JwtTokenManagerTest {
                 () -> assertThat(memberToken.getRefreshToken()).isNotEmpty()
         );
     }
-
 
     @DisplayName("리프레시 토큰으로 새로운 엑세스 토큰을 발급받는다.")
     @Test
@@ -124,8 +118,8 @@ public class JwtTokenManagerTest {
     @Test
     void 전달받은_리프레시_토큰과_DB_에_저장된_회원의_리프레시_토큰이_다르면_예외가_발생한다() {
         // given
-        jwtTokenManager.createMemberToken(MEMBER_ID_1);
-        String otherRefreshToken = jwtTokenProvider.createRefreshToken(MEMBER_ID_2);
+        jwtTokenManager.createMemberToken(MEMBER_ID_5);
+        String otherRefreshToken = jwtTokenProvider.createRefreshToken(MEMBER_ID_8);
 
         // when, then
         assertThatThrownBy(() -> jwtTokenManager.generateRenewalAccessToken(otherRefreshToken))
