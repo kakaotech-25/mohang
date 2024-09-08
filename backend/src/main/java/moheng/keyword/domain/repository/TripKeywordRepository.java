@@ -14,7 +14,7 @@ public interface TripKeywordRepository extends JpaRepository<TripKeyword, Long> 
     @Query("SELECT tk FROM TripKeyword tk WHERE tk.keyword.id IN :keywordIds")
     List<TripKeyword> findTripKeywordsByKeywordIds(@Param("keywordIds") final List<Long> keywordIds);
 
-    @Query(value = "SELECT * FROM trip_keyword tk WHERE tk.keyword_id = :keywordId LIMIT 30", nativeQuery = true)
+    @Query("SELECT tk FROM TripKeyword tk WHERE tk.keyword.id = :keywordId")
     List<TripKeyword> findTop30ByKeywordId(@Param("keywordId") final Long keywordId);
 
     @Query("SELECT tk FROM TripKeyword tk WHERE tk.trip IN :trips")
