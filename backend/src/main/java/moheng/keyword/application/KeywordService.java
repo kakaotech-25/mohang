@@ -1,6 +1,7 @@
 package moheng.keyword.application;
 
 import moheng.keyword.domain.Keyword;
+import moheng.keyword.domain.TripStatisticsFinder;
 import moheng.keyword.domain.random.RandomKeywordGeneratable;
 import moheng.keyword.domain.repository.KeywordRepository;
 import moheng.keyword.domain.TripKeyword;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @Service
 public class KeywordService {
+    private final TripStatisticsFinder tripStatisticsFinder;
     private static final int RECOMMEND_BY_KEYWORD_TRIPS_COUNT = 30;
     private static final int TOP_TRIPS_COUNT = 30;
     private final RandomKeywordGeneratable randomKeywordGeneratable;
@@ -33,10 +35,12 @@ public class KeywordService {
     private final TripRepository tripRepository;
     private final TripKeywordRepository tripKeywordRepository;
 
-    public KeywordService(final RandomKeywordGeneratable randomKeywordGeneratable,
+    public KeywordService(final TripStatisticsFinder tripStatisticsFinder,
+                          final RandomKeywordGeneratable randomKeywordGeneratable,
                           final KeywordRepository keywordRepository,
                           final TripRepository tripRepository,
                           final TripKeywordRepository tripKeywordRepository) {
+        this.tripStatisticsFinder = tripStatisticsFinder;
         this.randomKeywordGeneratable = randomKeywordGeneratable;
         this.keywordRepository = keywordRepository;
         this.tripRepository = tripRepository;
@@ -83,7 +87,7 @@ public class KeywordService {
 
     public FindTripsResponse findRecommendTripsByRandomKeyword() {
         final Keyword randomKeyword = findRandomKeyword();
-        final List<TripKeyword> tripKeywords = tripKeywordRepository.findTripKeywordsByKeywordId(randomKeyword.getId());
+        final List<TripKeyword> tripKeywords = tripKeywordRepository.findTop30ByKeywordId(randomKeyword.getId());
         final Map<Trip, Long> tripsWithVisitedCount = findTripsWithVisitedCount(tripKeywords);
         final List<Trip> topTrips = findTopTripsByVisitedCount(tripsWithVisitedCount);
         return new FindTripsResponse(extractTripKeywordsByTopTrips(topTrips, tripKeywords));
