@@ -17,6 +17,8 @@ const Mypage = () => {
   const [livingInfoIds, setLivingInfoIds] = useState([]); // 생활정보의 id 저장
   const [loading, setLoading] = useState(true);
   const [livingLoading, setLivingLoading] = useState(true); // 생활정보 로딩 상태
+  const [savingProfile, setSavingProfile] = useState(false); // 프로필 저장 중 상태
+  const [savingLivingInfo, setSavingLivingInfo] = useState(false); // 생활정보 저장 중 상태
 
   // livingInfoData를 전역 상태로 정의
   const [livingInfoData, setLivingInfoData] = useState([]);
@@ -98,12 +100,13 @@ const Mypage = () => {
   };
 
   // 생활정보 수정 (저장) 요청
-  const handleSaveClick = async () => {
+  const handleLivingSaveClick = async () => {
+    setSavingLivingInfo(true);
     try {
       const payload = {
         liveInfoIds: livingInfoIds.includes("해당없음") ? [] : livingInfoIds, // "해당없음" 선택 시 빈 배열 전송
       };
-      console.log("저장할 데이터:", payload);
+      console.log("저장할 생활정보 데이터:", payload);
 
       const response = await axiosInstance.put('/live/info/member', payload);
 
@@ -116,6 +119,38 @@ const Mypage = () => {
     } catch (error) {
       console.error("생활정보 수정 요청 실패:", error);
       alert("저장 중 문제가 발생했습니다.");
+    } finally {
+      setSavingLivingInfo(false);
+    }
+  };
+
+  // 프로필 수정 (저장) 요청
+  const handleProfileSaveClick = async () => {
+    setSavingProfile(true);
+    try {
+      const payload = {
+        nickname: input.name,
+        birthday: input.birth,
+        genderType: input.gender,
+        profileImageUrl: input.profileImageUrl
+      };
+      console.log("저장할 프로필 데이터:", payload);
+
+      const response = await axiosInstance.put('/member/profile', payload);
+
+      if (response.status === 204) {
+        console.log("프로필 수정 성공");
+        alert("프로필이 성공적으로 저장되었습니다.");
+      } else if (response.status === 401) {
+        alert("중복된 닉네임이 존재합니다.");
+      } else {
+        console.error("응답 실패:", response);
+      }
+    } catch (error) {
+      console.error("프로필 수정 요청 실패:", error);
+      alert("저장 중 문제가 발생했습니다.");
+    } finally {
+      setSavingProfile(false);
     }
   };
 
@@ -148,7 +183,7 @@ const Mypage = () => {
             </section>
             <UserForm input={input} onChange={onChange} />
             <section className="mypage-btn">
-              <Button text={"저장"} />
+              <Button text={savingProfile ? "저장 중..." : "저장"} onClick={handleProfileSaveClick} disabled={savingProfile} />
             </section>
           </div>
         )}
@@ -159,7 +194,7 @@ const Mypage = () => {
               selectedOptions={selectedLivingInfo} // 선택된 생활정보 전달
             />
             <section>
-              <Button text={"저장"} onClick={handleSaveClick} />
+              <Button text={savingLivingInfo ? "저장 중..." : "저장"} onClick={handleLivingSaveClick} disabled={savingLivingInfo} />
             </section>
           </div>
         )}
