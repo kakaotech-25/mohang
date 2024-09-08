@@ -31,11 +31,16 @@ import moheng.trip.exception.NoExistRecommendTripStrategyException;
 import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Stream;
 
 public class TripServiceTest extends ServiceTestConfig {
     private static final long HIGHEST_PRIORITY_RANK = 1L;
@@ -148,12 +153,13 @@ public class TripServiceTest extends ServiceTestConfig {
     }
 
     @DisplayName("방문 수 기준 상위 여행지들을 내림차순으로 조회한다.")
-    @Test
-    void 방문_수_기준_상위_여행지들을_내림차순으로_조회한다() {
+    @ParameterizedTest
+    @MethodSource("여행지를_찾는다")
+    void 방문_수_기준_상위_여행지들을_내림차순으로_조회한다(List<Trip> trips, List<String> expectedTripNames) {
         // given
-        tripService.save(new Trip("여행지1", "서울", 1L, "설명", "https://image.png", 0L));
-        tripService.save(new Trip("여행지2", "서울", 2L, "설명", "https://image.png", 2L));
-        tripService.save(new Trip("여행지3", "서울", 3L, "설명", "https://image.png", 1L));
+        for (Trip trip : trips) {
+            tripService.save(trip);
+        }
 
         keywordRepository.save(new Keyword("키워드1"));
         keywordRepository.save(new Keyword("키워드2"));
@@ -163,15 +169,29 @@ public class TripServiceTest extends ServiceTestConfig {
         tripKeywordRepository.save(new TripKeyword(tripService.findById(2L), keywordRepository.findById(2L).get()));
         tripKeywordRepository.save(new TripKeyword(tripService.findById(3L), keywordRepository.findById(3L).get()));
 
-        // when, then
+        // when
         FindTripsResponse response = tripService.findTop30OrderByVisitedCountDesc();
 
+        // then
         assertAll(() -> {
-            assertThat(response.getFindTripResponses().size()).isEqualTo(3);
-            assertThat(response.getFindTripResponses().get(0).getName()).isEqualTo("여행지2");
-            assertThat(response.getFindTripResponses().get(1).getName()).isEqualTo("여행지3");
-            assertThat(response.getFindTripResponses().get(2).getName()).isEqualTo("여행지1");
+            assertThat(response.getFindTripResponses().size()).isEqualTo(trips.size());
+            for (int i = 0; i < expectedTripNames.size(); i++) {
+                assertThat(response.getFindTripResponses().get(i).getName()).isEqualTo(expectedTripNames.get(i));
+            }
         });
+    }
+
+    static Stream<Arguments> 여행지를_찾는다() {
+        return Stream.of(
+                Arguments.of(
+                        List.of(
+                                new Trip("여행지1", "서울", 1L, "설명", "https://image.png", 0L),
+                                new Trip("여행지2", "서울", 2L, "설명", "https://image.png", 2L),
+                                new Trip("여행지3", "서울", 3L, "설명", "https://image.png", 1L)
+                        ),
+                        List.of("여행지2", "여행지3", "여행지1")
+                )
+        );
     }
 
     @DisplayName("현재 여행지를 비슷한 여행지 10개와 함께 조회한다.")

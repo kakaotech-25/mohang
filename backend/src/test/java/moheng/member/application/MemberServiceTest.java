@@ -5,11 +5,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
+import moheng.auth.application.AuthService;
 import moheng.auth.domain.oauth.Authority;
 import moheng.config.slice.ServiceTestConfig;
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.domain.repository.LiveInformationRepository;
+import moheng.liveinformation.domain.repository.MemberLiveInformationRepository;
 import moheng.liveinformation.exception.NoExistLiveInformationException;
+import moheng.member.domain.GenderType;
 import moheng.member.domain.Member;
 import moheng.member.domain.SocialType;
 import moheng.member.domain.repository.MemberRepository;
@@ -26,9 +29,17 @@ import moheng.trip.domain.Trip;
 import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 
 public class MemberServiceTest extends ServiceTestConfig {
@@ -46,6 +57,12 @@ public class MemberServiceTest extends ServiceTestConfig {
 
     @Autowired
     private RecommendTripRepository recommendTripRepository;
+
+    @Autowired
+    private AuthService authService;
+
+    @Autowired
+    private MemberLiveInformationRepository memberLiveInformationRepository;
 
     @DisplayName("회원을 저장한다.")
     @Test
@@ -274,15 +291,15 @@ public class MemberServiceTest extends ServiceTestConfig {
     }
 
     @DisplayName("회원이 선택한 관심 여행지 우선순위를 1위부터 시작하여 순차대로 저장한다.")
-    @Test
-    void 회원이_선택한_관심_여행지_우선순위를_1위부터_시작하여_순차대로_저장한다() {
+    @ParameterizedTest
+    @MethodSource("관심_여행지_랭크_값을_찾는다")
+    void 회원이_선택한_관심_여행지_우선순위를_1위부터_시작하여_순차대로_저장한다(long expectedRank) {
         // given
         memberService.save(하온_기존());
         long memberId = memberService.findByEmail(하온_이메일).getId();
 
-        for(long contentId=1; contentId<=5; contentId++) {
-            tripService.save(new Trip("롯데월드", "서울특별시 송파구", contentId,
-                    "설명", "https://image.com"));
+        for (long contentId = 1; contentId <= 5; contentId++) {
+            tripService.save(new Trip("롯데월드", "서울특별시 송파구", contentId, "설명", "https://image.com"));
         }
         SignUpInterestTripsRequest request = new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L));
 
@@ -291,10 +308,18 @@ public class MemberServiceTest extends ServiceTestConfig {
 
         // then
         assertAll(() -> {
-            for(long rank=1; rank<=5; rank++) {
-                assertEquals(recommendTripRepository.findById(rank).get().getRanking(), rank);
-            }
+            assertEquals(recommendTripRepository.findById(expectedRank).get().getRanking(), expectedRank);
         });
+    }
+
+    static Stream<Arguments> 관심_여행지_랭크_값을_찾는다() {
+        return Stream.of(
+                Arguments.of(1L),
+                Arguments.of(2L),
+                Arguments.of(3L),
+                Arguments.of(4L),
+                Arguments.of(5L)
+        );
     }
 
     @DisplayName("존재하지 않는 회원의 관심 여행지를 저장하면 예외가 발생한다.")
@@ -382,4 +407,123 @@ public class MemberServiceTest extends ServiceTestConfig {
         assertThatThrownBy(() -> memberService.signUpByInterestTrips(memberId, request))
                 .isInstanceOf(NoExistTripException.class);
     }
+
+    @DisplayName("소셜 로그인 후 최초 회원가입을 마친 멤버의 각 프로필 정보는 null 일 수 없다.")
+    @ParameterizedTest
+    @MethodSource("멤버의_프로필_정보를_찾는다")
+    void 소셜_로그인_후_최초_회원가입을_마친_멤버의_프로필_정보가_null_아님을_확인(Function<Member, Object> fieldExtractor) {
+        // given
+        authService.generateTokenWithCode("code", "KAKAO");
+        Member member = memberRepository.findByEmail("stub@kakao.com").get();
+        memberService.signUpByProfile(member.getId(), new SignUpProfileRequest("닉네임", LocalDate.of(2000, 1, 1), GenderType.MEN));
+        Member actual = memberRepository.findByEmail("stub@kakao.com").get();
+
+        // when
+        Object fieldValue = fieldExtractor.apply(actual);
+
+        // then
+        assertThat(fieldValue).isNotNull();
+    }
+
+    static Stream<Arguments> 멤버의_프로필_정보를_찾는다() {
+        return Stream.of(
+                Arguments.of((Function<Member, Object>) Member::getId),
+                Arguments.of((Function<Member, Object>) Member::getNickName),
+                Arguments.of((Function<Member, Object>) Member::getProfileImageUrl),
+                Arguments.of((Function<Member, Object>) Member::getSocialType),
+                Arguments.of((Function<Member, Object>) Member::getBirthday),
+                Arguments.of((Function<Member, Object>) Member::getGenderType)
+        );
+    }
+
+    @DisplayName("소셜 로그인 후 최초 회원가입을 마친 멤버의 프로필 정보와 생활정보와 관심 여행지 정보는 비어있을 수 없다.")
+    @ParameterizedTest
+    @MethodSource("멤버의_프로필_정보와_생활정보_및_관심_여행지_기댓값을_찾는다")
+    void 소셜_로그인_후_최초_회원가입을_마친_멤버의_프로필_정보와_생활정보와_관심_여행지_정보는_비어있을_수_없다(Function<Member, Object> fieldExtractor, int expectedLiveInfoSize, int expectedTripSize) {
+        // given
+        authService.generateTokenWithCode("code", "KAKAO");
+        Member member = memberRepository.findByEmail("stub@kakao.com").get();
+
+        // 프로필 회원가입
+        memberService.signUpByProfile(member.getId(), new SignUpProfileRequest("닉네임", LocalDate.of(2000, 1, 1), GenderType.MEN));
+
+        // 생활정보 회원가입
+        LiveInformation liveInformation1 = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        LiveInformation liveInformation2 = liveInformationRepository.save(new LiveInformation("생활정보2"));
+        SignUpLiveInfoRequest liveInfoRequest = new SignUpLiveInfoRequest(List.of(liveInformation1.getName(), liveInformation2.getName()));
+        memberService.signUpByLiveInfo(member.getId(), liveInfoRequest);
+
+        // 관심 여행지 회원가입
+        for (long contentId = 1; contentId <= 5; contentId++) {
+            tripService.save(new Trip("롯데월드", "서울특별시 송파구", contentId, "설명", "https://image.com"));
+        }
+        SignUpInterestTripsRequest interestTripsRequest = new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L));
+        memberService.signUpByInterestTrips(member.getId(), interestTripsRequest);
+
+        Member actual = memberRepository.findByEmail("stub@kakao.com").get();
+
+        // when
+        Object fieldValue = fieldExtractor.apply(actual);
+
+        // then
+        assertAll(() -> {
+            assertThat(fieldValue).isNotNull();
+            assertEquals(memberLiveInformationRepository.findLiveInformationsByMemberId(member.getId()).size(), expectedLiveInfoSize);
+            assertEquals(recommendTripRepository.findAllByMemberId(member.getId()).size(), expectedTripSize);
+        });
+    }
+
+    static Stream<Arguments> 멤버의_프로필_정보와_생활정보_및_관심_여행지_기댓값을_찾는다() {
+        return Stream.of(
+                Arguments.of((Function<Member, Object>) Member::getId, 2, 5),
+                Arguments.of((Function<Member, Object>) Member::getNickName, 2, 5),
+                Arguments.of((Function<Member, Object>) Member::getProfileImageUrl, 2, 5),
+                Arguments.of((Function<Member, Object>) Member::getSocialType, 2, 5),
+                Arguments.of((Function<Member, Object>) Member::getBirthday, 2, 5),
+                Arguments.of((Function<Member, Object>) Member::getGenderType, 2, 5)
+        );
+    }
+
+    @DisplayName("멤버의 프로필을 수정했을 때 멤버의 모든 프로필 정보는 null 일 수 없으며 생활정보는 변하지 않는다.")
+    @ParameterizedTest
+    @MethodSource("멤버의_프로필_정보와_생활정보_기댓값을_찾는다")
+    void 멤버의_프로필을_수정했을_때_멤버의_모든_프로필_정보는_null_일_수_없으며_멤버의_생활정보는_변하지_않는다(Function<Member, Object> fieldExtractor, int expectedLiveInfoSize) {
+        // given
+        authService.generateTokenWithCode("code", "KAKAO");
+        Member member = memberRepository.findByEmail("stub@kakao.com").get();
+
+        // 프로필 회원가입
+        memberService.signUpByProfile(member.getId(), new SignUpProfileRequest("닉네임", LocalDate.of(2000, 1, 1), GenderType.MEN));
+
+        // 생활정보 회원가입
+        LiveInformation liveInformation1 = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        LiveInformation liveInformation2 = liveInformationRepository.save(new LiveInformation("생활정보2"));
+        SignUpLiveInfoRequest liveInfoRequest = new SignUpLiveInfoRequest(List.of(liveInformation1.getName(), liveInformation2.getName()));
+        memberService.signUpByLiveInfo(member.getId(), liveInfoRequest);
+
+        // 프로필 수정
+        memberService.updateByProfile(member.getId(), new UpdateProfileRequest("수정된 닉네임", LocalDate.of(2000, 1, 1), GenderType.MEN, "profile img url"));
+
+        // then
+        Member actual = memberRepository.findByEmail("stub@kakao.com").get();
+        Object fieldValue = fieldExtractor.apply(actual);
+
+        // when, then
+        assertAll(() -> {
+            assertThat(fieldValue).isNotNull();
+            assertEquals(memberLiveInformationRepository.findLiveInformationsByMemberId(member.getId()).size(), expectedLiveInfoSize);
+        });
+    }
+
+    static Stream<Arguments> 멤버의_프로필_정보와_생활정보_기댓값을_찾는다() {
+        return Stream.of(
+                Arguments.of((Function<Member, Object>) Member::getId, 2),
+                Arguments.of((Function<Member, Object>) Member::getNickName, 2),
+                Arguments.of((Function<Member, Object>) Member::getProfileImageUrl, 2),
+                Arguments.of((Function<Member, Object>) Member::getSocialType, 2),
+                Arguments.of((Function<Member, Object>) Member::getBirthday, 2),
+                Arguments.of((Function<Member, Object>) Member::getGenderType, 2)
+        );
+    }
+
 }

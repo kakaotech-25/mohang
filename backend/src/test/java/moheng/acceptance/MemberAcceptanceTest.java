@@ -1,12 +1,11 @@
 package moheng.acceptance;
 
+import static moheng.acceptance.fixture.MemberAcceptanceFixture.*;
 import static moheng.acceptance.fixture.TripAcceptenceFixture.*;
 import static moheng.acceptance.fixture.LiveInfoAcceptenceFixture.*;
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.*;
 import static moheng.acceptance.fixture.HttpStatusAcceptenceFixture.상태코드_200이_반환된다;
-import static moheng.acceptance.fixture.MemberAcceptanceFixture.*;
 import static moheng.acceptance.fixture.HttpStatusAcceptenceFixture.*;
-import static moheng.acceptance.fixture.MemberAcceptanceFixture.프로필_정보로_회원가입을_한다;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -16,6 +15,7 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
 import moheng.auth.dto.AccessTokenResponse;
+import moheng.liveinformation.dto.FindMemberLiveInformationResponses;
 import moheng.member.dto.response.MemberResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -128,6 +128,59 @@ public class MemberAcceptanceTest extends AcceptanceTestConfig {
         // then
         assertAll(() -> {
             상태코드_204이_반환된다(resultResponse);
+        });
+    }
+
+    @DisplayName("소셜 로그인 후 최초 회원가입을 마친 멤버의 모든 프로필 정보는 null 일 수 없다.")
+    @Test
+    void 소셜_로그인_후_최초_회원가입을_마친_멤버의_모든_프로필_정보는_null_일_수_없다() {
+        // given, when
+        ExtractableResponse<Response> response = 자체_토큰을_생성한다("KAKAO", "authorization-code");
+        AccessTokenResponse accessTokenResponse = response.as(AccessTokenResponse.class);
+        프로필_정보로_회원가입을_한다(accessTokenResponse.getAccessToken());
+
+        // then
+        ExtractableResponse<Response> memberResponse = 회원_본인의_정보를_조회한다(accessTokenResponse.getAccessToken());
+        MemberResponse resultResponse = memberResponse.as(MemberResponse.class);
+
+        assertAll(() -> {
+            assertThat(resultResponse.getId()).isNotNull();
+            assertThat(resultResponse.getBirthday()).isNotNull();
+            assertThat(resultResponse.getNickname()).isNotNull();
+            assertThat(resultResponse.getProfileImageUrl()).isNotNull();
+            assertThat(resultResponse.getGenderType()).isNotNull();
+            assertThat(memberResponse.statusCode()).isEqualTo(200);
+        });
+    }
+
+    @DisplayName("소셜 로그인 후 최초 회원가입을 마친 멤버의 프로필 정보와 생활정보는 비어있을 수 없다.")
+    @Test
+    void 소셜_로그인_후_최초_회원가입을_마친_멤버의_프로필_정보와_생활정보는_비어있을_수_없다() {
+        // given
+        ExtractableResponse<Response> response = 자체_토큰을_생성한다("KAKAO", "authorization-code");
+        AccessTokenResponse accessTokenResponse = response.as(AccessTokenResponse.class);
+
+        생활정보를_생성한다("생활정보1"); 생활정보를_생성한다("생활정보2");
+        생활정보를_생성한다("생활정보3"); 생활정보를_생성한다("생활정보4"); 생활정보를_생성한다("생활정보5");
+
+        프로필_정보로_회원가입을_한다(accessTokenResponse.getAccessToken());
+        생활정보로_회원가입_한다(accessTokenResponse);
+
+        // when
+        ExtractableResponse<Response> memberResponse = 회원_본인의_정보를_조회한다(accessTokenResponse.getAccessToken());
+        MemberResponse profileResponse = memberResponse.as(MemberResponse.class);
+
+        ExtractableResponse<Response> liveInfoResponse = 멤버의_생활정보를_찾는다(accessTokenResponse);
+        FindMemberLiveInformationResponses memberLiveInformationResponses = liveInfoResponse.as(FindMemberLiveInformationResponses.class);
+
+        // then
+        assertAll(() -> {
+            assertThat(profileResponse.getId()).isNotNull();
+            assertThat(profileResponse.getBirthday()).isNotNull();
+            assertThat(profileResponse.getNickname()).isNotNull();
+            assertThat(profileResponse.getProfileImageUrl()).isNotNull();
+            assertThat(profileResponse.getGenderType()).isNotNull();
+            assertThat(memberLiveInformationResponses.getLiveInfoResponses()).hasSize(5);
         });
     }
 }

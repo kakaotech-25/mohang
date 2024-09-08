@@ -26,9 +26,13 @@ import moheng.trip.dto.TripKeywordCreateRequest;
 import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 
 public class KeywordServiceTest extends ServiceTestConfig {
@@ -221,29 +225,42 @@ public class KeywordServiceTest extends ServiceTestConfig {
     }
 
     @DisplayName("랜덤 키워드에 관련한 여행지를 상위 조회순으로 찾는다.")
-    @Test
-    void 랜덤_키워드에_관련한_여행지를_상위_조회순으로_찾는다() {
+    @ParameterizedTest
+    @MethodSource("여행지를_찾는다")
+    void 랜덤_키워드에_관련한_여행지를_상위_조회순으로_찾는다(List<Trip> trips, List<String> expectedTripNames) {
         // given
         keywordRepository.save(new Keyword("키워드1"));
 
-        tripService.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로1", 100L));
-        tripService.save(new Trip("여행지2", "장소명2", 2L, "설명2", "이미지 경로2", 300L));
-        tripService.save(new Trip("여행지3", "장소명3", 3L, "설명3", "이미지 경로3", 200L));
-
-        tripKeywordRepository.save(new TripKeyword(tripService.findById(1L), keywordRepository.findById(1L).get()));
-        tripKeywordRepository.save(new TripKeyword(tripService.findById(2L), keywordRepository.findById(1L).get()));
-        tripKeywordRepository.save(new TripKeyword(tripService.findById(3L), keywordRepository.findById(1L).get()));
+        for (final Trip trip : trips) {
+            tripRepository.save(trip);
+            tripKeywordRepository.save(new TripKeyword(trip, keywordRepository.findById(1L).get()));
+        }
 
         // when
         FindTripsWithRandomKeywordResponse response = keywordService.findRecommendTripsByRandomKeyword();
 
+        // then
         assertAll(() -> {
-            assertThat(response.getFindTripResponses()).hasSize(3);
-            assertThat(response.getFindTripResponses().get(0).getName()).isEqualTo("여행지2");
-            assertThat(response.getFindTripResponses().get(1).getName()).isEqualTo("여행지3");
-            assertThat(response.getFindTripResponses().get(2).getName()).isEqualTo("여행지1");
+            assertThat(response.getFindTripResponses()).hasSize(trips.size());
+            for (int i = 0; i < expectedTripNames.size(); i++) {
+                assertThat(response.getFindTripResponses().get(i).getName()).isEqualTo(expectedTripNames.get(i));
+            }
         });
     }
+
+    static Stream<Arguments> 여행지를_찾는다() {
+        return Stream.of(
+                Arguments.of(
+                        List.of(
+                                new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로1", 100L),
+                                new Trip("여행지2", "장소명2", 2L, "설명2", "이미지 경로2", 300L),
+                                new Trip("여행지3", "장소명3", 3L, "설명3", "이미지 경로3", 200L)
+                        ),
+                        List.of("여행지2", "여행지3", "여행지1")
+                )
+        );
+    }
+
 
     @DisplayName("랜덤 키워드로 여행지 리스트 조회시 각 여행지에 관련된 모든 키워드를 함께 조회한다.")
     @Test

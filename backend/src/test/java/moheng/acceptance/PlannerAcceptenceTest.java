@@ -2,7 +2,10 @@ package moheng.acceptance;
 
 import static moheng.acceptance.fixture.PlannerAcceptenceFixture.*;
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.자체_토큰을_생성한다;
+import static moheng.acceptance.fixture.PlannerAcceptenceFixture.플래너_여행지를_이름순으로_조회한다;
+import static moheng.acceptance.fixture.TripAcceptenceFixture.여행지를_생성한다;
 import static moheng.acceptance.fixture.TripScheduleAcceptenceTestFixture.플래너에_여행_일정을_생성한다;
+import static moheng.acceptance.fixture.TripScheduleAcceptenceTestFixture.플래너에_여행지를_담는다;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -18,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class PlannerAcceptenceTest extends AcceptanceTestConfig {
 
@@ -178,6 +182,39 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
         // then
         assertAll(() -> {
             assertThat(resultResponse.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+        });
+    }
+
+    @DisplayName("여행지를 삭제하면 그 안의 여행지들도 함께 삭제되고 상태코드 204를 리턴한다.")
+    @Test
+    void 여행지를_삭제하면_그_안의_여행지들도_함께_삭제되고_상태코드_204를_리턴한다() {
+        // given
+        ExtractableResponse<Response> loginResponse = 자체_토큰을_생성한다("KAKAO", "authorization-code");
+        AccessTokenResponse accessTokenResponse = loginResponse.as(AccessTokenResponse.class);
+
+        여행지를_생성한다("여행지1", 1L);
+        여행지를_생성한다("여행지2", 2L);
+
+        플래너에_여행_일정을_생성한다(
+                accessTokenResponse,
+                new CreateTripScheduleRequest("가 일정",
+                        LocalDate.of(2024, 1, 1),
+                        LocalDate.of(2030, 9, 10)
+                ));
+
+        플래너에_여행지를_담는다(accessTokenResponse, 1L, new AddTripOnScheduleRequests(List.of(1L)));
+        플래너에_여행지를_담는다(accessTokenResponse, 2L, new AddTripOnScheduleRequests(List.of(1L)));
+
+        // when
+        ExtractableResponse<Response> resultResponse = 여행_일정을_삭제한다(accessTokenResponse, 1L);
+
+        ExtractableResponse<Response> findPlannerTripsResponse = 플래너_여행지를_이름순으로_조회한다(accessTokenResponse);
+        FindPLannerOrderByNameResponse sizeResponse = findPlannerTripsResponse.as(FindPLannerOrderByNameResponse.class);
+
+        // then
+        assertAll(() -> {
+            assertThat(resultResponse.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+            assertThat(sizeResponse.getTripScheduleResponses().size()).isEqualTo(0);
         });
     }
 }
