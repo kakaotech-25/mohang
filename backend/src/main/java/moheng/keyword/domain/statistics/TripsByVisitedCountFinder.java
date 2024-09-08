@@ -1,5 +1,6 @@
-package moheng.keyword.domain;
+package moheng.keyword.domain.statistics;
 
+import moheng.keyword.domain.TripKeyword;
 import moheng.trip.domain.Trip;
 import org.springframework.stereotype.Component;
 

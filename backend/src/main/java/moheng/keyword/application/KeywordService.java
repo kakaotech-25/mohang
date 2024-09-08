@@ -1,7 +1,7 @@
 package moheng.keyword.application;
 
 import moheng.keyword.domain.Keyword;
-import moheng.keyword.domain.TripsByStatisticsFinder;
+import moheng.keyword.domain.statistics.TripsByStatisticsFinder;
 import moheng.keyword.domain.random.RandomKeywordGeneratable;
 import moheng.keyword.domain.repository.KeywordRepository;
 import moheng.keyword.domain.TripKeyword;

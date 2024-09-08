@@ -1,11 +1,9 @@
 package moheng.trip.infrastructure;
 
-import moheng.keyword.dto.TripContentIdsByKeywordResponse;
 import moheng.keyword.exception.InvalidAIServerException;
-import moheng.trip.domain.ExternalSimilarTripModelClient;
+import moheng.trip.domain.model.ExternalSimilarTripModelClient;
 import moheng.trip.dto.FindSimilarTripWithContentIdResponses;
 import moheng.trip.dto.SimilarTripRequests;
-import moheng.trip.dto.SimilarTripResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;

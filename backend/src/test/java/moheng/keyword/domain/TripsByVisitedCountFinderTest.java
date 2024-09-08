@@ -1,6 +1,5 @@
 package moheng.keyword.domain;
 
-import static moheng.fixture.MemberFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
@@ -8,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import moheng.config.slice.ServiceTestConfig;
 import moheng.keyword.domain.repository.KeywordRepository;
 import moheng.keyword.domain.repository.TripKeywordRepository;
+import moheng.keyword.domain.statistics.TripsByVisitedCountFinder;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.repository.TripRepository;
 import org.junit.jupiter.api.DisplayName;

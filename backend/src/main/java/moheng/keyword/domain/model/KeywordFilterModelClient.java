@@ -1,4 +1,4 @@
-package moheng.keyword.domain;
+package moheng.keyword.domain.model;
 
 import moheng.keyword.dto.TripContentIdsByKeywordResponse;
 import moheng.keyword.dto.TripRecommendByKeywordRequest;

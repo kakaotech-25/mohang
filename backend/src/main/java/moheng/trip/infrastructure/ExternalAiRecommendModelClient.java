@@ -1,7 +1,7 @@
 package moheng.trip.infrastructure;
 
 import moheng.keyword.exception.InvalidAIServerException;
-import moheng.trip.domain.ExternalRecommendModelClient;
+import moheng.trip.domain.model.ExternalRecommendModelClient;
 import moheng.trip.dto.RecommendTripsByVisitedLogsRequest;
 import moheng.trip.dto.RecommendTripsByVisitedLogsResponse;
 import moheng.trip.dto.RecommendTripsRequest;
