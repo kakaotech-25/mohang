@@ -4,6 +4,7 @@ package moheng.keyword.presentation;
 import moheng.auth.dto.Accessor;
 import moheng.auth.presentation.authentication.Authentication;
 import moheng.keyword.dto.FindAllKeywordResponses;
+import moheng.keyword.dto.FindTripsWithRandomKeywordResponse;
 import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
 import moheng.keyword.application.KeywordService;
@@ -45,7 +46,7 @@ public class KeywordController {
     }
 
     @GetMapping("/random/trip")
-    public ResponseEntity<FindTripsResponse> findTripsByRandomKeyword() {
+    public ResponseEntity<FindTripsWithRandomKeywordResponse> findTripsByRandomKeyword() {
         return ResponseEntity.ok(keywordService.findRecommendTripsByRandomKeyword());
     }
 }

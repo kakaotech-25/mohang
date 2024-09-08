@@ -7,6 +7,7 @@ import moheng.keyword.domain.repository.KeywordRepository;
 import moheng.keyword.domain.TripKeyword;
 import moheng.keyword.domain.repository.TripKeywordRepository;
 import moheng.keyword.dto.FindAllKeywordResponses;
+import moheng.keyword.dto.FindTripsWithRandomKeywordResponse;
 import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
 import moheng.keyword.exception.NoExistKeywordException;
@@ -82,21 +83,20 @@ public class KeywordService {
                 .collect(Collectors.toList());
     }
 
-    public FindTripsResponse findRecommendTripsByRandomKeyword() {
+    public FindTripsWithRandomKeywordResponse findRecommendTripsByRandomKeyword() {
         final Keyword randomKeyword = findRandomKeyword();
         final List<TripKeyword> tripKeywords = tripKeywordRepository.findTop30ByKeywordId(randomKeyword.getId());
         final List<Trip> topTrips = tripStatisticsFinder.findTripsWithVisitedCount(tripKeywords);
-        return new FindTripsResponse(extractTripKeywordsByTopTrips(topTrips, tripKeywords));
+        return new FindTripsWithRandomKeywordResponse(extractAllTripKeywordsByTopTrips(topTrips), randomKeyword);
     }
 
     private Keyword findRandomKeyword() {
         return randomKeywordGeneratable.generate();
     }
 
-    private List<TripKeyword> extractTripKeywordsByTopTrips(final List<Trip> topTrips, final List<TripKeyword> tripKeywords) {
+    private List<TripKeyword> extractAllTripKeywordsByTopTrips(final List<Trip> topTrips) {
         return topTrips.stream()
-                .flatMap(topTrip -> tripKeywords.stream()
-                        .filter(tripKeyword -> tripKeyword.getTrip().equals(topTrip)))
+                .flatMap(topTrip -> tripKeywordRepository.findByTrip(topTrip).stream())  // 여행지와 연관된 모든 키워드를 가져옴
                 .collect(Collectors.toList());
     }
 
