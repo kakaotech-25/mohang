@@ -3,8 +3,7 @@ package moheng.keyword.domain;
 import moheng.trip.domain.Trip;
 
 import java.util.List;
-import java.util.Map;
 
-public interface TripStatisticsFinder {
+public interface TripsByStatisticsFinder {
     List<Trip> findTripsWithVisitedCount(final List<TripKeyword> tripKeywords);
 }

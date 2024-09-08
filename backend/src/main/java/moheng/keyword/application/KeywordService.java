@@ -1,7 +1,7 @@
 package moheng.keyword.application;
 
 import moheng.keyword.domain.Keyword;
-import moheng.keyword.domain.TripStatisticsFinder;
+import moheng.keyword.domain.TripsByStatisticsFinder;
 import moheng.keyword.domain.random.RandomKeywordGeneratable;
 import moheng.keyword.domain.repository.KeywordRepository;
 import moheng.keyword.domain.TripKeyword;
@@ -18,16 +18,13 @@ import moheng.trip.domain.repository.TripRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.SecureRandom;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @Service
 public class KeywordService {
-    private final TripStatisticsFinder tripStatisticsFinder;
+    private final TripsByStatisticsFinder tripStatisticsFinder;
     private static final int RECOMMEND_BY_KEYWORD_TRIPS_COUNT = 30;
     private static final int TOP_TRIPS_COUNT = 30;
     private final RandomKeywordGeneratable randomKeywordGeneratable;
@@ -35,7 +32,7 @@ public class KeywordService {
     private final TripRepository tripRepository;
     private final TripKeywordRepository tripKeywordRepository;
 
-    public KeywordService(final TripStatisticsFinder tripStatisticsFinder,
+    public KeywordService(final TripsByStatisticsFinder tripStatisticsFinder,
                           final RandomKeywordGeneratable randomKeywordGeneratable,
                           final KeywordRepository keywordRepository,
                           final TripRepository tripRepository,

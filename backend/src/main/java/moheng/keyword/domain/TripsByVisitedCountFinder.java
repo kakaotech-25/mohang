@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
-public class TripVisitedCountFinder implements TripStatisticsFinder {
+public class TripsByVisitedCountFinder implements TripsByStatisticsFinder {
     private static final int TOP_TRIPS_COUNT = 30;
 
     public List<Trip> findTripsWithVisitedCount(final List<TripKeyword> tripKeywords) {
