@@ -1,12 +1,11 @@
 package moheng.acceptance;
 
+import static moheng.acceptance.fixture.MemberAcceptanceFixture.*;
 import static moheng.acceptance.fixture.TripAcceptenceFixture.*;
 import static moheng.acceptance.fixture.LiveInfoAcceptenceFixture.*;
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.*;
 import static moheng.acceptance.fixture.HttpStatusAcceptenceFixture.상태코드_200이_반환된다;
-import static moheng.acceptance.fixture.MemberAcceptanceFixture.*;
 import static moheng.acceptance.fixture.HttpStatusAcceptenceFixture.*;
-import static moheng.acceptance.fixture.MemberAcceptanceFixture.프로필_정보로_회원가입을_한다;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -128,6 +127,28 @@ public class MemberAcceptanceTest extends AcceptanceTestConfig {
         // then
         assertAll(() -> {
             상태코드_204이_반환된다(resultResponse);
+        });
+    }
+
+    @DisplayName("소셜 로그인 후 최초 회원가입을 마친 멤버의 모든 프로필 정보는 null 일 수 없다.")
+    @Test
+    void 소셜_로그인_후_최초_회원가입을_마친_멤버의_모든_프로필_정보는_null_일_수_없다() {
+        // given, when
+        ExtractableResponse<Response> response = 자체_토큰을_생성한다("KAKAO", "authorization-code");
+        AccessTokenResponse accessTokenResponse = response.as(AccessTokenResponse.class);
+        프로필_정보로_회원가입을_한다(accessTokenResponse.getAccessToken());
+
+        // then
+        ExtractableResponse<Response> memberResponse = 회원_본인의_정보를_조회한다(accessTokenResponse.getAccessToken());
+        MemberResponse resultResponse = memberResponse.as(MemberResponse.class);
+
+        assertAll(() -> {
+            assertThat(resultResponse.getId()).isNotNull();
+            assertThat(resultResponse.getBirthday()).isNotNull();
+            assertThat(resultResponse.getNickname()).isNotNull();
+            assertThat(resultResponse.getProfileImageUrl()).isNotNull();
+            assertThat(resultResponse.getGenderType()).isNotNull();
+            assertThat(memberResponse.statusCode()).isEqualTo(200);
         });
     }
 }
