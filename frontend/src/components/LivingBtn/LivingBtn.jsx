@@ -16,7 +16,7 @@ const LivingBtn = ({ onChangeSelection, selectedOptions = ["해당없음"] }) =>
     { img: livingimg2, text: "시각장애" },
     { img: livingimg3, text: "청각장애" },
     { img: livingimg4, text: "영유아가족" },
-    { img: livingimg5, text: "고령인" },
+    { img: livingimg5, text: "고령자" },
     { img: livingimg6, text: "해당없음" },
   ];
 
