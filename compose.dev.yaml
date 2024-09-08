@@ -17,8 +17,6 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile.dev
-    volumes:
-      - back-dir:/app
     networks:
       - moheng-network
     ports:
@@ -56,12 +54,6 @@ services:
     restart: always
 
 volumes:
-  back-dir:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ./backend
   front-dir:
     driver: local
     driver_opts:

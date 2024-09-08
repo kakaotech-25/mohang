@@ -24,10 +24,10 @@ FROM openjdk:22-slim
 
 WORKDIR /app
 
-ENV BUILD_DIR=/app/build/libs/
+ARG BUILDDIR=/app/build/libs/
 
 # 빌드된 결과물 복사
-COPY --from=build ${BUILD_DIR} ${BUILD_DIR}
+COPY --from=build ${BUILDDIR} ${WORKDIR}
 
 # 최소권한 설정 - 모행 유저
 RUN groupadd -r appgroup && useradd -r -g appgroup mohenguser \
@@ -37,4 +37,4 @@ RUN groupadd -r appgroup && useradd -r -g appgroup mohenguser \
 USER mohenguser
 
 # 추후 jar파일의 이름이 변경되어도 첫번째 행을 실행시키도록 함
-CMD ["sh", "-c", "java -jar ${BUILD_DIR}/*SNAPSHOT.jar"]
+CMD ["sh", "-c", "java -jar *SNAPSHOT.jar"]
