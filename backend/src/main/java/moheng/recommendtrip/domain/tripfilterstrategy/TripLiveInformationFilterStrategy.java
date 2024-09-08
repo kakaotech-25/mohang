@@ -3,7 +3,7 @@ package moheng.recommendtrip.domain.tripfilterstrategy;
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.domain.repository.LiveInformationRepository;
 import moheng.recommendtrip.domain.filterinfo.FilterStandardInfo;
-import moheng.trip.domain.ExternalSimilarTripModelClient;
+import moheng.trip.domain.model.ExternalSimilarTripModelClient;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.repository.TripRepository;
 import moheng.trip.dto.FindSimilarTripWithContentIdResponses;

@@ -1,8 +1,9 @@
-package moheng.recommendtrip.domain;
+package moheng.recommendtrip.domain.preferredlocation;
 
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
+import moheng.recommendtrip.domain.RecommendTrip;
 import moheng.recommendtrip.domain.repository.RecommendTripRepository;
 import moheng.recommendtrip.exception.LackOfRecommendTripException;
 import moheng.recommendtrip.exception.NoExistMemberTripException;
@@ -18,20 +19,21 @@ import java.util.Map;
 
 @Transactional(readOnly = true)
 @Component
-public class PreferredLocationsFinder {
+public class PreferredLocationsByFilterFinder implements PreferredLocationsFinder {
     private static final int MIN_RECOMMEND_TRIPS_COUNT = 5;
     private final MemberRepository memberRepository;
     private final RecommendTripRepository recommendTripRepository;
     private final MemberTripRepository memberTripRepository;
 
-    public PreferredLocationsFinder(final MemberRepository memberRepository,
-                                    final RecommendTripRepository recommendTripRepository,
-                                    final MemberTripRepository memberTripRepository) {
+    public PreferredLocationsByFilterFinder(final MemberRepository memberRepository,
+                                            final RecommendTripRepository recommendTripRepository,
+                                            final MemberTripRepository memberTripRepository) {
         this.memberRepository = memberRepository;
         this.recommendTripRepository = recommendTripRepository;
         this.memberTripRepository = memberTripRepository;
     }
 
+    @Override
     public Map<Long, Long> findPreferredLocations(final long memberId) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoExistMemberException::new);

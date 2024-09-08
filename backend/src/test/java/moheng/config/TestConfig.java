@@ -5,9 +5,9 @@ import moheng.config.stub.StubKakaoOAuthClientProvider;
 import moheng.config.stub.StubKeywordFilterModelClient;
 import moheng.config.stub.StubRecommendTripModelClient;
 import moheng.config.stub.StubSimilarTripModelClient;
-import moheng.keyword.domain.KeywordFilterModelClient;
-import moheng.trip.domain.ExternalRecommendModelClient;
-import moheng.trip.domain.ExternalSimilarTripModelClient;
+import moheng.keyword.domain.model.KeywordFilterModelClient;
+import moheng.trip.domain.model.ExternalRecommendModelClient;
+import moheng.trip.domain.model.ExternalSimilarTripModelClient;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 

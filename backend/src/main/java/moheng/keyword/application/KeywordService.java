@@ -1,11 +1,13 @@
 package moheng.keyword.application;
 
 import moheng.keyword.domain.Keyword;
+import moheng.keyword.domain.statistics.TripsByStatisticsFinder;
 import moheng.keyword.domain.random.RandomKeywordGeneratable;
 import moheng.keyword.domain.repository.KeywordRepository;
 import moheng.keyword.domain.TripKeyword;
 import moheng.keyword.domain.repository.TripKeywordRepository;
 import moheng.keyword.dto.FindAllKeywordResponses;
+import moheng.keyword.dto.FindTripsWithRandomKeywordResponse;
 import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
 import moheng.keyword.exception.NoExistKeywordException;
@@ -17,26 +19,25 @@ import moheng.trip.domain.repository.TripRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.SecureRandom;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @Service
 public class KeywordService {
+    private final TripsByStatisticsFinder tripsByStatisticsFinder;
     private static final int RECOMMEND_BY_KEYWORD_TRIPS_COUNT = 30;
-    private static final int TOP_TRIPS_COUNT = 30;
     private final RandomKeywordGeneratable randomKeywordGeneratable;
     private final KeywordRepository keywordRepository;
     private final TripRepository tripRepository;
     private final TripKeywordRepository tripKeywordRepository;
 
-    public KeywordService(final RandomKeywordGeneratable randomKeywordGeneratable,
+    public KeywordService(final TripsByStatisticsFinder tripsByStatisticsFinder,
+                          final RandomKeywordGeneratable randomKeywordGeneratable,
                           final KeywordRepository keywordRepository,
                           final TripRepository tripRepository,
                           final TripKeywordRepository tripKeywordRepository) {
+        this.tripsByStatisticsFinder = tripsByStatisticsFinder;
         this.randomKeywordGeneratable = randomKeywordGeneratable;
         this.keywordRepository = keywordRepository;
         this.tripRepository = tripRepository;
@@ -81,39 +82,16 @@ public class KeywordService {
                 .collect(Collectors.toList());
     }
 
-    public FindTripsResponse findRecommendTripsByRandomKeyword() {
-        final Keyword randomKeyword = findRandomKeyword();
-        final List<TripKeyword> tripKeywords = tripKeywordRepository.findTripKeywordsByKeywordId(randomKeyword.getId());
-        final Map<Trip, Long> tripsWithVisitedCount = findTripsWithVisitedCount(tripKeywords);
-        final List<Trip> topTrips = findTopTripsByVisitedCount(tripsWithVisitedCount);
-        return new FindTripsResponse(extractTripKeywordsByTopTrips(topTrips, tripKeywords));
+    public FindTripsWithRandomKeywordResponse findRecommendTripsByRandomKeyword() {
+        final Keyword randomKeyword = randomKeywordGeneratable.generate();
+        final List<TripKeyword> tripKeywords = tripKeywordRepository.findTop30ByKeywordId(randomKeyword.getId());
+        final List<Trip> topTrips = tripsByStatisticsFinder.findTripsWithVisitedCount(tripKeywords);
+        return new FindTripsWithRandomKeywordResponse(extractAllTripKeywordsByTopTrips(topTrips), randomKeyword);
     }
 
-    private Keyword findRandomKeyword() {
-        return randomKeywordGeneratable.generate();
-    }
-
-    private Map<Trip, Long> findTripsWithVisitedCount(final List<TripKeyword> tripKeywords) {
-        final Map<Trip, Long> tripClickCounts = new HashMap<>();
-        for (TripKeyword tripKeyword : tripKeywords) {
-            final Trip trip = tripKeyword.getTrip();
-            tripClickCounts.put(tripKeyword.getTrip(), trip.getVisitedCount());
-        }
-        return tripClickCounts;
-    }
-
-    private List<Trip> findTopTripsByVisitedCount(final Map<Trip, Long> tripsWithVisitedCount) {
-        return tripsWithVisitedCount.entrySet().stream()
-                .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()))
-                .limit(TOP_TRIPS_COUNT)
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
-    }
-
-    private List<TripKeyword> extractTripKeywordsByTopTrips(final List<Trip> topTrips, final List<TripKeyword> tripKeywords) {
+    private List<TripKeyword> extractAllTripKeywordsByTopTrips(final List<Trip> topTrips) {
         return topTrips.stream()
-                .flatMap(topTrip -> tripKeywords.stream()
-                        .filter(tripKeyword -> tripKeyword.getTrip().equals(topTrip)))
+                .flatMap(topTrip -> tripKeywordRepository.findByTrip(topTrip).stream())
                 .collect(Collectors.toList());
     }
 

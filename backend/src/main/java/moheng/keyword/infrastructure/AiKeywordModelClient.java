@@ -3,7 +3,7 @@ package moheng.keyword.infrastructure;
 import moheng.keyword.dto.TripContentIdsByKeywordResponse;
 import moheng.keyword.exception.InvalidAIServerException;
 import moheng.keyword.dto.TripRecommendByKeywordRequest;
-import moheng.keyword.domain.KeywordFilterModelClient;
+import moheng.keyword.domain.model.KeywordFilterModelClient;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;

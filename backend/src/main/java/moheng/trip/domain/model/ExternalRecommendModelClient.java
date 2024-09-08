@@ -1,4 +1,4 @@
-package moheng.trip.domain;
+package moheng.trip.domain.model;
 
 import moheng.trip.dto.RecommendTripsByVisitedLogsRequest;
 import moheng.trip.dto.RecommendTripsByVisitedLogsResponse;

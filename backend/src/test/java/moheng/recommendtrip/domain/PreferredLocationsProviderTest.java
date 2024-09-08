@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import moheng.config.slice.ServiceTestConfig;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
+import moheng.recommendtrip.domain.preferredlocation.PreferredLocationsByFilterFinder;
 import moheng.recommendtrip.domain.repository.RecommendTripRepository;
 import moheng.recommendtrip.exception.LackOfRecommendTripException;
 import moheng.trip.domain.MemberTrip;
@@ -19,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class PreferredLocationsProviderTest extends ServiceTestConfig {
     @Autowired
-    private PreferredLocationsFinder preferredLocationsProvider;
+    private PreferredLocationsByFilterFinder preferredLocationsProvider;
 
     @Autowired
     private MemberRepository memberRepository;

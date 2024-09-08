@@ -41,7 +41,7 @@ public class TripDevApplicationRunner implements ApplicationRunner {
             tripRunners.addAll(findTripRunnersByResource(resource1, objectMapper));
             tripRunners.addAll(findTripRunnersByResource(resource2, objectMapper));
 
-            String sql = "INSERT INTO trip (name, place_name, content_id, description, trip_image_url, coordinate_x, coordinate_y, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO trip (name, place_name, content_id, description, trip_image_url, visited_count, coordinate_x, coordinate_y, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             List<Object[]> batchArgs = new ArrayList<>();
             for (final TripRunner tripRunner : tripRunners) {
@@ -51,6 +51,7 @@ public class TripDevApplicationRunner implements ApplicationRunner {
                         tripRunner.getContentid(),
                         tripRunner.getOverview(),
                         tripRunner.getFirstimage(),
+                        0L,
                         tripRunner.getMapx(),
                         tripRunner.getMapy(),
                         LocalDate.now(),
