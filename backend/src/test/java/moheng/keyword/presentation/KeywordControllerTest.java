@@ -236,6 +236,7 @@ public class KeywordControllerTest extends ControllerTestConfig {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         responseFields(
+                                fieldWithPath("keywordName").description("랜덤으로 선택된 현재 키워드 이름"),
                                 fieldWithPath("findTripResponses").description("여행지 리스트"),
                                 fieldWithPath("findTripResponses[].name").description("세부 여행지 이름"),
                                 fieldWithPath("findTripResponses[].placeName").description("세부 여행지 장소명"),
