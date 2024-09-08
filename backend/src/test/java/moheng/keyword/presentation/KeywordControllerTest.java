@@ -224,7 +224,7 @@ public class KeywordControllerTest extends ControllerTestConfig {
     void 무작위_랜덤_키워드로_추천_여행지를_찾고_상태코드_200을_리턴한다() throws Exception {
         // given
         given(keywordService.findRecommendTripsByRandomKeyword())
-                .willReturn(키워드_기반_추천_여행지_응답());
+                .willReturn(랜덤_키워드_기반_추천_여행지_응답());
 
         // when, then
         mockMvc.perform(get("/api/keyword/random/trip")

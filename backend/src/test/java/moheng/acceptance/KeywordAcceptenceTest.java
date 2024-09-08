@@ -15,6 +15,7 @@ import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
 import moheng.auth.dto.AccessTokenResponse;
 import moheng.keyword.dto.FindAllKeywordResponses;
+import moheng.keyword.dto.FindTripsWithRandomKeywordResponse;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
 import moheng.trip.dto.FindTripsResponse;
 import org.junit.jupiter.api.DisplayName;
@@ -95,7 +96,7 @@ public class KeywordAcceptenceTest extends AcceptanceTestConfig {
 
         // when
         ExtractableResponse<Response> recommendResponse = 랜덤_키워드_리스트로_여행지를_추천받는다();
-        FindTripsResponse responseResult = recommendResponse.as(FindTripsResponse.class);
+        FindTripsWithRandomKeywordResponse responseResult = recommendResponse.as(FindTripsWithRandomKeywordResponse.class);
 
         // then
         assertAll(() -> {
