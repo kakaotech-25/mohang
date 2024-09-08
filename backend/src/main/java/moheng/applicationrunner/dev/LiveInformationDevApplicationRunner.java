@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Order(3)
+@Order(2)
 @Component
 public class LiveInformationDevApplicationRunner implements ApplicationRunner {
     private final TripRepository tripRepository;

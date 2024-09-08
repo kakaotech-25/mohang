@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Order(4)
+@Order(3)
 @Component
 public class KeywordDevApplicationRunner implements ApplicationRunner {
     private final KeywordRepository keywordRepository;
