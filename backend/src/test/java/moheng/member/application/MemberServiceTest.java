@@ -456,4 +456,40 @@ public class MemberServiceTest extends ServiceTestConfig {
             assertEquals(recommendTripRepository.findAllByMemberId(member.getId()).size(), 5);
         });
     }
+
+    @DisplayName("멤버의 프로필을 수정했을 떄 멤버의 모든 프로필 정보는 null 일 수 없으며 생활정보는 변하지 않는다.")
+    @Test
+    void 멤버의_프로필을_수정했을_떄_멤버의_모든_프로필_정보는_null_일_수_없으며_멤버의_생활정보는_변하지_않는다() {
+        // given
+        authService.generateTokenWithCode("code", "KAKAO");
+        Member member = memberRepository.findByEmail("stub@kakao.com").get();
+
+        // 프로필 회원가입
+        memberService.signUpByProfile(member.getId(), new SignUpProfileRequest("닉네임", LocalDate.of(2000, 1, 1), GenderType.MEN));
+
+        // 생활정보 회원가입
+        LiveInformation liveInformation1 = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        LiveInformation liveInformation2 = liveInformationRepository.save(new LiveInformation("생활정보2"));
+        SignUpLiveInfoRequest liveInfoRequest = new SignUpLiveInfoRequest(List.of(liveInformation1.getName(), liveInformation2.getName()));
+        memberService.signUpByLiveInfo(member.getId(), liveInfoRequest);
+
+        // when
+        memberService.updateByProfile(member.getId(), new UpdateProfileRequest("수정된 닉네임", LocalDate.of(2000, 1, 1), GenderType.MEN, "profile img url"));
+
+        // then
+        Member actual = memberRepository.findByEmail("stub@kakao.com").get();
+
+        assertAll(() -> {
+            // 프로필 검증
+            assertThat(actual.getId()).isNotNull();
+            assertThat(actual.getNickName()).isNotNull();
+            assertThat(actual.getProfileImageUrl()).isNotNull();
+            assertThat(actual.getSocialType()).isNotNull();
+            assertThat(actual.getBirthday()).isNotNull();
+            assertThat(actual.getGenderType()).isNotNull();
+
+            // 생활정보 검증
+            assertEquals(memberLiveInformationRepository.findLiveInformationsByMemberId(member.getId()).size(), 2L);
+        });
+    }
 }
