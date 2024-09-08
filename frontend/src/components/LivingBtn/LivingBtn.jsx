@@ -8,8 +8,10 @@ import livingimg5 from "../../assets/senior.png";
 import livingimg6 from "../../assets/nothing.png";
 
 // LivingBtn 컴포넌트
-const LivingBtn = ({ onChangeSelection, selectedOptions = ["해당없음"] }) => {
-  const [selectedLivingOptions, setSelectedLivingOptions] = useState(selectedOptions);
+const LivingBtn = ({ onChangeSelection, selectedOptions }) => {
+  const [selectedLivingOptions, setSelectedLivingOptions] = useState(
+    selectedOptions.length > 0 ? selectedOptions : ["해당없음"]
+  );
 
   const livingOptions = [
     { img: livingimg1, text: "지체장애" },
@@ -20,12 +22,15 @@ const LivingBtn = ({ onChangeSelection, selectedOptions = ["해당없음"] }) =>
     { img: livingimg6, text: "해당없음" },
   ];
 
+  // 선택 핸들러
   const handleSelect = (text) => {
     if (text === "해당없음") {
       setSelectedLivingOptions(["해당없음"]);
     } else {
       setSelectedLivingOptions((prevOptions) => {
-        const updatedOptions = prevOptions.filter((option) => option !== "해당없음");
+        const updatedOptions = prevOptions.filter(
+          (option) => option !== "해당없음"
+        );
         if (updatedOptions.includes(text)) {
           return updatedOptions.filter((option) => option !== text);
         } else {
@@ -35,25 +40,35 @@ const LivingBtn = ({ onChangeSelection, selectedOptions = ["해당없음"] }) =>
     }
   };
 
+  // 최초 렌더링 시 selectedOptions로 초기화
+  useEffect(() => {
+    if (selectedOptions && selectedOptions.length > 0) {
+      setSelectedLivingOptions(selectedOptions);
+    }
+  }, [selectedOptions]);
+
   // 부모 컴포넌트로 선택된 옵션 전달
   useEffect(() => {
-    if (selectedLivingOptions.length === 0) {
-      setSelectedLivingOptions(["해당없음"]);
+    if (onChangeSelection) {
+      onChangeSelection(selectedLivingOptions);
     }
-    onChangeSelection(selectedLivingOptions);
-  }, [selectedLivingOptions, onChangeSelection]);
+  }, [selectedLivingOptions]);  // 의존성 배열에 onChangeSelection을 포함하지 않음
 
   return (
     <section className="livingbtns">
       {livingOptions.map((option) => (
         <div
           key={option.text}
-          className={`living-btn ${selectedLivingOptions.includes(option.text) ? "selected" : ""}`}
+          className={`living-btn ${
+            selectedLivingOptions.includes(option.text) ? "selected" : ""
+          }`}
           onClick={() => handleSelect(option.text)}
         >
           <img src={option.img} className="living-img" alt={option.text} />
           <div className="living-text">{option.text}</div>
-          {selectedLivingOptions.includes(option.text) && <div className="living-checkmark">✔️</div>}
+          {selectedLivingOptions.includes(option.text) && (
+            <div className="living-checkmark">✔️</div>
+          )}
         </div>
       ))}
     </section>
