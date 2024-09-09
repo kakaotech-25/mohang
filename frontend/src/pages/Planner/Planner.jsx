@@ -79,7 +79,26 @@ const Planner = () => {
         console.error('일정 추가 중 오류 발생:', error);
       }
     } else if (modalMode === 'edit') {
-      console.log('수정된 일정:', newPlan);
+      // 수정 로직 추가
+      try {
+        const response = await axiosInstance.put('/planner/schedule', {
+          scheduleId: selectedPlan.scheduleId, // 선택한 일정의 ID
+          scheduleName: newPlan.title, // 수정된 일정 이름
+          startDate: newPlan.startTime, // 수정된 시작 날짜
+          endDate: newPlan.endTime, // 수정된 종료 날짜
+        });
+
+        if (response.status === 204) {
+          console.log('일정 수정 성공');
+          fetchPlans(sortCriteria); // 수정 후 목록 갱신
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 400) {
+          console.error('수정 중 오류 발생: ', error.response.data.message);
+        } else {
+          console.error('일정 수정 중 오류 발생:', error);
+        }
+      }
     }
     setIsModalOpen(false);
   };
