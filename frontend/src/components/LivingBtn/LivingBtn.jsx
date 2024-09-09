@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./LivingBtn.css";
-import livingimg1 from "../../assets/physical.png";
-import livingimg2 from "../../assets/visual.png";
-import livingimg3 from "../../assets/hearing.png";
-import livingimg4 from "../../assets/infants.png";
-import livingimg5 from "../../assets/senior.png";
-import livingimg6 from "../../assets/nothing.png";
+import physical_img from "../../assets/physical.png";
+import visual_img from "../../assets/visual.png";
+import hearing_img from "../../assets/hearing.png";
+import infants_img from "../../assets/infants.png";
+import senior_img from "../../assets/senior.png";
+import nothing_img from "../../assets/nothing.png";
 
 // LivingBtn 컴포넌트
 const LivingBtn = ({ onChangeSelection, selectedOptions }) => {
@@ -14,12 +14,12 @@ const LivingBtn = ({ onChangeSelection, selectedOptions }) => {
   );
 
   const livingOptions = [
-    { img: livingimg1, text: "지체장애" },
-    { img: livingimg2, text: "시각장애" },
-    { img: livingimg3, text: "청각장애" },
-    { img: livingimg4, text: "영유아가족" },
-    { img: livingimg5, text: "고령자" },
-    { img: livingimg6, text: "해당없음" },
+    { img: physical_img, text: "지체장애" },
+    { img: visual_img, text: "시각장애" },
+    { img: hearing_img, text: "청각장애" },
+    { img: infants_img, text: "영유아가족" },
+    { img: senior_img, text: "고령자" },
+    { img: nothing_img, text: "해당없음" },
   ];
 
   // 선택 핸들러
