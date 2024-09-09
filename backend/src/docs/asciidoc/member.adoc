@@ -27,6 +27,28 @@ include::{snippets}/member/find/authority/profile/success/init/http-response.ado
 
 include::{snippets}/member/find/authority/profile/success/init/response-fields.adoc[]
 
+=== 회원 권한과 프로필 이미지 경로 찾는 API (권한: 정규 유저)
+
+==== HTTP Request
+
+include::{snippets}/member/find/authority/profile/success/regular/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/member/find/authority/profile/success/regular/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/member/find/authority/profile/success/regular/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/member/find/authority/profile/success/regular/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/member/find/authority/profile/success/regular/response-fields.adoc[]
+
 === 회원 정보 조회(마이페이지) API
 
 ==== HTTP Request
