@@ -22,15 +22,16 @@ const Planner = () => {
 
   const fetchPlans = async (criteria) => {
     setLoading(true);
-    let url = '';
-    if (criteria === 'newest') {
-      url = '/planner/recent';
-    } else if (criteria === 'name') {
-      url = '/planner/name';
-    } else if (criteria === 'date') {
-      url = '/planner/date';
-    }
 
+    if (criteria === 'newest') return getPlans('/planner/recent');
+    if (criteria === 'name') return getPlans('/planner/name');
+    if (criteria === 'date') return getPlans('/planner/date');
+
+    console.error('Unknown sort criteria:', criteria);
+    setLoading(false);
+  };
+
+  const getPlans = async (url) => {
     try {
       const response = await axiosInstance.get(url);
       setPlans(response.data.tripScheduleResponses);
@@ -58,63 +59,58 @@ const Planner = () => {
     setIsModalOpen(true);
   };
 
-  // 삭제 로직 추가
   const handleDelete = async (id) => {
     try {
       const response = await axiosInstance.delete(`/planner/schedule/${id}`);
-      
       if (response.status === 204) {
         console.log(`일정 삭제 성공: ${id}`);
-        fetchPlans(sortCriteria); // 삭제 후 목록 갱신
+        fetchPlans(sortCriteria);
+        return;
       }
     } catch (error) {
       if (error.response && error.response.status === 404) {
         console.error('삭제 중 오류 발생: ', error.response.data.message);
-      } else {
-        console.error('일정 삭제 중 오류 발생:', error);
+        return;
       }
+      console.error('일정 삭제 중 오류 발생:', error);
     }
   };
 
   const handleSave = async (newPlan) => {
-    if (modalMode === 'add') {
-      try {
-        const response = await axiosInstance.post('/schedule', {
-          scheduleName: newPlan.title,
-          startDate: newPlan.startTime, // 전달된 startTime
-          endDate: newPlan.endTime,     // 전달된 endTime
-        });
+    if (!newPlan) return;
 
+    const payload = {
+      scheduleName: newPlan.title,
+      startDate: newPlan.startTime,
+      endDate: newPlan.endTime,
+    };
+
+    try {
+      if (modalMode === 'add') {
+        const response = await axiosInstance.post('/schedule', payload);
         if (response.status === 204 || response.status === 201) {
           console.log('새 일정 추가 성공');
-          fetchPlans(sortCriteria); // 새 일정 추가 후 리스트 갱신
+          fetchPlans(sortCriteria);
+          return;
         }
-      } catch (error) {
-        console.error('일정 추가 중 오류 발생:', error);
       }
-    } else if (modalMode === 'edit') {
-      // 수정 로직 추가
-      try {
-        const response = await axiosInstance.put('/planner/schedule', {
-          scheduleId: selectedPlan.scheduleId, // 선택한 일정의 ID
-          scheduleName: newPlan.title, // 수정된 일정 이름
-          startDate: newPlan.startTime, // 수정된 시작 날짜
-          endDate: newPlan.endTime, // 수정된 종료 날짜
-        });
 
+      if (modalMode === 'edit') {
+        const response = await axiosInstance.put('/planner/schedule', {
+          ...payload,
+          scheduleId: selectedPlan.scheduleId,
+        });
         if (response.status === 204) {
           console.log('일정 수정 성공');
-          fetchPlans(sortCriteria); // 수정 후 목록 갱신
-        }
-      } catch (error) {
-        if (error.response && error.response.status === 400) {
-          console.error('수정 중 오류 발생: ', error.response.data.message);
-        } else {
-          console.error('일정 수정 중 오류 발생:', error);
+          fetchPlans(sortCriteria);
+          return;
         }
       }
+    } catch (error) {
+      console.error('일정 저장 중 오류 발생:', error);
+    } finally {
+      setIsModalOpen(false);
     }
-    setIsModalOpen(false);
   };
 
   const handleSort = (criteria) => {
