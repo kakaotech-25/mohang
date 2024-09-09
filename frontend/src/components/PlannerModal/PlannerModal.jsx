@@ -26,20 +26,23 @@ const PlannerModal = ({ isOpen, mode, title, plan, onClose, onSave }) => {
     }
   }, [mode, plan]);
 
-  const formatDate = (date) => {
+  // 날짜 형식을 yyyy-MM-dd로 변환하는 함수
+  const formatLocalDate = (date) => {
     return date
-      ? date.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' })
-          .replace(/\./g, '')
-          .replace(/\s/g, '.')
+      ? `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
       : '';
   };
 
   const handleSave = () => {
     if (startDate && endDate) {
-      onSave({ 
-        ...currentPlan, 
-        startTime: startDate.toISOString().split('T')[0], 
-        endTime: endDate.toISOString().split('T')[0], 
+      // toISOString() 대신 로컬 날짜 형식으로 저장
+      const formattedStartDate = formatLocalDate(startDate);
+      const formattedEndDate = formatLocalDate(endDate);
+
+      onSave({
+        ...currentPlan,
+        startTime: formattedStartDate, // 로컬 시간대의 시작 날짜
+        endTime: formattedEndDate,     // 로컬 시간대의 종료 날짜
       });
       onClose();
     }
@@ -69,7 +72,7 @@ const PlannerModal = ({ isOpen, mode, title, plan, onClose, onSave }) => {
                 name="period"
                 value={
                   startDate && endDate
-                    ? `${formatDate(startDate)} ~ ${formatDate(endDate)}`
+                    ? `${formatLocalDate(startDate)} ~ ${formatLocalDate(endDate)}`
                     : ''
                 }
                 readOnly
