@@ -61,7 +61,7 @@ const Landing = () => {
       <section className='keyword-recommendation'>
         <div className='carousel-description'>
           {/* keyword 상태를 사용하여 키워드 표시 */}
-          <span className="keyword-highlight">#{keyword}</span>로 추천하는 여행지
+          <span className="keyword-highlight">#{keyword}</span> 키워드로 추천하는 여행지
         </div>
         {/* TravelCarousel에 tripList 데이터 전달 */}
         <TravelCarousel cards={tripList} />
