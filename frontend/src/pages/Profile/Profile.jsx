@@ -112,7 +112,7 @@ const Profile = () => {
       <ProfileInfo text={"회원가입을 위해 프로필 정보를 입력해주세요."} src={progressbar} />
 
       <section className="profile-body">
-        <UserForm input={input} onChange={onChange} setIsNameValid={setIsNameValid} />
+        <UserForm input={input} onChange={onChange} setIsNameValid={setIsNameValid} showNicknameCheck={true} />
 
         <section className="profile-btn">
           <Button

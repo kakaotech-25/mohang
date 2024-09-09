@@ -3,7 +3,7 @@ import Button from "../../components/Button/Button";
 import './UserForm.css';
 import axiosInstance from "../../pages/Login/axiosInstance";
 
-const UserForm = ({ input, onChange, setIsNameValid }) => {
+const UserForm = ({ input, onChange, setIsNameValid, showNicknameCheck }) => {
   const [loading, setLoading] = useState(false); // 중복 검사 요청 상태
 
   const checkNickname = async () => {
@@ -44,13 +44,15 @@ const UserForm = ({ input, onChange, setIsNameValid }) => {
           onChange={onChange}
           placeholder="닉네임을 입력하세요."
         />
-        <div className="nickname-button">
-          <Button
-            text={loading ? "검사 중..." : "중복 검사"}
-            onClick={checkNickname}
-            disabled={loading} // 검사 중에는 버튼 비활성화
-          />
-        </div>
+        {showNicknameCheck && (
+          <div className="nickname-button">
+            <Button
+              text={loading ? "검사 중..." : "중복 검사"}
+              onClick={checkNickname}
+              disabled={loading} // 검사 중에는 버튼 비활성화
+            />
+          </div>
+        )}
       </section>
 
       <section className="birth">
