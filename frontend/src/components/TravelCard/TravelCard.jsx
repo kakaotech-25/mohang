@@ -1,6 +1,6 @@
 import './TravelCard.css';
 
-const TravelCard = ({ image, tags, title, location, isSelected, onClick }) => {
+const TravelCard = ({ image, tags = [], title, location, isSelected, onClick }) => {  // 기본값 추가
   const formatLocation = (location) => {
     const parts = location.split(' ');
     return parts.slice(0, 2).join(' '); // 주소에서 구까지만
