@@ -540,4 +540,17 @@ public class MemberServiceTest extends ServiceTestConfig {
         // then
         assertThat(actual.getProfileImageUrl()).isNotNull();
     }
+
+    @DisplayName("멤버의 등급이 최초 회원이라면 프로필 이미지가 아닌 null 을 리턴한다.")
+    @Test
+    void 멤버의_등급이_최초_회원이라면_프로필_이미지가_아닌_null_을_리턴한다() {
+        // given
+        Member member = memberRepository.save(하온_신규());
+
+        // when
+        FindMemberAuthorityAndProfileResponse actual = memberService.findMemberAuthorityAndProfileImg(member.getId());
+
+        // then
+        assertThat(actual.getProfileImageUrl()).isNull();
+    }
 }
