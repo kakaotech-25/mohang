@@ -8,6 +8,7 @@ import moheng.auth.exception.InvalidOAuthServiceException;
 import moheng.config.slice.ControllerTestConfig;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
 import moheng.liveinformation.exception.NoExistLiveInformationException;
+import moheng.member.dto.response.FindMemberAuthorityAndProfileResponse;
 import moheng.member.exception.*;
 import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
@@ -568,5 +569,28 @@ public class MemberControllerTest extends ControllerTestConfig {
                                 fieldWithPath("contentIds").description("관심 여행지의 contentId 리스트")
                         ))
                 ).andExpect(status().isNotFound());
+    }
+
+    @DisplayName("정규 멤버의 등급과 프로필 이미지를 찾고 상태코드 200을 리턴한다.")
+    @Test
+    void 정규_멤버의_등급과_프로필_이미지를_찾고_상태코드_200을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberService.findMemberAuthorityAndProfileImg(anyLong()))
+                .willReturn(new FindMemberAuthorityAndProfileResponse(Authority.REGULAR_MEMBER, "https://kakao.png"));
+
+        // when, then
+        mockMvc.perform(get("/api/member/authority/profile")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                ).andDo(print())
+                .andDo(document("member/find/authority/profile/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ))
+                ).andExpect(status().isOk());
     }
 }
