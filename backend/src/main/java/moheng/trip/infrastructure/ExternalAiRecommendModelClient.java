@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Component
 public class ExternalAiRecommendModelClient implements ExternalRecommendModelClient {
-    private static final String RECOMMEND_TRIP_LIST_REQUEST_URL = "http://localhost:8000/travel/custom/model/{page}";
+    private static final String RECOMMEND_TRIP_LIST_REQUEST_URL = "http://localhost:8000/travel/custom/model?page={page}";
     private final RestTemplate restTemplate;
 
     public ExternalAiRecommendModelClient(final RestTemplate restTemplate) {

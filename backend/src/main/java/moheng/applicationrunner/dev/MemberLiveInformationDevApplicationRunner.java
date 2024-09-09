@@ -8,6 +8,8 @@ import moheng.member.domain.SocialType;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.recommendtrip.domain.RecommendTrip;
 import moheng.recommendtrip.domain.repository.RecommendTripRepository;
+import moheng.trip.domain.MemberTrip;
+import moheng.trip.domain.repository.MemberTripRepository;
 import moheng.trip.domain.repository.TripRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -23,15 +25,18 @@ public class MemberLiveInformationDevApplicationRunner implements ApplicationRun
     private final MemberRepository memberRepository;
     private final RecommendTripRepository recommendTripRepository;
     private final TripRepository tripRepository;
+    private final MemberTripRepository memberTripRepository;
 
     public MemberLiveInformationDevApplicationRunner(final MemberLiveInformationRepository memberLiveInformationRepository,
                                                      final MemberRepository memberRepository,
                                                      final RecommendTripRepository recommendTripRepository,
-                                                     final TripRepository tripRepository) {
+                                                     final TripRepository tripRepository,
+                                                     final MemberTripRepository memberTripRepository) {
         this.memberLiveInformationRepository = memberLiveInformationRepository;
         this.memberRepository = memberRepository;
         this.recommendTripRepository = recommendTripRepository;
         this.tripRepository = tripRepository;
+        this.memberTripRepository = memberTripRepository;
     }
 
     @Override
@@ -49,5 +54,16 @@ public class MemberLiveInformationDevApplicationRunner implements ApplicationRun
         recommendTripRepository.save(new RecommendTrip(tripRepository.findById(8L).get(), member, 8L));
         recommendTripRepository.save(new RecommendTrip(tripRepository.findById(9L).get(), member, 9L));
         recommendTripRepository.save(new RecommendTrip(tripRepository.findById(10L).get(), member, 10L));
+
+        memberTripRepository.save(new MemberTrip(member, tripRepository.findById(1L).get(), 1L));
+        memberTripRepository.save(new MemberTrip(member, tripRepository.findById(2L).get(), 1L));
+        memberTripRepository.save(new MemberTrip(member, tripRepository.findById(3L).get(), 2L));
+        memberTripRepository.save(new MemberTrip(member, tripRepository.findById(4L).get(), 3L));
+        memberTripRepository.save(new MemberTrip(member, tripRepository.findById(5L).get(), 4L));
+        memberTripRepository.save(new MemberTrip(member, tripRepository.findById(6L).get(), 5L));
+        memberTripRepository.save(new MemberTrip(member, tripRepository.findById(7L).get(), 6L));
+        memberTripRepository.save(new MemberTrip(member, tripRepository.findById(8L).get(), 7L));
+        memberTripRepository.save(new MemberTrip(member, tripRepository.findById(9L).get(), 8L));
+        memberTripRepository.save(new MemberTrip(member, tripRepository.findById(10L).get(), 9L));
     }
 }
