@@ -201,14 +201,7 @@ public class MemberAcceptanceTest extends AcceptanceTestConfig {
         AccessTokenResponse accessTokenResponse = loginResponse.as(AccessTokenResponse.class);
 
         // when
-        ExtractableResponse<Response> memberResponse = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .auth().oauth2(accessTokenResponse.getAccessToken())
-                .when().get("/api/member/authority/profile")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .extract();
-
+        ExtractableResponse<Response> memberResponse = 회원_권한과_프로필을_찾는다(accessTokenResponse.getAccessToken());
         FindMemberAuthorityAndProfileResponse responseResult = memberResponse.as(FindMemberAuthorityAndProfileResponse.class);
 
         assertAll(() -> {
