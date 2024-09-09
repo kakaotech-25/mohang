@@ -48,7 +48,7 @@ public class MemberController {
 
     @PostMapping("/check/nickname")
     public ResponseEntity<CheckDuplicateNicknameResponse> checkDuplicateNickname(
-            @InitAuthentication final Accessor accessor,
+            @Authentication final Accessor accessor,
             @RequestBody final CheckDuplicateNicknameRequest request) {
         memberService.checkIsAlreadyExistNickname(request.getNickname());
         return ResponseEntity.ok(new CheckDuplicateNicknameResponse());

@@ -1,6 +1,7 @@
 package moheng.trip.domain.repository;
 
 import moheng.trip.domain.Trip;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,6 +11,7 @@ import java.util.Optional;
 
 public interface TripRepository extends JpaRepository<Trip, Long> {
     Optional<Trip> findByContentId(final Long contentId);
+
     List<Trip> findTop30ByOrderByVisitedCountDesc();
 
     @Query("SELECT k.name FROM Keyword k WHERE k.id IN :keywordIds")
