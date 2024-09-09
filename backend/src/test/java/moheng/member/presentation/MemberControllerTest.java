@@ -590,6 +590,10 @@ public class MemberControllerTest extends ControllerTestConfig {
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("authority").description("정규 회원의 권한 (정규 멤버 권한)"),
+                                fieldWithPath("profileImageUrl").description("정규 회원의 프로필 이미지 경로")
                         ))
                 ).andExpect(status().isOk());
     }
