@@ -13,6 +13,7 @@ import moheng.member.dto.request.SignUpInterestTripsRequest;
 import moheng.member.dto.request.SignUpLiveInfoRequest;
 import moheng.member.dto.request.SignUpProfileRequest;
 import moheng.member.dto.request.UpdateProfileRequest;
+import moheng.member.dto.response.FindMemberAuthorityAndProfileResponse;
 import moheng.member.dto.response.MemberResponse;
 import moheng.member.exception.DuplicateNicknameException;
 import moheng.member.exception.NoExistMemberException;
@@ -163,5 +164,19 @@ public class MemberService {
 
     private boolean isAlreadyExistNickname(final String nickname) {
         return memberRepository.existsByNickName(nickname);
+    }
+
+    public FindMemberAuthorityAndProfileResponse findMemberAuthorityAndProfileImg(final long memberId) {
+        final Member member = memberRepository.findById(memberId)
+                .orElseThrow(NoExistMemberException::new);
+
+        return findMemberAuthorityAndProfileImg(member);
+    }
+
+    private FindMemberAuthorityAndProfileResponse findMemberAuthorityAndProfileImg(final Member member) {
+        if(member.getAuthority().equals(Authority.REGULAR_MEMBER)) {
+            return new FindMemberAuthorityAndProfileResponse(member.getAuthority(), member.getProfileImageUrl());
+        }
+        return new FindMemberAuthorityAndProfileResponse(member.getAuthority(), null);
     }
 }
