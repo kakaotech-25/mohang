@@ -10,7 +10,7 @@ import PlannerModal from '../../components/PlannerModal/PlannerModal';
 
 const TravelDetails = () => {
   const { id } = useParams();
-  const card = TravelData.find(item => item.id === parseInt(id));
+  const card = TravelData.find(item => item.contentId === parseInt(id)); // contentId로 수정
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddPlanModalOpen, setIsAddPlanModalOpen] = useState(false);
@@ -31,9 +31,9 @@ const TravelDetails = () => {
     setIsAddPlanModalOpen(false);
   };
 
-  // 현재 여행지와 비슷한 여행지 필터링 (예: 같은 태그가 있는 여행지)
+  // 현재 여행지와 비슷한 여행지 필터링 (예: 같은 키워드가 있는 여행지)
   const similarCards = TravelData.filter(item =>
-    item.tags.some(tag => card.tags.includes(tag)) && item.id !== card.id
+    item.keywords.some(keyword => card.keywords.includes(keyword)) && item.contentId !== card.contentId
   );
 
   return (
@@ -42,8 +42,8 @@ const TravelDetails = () => {
         <div className="travel-details-left">
           <div className="title-and-button">
             <div>
-              <h1>{card.title}</h1>
-              <p className="location">{card.location}</p>
+              <h1>{card.name}</h1> {/* name으로 수정 */}
+              <p className="location">{card.placeName}</p> {/* placeName으로 수정 */}
             </div>
             <div className="add-to-planner">
               <button onClick={handleAddToPlanner} className="planner-button">
@@ -53,8 +53,8 @@ const TravelDetails = () => {
             </div>
           </div>
           <div className="tags">
-            {card.tags.map((tag, index) => (
-              <span key={index} className="tag">#{tag} </span>
+            {card.keywords.map((keyword, index) => (
+              <span key={index} className="tag">#{keyword} </span>
             ))}
           </div>
           <p className={`description ${card.description.length > 560 ? 'scrollable-description' : ''}`}>
@@ -63,7 +63,7 @@ const TravelDetails = () => {
         </div>
         <div className="travel-details-right">
           <div className="travel-image-container">
-            <img src={card.image} alt={card.title} className="travel-image" />
+            <img src={card.tripImageUrl} alt={card.name} className="travel-image" /> {/* tripImageUrl로 수정 */}
           </div>
         </div>
       </div>
@@ -113,7 +113,7 @@ const TravelDetails = () => {
 
       <section className="similar-destinations">
         <h2 className='similar-place'>
-          <span className="highlight">{card.title}</span>와(과) 비슷한 여행지
+          <span className="highlight">{card.name}</span>와(과) 비슷한 여행지 {/* name으로 수정 */}
         </h2>
         <TravelCarousel cards={similarCards} />
       </section>
