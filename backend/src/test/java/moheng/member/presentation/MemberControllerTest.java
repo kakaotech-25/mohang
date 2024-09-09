@@ -597,4 +597,31 @@ public class MemberControllerTest extends ControllerTestConfig {
                         ))
                 ).andExpect(status().isOk());
     }
+
+    @DisplayName("최초 멤버의 등급과 프로필 이미지를 찾고 상태코드 200을 리턴한다.")
+    @Test
+    void 최초_멤버의_등급과_프로필_이미지를_찾고_상태코드_200을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberService.findMemberAuthorityAndProfileImg(anyLong()))
+                .willReturn(new FindMemberAuthorityAndProfileResponse(Authority.INIT_MEMBER, null));
+
+        // when, then
+        mockMvc.perform(get("/api/member/authority/profile")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                ).andDo(print())
+                .andDo(document("member/find/authority/profile/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("authority").description("최초 회원의 권한 (정규 멤버 권한)"),
+                                fieldWithPath("profileImageUrl").description("null - 최초 회원의 프로필 이미지 경로 ")
+                        ))
+                ).andExpect(status().isOk());
+    }
 }
