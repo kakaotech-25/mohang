@@ -31,8 +31,12 @@ const PlannerModal = ({ isOpen, mode, title, plan, onClose, onSave }) => {
 
   const handleSave = () => {
     if (startDate && endDate) {
-      const period = `${formatDate(startDate)} ~ ${formatDate(endDate)}`;
-      onSave({ ...currentPlan, period });
+      // startTime과 endTime을 각각 전달
+      onSave({ 
+        ...currentPlan, 
+        startTime: startDate.toISOString().split('T')[0], // YYYY-MM-DD 형식으로 변환
+        endTime: endDate.toISOString().split('T')[0],     // YYYY-MM-DD 형식으로 변환
+      });
       onClose();
     }
   };

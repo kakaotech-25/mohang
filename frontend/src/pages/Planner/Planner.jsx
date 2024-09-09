@@ -17,8 +17,7 @@ const Planner = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 페이지 로드 시 기본적으로 최신순 데이터를 불러옴
-    fetchPlans('newest');
+    fetchPlans('newest'); // 페이지 로드 시 최신순 데이터를 불러옴
   }, []);
 
   const fetchPlans = async (criteria) => {
@@ -59,23 +58,35 @@ const Planner = () => {
     setIsModalOpen(true);
   };
 
-  const handleDelete = (id) => {
-    // 삭제하기 로직
+  const handleDelete = async (id) => {
     console.log(`삭제하기 클릭: ${id}`);
   };
 
-  const handleSave = (updatedPlan) => {
-    if (modalMode === 'edit') {
-      console.log('수정된 플랜:', updatedPlan);
-    } else if (modalMode === 'add') {
-      console.log('새로 추가된 플랜:', updatedPlan);
+  const handleSave = async (newPlan) => {
+    if (modalMode === 'add') {
+      try {
+        const response = await axiosInstance.post('/schedule', {
+          scheduleName: newPlan.title,
+          startDate: newPlan.startTime, // 전달된 startTime
+          endDate: newPlan.endTime,     // 전달된 endTime
+        });
+
+        if (response.status === 204 || response.status === 201) {
+          console.log('새 일정 추가 성공');
+          fetchPlans(sortCriteria); // 새 일정 추가 후 리스트 갱신
+        }
+      } catch (error) {
+        console.error('일정 추가 중 오류 발생:', error);
+      }
+    } else if (modalMode === 'edit') {
+      console.log('수정된 일정:', newPlan);
     }
     setIsModalOpen(false);
   };
 
   const handleSort = (criteria) => {
     setSortCriteria(criteria);
-    fetchPlans(criteria); // 정렬 기준에 맞는 플랜 데이터 불러오기
+    fetchPlans(criteria);
   };
 
   const handleItemClick = (id) => {
@@ -130,7 +141,7 @@ const Planner = () => {
               <Link
                 to={`/plannerdetails/${plan.scheduleId}`}
                 className="planner-link"
-                onClick={(e) => e.stopPropagation()} // 링크 클릭 시 이벤트 중단
+                onClick={(e) => e.stopPropagation()}
               >
                 <h2 className="planner-title-text">{plan.scheduleName}</h2>
               </Link>
@@ -138,7 +149,7 @@ const Planner = () => {
             </div>
             <div
               className="planner-actions"
-              onClick={(e) => e.stopPropagation()} // 드롭다운 클릭 시 이벤트 중단
+              onClick={(e) => e.stopPropagation()}
             >
               <img
                 src={seemoreIcon}
