@@ -1,3 +1,5 @@
+def containerImages = []
+
 pipeline {
     agent any;
 
@@ -40,18 +42,17 @@ pipeline {
             }
         }
 
-        stage('Parallel Build'){
-            parallel{
+        stage('Parallel Build') {
+            parallel {
                 stage('Nginx Docker Build') {
                     steps {
                         script {
                             echo 'Starting Nginx Build...'
-                            buildAndPushDockerImage(
+                            containerImages.push(buildDockerImage(
                                 directory: 'nginx',
                                 imageName: 'leovim5072/moheng-nginx:latest',
-                                targetBranch: 'develop',
                                 context: '-f Dockerfile.prod ../'
-                            )
+                            ))
                             echo 'Nginx Build Completed!'
                         }
                     }
@@ -66,12 +67,11 @@ pipeline {
                     steps {
                         script {
                             echo 'Starting Backend Build...'
-                            buildAndPushDockerImage(
+                            containerImages.push(buildDockerImage(
                                 directory: 'backend',
                                 imageName: 'leovim5072/moheng-backend:latest',
-                                targetBranch: 'develop',
                                 context: '-f Dockerfile.prod .'
-                            )
+                            ))
                             echo 'Backend Build Completed!'
                         }
                     }
@@ -81,17 +81,16 @@ pipeline {
                         }
                     }
                 }
-                
+
                 stage('AI Docker Build') {
                     steps {
                         script {
                             echo 'Starting AI Build...'
-                            buildAndPushDockerImage(
+                            containerImages.push(buildDockerImage(
                                 directory: 'ai',
                                 imageName: 'leovim5072/moheng-ai:latest',
-                                targetBranch: 'develop',
                                 context: '-f Dockerfile .'
-                            )
+                            ))
                             echo 'AI Build Completed!'
                         }
                     }
@@ -100,7 +99,22 @@ pipeline {
                             sendErrorNotification('AI Build')
                         }
                     }
-                }                
+                }
+            }
+        }
+
+        stage('Upload Container Registry') {
+            steps {
+                script {
+                    echo 'Uploading images to container registry...'
+                    pushContainerRegistry(images: containerImages, targetBranch: 'develop')
+                    echo 'Upload Completed!'
+                }
+            }
+            post {
+                failure {
+                    sendErrorNotification('Upload Container Registry')
+                }
             }
         }
     }
@@ -108,25 +122,37 @@ pipeline {
     post {
         always {
             script {
-                def buildStatus = currentBuild.result ?: 'SUCCESS'
-                def durationMinutes = (currentBuild.duration / 60000).intValue()
-                def durationSeconds = ((currentBuild.duration % 60000) / 1000).intValue()
-                def duration = "${durationMinutes}m ${durationSeconds}s"
-                sendDiscordNotification(buildStatus, duration)
+                echo "Pipeline Completed!"
+                // def buildStatus = currentBuild.result ?: 'SUCCESS'
+                // def durationMinutes = (currentBuild.duration / 60000).intValue()
+                // def durationSeconds = ((currentBuild.duration % 60000) / 1000).intValue()
+                // def duration = "${durationMinutes}m ${durationSeconds}s"
+                // sendDiscordNotification(buildStatus, duration)
             }
         }
     }
 }
 
-def buildAndPushDockerImage(Map params) {
+def buildDockerImage(Map params) {
     def directory = params.directory
     def imageName = params.imageName
-    def targetBranch = params.targetBranch
     def context = params.context
     
     dir(directory) {
         def image = docker.build(imageName, context)
-        if (env.BRANCH_NAME == targetBranch) {
+        return [image: image, imageName: imageName]
+    }
+}
+
+def pushContainerRegistry(Map params) {
+    def images = params.images
+    def targetBranch = params.targetBranch
+
+    if (env.BRANCH_NAME == targetBranch) {
+        images.each { imageData ->
+            def image = imageData.image
+            def imageName = imageData.imageName
+            echo "Pushing image ${imageName} to container registry..."
             docker.withRegistry(IMAGE_STORAGE, IMAGE_STORAGE_CREDENTIAL) {
                 image.push("latest")
             }
