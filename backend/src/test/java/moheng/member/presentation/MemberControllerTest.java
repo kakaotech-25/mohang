@@ -3,6 +3,7 @@ package moheng.member.presentation;
 import static moheng.fixture.MemberFixtures.*;
 
 import moheng.auth.domain.oauth.Authority;
+import moheng.auth.exception.EmptyBearerHeaderException;
 import moheng.auth.exception.InvalidInitAuthorityException;
 import moheng.auth.exception.InvalidOAuthServiceException;
 import moheng.config.slice.ControllerTestConfig;
@@ -623,5 +624,28 @@ public class MemberControllerTest extends ControllerTestConfig {
                                 fieldWithPath("profileImageUrl").description("null - 최초 회원의 프로필 이미지 경로 ")
                         ))
                 ).andExpect(status().isOk());
+    }
+
+    @DisplayName("비회원의 등급과 프로필 이미지를 찾으면 상태코드 401을 리턴한다.")
+    @Test
+    void 비회원의_등급과_프로필_이미지를_찾으면_상태코드_401을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new EmptyBearerHeaderException("Authorization Bearer 해더 값이 비어있습니다."))
+                .when(memberService).findMemberAuthorityAndProfileImg(anyLong());
+
+        // when, then
+        mockMvc.perform(get("/api/member/authority/profile")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                ).andDo(print())
+                .andDo(document("member/find/authority/profile/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ))
+                ).andExpect(status().isUnauthorized());
     }
 }
