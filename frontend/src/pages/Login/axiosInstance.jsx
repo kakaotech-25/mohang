@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Axios 인스턴스 생성
 const axiosInstance = axios.create({
-  baseURL: "https://moheng.xyz/api",
+  baseURL: "https://www.moheng.xyz/api",
 });
 
 // 요청 인터셉터: 엑세스 토큰을 요청 헤더에 추가
