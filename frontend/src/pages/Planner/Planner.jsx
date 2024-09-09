@@ -58,8 +58,22 @@ const Planner = () => {
     setIsModalOpen(true);
   };
 
+  // 삭제 로직 추가
   const handleDelete = async (id) => {
-    console.log(`삭제하기 클릭: ${id}`);
+    try {
+      const response = await axiosInstance.delete(`/planner/schedule/${id}`);
+      
+      if (response.status === 204) {
+        console.log(`일정 삭제 성공: ${id}`);
+        fetchPlans(sortCriteria); // 삭제 후 목록 갱신
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        console.error('삭제 중 오류 발생: ', error.response.data.message);
+      } else {
+        console.error('일정 삭제 중 오류 발생:', error);
+      }
+    }
   };
 
   const handleSave = async (newPlan) => {
