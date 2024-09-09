@@ -169,7 +169,6 @@ public class MemberService {
     public FindMemberAuthorityAndProfileResponse findMemberAuthorityAndProfileImg(final long memberId) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoExistMemberException::new);
-
         return findMemberAuthorityAndProfileImg(member);
     }
 
