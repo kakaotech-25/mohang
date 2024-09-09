@@ -586,14 +586,14 @@ public class MemberControllerTest extends ControllerTestConfig {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                 ).andDo(print())
-                .andDo(document("member/find/authority/profile/success",
+                .andDo(document("member/find/authority/profile/success/regular",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         ),
                         responseFields(
-                                fieldWithPath("authority").description("정규 회원의 권한 (정규 멤버 권한)"),
+                                fieldWithPath("authority").description("정규 회원의 권한"),
                                 fieldWithPath("profileImageUrl").description("정규 회원의 프로필 이미지 경로")
                         ))
                 ).andExpect(status().isOk());
@@ -613,14 +613,14 @@ public class MemberControllerTest extends ControllerTestConfig {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                 ).andDo(print())
-                .andDo(document("member/find/authority/profile/success",
+                .andDo(document("member/find/authority/profile/success/init",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
                                 headerWithName("Authorization").description("엑세스 토큰")
                         ),
                         responseFields(
-                                fieldWithPath("authority").description("최초 회원의 권한 (정규 멤버 권한)"),
+                                fieldWithPath("authority").description("최초 회원의 권한)"),
                                 fieldWithPath("profileImageUrl").description("null - 최초 회원의 프로필 이미지 경로 ")
                         ))
                 ).andExpect(status().isOk());
@@ -640,7 +640,7 @@ public class MemberControllerTest extends ControllerTestConfig {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                 ).andDo(print())
-                .andDo(document("member/find/authority/profile/success",
+                .andDo(document("member/find/authority/profile/fail",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
