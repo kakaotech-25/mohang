@@ -4,9 +4,8 @@ spring:
   application:
     name: moheng
   datasource:
-    url: jdbc:mysql://localhost:3306/moheng
-    # jdbc:h2:mem:~/moheng;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=FALSE
     username: root
+    url: jdbc:h2:mem:~/moheng;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=FALSE
     password: 1234
   lifecycle:
     timeout-per-shutdown-phase: 20s
