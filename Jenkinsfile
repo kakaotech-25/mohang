@@ -123,11 +123,11 @@ pipeline {
         always {
             script {
                 echo "Pipeline Completed!"
-                // def buildStatus = currentBuild.result ?: 'SUCCESS'
-                // def durationMinutes = (currentBuild.duration / 60000).intValue()
-                // def durationSeconds = ((currentBuild.duration % 60000) / 1000).intValue()
-                // def duration = "${durationMinutes}m ${durationSeconds}s"
-                // sendDiscordNotification(buildStatus, duration)
+                def buildStatus = currentBuild.result ?: 'SUCCESS'
+                def durationMinutes = (currentBuild.duration / 60000).intValue()
+                def durationSeconds = ((currentBuild.duration % 60000) / 1000).intValue()
+                def duration = "${durationMinutes}m ${durationSeconds}s"
+                sendDiscordNotification(buildStatus, duration)
             }
         }
     }
