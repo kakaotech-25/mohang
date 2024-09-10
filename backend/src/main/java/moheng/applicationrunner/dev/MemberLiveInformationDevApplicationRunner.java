@@ -41,8 +41,8 @@ public class MemberLiveInformationDevApplicationRunner implements ApplicationRun
 
     @Override
     public void run(ApplicationArguments args) {
-        Member member = memberRepository.save(new Member(1L, "msung6924@kakao.com", "devhaon", "https://default.png", SocialType.KAKAO,
-                LocalDate.of(2000, 1, 1), GenderType.MEN));
+        // Member member = memberRepository.save(new Member(1L, "msung6924@kakao.com", "devhaon", "https://default.png", SocialType.KAKAO,
+        //        LocalDate.of(2000, 1, 1), GenderType.MEN));
 
         /* recommendTripRepository.save(new RecommendTrip(tripRepository.findById(1L).get(), member, 1L));
         recommendTripRepository.save(new RecommendTrip(tripRepository.findById(2L).get(), member, 2L));
