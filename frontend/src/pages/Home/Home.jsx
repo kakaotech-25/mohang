@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import TravelCarousel from '../../components/TravelCarousel/TravelCarousel';
-import TravelData from '../../data/TravelData';
 import axiosInstance from '../Login/axiosInstance'; // axiosInstance를 불러옴
 import './Home.css';
 
@@ -9,6 +8,7 @@ const Home = () => {
   const [selectedKeywords, setSelectedKeywords] = useState([]); // 선택된 키워드 상태
   const [uniqueKeywords, setUniqueKeywords] = useState([]); // API로부터 받은 키워드 상태
   const [loading, setLoading] = useState(true); // 로딩 상태
+  const [recommendList, setRecommendList] = useState([]);
 
   // 키워드 목록과 초기 여행지 데이터를 가져오는 함수
   useEffect(() => {
@@ -25,6 +25,9 @@ const Home = () => {
         // 초기에는 빈 배열로 여행지 데이터를 요청 (모든 추천 여행지 불러오기)
         const tripResponse = await axiosInstance.post('/keyword/trip/recommend', { keywordIds: [] });
         setFilteredCards(tripResponse.data.findTripResponses);
+
+        const recommendListResponse = await axiosInstance.get("/recommend")
+        setRecommendList(recommendListResponse.data.findTripResponses)
 
         setLoading(false); // 로딩 완료
       } catch (error) {
@@ -66,7 +69,7 @@ const Home = () => {
         <div className='carousel-description'>
           <span style={{ color: '#845EC2' }}>모행 AI</span>를 이용한 맞춤 여행지
         </div>
-        <TravelCarousel cards={TravelData} />
+        <TravelCarousel cards={recommendList} />
       </section>
 
       {/* 아래의 키워드 필터링 캐러셀 */}

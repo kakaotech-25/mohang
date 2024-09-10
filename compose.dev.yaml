@@ -25,7 +25,7 @@ services:
     environment:
       - LOGGING_LEVEL_ROOT=ERROR
     volumes:
-      - ./back-dir:/usr/app
+      - back-dir:/usr/app
 
   frontend:
     container_name: front
