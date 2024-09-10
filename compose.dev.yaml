@@ -24,6 +24,8 @@ services:
     restart: always
     environment:
       - LOGGING_LEVEL_ROOT=ERROR
+    volumes:
+      - ./back-dir:/usr/app
 
   frontend:
     container_name: front
@@ -66,6 +68,12 @@ volumes:
       type: none
       o: bind
       device: ./ai
+  back-dir:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./backend
 
 networks:
   moheng-network:
