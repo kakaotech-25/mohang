@@ -90,6 +90,7 @@ public class KeywordControllerTest extends ControllerTestConfig {
                         ),
                         responseFields(
                                 fieldWithPath("findTripResponses").description("키워드 기반 추천 여행지 결과 리스트"),
+                                fieldWithPath("findTripResponses[].tripId").description("세부 여행지 고유 ID"),
                                 fieldWithPath("findTripResponses[].name").description("세부 여행지 이름"),
                                 fieldWithPath("findTripResponses[].placeName").description("세부 여행지 장소명"),
                                 fieldWithPath("findTripResponses[].contentId").description("세부 여행지 contentId"),
@@ -238,6 +239,7 @@ public class KeywordControllerTest extends ControllerTestConfig {
                         responseFields(
                                 fieldWithPath("keywordName").description("랜덤으로 선택된 현재 키워드 이름"),
                                 fieldWithPath("findTripResponses").description("여행지 리스트"),
+                                fieldWithPath("findTripResponses[].tripId").description("세부 여행지 고유 ID"),
                                 fieldWithPath("findTripResponses[].name").description("세부 여행지 이름"),
                                 fieldWithPath("findTripResponses[].placeName").description("세부 여행지 장소명"),
                                 fieldWithPath("findTripResponses[].contentId").description("세부 여행지 contentId"),

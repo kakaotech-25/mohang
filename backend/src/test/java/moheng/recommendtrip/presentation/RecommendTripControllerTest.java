@@ -105,6 +105,7 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
                         ),
                         responseFields(
                                 fieldWithPath("findTripResponses").description("여행지 리스트"),
+                                fieldWithPath("findTripResponses[].tripId").description("세부 여행지 고유 ID"),
                                 fieldWithPath("findTripResponses[].name").description("세부 여행지 이름"),
                                 fieldWithPath("findTripResponses[].placeName").description("세부 여행지 장소명"),
                                 fieldWithPath("findTripResponses[].contentId").description("세부 여행지 contentId"),

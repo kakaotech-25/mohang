@@ -70,6 +70,7 @@ public class TripControllerTest extends ControllerTestConfig {
                         preprocessResponse(prettyPrint()),
                         responseFields(
                                 fieldWithPath("findTripResponses").description("여행지 리스트"),
+                                fieldWithPath("findTripResponses[].tripId").description("세부 여행지 고유 ID 값"),
                                 fieldWithPath("findTripResponses[].name").description("세부 여행지 이름"),
                                 fieldWithPath("findTripResponses[].placeName").description("세부 여행지 장소명"),
                                 fieldWithPath("findTripResponses[].contentId").description("세부 여행지 contentId"),
@@ -105,12 +106,14 @@ public class TripControllerTest extends ControllerTestConfig {
                                 headerWithName("Authorization").description("엑세스 토큰")
                         ),
                         responseFields(
+                                fieldWithPath("findTripResponse.tripId").description("선택한 여행지의 고유 ID 값"),
                                 fieldWithPath("findTripResponse.name").description("선택한 여행지의 이름"),
                                 fieldWithPath("findTripResponse.placeName").description("선택한 여행지의 장소명"),
                                 fieldWithPath("findTripResponse.contentId").description("선택한 여행지의 컨텐츠 ID"),
                                 fieldWithPath("findTripResponse.tripImageUrl").description("선택한 여행지의 이미지 URL"),
                                 fieldWithPath("findTripResponse.description").description("선택한 여행지에 대한 설명"),
                                 fieldWithPath("findTripResponse.keywords[]").description("선택한 여행지와 관련된 키워드 목록"),
+                                fieldWithPath("similarTripResponses.findTripResponses[].tripId").description("유사한 여행지의 고유 ID 값"),
                                 fieldWithPath("similarTripResponses.findTripResponses[].name").description("유사한 여행지의 이름"),
                                 fieldWithPath("similarTripResponses.findTripResponses[].placeName").description("유사한 여행지의 장소명"),
                                 fieldWithPath("similarTripResponses.findTripResponses[].contentId").description("유사한 여행지의 컨텐츠 ID"),
