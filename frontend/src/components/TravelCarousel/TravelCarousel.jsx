@@ -24,8 +24,8 @@ const TravelCarousel = ({ cards }) => {
     }
   };
 
-  const handleCardClick = (contentId) => {  // contentId로 수정
-    navigate(`/traveldetails/${contentId}`);
+  const handleCardClick = (tripId) => {  // contentId로 수정
+    navigate(`/traveldetails/${tripId}`);
   };
 
   return (
@@ -46,7 +46,7 @@ const TravelCarousel = ({ cards }) => {
                 title={card.name}
                 location={card.placeName}
                 isSelected={false}
-                onClick={() => handleCardClick(card.contentId)}  // contentId로 수정
+                onClick={() => handleCardClick(card.tripId)}  // contentId로 수정
               />
             </div>
           ))}
