@@ -131,6 +131,7 @@ public class MemberService {
             final Trip trip = tripService.findByContentId(contentId);
             recommendTripService.saveByRank(trip, member, ranking);
             memberTripRepository.save(new MemberTrip(member, trip, 0L));
+            ranking++;
         }
     }
 
