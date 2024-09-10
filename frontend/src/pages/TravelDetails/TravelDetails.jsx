@@ -39,7 +39,7 @@ const TravelDetails = () => {
 
         const travelItem = travelResponse.data;
         setCard(travelItem.findTripResponse);
-        setSimilarCards(travelItem.similarTripResponses)
+        setSimilarCards(travelItem.similarTripResponses.findTripResponses)
         setPlannerData(plannerResponse.data);
 
       } catch (error) {
