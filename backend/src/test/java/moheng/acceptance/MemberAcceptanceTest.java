@@ -11,14 +11,23 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
+import moheng.auth.domain.oauth.Authority;
 import moheng.auth.dto.AccessTokenResponse;
 import moheng.liveinformation.dto.FindMemberLiveInformationResponses;
+import moheng.member.domain.GenderType;
+import moheng.member.dto.request.UpdateProfileRequest;
+import moheng.member.dto.response.FindMemberAuthorityAndProfileResponse;
 import moheng.member.dto.response.MemberResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+
+import java.time.LocalDate;
 
 public class MemberAcceptanceTest extends AcceptanceTestConfig {
 
@@ -181,6 +190,24 @@ public class MemberAcceptanceTest extends AcceptanceTestConfig {
             assertThat(profileResponse.getProfileImageUrl()).isNotNull();
             assertThat(profileResponse.getGenderType()).isNotNull();
             assertThat(memberLiveInformationResponses.getLiveInfoResponses()).hasSize(5);
+        });
+    }
+
+    @DisplayName("멤버의 등급과 프로필 이미지 경로를 찾고 상태코드 200을 리턴한다.")
+    @Test
+    void 멤버의_등급과_프로필_이미지_경로를_찾고_상태코드_200을_리턴한다() {
+        // given
+        ExtractableResponse<Response> loginResponse = 자체_토큰을_생성한다("KAKAO", "authorization-code");
+        AccessTokenResponse accessTokenResponse = loginResponse.as(AccessTokenResponse.class);
+
+        // when
+        ExtractableResponse<Response> memberResponse = 회원_권한과_프로필을_찾는다(accessTokenResponse.getAccessToken());
+        FindMemberAuthorityAndProfileResponse responseResult = memberResponse.as(FindMemberAuthorityAndProfileResponse.class);
+
+        assertAll(() -> {
+            assertThat(responseResult.getAuthority()).isEqualTo(Authority.INIT_MEMBER);
+            assertThat(responseResult.getProfileImageUrl()).isNull();
+            assertThat(memberResponse.statusCode()).isEqualTo(200);
         });
     }
 }

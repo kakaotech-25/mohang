@@ -20,6 +20,7 @@ import moheng.member.dto.request.SignUpInterestTripsRequest;
 import moheng.member.dto.request.SignUpLiveInfoRequest;
 import moheng.member.dto.request.SignUpProfileRequest;
 import moheng.member.dto.request.UpdateProfileRequest;
+import moheng.member.dto.response.FindMemberAuthorityAndProfileResponse;
 import moheng.member.exception.DuplicateNicknameException;
 import moheng.member.exception.NoExistMemberException;
 import moheng.member.exception.ShortContentidsSizeException;
@@ -526,4 +527,30 @@ public class MemberServiceTest extends ServiceTestConfig {
         );
     }
 
+    @DisplayName("멤버의 등급이 정규 회원이라면 프로필 이미지를 리턴한다.")
+    @Test
+    void 멤버의_등급이_정규_회원이라면_프로필_이미지를_리턴한다() {
+        // given
+        Member member = memberRepository.save(하온_기존());
+        member.changePrivilege(Authority.REGULAR_MEMBER);
+
+        // when
+        FindMemberAuthorityAndProfileResponse actual = memberService.findMemberAuthorityAndProfileImg(member.getId());
+
+        // then
+        assertThat(actual.getProfileImageUrl()).isNotNull();
+    }
+
+    @DisplayName("멤버의 등급이 최초 회원이라면 프로필 이미지가 아닌 null 을 리턴한다.")
+    @Test
+    void 멤버의_등급이_최초_회원이라면_프로필_이미지가_아닌_null_을_리턴한다() {
+        // given
+        Member member = memberRepository.save(하온_신규());
+
+        // when
+        FindMemberAuthorityAndProfileResponse actual = memberService.findMemberAuthorityAndProfileImg(member.getId());
+
+        // then
+        assertThat(actual.getProfileImageUrl()).isNull();
+    }
 }
