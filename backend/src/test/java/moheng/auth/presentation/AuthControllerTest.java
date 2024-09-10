@@ -83,7 +83,7 @@ public class AuthControllerTest extends ControllerTestConfig {
         given(authService.generateTokenWithCode(any(), any())).willThrow(new InvalidOAuthServiceException("카카오 OAuth 소셜 로그인 서버에 예기치 못한 오류가 발생했습니다."));
 
         // when, then
-        mockMvc.perform(post("/api/auth/{oAuthProvider}/token", "KAKAO")
+        mockMvc.perform(post("/api/auth/{oAuthProvider}/login", "KAKAO")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(토큰_생성_요청())))
