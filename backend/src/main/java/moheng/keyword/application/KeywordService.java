@@ -62,9 +62,20 @@ public class KeywordService {
     }
 
     public FindTripsResponse findRecommendTripsByKeywords(final TripsByKeyWordsRequest request) {
+        if (request.getKeywordIds().isEmpty()) {
+            return findRecommendTripsByEmptyKeyword();
+        }
         validateKeywords(request.getKeywordIds());
-        final List<TripKeyword> trips = filterTop30Trips(tripKeywordRepository.findTripKeywordsByKeywordIds(request.getKeywordIds()));
-        return new FindTripsResponse(trips);
+        final List<TripKeyword> tripKeywords = filterTop30Trips(tripKeywordRepository.findTripKeywordsByKeywordIds(request.getKeywordIds()));
+        final List<Trip> topTrips = tripsByStatisticsFinder.findTripsWithVisitedCount(tripKeywords);
+        return new FindTripsResponse(extractAllTripKeywordsByTopTrips(topTrips));
+    }
+
+    private FindTripsResponse findRecommendTripsByEmptyKeyword() {
+        final Keyword randomKeyword = randomKeywordGeneratable.generate();
+        final List<TripKeyword> tripKeywords = tripKeywordRepository.findTop30ByKeywordId(randomKeyword.getId());
+        final List<Trip> topTrips = tripsByStatisticsFinder.findTripsWithVisitedCount(tripKeywords);
+        return new FindTripsResponse(extractAllTripKeywordsByTopTrips(topTrips));
     }
 
     private List<TripKeyword> filterTop30Trips(final List<TripKeyword> trips) {
