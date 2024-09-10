@@ -66,8 +66,9 @@ public class KeywordService {
             return findRecommendTripsByEmptyKeyword();
         }
         validateKeywords(request.getKeywordIds());
-        final List<TripKeyword> trips = filterTop30Trips(tripKeywordRepository.findTripKeywordsByKeywordIds(request.getKeywordIds()));
-        return new FindTripsResponse(trips);
+        final List<TripKeyword> tripKeywords = filterTop30Trips(tripKeywordRepository.findTripKeywordsByKeywordIds(request.getKeywordIds()));
+        final List<Trip> topTrips = tripsByStatisticsFinder.findTripsWithVisitedCount(tripKeywords);
+        return new FindTripsResponse(extractAllTripKeywordsByTopTrips(topTrips));
     }
 
     private FindTripsResponse findRecommendTripsByEmptyKeyword() {
