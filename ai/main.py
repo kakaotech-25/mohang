@@ -2,11 +2,24 @@ import uvicorn
 from fastapi import FastAPI
 from model_serving.interface.controllers.model_controller import router as model_router
 from containers import Container
+from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()
 app.container = Container()
 app.include_router(model_router)
+
+origins = [
+    "http://localhost:8080",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 if __name__ == "__main__":

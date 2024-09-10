@@ -3,11 +3,13 @@ package moheng.member.presentation;
 import static moheng.fixture.MemberFixtures.*;
 
 import moheng.auth.domain.oauth.Authority;
+import moheng.auth.exception.EmptyBearerHeaderException;
 import moheng.auth.exception.InvalidInitAuthorityException;
 import moheng.auth.exception.InvalidOAuthServiceException;
 import moheng.config.slice.ControllerTestConfig;
 import moheng.liveinformation.exception.EmptyLiveInformationException;
 import moheng.liveinformation.exception.NoExistLiveInformationException;
+import moheng.member.dto.response.FindMemberAuthorityAndProfileResponse;
 import moheng.member.exception.*;
 import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
@@ -568,5 +570,82 @@ public class MemberControllerTest extends ControllerTestConfig {
                                 fieldWithPath("contentIds").description("관심 여행지의 contentId 리스트")
                         ))
                 ).andExpect(status().isNotFound());
+    }
+
+    @DisplayName("정규 멤버의 등급과 프로필 이미지를 찾고 상태코드 200을 리턴한다.")
+    @Test
+    void 정규_멤버의_등급과_프로필_이미지를_찾고_상태코드_200을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberService.findMemberAuthorityAndProfileImg(anyLong()))
+                .willReturn(new FindMemberAuthorityAndProfileResponse(Authority.REGULAR_MEMBER, "https://kakao.png"));
+
+        // when, then
+        mockMvc.perform(get("/api/member/authority/profile")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                ).andDo(print())
+                .andDo(document("member/find/authority/profile/success/regular",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("authority").description("정규 회원의 권한"),
+                                fieldWithPath("profileImageUrl").description("정규 회원의 프로필 이미지 경로")
+                        ))
+                ).andExpect(status().isOk());
+    }
+
+    @DisplayName("최초 멤버의 등급과 프로필 이미지를 찾고 상태코드 200을 리턴한다.")
+    @Test
+    void 최초_멤버의_등급과_프로필_이미지를_찾고_상태코드_200을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(memberService.findMemberAuthorityAndProfileImg(anyLong()))
+                .willReturn(new FindMemberAuthorityAndProfileResponse(Authority.INIT_MEMBER, null));
+
+        // when, then
+        mockMvc.perform(get("/api/member/authority/profile")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                ).andDo(print())
+                .andDo(document("member/find/authority/profile/success/init",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("authority").description("최초 회원의 권한)"),
+                                fieldWithPath("profileImageUrl").description("null - 최초 회원의 프로필 이미지 경로 ")
+                        ))
+                ).andExpect(status().isOk());
+    }
+
+    @DisplayName("비회원의 등급과 프로필 이미지를 찾으면 상태코드 401을 리턴한다.")
+    @Test
+    void 비회원의_등급과_프로필_이미지를_찾으면_상태코드_401을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new EmptyBearerHeaderException("Authorization Bearer 해더 값이 비어있습니다."))
+                .when(memberService).findMemberAuthorityAndProfileImg(anyLong());
+
+        // when, then
+        mockMvc.perform(get("/api/member/authority/profile")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                ).andDo(print())
+                .andDo(document("member/find/authority/profile/fail",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ))
+                ).andExpect(status().isUnauthorized());
     }
 }

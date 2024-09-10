@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import PlannerData from '../../data/PlannerData';
-import seemoreIcon from '../../assets/seemore.png';
 import PlannerModal from '../../components/PlannerModal/PlannerModal';
 import addIcon from '../../assets/editicon.png';
+import seemoreIcon from '../../assets/seemore.png';
+import axiosInstance from '../Login/axiosInstance';
 import './Planner.css';
 
 const Planner = () => {
@@ -12,14 +12,42 @@ const Planner = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [modalMode, setModalMode] = useState('add'); // 기본 모드는 추가 모드
+  const [plans, setPlans] = useState([]); // 플래너 데이터 저장
+  const [loading, setLoading] = useState(true); // 로딩 상태
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchPlans('newest'); // 페이지 로드 시 최신순 데이터를 불러옴
+  }, []);
+
+  const fetchPlans = async (criteria) => {
+    setLoading(true);
+
+    if (criteria === 'newest') return getPlans('/planner/recent');
+    if (criteria === 'name') return getPlans('/planner/name');
+    if (criteria === 'date') return getPlans('/planner/date');
+
+    console.error('Unknown sort criteria:', criteria);
+    setLoading(false);
+  };
+
+  const getPlans = async (url) => {
+    try {
+      const response = await axiosInstance.get(url);
+      setPlans(response.data.tripScheduleResponses);
+    } catch (error) {
+      console.error('플래너 데이터를 불러오는 중 오류 발생:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const toggleDropdown = (id) => {
     setActiveDropdown(activeDropdown === id ? null : id);
   };
 
   const handleEdit = (id) => {
-    const planToEdit = PlannerData.find((plan) => plan.id === id);
+    const planToEdit = plans.find((plan) => plan.scheduleId === id);
     setSelectedPlan(planToEdit);
     setModalMode('edit');
     setIsModalOpen(true);
@@ -31,42 +59,74 @@ const Planner = () => {
     setIsModalOpen(true);
   };
 
-  const handleDelete = (id) => {
-    // 삭제하기 로직
-    console.log(`삭제하기 클릭: ${id}`);
+  const handleDelete = async (id) => {
+    try {
+      const response = await axiosInstance.delete(`/planner/schedule/${id}`);
+      if (response.status === 204) {
+        console.log(`일정 삭제 성공: ${id}`);
+        fetchPlans(sortCriteria);
+        return;
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        console.error('삭제 중 오류 발생: ', error.response.data.message);
+        return;
+      }
+      console.error('일정 삭제 중 오류 발생:', error);
+    }
   };
 
-  const handleSave = (updatedPlan) => {
-    if (modalMode === 'edit') {
-      console.log('수정된 플랜:', updatedPlan);
-    } else if (modalMode === 'add') {
-      console.log('새로 추가된 플랜:', updatedPlan);
+  const handleSave = async (newPlan) => {
+    if (!newPlan) return;
+
+    const payload = {
+      scheduleName: newPlan.title,
+      startDate: newPlan.startTime,
+      endDate: newPlan.endTime,
+    };
+
+    try {
+      if (modalMode === 'add') {
+        const response = await axiosInstance.post('/schedule', payload);
+        if (response.status === 204 || response.status === 201) {
+          console.log('새 일정 추가 성공');
+          fetchPlans(sortCriteria);
+          return;
+        }
+      }
+
+      if (modalMode === 'edit') {
+        const response = await axiosInstance.put('/planner/schedule', {
+          ...payload,
+          scheduleId: selectedPlan.scheduleId,
+        });
+        if (response.status === 204) {
+          console.log('일정 수정 성공');
+          fetchPlans(sortCriteria);
+          return;
+        }
+      }
+    } catch (error) {
+      console.error('일정 저장 중 오류 발생:', error);
+    } finally {
+      setIsModalOpen(false);
     }
-    setIsModalOpen(false);
   };
 
   const handleSort = (criteria) => {
     setSortCriteria(criteria);
+    fetchPlans(criteria);
   };
-
-  const sortedPlans = [...PlannerData].sort((a, b) => {
-    if (sortCriteria === 'newest') { // id를 기준으로 최신순 정렬 (연동 전 임시로 id를 사용)
-      return b.id - a.id;
-    } else if (sortCriteria === 'name') { // 이름순 정렬 (가나다순)
-      return a.title.localeCompare(b.title);
-    } else if (sortCriteria === 'date') { // 날짜순 정렬 (여행기간이 가장 가까운 순)
-      const dateA = new Date(a.period.split(' ~ ')[0]);
-      const dateB = new Date(b.period.split(' ~ ')[0]);
-      return dateA - dateB;
-    }
-    return 0;
-  });
 
   const handleItemClick = (id) => {
     if (activeDropdown !== id) {
       navigate(`/plannerdetails/${id}`);
     }
   };
+
+  if (loading) {
+    return <div>로딩 중...</div>;
+  }
 
   return (
     <div className="planner-page">
@@ -100,36 +160,36 @@ const Planner = () => {
         </button>
       </div>
       <div className="planner-list">
-        {sortedPlans.map((plan) => (
+        {plans.map((plan) => (
           <div
-            key={plan.id}
+            key={plan.scheduleId}
             className="planner-item"
-            onClick={() => handleItemClick(plan.id)}
+            onClick={() => handleItemClick(plan.scheduleId)}
           >
             <div className="planner-info">
               <Link
-                to={`/plannerdetails/${plan.id}`}
+                to={`/plannerdetails/${plan.scheduleId}`}
                 className="planner-link"
-                onClick={(e) => e.stopPropagation()} // 링크 클릭 시 이벤트 중단
+                onClick={(e) => e.stopPropagation()}
               >
-                <h2 className="planner-title-text">{plan.title}</h2>
+                <h2 className="planner-title-text">{plan.scheduleName}</h2>
               </Link>
-              <div className="planner-period">{plan.period}</div>
+              <div className="planner-period">{`${plan.startTime} ~ ${plan.endTime}`}</div>
             </div>
             <div
               className="planner-actions"
-              onClick={(e) => e.stopPropagation()} // 드롭다운 클릭 시 이벤트 중단
+              onClick={(e) => e.stopPropagation()}
             >
               <img
                 src={seemoreIcon}
                 alt="더보기"
-                onClick={() => toggleDropdown(plan.id)}
+                onClick={() => toggleDropdown(plan.scheduleId)}
                 className="seemore-icon"
               />
-              {activeDropdown === plan.id && (
+              {activeDropdown === plan.scheduleId && (
                 <div className="dropdown-menu">
-                  <button onClick={() => handleEdit(plan.id)}>수정하기</button>
-                  <button onClick={() => handleDelete(plan.id)}>삭제하기</button>
+                  <button onClick={() => handleEdit(plan.scheduleId)}>수정하기</button>
+                  <button onClick={() => handleDelete(plan.scheduleId)}>삭제하기</button>
                 </div>
               )}
             </div>

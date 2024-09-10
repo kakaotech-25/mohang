@@ -6,6 +6,7 @@ import moheng.auth.presentation.initauthentication.InitAuthentication;
 import moheng.member.application.MemberService;
 import moheng.member.dto.request.*;
 import moheng.member.dto.response.CheckDuplicateNicknameResponse;
+import moheng.member.dto.response.FindMemberAuthorityAndProfileResponse;
 import moheng.member.dto.response.MemberResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -60,5 +61,10 @@ public class MemberController {
             @RequestBody final UpdateProfileRequest request) {
         memberService.updateByProfile(accessor.getId(), request);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/authority/profile")
+    public ResponseEntity<FindMemberAuthorityAndProfileResponse> findMemberAuthorityAndProfileImg(@Authentication final Accessor accessor) {
+        return ResponseEntity.ok(memberService.findMemberAuthorityAndProfileImg(accessor.getId()));
     }
 }

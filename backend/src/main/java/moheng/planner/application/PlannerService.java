@@ -59,7 +59,7 @@ public class PlannerService {
                 updateTripScheduleRequest.getScheduleId(),
                 updateTripScheduleRequest.getScheduleName(),
                 updateTripScheduleRequest.getStartDate(),
-                updateTripScheduleRequest.getStartDate(),
+                updateTripScheduleRequest.getEndDate(),
                 member
         );
         tripScheduleRepository.save(updateTripSchedule);

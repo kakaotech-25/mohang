@@ -56,4 +56,14 @@ public class MemberAcceptanceFixture {
                 .statusCode(org.springframework.http.HttpStatus.NO_CONTENT.value())
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 회원_권한과_프로필을_찾는다(final String accessToken) {
+        return RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessToken)
+                .when().get("/api/member/authority/profile")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract();
+    }
 }

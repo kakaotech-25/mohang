@@ -65,11 +65,16 @@ public class TripPreferredLocationsFilterStrategy implements TripFilterStrategy 
     }
 
     private List<Trip> findRecommendTripsByModelClient(final Map<Long, Long> preferredLocations, final long memberId, final long page) {
+        final List<RecommendTripsByVisitedLogsRequest.LocationPreference> locationPreferences = preferredLocations.entrySet().stream()
+                .map(preferredLocation -> new RecommendTripsByVisitedLogsRequest.LocationPreference(preferredLocation.getKey(), preferredLocation.getValue()))
+                .collect(Collectors.toList());
+
         final RecommendTripsByVisitedLogsResponse response = externalRecommendModelClient.recommendTripsByVisitedLogs(
-                new RecommendTripsByVisitedLogsRequest(preferredLocations, page)
+                new RecommendTripsByVisitedLogsRequest(locationPreferences, page)
         );
         return filterTripsByLiveinformation(response, memberId);
     }
+
 
     private List<Trip> filterTripsByLiveinformation(final RecommendTripsByVisitedLogsResponse recommendTripsByVisitedLogsResponse, final Long memberId) {
         final List<Trip> trips = tripRepository.findTripsByContentIds(recommendTripsByVisitedLogsResponse.getContentIds());

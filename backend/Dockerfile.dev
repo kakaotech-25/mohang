@@ -14,5 +14,6 @@ RUN chmod +x ./gradlew \
 # 소스코드 복사
 COPY src /app/src
 
+RUN ./gradlew clean build
 # CMD ["tail", "-f"]
 CMD ["./gradlew", "bootRun"]
