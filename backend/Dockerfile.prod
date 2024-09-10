@@ -15,7 +15,7 @@ RUN chmod +x ./gradlew \
 COPY src /app/src
 
 # 소스코드 빌드
-RUN ./gradlew build
+RUN ./gradlew clean build
 
 # --------------------------------------------------------------------
 # 최종 이미지
