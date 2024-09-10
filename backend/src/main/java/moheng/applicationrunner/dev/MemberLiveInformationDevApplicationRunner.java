@@ -41,10 +41,10 @@ public class MemberLiveInformationDevApplicationRunner implements ApplicationRun
 
     @Override
     public void run(ApplicationArguments args) {
-        // Member member = memberRepository.save(new Member(1L, "msung6924@kakao.com", "devhaon", "https://default.png", SocialType.KAKAO,
-        //        LocalDate.of(2000, 1, 1), GenderType.MEN));
+        Member member = memberRepository.save(new Member(1L, "msung6924@kakao.com", "devhaon", "https://default.png", SocialType.KAKAO,
+                LocalDate.of(2000, 1, 1), GenderType.MEN));
 
-        /* recommendTripRepository.save(new RecommendTrip(tripRepository.findById(1L).get(), member, 1L));
+        recommendTripRepository.save(new RecommendTrip(tripRepository.findById(1L).get(), member, 1L));
         recommendTripRepository.save(new RecommendTrip(tripRepository.findById(2L).get(), member, 2L));
         recommendTripRepository.save(new RecommendTrip(tripRepository.findById(3L).get(), member, 3L));
         recommendTripRepository.save(new RecommendTrip(tripRepository.findById(4L).get(), member, 4L));
@@ -64,6 +64,6 @@ public class MemberLiveInformationDevApplicationRunner implements ApplicationRun
         memberTripRepository.save(new MemberTrip(member, tripRepository.findById(7L).get(), 6L));
         memberTripRepository.save(new MemberTrip(member, tripRepository.findById(8L).get(), 7L));
         memberTripRepository.save(new MemberTrip(member, tripRepository.findById(9L).get(), 8L));
-        memberTripRepository.save(new MemberTrip(member, tripRepository.findById(10L).get(), 9L)); */
+        memberTripRepository.save(new MemberTrip(member, tripRepository.findById(10L).get(), 9L));
     }
 }
