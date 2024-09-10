@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Axios 인스턴스 생성
 const axiosInstance = axios.create({
-  baseURL: "https://moheng.xyz/api",
+  baseURL: "http://localhost:8080/api",
 });
 
 // 요청 인터셉터: 엑세스 토큰을 요청 헤더에 추가
@@ -42,7 +42,9 @@ axiosInstance.interceptors.response.use(
           const newAccessToken = response.data.accessToken;
           if (newAccessToken) {
             localStorage.setItem("accessToken", newAccessToken);
-            axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${newAccessToken}`;
+            axiosInstance.defaults.headers.common[
+              "Authorization"
+            ] = `Bearer ${newAccessToken}`;
             return axiosInstance(originalRequest); // 원래의 요청을 다시 시도
           }
         } catch (refreshError) {

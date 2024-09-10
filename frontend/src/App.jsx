@@ -1,24 +1,22 @@
-import './App.css'
-import {Routes, Route} from "react-router-dom"
-import Header from "./components/Header/Header"
-import Footer from "./components/Footer/Footer"
-import Home from "./pages/Home/Home.jsx"
-import Login from './pages/Login/Login.jsx'
-import Profile from './pages/Profile/Profile.jsx'
-import LivingInfo from './pages/LivingInfo/LivingInfo.jsx'
-import InterestedPlace from './pages/InterestedPlace/InterestedPlace.jsx'
-import Mypage from './pages/Mypage/Mypage.jsx'
-import Planner from './pages/Planner/Planner.jsx'
-import PlannerDetails from './pages/PlannerDetails/PlannerDetails.jsx'
-import TravelDetails from './pages/TravelDetails/TravelDetails.jsx'
-import Landing from './pages/Landing/Landing.jsx'
-import Callback from './pages/Login/Callback.jsx'
+import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
+import Home from "./pages/Home/Home.jsx";
+import Login from "./pages/Login/Login.jsx";
+import Profile from "./pages/Profile/Profile.jsx";
+import LivingInfo from "./pages/LivingInfo/LivingInfo.jsx";
+import InterestedPlace from "./pages/InterestedPlace/InterestedPlace.jsx";
+import Mypage from "./pages/Mypage/Mypage.jsx";
+import Planner from "./pages/Planner/Planner.jsx";
+import PlannerDetails from "./pages/PlannerDetails/PlannerDetails.jsx";
+import TravelDetails from "./pages/TravelDetails/TravelDetails.jsx";
+import Landing from "./pages/Landing/Landing.jsx";
+import Callback from "./pages/Login/Callback.jsx";
 
 function App() {
-
   return (
     <>
-      
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -35,7 +33,7 @@ function App() {
       </Routes>
       <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
