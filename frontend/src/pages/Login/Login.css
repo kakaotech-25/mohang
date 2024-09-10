@@ -13,6 +13,7 @@
 .kakao-login {
     align-self: center;
     width: 40%;
+    z-index: 999;
 }
 
 .login-right {
