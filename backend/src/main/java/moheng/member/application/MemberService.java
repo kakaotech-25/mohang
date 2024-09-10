@@ -46,12 +46,14 @@ public class MemberService {
                          final LiveInformationService liveInformationService,
                          final MemberLiveInformationService memberLiveInformationService,
                          final TripService tripService,
-                         final RecommendTripService recommendTripService, LiveInformationRepository liveInformationRepository, MemberTripRepository memberTripRepository) {
+                         final RecommendTripService recommendTripService, LiveInformationRepository liveInformationRepository,
+                         final MemberTripRepository memberTripRepository) {
         this.memberRepository = memberRepository;
         this.memberLiveInformationService = memberLiveInformationService;
         this.tripService = tripService;
         this.recommendTripService = recommendTripService;
         this.liveInformationRepository = liveInformationRepository;
+        this.memberTripRepository = memberTripRepository;
     }
 
     public MemberResponse findById(final Long id) {
