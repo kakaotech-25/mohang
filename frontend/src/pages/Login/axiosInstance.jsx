@@ -42,7 +42,9 @@ axiosInstance.interceptors.response.use(
           const newAccessToken = response.data.accessToken;
           if (newAccessToken) {
             localStorage.setItem("accessToken", newAccessToken);
-            axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${newAccessToken}`;
+            axiosInstance.defaults.headers.common[
+              "Authorization"
+            ] = `Bearer ${newAccessToken}`;
             return axiosInstance(originalRequest); // 원래의 요청을 다시 시도
           }
         } catch (refreshError) {

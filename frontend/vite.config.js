@@ -7,4 +7,7 @@ export default defineConfig({
   server: {
     port: 3000, // 포트 번호 설정
   },
+  build: {
+    chunkSizeWarningLimit: 1000, // 경고 한도를 1000kB로 증가
+  },
 });
