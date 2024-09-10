@@ -3,6 +3,7 @@ package moheng.recommendtrip.domain.repository;
 import moheng.member.domain.Member;
 import moheng.recommendtrip.domain.RecommendTrip;
 import moheng.trip.domain.Trip;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,6 +15,7 @@ import java.util.List;
 public interface RecommendTripRepository extends JpaRepository<RecommendTrip, Long> {
     List<RecommendTrip> findAllByMemberId(final Long memberId);
 
+    @EntityGraph(attributePaths = {"trip"})
     List<RecommendTrip> findByMemberOrderByRankingDesc(final Member member);
 
     boolean existsByMemberAndTrip(final Member member, final Trip trip);
