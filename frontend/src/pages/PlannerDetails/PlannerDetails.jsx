@@ -5,7 +5,7 @@ import deleteIcon from "../../assets/delete-icon.png";
 import backIcon from "../../assets/back-icon.png";
 import editIcon from "../../assets/editicon.png";
 import PlannerModal from "../../components/PlannerModal/PlannerModal";
-import axiosInstance from "../login/axiosInstance";
+import axiosInstance from "../Login/axiosInstance";
 import "./PlannerDetails.css";
 
 const PlannerDetails = () => {
