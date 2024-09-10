@@ -3,6 +3,7 @@ package moheng.trip.domain.repository;
 import moheng.member.domain.Member;
 import moheng.trip.domain.MemberTrip;
 import moheng.trip.domain.Trip;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

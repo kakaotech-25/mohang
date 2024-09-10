@@ -20,7 +20,9 @@ import moheng.member.exception.NoExistMemberException;
 import moheng.member.exception.ShortContentidsSizeException;
 import moheng.recommendtrip.application.RecommendTripService;
 import moheng.trip.application.TripService;
+import moheng.trip.domain.MemberTrip;
 import moheng.trip.domain.Trip;
+import moheng.trip.domain.repository.MemberTripRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,17 +40,20 @@ public class MemberService {
     private final TripService tripService;
     private final RecommendTripService recommendTripService;
     private final LiveInformationRepository liveInformationRepository;
+    private final MemberTripRepository memberTripRepository;
 
     public MemberService(final MemberRepository memberRepository,
                          final LiveInformationService liveInformationService,
                          final MemberLiveInformationService memberLiveInformationService,
                          final TripService tripService,
-                         final RecommendTripService recommendTripService, LiveInformationRepository liveInformationRepository) {
+                         final RecommendTripService recommendTripService, LiveInformationRepository liveInformationRepository,
+                         final MemberTripRepository memberTripRepository) {
         this.memberRepository = memberRepository;
         this.memberLiveInformationService = memberLiveInformationService;
         this.tripService = tripService;
         this.recommendTripService = recommendTripService;
         this.liveInformationRepository = liveInformationRepository;
+        this.memberTripRepository = memberTripRepository;
     }
 
     public MemberResponse findById(final Long id) {
@@ -119,11 +124,14 @@ public class MemberService {
         changeMemberPrivileges(member);
     }
 
-    private void saveRecommendTrip(final List<Long> contentIds, final Member member, long rank) {
+    private void saveRecommendTrip(final List<Long> contentIds, final Member member, final long rank) {
+        long ranking = rank;
         validateContentIds(contentIds);
         for (final Long contentId : contentIds) {
             final Trip trip = tripService.findByContentId(contentId);
-            recommendTripService.saveByRank(trip, member, rank++);
+            recommendTripService.saveByRank(trip, member, ranking);
+            memberTripRepository.save(new MemberTrip(member, trip, 0L));
+            ranking++;
         }
     }
 

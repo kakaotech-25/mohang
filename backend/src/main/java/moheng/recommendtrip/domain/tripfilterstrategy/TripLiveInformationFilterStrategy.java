@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class TripLiveInformationFilterStrategy implements TripFilterStrategy {
@@ -45,20 +46,32 @@ public class TripLiveInformationFilterStrategy implements TripFilterStrategy {
     private List<Trip> findFilteredSimilarTripsByLiveInformation(final Trip trip) {
         final List<Trip> filteredSimilarTrips = new ArrayList<>();
         long page = 1L;
-        while(filteredSimilarTrips.size() < SIMILAR_TRIPS_COUNT) {
+        while (filteredSimilarTrips.size() < SIMILAR_TRIPS_COUNT) {
             final FindSimilarTripWithContentIdResponses similarTripWithContentIdResponses = externalSimilarTripModelClient.findSimilarTrips(trip.getContentId(), page);
             final List<Trip> filteredTripsByLiveInformation = findFilteredTripsByLiveInformation(trip, similarTripWithContentIdResponses.getContentIds());
             filteredSimilarTrips.addAll(filteredTripsByLiveInformation);
             page++;
         }
-        if(filteredSimilarTrips.size() > SIMILAR_TRIPS_COUNT) {
+        if (filteredSimilarTrips.size() > SIMILAR_TRIPS_COUNT) {
             return filteredSimilarTrips.subList(0, SIMILAR_TRIPS_COUNT);
         }
         return filteredSimilarTrips;
     }
 
     private List<Trip> findFilteredTripsByLiveInformation(final Trip currentTrip, final List<Long> contentIds) {
-        final LiveInformation liveInformation = liveInformationRepository.findLiveInformationByTrip(currentTrip);
-        return tripRepository.findFilteredTripsByLiveInformation(liveInformation.getId(), contentIds);
+        final List<LiveInformation> liveInformations = liveInformationRepository.findLiveInformationByTrip(currentTrip);
+        final List<Trip> filteredTrips = new ArrayList<>();
+
+        for (LiveInformation liveInformation : liveInformations) {
+            final List<Trip> tripsByLiveInfo = tripRepository.findFilteredTripsByLiveInformation(liveInformation.getId(), contentIds);
+            filteredTrips.addAll(tripsByLiveInfo);
+        }
+        return findDistinctTrips(filteredTrips);
+    }
+
+    private List<Trip> findDistinctTrips(final List<Trip> filteredTrips) {
+        return filteredTrips.stream()
+                .distinct()
+                .collect(Collectors.toList());
     }
 }

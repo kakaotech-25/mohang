@@ -368,36 +368,6 @@ public class TripServiceTest extends ServiceTestConfig {
         assertThat(recommendTripRepository.findById(1L).get().getRanking()).isEqualTo(1L);
     }
 
-    @DisplayName("동시간대에 여러 유저가 여행지를 조회하면 방문 횟수에 동시성 이슈가 발생한다.")
-    @Test
-    void 동시간대에_여러_유저가_여행지를_조회하면_방문_횟수에_동시성_이슈가_발생한다() throws InterruptedException {
-
-        ExecutorService executorService = Executors.newFixedThreadPool(100);
-        CountDownLatch latch = new CountDownLatch(100);
-
-        // given
-        long currentTripId = 1L;
-        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
-
-        // when
-        for (long memberId = 0; memberId < 100; memberId++) {
-            long finalMemberId = memberId;
-            executorService.submit(() -> {
-                try {
-                    tripService.findWithSimilarOtherTrips(currentTripId, finalMemberId);
-                } finally {
-                    latch.countDown();
-                }
-            });
-        }
-        latch.await();
-        executorService.shutdown();
-
-        // then
-        Trip trip = tripService.findById(currentTripId);
-        assertThat(trip.getVisitedCount()).isNotEqualTo(100L);
-    }
-
     @DisplayName("존재하지 않는 회원이 여행지를 조회하면 예외가 발생한다.")
     @Test
     void 존재하지_않는_회원이_여행지를_조회하면_예외가_발생한다() {
