@@ -3,17 +3,14 @@ FROM openjdk:22-slim AS build
 
 WORKDIR /app
 
-# gradle 설정파일 복사
-COPY gradlew gradle build.gradle settings.gradle ${WORKDIR}
-COPY gradle/wrapper /app/gradle/wrapper
-
 # 실행권한 부여 & build.gradle 의존성 다운로드
-RUN chmod +x ./gradlew \
-    && ./gradlew dependencies
+RUN  apt-get update && apt-get install -y dumb-init
 
 # 소스코드 복사
-COPY src /app/src
+COPY run_server.sh .
+RUN chmod +x run_server.sh
 
-RUN ./gradlew clean build
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+
 # CMD ["tail", "-f"]
-CMD ["./gradlew", "bootRun"]
+CMD ["./run_server.sh"]
