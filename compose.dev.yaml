@@ -10,6 +10,8 @@ services:
     ports:
       - "80:80"
     restart: always
+    volumes:
+      - ./nginx/srcs/:/etc/nginx/srcs
 
   backend:
     container_name: back

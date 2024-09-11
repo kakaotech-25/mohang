@@ -12,6 +12,7 @@ services:
       - ./nginx/letsencrypt:/etc/letsencrypt
       - ./nginx/nginx.conf/:/etc/nginx/nginx.conf
       - ./nginx/tools/production.conf:/etc/nginx/conf.d/production.conf
+      - ./nginx/srcs/:/etc/nginx/srcs/
 
   backend:
     container_name: back
