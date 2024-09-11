@@ -30,7 +30,7 @@ logging:
 oauth:
   kakao:
     authorize_uri: https://kauth.kakao.com/oauth/authorize
-    redirect_uri: http://localhost:3000/callback/kakao
+    redirect_uri: https://moheng.life/callback/kakao
     client_secret: 3ZPJ93VC9MCuCXmPCDzrGmum2M3A7tif
     token_uri: https://kauth.kakao.com/oauth/token
     user_uri: https://kapi.kakao.com/v2/user/me
