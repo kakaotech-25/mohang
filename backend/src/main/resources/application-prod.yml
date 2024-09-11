@@ -4,9 +4,10 @@ spring:
   application:
     name: moheng
   datasource:
+    url: http://localhost:3306/moheng
     username: root
-    url: jdbc:h2:mem:~/moheng;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=FALSE
     password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
   lifecycle:
     timeout-per-shutdown-phase: 20s
   jpa:
@@ -39,7 +40,7 @@ oauth:
 security:
   jwt:
     token:
-      secret_key: secretsecretsecretsecretsecretsecret
+      secret_key: qiweqwiugbqw19wehfwennvkjweknjvwekrjnwerjknqwjnqwe
       expire_length:
-        access_token: 36000000
-        refresh_token: 36000000
+        access_token: 1800000
+        refresh_token: 604800000
