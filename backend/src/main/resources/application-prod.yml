@@ -4,10 +4,10 @@ spring:
   application:
     name: moheng
   datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: http://localhost:3306/moheng
     username: root
     password: 1234
-    driver-class-name: com.mysql.cj.jdbc.Driver
   lifecycle:
     timeout-per-shutdown-phase: 20s
   jpa:
@@ -17,7 +17,7 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
   flyway:
     enabled: true
 logging:
