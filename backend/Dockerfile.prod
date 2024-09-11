@@ -37,4 +37,4 @@ RUN groupadd -r appgroup && useradd -r -g appgroup mohenguser \
 USER mohenguser
 
 # 추후 jar파일의 이름이 변경되어도 첫번째 행을 실행시키도록 함
-CMD ["sh", "-c", "java -jar *SNAPSHOT.jar"]
+CMD ["sh", "-c", "java -jar -Dspring.profiles.active=dev *SNAPSHOT.jar"]
