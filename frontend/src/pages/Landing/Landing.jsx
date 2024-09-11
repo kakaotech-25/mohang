@@ -1,8 +1,8 @@
-import { useRef, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './Landing.css';
-import TravelCarousel from '../../components/TravelCarousel/TravelCarousel';
-import axiosInstance from '../Login/axiosInstance'; // Axios 인스턴스 사용
+import { useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Landing.css";
+import TravelCarousel from "../../components/TravelCarousel/TravelCarousel";
+import axiosInstance from "../Login/axiosInstance"; // Axios 인스턴스 사용
 // TravelData는 삭제
 
 const Landing = () => {
@@ -10,30 +10,45 @@ const Landing = () => {
   const navigate = useNavigate();
 
   // 상태 관리: 키워드와 여행지 리스트
-  const [keyword, setKeyword] = useState('');
+  const [keyword, setKeyword] = useState("");
   const [tripList, setTripList] = useState([]);
+  const [videoUrl, setVideoUrl] = useState("");
 
   // 컴포넌트가 마운트될 때 API 호출
   useEffect(() => {
     const fetchTripData = async () => {
       try {
-        const response = await axiosInstance.get('/keyword/random/trip');
+        const response = await axiosInstance.get("/keyword/random/trip");
         setKeyword(response.data.keywordName); // 키워드 설정
         setTripList(response.data.findTripResponses); // 여행지 리스트 설정
       } catch (error) {
-        console.error('랜딩 페이지 데이터를 불러오는 중 오류 발생:', error);
+        console.error("랜딩 페이지 데이터를 불러오는 중 오류 발생:", error);
       }
     };
 
+    const fetchExampleVideo = async () => {
+      try {
+        // 비디오 URL을 서버에서 불러옴
+        const response = await axiosInstance.get("/video/moheng.mp4", {
+          responseType: "blob",
+        });
+        const videoBlob = URL.createObjectURL(response.data);
+        setVideoUrl(videoBlob); // 비디오 URL을 상태로 설정
+      } catch (error) {
+        console.error("비디오 데이터를 불러오는 중 오류 발생:", error);
+      }
+    };
+
+    fetchExampleVideo();
     fetchTripData();
   }, []);
 
   const handleScroll = () => {
-    secondSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+    secondSectionRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleLoginRedirect = () => {
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
@@ -54,14 +69,22 @@ const Landing = () => {
           </div>
         </div>
       </div>
-      <div ref={secondSectionRef} className="second-section">
-        <h2>영상 공간</h2>
-      </div>
+      {videoUrl && (
+        <video controls width="100%">
+          <source
+            src={videoUrl}
+            type="video/mp4"
+            alt="사이트 사용법 설명 데모 영상"
+          />
+          Your browser does not support the video tag.
+        </video>
+      )}
 
-      <section className='keyword-recommendation'>
-        <div className='carousel-description'>
+      <section className="keyword-recommendation">
+        <div className="carousel-description">
           {/* keyword 상태를 사용하여 키워드 표시 */}
-          <span className="keyword-highlight">#{keyword}</span> 키워드로 추천하는 여행지
+          <span className="keyword-highlight">#{keyword}</span> 키워드로
+          추천하는 여행지
         </div>
         {/* TravelCarousel에 tripList 데이터 전달 */}
         <TravelCarousel cards={tripList} />
