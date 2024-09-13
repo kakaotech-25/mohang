@@ -265,10 +265,11 @@ public class MemberServiceTest extends ServiceTestConfig {
         // given
         Member 하온 = memberRepository.save(하온_기존());
 
-        SignUpInterestTripsRequest request = new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L));
+        tripRepository.save(여행지1_생성()); tripRepository.save(여행지2_생성()); tripRepository.save(여행지3_생성());
+        tripRepository.save(여행지4_생성()); tripRepository.save(여행지5_생성());
 
         // when, then
-        assertDoesNotThrow(() -> memberService.signUpByInterestTrips(하온.getId(), request));
+        assertDoesNotThrow(() -> memberService.signUpByInterestTrips(하온.getId(), 관심_여행지로_회원가입_요청()));
     }
 
     @DisplayName("회원이 선택한 관심 여행지 우선순위를 1위부터 시작하여 순차대로 저장한다.")
