@@ -108,6 +108,10 @@ public class MemberFixtures {
         return new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L));
     }
 
+    public static SignUpInterestTripsRequest 다섯개_미만의_관심_여행지로_회원가입_요청() {
+        return new SignUpInterestTripsRequest(List.of(1L, 2L, 3L));
+    }
+
     public static SignUpInterestTripsRequest 잘못된_관심_여행지로_회원가입_요청() {
         return new SignUpInterestTripsRequest(List.of());
     }

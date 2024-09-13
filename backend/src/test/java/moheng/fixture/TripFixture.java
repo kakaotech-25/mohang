@@ -30,6 +30,51 @@ public class TripFixture {
                 "https://trip3.png", 123.123, 123.123);
     }
 
+    public static Trip 여행지4_생성() {
+        return new Trip("여행지4", "장소명4", 4L, "여행지 설명4",
+                "https://trip4.png", 123.123, 123.123);
+    }
+
+    public static Trip 여행지5_생성() {
+        return new Trip("여행지5", "장소명5", 5L, "여행지 설명5",
+                "https://trip5.png", 123.123, 123.123);
+    }
+
+    public static Trip 여행지6_생성() {
+        return new Trip("여행지6", "장소명6", 6L, "여행지 설명6",
+                "https://trip6.png", 123.123, 123.123);
+    }
+
+    public static Trip 여행지7_생성() {
+        return new Trip("여행지7", "장소명7", 7L, "여행지 설명7",
+                "https://trip7.png", 123.123, 123.123);
+    }
+
+    public static Trip 여행지8_생성() {
+        return new Trip("여행지8", "장소명8", 8L, "여행지 설명8",
+                "https://trip8.png", 123.123, 123.123);
+    }
+
+    public static Trip 여행지9_생성() {
+        return new Trip("여행지9", "장소명9", 9L, "여행지 설명9",
+                "https://trip9.png", 123.123, 123.123);
+    }
+
+    public static Trip 여행지10_생성() {
+        return new Trip("여행지10", "장소명10", 10L, "여행지 설명10",
+                "https://trip10.png", 123.123, 123.123);
+    }
+
+    public static Trip 여행지11_생성() {
+        return new Trip("여행지11", "장소명11", 11L, "여행지 설명11",
+                "https://trip11.png", 123.123, 123.123);
+    }
+
+    public static Trip 여행지12_생성() {
+        return new Trip("여행지12", "장소명12", 12L, "여행지 설명12",
+                "https://trip12.png", 123.123, 123.123);
+    }
+
     // 방문수 고려 여행지 생성
     public static Trip 여행지1_생성_방문수_1등() {
         return new Trip("여행지1", "장소명1", 1L, "여행지 설명1",
