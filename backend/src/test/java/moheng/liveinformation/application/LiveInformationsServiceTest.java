@@ -1,7 +1,6 @@
 package moheng.liveinformation.application;
 
 import static moheng.fixture.LiveInformationFixture.*;
-import static moheng.fixture.LiveInformationFixture.생활정보1_생성;
 import static moheng.fixture.TripFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
