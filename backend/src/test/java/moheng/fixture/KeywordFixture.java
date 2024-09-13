@@ -26,7 +26,35 @@ public class KeywordFixture {
     }
 
     public static Keyword 키워드3_생성() {
-        return new Keyword("키워드2");
+        return new Keyword("키워드3");
+    }
+
+    public static Keyword 키워드4_생성() {
+        return new Keyword("키워드4");
+    }
+
+    public static Keyword 키워드5_생성() {
+        return new Keyword("키워드5");
+    }
+
+    public static Keyword 키워드6_생성() {
+        return new Keyword("키워드6");
+    }
+
+    public static Keyword 키워드7_생성() {
+        return new Keyword("키워드7");
+    }
+
+    public static Keyword 키워드8_생성() {
+        return new Keyword("키워드8");
+    }
+
+    public static Keyword 키워드9_생성() {
+        return new Keyword("키워드9");
+    }
+
+    public static Keyword 키워드10_생성() {
+        return new Keyword("키워드10");
     }
 
     public static TripKeywordCreateRequest 여행지_키워드_생성_요청() {
