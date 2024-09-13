@@ -1,5 +1,6 @@
 package moheng.keyword.domain;
 
+import static moheng.fixture.KeywordFixture.*;
 import static moheng.fixture.MemberFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -13,6 +14,6 @@ public class MemberKeywordTest {
     @DisplayName("멤버의 키워드를 생성한다.")
     @Test
     void 멤버의_키워드를_생성한다() {
-        assertDoesNotThrow(() -> new MemberKeyword(하온_기존(), new Keyword("키워드")));
+        assertDoesNotThrow(() -> new MemberKeyword(하온_기존(), 키워드1_생성()));
     }
 }
