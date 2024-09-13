@@ -25,28 +25,19 @@ tasks:
 
   prod:
     desc: 프로덕션 환경 실행
-    cmd: docker compose -f compose.prod.yaml up --build
+    cmd: docker compose -f compose.prod.yaml up
 
   prod-down:
     desc: 프로덕션 환경 중지
     cmd: docker compose -f compose.prod.yaml down
 
-  up:
-    desc: 컨테이너 실행
-    cmd: docker compose up --build
-
-  down:
-    desc: 컨테이너 중지
-    cmd: docker compose down
-
   clean:
     desc: 컨테이너 삭제, 네트워크 삭제, 볼륨 삭제, 이미지 삭제, 빌드 캐시 삭제
     cmd: docker system prune -a
 
-  initssl:
-    desc: SSL 인증서 생성
-    cmd: sh -c ./nginx/ssl/init_tls.sh
-
-  deploy:
-    desc: 애플리케이션 배포
-    cmd: sh -c ./deploy.sh
+  db:
+    desc: 데이터베이스 초기화
+    dir: database
+    cmds:
+      - sh -c ./init.sh
+      - docker compose -f compose.yaml up -d
