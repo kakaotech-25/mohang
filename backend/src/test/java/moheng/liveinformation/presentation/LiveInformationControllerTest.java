@@ -1,5 +1,6 @@
 package moheng.liveinformation.presentation;
 
+import static moheng.fixture.LiveInformationFixture.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -34,12 +35,7 @@ public class LiveInformationControllerTest extends ControllerTestConfig {
     void 모든_생활정보를_찾고_상태코드_200을_리턴한다() throws Exception {
         // given
         given(liveInformationService.findAllLiveInformation())
-                .willReturn(new FindAllLiveInformationResponse(
-                        List.of(new LiveInformation(1L, "생활정보1"),
-                                new LiveInformation(2L, "생활정보2"),
-                                new LiveInformation(3L, "생활정보3")
-                        )
-                ));
+                .willReturn(모든_키워드_조회_응답());
 
         // when, then
         mockMvc.perform(get("/api/live/info/all")
