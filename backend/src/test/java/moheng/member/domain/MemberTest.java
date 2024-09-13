@@ -104,8 +104,13 @@ public class MemberTest {
     @DisplayName("권한을 변경한다.")
     @Test
     void 권한을_변경한다() {
+        // given
         Member member = new Member(하온_이메일, 하온_소셜_타입_카카오, 하온_프로필_경로);
+
+        // when
         member.changePrivilege(Authority.REGULAR_MEMBER);
+
+        // then
         assertThat(member.getAuthority()).isEqualTo(Authority.REGULAR_MEMBER);
     }
 }
