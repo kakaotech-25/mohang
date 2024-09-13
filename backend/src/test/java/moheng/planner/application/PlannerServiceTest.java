@@ -156,6 +156,7 @@ public class PlannerServiceTest extends ServiceTestConfig {
     void 여행_일정의_이름이_변경된_경우_중복_이름을_체크하고_중복이_발생했다면_예외가_발생한다() {
         // given
         Member 하온 = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(여행_일정1_생성(하온));
         tripScheduleRepository.save(여행_일정_중복_생성(하온));
 
         // when, then
