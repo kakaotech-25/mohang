@@ -1,10 +1,14 @@
 package moheng.keyword.presentation;
 
+import moheng.auth.exception.InvalidInitAuthorityException;
 import moheng.config.slice.ControllerTestConfig;
 import moheng.keyword.domain.Keyword;
+import moheng.keyword.dto.FindAllKeywordResponse;
 import moheng.keyword.dto.FindAllKeywordResponses;
+import moheng.keyword.exception.InvalidAIServerException;
 import moheng.keyword.exception.KeywordNameLengthException;
 import moheng.keyword.exception.NoExistKeywordException;
+import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,6 +16,7 @@ import org.springframework.http.MediaType;
 
 import java.util.List;
 
+import static moheng.fixture.KeywordFixture.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;

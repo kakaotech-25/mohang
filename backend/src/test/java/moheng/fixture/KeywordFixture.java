@@ -1,4 +1,4 @@
-package moheng.config.fixture;
+package moheng.fixture;
 
 import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.TripKeyword;
@@ -14,6 +14,18 @@ import java.util.List;
 public class KeywordFixture {
     public static KeywordCreateRequest 키워드_생성_요청() {
         return new KeywordCreateRequest("키워드");
+    }
+
+    public static Keyword 키워드1_생성() {
+        return new Keyword("키워드1");
+    }
+
+    public static Keyword 키워드2_생성() {
+        return new Keyword("키워드2");
+    }
+
+    public static Keyword 키워드3_생성() {
+        return new Keyword("키워드2");
     }
 
     public static TripKeywordCreateRequest 여행지_키워드_생성_요청() {

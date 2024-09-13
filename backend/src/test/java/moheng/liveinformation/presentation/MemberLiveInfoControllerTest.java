@@ -1,5 +1,6 @@
 package moheng.liveinformation.presentation;
 
+import static moheng.fixture.MemberLiveInfoFixture.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;

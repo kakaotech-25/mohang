@@ -1,9 +1,13 @@
 package moheng.member.presentation;
 
+import static moheng.fixture.MemberFixtures.*;
+
 import moheng.auth.domain.oauth.Authority;
 import moheng.auth.exception.EmptyBearerHeaderException;
 import moheng.auth.exception.InvalidInitAuthorityException;
+import moheng.auth.exception.InvalidOAuthServiceException;
 import moheng.config.slice.ControllerTestConfig;
+import moheng.liveinformation.exception.EmptyLiveInformationException;
 import moheng.liveinformation.exception.NoExistLiveInformationException;
 import moheng.member.dto.response.FindMemberAuthorityAndProfileResponse;
 import moheng.member.exception.*;
@@ -14,7 +18,7 @@ import org.springframework.http.MediaType;
 
 import java.util.Optional;
 
-import static moheng.config.fixture.MemberFixtures.하온_기존;
+import static moheng.fixture.MemberFixtures.하온_기존;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;

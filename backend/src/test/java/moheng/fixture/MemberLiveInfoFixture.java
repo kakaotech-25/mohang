@@ -1,4 +1,4 @@
-package moheng.config.fixture;
+package moheng.fixture;
 
 import moheng.liveinformation.dto.UpdateMemberLiveInformationRequest;
 import moheng.member.dto.request.SignUpInterestTripsRequest;

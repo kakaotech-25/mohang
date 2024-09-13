@@ -1,11 +1,13 @@
 package moheng.auth.domain;
 
-import static moheng.config.fixture.MemberFixtures.MEMBER_ID_1;
-import static moheng.config.fixture.MemberFixtures.MEMBER_ID_2;
-import static moheng.config.fixture.MemberFixtures.MEMBER_ID_3;
-import static moheng.config.fixture.MemberFixtures.MEMBER_ID_4;
-import static moheng.config.fixture.MemberFixtures.MEMBER_ID_5;
-import static moheng.config.fixture.MemberFixtures.MEMBER_ID_6;
+import static moheng.fixture.MemberFixtures.MEMBER_ID_1;
+import static moheng.fixture.MemberFixtures.MEMBER_ID_2;
+import static moheng.fixture.MemberFixtures.MEMBER_ID_3;
+import static moheng.fixture.MemberFixtures.MEMBER_ID_4;
+import static moheng.fixture.MemberFixtures.MEMBER_ID_5;
+import static moheng.fixture.MemberFixtures.MEMBER_ID_6;
+import static moheng.fixture.MemberFixtures.MEMBER_ID_7;
+import static moheng.fixture.MemberFixtures.MEMBER_ID_8;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;

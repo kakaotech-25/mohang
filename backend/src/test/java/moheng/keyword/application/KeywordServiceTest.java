@@ -1,5 +1,9 @@
 package moheng.keyword.application;
 
+import static moheng.fixture.KeywordFixture.*;
+import static moheng.fixture.TripFixture.*;
+import static moheng.fixture.MemberFixtures.*;
+import static moheng.fixture.TripFixture.여행지1_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -20,6 +24,7 @@ import moheng.recommendtrip.domain.repository.RecommendTripRepository;
 import moheng.trip.application.TripService;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.repository.TripRepository;
+import moheng.trip.dto.FindTripResponse;
 import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.dto.TripKeywordCreateRequest;
 import moheng.trip.exception.NoExistTripException;
@@ -40,10 +45,7 @@ public class KeywordServiceTest extends ServiceTestConfig {
     private KeywordService keywordService;
 
     @Autowired
-    private TripService tripService;
-
-    @Autowired
-    private RecommendTripRepository recommendTripRepository;
+    private TripRepository tripRepository;
 
     @Autowired
     private MemberService memberService;
@@ -54,25 +56,19 @@ public class KeywordServiceTest extends ServiceTestConfig {
     @Autowired
     private TripKeywordRepository tripKeywordRepository;
 
-    @Autowired
-    private TripRepository tripRepository;
-
     @DisplayName("키워드를 생성한다.")
     @Test
     void 키워드를_생성한다() {
-        // given
-        KeywordCreateRequest request = new KeywordCreateRequest("키워드");
-
-        // when, then
-        assertDoesNotThrow(() -> keywordService.createKeyword(request));
+        // given, when, then
+        assertDoesNotThrow(() -> keywordService.createKeyword(키워드_생성_요청()));
     }
 
     @DisplayName("모든 키워드를 찾는다.")
     @Test
     void 모든_키워드를_찾는다() {
         // given
-        keywordRepository.save(new Keyword("키워드1"));
-        keywordRepository.save(new Keyword("키워드2"));
+        keywordRepository.save(키워드1_생성());
+        keywordRepository.save(키워드2_생성());
 
         // when, then
         assertThat(keywordService.findAllKeywords().getFindAllKeywordResponses()).hasSize(2);
@@ -82,8 +78,8 @@ public class KeywordServiceTest extends ServiceTestConfig {
     @Test
     void 키워드_리스트를_찾는다() {
         // given
-        keywordRepository.save(new Keyword("키워드1"));
-        keywordRepository.save(new Keyword("키워드2"));
+        keywordRepository.save(키워드1_생성());
+        keywordRepository.save(키워드2_생성());
 
         // when, then
         assertThat(keywordService.findNamesByIds(new TripsByKeyWordsRequest(List.of(1L, 2L)))).hasSize(2);
@@ -93,26 +89,19 @@ public class KeywordServiceTest extends ServiceTestConfig {
     @Test
     void 키워드로_필터링된_여행지를_추천받는다() {
         // given
-        memberService.save(하온_기존());
-        Member member = memberService.findByEmail(하온_이메일);
+        Keyword 키워드1 = keywordRepository.save(키워드1_생성());
+        Keyword 키워드2 = keywordRepository.save(키워드2_생성());
+        Keyword 키워드3 = keywordRepository.save(키워드3_생성());
+        Trip 여행지1 = tripRepository.save(여행지1_생성());
+        Trip 여행지2 = tripRepository.save(여행지2_생성());
+        Trip 여행지3 = tripRepository.save(여행지3_생성());
 
-        keywordRepository.save(new Keyword("키워드1"));
-        keywordRepository.save(new Keyword("키워드2"));
-        keywordRepository.save(new Keyword("키워드3"));
-
-        tripService.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로1"));
-        tripService.save(new Trip("여행지2", "장소명2", 2L, "설명2", "이미지 경로2"));
-        tripService.save(new Trip("여행지3", "장소명3", 3L, "설명3", "이미지 경로3"));
-
-        tripKeywordRepository.save(new TripKeyword(tripService.findById(1L), keywordRepository.findById(1L).get()));
-        tripKeywordRepository.save(new TripKeyword(tripService.findById(2L), keywordRepository.findById(2L).get()));
-        tripKeywordRepository.save(new TripKeyword(tripService.findById(3L), keywordRepository.findById(2L).get()));
-
-        List<Long> keywordIds = List.of(1L, 2L, 3L);
-        TripsByKeyWordsRequest request = new TripsByKeyWordsRequest(keywordIds);
+        tripKeywordRepository.save(new TripKeyword(여행지1, 키워드1));
+        tripKeywordRepository.save(new TripKeyword(여행지2, 키워드2));
+        tripKeywordRepository.save(new TripKeyword(여행지3, 키워드3));
 
         // when, then
-        FindTripsResponse response = keywordService.findRecommendTripsByKeywords(request);
+        FindTripsResponse response = keywordService.findRecommendTripsByKeywords(키워드로_필터링한_여행지_리스트_요청(List.of(1L, 2L, 3L)));
         assertThat(response.getFindTripResponses()).hasSize(3);
     }
 
@@ -123,40 +112,30 @@ public class KeywordServiceTest extends ServiceTestConfig {
         memberService.save(하온_기존());
         Member member = memberService.findByEmail(하온_이메일);
 
-        keywordRepository.save(new Keyword("키워드1"));
-        keywordRepository.save(new Keyword("키워드2"));
-        keywordRepository.save(new Keyword("키워드3"));
+        Keyword 키워드1 = keywordRepository.save(키워드1_생성());
+        Keyword 키워드2 = keywordRepository.save(키워드2_생성());
+        Keyword 키워드3 = keywordRepository.save(키워드3_생성());
+        Trip 여행지1 = tripRepository.save(여행지1_생성());
+        Trip 여행지2 = tripRepository.save(여행지2_생성());
+        Trip 여행지3 = tripRepository.save(여행지3_생성());
 
-        tripService.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로1"));
-        tripService.save(new Trip("여행지2", "장소명2", 2L, "설명2", "이미지 경로2"));
-        tripService.save(new Trip("여행지3", "장소명3", 3L, "설명3", "이미지 경로3"));
-
-        tripKeywordRepository.save(new TripKeyword(tripService.findById(1L), keywordRepository.findById(1L).get()));
-        tripKeywordRepository.save(new TripKeyword(tripService.findById(2L), keywordRepository.findById(2L).get()));
-        tripKeywordRepository.save(new TripKeyword(tripService.findById(3L), keywordRepository.findById(2L).get()));
-        tripKeywordRepository.save(new TripKeyword(tripService.findById(3L), keywordRepository.findById(2L).get()));
-        tripKeywordRepository.save(new TripKeyword(tripService.findById(2L), keywordRepository.findById(2L).get()));
-
-        List<Long> keywordIds = List.of(1L, 2L, 3L);
-        TripsByKeyWordsRequest request = new TripsByKeyWordsRequest(keywordIds);
+        tripKeywordRepository.save(new TripKeyword(여행지1, 키워드1));
+        tripKeywordRepository.save(new TripKeyword(여행지2, 키워드2));
+        tripKeywordRepository.save(new TripKeyword(여행지3, 키워드2));
+        tripKeywordRepository.save(new TripKeyword(여행지3, 키워드2));
+        tripKeywordRepository.save(new TripKeyword(여행지2, 키워드3));
 
         // when, then
-        FindTripsResponse response = keywordService.findRecommendTripsByKeywords(request);
+        FindTripsResponse response = keywordService.findRecommendTripsByKeywords(키워드로_필터링한_여행지_리스트_요청(List.of(1L, 2L, 3L)));
         assertThat(response.getFindTripResponses()).hasSize(3);
     }
 
     @DisplayName("존재하지 않는 일부 키워드가 존재하는 경우 예외가 발생한다.")
     @Test
     void 존재하지_않는_일부_키워드가_존재하는_경우_예외가_발생한다() {
-        // given
-        memberService.save(하온_기존());
-        Member member = memberService.findByEmail(하온_이메일);
 
-        List<Long> keywordIds = List.of(-1L, -2L, -3L);
-        TripsByKeyWordsRequest request = new TripsByKeyWordsRequest(keywordIds);
-
-        // when, then
-        assertThatThrownBy(() -> keywordService.findRecommendTripsByKeywords(request))
+        // given, when, then
+        assertThatThrownBy(() -> keywordService.findRecommendTripsByKeywords(키워드로_필터링한_여행지_리스트_요청(List.of(1L, 2L, 3L))))
                 .isInstanceOf(NoExistKeywordException.class);
     }
 
@@ -164,13 +143,11 @@ public class KeywordServiceTest extends ServiceTestConfig {
     @Test
     void 여행지의_키워드를_생성한다() {
         // given
-        keywordRepository.save(new Keyword("키워드1"));
-        tripRepository.save(new Trip("여행지", "장소명", 1L, "설명", "이미지"));
-
-        TripKeywordCreateRequest request = new TripKeywordCreateRequest(1L, 1L);
+        Keyword 키워드1 = keywordRepository.save(키워드1_생성());
+        Trip 여행지1 = tripRepository.save(여행지1_생성());
 
         // when
-        keywordService.createTripKeyword(request);
+        keywordService.createTripKeyword(여행지_키워드_생성_요청(여행지1.getId(), 키워드1.getId()));
 
         // then
         assertThat(keywordRepository.findById(1L)).isNotEmpty();
@@ -180,12 +157,11 @@ public class KeywordServiceTest extends ServiceTestConfig {
     @Test
     void 존재하지_않는_여행지의_키워드를_생성하면_예외가_발생한다() {
         // given
-        keywordRepository.save(new Keyword("키워드1"));
-
-        TripKeywordCreateRequest request = new TripKeywordCreateRequest(-1L, 1L);
+        long 없는_여행지_ID = -1L;
+        Keyword 키워드1 = keywordRepository.save(키워드1_생성());
 
         // when, then
-        assertThatThrownBy(() -> keywordService.createTripKeyword(request))
+        assertThatThrownBy(() -> keywordService.createTripKeyword(유효하지_않은_여행지_키워드_생성_요청(없는_여행지_ID, 키워드1.getId())))
                 .isInstanceOf(NoExistTripException.class);
     }
 
@@ -193,9 +169,10 @@ public class KeywordServiceTest extends ServiceTestConfig {
     @Test
     void 존재하지_않는_키워드로_여행지_키워드를_생성하면_예외가_발생한다() {
         // given
-        tripRepository.save(new Trip("여행지", "장소명", 1L, "설명", "이미지"));
+        long 없는_키워드_ID = -1L;
+        Trip 여행지1 = tripRepository.save(여행지1_생성());
 
-        TripKeywordCreateRequest request = new TripKeywordCreateRequest(1L, -1L);
+        TripKeywordCreateRequest request = new TripKeywordCreateRequest(여행지1.getId(), 없는_키워드_ID);
 
         // when, then
         assertThatThrownBy(() -> keywordService.createTripKeyword(request))
@@ -206,17 +183,17 @@ public class KeywordServiceTest extends ServiceTestConfig {
     @Test
     void 랜덤_키워드로_추천_여행지를_찾는다() {
         // given
-        keywordRepository.save(new Keyword("키워드1"));
-        keywordRepository.save(new Keyword("키워드2"));
-        keywordRepository.save(new Keyword("키워드3"));
+        Keyword 키워드1 = keywordRepository.save(키워드1_생성());
+        Keyword 키워드2 = keywordRepository.save(키워드2_생성());
+        Keyword 키워드3 =  keywordRepository.save(키워드3_생성());
 
-        tripService.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로1"));
-        tripService.save(new Trip("여행지2", "장소명2", 2L, "설명2", "이미지 경로2"));
-        tripService.save(new Trip("여행지3", "장소명3", 3L, "설명3", "이미지 경로3"));
+        Trip 여행지1 = tripRepository.save(여행지1_생성());
+        Trip 여행지2 = tripRepository.save(여행지2_생성());
+        Trip 여행지3 = tripRepository.save(여행지3_생성());
 
-        tripKeywordRepository.save(new TripKeyword(tripService.findById(1L), keywordRepository.findById(1L).get()));
-        tripKeywordRepository.save(new TripKeyword(tripService.findById(2L), keywordRepository.findById(2L).get()));
-        tripKeywordRepository.save(new TripKeyword(tripService.findById(3L), keywordRepository.findById(3L).get()));
+        tripKeywordRepository.save(new TripKeyword(여행지1, 키워드1));
+        tripKeywordRepository.save(new TripKeyword(여행지2, 키워드2));
+        tripKeywordRepository.save(new TripKeyword(여행지3, 키워드3));
 
         // when
         FindTripsWithRandomKeywordResponse response = keywordService.findRecommendTripsByRandomKeyword();
@@ -226,27 +203,27 @@ public class KeywordServiceTest extends ServiceTestConfig {
     @DisplayName("랜덤 키워드에 관련한 여행지를 상위 조회순으로 찾는다.")
     @ParameterizedTest
     @MethodSource("여행지를_찾는다")
-    void 랜덤_키워드에_관련한_여행지를_상위_조회순으로_찾는다(List<Trip> trips, List<String> expectedTripNames) {
+    void 랜덤_키워드에_관련한_여행지를_상위_조회순으로_찾는다(List<Trip> 여행지_리스트, List<String> 여행지_이름_기댓값) {
         // given
-        keywordRepository.save(new Keyword("키워드1"));
+        Keyword 키워드1 = keywordRepository.save(new Keyword("키워드1"));
 
-        tripRepository.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로1", 100L));
-        tripRepository.save(new Trip("여행지2", "장소명1", 1L, "설명1", "이미지 경로1", 300L));
-        tripRepository.save(new Trip("여행지3", "장소명1", 1L, "설명1", "이미지 경로1", 200L));
+        tripRepository.save(여행지1_생성_방문수_1등());
+        tripRepository.save(여행지2_생성_방문수_3등());
+        tripRepository.save(여행지3_생성_방문수_2등());
 
-        for (final Trip inputTrip : trips) {
-            Trip trip = tripRepository.save(inputTrip);
-            tripKeywordRepository.save(new TripKeyword(trip, keywordRepository.findById(1L).get()));
+        for (final Trip 여행지 : 여행지_리스트) {
+            Trip 여행지_입력 = tripRepository.save(여행지);
+            tripKeywordRepository.save(new TripKeyword(여행지_입력, 키워드1));
         }
 
         // when
-        FindTripsWithRandomKeywordResponse response = keywordService.findRecommendTripsByRandomKeyword();
+        FindTripsWithRandomKeywordResponse actual = keywordService.findRecommendTripsByRandomKeyword();
 
         // then
         assertAll(() -> {
-            assertThat(response.getFindTripResponses()).hasSize(trips.size());
-            for (int i = 0; i < expectedTripNames.size(); i++) {
-                assertThat(response.getFindTripResponses().get(i).getName()).isEqualTo(expectedTripNames.get(i));
+            assertThat(actual.getFindTripResponses()).hasSize(여행지_리스트.size());
+            for (int i = 0; i < 여행지_이름_기댓값.size(); i++) {
+                assertThat(actual.getFindTripResponses().get(i).getName()).isEqualTo(여행지_이름_기댓값.get(i));
             }
         });
     }
@@ -269,31 +246,31 @@ public class KeywordServiceTest extends ServiceTestConfig {
     @Test
     void 랜덤_키워드로_여행지_리스트_조회시_각_여행지에_관련된_모든_키워드를_함꼐_조회한다() {
         // given
-        Keyword keyword1 = keywordRepository.save(new Keyword("현재 키워드"));
-        Keyword keyword2 = keywordRepository.save(new Keyword("다른 키워드2"));
-        Keyword keyword3 = keywordRepository.save(new Keyword("다른 키워드3"));
+        Keyword 키워드1 = keywordRepository.save(키워드1_생성());
+        Keyword 다른_키워드2 = keywordRepository.save(키워드2_생성());
+        Keyword 다른_키워드3 = keywordRepository.save(키워드3_생성());
 
-        Trip trip1 = tripRepository.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로1", 100L));
-        Trip trip2 = tripRepository.save(new Trip("여행지2", "장소명2", 2L, "설명2", "이미지 경로2", 300L));
-        Trip trip3 = tripRepository.save(new Trip("여행지3", "장소명3", 3L, "설명3", "이미지 경로3", 200L));
+        Trip 여행지1 = tripRepository.save(여행지1_생성());
+        Trip 여행지2 = tripRepository.save(여행지2_생성());
+        Trip 여행지3 = tripRepository.save(여행지3_생성());
 
-        tripKeywordRepository.save(new TripKeyword(trip1, keyword1));
-        tripKeywordRepository.save(new TripKeyword(trip1, keyword2));
-        tripKeywordRepository.save(new TripKeyword(trip1, keyword3));
-        tripKeywordRepository.save(new TripKeyword(trip2, keyword1));
-        tripKeywordRepository.save(new TripKeyword(trip2, keyword2));
-        tripKeywordRepository.save(new TripKeyword(trip2, keyword3));
-        tripKeywordRepository.save(new TripKeyword(trip3, keyword1));
-        tripKeywordRepository.save(new TripKeyword(trip3, keyword2));
-        tripKeywordRepository.save(new TripKeyword(trip3, keyword3));
+        tripKeywordRepository.save(new TripKeyword(여행지1, 키워드1));
+        tripKeywordRepository.save(new TripKeyword(여행지1, 다른_키워드2));
+        tripKeywordRepository.save(new TripKeyword(여행지1, 다른_키워드3));
+        tripKeywordRepository.save(new TripKeyword(여행지2, 키워드1));
+        tripKeywordRepository.save(new TripKeyword(여행지2, 다른_키워드2));
+        tripKeywordRepository.save(new TripKeyword(여행지2, 다른_키워드3));
+        tripKeywordRepository.save(new TripKeyword(여행지3, 키워드1));
+        tripKeywordRepository.save(new TripKeyword(여행지3, 다른_키워드2));
+        tripKeywordRepository.save(new TripKeyword(여행지3, 다른_키워드3));
 
         // when
-        FindTripsWithRandomKeywordResponse response = keywordService.findRecommendTripsByRandomKeyword();
+        FindTripsWithRandomKeywordResponse actual = keywordService.findRecommendTripsByRandomKeyword();
 
         assertAll(() -> {
-            assertThat(response.getFindTripResponses().get(0).getKeywords()).hasSize(3);
-            assertThat(response.getFindTripResponses().get(1).getKeywords()).hasSize(3);
-            assertThat(response.getFindTripResponses().get(2).getKeywords()).hasSize(3);
+            assertThat(actual.getFindTripResponses().get(0).getKeywords()).hasSize(3);
+            assertThat(actual.getFindTripResponses().get(1).getKeywords()).hasSize(3);
+            assertThat(actual.getFindTripResponses().get(2).getKeywords()).hasSize(3);
         });
     }
 }

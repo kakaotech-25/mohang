@@ -1,4 +1,4 @@
-package moheng.config.fixture;
+package moheng.fixture;
 
 import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.TripKeyword;

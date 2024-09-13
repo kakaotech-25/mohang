@@ -1,4 +1,4 @@
-package moheng.config.fixture;
+package moheng.fixture;
 
 public class JwtTokenFixtures {
     public static final String SECRET_KEY = "secret_secret_secret_secret_secret_secret_secret_";

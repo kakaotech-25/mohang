@@ -1,4 +1,4 @@
-package moheng.config.fixture;
+package moheng.fixture;
 
 import moheng.auth.domain.oauth.Authority;
 import moheng.member.domain.GenderType;

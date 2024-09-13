@@ -1,4 +1,4 @@
-package moheng.config.fixture;
+package moheng.fixture;
 
 import moheng.planner.dto.CreateTripScheduleRequest;
 import moheng.planner.dto.UpdateTripScheduleRequest;

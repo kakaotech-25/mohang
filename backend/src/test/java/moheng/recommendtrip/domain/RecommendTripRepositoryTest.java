@@ -2,6 +2,7 @@ package moheng.recommendtrip.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static moheng.fixture.MemberFixtures.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import moheng.config.slice.RepositoryTestConfig;

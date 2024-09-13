@@ -1,4 +1,4 @@
-package moheng.config.fixture;
+package moheng.fixture;
 
 import jakarta.servlet.http.Cookie;
 import moheng.auth.domain.token.MemberToken;

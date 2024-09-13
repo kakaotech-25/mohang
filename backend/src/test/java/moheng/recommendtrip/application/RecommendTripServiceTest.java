@@ -1,6 +1,6 @@
 package moheng.recommendtrip.application;
 
-import static moheng.config.fixture.MemberFixtures.하온_기존;
+import static moheng.fixture.MemberFixtures.하온_기존;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 

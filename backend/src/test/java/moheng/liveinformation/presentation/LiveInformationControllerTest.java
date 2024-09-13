@@ -7,12 +7,15 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static moheng.fixture.MemberFixtures.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import moheng.config.slice.ControllerTestConfig;
+import moheng.keyword.exception.NoExistKeywordException;
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.dto.FindAllLiveInformationResponse;
 import moheng.liveinformation.dto.LiveInformationCreateRequest;

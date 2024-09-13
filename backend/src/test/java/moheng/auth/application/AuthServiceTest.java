@@ -3,11 +3,11 @@ package moheng.auth.application;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static moheng.config.fixture.JwtTokenFixtures.INVALID_REFRESH_TOKEN;
-import static moheng.config.fixture.MemberFixtures.MEMBER_ID_1;
-import static moheng.config.fixture.MemberFixtures.스텁_이메일;
-import static moheng.config.fixture.AuthFixtures.AUHTORIZATION_CODE;
-import static moheng.config.fixture.AuthFixtures.KAKAO_PROVIDER_NAME;
+import static moheng.fixture.JwtTokenFixtures.INVALID_REFRESH_TOKEN;
+import static moheng.fixture.MemberFixtures.MEMBER_ID_1;
+import static moheng.fixture.MemberFixtures.스텁_이메일;
+import static moheng.fixture.AuthFixtures.AUHTORIZATION_CODE;
+import static moheng.fixture.AuthFixtures.KAKAO_PROVIDER_NAME;
 
 import moheng.auth.domain.token.JwtTokenManager;
 import moheng.auth.domain.token.MemberToken;
