@@ -40,9 +40,7 @@ public class KeywordControllerTest extends ControllerTestConfig {
     @Test
     void 모든_키워드를_찾고_상태코드_200을_리턴한다() throws Exception {
         // given
-        given(keywordService.findAllKeywords()).willReturn(new FindAllKeywordResponses(
-                List.of(new Keyword("키워드1"), new Keyword("키워드2"), new Keyword("키워드3"))
-        ));
+        given(keywordService.findAllKeywords()).willReturn(모든_키워드_조회_응답());
 
         // when, then
         mockMvc.perform(get("/api/keyword")

@@ -2,6 +2,7 @@ package moheng.fixture;
 
 import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.TripKeyword;
+import moheng.keyword.dto.FindAllKeywordResponses;
 import moheng.keyword.dto.FindTripsWithRandomKeywordResponse;
 import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
@@ -66,5 +67,9 @@ public class KeywordFixture {
                         "https://lotte-world.ong"), new Keyword("키워드1"));
 
         return new FindTripsWithRandomKeywordResponse(List.of(tripKeyword1, tripKeyword2, tripKeyword3), new Keyword("키워드1"));
+    }
+
+    public static FindAllKeywordResponses 모든_키워드_조회_응답() {
+        return new FindAllKeywordResponses(List.of(new Keyword("키워드1"), new Keyword("키워드2"), new Keyword("키워드3")));
     }
 }
