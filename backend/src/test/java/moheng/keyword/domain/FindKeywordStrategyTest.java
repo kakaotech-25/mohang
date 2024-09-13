@@ -1,5 +1,6 @@
 package moheng.keyword.domain;
 
+import static moheng.fixture.KeywordFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,9 +27,9 @@ public class FindKeywordStrategyTest extends ServiceTestConfig {
     @Test
     void ID_값이_가장_큰_키워드의_ID를_리턴한다() {
         // given
-        keywordRepository.save(new Keyword("키워드1"));
-        keywordRepository.save(new Keyword("키워드2"));
-        keywordRepository.save(new Keyword("키워드3"));
+        keywordRepository.save(키워드1_생성());
+        keywordRepository.save(키워드2_생성());
+        keywordRepository.save(키워드3_생성());
 
         // when
         long actual = findMaxKeywordStrategy.findKeywordId();
@@ -41,9 +42,9 @@ public class FindKeywordStrategyTest extends ServiceTestConfig {
     @Test
     void ID_값이_가장_작은_키워드의_ID를_리턴한다() {
         // given
-        keywordRepository.save(new Keyword("키워드1"));
-        keywordRepository.save(new Keyword("키워드2"));
-        keywordRepository.save(new Keyword("키워드3"));
+        keywordRepository.save(키워드1_생성());
+        keywordRepository.save(키워드2_생성());
+        keywordRepository.save(키워드3_생성());
 
         // when
         long actual = findMinKeywordIdStrategy.findKeywordId();

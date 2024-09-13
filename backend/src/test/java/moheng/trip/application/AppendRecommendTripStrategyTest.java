@@ -1,5 +1,7 @@
 package moheng.trip.application;
 
+import static moheng.fixture.TripFixture.*;
+import static moheng.fixture.RecommendTripFixture.*;
 import moheng.config.slice.ServiceTestConfig;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
@@ -7,6 +9,7 @@ import moheng.recommendtrip.domain.RecommendTrip;
 import moheng.recommendtrip.domain.repository.RecommendTripRepository;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.recommendstrategy.AppendRecommendTripStrategy;
+import moheng.trip.domain.repository.TripRepository;
 import moheng.trip.exception.NoExistRecommendTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,7 +34,7 @@ public class AppendRecommendTripStrategyTest extends ServiceTestConfig {
     private MemberRepository memberRepository;
 
     @Autowired
-    private TripService tripService;
+    private TripRepository tripRepository;
 
     @Autowired
     private RecommendTripRepository recommendTripRepository;
@@ -40,29 +43,24 @@ public class AppendRecommendTripStrategyTest extends ServiceTestConfig {
     @Test
     public void 선호_여행지_추가_전략은_가장_높은_rank_에_1을_더한_선호_여행지_정보를_생성한다() {
         // given
-        Member member = memberRepository.save(하온_기존());
-        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
-        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
-        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
-        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
-        Trip trip1 = tripService.findById(1L);
-        Trip trip2 = tripService.findById(2L);
-        Trip trip3 = tripService.findById(3L);
-        recommendTripRepository.save(new RecommendTrip(trip1, member, 1L));
-        recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
-        recommendTripRepository.save(new RecommendTrip(trip3, member, 3L));
+        Member 하온 = memberRepository.save(하온_기존());
 
-        List<RecommendTrip> recommendTrips = recommendTripRepository.findAllByMemberId(member.getId());
+        Trip 여행지1 = tripRepository.save(여행지1_생성()); Trip 여행지2 = tripRepository.save(여행지2_생성());
+        Trip 여행지3 = tripRepository.save(여행지3_생성()); Trip 여행지4 = tripRepository.save(여행지4_생성());
+        recommendTripRepository.save(new RecommendTrip(여행지1, 하온, 1L));
+        recommendTripRepository.save(new RecommendTrip(여행지2, 하온, 2L));
+        recommendTripRepository.save(new RecommendTrip(여행지3, 하온, 3L));
+
+        List<RecommendTrip> recommendTrips = recommendTripRepository.findAllByMemberId(하온.getId());
 
         // when
-        Trip trip4 = tripService.findById(4L);
-        appendRecommendTripStrategy.execute(trip4, member, recommendTrips);
+        appendRecommendTripStrategy.execute(여행지4, 하온, recommendTrips);
 
         // then
-        RecommendTrip actual = recommendTripRepository.findById(trip4.getId()).get();
+        RecommendTrip actual = recommendTripRepository.findById(여행지4.getId()).get();
 
         assertAll(() -> {
-            assertThat(recommendTripRepository.findAllByMemberId(member.getId()).size()).isEqualTo(4L);
+            assertThat(recommendTripRepository.findAllByMemberId(하온.getId()).size()).isEqualTo(4L);
             assertThat(actual.getRanking()).isEqualTo(4L);
         });
     }
@@ -71,24 +69,17 @@ public class AppendRecommendTripStrategyTest extends ServiceTestConfig {
     @Test
     void 선호_여행지_추가_전략은_MAX_SIZE_보다_작을_때_수행된다() {
         // given
-        Member member = memberRepository.save(하온_기존());
-        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
-        tripService.save(new Trip("여행지2", "서울", 2L, "설명2", "https://image.png", 0L));
-        tripService.save(new Trip("여행지3", "서울", 3L, "설명3", "https://image.png", 0L));
-        tripService.save(new Trip("여행지4", "서울", 4L, "설명4", "https://image.png", 0L));
-        tripService.save(new Trip("여행지5", "서울", 5L, "설명4", "https://image.png", 0L));
-        Trip trip1 = tripService.findById(1L);
-        Trip trip2 = tripService.findById(2L);
-        Trip trip3 = tripService.findById(3L);
-        Trip trip4 = tripService.findById(4L);
-        Trip trip5 = tripService.findById(5L);
-        recommendTripRepository.save(new RecommendTrip(trip1, member, 1L));
-        recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
-        recommendTripRepository.save(new RecommendTrip(trip3, member, 3L));
-        recommendTripRepository.save(new RecommendTrip(trip4, member, 4L));
-        recommendTripRepository.save(new RecommendTrip(trip5, member, 5L));
+        Member 하온 = memberRepository.save(하온_기존());
+        Trip 여행지1 = tripRepository.save(여행지1_생성()); Trip 여행지2 = tripRepository.save(여행지2_생성());
+        Trip 여행지3 = tripRepository.save(여행지3_생성()); Trip 여행지4 = tripRepository.save(여행지4_생성());
+        Trip 여행지5 = tripRepository.save(여행지5_생성());
+        recommendTripRepository.save(new RecommendTrip(여행지1, 하온, 1L));
+        recommendTripRepository.save(new RecommendTrip(여행지2, 하온, 2L));
+        recommendTripRepository.save(new RecommendTrip(여행지3, 하온, 3L));
+        recommendTripRepository.save(new RecommendTrip(여행지4, 하온, 4L));
+        recommendTripRepository.save(new RecommendTrip(여행지5, 하온, 5L));
 
-        long recommendSize = recommendTripRepository.findAllByMemberId(member.getId()).size();
+        long recommendSize = recommendTripRepository.findAllByMemberId(하온.getId()).size();
 
         assertThat(appendRecommendTripStrategy.isMatch(recommendSize, MAX_SIZE, MIN_SIZE)).isTrue();
     }
@@ -97,12 +88,11 @@ public class AppendRecommendTripStrategyTest extends ServiceTestConfig {
     @Test
     void 멤버의_선호_여행지가_비어있으면_선호_여행지_추가_전략에_예외가_발생한다() {
         // given
-        Member member = memberRepository.save(하온_기존());
-        tripService.save(new Trip("여행지1", "서울", 1L, "설명1", "https://image.png", 0L));
-        Trip trip1 = tripService.findById(1L);
+        Member 하온 = memberRepository.save(하온_기존());
+        Trip 여행지1 = tripRepository.save(여행지1_생성());
 
         // when, then
-        assertThatThrownBy(() ->appendRecommendTripStrategy.execute(trip1, member, new ArrayList<>()))
+        assertThatThrownBy(() -> appendRecommendTripStrategy.execute(여행지1, 하온, new ArrayList<>()))
                 .isInstanceOf(NoExistRecommendTripException.class);
     }
 }

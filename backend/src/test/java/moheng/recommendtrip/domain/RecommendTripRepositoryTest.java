@@ -1,5 +1,7 @@
 package moheng.recommendtrip.domain;
 
+import static moheng.fixture.TripFixture.*;
+import static moheng.fixture.TripFixture.여행지4_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static moheng.fixture.MemberFixtures.*;
@@ -31,58 +33,46 @@ public class RecommendTripRepositoryTest extends RepositoryTestConfig {
     @Test
     void 멤버의_선호_여행지를_찾는다() {
         // given
-        memberRepository.save(하온_기존());
-        Member member = memberRepository.findByEmail(하온_이메일).orElseThrow();
-        tripRepository.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로"));
-        tripRepository.save(new Trip("여행지2", "장소명2", 2L, "설명2", "이미지 경로"));
-        Trip trip = tripRepository.findByContentId(1L).get();
-        recommendTripRepository.save(new RecommendTrip(trip, member));
-        recommendTripRepository.save(new RecommendTrip(trip, member));
+        Member 하온 = memberRepository.save(하온_기존());
+        Trip 여행지1 = tripRepository.save(여행지1_생성()); Trip 여행지2 = tripRepository.save(여행지2_생성());
+        recommendTripRepository.save(new RecommendTrip(여행지1, 하온));
+        recommendTripRepository.save(new RecommendTrip(여행지2, 하온));
 
         // when, then
-        assertThat(recommendTripRepository.findAllByMemberId(member.getId())).hasSize(2);
+        assertThat(recommendTripRepository.findAllByMemberId(하온.getId())).hasSize(2);
     }
 
     @DisplayName("멤버의 최대 10개 선호 여행지를 찾는다.")
     @Test
     void 멤버의_최대_10개_선호_여행지를_찾는다() {
         // given
-        memberRepository.save(하온_기존());
-        Member member = memberRepository.findByEmail(하온_이메일).orElseThrow();
-        tripRepository.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로"));
-        tripRepository.save(new Trip("여행지2", "장소명2", 2L, "설명2", "이미지 경로"));
-        Trip trip = tripRepository.findByContentId(1L).get();
-        recommendTripRepository.save(new RecommendTrip(trip, member));
-        recommendTripRepository.save(new RecommendTrip(trip, member));
+        Member 하온 = memberRepository.save(하온_기존());
+        Trip 여행지1 = tripRepository.save(여행지1_생성()); Trip 여행지2 = tripRepository.save(여행지2_생성());
+        recommendTripRepository.save(new RecommendTrip(여행지1, 하온));
+        recommendTripRepository.save(new RecommendTrip(여행지1, 하온));
 
         // when, then
-        assertThat(recommendTripRepository.findByMemberOrderByRankingDesc(member)).hasSize(2);
+        assertThat(recommendTripRepository.findByMemberOrderByRankingDesc(하온)).hasSize(2);
     }
 
     @DisplayName("모든 선호 여행지의 rank 를 1씩 감소시킨다.")
     @Test
     void 모든_선호_여행지의_rank_를_1씩_감소시킨다() {
         // given
-        memberRepository.save(하온_기존());
-        Member member = memberRepository.findByEmail(하온_이메일).orElseThrow();
+        Member 하온 = memberRepository.save(하온_기존());
 
-        tripRepository.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로"));
-        tripRepository.save(new Trip("여행지2", "장소명2", 2L, "설명2", "이미지 경로"));
-        tripRepository.save(new Trip("여행지3", "장소명2", 3L, "설명3", "이미지 경로"));
-        tripRepository.save(new Trip("여행지4", "장소명2", 4L, "설명4", "이미지 경로"));
+        Trip 여행지1 = tripRepository.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로"));
+        Trip 여행지2 = tripRepository.save(new Trip("여행지2", "장소명2", 2L, "설명2", "이미지 경로"));
+        Trip 여행지3 = tripRepository.save(new Trip("여행지3", "장소명2", 3L, "설명3", "이미지 경로"));
+        Trip 여행지4 = tripRepository.save(new Trip("여행지4", "장소명2", 4L, "설명4", "이미지 경로"));
 
-        Trip trip1 = tripRepository.findByContentId(1L).orElseThrow();
-        Trip trip2 = tripRepository.findByContentId(2L).orElseThrow();
-        Trip trip3 = tripRepository.findByContentId(3L).orElseThrow();
-        Trip trip4 = tripRepository.findByContentId(4L).orElseThrow();
-
-        RecommendTrip recommendTrip1 = recommendTripRepository.save(new RecommendTrip(trip1, member, 1L));
-        RecommendTrip recommendTrip2 = recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
-        RecommendTrip recommendTrip3 = recommendTripRepository.save(new RecommendTrip(trip3, member, 3L));
-        RecommendTrip recommendTrip4 = recommendTripRepository.save(new RecommendTrip(trip4, member, 4L));
+        RecommendTrip recommendTrip1 = recommendTripRepository.save(new RecommendTrip(여행지1, 하온, 1L));
+        RecommendTrip recommendTrip2 = recommendTripRepository.save(new RecommendTrip(여행지2, 하온, 2L));
+        RecommendTrip recommendTrip3 = recommendTripRepository.save(new RecommendTrip(여행지3, 하온, 3L));
+        RecommendTrip recommendTrip4 = recommendTripRepository.save(new RecommendTrip(여행지4, 하온, 4L));
 
         // when
-        List<RecommendTrip> recommendTrips = recommendTripRepository.findAllByMemberId(member.getId());
+        List<RecommendTrip> recommendTrips = recommendTripRepository.findAllByMemberId(하온.getId());
         recommendTripRepository.bulkDownRank(recommendTrips);
 
         // then

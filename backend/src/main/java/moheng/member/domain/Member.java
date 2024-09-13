@@ -151,4 +151,8 @@ public class Member extends BaseEntity {
     public SocialType getSocialType() {
         return socialType;
     }
+
+    public String getEmail() {
+        return email;
+    }
 }

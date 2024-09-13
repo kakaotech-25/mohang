@@ -2,6 +2,7 @@ package moheng.fixture;
 
 import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.TripKeyword;
+import moheng.keyword.dto.FindAllKeywordResponses;
 import moheng.keyword.dto.FindTripsWithRandomKeywordResponse;
 import moheng.keyword.dto.KeywordCreateRequest;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
@@ -14,6 +15,46 @@ import java.util.List;
 public class KeywordFixture {
     public static KeywordCreateRequest 키워드_생성_요청() {
         return new KeywordCreateRequest("키워드");
+    }
+
+    public static Keyword 키워드1_생성() {
+        return new Keyword("키워드1");
+    }
+
+    public static Keyword 키워드2_생성() {
+        return new Keyword("키워드2");
+    }
+
+    public static Keyword 키워드3_생성() {
+        return new Keyword("키워드3");
+    }
+
+    public static Keyword 키워드4_생성() {
+        return new Keyword("키워드4");
+    }
+
+    public static Keyword 키워드5_생성() {
+        return new Keyword("키워드5");
+    }
+
+    public static Keyword 키워드6_생성() {
+        return new Keyword("키워드6");
+    }
+
+    public static Keyword 키워드7_생성() {
+        return new Keyword("키워드7");
+    }
+
+    public static Keyword 키워드8_생성() {
+        return new Keyword("키워드8");
+    }
+
+    public static Keyword 키워드9_생성() {
+        return new Keyword("키워드9");
+    }
+
+    public static Keyword 키워드10_생성() {
+        return new Keyword("키워드10");
     }
 
     public static TripKeywordCreateRequest 여행지_키워드_생성_요청() {
@@ -54,5 +95,9 @@ public class KeywordFixture {
                         "https://lotte-world.ong"), new Keyword("키워드1"));
 
         return new FindTripsWithRandomKeywordResponse(List.of(tripKeyword1, tripKeyword2, tripKeyword3), new Keyword("키워드1"));
+    }
+
+    public static FindAllKeywordResponses 모든_키워드_조회_응답() {
+        return new FindAllKeywordResponses(List.of(new Keyword("키워드1"), new Keyword("키워드2"), new Keyword("키워드3")));
     }
 }
