@@ -49,7 +49,7 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                                 .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(여행_일정_생성_요청()))
+                        .content(objectMapper.writeValueAsString(제주도_여행_일정_생성_요청()))
                 ).andDo(print())
                 .andDo(document("planner/schedule/create/success",
                         preprocessRequest(prettyPrint()),
@@ -78,7 +78,7 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(여행_일정_생성_요청()))
+                        .content(objectMapper.writeValueAsString(제주도_여행_일정_생성_요청()))
                 ).andDo(print())
                 .andDo(document("planner/schedule/create/fail/alreadyExistTripSchedule",
                         preprocessRequest(prettyPrint()),
