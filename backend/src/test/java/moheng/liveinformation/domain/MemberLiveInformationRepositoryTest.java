@@ -1,5 +1,7 @@
 package moheng.liveinformation.domain;
 
+import static moheng.fixture.LiveInformationFixture.*;
+import static moheng.fixture.LiveInformationFixture.생활정보1_생성;
 import static moheng.fixture.MemberFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,38 +31,35 @@ public class MemberLiveInformationRepositoryTest extends RepositoryTestConfig {
     @Test
     void 멤버의_생활정보를_찾는다() {
         // given
-        memberRepository.save(하온_기존());
-        Member member = memberRepository.findByEmail(하온_이메일).get();
+        Member 하온 = memberRepository.save(하온_기존());
 
-        LiveInformation liveInformation1 = liveInformationRepository.save(new LiveInformation("생활정보1"));
-        LiveInformation liveInformation2 = liveInformationRepository.save(new LiveInformation("생활정보2"));
+        LiveInformation 생활정보1 = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        LiveInformation 생활정보2 = liveInformationRepository.save(new LiveInformation("생활정보2"));
 
-        MemberLiveInformation memberLiveInformation1 = new MemberLiveInformation(liveInformation1, member);
-        MemberLiveInformation memberLiveInformation2 = new MemberLiveInformation(liveInformation2, member);
+        MemberLiveInformation memberLiveInformation1 = new MemberLiveInformation(생활정보1, 하온);
+        MemberLiveInformation memberLiveInformation2 = new MemberLiveInformation(생활정보2, 하온);
         List<MemberLiveInformation> memberLiveInformations = new ArrayList<>(List.of(memberLiveInformation1, memberLiveInformation2));
         memberLiveInformationRepository.saveAll(memberLiveInformations);
 
         // when, then
-        assertThat(memberLiveInformationRepository.findByMemberId(member.getId())).hasSize(2);
+        assertThat(memberLiveInformationRepository.findByMemberId(하온.getId())).hasSize(2);
     }
 
     @DisplayName("멤버의 생활정보를 삭제한다.")
     @Test
     void 멤버의_생활정보를_삭제한다() {
         // given
-        memberRepository.save(하온_기존());
-        Member member = memberRepository.findByEmail(하온_이메일).get();
+        Member 하온 = memberRepository.save(하온_기존());
 
-        LiveInformation liveInformation1 = liveInformationRepository.save(new LiveInformation("생활정보1"));
-        LiveInformation liveInformation2 = liveInformationRepository.save(new LiveInformation("생활정보2"));
+        LiveInformation 생활정보1 = liveInformationRepository.save(생활정보1_생성());
+        LiveInformation 생활정보2 = liveInformationRepository.save(생활정보2_생성());
 
-        MemberLiveInformation memberLiveInformation1 = new MemberLiveInformation(liveInformation1, member);
-        MemberLiveInformation memberLiveInformation2 = new MemberLiveInformation(liveInformation2, member);
-        List<MemberLiveInformation> memberLiveInformations = new ArrayList<>(List.of(memberLiveInformation1, memberLiveInformation2));
-        memberLiveInformationRepository.saveAll(memberLiveInformations);
+        MemberLiveInformation 멤버_생활정보1 = new MemberLiveInformation(생활정보1, 하온);
+        MemberLiveInformation 멤버_생활정보2 = new MemberLiveInformation(생활정보2, 하온);
+        memberLiveInformationRepository.saveAll(List.of(멤버_생활정보1, 멤버_생활정보2));
 
         // when
-        memberLiveInformationRepository.deleteByMemberId(member.getId());
+        memberLiveInformationRepository.deleteByMemberId(하온.getId());
 
         // then
         assertThat(memberLiveInformationRepository.count()).isEqualTo(0);
