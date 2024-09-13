@@ -1,5 +1,8 @@
 package moheng.trip.application;
 
+import static moheng.fixture.TripFixture.*;
+import static moheng.fixture.RecommendTripFixture.*;
+import static moheng.fixture.KeywordFixture.*;
 import static org.assertj.core.api.Assertions.*;
 
 import moheng.config.slice.RepositoryTestConfig;
@@ -29,14 +32,12 @@ public class TripKeywordRepositoryTest extends RepositoryTestConfig {
     @Test
     void 여행지들에_관련한_여행지_키워드들을_찾는다() {
         // given
-        Trip trip1 = tripRepository.save(new Trip("여행지", "장소", 1L, "설명", "이미지"));
-        Trip trip2 = tripRepository.save(new Trip("여행지", "장소", 1L, "설명", "이미지"));
-        Keyword keyword1 = keywordRepository.save(new Keyword("키워드1"));
-        Keyword keyword2 = keywordRepository.save(new Keyword("키워드1"));
-        tripKeywordRepository.save(new TripKeyword(trip1, keyword1));
-        tripKeywordRepository.save(new TripKeyword(trip2, keyword2));
+        Trip 여행지1 = tripRepository.save(여행지1_생성()); Trip 여행지2 = tripRepository.save(여행지2_생성());
+        Keyword 키워드1 = keywordRepository.save(키워드1_생성()); Keyword 키워드2 = keywordRepository.save(키워드2_생성());
+        tripKeywordRepository.save(new TripKeyword(여행지1, 키워드1));
+        tripKeywordRepository.save(new TripKeyword(여행지2, 키워드2));
 
         // when, then
-        assertThat(tripKeywordRepository.findByTrips(List.of(trip1, trip2))).hasSize(2);
+        assertThat(tripKeywordRepository.findByTrips(List.of(여행지1, 여행지2))).hasSize(2);
     }
 }
