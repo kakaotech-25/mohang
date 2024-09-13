@@ -33,7 +33,7 @@ public class TripFixture {
     // 방문수 고려 여행지 생성
     public static Trip 여행지1_생성_방문수_1등() {
         return new Trip("여행지1", "장소명1", 1L, "여행지 설명1",
-                "https://trip1.png", 300L);
+                "https://trip1.png", 400L);
     }
 
     public static Trip 여행지2_생성_방문수_3등() {
@@ -42,7 +42,12 @@ public class TripFixture {
     }
 
     public static Trip 여행지3_생성_방문수_2등() {
-        return new Trip("여행지1", "장소명3", 1L, "여행지 설명3",
+        return new Trip("여행지3", "장소명3", 1L, "여행지 설명3",
+                "https://trip1.png", 300L);
+    }
+
+    public static Trip 여행지4_생성_방문수_4등() {
+        return new Trip("여행지4", "장소명4", 1L, "여행지 설명3",
                 "https://trip1.png", 100L);
     }
 
