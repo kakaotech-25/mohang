@@ -1,5 +1,6 @@
 package moheng.keyword.domain;
 
+import static moheng.fixture.KeywordFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -22,10 +23,12 @@ public class KeywordRepositoryTest extends RepositoryTestConfig {
     @Test
     void 키워드_이름_리스트를_찾는다() {
         // given
-        List<Keyword> keywords = keywordRepository.saveAll(List.of(new Keyword("키워드1"), new Keyword("키워드2"), new Keyword("키워3")));
+        Keyword 키워드1 = keywordRepository.save(키워드1_생성());
+        Keyword 키워드2 = keywordRepository.save(키워드2_생성());
+        Keyword 키워드3 = keywordRepository.save(키워드3_생성());
 
         // when
-        List<String> keywordNames = keywordRepository.findNamesByIds(List.of(keywords.get(0).getId(), keywords.get(1).getId(), keywords.get(2).getId()));
+        List<String> keywordNames = keywordRepository.findNamesByIds(List.of(키워드1.getId(), 키워드2.getId(), 키워드3.getId()));
 
         // then
         assertThat(keywordNames.size()).isEqualTo(3);
