@@ -1,13 +1,18 @@
 package moheng.liveinformation.application;
 
+import static moheng.fixture.LiveInformationFixture.*;
+import static moheng.fixture.LiveInformationFixture.생활정보1_생성;
+import static moheng.fixture.TripFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import moheng.config.slice.ServiceTestConfig;
 import moheng.config.TestConfig;
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.domain.repository.LiveInformationRepository;
+import moheng.liveinformation.dto.FindAllLiveInformationResponse;
 import moheng.liveinformation.dto.LiveInformationCreateRequest;
 import moheng.liveinformation.exception.NoExistLiveInformationException;
 import moheng.trip.domain.Trip;
@@ -33,18 +38,17 @@ public class LiveInformationsServiceTest extends ServiceTestConfig {
     @Test
     void 생활정보를_저장한다() {
         // given, when, then
-        liveInformationService.save(new LiveInformation("생활정보 이름"));
+        liveInformationService.save(생활정보1_생성());
     }
 
     @DisplayName("생활정보 이름으로 생활정보를 찾는다.")
     @Test
     void 생활정보_이름으로_생활정보를_찾는다() {
         // given
-        String liveInformationName = "영유아가족";
-        liveInformationService.save(new LiveInformation(liveInformationName));
+        LiveInformation 생활정보1 = liveInformationService.save(생활정보1_생성());
 
         // when, then
-       assertDoesNotThrow(() -> liveInformationService.findByName(liveInformationName));
+       assertDoesNotThrow(() -> liveInformationService.findByName(생활정보1.getName()));
     }
 
     @DisplayName("생활정보 이름에 매칭되는 생활정보가 없다면 예외가 발생한다.")
@@ -60,41 +64,44 @@ public class LiveInformationsServiceTest extends ServiceTestConfig {
     void 생활정보를_생성한다() {
         // given, when, then
         assertDoesNotThrow(() ->
-                liveInformationService.createLiveInformation(new LiveInformationCreateRequest("생활정보1")));
+                liveInformationService.createLiveInformation(생활정보_생성_요청("생활정보")));
     }
 
     @DisplayName("모든 생활정보를 조회한다.")
     @Test
     void 모든_생활정보를_조회한다() {
         // given
-        liveInformationService.save(new LiveInformation("생활정보1"));
-        liveInformationService.save(new LiveInformation("생활정보2"));
-        liveInformationService.save(new LiveInformation("생활정보3"));
+        liveInformationRepository.save(생활정보1_생성());
+        liveInformationRepository.save(생활정보2_생성());
+        liveInformationRepository.save(생활정보3_생성());
 
-        // when, then
-        assertThat(liveInformationService.findAllLiveInformation().getLiveInformationResponses())
-                .size().isEqualTo(3);
+        // when
+        FindAllLiveInformationResponse actual = liveInformationService.findAllLiveInformation();
+
+        // then
+        assertEquals(actual.getLiveInformationResponses().size(), 3);
     }
 
     @DisplayName("여행지의 생활정보를 생성한다.")
     @Test
     void 여행지의_생활정보를_생성한다() {
         // given
-        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
-        Trip trip = tripRepository.save(new Trip("여행지", "장소", 1L, "설명", "이미지"));
+        LiveInformation 생활정보1 = liveInformationRepository.save(생활정보1_생성());
+        Trip 여행지1 = tripRepository.save(여행지1_생성());
 
         // when, then
-        assertDoesNotThrow(() -> liveInformationService.createTripLiveInformation(trip.getId(), liveInformation.getId()));
+        assertDoesNotThrow(() -> liveInformationService.createTripLiveInformation(여행지1.getId(), 생활정보1.getId()));
     }
 
     @DisplayName("존재하지 않는 여행지의 생활정보를 생성하면 예외가 발생한다.")
     @Test
     void 존재하지_않는_여행지의_생활정보를_생성하면_예외가_발생한다() {
         // given
-        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
+        long 유효하지_않은_여행지_ID = -1L;
+        LiveInformation liveInformation = liveInformationRepository.save(생활정보1_생성());
 
         // when, then
-        assertThatThrownBy(() -> liveInformationService.createTripLiveInformation(-1L, liveInformation.getId()))
+        assertThatThrownBy(() -> liveInformationService.createTripLiveInformation(유효하지_않은_여행지_ID, liveInformation.getId()))
                 .isInstanceOf(NoExistTripException.class);
     }
 
@@ -102,10 +109,11 @@ public class LiveInformationsServiceTest extends ServiceTestConfig {
     @Test
     void 존재하지_않는_생활정보로_여행지의_생활정보를_생성하면_예외가_발생한다() {
         // given
-        Trip trip = tripRepository.save(new Trip("여행지", "장소", 1L, "설명", "이미지"));
+        long 존재하지_않는_생활정보_ID = -1L;
+        Trip 여행지1 = tripRepository.save(여행지1_생성());
 
         // when, then
-        assertThatThrownBy(() -> liveInformationService.createTripLiveInformation(trip.getId(), -1L))
+        assertThatThrownBy(() -> liveInformationService.createTripLiveInformation(여행지1.getId(), 존재하지_않는_생활정보_ID))
                 .isInstanceOf(NoExistLiveInformationException.class);
     }
 }
