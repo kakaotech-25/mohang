@@ -1,6 +1,5 @@
 package moheng.keyword.application;
 
-import static moheng.fixture.MemberFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -21,7 +20,6 @@ import moheng.recommendtrip.domain.repository.RecommendTripRepository;
 import moheng.trip.application.TripService;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.repository.TripRepository;
-import moheng.trip.dto.FindTripResponse;
 import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.dto.TripKeywordCreateRequest;
 import moheng.trip.exception.NoExistTripException;

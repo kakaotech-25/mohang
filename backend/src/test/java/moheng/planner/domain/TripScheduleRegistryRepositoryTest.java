@@ -1,6 +1,5 @@
 package moheng.planner.domain;
 
-import static moheng.fixture.MemberFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

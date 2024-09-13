@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-import static moheng.fixture.MemberFixtures.하온_기존;
+import static moheng.config.fixture.MemberFixtures.하온_기존;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;

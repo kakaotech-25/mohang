@@ -1,7 +1,6 @@
 package moheng.planner.presentation;
 
-import static moheng.fixture.MemberFixtures.하온_기존;
-import static moheng.fixture.TripScheduleFixtures.*;
+import static moheng.config.fixture.MemberFixtures.하온_기존;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
@@ -21,7 +20,6 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 
 import moheng.config.slice.ControllerTestConfig;
-import moheng.member.exception.ShortContentidsSizeException;
 import moheng.planner.domain.TripSchedule;
 import moheng.planner.dto.*;
 import moheng.planner.exception.*;

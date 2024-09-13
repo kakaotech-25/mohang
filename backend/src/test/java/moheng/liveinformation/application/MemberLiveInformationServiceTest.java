@@ -1,6 +1,5 @@
 package moheng.liveinformation.application;
 
-import static moheng.fixture.MemberFixtures.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.assertj.core.api.Assertions.assertThat;

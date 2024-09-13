@@ -1,6 +1,5 @@
 package moheng.auth.presentation;
 
-import static moheng.fixture.AuthFixtures.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;

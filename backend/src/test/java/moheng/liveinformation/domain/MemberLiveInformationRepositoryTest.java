@@ -1,6 +1,5 @@
 package moheng.liveinformation.domain;
 
-import static moheng.fixture.MemberFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import moheng.config.slice.RepositoryTestConfig;

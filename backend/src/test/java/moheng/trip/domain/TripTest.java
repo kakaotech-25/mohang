@@ -1,11 +1,8 @@
 package moheng.trip.domain;
 
-import static moheng.fixture.MemberFixtures.하온_소셜_타입_구글;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
-import moheng.member.domain.Member;
-import moheng.member.exception.InvalidEmailFormatException;
 import moheng.trip.exception.InvalidTripDescriptionException;
 import moheng.trip.exception.InvalidTripNameException;
 import org.junit.jupiter.api.DisplayName;

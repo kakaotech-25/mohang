@@ -3,16 +3,13 @@ package moheng.recommendtrip.presentation;
 import moheng.config.slice.ControllerTestConfig;
 import moheng.keyword.exception.InvalidAIServerException;
 import moheng.member.exception.NoExistMemberException;
-import moheng.planner.exception.NoExistTripScheduleRegistryException;
 import moheng.recommendtrip.exception.LackOfRecommendTripException;
 import moheng.recommendtrip.exception.NoExistMemberTripException;
-import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
-import static moheng.fixture.RecommendTripFixture.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
