@@ -3,14 +3,13 @@ package moheng.fixture;
 import moheng.member.domain.Member;
 import moheng.planner.domain.TripSchedule;
 import moheng.planner.domain.TripScheduleRegistry;
-import moheng.planner.dto.AddTripOnScheduleRequests;
-import moheng.planner.dto.CreateTripScheduleRequest;
-import moheng.planner.dto.UpdateTripOrdersRequest;
-import moheng.planner.dto.UpdateTripScheduleRequest;
+import moheng.planner.dto.*;
 import moheng.trip.domain.Trip;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import static moheng.fixture.MemberFixtures.하온_기존;
 
 public class TripScheduleFixtures {
     // 여행 일정 생성
@@ -101,5 +100,15 @@ public class TripScheduleFixtures {
 
     public static UpdateTripOrdersRequest 유효하지_않은_여행지_정렬_순서_업데이트_요청() {
         return new UpdateTripOrdersRequest(List.of(-1L, -2L, -3L));
+    }
+
+    // 세부 일정 조회 응답
+    public static FindTripsOnSchedule 세부_일정_조회_응답() {
+        return new FindTripsOnSchedule(new TripSchedule("제주도 여행", LocalDate.of(2024, 3, 10), LocalDate.of(2030, 1, 10), 하온_기존()),
+                List.of(
+                        new Trip("롯데월드1", "서울1 어딘가", 1L, "설명1", "https://lotte.png", 126.3307690830, 36.5309210243),
+                        new Trip("롯데월드2", "서울2 어딘가", 2L, "설명2", "https://lotte.png", 226.3307690830, 46.5309210243),
+                        new Trip("롯데월드3", "서울3 어딘가", 3L, "설명3", "https://lotte.png", 326.3307690830, 56.5309210243)
+                ));
     }
 }

@@ -249,16 +249,7 @@ public class TripScheduleControllerTest extends ControllerTestConfig {
     void 세부_일정_정보를_여행지_리스트와_함께_조회하고_상태코드_200을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        given(tripScheduleService.findTripsOnSchedule(anyLong())).willReturn(
-                new FindTripsOnSchedule(
-                        new TripSchedule("제주도 여행", LocalDate.of(2024, 3, 10), LocalDate.of(2030, 1, 10), 하온_기존()),
-                        List.of(
-                                new Trip("롯데월드1", "서울1 어딘가", 1L, "설명1", "https://lotte.png", 126.3307690830, 36.5309210243),
-                                new Trip("롯데월드2", "서울2 어딘가", 2L, "설명2", "https://lotte.png", 226.3307690830, 46.5309210243),
-                                new Trip("롯데월드3", "서울3 어딘가", 3L, "설명3", "https://lotte.png", 326.3307690830, 56.5309210243)
-                        )
-                )
-        );
+        given(tripScheduleService.findTripsOnSchedule(anyLong())).willReturn(세부_일정_조회_응답());
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/schedule/trips/{scheduleId}", 1L)
