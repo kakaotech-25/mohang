@@ -305,7 +305,7 @@ include::{snippets}/planner/schedule/trip/delete/success/response-body.adoc[]
 
 ==== HTTP Request
 
-include::{snippets}/planner/schedule/trip/delete/http-request.adoc[]
+include::{snippets}/planner/schedule/trip/delete/fail//http-request.adoc[]
 
 ===== Request Path Variable
 
@@ -313,16 +313,16 @@ include::{snippets}/planner/schedule/trip/delete/fail/path-parameters.adoc[]
 
 ===== Request Header
 
-include::{snippets}/planner/schedule/trip/delete/request-headers.adoc[]
+include::{snippets}/planner/schedule/trip/delete/fail/request-headers.adoc[]
 
 ===== Request Body
 
-include::{snippets}/planner/schedule/trip/delete/request-body.adoc[]
+include::{snippets}/planner/schedule/trip/delete/fail/request-body.adoc[]
 
 ==== HTTP Response
 
-include::{snippets}/planner/schedule/trip/delete/http-response.adoc[]
+include::{snippets}/planner/schedule/trip/delete/fail/http-response.adoc[]
 
 ===== Response Body
 
-include::{snippets}/planner/schedule/trip/delete/response-body.adoc[]
+include::{snippets}/planner/schedule/trip/delete/fail/response-body.adoc[]
