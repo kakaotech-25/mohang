@@ -63,6 +63,7 @@ const TravelDetails = () => {
   };
 
   const handleSave = async () => {
+    console.log("Saving schedules:", selectedSchedules); // 디버깅용 로그
     try {
       const response = await axiosInstance.post(`/schedule/trip/${card.tripId}`, {
         scheduleIds: selectedSchedules,
@@ -75,6 +76,7 @@ const TravelDetails = () => {
         alert('일정 추가에 실패했습니다.');
       }
     } catch (error) {
+      console.error('Error saving schedules:', error);
       alert('일정 추가 중 오류가 발생했습니다.');
     }
   };
@@ -89,14 +91,39 @@ const TravelDetails = () => {
       });
 
       if (response.status === 204) {
-        // 새로운 일정이 성공적으로 생성되었을 때 plannerData 업데이트
-        setPlannerData((prevPlannerData) => [...prevPlannerData, {
-          scheduleName: newPlan.title,
-          scheduleId: response.data.scheduleId, // 생성된 일정의 ID 사용
-        }]);
+        console.log("New schedule created successfully, fetching updated planner data...");
 
-        console.log("New planner data added:", newPlan);
-        closeAddPlanModal();
+        // 일정이 생성되었으므로, 잠시 지연 후 데이터를 다시 불러옵니다.
+        setTimeout(async () => {
+          try {
+            const updatedPlannerResponse = await axiosInstance.get(plannerDataAPI);
+            const updatedPlannerData = updatedPlannerResponse.data.tripScheduleResponses;
+
+            // 새로 추가된 일정 찾기 (단순화된 조건: 이름만으로 찾기)
+            const newPlannerItem = updatedPlannerData.find(
+              (item) => item.scheduleName === newPlan.title
+            );
+
+            if (newPlannerItem && newPlannerItem.scheduleId) {
+              // plannerData에 새로운 일정 추가 및 selectedSchedules에 자동으로 추가
+              setPlannerData(updatedPlannerData);
+              setSelectedSchedules((prevSelected) => [...prevSelected, newPlannerItem.scheduleId]);
+
+              console.log("New planner data added and selected:", newPlannerItem);
+              closeAddPlanModal();
+            } else {
+              console.error("Failed to find the newly created schedule in the updated planner data.");
+              alert("일정 생성 후 새로 생성된 일정을 찾지 못했습니다.");
+            }
+          } catch (fetchError) {
+            console.error("Failed to fetch updated planner data:", fetchError);
+            alert("일정 생성 후 일정을 다시 불러오는 중 오류가 발생했습니다.");
+          }
+        });
+
+      } else {
+        console.error("Failed to create a new schedule.");
+        alert("일정 생성에 실패했습니다.");
       }
     } catch (error) {
       console.error('일정 생성 실패:', error);
@@ -109,11 +136,16 @@ const TravelDetails = () => {
   };
 
   useEffect(() => {
-    // plannerData가 업데이트되면 모달을 열었을 때 새로 추가된 일정이 바로 반영되도록 상태 업데이트
+    // 모달을 열 때 선택한 일정 초기화
     if (isModalOpen && plannerData.length > 0) {
-      setSelectedSchedules([]); // 모달을 열었을 때 선택한 일정 초기화
+      setSelectedSchedules([]); 
     }
-  }, [plannerData, isModalOpen]);
+  }, [isModalOpen, plannerData]);
+
+  // 선택된 체크박스 상태를 반영
+  useEffect(() => {
+    console.log("Selected schedules updated:", selectedSchedules); // 디버깅용 로그
+  }, [selectedSchedules]);
 
   if (loading) {
     return <div>로딩 중...</div>;
@@ -175,6 +207,7 @@ const TravelDetails = () => {
                       type="checkbox"
                       className="td-planner-checkbox"
                       onChange={(e) => handleCheckboxChange(item.scheduleId, e.target.checked)}
+                      checked={selectedSchedules.includes(item.scheduleId)} // 선택된 상태 반영
                     />
                   </li>
                 ))}
