@@ -137,13 +137,13 @@ asciidoctor {
 	baseDirFollowsSourceFile()
 }
 
-bootJar {
-	dependsOn asciidoctor
-	copy {
-		from "${asciidoctor.outputDir}"
-		into 'src/main/resources/static/docs'
-	}
-}
+// bootJar {
+	// dependsOn asciidoctor
+	// copy {
+	// 	from "${asciidoctor.outputDir}"
+	// 	into 'src/main/resources/static/docs'
+	// }
+// }
 
 sonar {
 	properties {

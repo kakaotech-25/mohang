@@ -2,6 +2,11 @@ version: "3"
 
 vars:
   GREETING: Hello, World!
+  RED: \033[31m
+  GREEN: \033[32m
+  YELLOW: \033[33m
+  BLUE: \033[34m
+  RESET: \033[0m
 
 tasks:
   default:
@@ -11,17 +16,33 @@ tasks:
 
   front:
     desc: 프론트 UI 개발 서버 실행
-    cmd: docker compose -f compose.frontend.yaml up --build
+    cmd: docker compose -f compose.local.yaml up --build frontend
+
+  ai:
+    desc: AI 서버 실행
+    cmd: docker compose -f compose.local.yaml up --build ai
+
+  back:
+    desc: 백엔드 서버 실행
+    cmd: docker compose -f compose.local.yaml up --build backend
+
+  local:
+    preconditions:
+      - test -f compose.local.yaml
+    desc: 통합 개발 환경 실행
+    cmds:
+      - docker compose -f compose.local.yaml up --build
 
   dev:
-    preconditions:
-      - test -f compose.dev.yaml
-    desc: 통합 개발 환경 실행
-    cmd: docker compose -f compose.dev.yaml up --build
+    desc: 개발 환경 실행 (레거시)
+    silent: true
+    cmds:
+      - echo -e "{{.RED}} 이전버전 명령어입니다. {{.YELLOW}}task local{{.RED}} 명령어로 실행해주세요. {{.RESET}}" && sleep 10
+      - task local
 
-  dev-down:
+  local-down:
     desc: 통합 개발 환경 중지
-    cmd: docker compose -f compose.dev.yaml down
+    cmd: docker compose -f compose.local.yaml down
 
   prod:
     desc: 프로덕션 환경 실행
@@ -34,6 +55,10 @@ tasks:
   clean:
     desc: 컨테이너 삭제, 네트워크 삭제, 볼륨 삭제, 이미지 삭제, 빌드 캐시 삭제
     cmd: docker system prune -a
+
+  deploy:
+    desc: 애플리케이션 배포
+    cmd: sh -c ./deploy.sh
 
   db:
     desc: 데이터베이스 초기화

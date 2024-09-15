@@ -1,10 +1,10 @@
 services:
   nginx:
     container_name: nginx
-    image: nginx:dev
+    image: nginx:local
     build:
       context: ./nginx
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.local
     networks:
       - moheng-network
     ports:
@@ -15,10 +15,10 @@ services:
 
   backend:
     container_name: back
-    image: spring:dev
+    image: spring:local
     build:
       context: ./backend
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.local
     networks:
       - moheng-network
     ports:
@@ -31,10 +31,10 @@ services:
 
   frontend:
     container_name: front
-    image: react:dev
+    image: react:local
     build:
       context: frontend/
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.front
     volumes:
       - front-dir:/usr/app
     networks:
@@ -47,7 +47,7 @@ services:
 
   ai:
     container_name: ai
-    image: fastapi:dev
+    image: fastapi:local
     build: ./ai
     volumes:
       - ai-dir:/app
