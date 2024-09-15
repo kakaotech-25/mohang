@@ -1,5 +1,6 @@
 package moheng.liveinformation.domain;
 
+import static moheng.fixture.LiveInformationFixture.생활정보1_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -15,7 +16,7 @@ public class LiveInformationTest {
     @Test
     void 생활정보를_생성한다() {
         // given, when, then
-        assertDoesNotThrow(() -> new LiveInformation("생활정보1"));
+        assertDoesNotThrow(() -> 생활정보1_생성());
     }
 
     @DisplayName("생활정보 이름의 길이가 올바르지 않다면 예외가 발생한다.")

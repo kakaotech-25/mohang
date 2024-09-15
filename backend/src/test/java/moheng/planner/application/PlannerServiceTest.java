@@ -1,6 +1,9 @@
 package moheng.planner.application;
 
+import static moheng.fixture.TripFixture.*;
+import static moheng.fixture.TripScheduleFixtures.*;
 import static moheng.fixture.MemberFixtures.*;
+import static moheng.fixture.TripScheduleFixtures.여행_일정_수정_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -45,14 +48,12 @@ public class PlannerServiceTest extends ServiceTestConfig {
     @Test
     void 플래너_여행_일정을_최신순인_생성날짜를_기준으로_내림차순_정렬한다() {
         // given
-        Member member = memberRepository.save(하온_기존());
-        tripScheduleRepository.save(new TripSchedule("일정1", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
-        tripScheduleRepository.save(new TripSchedule("일정2", LocalDate.of(2021, 8, 1), LocalDate.of(2024, 8, 2), member));
-        tripScheduleRepository.save(new TripSchedule("일정3", LocalDate.of(2022, 8, 1), LocalDate.of(2024, 8, 2), member));
-        tripScheduleRepository.save(new TripSchedule("일정4", LocalDate.of(2023, 8, 1), LocalDate.of(2024, 8, 2), member));
+        Member 하온 = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(여행_일정1_생성(하온)); tripScheduleRepository.save(여행_일정2_생성(하온));
+        tripScheduleRepository.save(여행_일정3_생성(하온)); tripScheduleRepository.save(여행_일정4_생성(하온));
 
         // when
-        FindPlannerOrderByRecentResponse response = plannerService.findPlannerOrderByRecent(member.getId());
+        FindPlannerOrderByRecentResponse response = plannerService.findPlannerOrderByRecent(하온.getId());
         List<TripScheduleResponse> tripScheduleResponses = response.getTripScheduleResponses();
 
         // then
@@ -67,14 +68,12 @@ public class PlannerServiceTest extends ServiceTestConfig {
     @Test
     void 플래너_여행_일정을_날짜순인_시작날짜를_기준으로_오름차순_정렬한다() {
         // given
-        Member member = memberRepository.save(하온_기존());
-        tripScheduleRepository.save(new TripSchedule("일정1", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
-        tripScheduleRepository.save(new TripSchedule("일정2", LocalDate.of(2021, 8, 1), LocalDate.of(2024, 8, 2), member));
-        tripScheduleRepository.save(new TripSchedule("일정3", LocalDate.of(2022, 8, 1), LocalDate.of(2024, 8, 2), member));
-        tripScheduleRepository.save(new TripSchedule("일정4", LocalDate.of(2023, 8, 1), LocalDate.of(2024, 8, 2), member));
+        Member 하온 = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(여행_일정1_생성(하온)); tripScheduleRepository.save(여행_일정2_생성(하온));
+        tripScheduleRepository.save(여행_일정3_생성(하온)); tripScheduleRepository.save(여행_일정4_생성(하온));
 
         // when
-        FindPlannerOrderByDateResponse response = plannerService.findPlannerOrderByDateAsc(member.getId());
+        FindPlannerOrderByDateResponse response = plannerService.findPlannerOrderByDateAsc(하온.getId());
         List<TripScheduleResponse> tripScheduleResponses = response.getTripScheduleResponses();
 
         // then
@@ -89,14 +88,12 @@ public class PlannerServiceTest extends ServiceTestConfig {
     @Test
     void 플래너_여행_일정을_이름순으로_오름차순_정렬한다() {
         // given
-        Member member = memberRepository.save(하온_기존());
-        tripScheduleRepository.save(new TripSchedule("가 일정", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
-        tripScheduleRepository.save(new TripSchedule("나 일정", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
-        tripScheduleRepository.save(new TripSchedule("다 일정", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
-        tripScheduleRepository.save(new TripSchedule("라 일정", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
+        Member 하온 = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(여행_일정_가_생성(하온)); tripScheduleRepository.save(여행_일정_나_생성(하온));
+        tripScheduleRepository.save(여행_일정_다_생성(하온)); tripScheduleRepository.save(여행_일정_라_생성(하온));
 
         // when
-        FindPLannerOrderByNameResponse response = plannerService.findPlannerOrderByName(member.getId());
+        FindPLannerOrderByNameResponse response = plannerService.findPlannerOrderByName(하온.getId());
         List<TripScheduleResponse> tripScheduleResponses = response.getTripScheduleResponses();
 
         // then
@@ -111,14 +108,13 @@ public class PlannerServiceTest extends ServiceTestConfig {
     @Test
     void 존재하지_않는_멤버의_플래너를_찾으면_예외가_발생한다() {
         // given
-        Member member = memberRepository.save(하온_기존());
-        tripScheduleRepository.save(new TripSchedule("가 일정", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
-        tripScheduleRepository.save(new TripSchedule("나 일정", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
+        Member 하온 = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(여행_일정_가_생성(하온)); tripScheduleRepository.save(여행_일정_나_생성(하온));
 
-        long invalidMemberId = -1L;
+        long 존재하지_않는_멤버_ID = -1L;
 
         // when, then
-        assertThatThrownBy(() -> plannerService.findPlannerOrderByName(invalidMemberId))
+        assertThatThrownBy(() -> plannerService.findPlannerOrderByName(존재하지_않는_멤버_ID))
                 .isInstanceOf(NoExistMemberException.class);
     }
 
@@ -126,27 +122,20 @@ public class PlannerServiceTest extends ServiceTestConfig {
     @Test
     void 여행_일정을_수정한다() {
         // given
-        Member member = memberRepository.save(하온_기존());
-        tripScheduleRepository.save(new TripSchedule("기존 일정", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
-        UpdateTripScheduleRequest updateTripScheduleRequest = new UpdateTripScheduleRequest(
-                1L, "새로운 일정",
-                LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2));
+        Member 하온 = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(여행_일정_가_생성(하온));
 
-        assertDoesNotThrow(() -> plannerService.updateTripSchedule(member.getId(), updateTripScheduleRequest));
+        assertDoesNotThrow(() -> plannerService.updateTripSchedule(하온.getId(), 여행_일정_수정_요청()));
     }
 
     @DisplayName("존재하지 않는 회원의 여행 일정을 수정하면 예외가 발생한다.")
     @Test
     void 존재하지_않는_회원의_여행_일정을_수정하면_예외가_발생한다() {
         // given
-        long invalidMemberId = -1L;
-
-        UpdateTripScheduleRequest updateTripScheduleRequest = new UpdateTripScheduleRequest(
-                1L, "새로운 일정",
-                LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2));
+        long 유효하지_않은_멤버_ID = -1L;
 
         // when, then
-        assertThatThrownBy(() -> plannerService.updateTripSchedule(invalidMemberId, updateTripScheduleRequest))
+        assertThatThrownBy(() -> plannerService.updateTripSchedule(유효하지_않은_멤버_ID, 여행_일정_수정_요청()))
                 .isInstanceOf(NoExistMemberException.class);
     }
 
@@ -154,15 +143,11 @@ public class PlannerServiceTest extends ServiceTestConfig {
     @Test
     void 존재하지_않는_여행_일정을_수정하면_예외가_발생한다() {
         // given
-        long invalidScheduleId = -1L;
-        Member member = memberRepository.save(하온_기존());
-
-        UpdateTripScheduleRequest updateTripScheduleRequest = new UpdateTripScheduleRequest(
-                invalidScheduleId, "새로운 일정",
-                LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2));
+        long 유효하지_않은_일정_ID = -1L;
+        Member 하온 = memberRepository.save(하온_기존());
 
         // when, then
-        assertThatThrownBy(() -> plannerService.updateTripSchedule(member.getId(), updateTripScheduleRequest))
+        assertThatThrownBy(() -> plannerService.updateTripSchedule(하온.getId(), 여행_일정_수정_요청()))
                 .isInstanceOf(NoExistTripScheduleException.class);
     }
 
@@ -170,15 +155,12 @@ public class PlannerServiceTest extends ServiceTestConfig {
     @Test
     void 여행_일정의_이름이_변경된_경우_중복_이름을_체크하고_중복이_발생했다면_예외가_발생한다() {
         // given
-        Member member = memberRepository.save(하온_기존());
-        tripScheduleRepository.save(new TripSchedule("일정", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
-        tripScheduleRepository.save(new TripSchedule("중복 일정", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
-        UpdateTripScheduleRequest updateTripScheduleRequest = new UpdateTripScheduleRequest(
-                1L, "중복 일정",
-                LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2));
+        Member 하온 = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(여행_일정1_생성(하온));
+        tripScheduleRepository.save(여행_일정_중복_생성(하온));
 
         // when, then
-        assertThatThrownBy(() -> plannerService.updateTripSchedule(member.getId(), updateTripScheduleRequest))
+        assertThatThrownBy(() -> plannerService.updateTripSchedule(하온.getId(), 중복_여행_일정_수정_요청()))
                 .isInstanceOf(AlreadyExistTripScheduleException.class);
     }
 
@@ -186,11 +168,11 @@ public class PlannerServiceTest extends ServiceTestConfig {
     @Test
     void 여행_일정을_삭제한다() {
         // given
-        Member member = memberRepository.save(하온_기존());
-        TripSchedule tripSchedule = tripScheduleRepository.save(new TripSchedule("일정", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
+        Member 하온 = memberRepository.save(하온_기존());
+        TripSchedule 여행_일정 = tripScheduleRepository.save(여행_일정_가_생성(하온));
 
         // when
-        plannerService.removeTripSchedule(tripSchedule.getId());
+        plannerService.removeTripSchedule(여행_일정.getId());
 
         // then
         assertThat(tripScheduleRepository.findAll()).hasSize(0);
@@ -200,10 +182,10 @@ public class PlannerServiceTest extends ServiceTestConfig {
     @Test
     void 존재하지_않는_여행_일정_삭제를_시도하면_에외가_발생한다() {
         // given
-        long invalidScheduleId = -1L;
+        long 존재하지_않는_여행_일정_ID = -1L;
 
         // when, then
-        assertThatThrownBy(() -> plannerService.removeTripSchedule(invalidScheduleId))
+        assertThatThrownBy(() -> plannerService.removeTripSchedule(존재하지_않는_여행_일정_ID))
                 .isInstanceOf(NoExistTripScheduleException.class);
     }
 
@@ -211,15 +193,15 @@ public class PlannerServiceTest extends ServiceTestConfig {
     @Test
     void 여행_일정을_삭제하면_그_안의_여행지들도_함께_삭제된다() {
         // given
-        Member member = memberRepository.save(하온_기존());
-        Trip trip1 = tripRepository.save(new Trip("여행지1", "장소명1", 1L, "설명", "https://trip.png", 123.1, 123.1));
-        Trip trip2 = tripRepository.save(new Trip("여행지2", "장소명2", 2L, "설명", "https://trip.png", 123.1, 123.1));
-        TripSchedule tripSchedule = tripScheduleRepository.save(new TripSchedule("일정", LocalDate.of(2020, 8, 1), LocalDate.of(2024, 8, 2), member));
-        tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip1, tripSchedule));
-        tripScheduleRegistryRepository.save(new TripScheduleRegistry(trip2, tripSchedule));
+        Member 하온 = memberRepository.save(하온_기존());
+        Trip 여행지1 = tripRepository.save(여행지1_생성());
+        Trip 여행지2 = tripRepository.save(여행지2_생성());
+        TripSchedule 여행_일정1_생성 = tripScheduleRepository.save(여행_일정1_생성(하온));
+        tripScheduleRegistryRepository.save(new TripScheduleRegistry(여행지1, 여행_일정1_생성));
+        tripScheduleRegistryRepository.save(new TripScheduleRegistry(여행지2, 여행_일정1_생성));
 
         // when
-        plannerService.removeTripSchedule(tripSchedule.getId());
+        plannerService.removeTripSchedule(여행_일정1_생성.getId());
 
         // then
         assertAll(() -> {

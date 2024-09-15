@@ -32,7 +32,7 @@ public class Trip extends BaseEntity {
     @Column(name = "trip_image_url", nullable = false)
     private String tripImageUrl;
 
-    @Column(name = "visited_count")
+    @Column(name = "visited_count", nullable = false)
     private Long visitedCount;
 
     @Column(name = "coordinate_x")
@@ -76,7 +76,6 @@ public class Trip extends BaseEntity {
     public Trip(final String name, final String placeName, final Long contentId, final String description, final String tripImageUrl, Long visitedCount) {
         validateName(name);
         validatePlaceName(placeName);
-        System.out.println(description);
         validateDescription(description);
         this.name = name;
         this.placeName = placeName;

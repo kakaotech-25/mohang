@@ -59,3 +59,10 @@ tasks:
   deploy:
     desc: 애플리케이션 배포
     cmd: sh -c ./deploy.sh
+
+  db:
+    desc: 데이터베이스 초기화
+    dir: database
+    cmds:
+      - sh -c ./init.sh
+      - docker compose -f compose.yaml up -d

@@ -1,5 +1,6 @@
 package moheng.planner.presentation;
 
+import static moheng.fixture.PlannerFixture.*;
 import static moheng.fixture.MemberFixtures.*;
 import static moheng.fixture.TripScheduleFixtures.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -44,14 +45,7 @@ public class PlannerControllerTest extends ControllerTestConfig {
     void 플래너의_여행지를_최신순으로_조회하고_상태코드_200을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        given(plannerService.findPlannerOrderByRecent(anyLong())).willReturn(
-                new FindPlannerOrderByRecentResponse(List.of(
-                        new TripSchedule("제주도 여행", LocalDate.of(2020, 3, 10), LocalDate.of(2030, 1, 10), 하온_기존()),
-                        new TripSchedule("카카오 여행", LocalDate.of(2024, 2, 15), LocalDate.of(2030, 1, 10), 하온_기존()),
-                        new TripSchedule("네이버 여행", LocalDate.of(2022, 1, 8), LocalDate.of(2030, 1, 10), 하온_기존()),
-                        new TripSchedule("우주 여행", LocalDate.of(2023, 1, 1), LocalDate.of(2030, 1, 10), 하온_기존())
-                ))
-        );
+        given(plannerService.findPlannerOrderByRecent(anyLong())).willReturn(플래너_최신순_조회_응답());
 
         // when, then
         mockMvc.perform(get("/api/planner/recent")
@@ -80,14 +74,7 @@ public class PlannerControllerTest extends ControllerTestConfig {
     void 플래너의_여행지를_이름순으로_조회하고_상태코드_200을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        given(plannerService.findPlannerOrderByName(anyLong())).willReturn(
-                new FindPLannerOrderByNameResponse(List.of(
-                        new TripSchedule("가 여행", LocalDate.of(2024, 3, 10), LocalDate.of(2030, 1, 10), 하온_기존()),
-                        new TripSchedule("나 여행", LocalDate.of(2023, 2, 15), LocalDate.of(2030, 1, 10), 하온_기존()),
-                        new TripSchedule("다 여행", LocalDate.of(2022, 1, 8), LocalDate.of(2030, 1, 10), 하온_기존()),
-                        new TripSchedule("라 여행", LocalDate.of(2021, 1, 1), LocalDate.of(2030, 1, 10), 하온_기존())
-                ))
-        );
+        given(plannerService.findPlannerOrderByName(anyLong())).willReturn(플래너_이름순_조회_응답());
 
         // when, then
         mockMvc.perform(get("/api/planner/name")
@@ -116,14 +103,7 @@ public class PlannerControllerTest extends ControllerTestConfig {
     void 플래너의_여행지를_날짜순으로_조회하고_상태코드_200을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        given(plannerService.findPlannerOrderByDateAsc(anyLong())).willReturn(
-                new FindPlannerOrderByDateResponse(List.of(
-                        new TripSchedule("제주도 여행", LocalDate.of(2024, 3, 10), LocalDate.of(2030, 1, 10), 하온_기존()),
-                        new TripSchedule("카카오 여행", LocalDate.of(2023, 2, 15), LocalDate.of(2030, 1, 10), 하온_기존()),
-                        new TripSchedule("네이버 여행", LocalDate.of(2022, 1, 8), LocalDate.of(2030, 1, 10), 하온_기존()),
-                        new TripSchedule("우주 여행", LocalDate.of(2021, 1, 1), LocalDate.of(2030, 1, 10), 하온_기존())
-                ))
-        );
+        given(plannerService.findPlannerOrderByDateAsc(anyLong())).willReturn(플래너_날짜순_조회_응답());
 
         // when, then
         mockMvc.perform(get("/api/planner/date")

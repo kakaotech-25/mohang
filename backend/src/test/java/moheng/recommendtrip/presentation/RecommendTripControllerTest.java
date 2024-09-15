@@ -42,7 +42,7 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(선호_여행지_생성_요청()))
+                        .content(objectMapper.writeValueAsString(선호_여행지_생성_요청(1L)))
                 )
                 .andExpect(status().isNoContent());
     }
@@ -60,7 +60,7 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(선호_여행지_생성_요청()))
+                        .content(objectMapper.writeValueAsString(선호_여행지_생성_요청(1L)))
                 )
                 .andExpect(status().isNotFound());
     }
@@ -78,7 +78,7 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
                         .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(선호_여행지_생성_요청()))
+                        .content(objectMapper.writeValueAsString(선호_여행지_생성_요청(-1L)))
                 )
                 .andExpect(status().isNotFound());
     }

@@ -1,5 +1,10 @@
 package moheng.recommendtrip.application;
 
+import static moheng.fixture.RecommendTripFixture.*;
+import static moheng.fixture.TripFixture.*;
+import static moheng.fixture.KeywordFixture.*;
+import static moheng.fixture.MemberTripFixture.*;
+import static moheng.fixture.LiveInformationFixture.*;
 import static moheng.fixture.MemberFixtures.하온_기존;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -67,33 +72,33 @@ public class RecommendTripServiceTest extends ServiceTestConfig {
     @Test
     void 순위와_함께_추천_여행지_정보를_저장한다() {
         // given
-        Member member = memberRepository.save(하온_기존());
-        Trip trip = tripRepository.save(new Trip("여행지", "장소명", 1L, "설명", "이미지 경로"));
+        Member 하온 = memberRepository.save(하온_기존());
+        Trip 여행지1 = tripRepository.save(여행지1_생성());
 
         // when, then
-        assertDoesNotThrow(() -> recommendTripService.saveByRank(trip, member, 1L));
+        assertDoesNotThrow(() -> recommendTripService.saveByRank(여행지1, 하온, 1L));
     }
 
     @DisplayName("추천 여행지 정보를 저장한다.")
     @Test
     void 추천_여행지_정보를_저장한다() {
         // given
-        Member member = memberRepository.save(하온_기존());
-        Trip trip = tripRepository.save(new Trip("여행지", "장소명", 1L, "설명", "이미지 경로"));
+        Member 하온 = memberRepository.save(하온_기존());
+        Trip 여행지1 = tripRepository.save(여행지1_생성());
 
         // when, then
-        assertDoesNotThrow(() -> recommendTripService.createRecommendTrip(member.getId(), new RecommendTripCreateRequest(trip.getId())));
+        assertDoesNotThrow(() -> recommendTripService.createRecommendTrip(하온.getId(), 선호_여행지_생성_요청(여행지1.getId())));
     }
 
     @DisplayName("존재하지 않는 여행지의 추천 정보를 저장하면 예외가 발생한다.")
     @Test
     void 존재하지_않는_여행지의_추천_정보를_저장하면_예외가_발생한다() {
         // given
-        Member member = memberRepository.save(하온_기존());
+        Member 하온 = memberRepository.save(하온_기존());
 
         // when, then
         assertThatThrownBy(() ->
-                recommendTripService.createRecommendTrip(member.getId(), new RecommendTripCreateRequest(-1L))
+                recommendTripService.createRecommendTrip(하온.getId(), 유효하지_않은_선호_여행지_생성_요청())
         ).isInstanceOf(NoExistTripException.class);
     }
 
@@ -101,11 +106,12 @@ public class RecommendTripServiceTest extends ServiceTestConfig {
     @Test
     void 존재하지_않는_유자에_대한_추천_정보를_저장하면_예외가_발생한다() {
         // given
-        Trip trip = tripRepository.save(new Trip("여행지", "장소명", 1L, "설명", "이미지 경로"));
+        long 존재하지_않는_멤버_ID = -1L;
+        Trip 여행지1 = tripRepository.save(여행지1_생성());
 
         // when, then
         assertThatThrownBy(() ->
-                recommendTripService.createRecommendTrip(-1L, new RecommendTripCreateRequest(trip.getId()))
+                recommendTripService.createRecommendTrip(존재하지_않는_멤버_ID, 선호_여행지_생성_요청(여행지1.getId()))
         ).isInstanceOf(NoExistMemberException.class);
     }
 
@@ -113,105 +119,108 @@ public class RecommendTripServiceTest extends ServiceTestConfig {
     @Test
     void AI_맞춤_여행지를_추천받는다() {
         // given
-        Member member = memberRepository.save(하온_기존());
-        Trip trip1 = tripRepository.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로1"));
-        Trip trip2 = tripRepository.save(new Trip("여행지2", "장소명2", 2L, "설명2", "이미지 경로2"));
-        Trip trip3 = tripRepository.save(new Trip("여행지3", "장소명3", 3L, "설명3", "이미지 경로3"));
-        Trip trip4 = tripRepository.save(new Trip("여행지4", "장소명3", 4L, "설명3", "이미지 경로3"));
-        Trip trip5 = tripRepository.save(new Trip("여행지5", "장소명3", 5L, "설명3", "이미지 경로3"));
-        Trip trip6 = tripRepository.save(new Trip("여행지6", "장소명3", 6L, "설명3", "이미지 경로3"));
-        Trip trip7 = tripRepository.save(new Trip("여행지7", "장소명3", 7L, "설명3", "이미지 경로3"));
-        Trip trip8 = tripRepository.save(new Trip("여행지8", "장소명3", 8L, "설명3", "이미지 경로3"));
-        Trip trip9 = tripRepository.save(new Trip("여행지9", "장소명3", 9L, "설명3", "이미지 경로3"));
-        Trip trip10 = tripRepository.save(new Trip("여행지10", "장소명3", 10L, "설명3", "이미지 경로3"));
-        memberTripRepository.save(new MemberTrip(member, trip1, 10L)); memberTripRepository.save(new MemberTrip(member, trip2, 20L));
-        memberTripRepository.save(new MemberTrip(member, trip3, 30L)); memberTripRepository.save(new MemberTrip(member, trip4, 30L));
-        memberTripRepository.save(new MemberTrip(member, trip5, 30L)); memberTripRepository.save(new MemberTrip(member, trip6, 30L));
-        memberTripRepository.save(new MemberTrip(member, trip7, 30L)); memberTripRepository.save(new MemberTrip(member, trip8, 30L));
-        memberTripRepository.save(new MemberTrip(member, trip9, 30L)); memberTripRepository.save(new MemberTrip(member, trip10, 30L));
-        Keyword keyword1 = keywordRepository.save(new Keyword("키워드1")); Keyword keyword2 = keywordRepository.save(new Keyword("키워드2"));
-        Keyword keyword3 = keywordRepository.save(new Keyword("키워드3")); Keyword keyword4 = keywordRepository.save(new Keyword("키워드4"));
-        Keyword keyword5 = keywordRepository.save(new Keyword("키워드5")); Keyword keyword6 = keywordRepository.save(new Keyword("키워드6"));
-        Keyword keyword7 = keywordRepository.save(new Keyword("키워드7")); Keyword keyword8 = keywordRepository.save(new Keyword("키워드8"));
-        Keyword keyword9 = keywordRepository.save(new Keyword("키워드9")); Keyword keyword10 = keywordRepository.save(new Keyword("키워드10"));
-        tripKeywordRepository.save(new TripKeyword(trip1, keyword1)); tripKeywordRepository.save(new TripKeyword(trip2, keyword2));
-        tripKeywordRepository.save(new TripKeyword(trip3, keyword3)); tripKeywordRepository.save(new TripKeyword(trip4, keyword4));
-        tripKeywordRepository.save(new TripKeyword(trip5, keyword5)); tripKeywordRepository.save(new TripKeyword(trip6, keyword6));
-        tripKeywordRepository.save(new TripKeyword(trip7, keyword7)); tripKeywordRepository.save(new TripKeyword(trip8, keyword8));
-        tripKeywordRepository.save(new TripKeyword(trip9, keyword9)); tripKeywordRepository.save(new TripKeyword(trip10, keyword10));
-        recommendTripRepository.save(new RecommendTrip(trip1, member, 1L)); recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
-        recommendTripRepository.save(new RecommendTrip(trip3, member, 3L)); recommendTripRepository.save(new RecommendTrip(trip4, member, 4L));
-        recommendTripRepository.save(new RecommendTrip(trip5, member, 5L)); recommendTripRepository.save(new RecommendTrip(trip6, member, 6L));
-        recommendTripRepository.save(new RecommendTrip(trip7, member, 7L)); recommendTripRepository.save(new RecommendTrip(trip8, member, 8L));
-        recommendTripRepository.save(new RecommendTrip(trip9, member, 9L)); recommendTripRepository.save(new RecommendTrip(trip10, member, 10L));
-        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
-        memberLiveInformationRepository.save(new MemberLiveInformation(liveInformation, member));
-        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip1)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip2));
-        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip3)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip4));
-        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip5)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip6));
-        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip7)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8));
-        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10));
+        Member 하온 = memberRepository.save(하온_기존());
+        Trip 여행지1 = tripRepository.save(여행지1_생성()); Trip 여행지2 = tripRepository.save(여행지2_생성());
+        Trip 여행지3 = tripRepository.save(여행지3_생성()); Trip 여행지4 = tripRepository.save(여행지4_생성());
+        Trip 여행지5 = tripRepository.save(여행지5_생성()); Trip 여행지6 = tripRepository.save(여행지6_생성());
+        Trip 여행지7 = tripRepository.save(여행지7_생성()); Trip 여행지8 = tripRepository.save(여행지8_생성());
+        Trip 여행지9 = tripRepository.save(여행지9_생성()); Trip 여행지10 = tripRepository.save(여행지10_생성());
+
+        memberTripRepository.save(멤버의_여행지_방문수_10_생성(하온, 여행지1)); memberTripRepository.save(멤버의_여행지_방문수_20_생성(하온, 여행지2));
+        memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지3)); memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지4));
+        memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지5)); memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지6));
+        memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지7)); memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지8));
+        memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지9)); memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지10));
+
+        Keyword 키워드1 = keywordRepository.save(키워드1_생성()); Keyword 키워드2 = keywordRepository.save(키워드2_생성());
+        Keyword 키워드3 = keywordRepository.save(키워드3_생성()); Keyword 키워드4 = keywordRepository.save(키워드4_생성());
+        Keyword 키워드5 = keywordRepository.save(키워드5_생성()); Keyword 키워드6 = keywordRepository.save(키워드6_생성());
+        Keyword 키워드7 = keywordRepository.save(키워드7_생성()); Keyword 키워드8 = keywordRepository.save(키워드8_생성());
+        Keyword 키워드9 = keywordRepository.save(키워드9_생성()); Keyword 키워드10 = keywordRepository.save(키워드10_생성());
+
+        tripKeywordRepository.save(new TripKeyword(여행지1, 키워드1)); tripKeywordRepository.save(new TripKeyword(여행지2, 키워드2));
+        tripKeywordRepository.save(new TripKeyword(여행지3, 키워드3)); tripKeywordRepository.save(new TripKeyword(여행지4, 키워드4));
+        tripKeywordRepository.save(new TripKeyword(여행지5, 키워드5)); tripKeywordRepository.save(new TripKeyword(여행지6, 키워드6));
+        tripKeywordRepository.save(new TripKeyword(여행지7, 키워드7)); tripKeywordRepository.save(new TripKeyword(여행지8, 키워드8));
+        tripKeywordRepository.save(new TripKeyword(여행지9, 키워드9)); tripKeywordRepository.save(new TripKeyword(여행지10, 키워드10));
+
+        recommendTripRepository.save(선호_여행지_생성_랭크1(여행지1, 하온)); recommendTripRepository.save(선호_여행지_생성_랭크2(여행지2, 하온));
+        recommendTripRepository.save(선호_여행지_생성_랭크3(여행지3, 하온)); recommendTripRepository.save(선호_여행지_생성_랭크4(여행지4, 하온));
+        recommendTripRepository.save(선호_여행지_생성_랭크5(여행지5, 하온)); recommendTripRepository.save(선호_여행지_생성_랭크6(여행지6, 하온));
+        recommendTripRepository.save(선호_여행지_생성_랭크7(여행지7, 하온)); recommendTripRepository.save(선호_여행지_생성_랭크8(여행지8, 하온));
+        recommendTripRepository.save(선호_여행지_생성_랭크9(여행지9, 하온)); recommendTripRepository.save(선호_여행지_생성_랭크10(여행지10, 하온));
+
+
+        LiveInformation 생활정보1 = liveInformationRepository.save(생활정보1_생성());
+        memberLiveInformationRepository.save(new MemberLiveInformation(생활정보1, 하온));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지1)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지2));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지3)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지4));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지5)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지6));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지7)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지8));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지9)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지10));
 
         // when, then
-        assertAll(() -> {
-            assertDoesNotThrow(() -> recommendTripService.findRecommendTripsByModel(member.getId()));
-        });
+        assertDoesNotThrow(() -> recommendTripService.findRecommendTripsByModel(하온.getId()));
     }
 
     @DisplayName("AI 맞춤 여행지는 정확히 10개의 여행지를 추천한다.")
     @Test
     void AI_맞춤_여행지는_정확히_10개의_여행지를_추천한다() {
         // given
-        Member member = memberRepository.save(하온_기존());
-        Trip trip1 = tripRepository.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로1"));
-        Trip trip2 = tripRepository.save(new Trip("여행지2", "장소명2", 2L, "설명2", "이미지 경로2"));
-        Trip trip3 = tripRepository.save(new Trip("여행지3", "장소명3", 3L, "설명3", "이미지 경로3"));
-        Trip trip4 = tripRepository.save(new Trip("여행지4", "장소명3", 4L, "설명3", "이미지 경로3"));
-        Trip trip5 = tripRepository.save(new Trip("여행지5", "장소명3", 5L, "설명3", "이미지 경로3"));
-        Trip trip6 = tripRepository.save(new Trip("여행지6", "장소명3", 6L, "설명3", "이미지 경로3"));
-        Trip trip7 = tripRepository.save(new Trip("여행지7", "장소명3", 7L, "설명3", "이미지 경로3"));
-        Trip trip8 = tripRepository.save(new Trip("여행지8", "장소명3", 8L, "설명3", "이미지 경로3"));
-        Trip trip9 = tripRepository.save(new Trip("여행지9", "장소명3", 9L, "설명3", "이미지 경로3"));
-        Trip trip10 = tripRepository.save(new Trip("여행지10", "장소명3", 10L, "설명3", "이미지 경로3"));
-        memberTripRepository.save(new MemberTrip(member, trip1, 10L)); memberTripRepository.save(new MemberTrip(member, trip2, 20L));
-        memberTripRepository.save(new MemberTrip(member, trip3, 30L)); memberTripRepository.save(new MemberTrip(member, trip4, 30L));
-        memberTripRepository.save(new MemberTrip(member, trip5, 30L)); memberTripRepository.save(new MemberTrip(member, trip6, 30L));
-        memberTripRepository.save(new MemberTrip(member, trip7, 30L)); memberTripRepository.save(new MemberTrip(member, trip8, 30L));
-        memberTripRepository.save(new MemberTrip(member, trip9, 30L)); memberTripRepository.save(new MemberTrip(member, trip10, 30L));
-        Keyword keyword1 = keywordRepository.save(new Keyword("키워드1")); Keyword keyword2 = keywordRepository.save(new Keyword("키워드2"));
-        Keyword keyword3 = keywordRepository.save(new Keyword("키워드3")); Keyword keyword4 = keywordRepository.save(new Keyword("키워드4"));
-        Keyword keyword5 = keywordRepository.save(new Keyword("키워드5")); Keyword keyword6 = keywordRepository.save(new Keyword("키워드6"));
-        Keyword keyword7 = keywordRepository.save(new Keyword("키워드7")); Keyword keyword8 = keywordRepository.save(new Keyword("키워드8"));
-        Keyword keyword9 = keywordRepository.save(new Keyword("키워드9")); Keyword keyword10 = keywordRepository.save(new Keyword("키워드10"));
-        tripKeywordRepository.save(new TripKeyword(trip1, keyword1)); tripKeywordRepository.save(new TripKeyword(trip2, keyword2));
-        tripKeywordRepository.save(new TripKeyword(trip3, keyword3)); tripKeywordRepository.save(new TripKeyword(trip4, keyword4));
-        tripKeywordRepository.save(new TripKeyword(trip5, keyword5)); tripKeywordRepository.save(new TripKeyword(trip6, keyword6));
-        tripKeywordRepository.save(new TripKeyword(trip7, keyword7)); tripKeywordRepository.save(new TripKeyword(trip8, keyword8));
-        tripKeywordRepository.save(new TripKeyword(trip9, keyword9)); tripKeywordRepository.save(new TripKeyword(trip10, keyword10));
-        recommendTripRepository.save(new RecommendTrip(trip1, member, 1L)); recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
-        recommendTripRepository.save(new RecommendTrip(trip3, member, 3L)); recommendTripRepository.save(new RecommendTrip(trip4, member, 4L));
-        recommendTripRepository.save(new RecommendTrip(trip5, member, 5L)); recommendTripRepository.save(new RecommendTrip(trip6, member, 6L));
-        recommendTripRepository.save(new RecommendTrip(trip7, member, 7L)); recommendTripRepository.save(new RecommendTrip(trip8, member, 8L));
-        recommendTripRepository.save(new RecommendTrip(trip9, member, 9L)); recommendTripRepository.save(new RecommendTrip(trip10, member, 10L));
-        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
-        memberLiveInformationRepository.save(new MemberLiveInformation(liveInformation, member));
-        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip1)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip2));
-        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip3)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip4));
-        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip5)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip6));
-        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip7)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8));
-        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10));
+        Member 하온 = memberRepository.save(하온_기존());
+        Trip 여행지1 = tripRepository.save(여행지1_생성()); Trip 여행지2 = tripRepository.save(여행지2_생성());
+        Trip 여행지3 = tripRepository.save(여행지3_생성()); Trip 여행지4 = tripRepository.save(여행지4_생성());
+        Trip 여행지5 = tripRepository.save(여행지5_생성()); Trip 여행지6 = tripRepository.save(여행지6_생성());
+        Trip 여행지7 = tripRepository.save(여행지7_생성()); Trip 여행지8 = tripRepository.save(여행지8_생성());
+        Trip 여행지9 = tripRepository.save(여행지9_생성()); Trip 여행지10 = tripRepository.save(여행지10_생성());
+
+        memberTripRepository.save(멤버의_여행지_방문수_10_생성(하온, 여행지1)); memberTripRepository.save(멤버의_여행지_방문수_20_생성(하온, 여행지2));
+        memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지3)); memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지4));
+        memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지5)); memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지6));
+        memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지7)); memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지8));
+        memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지9)); memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지10));
+
+        Keyword 키워드1 = keywordRepository.save(키워드1_생성()); Keyword 키워드2 = keywordRepository.save(키워드2_생성());
+        Keyword 키워드3 = keywordRepository.save(키워드3_생성()); Keyword 키워드4 = keywordRepository.save(키워드4_생성());
+        Keyword 키워드5 = keywordRepository.save(키워드5_생성()); Keyword 키워드6 = keywordRepository.save(키워드6_생성());
+        Keyword 키워드7 = keywordRepository.save(키워드7_생성()); Keyword 키워드8 = keywordRepository.save(키워드8_생성());
+        Keyword 키워드9 = keywordRepository.save(키워드9_생성()); Keyword 키워드10 = keywordRepository.save(키워드10_생성());
+
+        tripKeywordRepository.save(new TripKeyword(여행지1, 키워드1)); tripKeywordRepository.save(new TripKeyword(여행지2, 키워드2));
+        tripKeywordRepository.save(new TripKeyword(여행지3, 키워드3)); tripKeywordRepository.save(new TripKeyword(여행지4, 키워드4));
+        tripKeywordRepository.save(new TripKeyword(여행지5, 키워드5)); tripKeywordRepository.save(new TripKeyword(여행지6, 키워드6));
+        tripKeywordRepository.save(new TripKeyword(여행지7, 키워드7)); tripKeywordRepository.save(new TripKeyword(여행지8, 키워드8));
+        tripKeywordRepository.save(new TripKeyword(여행지9, 키워드9)); tripKeywordRepository.save(new TripKeyword(여행지10, 키워드10));
+
+        recommendTripRepository.save(선호_여행지_생성_랭크1(여행지1, 하온)); recommendTripRepository.save(선호_여행지_생성_랭크2(여행지2, 하온));
+        recommendTripRepository.save(선호_여행지_생성_랭크3(여행지3, 하온)); recommendTripRepository.save(선호_여행지_생성_랭크4(여행지4, 하온));
+        recommendTripRepository.save(선호_여행지_생성_랭크5(여행지5, 하온)); recommendTripRepository.save(선호_여행지_생성_랭크6(여행지6, 하온));
+        recommendTripRepository.save(선호_여행지_생성_랭크7(여행지7, 하온)); recommendTripRepository.save(선호_여행지_생성_랭크8(여행지8, 하온));
+        recommendTripRepository.save(선호_여행지_생성_랭크9(여행지9, 하온)); recommendTripRepository.save(선호_여행지_생성_랭크10(여행지10, 하온));
+
+
+        LiveInformation 생활정보1 = liveInformationRepository.save(생활정보1_생성());
+        memberLiveInformationRepository.save(new MemberLiveInformation(생활정보1, 하온));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지1)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지2));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지3)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지4));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지5)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지6));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지7)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지8));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지9)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지10));
 
         // when, then
         assertAll(() -> {
-            assertThat(recommendTripService.findRecommendTripsByModel(member.getId()).getFindTripResponses()).hasSize(10);
+            assertThat(recommendTripService.findRecommendTripsByModel(하온.getId()).getFindTripResponses()).hasSize(10);
         });
     }
 
     @DisplayName("존재하지 않는 멤버기 AI 맞춤 10개의 여행지를 추천받으면 예외가 발생한다.")
     @Test
     void 존재하지_않는_멤버가_AI_맞춤_여행지를_추천받으면_예외가_발생한다() {
-        // given, when, then
-        assertThatThrownBy(() -> recommendTripService.findRecommendTripsByModel(-1L))
+        // given
+        long 존재하지_않는_멤버_ID = -1L;
+
+        //when, then
+        assertThatThrownBy(() -> recommendTripService.findRecommendTripsByModel(존재하지_않는_멤버_ID))
                 .isInstanceOf(NoExistMemberException.class);
     }
 
@@ -219,57 +228,51 @@ public class RecommendTripServiceTest extends ServiceTestConfig {
     @Test
     void AI_맞춤_여행지는_멤버의_생활정보로_필터링된다() {
         // given
-        Member member = memberRepository.save(하온_기존());
-        Trip trip1 = tripRepository.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로1"));
-        Trip trip2 = tripRepository.save(new Trip("여행지2", "장소명2", 2L, "설명2", "이미지 경로2"));
-        Trip trip3 = tripRepository.save(new Trip("여행지3", "장소명3", 3L, "설명3", "이미지 경로3"));
-        Trip trip4 = tripRepository.save(new Trip("여행지4", "장소명3", 4L, "설명3", "이미지 경로3"));
-        Trip trip5 = tripRepository.save(new Trip("여행지5", "장소명3", 5L, "설명3", "이미지 경로3"));
-        Trip trip6 = tripRepository.save(new Trip("여행지6", "장소명3", 6L, "설명3", "이미지 경로3"));
-        Trip trip7 = tripRepository.save(new Trip("여행지7", "장소명3", 7L, "설명3", "이미지 경로3"));
-        Trip trip8 = tripRepository.save(new Trip("여행지8", "장소명3", 8L, "설명3", "이미지 경로3"));
-        Trip trip9 = tripRepository.save(new Trip("여행지9", "장소명3", 9L, "설명3", "이미지 경로3"));
-        Trip trip10 = tripRepository.save(new Trip("여행지10", "장소명3", 10L, "설명3", "이미지 경로3"));
-        Trip trip11 = tripRepository.save(new Trip("멤버가 관심없는 생활정보에 대한 여행지", "장소명3", 11L, "설명3", "이미지 경로3"));
-        Trip trip12 = tripRepository.save(new Trip("멤버가 관심없는 생활정보에 대한 여행지", "장소명3", 12L, "설명3", "이미지 경로3"));
-        memberTripRepository.save(new MemberTrip(member, trip1, 10L)); memberTripRepository.save(new MemberTrip(member, trip2, 20L));
-        memberTripRepository.save(new MemberTrip(member, trip3, 30L)); memberTripRepository.save(new MemberTrip(member, trip4, 30L));
-        memberTripRepository.save(new MemberTrip(member, trip5, 30L)); memberTripRepository.save(new MemberTrip(member, trip6, 30L));
-        memberTripRepository.save(new MemberTrip(member, trip7, 30L)); memberTripRepository.save(new MemberTrip(member, trip8, 30L));
-        memberTripRepository.save(new MemberTrip(member, trip9, 30L)); memberTripRepository.save(new MemberTrip(member, trip10, 30L));
-        memberTripRepository.save(new MemberTrip(member, trip11, 30L));
-        memberTripRepository.save(new MemberTrip(member, trip12, 30L));
-        recommendTripRepository.save(new RecommendTrip(trip1, member, 1L)); recommendTripRepository.save(new RecommendTrip(trip2, member, 2L));
-        recommendTripRepository.save(new RecommendTrip(trip3, member, 3L)); recommendTripRepository.save(new RecommendTrip(trip4, member, 4L));
-        recommendTripRepository.save(new RecommendTrip(trip5, member, 5L)); recommendTripRepository.save(new RecommendTrip(trip6, member, 6L));
-        recommendTripRepository.save(new RecommendTrip(trip7, member, 7L)); recommendTripRepository.save(new RecommendTrip(trip8, member, 8L));
-        recommendTripRepository.save(new RecommendTrip(trip9, member, 9L)); recommendTripRepository.save(new RecommendTrip(trip10, member, 10L));
-        Keyword keyword1 = keywordRepository.save(new Keyword("키워드1")); Keyword keyword2 = keywordRepository.save(new Keyword("키워드2"));
-        Keyword keyword3 = keywordRepository.save(new Keyword("키워드3")); Keyword keyword4 = keywordRepository.save(new Keyword("키워드4"));
-        Keyword keyword5 = keywordRepository.save(new Keyword("키워드5")); Keyword keyword6 = keywordRepository.save(new Keyword("키워드6"));
-        Keyword keyword7 = keywordRepository.save(new Keyword("키워드7")); Keyword keyword8 = keywordRepository.save(new Keyword("키워드8"));
-        Keyword keyword9 = keywordRepository.save(new Keyword("키워드9")); Keyword keyword10 = keywordRepository.save(new Keyword("키워드10"));
+        Member 하온 = memberRepository.save(하온_기존());
+        Trip 여행지1 = tripRepository.save(여행지1_생성()); Trip 여행지2 = tripRepository.save(여행지2_생성());
+        Trip 여행지3 = tripRepository.save(여행지3_생성()); Trip 여행지4 = tripRepository.save(여행지4_생성());
+        Trip 여행지5 = tripRepository.save(여행지5_생성()); Trip 여행지6 = tripRepository.save(여행지6_생성());
+        Trip 여행지7 = tripRepository.save(여행지7_생성()); Trip 여행지8 = tripRepository.save(여행지8_생성());
+        Trip 여행지9 = tripRepository.save(여행지9_생성()); Trip 여행지10 = tripRepository.save(여행지10_생성());
+        Trip 다른_여행지1 = tripRepository.save(new Trip("멤버가 관심없는 생활정보에 대한 여행지", "장소명3", 11L, "설명3", "이미지 경로3"));
+        Trip 다른_여행지2 = tripRepository.save(new Trip("멤버가 관심없는 생활정보에 대한 여행지", "장소명3", 12L, "설명3", "이미지 경로3"));
+        memberTripRepository.save(멤버의_여행지_방문수_10_생성(하온, 여행지1)); memberTripRepository.save(멤버의_여행지_방문수_20_생성(하온, 여행지2));
+        memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지3)); memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지4));
+        memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지5)); memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지6));
+        memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지7)); memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지8));
+        memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지9)); memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지10));
+        memberTripRepository.save(new MemberTrip(하온, 다른_여행지1, 30L));
+        memberTripRepository.save(new MemberTrip(하온, 다른_여행지2, 30L));
+        recommendTripRepository.save(선호_여행지_생성_랭크1(여행지1, 하온)); recommendTripRepository.save(선호_여행지_생성_랭크2(여행지2, 하온));
+        recommendTripRepository.save(선호_여행지_생성_랭크3(여행지3, 하온)); recommendTripRepository.save(선호_여행지_생성_랭크4(여행지4, 하온));
+        recommendTripRepository.save(선호_여행지_생성_랭크5(여행지5, 하온)); recommendTripRepository.save(선호_여행지_생성_랭크6(여행지6, 하온));
+        recommendTripRepository.save(선호_여행지_생성_랭크7(여행지7, 하온)); recommendTripRepository.save(선호_여행지_생성_랭크8(여행지8, 하온));
+        recommendTripRepository.save(선호_여행지_생성_랭크9(여행지9, 하온)); recommendTripRepository.save(선호_여행지_생성_랭크10(여행지10, 하온));
+        Keyword 키워드1 = keywordRepository.save(키워드1_생성()); Keyword 키워드2 = keywordRepository.save(키워드2_생성());
+        Keyword 키워드3 = keywordRepository.save(키워드3_생성()); Keyword 키워드4 = keywordRepository.save(키워드4_생성());
+        Keyword 키워드5 = keywordRepository.save(키워드5_생성()); Keyword 키워드6 = keywordRepository.save(키워드6_생성());
+        Keyword 키워드7 = keywordRepository.save(키워드7_생성()); Keyword 키워드8 = keywordRepository.save(키워드8_생성());
+        Keyword 키워드9 = keywordRepository.save(키워드9_생성()); Keyword 키워드10 = keywordRepository.save(키워드10_생성());
         Keyword keyword11 = keywordRepository.save(new Keyword("멤버가 관심없는 생활정보 여행지 키워드"));
         Keyword keyword12 = keywordRepository.save(new Keyword("멤버가 관심없는 생활정보 여행지 키워드"));
-        tripKeywordRepository.save(new TripKeyword(trip1, keyword1)); tripKeywordRepository.save(new TripKeyword(trip2, keyword2));
-        tripKeywordRepository.save(new TripKeyword(trip3, keyword3)); tripKeywordRepository.save(new TripKeyword(trip4, keyword4));
-        tripKeywordRepository.save(new TripKeyword(trip5, keyword5)); tripKeywordRepository.save(new TripKeyword(trip6, keyword6));
-        tripKeywordRepository.save(new TripKeyword(trip7, keyword7)); tripKeywordRepository.save(new TripKeyword(trip8, keyword8));
-        tripKeywordRepository.save(new TripKeyword(trip9, keyword9)); tripKeywordRepository.save(new TripKeyword(trip10, keyword10));
-        tripKeywordRepository.save(new TripKeyword(trip10, keyword11)); tripKeywordRepository.save(new TripKeyword(trip10, keyword12));
-        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
-        LiveInformation otherLiveInformation = liveInformationRepository.save(new LiveInformation("멤버가 관심없는 다른 생활정보"));
-        memberLiveInformationRepository.save(new MemberLiveInformation(liveInformation, member));
-        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip1)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip2));
-        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip3)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip4));
-        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip5)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip6));
-        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip7)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8));
-        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10));
-        tripLiveInformationRepository.save(new TripLiveInformation(otherLiveInformation, trip11));
-        tripLiveInformationRepository.save(new TripLiveInformation(otherLiveInformation, trip12));
+        tripKeywordRepository.save(new TripKeyword(여행지1, 키워드1)); tripKeywordRepository.save(new TripKeyword(여행지2, 키워드2));
+        tripKeywordRepository.save(new TripKeyword(여행지3, 키워드3)); tripKeywordRepository.save(new TripKeyword(여행지4, 키워드4));
+        tripKeywordRepository.save(new TripKeyword(여행지5, 키워드5)); tripKeywordRepository.save(new TripKeyword(여행지6, 키워드6));
+        tripKeywordRepository.save(new TripKeyword(여행지7, 키워드7)); tripKeywordRepository.save(new TripKeyword(여행지8, 키워드8));
+        tripKeywordRepository.save(new TripKeyword(여행지9, 키워드9)); tripKeywordRepository.save(new TripKeyword(여행지10, 키워드10));
+        LiveInformation 생활정보1 = liveInformationRepository.save(생활정보1_생성());
+        LiveInformation 관심없는_생활정보 = liveInformationRepository.save(new LiveInformation("멤버가 관심없는 다른 생활정보"));
+        memberLiveInformationRepository.save(new MemberLiveInformation(생활정보1, 하온));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지1)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지2));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지3)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지4));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지5)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지6));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지7)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지8));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지9)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지10));
+        tripLiveInformationRepository.save(new TripLiveInformation(관심없는_생활정보, 다른_여행지1));
+        tripLiveInformationRepository.save(new TripLiveInformation(관심없는_생활정보, 다른_여행지2));
 
         // when
-        List<FindTripResponse> tripResponses = recommendTripService.findRecommendTripsByModel(member.getId()).getFindTripResponses();
+        List<FindTripResponse> tripResponses = recommendTripService.findRecommendTripsByModel(하온.getId()).getFindTripResponses();
 
         // then
         assertAll(() -> {
@@ -285,46 +288,41 @@ public class RecommendTripServiceTest extends ServiceTestConfig {
     @Test
     void AI_맞춤_여행지룰_추천시_맴버의_선호_여행지_정보가_5개_이하로_부족하면_예외가_발생한다() {
         // given
-        Member member = memberRepository.save(하온_기존());
-        Trip trip1 = tripRepository.save(new Trip("여행지1", "장소명1", 1L, "설명1", "이미지 경로1"));
-        Trip trip2 = tripRepository.save(new Trip("여행지2", "장소명2", 2L, "설명2", "이미지 경로2"));
-        Trip trip3 = tripRepository.save(new Trip("여행지3", "장소명3", 3L, "설명3", "이미지 경로3"));
-        Trip trip4 = tripRepository.save(new Trip("여행지4", "장소명3", 4L, "설명3", "이미지 경로3"));
-        Trip trip5 = tripRepository.save(new Trip("여행지5", "장소명3", 5L, "설명3", "이미지 경로3"));
-        Trip trip6 = tripRepository.save(new Trip("여행지6", "장소명3", 6L, "설명3", "이미지 경로3"));
-        Trip trip7 = tripRepository.save(new Trip("여행지7", "장소명3", 7L, "설명3", "이미지 경로3"));
-        Trip trip8 = tripRepository.save(new Trip("여행지8", "장소명3", 8L, "설명3", "이미지 경로3"));
-        Trip trip9 = tripRepository.save(new Trip("여행지9", "장소명3", 9L, "설명3", "이미지 경로3"));
-        Trip trip10 = tripRepository.save(new Trip("여행지10", "장소명3", 10L, "설명3", "이미지 경로3"));
-        Trip trip11 = tripRepository.save(new Trip("멤버가 관심없는 생활정보에 대한 여행지", "장소명3", 11L, "설명3", "이미지 경로3"));
-        Trip trip12 = tripRepository.save(new Trip("멤버가 관심없는 생활정보에 대한 여행지", "장소명3", 12L, "설명3", "이미지 경로3"));
-        memberTripRepository.save(new MemberTrip(member, trip1, 10L)); memberTripRepository.save(new MemberTrip(member, trip2, 20L));
-        memberTripRepository.save(new MemberTrip(member, trip3, 30L)); memberTripRepository.save(new MemberTrip(member, trip4, 30L));
-        memberTripRepository.save(new MemberTrip(member, trip5, 30L)); memberTripRepository.save(new MemberTrip(member, trip6, 30L));
-        memberTripRepository.save(new MemberTrip(member, trip7, 30L)); memberTripRepository.save(new MemberTrip(member, trip8, 30L));
-        memberTripRepository.save(new MemberTrip(member, trip9, 30L)); memberTripRepository.save(new MemberTrip(member, trip10, 30L));
-        memberTripRepository.save(new MemberTrip(member, trip11, 30L));
-        memberTripRepository.save(new MemberTrip(member, trip12, 30L));
-        Keyword keyword1 = keywordRepository.save(new Keyword("키워드1")); Keyword keyword2 = keywordRepository.save(new Keyword("키워드2"));
-        Keyword keyword3 = keywordRepository.save(new Keyword("키워드3")); Keyword keyword4 = keywordRepository.save(new Keyword("키워드4"));
-        Keyword keyword5 = keywordRepository.save(new Keyword("키워드5")); Keyword keyword6 = keywordRepository.save(new Keyword("키워드6"));
-        Keyword keyword7 = keywordRepository.save(new Keyword("키워드7")); Keyword keyword8 = keywordRepository.save(new Keyword("키워드8"));
-        Keyword keyword9 = keywordRepository.save(new Keyword("키워드9")); Keyword keyword10 = keywordRepository.save(new Keyword("키워드10"));
-        tripKeywordRepository.save(new TripKeyword(trip1, keyword1)); tripKeywordRepository.save(new TripKeyword(trip2, keyword2));
-        tripKeywordRepository.save(new TripKeyword(trip3, keyword3)); tripKeywordRepository.save(new TripKeyword(trip4, keyword4));
-        tripKeywordRepository.save(new TripKeyword(trip5, keyword5)); tripKeywordRepository.save(new TripKeyword(trip6, keyword6));
-        tripKeywordRepository.save(new TripKeyword(trip7, keyword7)); tripKeywordRepository.save(new TripKeyword(trip8, keyword8));
-        tripKeywordRepository.save(new TripKeyword(trip9, keyword9)); tripKeywordRepository.save(new TripKeyword(trip10, keyword10));
-        LiveInformation liveInformation = liveInformationRepository.save(new LiveInformation("생활정보1"));
-        memberLiveInformationRepository.save(new MemberLiveInformation(liveInformation, member));
-        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip1)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip2));
-        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip3)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip4));
-        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip5)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip6));
-        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip7)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip8));
-        tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip9)); tripLiveInformationRepository.save(new TripLiveInformation(liveInformation, trip10));
+        Member 하온 = memberRepository.save(하온_기존());
+        Trip 여행지1 = tripRepository.save(여행지1_생성()); Trip 여행지2 = tripRepository.save(여행지2_생성());
+        Trip 여행지3 = tripRepository.save(여행지3_생성()); Trip 여행지4 = tripRepository.save(여행지4_생성());
+        Trip 여행지5 = tripRepository.save(여행지5_생성()); Trip 여행지6 = tripRepository.save(여행지6_생성());
+        Trip 여행지7 = tripRepository.save(여행지7_생성()); Trip 여행지8 = tripRepository.save(여행지8_생성());
+        Trip 여행지9 = tripRepository.save(여행지9_생성()); Trip 여행지10 = tripRepository.save(여행지10_생성());
+        Trip 다른_여행지1 = tripRepository.save(new Trip("멤버가 관심없는 생활정보에 대한 여행지", "장소명3", 11L, "설명3", "이미지 경로3"));
+        Trip 다른_여행지2 = tripRepository.save(new Trip("멤버가 관심없는 생활정보에 대한 여행지", "장소명3", 12L, "설명3", "이미지 경로3"));
+        memberTripRepository.save(멤버의_여행지_방문수_10_생성(하온, 여행지1)); memberTripRepository.save(멤버의_여행지_방문수_20_생성(하온, 여행지2));
+        memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지3)); memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지4));
+        memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지5)); memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지6));
+        memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지7)); memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지8));
+        memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지9)); memberTripRepository.save(멤버의_여행지_방문수_30_생성(하온, 여행지10));
+        memberTripRepository.save(new MemberTrip(하온, 다른_여행지1, 30L));
+        memberTripRepository.save(new MemberTrip(하온, 다른_여행지2, 30L));
+        Keyword 키워드1 = keywordRepository.save(키워드1_생성()); Keyword 키워드2 = keywordRepository.save(키워드2_생성());
+        Keyword 키워드3 = keywordRepository.save(키워드3_생성()); Keyword 키워드4 = keywordRepository.save(키워드4_생성());
+        Keyword 키워드5 = keywordRepository.save(키워드5_생성()); Keyword 키워드6 = keywordRepository.save(키워드6_생성());
+        Keyword 키워드7 = keywordRepository.save(키워드7_생성()); Keyword 키워드8 = keywordRepository.save(키워드8_생성());
+        Keyword 키워드9 = keywordRepository.save(키워드9_생성()); Keyword 키워드10 = keywordRepository.save(키워드10_생성());
+        tripKeywordRepository.save(new TripKeyword(여행지1, 키워드1)); tripKeywordRepository.save(new TripKeyword(여행지2, 키워드2));
+        tripKeywordRepository.save(new TripKeyword(여행지3, 키워드3)); tripKeywordRepository.save(new TripKeyword(여행지4, 키워드4));
+        tripKeywordRepository.save(new TripKeyword(여행지5, 키워드5)); tripKeywordRepository.save(new TripKeyword(여행지6, 키워드6));
+        tripKeywordRepository.save(new TripKeyword(여행지7, 키워드7)); tripKeywordRepository.save(new TripKeyword(여행지8, 키워드8));
+        tripKeywordRepository.save(new TripKeyword(여행지9, 키워드9)); tripKeywordRepository.save(new TripKeyword(여행지10, 키워드10));
+        LiveInformation 생활정보1 = liveInformationRepository.save(생활정보1_생성());
+        memberLiveInformationRepository.save(new MemberLiveInformation(생활정보1, 하온));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지1)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지2));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지3)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지4));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지5)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지6));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지7)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지8));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지9)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지10));
 
         // when, then
-        assertThatThrownBy(() -> recommendTripService.findRecommendTripsByModel(member.getId()))
+        assertThatThrownBy(() -> recommendTripService.findRecommendTripsByModel(하온.getId()))
                 .isInstanceOf(LackOfRecommendTripException.class);
     }
 }

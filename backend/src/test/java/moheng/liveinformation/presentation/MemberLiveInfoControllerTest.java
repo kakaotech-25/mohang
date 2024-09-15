@@ -1,5 +1,6 @@
 package moheng.liveinformation.presentation;
 
+import static moheng.fixture.MemberLiveInformationFixture.*;
 import static moheng.fixture.MemberLiveInfoFixture.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
@@ -33,11 +34,7 @@ public class MemberLiveInfoControllerTest extends ControllerTestConfig {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
         given(memberLiveInformationService.findMemberSelectedLiveInformation(anyLong()))
-                .willReturn(new FindMemberLiveInformationResponses( List.of(
-                        new LiveInfoResponse(1L, "생활정보1", true),
-                        new LiveInfoResponse(2L, "생활정보2", true),
-                        new LiveInfoResponse(3L, "생활정보3", false)
-                )));
+                .willReturn(멤버가_선택한_생활정보_조회_응답());
 
         // when, then
         mockMvc.perform(get("/api/live/info/member")

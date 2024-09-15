@@ -1,6 +1,9 @@
 package moheng.member.application;
 
+import static moheng.fixture.LiveInformationFixture.생활정보1_생성;
 import static moheng.fixture.MemberFixtures.*;
+import static moheng.fixture.LiveInformationFixture.*;
+import static moheng.fixture.TripFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,6 +31,7 @@ import moheng.recommendtrip.domain.repository.RecommendTripRepository;
 import moheng.trip.application.TripService;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.repository.MemberTripRepository;
+import moheng.trip.domain.repository.TripRepository;
 import moheng.trip.exception.NoExistTripException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,7 +56,7 @@ public class MemberServiceTest extends ServiceTestConfig {
     private LiveInformationRepository liveInformationRepository;
 
     @Autowired
-    private TripService tripService;
+    private TripRepository tripRepository;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -72,51 +76,38 @@ public class MemberServiceTest extends ServiceTestConfig {
     @DisplayName("회원을 저장한다.")
     @Test
     void 회원을_저장한다() {
-        // given
-        Member member = new Member(하온_이메일, 하온_소셜_타입_카카오, 하온_프로필_경로);
-
-        // when, then
-        assertDoesNotThrow(() -> memberService.save(member));
+        // given, when, then
+        assertDoesNotThrow(() -> memberService.save(하온_신규()));
     }
 
     @DisplayName("소셜 로그인을 시도한 회원을 저장한다.")
     @Test
     void 소셜_로그인을_시도한_회원을_저장한다() {
-        // given
-        Member member = new Member(하온_이메일, 하온_소셜_타입_카카오, 하온_프로필_경로);
-
-        // when, then
-        assertDoesNotThrow(() -> memberService.save(member));
+        // given, when, then
+        assertDoesNotThrow(() -> memberService.save(하온_신규()));
     }
 
     @DisplayName("이메일로 회원을 찾는다.")
     @Test
     void 이메일로_회원을_찾는다() {
         // given
-        String email = "msung6924@naver.com";
-        String nickname = "msung99";
-        String profileImageUrl = "https://image";
-
-        Member member = new Member(리안_이메일, SocialType.KAKAO, 리안_프로필_경로);
-        memberService.save(member);
+        Member 리안 = memberRepository.save(리안_신규());
 
         // when
-        Member foundMember = memberService.findByEmail(리안_이메일);
+        Member actual = memberService.findByEmail(리안.getEmail());
 
         // then
-        assertThat(foundMember.getId()).isEqualTo(member.getId());
+        assertThat(actual.getId()).isEqualTo(리안.getId());
     }
 
     @DisplayName("주어진 이메일로 가입된 회원이 존재하는지 확인한다.")
     @Test
     void 주어진_이메일로_가입된_회원이_존재하는지_확인한다() {
         // given
-
-        Member member = new Member(래오_이메일, 래오_소셜_타입_카카오, 래오_프로필_경로);
-        memberService.save(member);
+        Member 래오 = memberRepository.save(래오_신규());
 
         // when
-        boolean actual = memberService.existsByEmail(래오_이메일);
+        boolean actual = memberService.existsByEmail(래오.getEmail());
 
         // then
         assertThat(actual).isTrue();
@@ -126,7 +117,7 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 이미_존재하는_닉네임이_존재한다면_참을_리턴한다() {
         // given
-        memberService.save(하온_기존());
+        memberRepository.save(하온_기존());
 
         // when, then
         boolean actual = memberService.existsByNickname(하온_닉네임);
@@ -138,26 +129,23 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 프로필_정보를_입력하여_회원가입한다() {
         // given
-        Member member = memberRepository.save(new Member(하온_이메일, 하온_소셜_타입_카카오, 하온_프로필_경로));
-        SignUpProfileRequest signUpProfileRequest = new SignUpProfileRequest(하온_닉네임, 하온_생년월일, 하온_성별);
+        Member 하온 = memberRepository.save(하온_신규());
 
         // when, then
-        assertDoesNotThrow(() ->
-                memberService.signUpByProfile(member.getId(), signUpProfileRequest));
+        assertDoesNotThrow(() -> memberService.signUpByProfile(하온.getId(), 하온_프로필_정보로_회원가입_요청()));
     }
 
     @DisplayName("프로필 정보로 회원가입 후 멤버의 권한은 INIT_MEMBER 로 그대로 유지된다.")
     @Test
     void 프로필_정보로_회원가입_후_멤버의_권한은_INIT_MEMBER_로_그대로_유지된다() {
         // given
-        Member member = memberRepository.save(new Member(하온_이메일, 하온_소셜_타입_카카오, 하온_프로필_경로));
-        SignUpProfileRequest signUpProfileRequest = new SignUpProfileRequest(하온_닉네임, 하온_생년월일, 하온_성별);
+        Member 하온 = memberRepository.save(하온_기존());
 
         // when
-        memberService.signUpByProfile(member.getId(), signUpProfileRequest);
+        memberService.signUpByProfile(하온.getId(), 하온_프로필_정보로_회원가입_요청());
 
         // then
-        Member initMember = memberRepository.findById(member.getId()).get();
+        Member initMember = memberRepository.findById(하온.getId()).get();
         assertEquals(initMember.getAuthority(), Authority.INIT_MEMBER);
     }
 
@@ -165,10 +153,10 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 존재하지_않는_회원의_프로필_정보로_회원가입하면_예외가_발생한다() {
         // given
-        SignUpProfileRequest signUpProfileRequest = new SignUpProfileRequest(하온_닉네임, 하온_생년월일, 하온_성별);
+       long 존재하지_않는_멤버_ID = -1L;
 
         // when, then
-        assertThatThrownBy(() -> memberService.signUpByProfile(-1L, signUpProfileRequest))
+        assertThatThrownBy(() -> memberService.signUpByProfile(-존재하지_않는_멤버_ID, 하온_프로필_정보로_회원가입_요청()))
                 .isInstanceOf(NoExistMemberException.class);
     }
 
@@ -176,8 +164,8 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 중복되는_닉네임이_존재하면_예외가_발생한다() {
         // given
-        memberService.save(하온_기존());
-        memberService.save(래오_기존());
+        memberRepository.save(하온_기존());
+        memberRepository.save(래오_기존());
 
         SignUpProfileRequest signUpProfileRequest = new SignUpProfileRequest(래오_닉네임, 하온_생년월일, 하온_성별);
 
@@ -191,22 +179,20 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 회원의_프로필을_업데이트한다() {
         // given
-        memberService.save(하온_기존());
-        UpdateProfileRequest request = new UpdateProfileRequest(하온_닉네임, 하온_생년월일, 하온_성별, 하온_프로필_경로);
-        long memberId = memberService.findByEmail(하온_이메일).getId();
+        Member 하온 = memberRepository.save(하온_기존());
 
         // when, then
-        assertDoesNotThrow(() -> memberService.updateByProfile(memberId, request));
+        assertDoesNotThrow(() -> memberService.updateByProfile(하온.getId(), 하온_프로필_업데이트_요청()));
     }
 
     @DisplayName("존재하지 않는 회원의 프로필을 업데이트하면 예외가 발생한다.")
     @Test
     void 존재하지_않는_회원의_프로필을_업데이트하면_예외가_발생한다() {
         // given
-        UpdateProfileRequest request = new UpdateProfileRequest(하온_닉네임, 하온_생년월일, 하온_성별, 하온_프로필_경로);
+        long 존재하지_않는_멤버의_ID = -1L;
 
         // when, then
-        assertThatThrownBy(() -> memberService.updateByProfile(1L, request))
+        assertThatThrownBy(() -> memberService.updateByProfile(존재하지_않는_멤버의_ID, 하온_프로필_업데이트_요청()))
                 .isInstanceOf(NoExistMemberException.class);
     }
 
@@ -214,14 +200,13 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 기존_닉네임과_다르다면_해당_닉네임을_가진_다른_유저의_닉네임과_중복_여부를_확인한다() {
         // given
-        memberService.save(하온_기존());
-        memberService.save(래오_기존());
-        Member member = memberService.findByEmail(하온_이메일);
+        Member 하온 = memberRepository.save(하온_기존());
+        memberRepository.save(래오_기존());
 
         UpdateProfileRequest request = new UpdateProfileRequest(래오_닉네임, 하온_생년월일, 하온_성별, 하온_프로필_경로);
 
         // when, then
-        assertThatThrownBy(() -> memberService.updateByProfile(member.getId(), request))
+        assertThatThrownBy(() -> memberService.updateByProfile(하온.getId(), request))
                 .isInstanceOf(DuplicateNicknameException.class);
     }
 
@@ -229,13 +214,12 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 회원_본인을_제외한_다른_회원들중에_닉네임이_중복된다면_예외가_발생한다() {
         // given
-        memberService.save(하온_기존());
-        memberService.save(래오_기존());
+        Member 하온 = memberRepository.save(하온_기존());
+        memberRepository.save(래오_기존());
         UpdateProfileRequest request = new UpdateProfileRequest(래오_닉네임, 하온_생년월일, 하온_성별, 하온_프로필_경로);
-        long memberId = memberService.findByEmail(하온_이메일).getId();
 
         // when, then
-        assertThatThrownBy(() -> memberService.updateByProfile(memberId, request))
+        assertThatThrownBy(() -> memberService.updateByProfile(하온.getId(), request))
                 .isInstanceOf(DuplicateNicknameException.class);
     }
 
@@ -243,25 +227,24 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 회원의_생활정보를_저장한다() {
         // given
-        memberService.save(하온_기존());
-        long memberId = memberService.findByEmail(하온_이메일).getId();
+        Member 하온 = memberRepository.save(하온_기존());
 
-        LiveInformation liveInformation1 = liveInformationRepository.save(new LiveInformation("생활정보1"));
-        LiveInformation liveInformation2 = liveInformationRepository.save(new LiveInformation("생활정보2"));
-        SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(List.of(liveInformation1.getName(), liveInformation2.getName()));
+        LiveInformation 생활정보1 = liveInformationRepository.save(생활정보1_생성());
+        LiveInformation 생활정보2 = liveInformationRepository.save(생활정보2_생성());
+        SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(List.of(생활정보1.getName(), 생활정보2.getName()));
 
         // when, then
-        assertDoesNotThrow(() ->memberService.signUpByLiveInfo(memberId, request));
+        assertDoesNotThrow(() ->memberService.signUpByLiveInfo(하온.getId(), request));
     }
 
     @DisplayName("존재하지 않는 회원의 생활정보를 추가하면 예외가 발생한다.")
     @Test
     void 존재하지_않는_회원의_생활정보를_추가하면_예외가_발생한다() {
         // given
-        SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(List.of("생활정보1", "생활정보2"));
+        long 유효하지_않은_멤버_ID = -1L;
 
         // when, then
-        assertThatThrownBy(() -> memberService.signUpByLiveInfo(-1L, request))
+        assertThatThrownBy(() -> memberService.signUpByLiveInfo(유효하지_않은_멤버_ID, 생활정보로_회원가입_요청()))
                 .isInstanceOf(NoExistMemberException.class);
     }
 
@@ -269,12 +252,10 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 존재하지_않는_생활정보를_선택하여_회원가입을_시도하면__예외가_발생한다() {
         // given
-        memberService.save(하온_기존());
-        long memberId = memberService.findByEmail(하온_이메일).getId();
-        SignUpLiveInfoRequest request = new SignUpLiveInfoRequest(List.of("없는 생활정보"));
+        Member 하온 = memberRepository.save(하온_기존());
 
         // when, then
-        assertThatThrownBy(() -> memberService.signUpByLiveInfo(memberId, request))
+        assertThatThrownBy(() -> memberService.signUpByLiveInfo(하온.getId(), 없는_생활정보로_회원가입_요청()))
                 .isInstanceOf(NoExistLiveInformationException.class);
     }
 
@@ -282,17 +263,13 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 회원의_관심_여행지를_저장한다() {
         // given
-        memberService.save(하온_기존());
-        long memberId = memberService.findByEmail(하온_이메일).getId();
+        Member 하온 = memberRepository.save(하온_기존());
 
-        for(long contentId=1; contentId<=5; contentId++) {
-            tripService.save(new Trip("롯데월드", "서울특별시 송파구", contentId,
-                    "설명", "https://image.com"));
-        }
-        SignUpInterestTripsRequest request = new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L));
+        tripRepository.save(여행지1_생성()); tripRepository.save(여행지2_생성()); tripRepository.save(여행지3_생성());
+        tripRepository.save(여행지4_생성()); tripRepository.save(여행지5_생성());
 
         // when, then
-        assertDoesNotThrow(() -> memberService.signUpByInterestTrips(memberId, request));
+        assertDoesNotThrow(() -> memberService.signUpByInterestTrips(하온.getId(), 관심_여행지로_회원가입_요청()));
     }
 
     @DisplayName("회원이 선택한 관심 여행지 우선순위를 1위부터 시작하여 순차대로 저장한다.")
@@ -300,16 +277,13 @@ public class MemberServiceTest extends ServiceTestConfig {
     @MethodSource("관심_여행지_랭크_값을_찾는다")
     void 회원이_선택한_관심_여행지_우선순위를_1위부터_시작하여_순차대로_저장한다(long expectedRank) {
         // given
-        memberService.save(하온_기존());
-        long memberId = memberService.findByEmail(하온_이메일).getId();
+        Member 하온 = memberRepository.save(하온_기존());
 
-        for (long contentId = 1; contentId <= 5; contentId++) {
-            tripService.save(new Trip("롯데월드", "서울특별시 송파구", contentId, "설명", "https://image.com"));
-        }
-        SignUpInterestTripsRequest request = new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L));
+        tripRepository.save(여행지1_생성()); tripRepository.save(여행지2_생성()); tripRepository.save(여행지3_생성());
+        tripRepository.save(여행지4_생성()); tripRepository.save(여행지5_생성());
 
         // when
-        memberService.signUpByInterestTrips(memberId, request);
+        memberService.signUpByInterestTrips(하온.getId(), 관심_여행지로_회원가입_요청());
 
         // then
         assertAll(() -> {
@@ -321,19 +295,16 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 멤버의_여행지를_저장한다() {
         // given
-        Member member = memberRepository.save(하온_기존());
+        Member 하온 = memberRepository.save(하온_기존());
+
+        tripRepository.save(여행지1_생성()); tripRepository.save(여행지2_생성());
+        tripRepository.save(여행지3_생성()); tripRepository.save(여행지4_생성()); tripRepository.save(여행지5_생성());
 
         // when
-        for (long contentId = 1; contentId <= 5; contentId++) {
-            tripService.save(new Trip("롯데월드", "서울특별시 송파구", contentId, "설명", "https://image.com"));
-        }
-        SignUpInterestTripsRequest request = new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L));
+        memberService.signUpByInterestTrips(하온.getId(), 관심_여행지로_회원가입_요청());
 
         // then
-        memberService.signUpByInterestTrips(member.getId(), request);
-
-        // then
-        assertEquals(memberTripRepository.findByMember(member).size(), 5);
+        assertEquals(memberTripRepository.findByMember(하온).size(), 5);
     }
 
     static Stream<Arguments> 관심_여행지_랭크_값을_찾는다() {
@@ -350,14 +321,12 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 존재하지_않는_회원의_관심_여행지를_저장하면_예외가_발생한다() {
         // given
-        for(long contentId=1; contentId<=5; contentId++) {
-            tripService.save(new Trip("롯데월드", "서울특별시 송파구", contentId,
-                    "설명", "https://image.com"));
-        }
-        SignUpInterestTripsRequest request = new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L));
+        long 존재하지_않는_멤버_ID = -1L;
+        tripRepository.save(여행지1_생성()); tripRepository.save(여행지2_생성());
+        tripRepository.save(여행지3_생성()); tripRepository.save(여행지4_생성()); tripRepository.save(여행지5_생성());
 
         // when, then
-        assertThatThrownBy(() -> memberService.signUpByInterestTrips(-1L, request))
+        assertThatThrownBy(() -> memberService.signUpByInterestTrips(존재하지_않는_멤버_ID, 관심_여행지로_회원가입_요청()))
                 .isInstanceOf(NoExistMemberException.class);
     }
 
@@ -365,17 +334,12 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 회원의_관심_여행지가_5개_미만이라면_예외가_발생한다() {
         // given
-        memberService.save(하온_기존());
-        long memberId = memberService.findByEmail(하온_이메일).getId();
+        Member 하온 = memberRepository.save(하온_기존());
 
-        for(long contentId=1; contentId<=3; contentId++) {
-            tripService.save(new Trip("롯데월드", "서울특별시 송파구", contentId,
-                    "설명", "https://image.com"));
-        }
-        SignUpInterestTripsRequest request = new SignUpInterestTripsRequest(List.of(1L, 2L, 3L));
+        tripRepository.save(여행지1_생성()); tripRepository.save(여행지2_생성()); tripRepository.save(여행지3_생성());
 
         // when, then
-        assertThatThrownBy(() -> memberService.signUpByInterestTrips(memberId, request))
+        assertThatThrownBy(() -> memberService.signUpByInterestTrips(하온.getId(), 다섯개_미만의_관심_여행지로_회원가입_요청()))
                 .isInstanceOf(ShortContentidsSizeException.class);
     }
 
@@ -383,17 +347,16 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 회원의_관심_여행지가_10개를_초과하면_예외가_발생한다() {
         // given
-        memberService.save(하온_기존());
-        long memberId = memberService.findByEmail(하온_이메일).getId();
+        Member 하온 = memberRepository.save(하온_기존());
 
-        for(long contentId=1; contentId<=12; contentId++) {
-            tripService.save(new Trip("롯데월드", "서울특별시 송파구", contentId,
-                    "설명", "https://image.com"));
-        }
+        tripRepository.save(여행지1_생성()); tripRepository.save(여행지2_생성()); tripRepository.save(여행지3_생성());
+        tripRepository.save(여행지4_생성()); tripRepository.save(여행지5_생성()); tripRepository.save(여행지6_생성());
+        tripRepository.save(여행지7_생성()); tripRepository.save(여행지8_생성()); tripRepository.save(여행지9_생성());
+        tripRepository.save(여행지10_생성()); tripRepository.save(여행지11_생성()); tripRepository.save(여행지12_생성());
         SignUpInterestTripsRequest request = new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L, 11L, 12L));
 
         // when, then
-        assertThatThrownBy(() -> memberService.signUpByInterestTrips(memberId, request))
+        assertThatThrownBy(() -> memberService.signUpByInterestTrips(하온.getId(), request))
                 .isInstanceOf(ShortContentidsSizeException.class);
     }
 
@@ -401,17 +364,13 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 관심_여행지_입력을_마치면_유저의_권한을_정규_회원으로_승격한다() {
         // given
-        memberService.save(하온_기존());
-        long memberId = memberService.findByEmail(하온_이메일).getId();
+        Member 하온 = memberRepository.save(하온_기존());
 
-        for(long contentId=1; contentId<=5; contentId++) {
-            tripService.save(new Trip("롯데월드", "서울특별시 송파구", contentId,
-                    "설명", "https://image.com"));
-        }
-        SignUpInterestTripsRequest request = new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L));
+        tripRepository.save(여행지1_생성()); tripRepository.save(여행지2_생성()); tripRepository.save(여행지3_생성());
+        tripRepository.save(여행지4_생성()); tripRepository.save(여행지5_생성());
 
         // when
-        memberService.signUpByInterestTrips(memberId, request);
+        memberService.signUpByInterestTrips(하온.getId(), 관심_여행지로_회원가입_요청());
 
         // then
         Member member = memberService.findByEmail(하온_이메일);
@@ -422,13 +381,10 @@ public class MemberServiceTest extends ServiceTestConfig {
     @Test
     void 선택한_관심_여행지중에_존재하지_않는_여행지가_일부_존재한다면_예외가_발생한다() {
         /// given
-        memberService.save(하온_기존());
-        long memberId = memberService.findByEmail(하온_이메일).getId();
-
-        SignUpInterestTripsRequest request = new SignUpInterestTripsRequest(List.of(-1L, -2L, -3L, -4L, -5L));
+        Member 하온 = memberRepository.save(하온_기존());
 
         // when, then
-        assertThatThrownBy(() -> memberService.signUpByInterestTrips(memberId, request))
+        assertThatThrownBy(() -> memberService.signUpByInterestTrips(하온.getId(), 존재하지_않는_여행지로_회원가입_요청()))
                 .isInstanceOf(NoExistTripException.class);
     }
 
@@ -466,23 +422,20 @@ public class MemberServiceTest extends ServiceTestConfig {
     void 소셜_로그인_후_최초_회원가입을_마친_멤버의_프로필_정보와_생활정보와_관심_여행지_정보는_비어있을_수_없다(Function<Member, Object> fieldExtractor, int expectedLiveInfoSize, int expectedTripSize) {
         // given
         authService.generateTokenWithCode("code", "KAKAO");
-        Member member = memberRepository.findByEmail("stub@kakao.com").get();
+        Member 하온 = memberRepository.findByEmail("stub@kakao.com").get();
 
         // 프로필 회원가입
-        memberService.signUpByProfile(member.getId(), new SignUpProfileRequest("닉네임", LocalDate.of(2000, 1, 1), GenderType.MEN));
+        memberService.signUpByProfile(하온.getId(), 프로필_정보로_회원가입_요청());
 
         // 생활정보 회원가입
-        LiveInformation liveInformation1 = liveInformationRepository.save(new LiveInformation("생활정보1"));
-        LiveInformation liveInformation2 = liveInformationRepository.save(new LiveInformation("생활정보2"));
-        SignUpLiveInfoRequest liveInfoRequest = new SignUpLiveInfoRequest(List.of(liveInformation1.getName(), liveInformation2.getName()));
-        memberService.signUpByLiveInfo(member.getId(), liveInfoRequest);
+        liveInformationRepository.save(생활정보1_생성());
+        liveInformationRepository.save(생활정보2_생성());
+        memberService.signUpByLiveInfo(하온.getId(), 생활정보로_회원가입_요청());
 
         // 관심 여행지 회원가입
-        for (long contentId = 1; contentId <= 5; contentId++) {
-            tripService.save(new Trip("롯데월드", "서울특별시 송파구", contentId, "설명", "https://image.com"));
-        }
-        SignUpInterestTripsRequest interestTripsRequest = new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L));
-        memberService.signUpByInterestTrips(member.getId(), interestTripsRequest);
+        tripRepository.save(여행지1_생성()); tripRepository.save(여행지2_생성()); tripRepository.save(여행지3_생성());
+        tripRepository.save(여행지4_생성()); tripRepository.save(여행지5_생성());
+        memberService.signUpByInterestTrips(하온.getId(), 관심_여행지로_회원가입_요청());
 
         Member actual = memberRepository.findByEmail("stub@kakao.com").get();
 
@@ -492,8 +445,8 @@ public class MemberServiceTest extends ServiceTestConfig {
         // then
         assertAll(() -> {
             assertThat(fieldValue).isNotNull();
-            assertEquals(memberLiveInformationRepository.findLiveInformationsByMemberId(member.getId()).size(), expectedLiveInfoSize);
-            assertEquals(recommendTripRepository.findAllByMemberId(member.getId()).size(), expectedTripSize);
+            assertEquals(memberLiveInformationRepository.findLiveInformationsByMemberId(하온.getId()).size(), expectedLiveInfoSize);
+            assertEquals(recommendTripRepository.findAllByMemberId(하온.getId()).size(), expectedTripSize);
         });
     }
 
@@ -517,13 +470,12 @@ public class MemberServiceTest extends ServiceTestConfig {
         Member member = memberRepository.findByEmail("stub@kakao.com").get();
 
         // 프로필 회원가입
-        memberService.signUpByProfile(member.getId(), new SignUpProfileRequest("닉네임", LocalDate.of(2000, 1, 1), GenderType.MEN));
+        memberService.signUpByProfile(member.getId(), 프로필_정보로_회원가입_요청());
 
         // 생활정보 회원가입
-        LiveInformation liveInformation1 = liveInformationRepository.save(new LiveInformation("생활정보1"));
-        LiveInformation liveInformation2 = liveInformationRepository.save(new LiveInformation("생활정보2"));
-        SignUpLiveInfoRequest liveInfoRequest = new SignUpLiveInfoRequest(List.of(liveInformation1.getName(), liveInformation2.getName()));
-        memberService.signUpByLiveInfo(member.getId(), liveInfoRequest);
+        liveInformationRepository.save(new LiveInformation("생활정보1"));
+        liveInformationRepository.save(new LiveInformation("생활정보2"));
+        memberService.signUpByLiveInfo(member.getId(), 생활정보로_회원가입_요청());
 
         // 프로필 수정
         memberService.updateByProfile(member.getId(), new UpdateProfileRequest("수정된 닉네임", LocalDate.of(2000, 1, 1), GenderType.MEN, "profile img url"));

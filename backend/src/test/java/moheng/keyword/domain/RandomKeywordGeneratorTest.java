@@ -1,5 +1,6 @@
 package moheng.keyword.domain;
 
+import static moheng.fixture.KeywordFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,9 +24,9 @@ public class RandomKeywordGeneratorTest extends ServiceTestConfig {
     @Test
     void 랜덤_키워드를_생성한다() {
         // given
-        keywordRepository.save(new Keyword("키워드1"));
-        keywordRepository.save(new Keyword("키워드2"));
-        keywordRepository.save(new Keyword("키워드3"));
+        keywordRepository.save(키워드1_생성());
+        keywordRepository.save(키워드2_생성());
+        keywordRepository.save(키워드3_생성());
 
         // when, then
         assertDoesNotThrow(() -> randomKeywordGenerator.generate());

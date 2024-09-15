@@ -1,5 +1,7 @@
 package moheng.keyword.domain;
 
+import static moheng.fixture.TripFixture.*;
+import static moheng.fixture.KeywordFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,18 +36,18 @@ public class TripsByVisitedCountFinderTest extends ServiceTestConfig {
     @Test
     public void 방문_수_기준_상위_여행지를_찾는다() {
         // given
-        Trip trip1 = tripRepository.save(new Trip("여행지1", "서울", 1L, "설명", "https://image.png", 0L));
-        Trip trip2 = tripRepository.save(new Trip("여행지2", "서울", 2L, "설명", "https://image.png", 2L));
-        Trip trip3 = tripRepository.save(new Trip("여행지3", "서울", 3L, "설명", "https://image.png", 3L));
-        Trip trip4 = tripRepository.save(new Trip("여행지4", "서울", 3L, "설명", "https://image.png", 1L));
+        Trip 여행지1_1등 = tripRepository.save(여행지1_생성_방문수_1등());
+        Trip 여행지2_3등 = tripRepository.save(여행지2_생성_방문수_3등());
+        Trip 여행지3_2등 = tripRepository.save(여행지3_생성_방문수_2등());
+        Trip 여행지4_4등 = tripRepository.save(여행지4_생성_방문수_4등());
 
-        Keyword keyword = keywordRepository.save(new Keyword("키워드1"));
+        Keyword 키워드1 = keywordRepository.save(키워드1_생성());
 
         List<TripKeyword> tripKeywords = new ArrayList<>();
-        tripKeywords.add(tripKeywordRepository.save(new TripKeyword(trip1, keyword)));
-        tripKeywords.add(tripKeywordRepository.save(new TripKeyword(trip2, keyword)));
-        tripKeywords.add(tripKeywordRepository.save(new TripKeyword(trip3, keyword)));
-        tripKeywords.add(tripKeywordRepository.save(new TripKeyword(trip4, keyword)));
+        tripKeywords.add(tripKeywordRepository.save(new TripKeyword(여행지1_1등, 키워드1)));
+        tripKeywords.add(tripKeywordRepository.save(new TripKeyword(여행지2_3등, 키워드1)));
+        tripKeywords.add(tripKeywordRepository.save(new TripKeyword(여행지3_2등, 키워드1)));
+        tripKeywords.add(tripKeywordRepository.save(new TripKeyword(여행지4_4등, 키워드1)));
 
         // when
         List<Trip> actual = tripsByVisitedCountFinder.findTripsWithVisitedCount(tripKeywords);
@@ -53,10 +55,10 @@ public class TripsByVisitedCountFinderTest extends ServiceTestConfig {
         // then
         assertAll(() -> {
             assertThat(actual.size()).isEqualTo(4);
-            assertThat(actual.get(0).getVisitedCount()).isEqualTo(3L);
-            assertThat(actual.get(1).getVisitedCount()).isEqualTo(2L);
-            assertThat(actual.get(2).getVisitedCount()).isEqualTo(1L);
-            assertThat(actual.get(3).getVisitedCount()).isEqualTo(0L);
+            assertThat(actual.get(0).getId()).isEqualTo(여행지1_1등.getId());
+            assertThat(actual.get(1).getId()).isEqualTo(여행지3_2등.getId());
+            assertThat(actual.get(2).getId()).isEqualTo(여행지2_3등.getId());
+            assertThat(actual.get(3).getId()).isEqualTo(여행지4_4등.getId());
         });
     }
 }

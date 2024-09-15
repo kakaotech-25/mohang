@@ -84,6 +84,10 @@ public class MemberFixtures {
         return new SignUpProfileRequest("devhaon", LocalDate.of(1999, 9, 20), GenderType.MEN);
     }
 
+    public static SignUpProfileRequest 하온_프로필_정보로_회원가입_요청() {
+        return new SignUpProfileRequest("devhaon", LocalDate.of(1999, 9, 20), GenderType.MEN);
+    }
+
     public static SignUpProfileRequest 유효하지_않은_닉네임_프로필_정보로_회원가입_요청() {
         return new SignUpProfileRequest("a", LocalDate.of(1999, 9, 20), GenderType.MEN);
     }
@@ -96,8 +100,16 @@ public class MemberFixtures {
         return new SignUpLiveInfoRequest(List.of());
     }
 
+    public static SignUpLiveInfoRequest 없는_생활정보로_회원가입_요청() {
+        return new SignUpLiveInfoRequest(List.of("없는 생활정보1", "없는 생활정보1"));
+    }
+
     public static SignUpInterestTripsRequest 관심_여행지로_회원가입_요청() {
         return new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L));
+    }
+
+    public static SignUpInterestTripsRequest 다섯개_미만의_관심_여행지로_회원가입_요청() {
+        return new SignUpInterestTripsRequest(List.of(1L, 2L, 3L));
     }
 
     public static SignUpInterestTripsRequest 잘못된_관심_여행지로_회원가입_요청() {
@@ -115,6 +127,10 @@ public class MemberFixtures {
 
     // 프로필 업데이트 요청
     public static UpdateProfileRequest 프로필_업데이트_요청() {
+        return new UpdateProfileRequest("devhaon", LocalDate.of(1999, 9, 20), GenderType.MEN, "https://profile-image.com");
+    }
+
+    public static UpdateProfileRequest 하온_프로필_업데이트_요청() {
         return new UpdateProfileRequest("devhaon", LocalDate.of(1999, 9, 20), GenderType.MEN, "https://profile-image.com");
     }
 }
