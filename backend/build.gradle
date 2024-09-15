@@ -133,17 +133,12 @@ asciidoctor {
 	sources {
 		include("**/index.adoc")
 	}
-	// 경로를 baseDir로 맞춰준다!
 	baseDirFollowsSourceFile()
 }
 
-// bootJar {
-	// dependsOn asciidoctor
-	// copy {
-	// 	from "${asciidoctor.outputDir}"
-	// 	into 'src/main/resources/static/docs'
-	// }
-// }
+tasks.named('build') {
+	dependsOn asciidoctor
+}
 
 sonar {
 	properties {
