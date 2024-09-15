@@ -11,8 +11,8 @@ fastapi = "^0.112.0"
 uvicorn = {extras = ["standard"], version = "^0.30.5"}
 dependency-injector = "^4.41.0"
 pandas = "^2.2.2"
-torch = "^2.4.0"
 scikit-learn = "^1.5.1"
+torch = {version = "^2.4.1", platform = "cpu"}
 
 [tool.poetry.dev-dependencies]
 pytest = "^8.3.2"
