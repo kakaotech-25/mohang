@@ -31,5 +31,12 @@ COPY --from=build ${BIN} ${BIN}
 # 프로젝트 소스 코드 복사
 COPY . .
 
+# 유저 및 그룹 생성 & 소스 코드 및 작업 디렉토리 권한 변경 (유저에게 권한 부여)
+RUN groupadd -r appgroup && useradd -r -g appgroup appuser && \
+    chown -R appuser:appgroup /app
+
+# 유저 권한으로 전환
+USER appuser
+
 # 주의 --host 구문 : poetry도 가상환경이라 포트포워딩 안하면 요청이 안 들어옵니다. 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
