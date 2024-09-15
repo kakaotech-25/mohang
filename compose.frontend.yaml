@@ -1,10 +1,10 @@
 services:
   frontend:
     container_name: react
-    image: react-dev:moheng
+    image: react-local:moheng
     build:
       context: frontend/
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.front
     volumes:
       - front_repo:/usr/app
     networks:
