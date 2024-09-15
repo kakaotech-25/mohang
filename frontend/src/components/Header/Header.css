@@ -34,6 +34,8 @@
     height: 55px !important;
     width: 55px !important;
     cursor: pointer;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .dropdown-content {
@@ -44,6 +46,7 @@
     min-width: 160px;
     border-radius: 8px;
     overflow: hidden;
+    z-index: 1000;
 }
 
 .profile-menu:hover .dropdown-content {
