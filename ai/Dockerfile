@@ -13,7 +13,7 @@ COPY pyproject.toml poetry.lock ./
 RUN poetry install --only main \
     && rm -rf /root/.cache/pypoetry
 
-########################################
+# --------------------------------------------------------------------
 
 FROM python:3.11-slim
 

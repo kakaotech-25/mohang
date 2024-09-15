@@ -1,5 +1,4 @@
-# 빌드 스테이지
-FROM openjdk:22-slim AS build
+FROM openjdk:22-slim
 
 WORKDIR /app
 
