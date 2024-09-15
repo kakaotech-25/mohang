@@ -17,34 +17,15 @@ const PlannerDetails = () => {
   const [selectedDestination, setSelectedDestination] = useState(null);
   const navigate = useNavigate();
 
-  // eslint-disable-next-line no-undef
   useLayoutEffect(() => {
     const fetchPlannerData = async () => {
+      console.log(`Fetching planner data for ID: ${id}`);
       try {
         const response = await axiosInstance.get(`/schedule/trips/${id}`);
         const tripData = response.data;
-        // const tripData = {
-        //   tripScheduleResponse: {
-        //     scheduleId: null,
-        //     scheduleName: "제주도 여행",
-        //     startTime: "2024-03-01",
-        //     endTime: "2030-01-10",
-        //   },
-        //   findTripsOnSchedules: [
-        //     {
-        //       tripId: null,
-        //       placeName: "롯데월드2",
-        //       coordinateX: 128.576,
-        //       coordinateY: 35.87,
-        //     },
-        //     {
-        //       tripId: null,
-        //       placeName: "롯데월드3",
-        //       coordinateX: 129.224,
-        //       coordinateY: 35.839,
-        //     },
-        //   ],
-        // };
+
+        console.log("Planner data fetched:", tripData);
+
         setScheduleName(tripData.tripScheduleResponse.scheduleName);
         setSchedulePeriod(
           `${tripData.tripScheduleResponse.startTime} - ${tripData.tripScheduleResponse.endTime}`
@@ -60,6 +41,7 @@ const PlannerDetails = () => {
 
   useEffect(() => {
     if (destinations.length > 0) {
+      console.log("Destinations available, loading Kakao Map:", destinations);
       loadKakaoMapScript(() =>
         initializeMap(destinations, setSelectedDestination)
       );
@@ -74,10 +56,14 @@ const PlannerDetails = () => {
       return;
     }
 
+    console.log("Loading Kakao Map script...");
     const script = document.createElement("script");
     script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapApiKey}&autoload=false`;
     script.async = true;
-    script.onload = () => window.kakao.maps.load(callback);
+    script.onload = () => {
+      console.log("Kakao Map script loaded");
+      window.kakao.maps.load(callback);
+    };
     document.head.appendChild(script);
 
     return () => {
@@ -86,6 +72,7 @@ const PlannerDetails = () => {
   };
 
   const initializeMap = (destinations, setSelectedDestination) => {
+    console.log("Initializing Kakao Map...");
     const container = document.getElementById("map");
     const options = {
       center: new window.kakao.maps.LatLng(33.450701, 126.570667),
@@ -95,6 +82,7 @@ const PlannerDetails = () => {
 
     const bounds = new window.kakao.maps.LatLngBounds();
     destinations.forEach((destination) => {
+      console.log("Adding marker for destination:", destination);
       addMarkerToMap(map, destination, bounds, setSelectedDestination);
     });
 
@@ -112,6 +100,7 @@ const PlannerDetails = () => {
     });
 
     window.kakao.maps.event.addListener(marker, "click", () => {
+      console.log("Marker clicked:", destination.placeName);
       setSelectedDestination(destination.placeName);
     });
 
@@ -120,30 +109,35 @@ const PlannerDetails = () => {
 
   const handleDragEnd = (result) => {
     if (!result.destination) return;
+    console.log("Drag ended:", result);
 
     const updatedDestinations = Array.from(destinations);
     const [reorderedItem] = updatedDestinations.splice(result.source.index, 1);
     updatedDestinations.splice(result.destination.index, 0, reorderedItem);
 
+    console.log("Updated destinations order:", updatedDestinations);
     setDestinations(updatedDestinations);
   };
 
   const handleDelete = async (index) => {
+    console.log("Deleting destination at index:", index);
     const updatedDestinations = destinations.filter((_, i) => i !== index);
     try {
       await axiosInstance.delete(`planner/schedule/${id}`);
       setDestinations(updatedDestinations);
+      console.log("Destination deleted, updated list:", updatedDestinations);
     } catch (e) {
       console.error("Failed to delete destination:", e);
     }
   };
 
   const handleEditClick = () => {
+    console.log("Edit button clicked");
     setIsModalOpen(true);
   };
 
   const handleSave = (updatedPlan) => {
-    // 일정 수정 로직 추가 필요
+    console.log("Saving updated plan:", updatedPlan);
     setIsModalOpen(false);
   };
 
