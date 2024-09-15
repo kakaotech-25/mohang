@@ -21,11 +21,11 @@ WORKDIR /app
 
 # 버전 / 경로 명시
 ARG VERSION=3.11
-ARG PACKAGES="/usr/local/lib/python${VERSION}/site-packages"
+ENV PYTHONPATH="/usr/local/lib/python${VERSION}/site-packages"
 ARG BIN="/usr/local/bin"
 
 
-COPY --from=build ${PACKAGES} ${PACKAGES}
+COPY --from=build ${PYTHONPATH} ${PYTHONPATH}
 COPY --from=build ${BIN} ${BIN}
 
 COPY . .
