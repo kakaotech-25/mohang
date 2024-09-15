@@ -24,10 +24,11 @@ ARG VERSION=3.11
 ENV PYTHONPATH="/usr/local/lib/python${VERSION}/site-packages"
 ARG BIN="/usr/local/bin"
 
-
+# 빌드 단계에서 설치한 의존성을 복사
 COPY --from=build ${PYTHONPATH} ${PYTHONPATH}
 COPY --from=build ${BIN} ${BIN}
 
+# 프로젝트 소스 코드 복사
 COPY . .
 
 # 주의 --host 구문 : poetry도 가상환경이라 포트포워딩 안하면 요청이 안 들어옵니다. 
