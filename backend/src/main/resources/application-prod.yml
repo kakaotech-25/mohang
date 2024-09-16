@@ -5,7 +5,8 @@ spring:
     name: moheng
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: http://localhost:3306/moheng
+    # url: http://localhost:3306/moheng
+    url: jdbc:mysql://db:3306/moheng # MySQL 데이터베이스 URL
     username: root
     password: 1234
   lifecycle:
