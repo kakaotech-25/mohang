@@ -40,7 +40,7 @@ RUN mkdir -p /var/cache/nginx/client_temp /var/log/nginx && \
 		/var/log/nginx
 
 # 유저 권한으로 전환
-USER appuser
+# USER appuser
 
 # Nginx 시작
 CMD	["nginx", "-g", "daemon off;"]
