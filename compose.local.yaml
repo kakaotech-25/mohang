@@ -12,6 +12,8 @@ services:
     restart: always
     volumes:
       - ./nginx/srcs/:/etc/nginx/srcs
+      - ./nginx/tools/develop.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/nginx.conf/:/etc/nginx/nginx.conf
 
   backend:
     container_name: back
@@ -79,4 +81,5 @@ volumes:
 
 networks:
   moheng-network:
+    name: moheng-network
     driver: bridge
