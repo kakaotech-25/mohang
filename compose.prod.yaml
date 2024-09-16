@@ -36,6 +36,7 @@ services:
 
 networks:
   moheng-network:
+    name: moheng-network
     driver: bridge
 #todo
 # nginx 로깅레벨 설정
