@@ -308,23 +308,23 @@ include::{snippets}/member/signup/trip/success/response-body.adoc[]
 
 ==== HTTP Request
 
-include::{snippets}/member/signup/trip/fail/http-request.adoc[]
+include::{snippets}/member/signup/trip/fail/invalidSelectedCounts/http-request.adoc[]
 
 ===== Request Header
 
-include::{snippets}/member/signup/trip/fail/request-headers.adoc[]
+include::{snippets}/member/signup/trip/fail/invalidSelectedCounts/request-headers.adoc[]
 
 ===== Request Body
 
-include::{snippets}/member/signup/trip/fail/request-fields.adoc[]
+include::{snippets}/member/signup/trip/fail/invalidSelectedCounts/request-fields.adoc[]
 
 ==== HTTP Response
 
-include::{snippets}/member/signup/trip/fail/http-response.adoc[]
+include::{snippets}/member/signup/trip/fail/invalidSelectedCounts/http-response.adoc[]
 
 ===== Response Body
 
-include::{snippets}/member/signup/trip/fail/response-body.adoc[]
+include::{snippets}/member/signup/trip/fail/invalidSelectedCounts/response-body.adoc[]
 
 ---
 
