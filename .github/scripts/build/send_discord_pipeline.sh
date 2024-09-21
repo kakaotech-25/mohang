@@ -6,7 +6,16 @@ GITHUB_ACTOR=$3
 GITHUB_REF_NAME=$4
 GITHUB_SHA=$5
 GITHUB_REPOSITORY=$6
-BUILD_TIME=$7
+BUILD_STATUS=$7
+
+# 빌드 상태에 따라 색상과 메시지 설정
+if [ "$BUILD_STATUS" == "success" ]; then
+  STATUS_MSG="✅ Build succeeded"
+  COLOR=65280  # 녹색
+else
+  STATUS_MSG="❌ Build failed"
+  COLOR=15158332  # 빨간색
+fi
 
 curl -H "Content-Type: application/json" \
      -X POST \
@@ -14,9 +23,9 @@ curl -H "Content-Type: application/json" \
            "username": "CI/CD Bot",
            "embeds": [
              {
-               "title": "🚀 Build Pipeline Status: '"${GITHUB_WORKFLOW}"'",
+               "title": "'"${STATUS_MSG}"'",
                "description": "Build triggered by **'"${GITHUB_ACTOR}"'** on branch **'"${GITHUB_REF_NAME}"'**.",
-               "color": 65280,
+               "color": '"${COLOR}"',
                "fields": [
                  {
                    "name": "🔄 Commit",
@@ -32,15 +41,10 @@ curl -H "Content-Type: application/json" \
                    "name": "👤 Actor",
                    "value": "'"${GITHUB_ACTOR}"'",
                    "inline": true
-                 },
-                 {
-                   "name": "⏰ Build Time",
-                   "value": "'"${BUILD_TIME}"'",
-                   "inline": true
                  }
                ],
                "footer": {
-                 "text": "Build completed at '"${BUILD_TIME}"'"
+                 "text": "Build status: '"${BUILD_STATUS}"'"
                }
              }
            ]

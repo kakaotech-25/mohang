@@ -75,19 +75,6 @@ jobs:
           docker push $IMAGE_NAME
           echo "Push Completed!"
 
-      - name: Record end time
-        id: end-time
-        run: echo "::set-output name=end::$(date +%s)"
-
-      - name: Calculate build time
-        id: build-time
-        run: |
-          BUILD_START=${{ steps.start-time.outputs.start }}
-          BUILD_END=${{ steps.end-time.outputs.end }}
-          BUILD_DURATION=$((BUILD_END - BUILD_START))
-          echo "Build took $BUILD_DURATION seconds."
-          echo "::set-output name=time::$(date -ud "@$BUILD_DURATION" +'%H:%M:%S')"
-
   send-notification:
     needs: build-and-push
     runs-on: ubuntu-latest
@@ -98,9 +85,9 @@ jobs:
       - name: Send Discord Notification via Shell Script
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          BUILD_TIME: ${{ steps.build-time.outputs.time }}
+          BUILD_STATUS: ${{ job.status }}
+        if: always()
         run: |
-          chmod +x ${{ env.SCRIPTS_DIR }}/send_discord_pipeline.sh && \
           sh -c ${{ env.SCRIPTS_DIR }}/send_discord_pipeline.sh \
           "${DISCORD_WEBHOOK}" \
           "${GITHUB_WORKFLOW}" \
@@ -108,4 +95,4 @@ jobs:
           "${GITHUB_REF_NAME}" \
           "${GITHUB_SHA}" \
           "${GITHUB_REPOSITORY}" \
-          "${BUILD_TIME}"
+          "${BUILD_STATUS}"
