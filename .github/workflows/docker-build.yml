@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Docker Login Test
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ env.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
@@ -27,53 +27,38 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service:
-          - nginx
-          - backend
-          - ai
+        include:
+          - service: nginx
+            dockerfile: nginx/Dockerfile.prod
+            context: .
+          - service: backend
+            dockerfile: backend/Dockerfile.prod
+            context: backend
+          - service: ai
+            dockerfile: ai/Dockerfile
+            context: ai
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
-      - name: Record start time
-        id: start-time
-        run: echo "::set-output name=start::$(date +%s)"
-
-      - name: Build Image
+      - name: build and Push Docker Image
+        uses: docker/build-push-action@v6
         env:
           IMAGE_NAME: ${{ env.IMAGE_NAME_PREFIX }}${{ matrix.service }}:latest
-        run: |
-          echo "Starting ${{ matrix.service }} Build..."
-          cd ${{ matrix.service }}
-
-          if [ "${{ matrix.service }}" == "nginx" ]; then
-            DOCKERFILE="Dockerfile.prod"
-            CONTEXT="../"
-          elif [ "${{ matrix.service }}" == "backend" ]; then
-            DOCKERFILE="Dockerfile.prod"
-            CONTEXT="."
-          else
-            DOCKERFILE="Dockerfile"
-            CONTEXT="."
-          fi
-
-          docker build -t $IMAGE_NAME -f $DOCKERFILE $CONTEXT
-          echo "Build Completed!"
-
-      - name: Push Image
-        if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
-        env:
-          IMAGE_NAME: ${{ env.IMAGE_NAME_PREFIX }}${{ matrix.service }}:latest
-        run: |
-          echo "Pushing $IMAGE_NAME to Docker Registry..."
-          docker push $IMAGE_NAME
-          echo "Push Completed!"
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          platforms: linux/amd64,linux/arm64
+          push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
+          tags: ${{ env.IMAGE_NAME }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   send-notification:
     needs: build-and-push
