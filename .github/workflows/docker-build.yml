@@ -7,7 +7,7 @@ on:
   pull_request:
 
 env:
-  IMAGE_STORAGE: "docker.io"
+  IMAGE_STORAGE: "https://registry.hub.docker.com"
   IMAGE_NAME_PREFIX: "leovim5072/moheng-"
   DOCKERHUB_USERNAME: "leovim5072"
   SCRIPTS_DIR: .github/scripts/build
@@ -75,33 +75,30 @@ jobs:
           docker push $IMAGE_NAME
           echo "Push Completed!"
 
-      - name: Record end time
-        id: end-time
-        run: echo "::set-output name=end::$(date +%s)"
-
-      - name: Calculate build time
-        id: build-time
-        run: |
-          BUILD_START=${{ steps.start-time.outputs.start }}
-          BUILD_END=${{ steps.end-time.outputs.end }}
-          BUILD_DURATION=$((BUILD_END - BUILD_START))
-          echo "Build took $BUILD_DURATION seconds."
-          echo "::set-output name=time::$(date -ud "@$BUILD_DURATION" +'%H:%M:%S')"
-
   send-notification:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Send Discord Notification via Shell Script
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          BUILD_TIME: ${{ steps.build-time.outputs.time }}
+          GITHUB_WORKFLOW: ${{ github.workflow }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          BUILD_STATUS: ${{ job.status }}
+        if: always()
         run: |
-          sh -c ${{ env.SCRIPTS_DIR }}/send_discord_pipeline.sh \
+          chmod +x ${{ env.SCRIPTS_DIR }}/send_discord_pipeline.sh && \
+          ${{ env.SCRIPTS_DIR }}/send_discord_pipeline.sh \
           "${DISCORD_WEBHOOK}" \
           "${GITHUB_WORKFLOW}" \
           "${GITHUB_ACTOR}" \
           "${GITHUB_REF_NAME}" \
           "${GITHUB_SHA}" \
           "${GITHUB_REPOSITORY}" \
-          "${BUILD_TIME}"
+          "${BUILD_STATUS}"
