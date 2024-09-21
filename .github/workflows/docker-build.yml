@@ -79,12 +79,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send Discord Notification
-        uses: Ilshidur/action-discord@master
+        uses: Ilshidur/action-discord@0.3.2
         with:
-          webhook: ${{ env.DISCORD_WEBHOOK }}
-          title: "Build ${{ job.status }} - ${{ github.repository }}"
-          description: |
-          #   **Branch**: ${{ github.ref }}
-          #   **Status**: ${{ job.status }}
-          #   **Event**: ${{ github.event_name }}
-          # color: ${{ job.status == 'success' && '3066993' || '15158332' }}
+          args: |
+            {
+              "content": "Build Pipeline Notification",
+              "username": "Github CI/CD Bot",
+              "embeds": [
+                {
+                  "title": "🚀 Build Pipeline Status: {{ github.workflow }}",
+                  "description": "Build triggered by **{{ github.actor }}** on branch **{{ github.ref_name }}**.",
+                  "color": 65280,  # 성공: 녹색
+                  "fields": [
+                    {
+                      "name": "🔄 Commit",
+                      "value": "[{{ github.sha }}](https://github.com/{{ github.repository }}/commit/{{ github.sha }})",
+                      "inline": true
+                    },
+                    {
+                      "name": "📂 Repository",
+                      "value": "{{ github.repository }}",
+                      "inline": true
+                    },
+                    {
+                      "name": "⏰ Build Time",
+                      "value": "{{ steps.build-time.outputs.time }}",
+                      "inline": true
+                    }
+                  ],
+                  "footer": {
+                    "text": "Build completed at {{ github.event.head_commit.timestamp }}"
+                  }
+                }
+              ]
+            }
