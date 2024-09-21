@@ -7,7 +7,7 @@ on:
   pull_request:
 
 env:
-  IMAGE_STORAGE: "docker.io"
+  IMAGE_STORAGE: "https://registry.hub.docker.com"
   IMAGE_NAME_PREFIX: "leovim5072/moheng-"
   DOCKERHUB_USERNAME: "leovim5072"
   SCRIPTS_DIR: .github/scripts/build
