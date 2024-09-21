@@ -5,15 +5,12 @@ on:
     branches:
       - develop
   pull_request:
-    # 원하는 브랜치를 지정할 수 있습니다.
-    # branches:
-    #   - develop
-  # workflow_dispatch:
 
 env:
   IMAGE_STORAGE: "docker.io"
   IMAGE_NAME_PREFIX: "leovim5072/moheng-"
   DOCKERHUB_USERNAME: "leovim5072"
+  SCRIPTS_DIR: .github/scripts/build
 
 jobs:
   docker-login:
@@ -43,6 +40,10 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+
+      - name: Record start time
+        id: start-time
+        run: echo "::set-output name=start::$(date +%s)"
 
       - name: Build Image
         env:
@@ -74,44 +75,33 @@ jobs:
           docker push $IMAGE_NAME
           echo "Push Completed!"
 
+      - name: Record end time
+        id: end-time
+        run: echo "::set-output name=end::$(date +%s)"
+
+      - name: Calculate build time
+        id: build-time
+        run: |
+          BUILD_START=${{ steps.start-time.outputs.start }}
+          BUILD_END=${{ steps.end-time.outputs.end }}
+          BUILD_DURATION=$((BUILD_END - BUILD_START))
+          echo "Build took $BUILD_DURATION seconds."
+          echo "::set-output name=time::$(date -ud "@$BUILD_DURATION" +'%H:%M:%S')"
+
   send-notification:
     needs: build-and-push
     runs-on: ubuntu-latest
-    env:
-      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
     steps:
-      - name: Send Discord Notification
-        uses: Ilshidur/action-discord@0.3.2
-        with:
-          args: |
-            {
-              "content": "Build Pipeline Notification",
-              "username": "Github CI/CD Bot",
-              "embeds": [
-                {
-                  "title": "🚀 Build Pipeline Status: {{ github.workflow }}",
-                  "description": "Build triggered by **{{ github.actor }}** on branch **{{ github.ref_name }}**.",
-                  "color": 65280,  # 성공: 녹색
-                  "fields": [
-                    {
-                      "name": "🔄 Commit",
-                      "value": "[{{ github.sha }}](https://github.com/{{ github.repository }}/commit/{{ github.sha }})",
-                      "inline": true
-                    },
-                    {
-                      "name": "📂 Repository",
-                      "value": "{{ github.repository }}",
-                      "inline": true
-                    },
-                    {
-                      "name": "⏰ Build Time",
-                      "value": "{{ steps.build-time.outputs.time }}",
-                      "inline": true
-                    }
-                  ],
-                  "footer": {
-                    "text": "Build completed at {{ github.event.head_commit.timestamp }}"
-                  }
-                }
-              ]
-            }
+      - name: Send Discord Notification via Shell Script
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          BUILD_TIME: ${{ steps.build-time.outputs.time }}
+        run: |
+          ./${{ env.SCRIPTS_DIR }}/send_discord_pipeline.sh \
+          "${DISCORD_WEBHOOK}" \
+          "${GITHUB_WORKFLOW}" \
+          "${GITHUB_ACTOR}" \
+          "${GITHUB_REF_NAME}" \
+          "${GITHUB_SHA}" \
+          "${GITHUB_REPOSITORY}" \
+          "${BUILD_TIME}"
