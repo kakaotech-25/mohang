@@ -1,0 +1,107 @@
+name: Docker Build and Push
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+
+env:
+  IMAGE_STORAGE: "docker.io"
+  IMAGE_NAME_PREFIX: "leovim5072/moheng-"
+  DOCKERHUB_USERNAME: "leovim5072"
+  SCRIPTS_DIR: .github/scripts/build
+
+jobs:
+  docker-login:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Docker Login Test
+        uses: docker/login-action@v2
+        with:
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
+
+  build-and-push:
+    needs: [docker-login]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service:
+          - nginx
+          - backend
+          - ai
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Record start time
+        id: start-time
+        run: echo "::set-output name=start::$(date +%s)"
+
+      - name: Build Image
+        env:
+          IMAGE_NAME: ${{ env.IMAGE_NAME_PREFIX }}${{ matrix.service }}:latest
+        run: |
+          echo "Starting ${{ matrix.service }} Build..."
+          cd ${{ matrix.service }}
+
+          if [ "${{ matrix.service }}" == "nginx" ]; then
+            DOCKERFILE="Dockerfile.prod"
+            CONTEXT="../"
+          elif [ "${{ matrix.service }}" == "backend" ]; then
+            DOCKERFILE="Dockerfile.prod"
+            CONTEXT="."
+          else
+            DOCKERFILE="Dockerfile"
+            CONTEXT="."
+          fi
+
+          docker build -t $IMAGE_NAME -f $DOCKERFILE $CONTEXT
+          echo "Build Completed!"
+
+      - name: Push Image
+        if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+        env:
+          IMAGE_NAME: ${{ env.IMAGE_NAME_PREFIX }}${{ matrix.service }}:latest
+        run: |
+          echo "Pushing $IMAGE_NAME to Docker Registry..."
+          docker push $IMAGE_NAME
+          echo "Push Completed!"
+
+      - name: Record end time
+        id: end-time
+        run: echo "::set-output name=end::$(date +%s)"
+
+      - name: Calculate build time
+        id: build-time
+        run: |
+          BUILD_START=${{ steps.start-time.outputs.start }}
+          BUILD_END=${{ steps.end-time.outputs.end }}
+          BUILD_DURATION=$((BUILD_END - BUILD_START))
+          echo "Build took $BUILD_DURATION seconds."
+          echo "::set-output name=time::$(date -ud "@$BUILD_DURATION" +'%H:%M:%S')"
+
+  send-notification:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Discord Notification via Shell Script
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          BUILD_TIME: ${{ steps.build-time.outputs.time }}
+        run: |
+          sh -c ${{ env.SCRIPTS_DIR }}/send_discord_pipeline.sh \
+          "${DISCORD_WEBHOOK}" \
+          "${GITHUB_WORKFLOW}" \
+          "${GITHUB_ACTOR}" \
+          "${GITHUB_REF_NAME}" \
+          "${GITHUB_SHA}" \
+          "${GITHUB_REPOSITORY}" \
+          "${BUILD_TIME}"
