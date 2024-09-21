@@ -77,6 +77,8 @@ jobs:
   send-notification:
     needs: build-and-push
     runs-on: ubuntu-latest
+    env:
+      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
     steps:
       - name: Send Discord Notification
         uses: Ilshidur/action-discord@0.3.2
