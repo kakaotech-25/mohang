@@ -89,7 +89,7 @@ jobs:
         run: |
           chmod +x ${{ env.SCRIPTS_DIR }}/send_discord_pipeline.sh && \
           sh -c ${{ env.SCRIPTS_DIR }}/send_discord_pipeline.sh \
-          ${{ secrets.DISCORD_WEBHOOK }} \
+          "${{ secrets.DISCORD_WEBHOOK }}" \
           "${GITHUB_WORKFLOW}" \
           "${GITHUB_ACTOR}" \
           "${GITHUB_REF_NAME}" \
