@@ -88,6 +88,7 @@ jobs:
           BUILD_STATUS: ${{ job.status }}
         if: always()
         run: |
+          chmod +x ${{ env.SCRIPTS_DIR }}/send_discord_pipeline.sh && \
           sh -c ${{ env.SCRIPTS_DIR }}/send_discord_pipeline.sh \
           "${DISCORD_WEBHOOK}" \
           "${GITHUB_WORKFLOW}" \
