@@ -84,13 +84,12 @@ jobs:
 
       - name: Send Discord Notification via Shell Script
         env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           BUILD_STATUS: ${{ job.status }}
         if: always()
         run: |
           chmod +x ${{ env.SCRIPTS_DIR }}/send_discord_pipeline.sh && \
           sh -c ${{ env.SCRIPTS_DIR }}/send_discord_pipeline.sh \
-          "${DISCORD_WEBHOOK}" \
+          ${{ secrets.DISCORD_WEBHOOK }} \
           "${GITHUB_WORKFLOW}" \
           "${GITHUB_ACTOR}" \
           "${GITHUB_REF_NAME}" \
