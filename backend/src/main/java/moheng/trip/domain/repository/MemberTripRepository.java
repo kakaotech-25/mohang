@@ -11,5 +11,7 @@ import java.util.List;
 public interface MemberTripRepository extends JpaRepository<MemberTrip, Long> {
     boolean existsByMemberAndTrip(final Member member, final Trip trip);
     MemberTrip findByMemberAndTrip(final Member member, final Trip trip);
+
+    @EntityGraph(attributePaths = {"trip"})
     List<MemberTrip> findByMember(final Member member);
 }
