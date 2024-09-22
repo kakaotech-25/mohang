@@ -1,8 +1,12 @@
 package moheng.acceptance;
 
+import static moheng.acceptance.fixture.KeywordAcceptenceFixture.키워드를_생성한다;
+import static moheng.acceptance.fixture.RecommendTripAcceptenceFixture.선호_여행지를_선택한다;
+import static moheng.acceptance.fixture.RecommendTripAcceptenceFixture.AI_맞춤_추천_여행지를_조회한다;
+import static moheng.acceptance.fixture.AuthAcceptanceFixture.자체_토큰을_생성한다;
+import static moheng.acceptance.fixture.TripAcceptenceFixture.여행지를_생성한다;
+import static moheng.acceptance.fixture.TripKeywordAcceptenceFixture.여행지_키워드를_생성한다;
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.생활정보로_회원가입_한다;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.assertj.core.api.Assertions.assertThat;
 import static moheng.acceptance.fixture.TripAcceptenceFixture.*;
@@ -20,12 +24,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-
-import static moheng.acceptance.fixture.KeywordAcceptenceFixture.키워드를_생성한다;
-import static moheng.acceptance.fixture.RecommendTripAcceptenceFixture.선호_여행지를_선택한다;
-import static moheng.acceptance.fixture.AuthAcceptanceFixture.자체_토큰을_생성한다;
-import static moheng.acceptance.fixture.TripAcceptenceFixture.여행지를_생성한다;
-import static moheng.acceptance.fixture.TripKeywordAcceptenceFixture.여행지_키워드를_생성한다;
 
 public class RecommendTripAcceptenceTest extends AcceptanceTestConfig {
 
@@ -79,13 +77,7 @@ public class RecommendTripAcceptenceTest extends AcceptanceTestConfig {
         여행지의_생활정보를_생성한다(accessTokenResponse.getAccessToken(), 9L, 1L); 여행지의_생활정보를_생성한다(accessTokenResponse.getAccessToken(), 10L, 1L);
 
         // when, then
-        ExtractableResponse<Response> resultResponse = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .auth().oauth2(accessTokenResponse.getAccessToken())
-                .when().get("/api/recommend")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .extract();
+        ExtractableResponse<Response> resultResponse = AI_맞춤_추천_여행지를_조회한다(accessTokenResponse.getAccessToken());
 
         FindTripsResponse findTripsResponse = resultResponse.as(FindTripsResponse.class);
 
