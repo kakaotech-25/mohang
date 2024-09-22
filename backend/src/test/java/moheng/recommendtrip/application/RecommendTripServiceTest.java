@@ -18,8 +18,10 @@ import moheng.liveinformation.domain.*;
 import moheng.liveinformation.domain.repository.LiveInformationRepository;
 import moheng.liveinformation.domain.repository.MemberLiveInformationRepository;
 import moheng.liveinformation.domain.repository.TripLiveInformationRepository;
+import moheng.member.application.MemberService;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
+import moheng.member.dto.request.SignUpInterestTripsRequest;
 import moheng.member.exception.NoExistMemberException;
 import moheng.recommendtrip.domain.RecommendTrip;
 import moheng.recommendtrip.domain.repository.RecommendTripRepository;
@@ -29,6 +31,7 @@ import moheng.trip.domain.MemberTrip;
 import moheng.trip.domain.repository.MemberTripRepository;
 import moheng.trip.domain.Trip;
 import moheng.trip.dto.FindTripResponse;
+import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.exception.NoExistTripException;
 import moheng.trip.domain.repository.TripRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -67,6 +70,9 @@ public class RecommendTripServiceTest extends ServiceTestConfig {
 
     @Autowired
     private RecommendTripRepository recommendTripRepository;
+
+    @Autowired
+    private MemberService memberService;
 
     @DisplayName("순위와 함께 추천 여행지 정보를 저장한다.")
     @Test
@@ -324,5 +330,78 @@ public class RecommendTripServiceTest extends ServiceTestConfig {
         // when, then
         assertThatThrownBy(() -> recommendTripService.findRecommendTripsByModel(하온.getId()))
                 .isInstanceOf(LackOfRecommendTripException.class);
+    }
+
+    @DisplayName("관심 여행지로 회원가입 후 AI 맞춤 여행지를 추천받는다.")
+    @Test
+    void 관심_여행지로_회원가입_후_AI_맞춤_여행지를_추천받는다() {
+        // given
+        Member 하온 = memberRepository.save(하온_기존());
+        Trip 여행지1 = tripRepository.save(여행지1_생성()); Trip 여행지2 = tripRepository.save(여행지2_생성());
+        Trip 여행지3 = tripRepository.save(여행지3_생성()); Trip 여행지4 = tripRepository.save(여행지4_생성());
+        Trip 여행지5 = tripRepository.save(여행지5_생성()); Trip 여행지6 = tripRepository.save(여행지6_생성());
+        Trip 여행지7 = tripRepository.save(여행지7_생성()); Trip 여행지8 = tripRepository.save(여행지8_생성());
+        Trip 여행지9 = tripRepository.save(여행지9_생성()); Trip 여행지10 = tripRepository.save(여행지10_생성());
+
+        Keyword 키워드1 = keywordRepository.save(키워드1_생성()); Keyword 키워드2 = keywordRepository.save(키워드2_생성());
+        Keyword 키워드3 = keywordRepository.save(키워드3_생성()); Keyword 키워드4 = keywordRepository.save(키워드4_생성());
+        Keyword 키워드5 = keywordRepository.save(키워드5_생성()); Keyword 키워드6 = keywordRepository.save(키워드6_생성());
+        Keyword 키워드7 = keywordRepository.save(키워드7_생성()); Keyword 키워드8 = keywordRepository.save(키워드8_생성());
+        Keyword 키워드9 = keywordRepository.save(키워드9_생성()); Keyword 키워드10 = keywordRepository.save(키워드10_생성());
+
+        tripKeywordRepository.save(new TripKeyword(여행지1, 키워드1)); tripKeywordRepository.save(new TripKeyword(여행지2, 키워드2));
+        tripKeywordRepository.save(new TripKeyword(여행지3, 키워드3)); tripKeywordRepository.save(new TripKeyword(여행지4, 키워드4));
+        tripKeywordRepository.save(new TripKeyword(여행지5, 키워드5)); tripKeywordRepository.save(new TripKeyword(여행지6, 키워드6));
+        tripKeywordRepository.save(new TripKeyword(여행지7, 키워드7)); tripKeywordRepository.save(new TripKeyword(여행지8, 키워드8));
+        tripKeywordRepository.save(new TripKeyword(여행지9, 키워드9)); tripKeywordRepository.save(new TripKeyword(여행지10, 키워드10));
+
+        LiveInformation 생활정보1 = liveInformationRepository.save(생활정보1_생성());
+        memberLiveInformationRepository.save(new MemberLiveInformation(생활정보1, 하온));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지1)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지2));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지3)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지4));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지5)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지6));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지7)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지8));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지9)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지10));
+
+        // when, then
+        memberService.signUpByInterestTrips(하온.getId(), new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L)));
+        FindTripsResponse actual = recommendTripService.findRecommendTripsByModel(하온.getId());
+        assertEquals(actual.getFindTripResponses().size(), 10);
+    }
+
+    @DisplayName("여행지 추천에 필요한 회원의 생활정보를 선택하지 않았더라도, 관심 여행지로 회원가입 후 AI 맞춤 여행지를 추천받을 수 있다.")
+    @Test
+    void 여행지_추천에_필요한_회원의_생활정보롤_선택하지_않았더라도_관심_여행지로_회원가입_후_AI_맞춤_여행지를_추천받을_수_있다() {
+        // given
+        Member 하온 = memberRepository.save(하온_기존());
+        Trip 여행지1 = tripRepository.save(여행지1_생성()); Trip 여행지2 = tripRepository.save(여행지2_생성());
+        Trip 여행지3 = tripRepository.save(여행지3_생성()); Trip 여행지4 = tripRepository.save(여행지4_생성());
+        Trip 여행지5 = tripRepository.save(여행지5_생성()); Trip 여행지6 = tripRepository.save(여행지6_생성());
+        Trip 여행지7 = tripRepository.save(여행지7_생성()); Trip 여행지8 = tripRepository.save(여행지8_생성());
+        Trip 여행지9 = tripRepository.save(여행지9_생성()); Trip 여행지10 = tripRepository.save(여행지10_생성());
+
+        Keyword 키워드1 = keywordRepository.save(키워드1_생성()); Keyword 키워드2 = keywordRepository.save(키워드2_생성());
+        Keyword 키워드3 = keywordRepository.save(키워드3_생성()); Keyword 키워드4 = keywordRepository.save(키워드4_생성());
+        Keyword 키워드5 = keywordRepository.save(키워드5_생성()); Keyword 키워드6 = keywordRepository.save(키워드6_생성());
+        Keyword 키워드7 = keywordRepository.save(키워드7_생성()); Keyword 키워드8 = keywordRepository.save(키워드8_생성());
+        Keyword 키워드9 = keywordRepository.save(키워드9_생성()); Keyword 키워드10 = keywordRepository.save(키워드10_생성());
+
+        tripKeywordRepository.save(new TripKeyword(여행지1, 키워드1)); tripKeywordRepository.save(new TripKeyword(여행지2, 키워드2));
+        tripKeywordRepository.save(new TripKeyword(여행지3, 키워드3)); tripKeywordRepository.save(new TripKeyword(여행지4, 키워드4));
+        tripKeywordRepository.save(new TripKeyword(여행지5, 키워드5)); tripKeywordRepository.save(new TripKeyword(여행지6, 키워드6));
+        tripKeywordRepository.save(new TripKeyword(여행지7, 키워드7)); tripKeywordRepository.save(new TripKeyword(여행지8, 키워드8));
+        tripKeywordRepository.save(new TripKeyword(여행지9, 키워드9)); tripKeywordRepository.save(new TripKeyword(여행지10, 키워드10));
+
+        LiveInformation 생활정보1 = liveInformationRepository.save(생활정보1_생성());
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지1)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지2));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지3)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지4));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지5)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지6));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지7)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지8));
+        tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지9)); tripLiveInformationRepository.save(new TripLiveInformation(생활정보1, 여행지10));
+
+        // when, then
+        memberService.signUpByInterestTrips(하온.getId(), new SignUpInterestTripsRequest(List.of(1L, 2L, 3L, 4L, 5L)));
+        FindTripsResponse actual = recommendTripService.findRecommendTripsByModel(하온.getId());
+        assertEquals(actual.getFindTripResponses().size(), 10);
     }
 }
