@@ -101,6 +101,6 @@ public class TripScheduleService {
         if(!tripScheduleRegistryRepository.existsByTripIdAndTripScheduleId(tripId, scheduleId)) {
             throw new NoExistTripScheduleRegistryException("존재하지 않는 일정 여행지입니다.");
         }
-        tripScheduleRegistryRepository.deleteByTripIdAndTripScheduleId(scheduleId, tripId);
+        tripScheduleRegistryRepository.deleteByTripIdAndTripScheduleId(tripId, scheduleId);
     }
 }
