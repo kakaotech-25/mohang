@@ -1,8 +1,8 @@
-package moheng.applicationrunner.prod;
+package moheng.applicationrunner.data.prod;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import moheng.applicationrunner.dto.TripRunner;
+import moheng.applicationrunner.data.dto.TripRunner;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.repository.TripRepository;
 import org.springframework.boot.ApplicationArguments;

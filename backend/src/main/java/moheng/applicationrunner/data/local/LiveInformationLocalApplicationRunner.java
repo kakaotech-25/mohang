@@ -1,11 +1,11 @@
-package moheng.applicationrunner.prod;
+package moheng.applicationrunner.data.local;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import moheng.applicationrunner.dto.LiveInformationRunner;
+import moheng.applicationrunner.data.dto.LiveInformationRunner;
 import moheng.liveinformation.domain.LiveInformation;
-import moheng.liveinformation.domain.repository.LiveInformationRepository;
 import moheng.liveinformation.domain.TripLiveInformation;
+import moheng.liveinformation.domain.repository.LiveInformationRepository;
 import moheng.liveinformation.domain.repository.TripLiveInformationRepository;
 import moheng.liveinformation.exception.NoExistLiveInformationException;
 import moheng.trip.domain.Trip;
@@ -22,16 +22,16 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Profile("prod")
+@Profile("local")
 @Order(2)
 @Component
-public class LiveInformationProdApplicationRunner implements ApplicationRunner {
+public class LiveInformationLocalApplicationRunner implements ApplicationRunner {
     private final TripRepository tripRepository;
     private final LiveInformationRepository liveInformationRepository;
     private final TripLiveInformationRepository tripLiveInformationRepository;
     private final JdbcTemplate jdbcTemplate;
 
-    public LiveInformationProdApplicationRunner(final TripRepository tripRepository,
+    public LiveInformationLocalApplicationRunner(final TripRepository tripRepository,
                                                 final LiveInformationRepository liveInformationRepository,
                                                 final TripLiveInformationRepository tripLiveInformationRepository,
                                                 final JdbcTemplate jdbcTemplate) {
@@ -50,7 +50,7 @@ public class LiveInformationProdApplicationRunner implements ApplicationRunner {
 
             for(final LiveInformationRunner liveInformationRunner : liveInformationRunners) {
                 final Trip trip = tripRepository.findByContentId(liveInformationRunner.getContentid())
-                                .orElseThrow(NoExistTripException::new);
+                        .orElseThrow(NoExistTripException::new);
 
                 for(final String liveInfoName : liveInformationRunner.getLiveinformation()) {
                     final LiveInformation liveInformation = findOrCreateLiveInformation(liveInfoName);
