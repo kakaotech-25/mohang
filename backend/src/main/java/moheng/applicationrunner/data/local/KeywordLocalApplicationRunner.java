@@ -1,11 +1,11 @@
-package moheng.applicationrunner.prod;
+package moheng.applicationrunner.data.local;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import moheng.applicationrunner.dto.KeywordRunner;
+import moheng.applicationrunner.data.dto.KeywordRunner;
 import moheng.keyword.domain.Keyword;
-import moheng.keyword.domain.repository.KeywordRepository;
 import moheng.keyword.domain.TripKeyword;
+import moheng.keyword.domain.repository.KeywordRepository;
 import moheng.keyword.domain.repository.TripKeywordRepository;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.repository.TripRepository;
@@ -20,15 +20,15 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Profile("prod")
+@Profile("local")
 @Order(3)
 @Component
-public class KeywordProdApplicationRunner implements ApplicationRunner {
+public class KeywordLocalApplicationRunner implements ApplicationRunner {
     private final KeywordRepository keywordRepository;
     private final TripRepository tripRepository;
     private final TripKeywordRepository tripKeywordRepository;
 
-    public KeywordProdApplicationRunner(final KeywordRepository keywordRepository,
+    public KeywordLocalApplicationRunner(final KeywordRepository keywordRepository,
                                         final TripRepository tripRepository,
                                         final TripKeywordRepository tripKeywordRepository) {
         this.keywordRepository = keywordRepository;

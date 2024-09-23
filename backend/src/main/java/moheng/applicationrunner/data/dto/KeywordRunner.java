@@ -1,4 +1,4 @@
-package moheng.applicationrunner.dto;
+package moheng.applicationrunner.data.dto;
 
 import java.util.List;
 

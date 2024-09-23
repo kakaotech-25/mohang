@@ -1,8 +1,8 @@
-package moheng.applicationrunner.dev;
+package moheng.applicationrunner.data.dev;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import moheng.applicationrunner.dto.LiveInformationRunner;
+import moheng.applicationrunner.data.dto.LiveInformationRunner;
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.domain.repository.LiveInformationRepository;
 import moheng.liveinformation.domain.TripLiveInformation;
