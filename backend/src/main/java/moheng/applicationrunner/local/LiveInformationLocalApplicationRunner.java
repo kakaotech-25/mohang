@@ -1,11 +1,11 @@
-package moheng.applicationrunner.dev;
+package moheng.applicationrunner.local;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import moheng.applicationrunner.dto.LiveInformationRunner;
 import moheng.liveinformation.domain.LiveInformation;
-import moheng.liveinformation.domain.repository.LiveInformationRepository;
 import moheng.liveinformation.domain.TripLiveInformation;
+import moheng.liveinformation.domain.repository.LiveInformationRepository;
 import moheng.liveinformation.domain.repository.TripLiveInformationRepository;
 import moheng.liveinformation.exception.NoExistLiveInformationException;
 import moheng.trip.domain.Trip;
@@ -22,19 +22,19 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Profile("dev")
+@Profile("local")
 @Order(2)
 @Component
-public class LiveInformationDevApplicationRunner implements ApplicationRunner {
+public class LiveInformationLocalApplicationRunner implements ApplicationRunner {
     private final TripRepository tripRepository;
     private final LiveInformationRepository liveInformationRepository;
     private final TripLiveInformationRepository tripLiveInformationRepository;
     private final JdbcTemplate jdbcTemplate;
 
-    public LiveInformationDevApplicationRunner(final TripRepository tripRepository,
-                                               final LiveInformationRepository liveInformationRepository,
-                                               final TripLiveInformationRepository tripLiveInformationRepository,
-                                               final JdbcTemplate jdbcTemplate) {
+    public LiveInformationLocalApplicationRunner(final TripRepository tripRepository,
+                                                final LiveInformationRepository liveInformationRepository,
+                                                final TripLiveInformationRepository tripLiveInformationRepository,
+                                                final JdbcTemplate jdbcTemplate) {
         this.tripRepository = tripRepository;
         this.liveInformationRepository = liveInformationRepository;
         this.tripLiveInformationRepository = tripLiveInformationRepository;
@@ -50,7 +50,7 @@ public class LiveInformationDevApplicationRunner implements ApplicationRunner {
 
             for(final LiveInformationRunner liveInformationRunner : liveInformationRunners) {
                 final Trip trip = tripRepository.findByContentId(liveInformationRunner.getContentid())
-                                .orElseThrow(NoExistTripException::new);
+                        .orElseThrow(NoExistTripException::new);
 
                 for(final String liveInfoName : liveInformationRunner.getLiveinformation()) {
                     final LiveInformation liveInformation = findOrCreateLiveInformation(liveInfoName);

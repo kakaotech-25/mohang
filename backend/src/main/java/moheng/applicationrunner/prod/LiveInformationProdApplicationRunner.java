@@ -13,13 +13,18 @@ import moheng.trip.domain.repository.TripRepository;
 import moheng.trip.exception.NoExistTripException;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-
+@Profile("prod")
+@Order(2)
+@Component
 public class LiveInformationProdApplicationRunner implements ApplicationRunner {
     private final TripRepository tripRepository;
     private final LiveInformationRepository liveInformationRepository;

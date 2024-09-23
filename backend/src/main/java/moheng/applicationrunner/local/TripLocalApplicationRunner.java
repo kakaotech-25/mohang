@@ -1,4 +1,4 @@
-package moheng.applicationrunner.prod;
+package moheng.applicationrunner.local;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,13 +17,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Profile("prod")
+@Profile("local")
 @Order(1)
 @Component
-public class TripProdApplicationRunner implements ApplicationRunner {
+public class TripLocalApplicationRunner implements ApplicationRunner {
     private final TripRepository tripRepository;
 
-    public TripProdApplicationRunner(final TripRepository tripRepository) {
+    public TripLocalApplicationRunner(final TripRepository tripRepository) {
         this.tripRepository = tripRepository;
     }
 

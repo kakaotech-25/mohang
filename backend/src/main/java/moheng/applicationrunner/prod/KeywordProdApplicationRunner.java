@@ -12,11 +12,17 @@ import moheng.trip.domain.repository.TripRepository;
 import moheng.trip.exception.NoExistTripException;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Profile("prod")
+@Order(3)
+@Component
 public class KeywordProdApplicationRunner implements ApplicationRunner {
     private final KeywordRepository keywordRepository;
     private final TripRepository tripRepository;
