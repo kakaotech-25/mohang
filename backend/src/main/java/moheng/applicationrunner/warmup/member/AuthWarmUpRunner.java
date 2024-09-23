@@ -16,8 +16,12 @@ public class AuthWarmUpRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        authService.generateUri("URI");
-        authService.generateTokenWithCode("CODE", "PROVIDER");
-        authService.generateRenewalAccessToken(new RenewalAccessTokenRequest("TOKEN"));
+        try {
+            authService.generateUri("URI");
+            authService.generateTokenWithCode("CODE", "PROVIDER");
+            authService.generateRenewalAccessToken(new RenewalAccessTokenRequest("TOKEN"));
+        } catch (Exception e) {
+
+        }
     }
 }
