@@ -28,7 +28,7 @@ public class AuthWarmUpRunner implements ApplicationRunner {
             authService.generateTokenWithCode("CODE", "PROVIDER");
             authService.generateRenewalAccessToken(new RenewalAccessTokenRequest("TOKEN"));
         } catch (Exception e) {
-            // log.info("Auth Warm Up 처리중입니다.");
+            log.info("Latency 개선을 위한 JVM Warm Up 처리중입니다.");
         }
     }
 }
