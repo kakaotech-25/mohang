@@ -210,7 +210,7 @@ public class TripScheduleServiceTest extends ServiceTestConfig {
         tripScheduleRegistryRepository.save(new TripScheduleRegistry(여행지3, 여행_일정1));
 
         // when
-        tripScheduleService.deleteTripOnSchedule(여행지1.getId(), 여행_일정1.getId());
+        tripScheduleService.deleteTripOnSchedule(여행지1.getId(), 여행지3.getId());
 
         // then
         int exptected = 2;
