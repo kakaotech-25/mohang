@@ -13,26 +13,25 @@ import moheng.trip.domain.repository.MemberTripRepository;
 import moheng.trip.domain.repository.TripRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
+@Profile("dev")
 @Order(4)
 @Component
 public class MemberLiveInformationDevApplicationRunner implements ApplicationRunner {
-    private final MemberLiveInformationRepository memberLiveInformationRepository;
     private final MemberRepository memberRepository;
     private final RecommendTripRepository recommendTripRepository;
     private final TripRepository tripRepository;
     private final MemberTripRepository memberTripRepository;
 
-    public MemberLiveInformationDevApplicationRunner(final MemberLiveInformationRepository memberLiveInformationRepository,
-                                                     final MemberRepository memberRepository,
+    public MemberLiveInformationDevApplicationRunner(final MemberRepository memberRepository,
                                                      final RecommendTripRepository recommendTripRepository,
                                                      final TripRepository tripRepository,
                                                      final MemberTripRepository memberTripRepository) {
-        this.memberLiveInformationRepository = memberLiveInformationRepository;
         this.memberRepository = memberRepository;
         this.recommendTripRepository = recommendTripRepository;
         this.tripRepository = tripRepository;
