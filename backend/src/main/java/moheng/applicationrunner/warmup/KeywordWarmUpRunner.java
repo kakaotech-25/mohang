@@ -2,6 +2,8 @@ package moheng.applicationrunner.warmup;
 
 import moheng.keyword.application.KeywordService;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
@@ -14,6 +16,7 @@ import java.util.List;
 @Order(7)
 @Component
 public class KeywordWarmUpRunner implements ApplicationRunner {
+    private static final Logger log = LoggerFactory.getLogger(KeywordWarmUpRunner.class);
     private final KeywordService keywordService;
 
     public KeywordWarmUpRunner(final KeywordService keywordService) {
@@ -26,7 +29,7 @@ public class KeywordWarmUpRunner implements ApplicationRunner {
             keywordService.findRecommendTripsByKeywords(new TripsByKeyWordsRequest(List.of(1L)));
             keywordService.findRecommendTripsByRandomKeyword();
         } catch (Exception e) {
-
+            log.info("Latency 개선을 위한 JVM Warm Up 처리중입니다.");
         }
     }
 }

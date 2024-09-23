@@ -1,6 +1,8 @@
 package moheng.applicationrunner.warmup;
 
 import moheng.recommendtrip.application.RecommendTripService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
 @Order(8)
 @Component
 public class RecommendWarmUpRunner implements ApplicationRunner {
+    private static final Logger log = LoggerFactory.getLogger(RecommendWarmUpRunner.class);
     private final RecommendTripService recommendTripService;
 
     public RecommendWarmUpRunner(final RecommendTripService recommendTripService) {
@@ -22,7 +25,7 @@ public class RecommendWarmUpRunner implements ApplicationRunner {
         try {
             recommendTripService.findRecommendTripsByModel(1L);
         } catch (Exception e) {
-
+            log.info("Latency 개선을 위한 JVM Warm Up 처리중입니다.");
         }
     }
 }
