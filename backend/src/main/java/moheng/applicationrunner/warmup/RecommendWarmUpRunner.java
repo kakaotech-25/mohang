@@ -1,4 +1,4 @@
-package moheng.applicationrunner.warmup.member;
+package moheng.applicationrunner.warmup;
 
 import moheng.recommendtrip.application.RecommendTripService;
 import org.springframework.boot.ApplicationArguments;

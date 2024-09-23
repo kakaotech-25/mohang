@@ -1,6 +1,6 @@
-package moheng.applicationrunner.warmup.member;
+package moheng.applicationrunner.warmup;
 
-import moheng.planner.application.PlannerService;
+import moheng.member.application.MemberService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
@@ -8,19 +8,21 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Profile({"dev", "prod"})
-@Order(9)
+@Order(5)
 @Component
-public class PlannerWarmUpRunner implements ApplicationRunner {
-    private final PlannerService plannerService;
+public class MemberWarmUpRunner implements ApplicationRunner {
+    private final MemberService memberService;
 
-    public PlannerWarmUpRunner(final PlannerService plannerService) {
-        this.plannerService = plannerService;
+    public MemberWarmUpRunner(final MemberService memberService) {
+        this.memberService = memberService;
     }
+
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
         try {
-            plannerService.findPlannerOrderByRecent(1L);
+            memberService.findByEmail("email");
+            memberService.findMemberAuthorityAndProfileImg(1L);
         } catch (Exception e) {
 
         }
