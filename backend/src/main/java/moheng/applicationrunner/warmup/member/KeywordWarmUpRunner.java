@@ -4,10 +4,14 @@ import moheng.keyword.application.KeywordService;
 import moheng.keyword.dto.TripsByKeyWordsRequest;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Profile({"dev", "prod"})
+@Order(7)
 @Component
 public class KeywordWarmUpRunner implements ApplicationRunner {
     private final KeywordService keywordService;
