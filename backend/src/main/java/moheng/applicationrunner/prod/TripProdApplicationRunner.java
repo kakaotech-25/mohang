@@ -7,14 +7,19 @@ import moheng.trip.domain.Trip;
 import moheng.trip.domain.repository.TripRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Profile("prod")
+@Order(1)
+@Component
 public class TripProdApplicationRunner implements ApplicationRunner {
     private final TripRepository tripRepository;
 
