@@ -56,7 +56,6 @@ public class ControllerAdvice {
         return ResponseEntity.badRequest().body(exceptionResponse);
     }
 
-
     @ExceptionHandler(InvalidOAuthServiceException.class)
     public ResponseEntity<ExceptionResponse> handleOAuthException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
@@ -133,6 +132,16 @@ public class ControllerAdvice {
         ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
 
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
+    }
+
+    @ExceptionHandler({
+            NotAbleToAccessTripByPessimisticLock.class
+    })
+    public ResponseEntity<ExceptionResponse> handleConcurrencyIssue(final RuntimeException e) {
+        logger.error(e.getMessage(), e);
+        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
