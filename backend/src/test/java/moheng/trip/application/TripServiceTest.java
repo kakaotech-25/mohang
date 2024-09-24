@@ -931,7 +931,6 @@ public class TripServiceTest extends ServiceTestConfig {
 
         // then
         Trip updatedTrip = tripRepository.findById(currentTrip.getId()).orElseThrow();
-        System.out.println(updatedTrip.getVisitedCount());
         assertThat(updatedTrip.getVisitedCount()).isEqualTo(100);
     }
 }
