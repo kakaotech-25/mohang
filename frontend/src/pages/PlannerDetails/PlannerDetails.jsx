@@ -119,15 +119,29 @@ const PlannerDetails = () => {
     setDestinations(updatedDestinations);
   };
 
-  const handleDelete = async (index) => {
+  const handleDelete = async (index, tripId) => {
     console.log("Deleting destination at index:", index);
+
     const updatedDestinations = destinations.filter((_, i) => i !== index);
     try {
-      await axiosInstance.delete(`planner/schedule/${id}`);
-      setDestinations(updatedDestinations);
-      console.log("Destination deleted, updated list:", updatedDestinations);
-    } catch (e) {
-      console.error("Failed to delete destination:", e);
+      const response = await axiosInstance.delete(`/schedule/${id}/${tripId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // 엑세스 토큰
+        },
+      });
+
+      if (response.status === 204) {
+        setDestinations(updatedDestinations);
+        console.log("Destination deleted successfully. Updated destinations:", updatedDestinations);
+      } else {
+        console.warn("Unexpected response status:", response.status);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        console.error("Failed to delete destination:", error.response.data.message);
+      } else {
+        console.error("Error occurred while deleting destination:", error);
+      }
     }
   };
 
@@ -193,7 +207,7 @@ const PlannerDetails = () => {
                           </span>
                           <button
                             className="delete-button"
-                            onClick={() => handleDelete(index)}
+                            onClick={() => handleDelete(index, destination.tripId)} // tripId 전달
                           >
                             <img src={deleteIcon} alt="삭제" />
                           </button>
