@@ -107,7 +107,7 @@ const PlannerDetails = () => {
     bounds.extend(markerPosition);
   };
 
-  const handleDragEnd = (result) => {
+  const handleDragEnd = async (result) => {
     if (!result.destination) return;
     console.log("Drag ended:", result);
 
@@ -117,6 +117,26 @@ const PlannerDetails = () => {
 
     console.log("Updated destinations order:", updatedDestinations);
     setDestinations(updatedDestinations);
+
+    // 여행지 순서 변경 API 호출
+    const updatedTripIds = updatedDestinations.map((destination) => destination.tripId);
+    try {
+      const response = await axiosInstance.post(`/schedule/trips/orders/${id}`, {
+        tripIds: updatedTripIds
+      }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // 엑세스 토큰
+        },
+      });
+
+      if (response.status === 204) {
+        console.log("Successfully updated trip order:", updatedTripIds);
+      } else {
+        console.warn("Unexpected response status:", response.status);
+      }
+    } catch (error) {
+      console.error("Error occurred while updating trip order:", error);
+    }
   };
 
   const handleDelete = async (index, tripId) => {
