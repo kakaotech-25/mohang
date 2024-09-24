@@ -18,6 +18,7 @@ import moheng.trip.domain.repository.MemberTripRepository;
 import moheng.trip.domain.repository.TripRepository;
 import moheng.trip.dto.*;
 import moheng.trip.exception.NoExistTripException;
+import moheng.trip.exception.NotAbleToAccessTripByPessimisticLock;
 import org.hibernate.PessimisticLockException;
 import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.stereotype.Service;
@@ -56,21 +57,17 @@ public class TripService {
 
     @Transactional
     public FindTripWithSimilarTripsResponse findWithSimilarOtherTrips(final long tripId, final long memberId) {
-        final Trip trip = tripRepository.findByIdForUpdate(tripId)
-                .orElseThrow(NoExistTripException::new);
-        final TripFilterStrategy tripFilterStrategy = tripFilterStrategyProvider.findTripsByFilterStrategy(LIVE_INFO_STRATEGY);
-        final List<Trip> filteredSimilarTrips = tripFilterStrategy.execute(new LiveInformationFilterInfo(tripId));
-        return findTripsWithIncreaseVisitedCount(trip, memberId, filteredSimilarTrips);
-    }
-
-    private FindTripWithSimilarTripsResponse findTripsWithIncreaseVisitedCount(final Trip trip, final long memberId, final List<Trip> filteredSimilarTrips) {
         try {
+            final Trip trip = tripRepository.findByIdForUpdate(tripId)
+                    .orElseThrow(NoExistTripException::new);
+            final TripFilterStrategy tripFilterStrategy = tripFilterStrategyProvider.findTripsByFilterStrategy(LIVE_INFO_STRATEGY);
+            final List<Trip> filteredSimilarTrips = tripFilterStrategy.execute(new LiveInformationFilterInfo(tripId));
             trip.incrementVisitedCount();
-        } catch (final PessimisticLockingFailureException e) {
+            saveRecommendTripByClickedLogs(memberId, trip);
             return new FindTripWithSimilarTripsResponse(trip, findKeywordsByTrip(trip), findTripsWithKeywords(filteredSimilarTrips));
+        } catch (PessimisticLockException e) {
+            throw new NotAbleToAccessTripByPessimisticLock("접속자 수가 많아 여행지 조회가 불가능합니다. 잠시 후에 시도해주세요.");
         }
-        saveRecommendTripByClickedLogs(memberId, trip);
-        return new FindTripWithSimilarTripsResponse(trip, findKeywordsByTrip(trip), findTripsWithKeywords(filteredSimilarTrips));
     }
 
     private SimilarTripResponses findTripsWithKeywords(final List<Trip> trips) {
