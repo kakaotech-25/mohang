@@ -1,5 +1,6 @@
 package moheng.trip.application;
 
+import jakarta.persistence.LockTimeoutException;
 import moheng.keyword.domain.TripKeyword;
 import moheng.keyword.domain.repository.TripKeywordRepository;
 import moheng.member.domain.Member;
@@ -17,6 +18,7 @@ import moheng.trip.domain.repository.MemberTripRepository;
 import moheng.trip.domain.repository.TripRepository;
 import moheng.trip.dto.*;
 import moheng.trip.exception.NoExistTripException;
+import org.hibernate.PessimisticLockException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,7 +61,7 @@ public class TripService {
         final List<Trip> filteredSimilarTrips = tripFilterStrategy.execute(new LiveInformationFilterInfo(tripId));
         try {
             trip.incrementVisitedCount();
-        } catch (Exception e) {
+        } catch (final PessimisticLockException | LockTimeoutException e) {
             return new FindTripWithSimilarTripsResponse(trip, findKeywordsByTrip(trip), findTripsWithKeywords(filteredSimilarTrips));
         }
         saveRecommendTripByClickedLogs(memberId, trip);
