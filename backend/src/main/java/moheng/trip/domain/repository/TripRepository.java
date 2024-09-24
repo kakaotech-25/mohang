@@ -1,15 +1,20 @@
 package moheng.trip.domain.repository;
 
+import jakarta.persistence.LockModeType;
+import jakarta.persistence.QueryHint;
 import moheng.trip.domain.Trip;
-import org.springframework.data.jpa.repository.EntityGraph;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface TripRepository extends JpaRepository<Trip, Long> {
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @QueryHints( {@QueryHint(name = "javax.persistence.lock.timeout", value = "3000")})
+    @Query("SELECT t FROM Trip t WHERE t.id IN :tripId")
+    Optional<Trip> findByIdForUpdate(final Long tripId);
+
     Optional<Trip> findByContentId(final Long contentId);
 
     List<Trip> findTop30ByOrderByVisitedCountDesc();

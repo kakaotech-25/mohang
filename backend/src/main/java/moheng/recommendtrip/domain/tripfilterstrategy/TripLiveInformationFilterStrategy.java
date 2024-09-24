@@ -49,9 +49,14 @@ public class TripLiveInformationFilterStrategy implements TripFilterStrategy {
         while (filteredSimilarTrips.size() < SIMILAR_TRIPS_COUNT) {
             final FindSimilarTripWithContentIdResponses similarTripWithContentIdResponses = externalSimilarTripModelClient.findSimilarTrips(trip.getContentId(), page);
             final List<Trip> filteredTripsByLiveInformation = findFilteredTripsByLiveInformation(trip, similarTripWithContentIdResponses.getContentIds());
-            filteredSimilarTrips.addAll(filteredTripsByLiveInformation);
+            filteredSimilarTrips.addAll(
+                    filteredTripsByLiveInformation
+                            .stream()
+                            .filter(similarTrip -> !similarTrip.getId().equals(trip.getId()))
+                            .collect(Collectors.toList()));
             page++;
         }
+
         if (filteredSimilarTrips.size() > SIMILAR_TRIPS_COUNT) {
             return filteredSimilarTrips.subList(0, SIMILAR_TRIPS_COUNT);
         }

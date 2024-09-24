@@ -1,5 +1,6 @@
 package moheng.trip.application;
 
+import jakarta.persistence.LockTimeoutException;
 import moheng.keyword.domain.TripKeyword;
 import moheng.keyword.domain.repository.TripKeywordRepository;
 import moheng.member.domain.Member;
@@ -17,6 +18,8 @@ import moheng.trip.domain.repository.MemberTripRepository;
 import moheng.trip.domain.repository.TripRepository;
 import moheng.trip.dto.*;
 import moheng.trip.exception.NoExistTripException;
+import org.hibernate.PessimisticLockException;
+import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,10 +56,19 @@ public class TripService {
 
     @Transactional
     public FindTripWithSimilarTripsResponse findWithSimilarOtherTrips(final long tripId, final long memberId) {
-        final Trip trip = findById(tripId);
+        final Trip trip = tripRepository.findByIdForUpdate(tripId)
+                .orElseThrow(NoExistTripException::new);
         final TripFilterStrategy tripFilterStrategy = tripFilterStrategyProvider.findTripsByFilterStrategy(LIVE_INFO_STRATEGY);
         final List<Trip> filteredSimilarTrips = tripFilterStrategy.execute(new LiveInformationFilterInfo(tripId));
-        trip.incrementVisitedCount();
+        return findTripsWithIncreaseVisitedCount(trip, memberId, filteredSimilarTrips);
+    }
+
+    private FindTripWithSimilarTripsResponse findTripsWithIncreaseVisitedCount(final Trip trip, final long memberId, final List<Trip> filteredSimilarTrips) {
+        try {
+            trip.incrementVisitedCount();
+        } catch (final PessimisticLockingFailureException e) {
+            return new FindTripWithSimilarTripsResponse(trip, findKeywordsByTrip(trip), findTripsWithKeywords(filteredSimilarTrips));
+        }
         saveRecommendTripByClickedLogs(memberId, trip);
         return new FindTripWithSimilarTripsResponse(trip, findKeywordsByTrip(trip), findTripsWithKeywords(filteredSimilarTrips));
     }
