@@ -29,14 +29,17 @@ public class MemberLiveInformation {
         this.member = member;
     }
 
+    @Generated
     public Long getId() {
         return id;
     }
 
+    @Generated
     public LiveInformation getLiveInformation() {
         return liveInformation;
     }
 
+    @Generated
     public Member getMember() {
         return member;
     }

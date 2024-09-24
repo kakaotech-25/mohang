@@ -6,8 +6,7 @@ import static moheng.fixture.MemberFixtures.*;
 import static moheng.fixture.TripFixture.여행지1_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.*;
 
 import moheng.config.slice.ServiceTestConfig;
 import moheng.keyword.domain.Keyword;
@@ -103,6 +102,27 @@ public class KeywordServiceTest extends ServiceTestConfig {
         // when, then
         FindTripsResponse response = keywordService.findRecommendTripsByKeywords(키워드로_필터링한_여행지_리스트_요청(List.of(1L, 2L, 3L)));
         assertThat(response.getFindTripResponses()).hasSize(3);
+    }
+
+    @DisplayName("키워드 리스트가 비어있다면 랜덤 키워드로 여행지를 추천받는다.")
+    @Test
+    void 키워드_리스트가_비어있다면_랜덤_키워드로_여행지를_추천받는다() {
+        // given
+        Keyword 키워드1 = keywordRepository.save(키워드1_생성());
+        Keyword 키워드2 = keywordRepository.save(키워드2_생성());
+        Keyword 키워드3 = keywordRepository.save(키워드3_생성());
+        Trip 여행지1 = tripRepository.save(여행지1_생성());
+        Trip 여행지2 = tripRepository.save(여행지2_생성());
+        Trip 여행지3 = tripRepository.save(여행지3_생성());
+
+        tripKeywordRepository.save(new TripKeyword(여행지1, 키워드1));
+        tripKeywordRepository.save(new TripKeyword(여행지2, 키워드2));
+        tripKeywordRepository.save(new TripKeyword(여행지3, 키워드3));
+
+        TripsByKeyWordsRequest 비어있는_키워드_리스트로_요청 = new TripsByKeyWordsRequest(List.of());
+
+        // when
+        assertDoesNotThrow(() -> keywordService.findRecommendTripsByKeywords(비어있는_키워드_리스트로_요청));
     }
 
     @DisplayName("키워드로 필터링된 여행지는 중복이 제거되어 필터링된다.")
