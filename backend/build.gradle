@@ -104,6 +104,7 @@ jacocoTestCoverageVerification {
 	violationRules {
 		rule {
 			enabled = true
+			element = "CLASS"
 
 			limit {
 				counter = "LINE"
