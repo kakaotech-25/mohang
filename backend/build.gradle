@@ -104,11 +104,12 @@ jacocoTestCoverageVerification {
 	violationRules {
 		rule {
 			enabled = true
+			element = "CLASS"
 
 			limit {
 				counter = "LINE"
 				value = "COVEREDRATIO"
-				minimum = 0.75
+				minimum = 0.85
 			}
 
 			excludes = [

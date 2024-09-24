@@ -1,6 +1,5 @@
 package moheng.trip.application;
 
-import jakarta.persistence.LockTimeoutException;
 import moheng.keyword.domain.TripKeyword;
 import moheng.keyword.domain.repository.TripKeywordRepository;
 import moheng.member.domain.Member;
@@ -18,9 +17,8 @@ import moheng.trip.domain.repository.MemberTripRepository;
 import moheng.trip.domain.repository.TripRepository;
 import moheng.trip.dto.*;
 import moheng.trip.exception.NoExistTripException;
-import moheng.trip.exception.NotAbleToAccessTripByPessimisticLock;
+import moheng.trip.exception.NotAbleToAccessTripByPessimisticLockException;
 import org.hibernate.PessimisticLockException;
-import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -68,7 +66,7 @@ public class TripService {
 
             return new FindTripWithSimilarTripsResponse(trip, findKeywordsByTrip(trip), findTripsWithKeywords(filteredSimilarTrips));
         } catch (PessimisticLockException e) {
-            throw new NotAbleToAccessTripByPessimisticLock("접속자 수가 많아 여행지 조회가 불가능합니다. 잠시 후에 시도해주세요.");
+            throw new NotAbleToAccessTripByPessimisticLockException("접속자 수가 많아 여행지 조회가 불가능합니다. 잠시 후에 시도해주세요.");
         }
     }
 

@@ -34,6 +34,7 @@ public class MemberLiveInformation {
         return id;
     }
 
+    @Generated
     public LiveInformation getLiveInformation() {
         return liveInformation;
     }

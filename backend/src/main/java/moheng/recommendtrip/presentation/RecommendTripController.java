@@ -2,13 +2,10 @@ package moheng.recommendtrip.presentation;
 
 import moheng.auth.dto.Accessor;
 import moheng.auth.presentation.authentication.Authentication;
-import moheng.global.annotation.Generated;
-import moheng.member.dto.request.SignUpInterestTripsRequest;
 import moheng.recommendtrip.application.RecommendTripService;
 import moheng.recommendtrip.dto.RecommendTripCreateRequest;
 import moheng.trip.dto.FindTripsResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

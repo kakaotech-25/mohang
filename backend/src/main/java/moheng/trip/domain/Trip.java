@@ -1,7 +1,6 @@
 package moheng.trip.domain;
 
 import jakarta.persistence.*;
-import moheng.global.annotation.Generated;
 import moheng.global.entity.BaseEntity;
 import moheng.trip.exception.InvalidTripDescriptionException;
 import moheng.trip.exception.InvalidTripNameException;
