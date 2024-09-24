@@ -60,9 +60,13 @@ public class TripService {
                 .orElseThrow(NoExistTripException::new);
         final TripFilterStrategy tripFilterStrategy = tripFilterStrategyProvider.findTripsByFilterStrategy(LIVE_INFO_STRATEGY);
         final List<Trip> filteredSimilarTrips = tripFilterStrategy.execute(new LiveInformationFilterInfo(tripId));
+        return findTripsWithIncreaseVisitedCount(trip, memberId, filteredSimilarTrips);
+    }
+
+    private FindTripWithSimilarTripsResponse findTripsWithIncreaseVisitedCount(final Trip trip, final long memberId, final List<Trip> filteredSimilarTrips) {
         try {
             trip.incrementVisitedCount();
-        } catch (final PessimisticLockingFailureException | LockTimeoutException e) {
+        } catch (final PessimisticLockingFailureException e) {
             return new FindTripWithSimilarTripsResponse(trip, findKeywordsByTrip(trip), findTripsWithKeywords(filteredSimilarTrips));
         }
         saveRecommendTripByClickedLogs(memberId, trip);
