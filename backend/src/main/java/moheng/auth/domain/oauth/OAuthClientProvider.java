@@ -1,12 +1,11 @@
 package moheng.auth.domain.oauth;
 
 import moheng.auth.exception.NoExistOAuthClientException;
-import moheng.global.annotation.Generated;
+
 import moheng.member.domain.SocialType;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class OAuthClientProvider implements OAuthProvider {

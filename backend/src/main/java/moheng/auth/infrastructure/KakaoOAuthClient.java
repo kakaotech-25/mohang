@@ -98,7 +98,6 @@ public class KakaoOAuthClient implements OAuthClient {
                 .getAccessToken();
     }
 
-    @Generated
     public String getPROVIDER_NAME() {
         return PROVIDER_NAME;
     }

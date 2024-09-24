@@ -29,7 +29,6 @@ public class MemberLiveInformation {
         this.member = member;
     }
 
-    @Generated
     public Long getId() {
         return id;
     }
@@ -38,7 +37,6 @@ public class MemberLiveInformation {
         return liveInformation;
     }
 
-    @Generated
     public Member getMember() {
         return member;
     }
