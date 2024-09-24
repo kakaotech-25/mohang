@@ -135,7 +135,7 @@ public class ControllerAdvice {
     }
 
     @ExceptionHandler({
-            NotAbleToAccessTripByPessimisticLock.class
+            NotAbleToAccessTripByPessimisticLockException.class
     })
     public ResponseEntity<ExceptionResponse> handleConcurrencyIssue(final RuntimeException e) {
         logger.error(e.getMessage(), e);
