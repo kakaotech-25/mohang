@@ -12,7 +12,8 @@ import java.util.Optional;
 public interface TripRepository extends JpaRepository<Trip, Long> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @QueryHints( {@QueryHint(name = "javax.persistence.lock.timeout", value = "3000")})
-    Optional<Trip> findByIdForUpdate(final Long id);
+    @Query("SELECT t FROM Trip t WHERE t.id IN :tripId")
+    Optional<Trip> findByIdForUpdate(final Long tripId);
 
     Optional<Trip> findByContentId(final Long contentId);
 
