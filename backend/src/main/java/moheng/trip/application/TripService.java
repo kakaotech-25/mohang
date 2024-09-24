@@ -62,8 +62,10 @@ public class TripService {
                     .orElseThrow(NoExistTripException::new);
             final TripFilterStrategy tripFilterStrategy = tripFilterStrategyProvider.findTripsByFilterStrategy(LIVE_INFO_STRATEGY);
             final List<Trip> filteredSimilarTrips = tripFilterStrategy.execute(new LiveInformationFilterInfo(tripId));
+
             trip.incrementVisitedCount();
             saveRecommendTripByClickedLogs(memberId, trip);
+
             return new FindTripWithSimilarTripsResponse(trip, findKeywordsByTrip(trip), findTripsWithKeywords(filteredSimilarTrips));
         } catch (PessimisticLockException e) {
             throw new NotAbleToAccessTripByPessimisticLock("접속자 수가 많아 여행지 조회가 불가능합니다. 잠시 후에 시도해주세요.");
