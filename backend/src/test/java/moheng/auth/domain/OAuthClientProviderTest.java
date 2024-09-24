@@ -20,4 +20,10 @@ public class OAuthClientProviderTest extends ServiceTestConfig {
     public void 소셜_로그인_제공처를_찾는다() {
         assertDoesNotThrow(() -> oAuthClientProvider.getOauthClient("KAKAO"));
     }
+
+    @DisplayName("소셜 로그인 인가 URI 제공처를 찾는다.")
+    @Test
+    void 소셜_로그인_인가_URI_제공처를_찾는다() {
+        assertDoesNotThrow(() -> oAuthClientProvider.getOAuthUriProvider("KAKAO"));
+    }
 }
