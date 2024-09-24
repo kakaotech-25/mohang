@@ -53,10 +53,15 @@ public class TripService {
 
     @Transactional
     public FindTripWithSimilarTripsResponse findWithSimilarOtherTrips(final long tripId, final long memberId) {
-        final Trip trip = findById(tripId);
+        final Trip trip = tripRepository.findByIdForUpdate(tripId)
+                .orElseThrow(NoExistTripException::new);
         final TripFilterStrategy tripFilterStrategy = tripFilterStrategyProvider.findTripsByFilterStrategy(LIVE_INFO_STRATEGY);
         final List<Trip> filteredSimilarTrips = tripFilterStrategy.execute(new LiveInformationFilterInfo(tripId));
-        trip.incrementVisitedCount();
+        try {
+            trip.incrementVisitedCount();
+        } catch (Exception e) {
+            return new FindTripWithSimilarTripsResponse(trip, findKeywordsByTrip(trip), findTripsWithKeywords(filteredSimilarTrips));
+        }
         saveRecommendTripByClickedLogs(memberId, trip);
         return new FindTripWithSimilarTripsResponse(trip, findKeywordsByTrip(trip), findTripsWithKeywords(filteredSimilarTrips));
     }
