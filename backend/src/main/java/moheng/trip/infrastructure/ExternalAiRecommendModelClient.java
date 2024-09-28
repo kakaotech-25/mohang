@@ -1,5 +1,6 @@
 package moheng.trip.infrastructure;
 
+import moheng.global.cache.CacheConfig;
 import moheng.keyword.exception.InvalidAIServerException;
 import moheng.recommendtrip.dto.PreferredLocationRequest;
 import moheng.trip.domain.model.ExternalRecommendModelClient;
@@ -24,7 +25,6 @@ public class ExternalAiRecommendModelClient implements ExternalRecommendModelCli
     public ExternalAiRecommendModelClient(final RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
-
 
     @Override
     public RecommendTripsByVisitedLogsResponse recommendTripsByVisitedLogs(final RecommendTripsByVisitedLogsRequest request) {
