@@ -6,6 +6,7 @@ import moheng.trip.domain.model.ExternalRecommendModelClient;
 import moheng.trip.dto.RecommendTripsByVisitedLogsRequest;
 import moheng.trip.dto.RecommendTripsByVisitedLogsResponse;
 import moheng.trip.dto.RecommendTripsRequest;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ public class ExternalAiRecommendModelClient implements ExternalRecommendModelCli
     public ExternalAiRecommendModelClient(final RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
+
 
     @Override
     public RecommendTripsByVisitedLogsResponse recommendTripsByVisitedLogs(final RecommendTripsByVisitedLogsRequest request) {
