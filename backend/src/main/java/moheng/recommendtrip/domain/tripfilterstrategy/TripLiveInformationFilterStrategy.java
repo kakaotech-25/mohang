@@ -63,6 +63,7 @@ public class TripLiveInformationFilterStrategy implements TripFilterStrategy {
         return filteredSimilarTrips;
     }
 
+
     private List<Trip> findFilteredTripsByLiveInformation(final Trip currentTrip, final List<Long> contentIds) {
         final List<LiveInformation> liveInformations = liveInformationRepository.findLiveInformationByTrip(currentTrip);
         final List<Trip> filteredTrips = new ArrayList<>();

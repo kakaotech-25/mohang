@@ -22,7 +22,7 @@ public class ExternalAiSimilarTripModelClient implements ExternalSimilarTripMode
         this.restTemplate = restTemplate;
     }
 
-    @Cacheable(value = CacheConfig.EXTERNAL_AI_CACHE, key = "#contentId+#page")
+    @Cacheable(value = CacheConfig.EXTERNAL_SIMILAR_TRIP_CACHE, key = "#contentId+#page")
     @Override
     public FindSimilarTripWithContentIdResponses findSimilarTrips(final long contentId, final long page) {
         return requestSimilarTrips(new SimilarTripRequests(contentId, page));
