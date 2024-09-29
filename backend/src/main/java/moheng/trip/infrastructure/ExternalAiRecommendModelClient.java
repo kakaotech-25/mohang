@@ -12,6 +12,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -35,18 +38,24 @@ public class ExternalAiRecommendModelClient implements ExternalRecommendModelCli
         final Map<String, String> uriVariables = new HashMap<>();
         uriVariables.put("page", String.valueOf(request.getPage()));
 
-        final ResponseEntity<RecommendTripsByVisitedLogsResponse> responseEntity = restTemplate.exchange(
-                RECOMMEND_TRIP_LIST_REQUEST_URL,
-                HttpMethod.POST,
-                new HttpEntity<>(new PreferredLocationRequest(request.getPreferredLocation())),
-                RecommendTripsByVisitedLogsResponse.class,
-                uriVariables
-        );
-
-        if(responseEntity.getStatusCode().is2xxSuccessful()) {
-            return responseEntity.getBody();
-        }
-        throw new InvalidAIServerException("AI 서버에 예기치 못한 오류가 발생했습니다.");
+        final ResponseEntity<RecommendTripsByVisitedLogsResponse> responseEntity = fetchRecommendTripsByVisitedLogs(request, uriVariables);
+        return responseEntity.getBody();
     }
 
+    private ResponseEntity<RecommendTripsByVisitedLogsResponse> fetchRecommendTripsByVisitedLogs(final RecommendTripsByVisitedLogsRequest request, final Map<String, String> uriVariables) {
+        try {
+            return restTemplate.exchange(
+                    RECOMMEND_TRIP_LIST_REQUEST_URL,
+                    HttpMethod.POST,
+                    new HttpEntity<>(new PreferredLocationRequest(request.getPreferredLocation())),
+                    RecommendTripsByVisitedLogsResponse.class,
+                    uriVariables
+            );
+        } catch (final ResourceAccessException | HttpClientErrorException e) {
+            throw new InvalidAIServerException("AI 서버에 접근할 수 없는 상태입니다.");
+        }
+        catch (final RestClientException e) {
+            throw new InvalidAIServerException("AI 서버에 예기치 못한 오류가 발생했습니다.");
+        }
+    }
 }
