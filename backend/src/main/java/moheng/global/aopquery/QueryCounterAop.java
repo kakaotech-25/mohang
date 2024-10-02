@@ -7,6 +7,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -47,9 +48,6 @@ public class QueryCounterAop {
 
         if(currentQueryLog.getQueryCounts() > MAX_SAFE_QUERY_COUNT) {
             logger.warn("count: {}", currentQueryLog.getQueryCounts());
-            logger.warn("url: {}", currentQueryLog.getApiUrl());
-            logger.warn("time: {}", currentQueryLog.getQueryTime());
-            logger.warn("method: {}", currentQueryLog.getApiMethod());
         }
 
         currentLoggingForm.remove();
