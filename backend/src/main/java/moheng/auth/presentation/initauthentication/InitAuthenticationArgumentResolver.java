@@ -1,6 +1,7 @@
 package moheng.auth.presentation.initauthentication;
 
 import jakarta.servlet.http.HttpServletRequest;
+import moheng.auth.application.AuthService;
 import moheng.auth.domain.oauth.Authority;
 import moheng.auth.domain.token.JwtTokenProvider;
 import moheng.auth.dto.Accessor;
@@ -20,14 +21,14 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 @Component
 public class InitAuthenticationArgumentResolver implements HandlerMethodArgumentResolver {
-    private final JwtTokenProvider jwtTokenProvider;
+    private final AuthService authService;
     private final AuthenticationBearerExtractor authenticationBearerExtractor;
     private final MemberRepository memberRepository;
 
-    public InitAuthenticationArgumentResolver(final JwtTokenProvider jwtTokenProvider,
+    public InitAuthenticationArgumentResolver(final AuthService authService,
                                               final AuthenticationBearerExtractor authenticationBearerExtractor,
                                               final MemberRepository memberRepository) {
-        this.jwtTokenProvider = jwtTokenProvider;
+        this.authService = authService;
         this.authenticationBearerExtractor = authenticationBearerExtractor;
         this.memberRepository = memberRepository;
     }
@@ -50,13 +51,10 @@ public class InitAuthenticationArgumentResolver implements HandlerMethodArgument
         }
 
         final String accessToken = authenticationBearerExtractor.extract(request);
-        jwtTokenProvider.validateToken(accessToken);
-        final Long id = jwtTokenProvider.getMemberId(accessToken);
+        final Long id = authService.extractMemberId(accessToken);
 
         final Member member = memberRepository.findById(id)
                 .orElseThrow(NoExistMemberException::new);
-
-        System.out.println("Current Authority:" + member.getAuthority());
 
         if(!member.getAuthority().equals(Authority.INIT_MEMBER)) {
             throw new InvalidInitAuthorityException("초기 회원가입 기능에 대한 접근 권한이 없습니다.");

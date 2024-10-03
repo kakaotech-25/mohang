@@ -71,6 +71,10 @@ public class MemberService {
         return memberRepository.existsByEmail(email);
     }
 
+    public boolean existsById(final Long id) {
+        return memberRepository.existsById(id);
+    }
+
     @Transactional
     public void save(final Member member) {
         memberRepository.save(member);

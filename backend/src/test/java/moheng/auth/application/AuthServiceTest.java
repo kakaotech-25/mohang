@@ -10,6 +10,7 @@ import static moheng.fixture.AuthFixtures.AUHTORIZATION_CODE;
 import static moheng.fixture.AuthFixtures.KAKAO_PROVIDER_NAME;
 
 import moheng.auth.domain.token.JwtTokenManager;
+import moheng.auth.domain.token.JwtTokenProvider;
 import moheng.auth.domain.token.MemberToken;
 import moheng.auth.dto.RenewalAccessTokenRequest;
 import moheng.auth.dto.RenewalAccessTokenResponse;
@@ -17,6 +18,7 @@ import moheng.auth.exception.InvalidTokenException;
 import moheng.config.slice.ServiceTestConfig;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
+import moheng.member.exception.NoExistMemberException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +32,12 @@ class AuthServiceTest extends ServiceTestConfig {
 
     @Autowired
     private MemberRepository memberRepository;
+
     @Autowired
     private JwtTokenManager jwtTokenManager;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
 
     @DisplayName("카카오 로그인을 위한 링크를 생성한다.")
@@ -138,5 +144,17 @@ class AuthServiceTest extends ServiceTestConfig {
         // when, then
         assertThatThrownBy(() -> authService.generateRenewalAccessToken(renewalAccessTokenRequest))
                 .isInstanceOf(InvalidTokenException.class);
+    }
+
+    @DisplayName("존재하지 않는 멤버에 대한 엑세스 토큰을 추출하려고 하면 예외가 발생한다.")
+    @Test
+    void 존재하지_않는_멤버에_대한_엑세스_토큰을_추출하려고_하면_예외가_발생한다() {
+        // given
+        long 없는_멤버_ID = -1L;
+        String accessToken = jwtTokenProvider.createAccessToken(없는_멤버_ID);
+
+        // when, then
+        assertThatThrownBy(() -> authService.extractMemberId(accessToken))
+                .isInstanceOf(NoExistMemberException.class);
     }
 }
