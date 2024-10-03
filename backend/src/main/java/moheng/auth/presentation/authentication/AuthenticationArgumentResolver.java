@@ -1,6 +1,7 @@
 package moheng.auth.presentation.authentication;
 
 import jakarta.servlet.http.HttpServletRequest;
+import moheng.auth.application.AuthService;
 import moheng.auth.domain.oauth.Authority;
 import moheng.auth.domain.token.JwtTokenProvider;
 import moheng.auth.dto.Accessor;
@@ -18,16 +19,13 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 @Component
 public class AuthenticationArgumentResolver implements HandlerMethodArgumentResolver {
-    private final JwtTokenProvider jwtTokenProvider;
+    private final AuthService authService;
     private final AuthenticationBearerExtractor authenticationBearerExtractor;
-    private final MemberRepository memberRepository;
 
-    public AuthenticationArgumentResolver(final JwtTokenProvider jwtTokenProvider,
-                                          final AuthenticationBearerExtractor authenticationBearerExtractor,
-                                          final MemberRepository memberRepository) {
-        this.jwtTokenProvider = jwtTokenProvider;
+    public AuthenticationArgumentResolver(final AuthService authService,
+                                          final AuthenticationBearerExtractor authenticationBearerExtractor) {
+        this.authService = authService;
         this.authenticationBearerExtractor = authenticationBearerExtractor;
-        this.memberRepository = memberRepository;
     }
 
     @Override
@@ -48,8 +46,7 @@ public class AuthenticationArgumentResolver implements HandlerMethodArgumentReso
         }
 
         final String accessToken = authenticationBearerExtractor.extract(request);
-        jwtTokenProvider.validateToken(accessToken);
-        final Long id = jwtTokenProvider.getMemberId(accessToken);
+        final Long id = authService.extractMemberId(accessToken);
         return new Accessor(id);
     }
 }
