@@ -13,20 +13,20 @@ spring:
       maximum-pool-size: 3
       connection-timeout: 3000
     source:
-      username: ${SOURCE_USERNAME}
-      password: ${SOURCE_PASSWORD}
+      username: haon
+      password: password
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: ${SOURCE_DATASOURCE_URL}
+      jdbc-url: jdbc:mysql://13.211.42.88:3306/replication
     replica1:
-      username: ${REPLICA_USERNAME1}
-      password: ${REPLICA_PASSWORD1}
+      username: haon
+      password: password
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: ${REPLICA_DATASOURCE_URL1}
+      jdbc-url: jdbc:mysql://3.104.111.67:3306/replication
     replica2:
-      username: ${REPLICA_USERNAME2}
-      password: ${REPLICA_PASSWORD2}
+      username: haon
+      password: password
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: ${REPLICA_DATASOURCE_URL2}
+      jdbc-url: jdbc:mysql://3.104.111.67:3306/replication
   lifecycle:
     timeout-per-shutdown-phase: 10s
   jpa:
@@ -37,6 +37,7 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+    open-in-view: false
 logging:
   level:
     org:
@@ -48,7 +49,7 @@ logging:
 oauth:
   kakao:
     authorize_uri: https://kauth.kakao.com/oauth/authorize
-    redirect_uri: https://moheng.life/callback/kakao
+    redirect_uri: http://localhost:3000/callback/kakao
     client_secret: 3ZPJ93VC9MCuCXmPCDzrGmum2M3A7tif
     token_uri: https://kauth.kakao.com/oauth/token
     user_uri: https://kapi.kakao.com/v2/user/me
