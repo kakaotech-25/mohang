@@ -8,12 +8,12 @@ spring:
       username: haon
       password: password
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: {DATABASE_SOURCE_URL}
+      jdbc-url: {SOURCE_URL}
     replica:
       username: haon
       password: password
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: {DATABASE_REPLICA_URL}
+      jdbc-url: {REPLICA_URL}
     hikari:
       maximum-pool-size: 3
       connection-timeout: 3000
