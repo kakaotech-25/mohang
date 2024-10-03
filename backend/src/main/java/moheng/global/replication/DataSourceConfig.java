@@ -39,8 +39,8 @@ public class DataSourceConfig {
 
         HashMap<Object, Object> targetDataSourceMap = new HashMap<>();
 
-        targetDataSourceMap.put("master", sourceDataSource);
-        targetDataSourceMap.put("slave", replicaDataSource);
+        targetDataSourceMap.put("source", sourceDataSource);
+        targetDataSourceMap.put("replica", replicaDataSource);
 
         routingDataSource.setTargetDataSources(targetDataSourceMap);
         routingDataSource.setDefaultTargetDataSource(sourceDataSource);
