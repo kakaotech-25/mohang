@@ -16,17 +16,17 @@ spring:
       username: haon
       password: password
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: jdbc:mysql://13.211.42.88:3306/replication
+      jdbc-url: ${SOURCE_DATASOURCE_URL}
     replica1:
       username: haon
       password: password
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: jdbc:mysql://3.104.111.67:3306/replication
+      jdbc-url: ${REPLICA_DATASOURCE_URL1}
     replica2:
       username: haon
       password: password
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: jdbc:mysql://3.104.111.67:3306/replication
+      jdbc-url: ${REPLICA_DATASOURCE_URL2}
   lifecycle:
     timeout-per-shutdown-phase: 10s
   jpa:
