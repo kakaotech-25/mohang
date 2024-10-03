@@ -4,9 +4,16 @@ spring:
   application:
     name: moheng
   datasource:
-    username: root
-    url: jdbc:h2:mem:~/moheng;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=FALSE
-    password: 1234
+    source:
+      username: haon
+      password: password
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: {DATABASE_SOURCE_URL}
+    replica:
+      username: haon
+      password: password
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: {DATABASE_REPLICA_URL}
     hikari:
       maximum-pool-size: 3
       connection-timeout: 3000
@@ -20,8 +27,6 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-  flyway:
-    enabled: true
 logging:
   level:
     org:
