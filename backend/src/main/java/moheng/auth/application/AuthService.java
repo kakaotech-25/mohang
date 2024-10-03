@@ -75,7 +75,12 @@ public class AuthService {
         tokenManager.removeRefreshToken(logoutRequest.getRefreshToken());
     }
 
-    public long extractMemberId(final String accessToken) {
-        return tokenManager.getMemberId(accessToken);
+    public Long extractMemberId(final String accessToken) {
+        final Long memberId = tokenManager.getMemberId(accessToken);
+
+        if(!memberService.existsById(memberId)) {
+            throw new NoExistMemberException("존재하지 않는 멤버입니다.");
+        }
+        return memberId;
     }
 }
