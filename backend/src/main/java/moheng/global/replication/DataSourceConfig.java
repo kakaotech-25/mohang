@@ -13,17 +13,17 @@ import java.util.HashMap;
 
 @Configuration
 public class DataSourceConfig {
-    private static final String master = "master";
-    private static final String slave = "slave";
+    private static final String source = "source";
+    private static final String replica = "replica";
 
     @Bean
-    @Qualifier(master)
+    @Qualifier(source)
     @ConfigurationProperties(prefix = "spring.datasource.source")
     public DataSource sourceDataSource() {
         return DataSourceBuilder.create().build();
     }
 
-    @Bean @Qualifier(slave)
+    @Bean @Qualifier(replica)
     @ConfigurationProperties(prefix = "spring.datasource.replica")
     public DataSource replicaDataSource() {
         return DataSourceBuilder.create().build();
@@ -31,8 +31,8 @@ public class DataSourceConfig {
 
     @Bean
     public DataSource routingDataSource(
-            @Qualifier(master) DataSource sourceDataSource,
-            @Qualifier(slave) DataSource replicaDataSource) {
+            @Qualifier(source) DataSource sourceDataSource,
+            @Qualifier(replica) DataSource replicaDataSource) {
         RoutingDataSource routingDataSource = new RoutingDataSource();
 
         HashMap<Object, Object> targetDataSourceMap = new HashMap<>();
