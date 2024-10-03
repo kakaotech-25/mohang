@@ -18,7 +18,7 @@ spring:
       maximum-pool-size: 3
       connection-timeout: 3000
   lifecycle:
-    timeout-per-shutdown-phase: 20s
+    timeout-per-shutdown-phase: 10s
   jpa:
     properties:
       hibernate:

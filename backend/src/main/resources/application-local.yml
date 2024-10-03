@@ -10,8 +10,6 @@ spring:
     hikari:
       maximum-pool-size: 21
       connection-timeout: 3000
-  lifecycle:
-    timeout-per-shutdown-phase: 20s
   jpa:
     properties:
       hibernate:
