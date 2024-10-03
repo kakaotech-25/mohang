@@ -23,6 +23,7 @@
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>
                 ${PID:-} --- [%15.15thread] %-40.40logger{36} %msg%n%n
+                [%X{REQUEST_ID:-NO REQUEST ID}] %msg%n
                 [REQUEST_ID] : %X{REQUEST_ID:-NO REQUEST ID}%n
                 [REQUEST_METHOD] : %X{REQUEST_METHOD:-NO REQUEST METHOD}%n
                 [REQUEST_URI] : %X{REQUEST_URI:-NO REQUEST URI}%n
@@ -47,7 +48,13 @@
             <onMismatch>DENY</onMismatch>
         </filter>
         <encoder>
-            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] %-5level [%X{REQUEST_ID:-NO REQUEST ID}] ${PID:-} --- [%15.15thread] %-40.40logger{36} : %msg%n%n</pattern>
+            <Pattern>
+                [%X{REQUEST_ID:-NO REQUEST ID}] %msg%n
+                [REQUEST_METHOD] : %X{REQUEST_METHOD:-NO REQUEST METHOD}%n
+                [REQUEST_URI] : %X{REQUEST_URI:-NO REQUEST URI}%n
+                [REQUEST_TIME] : %d{yyyy-MM-dd HH:mm:ss.SSS}%n
+                [REQUEST_IP] : %X{REQUEST_IP:-NO REQUEST IP}%n
+            </Pattern>
             <charset>utf8</charset>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
