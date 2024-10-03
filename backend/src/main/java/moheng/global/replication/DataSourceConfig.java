@@ -15,19 +15,19 @@ import java.util.HashMap;
 @Profile({"dev"})
 @Configuration
 public class DataSourceConfig {
-    private static final String source = "source";
-    private static final String replica1 = "replica1";
-    private static final String replica2 = "replica2";
+    private static final String SOURCE = "SOURCE";
+    private static final String REPLICA1 = "REPLICA1";
+    private static final String REPLICA2 = "REPLICA2";
 
     @Bean
-    @Qualifier(source)
+    @Qualifier(SOURCE)
     @ConfigurationProperties(prefix = "spring.datasource.source")
     public DataSource sourceDataSource() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean
-    @Qualifier(replica1)
+    @Qualifier(REPLICA1)
     @ConfigurationProperties(prefix = "spring.datasource.replica1")
     public DataSource replica1DataSource() {
         return DataSourceBuilder.create()
@@ -35,7 +35,7 @@ public class DataSourceConfig {
     }
 
     @Bean
-    @Qualifier(replica2)
+    @Qualifier(REPLICA2)
     @ConfigurationProperties(prefix = "spring.datasource.replica2")
     public DataSource replica2DataSource() {
         return DataSourceBuilder.create()
@@ -44,16 +44,16 @@ public class DataSourceConfig {
 
     @Bean
     public DataSource routingDataSource(
-            @Qualifier(source) DataSource sourceDataSource,
-            @Qualifier(replica1) DataSource replica1DataSource,
-            @Qualifier(replica2) DataSource replica2DataSource) {
+            @Qualifier(SOURCE) DataSource sourceDataSource,
+            @Qualifier(REPLICA1) DataSource replica1DataSource,
+            @Qualifier(REPLICA2) DataSource replica2DataSource) {
         RoutingDataSource routingDataSource = new RoutingDataSource();
 
         HashMap<Object, Object> dataSources = new HashMap<>();
 
-        dataSources.put("source", sourceDataSource);
-        dataSources.put("replica1", replica1DataSource);
-        dataSources.put("replica2", replica2DataSource);
+        dataSources.put("SOURCE", sourceDataSource);
+        dataSources.put("REPLICA1", replica1DataSource);
+        dataSources.put("REPLICA2", replica2DataSource);
 
         routingDataSource.setTargetDataSources(dataSources);
         routingDataSource.setDefaultTargetDataSource(sourceDataSource);

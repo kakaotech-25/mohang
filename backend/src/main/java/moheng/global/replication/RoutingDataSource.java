@@ -7,6 +7,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 
 public class RoutingDataSource extends AbstractRoutingDataSource {
     private final Logger log = LoggerFactory.getLogger(RoutingDataSource.class);
+    private final FindReplicaDataSource findReplicaDataSource = new FindReplicaDataSource();
 
     @Override
     protected Object determineCurrentLookupKey() {
@@ -14,10 +15,11 @@ public class RoutingDataSource extends AbstractRoutingDataSource {
         final boolean isReadOnly = TransactionSynchronizationManager.isCurrentTransactionReadOnly();
 
         if(isReadOnly) {
-            log.info(currentTransactionName + " Transaction:" + "Replica 서버로 요청합니다.");
-            return "replica";
+            final String REPLICA_SOURCE_NAME = findReplicaDataSource.getRouteReplicaSource();
+            log.info(currentTransactionName + " Transaction:" + REPLICA_SOURCE_NAME + " 서버로 요청합니다.");
+            return findReplicaDataSource.getRouteReplicaSource();
         }
-        log.info(currentTransactionName + " Transaction:" + "Source 서버로 요청합니다.");
-        return "source";
+        log.info(currentTransactionName + " Transaction:" + "SOURCE 서버로 요청합니다.");
+        return "SOURCE";
     }
 }
