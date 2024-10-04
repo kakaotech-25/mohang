@@ -3,17 +3,16 @@ package moheng.global.cache;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-public class ExternalSimilarTripCache extends ConcurrentMapCache {
+public class ExternalConcurrentMapSimilarTripCache extends ConcurrentMapCache {
     private final Map<Object, LocalDateTime> tripCache = new ConcurrentHashMap<>();
     private final long expiresDatePoint;
 
-    public ExternalSimilarTripCache(final String name, final long expiresDatePoint) {
+    public ExternalConcurrentMapSimilarTripCache(final String name, final long expiresDatePoint) {
         super(name);
         this.expiresDatePoint = expiresDatePoint;
     }

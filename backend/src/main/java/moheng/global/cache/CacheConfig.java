@@ -20,13 +20,13 @@ public class CacheConfig {
     @Bean
     public CacheManager cacheManager() {
         SimpleCacheManager simpleCacheManager = new SimpleCacheManager();
-        simpleCacheManager.setCaches(List.of(new ExternalSimilarTripCache(EXTERNAL_SIMILAR_TRIP_CACHE, LIFE_CYCLE)));
+        simpleCacheManager.setCaches(List.of(new ExternalConcurrentMapSimilarTripCache(EXTERNAL_SIMILAR_TRIP_CACHE, LIFE_CYCLE)));
         return simpleCacheManager;
     }
 
     @Scheduled(cron = "0 0 0 * * *")
     private void evict() {
-        ExternalSimilarTripCache externalSimilarTripCache = (ExternalSimilarTripCache)  cacheManager().getCache(EXTERNAL_SIMILAR_TRIP_CACHE);
-        externalSimilarTripCache.evictAllTrips();
+        ExternalConcurrentMapSimilarTripCache externalConcurrentMapSimilarTripCache = (ExternalConcurrentMapSimilarTripCache)  cacheManager().getCache(EXTERNAL_SIMILAR_TRIP_CACHE);
+        externalConcurrentMapSimilarTripCache.evictAllTrips();
     }
 }
