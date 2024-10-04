@@ -12,7 +12,7 @@ public class AsyncConfig {
     @Bean
     public TaskExecutor taskExecutor() {
         ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
-        threadPoolTaskExecutor.setCorePoolSize(100);
+        threadPoolTaskExecutor.setCorePoolSize(10);
 
         threadPoolTaskExecutor.setTaskDecorator(new MdcTaskDecorator());
         return threadPoolTaskExecutor;
