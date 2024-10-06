@@ -66,3 +66,19 @@ tasks:
     cmds:
       - sh -c ./init.sh
       - docker compose -f compose.yaml up -d
+
+  moni:
+    desc: 모니터링 환경 실행
+    cmd: docker compose -f compose.monitoring.yaml up
+
+  moni-down:
+    desc: 모니터링 환경 중지
+    cmd: docker compose -f compose.monitoring.yaml down
+
+  metric:
+    desc: 메트릭 환경 실행
+    cmd: docker compose -f compose.metric.yaml up
+
+  metric-down:
+    desc: 메트릭 환경 중지
+    cmd: docker compose -f compose.metric.yaml down
