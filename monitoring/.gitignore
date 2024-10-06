@@ -3,6 +3,7 @@
 /prometheus/wal/
 /prometheus/chunks_head/
 /prometheus/queries.active
+!/prometheus/data/.dummy
 
 # 임시 파일들
 *.tmp
