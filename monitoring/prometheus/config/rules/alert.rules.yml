@@ -1,0 +1,84 @@
+groups:
+  - name: recording_rules
+    rules:
+      - record: node:cpu_usage:percent
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+      - record: node:memory_usage:percent
+        expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100
+      - record: node:disk_usage:percent
+        expr: 100 - ((node_filesystem_avail_bytes{mountpoint="/"} * 100) / node_filesystem_size_bytes{mountpoint="/"})
+      - record: node:network_usage:mbps
+        expr: (rate(node_network_receive_bytes_total[5m]) + rate(node_network_transmit_bytes_total[5m])) / 1024 / 1024
+      - record: container:cpu_usage:percent
+        expr: sum(rate(container_cpu_usage_seconds_total{image!=""}[5m])) by (name) * 100
+      - record: container:memory_usage:percent
+        expr: (container_memory_usage_bytes{image!=""} / container_spec_memory_limit_bytes{image!=""} * 100)
+      - record: container:network_usage:mbps
+        expr: sum(rate(container_network_transmit_bytes_total{image!=""}[5m]) + rate(container_network_receive_bytes_total{image!=""}[5m])) by (name) / 1024 / 1024
+
+  - name: node_alerts
+    rules:
+      - alert: HighCPUUsage
+        expr: node:cpu_usage:percent > 80
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "높은 CPU 사용률 감지"
+          description: '인스턴스 {{ $labels.instance }}에서 CPU 사용률이 80% 이상입니다: {{ $value | printf "%.2f" }}%'
+
+      - alert: HighMemoryUsage
+        expr: node:memory_usage:percent > 80
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "높은 메모리 사용률 감지"
+          description: '인스턴스 {{ $labels.instance }}에서 메모리 사용률이 80% 이상입니다: {{ $value | printf "%.2f" }}%'
+
+      - alert: HighDiskUsage
+        expr: node:disk_usage:percent > 85
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "높은 디스크 사용률 감지"
+          description: '인스턴스 {{ $labels.instance }}의 루트 파일시스템에서 디스크 사용률이 85% 이상입니다: {{ $value | printf "%.2f" }}%'
+
+      - alert: HighNetworkUsage
+        expr: node:network_usage:mbps > 100
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "높은 네트워크 사용률 감지"
+          description: '인스턴스 {{ $labels.instance }}에서 네트워크 사용률이 100MB/s 이상입니다: {{ $value | printf "%.2f" }}MB/s'
+
+  - name: container_alerts
+    rules:
+      - alert: HighContainerCPUUsage
+        expr: container:cpu_usage:percent > 80
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "컨테이너 높은 CPU 사용률 감지"
+          description: '컨테이너 {{ $labels.name }}의 CPU 사용률이 80% 이상입니다: {{ $value | printf "%.2f" }}%'
+
+      - alert: HighContainerMemoryUsage
+        expr: container:memory_usage:percent > 80
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "컨테이너 높은 메모리 사용률 감지"
+          description: '컨테이너 {{ $labels.name }}의 메모리 사용률이 80% 이상입니다: {{ $value | printf "%.2f" }}%'
+
+      - alert: HighContainerNetworkUsage
+        expr: container:network_usage:mbps > 100
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "컨테이너 높은 네트워크 사용량 감지"
+          description: '컨테이너 {{ $labels.name }}의 네트워크 사용량이 100MB/s 이상입니다: {{ $value | printf "%.2f" }}MB/s'
