@@ -31,7 +31,6 @@ public class QueryCounterAop {
     }
 
     @After("within(@org.springframework.web.bind.annotation.RestController *)")
-
     public void loggingAfterLogicFinish() {
         final QueryLog loggingForm = getCurrentLog();
         final ServletRequestAttributes attributes =
@@ -47,7 +46,7 @@ public class QueryCounterAop {
         final QueryLog currentQueryLog = getCurrentLog();
 
         if(currentQueryLog.getQueryCounts() > MAX_SAFE_QUERY_COUNT) {
-            logger.warn("count: {}", currentQueryLog.getQueryCounts());
+            logger.warn("[{}] count: {}", MDC.get("REQUEST_ID"), currentQueryLog.getQueryCounts());
         }
 
         currentLoggingForm.remove();

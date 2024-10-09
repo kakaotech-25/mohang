@@ -49,7 +49,8 @@
         </filter>
         <encoder>
             <Pattern>
-                [%X{REQUEST_ID:-NO REQUEST ID}] %msg%n
+                %msg%n
+                [REQUEST_ID] : [%X{REQUEST_ID:-NO REQUEST ID}]%n
                 [REQUEST_METHOD] : %X{REQUEST_METHOD:-NO REQUEST METHOD}%n
                 [REQUEST_URI] : %X{REQUEST_URI:-NO REQUEST URI}%n
                 [REQUEST_TIME] : %d{yyyy-MM-dd HH:mm:ss.SSS}%n
