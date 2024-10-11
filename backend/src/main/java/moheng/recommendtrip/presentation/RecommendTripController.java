@@ -43,7 +43,8 @@ public class RecommendTripController {
     @GetMapping
     public ResponseEntity<FindTripsResponse> findRecommendTripsByModel(@Authentication final Accessor accessor) {
         final TripFilterStrategy tripFilterStrategy = tripFilterStrategyProvider.findTripsByFilterStrategy(PREFERRED_LOCATIONS_STRATEGY);
-        final List<TripKeyword> tripKeywords = tripsWithKeywordProvider.findWithKeywords(tripFilterStrategy.execute(new PreferredLocationsFilterInfo(accessor.getId())));
-        return ResponseEntity.ok(new FindTripsResponse(tripKeywords));
+        return ResponseEntity.ok(tripsWithKeywordProvider.findWithKeywords(
+                tripFilterStrategy.execute(new PreferredLocationsFilterInfo(accessor.getId())))
+        );
     }
 }

@@ -12,6 +12,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
+import java.util.List;
+
 import static moheng.fixture.RecommendTripFixture.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
@@ -88,7 +90,11 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
     void AI_맞춤_추천_여행지를_조회하고_상태코드_200을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        given(recommendTripService.findRecommendTripsByModel(anyLong()))
+        given(tripFilterStrategyProvider.findTripsByFilterStrategy(anyString()))
+                .willReturn(tripFilterStrategy);
+        given(tripFilterStrategy.execute(any()))
+                .willReturn(List.of());
+        given(tripsWithKeywordProvider.findWithKeywords(any()))
                 .willReturn(AI_맞춤_추천_여행지_응답());
 
         // when, then
