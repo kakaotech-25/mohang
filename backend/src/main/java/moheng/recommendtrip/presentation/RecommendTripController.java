@@ -2,6 +2,7 @@ package moheng.recommendtrip.presentation;
 
 import moheng.auth.dto.Accessor;
 import moheng.auth.presentation.authentication.Authentication;
+import moheng.keyword.domain.TripKeyword;
 import moheng.recommendtrip.application.RecommendTripService;
 import moheng.recommendtrip.domain.filterinfo.PreferredLocationsFilterInfo;
 import moheng.recommendtrip.domain.tripfilterstrategy.TripFilterStrategy;
@@ -42,8 +43,7 @@ public class RecommendTripController {
     @GetMapping
     public ResponseEntity<FindTripsResponse> findRecommendTripsByModel(@Authentication final Accessor accessor) {
         final TripFilterStrategy tripFilterStrategy = tripFilterStrategyProvider.findTripsByFilterStrategy(PREFERRED_LOCATIONS_STRATEGY);
-        final List<Trip> trips = tripFilterStrategy.execute(new PreferredLocationsFilterInfo(accessor.getId()));
-
-        return ResponseEntity.ok(recommendTripService.findRecommendTripsByModel(accessor.getId()));
+        final List<TripKeyword> tripKeywords = tripsWithKeywordProvider.findWithKeywords(tripFilterStrategy.execute(new PreferredLocationsFilterInfo(accessor.getId())));
+        return ResponseEntity.ok(new FindTripsResponse(tripKeywords));
     }
 }
