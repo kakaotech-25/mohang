@@ -23,9 +23,11 @@ import moheng.planner.application.TripScheduleService;
 import moheng.planner.presentation.PlannerController;
 import moheng.planner.presentation.TripScheduleController;
 import moheng.recommendtrip.application.RecommendTripService;
+import moheng.recommendtrip.domain.tripfilterstrategy.*;
 import moheng.recommendtrip.presentation.RecommendTripController;
 import moheng.trip.application.TripService;
 import moheng.trip.presentation.TripController;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -37,6 +39,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.mockito.BDDMockito.given;
 
 @AutoConfigureRestDocs
 @WebMvcTest({
@@ -94,4 +101,13 @@ public abstract class ControllerTestConfig {
 
     @MockBean
     protected PlannerService plannerService;
+
+    @MockBean
+    protected TripFilterStrategyProvider tripFilterStrategyProvider;
+
+    @MockBean
+    protected TripFilterStrategy tripFilterStrategy;
+
+    @MockBean
+    protected TripsWithKeywordProvider tripsWithKeywordProvider;
 }

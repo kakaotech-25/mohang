@@ -12,6 +12,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
+import java.util.List;
+
 import static moheng.fixture.RecommendTripFixture.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
@@ -88,7 +90,11 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
     void AI_맞춤_추천_여행지를_조회하고_상태코드_200을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        given(recommendTripService.findRecommendTripsByModel(anyLong()))
+        given(tripFilterStrategyProvider.findTripsByFilterStrategy(anyString()))
+                .willReturn(tripFilterStrategy);
+        given(tripFilterStrategy.execute(any()))
+                .willReturn(List.of());
+        given(tripsWithKeywordProvider.findWithKeywords(any()))
                 .willReturn(AI_맞춤_추천_여행지_응답());
 
         // when, then
@@ -122,7 +128,7 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
     void AI_맞춤_추천_여행지를_조회시_AI_서버에_문제가_발생하면_상태코드_500을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        given(recommendTripService.findRecommendTripsByModel(anyLong()))
+        given(tripFilterStrategyProvider.findTripsByFilterStrategy(anyString()))
                 .willThrow(new InvalidAIServerException("AI 서버에 예기치 못한 오류가 발생했습니다."));
 
         // when, then
@@ -146,7 +152,7 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
     void 존재하지_않는_멤버가_AI_맞춤_추천_여행지_조회시_상태코드_404를_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        given(recommendTripService.findRecommendTripsByModel(anyLong()))
+        given(tripFilterStrategyProvider.findTripsByFilterStrategy(anyString()))
                 .willThrow(new NoExistMemberException("존재하지 않는 회원입니다."));
 
         // when, then
@@ -170,7 +176,7 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
     void AI_맞춤_여행지_추천을_받기위한_멤버의_선호_여행지_데이터_수가_5개_미만으로_부족하다면_상태코드_422를_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        given(recommendTripService.findRecommendTripsByModel(anyLong()))
+        given(tripFilterStrategyProvider.findTripsByFilterStrategy(anyString()))
                 .willThrow(new LackOfRecommendTripException("추천을 받기위한 선호 여행지 데이터 수가 부족합니다."));
 
         // when, then
@@ -194,7 +200,7 @@ public class RecommendTripControllerTest extends ControllerTestConfig {
     void AI_맞춤_여행지_추천시_멤버의_선호_여행지가_없다면_상태코드_404를_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
-        given(recommendTripService.findRecommendTripsByModel(anyLong()))
+        given(tripFilterStrategyProvider.findTripsByFilterStrategy(anyString()))
                 .willThrow(new NoExistMemberTripException("존재하지 않는 멤버의 선호 여행지입니다."));
 
         // when, then

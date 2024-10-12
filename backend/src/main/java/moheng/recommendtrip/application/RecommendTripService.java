@@ -41,12 +41,6 @@ public class RecommendTripService {
         this.tripKeywordRepository = tripKeywordRepository;
     }
 
-    public FindTripsResponse findRecommendTripsByModel(final long memberId) {
-        final TripFilterStrategy tripFilterStrategy = tripFilterStrategyProvider.findTripsByFilterStrategy(PREFERRED_LOCATIONS_STRATEGY);
-        final List<Trip> filteredTrips = tripFilterStrategy.execute(new PreferredLocationsFilterInfo(memberId));
-        return new FindTripsResponse(tripKeywordRepository.findByTrips(filteredTrips));
-    }
-
     @Transactional
     public void saveByRank(final Trip trip, final Member member, long rank) {
         recommendTripRepository.save(new RecommendTrip(trip, member, rank));

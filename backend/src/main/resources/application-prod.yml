@@ -1,10 +1,10 @@
 server:
   shutdown: graceful
   tomcat:
-    accept-count: 10
+    accept-count: 30
     max-connections: 8192
     threads:
-      max: 10
+      max: 30
 spring:
   application:
     name: moheng
@@ -15,10 +15,10 @@ spring:
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
     hikari:
-      maximum-pool-size: 3
+      maximum-pool-size: 5
       connection-timeout: 3000
   lifecycle:
-    timeout-per-shutdown-phase: 10s
+    timeout-per-shutdown-phase: 20s
   jpa:
     properties:
       hibernate:
