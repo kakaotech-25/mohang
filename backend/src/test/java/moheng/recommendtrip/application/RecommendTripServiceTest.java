@@ -50,30 +50,6 @@ public class RecommendTripServiceTest extends ServiceTestConfig {
     @Autowired
     private TripRepository tripRepository;
 
-    @Autowired
-    private MemberTripRepository memberTripRepository;
-
-    @Autowired
-    private TripKeywordRepository tripKeywordRepository;
-
-    @Autowired
-    private KeywordRepository keywordRepository;
-
-    @Autowired
-    private MemberLiveInformationRepository memberLiveInformationRepository;
-
-    @Autowired
-    private LiveInformationRepository liveInformationRepository;
-
-    @Autowired
-    private TripLiveInformationRepository tripLiveInformationRepository;
-
-    @Autowired
-    private RecommendTripRepository recommendTripRepository;
-
-    @Autowired
-    private MemberService memberService;
-
     @DisplayName("순위와 함께 추천 여행지 정보를 저장한다.")
     @Test
     void 순위와_함께_추천_여행지_정보를_저장한다() {
