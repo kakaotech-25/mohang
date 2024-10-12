@@ -44,25 +44,42 @@ public class TripLiveInformationFilterStrategy implements TripFilterStrategy {
     }
 
     private List<Trip> findFilteredSimilarTripsByLiveInformation(final Trip trip) {
-        final List<Trip> filteredSimilarTrips = new ArrayList<>();
+        final List<Trip> similarTrips = new ArrayList<>();
         long page = 1L;
-        while (filteredSimilarTrips.size() < SIMILAR_TRIPS_COUNT) {
-            final FindSimilarTripWithContentIdResponses similarTripWithContentIdResponses = externalSimilarTripModelClient.findSimilarTrips(trip.getContentId(), page);
-            final List<Trip> filteredTripsByLiveInformation = findFilteredTripsByLiveInformation(trip, similarTripWithContentIdResponses.getContentIds());
-            filteredSimilarTrips.addAll(
-                    filteredTripsByLiveInformation
-                            .stream()
-                            .filter(similarTrip -> !similarTrip.getId().equals(trip.getId()))
-                            .collect(Collectors.toList()));
+
+        while (similarTrips.size() < SIMILAR_TRIPS_COUNT) {
+            final List<Long> similarContentIds = fetchSimilarTripContentIds(trip.getContentId(), page);
+            final List<Trip> filteredTrips = filterTripsByLiveInformation(trip, similarContentIds);
+            addValidTrips(similarTrips, filteredTrips, trip);
             page++;
         }
-
-        if (filteredSimilarTrips.size() > SIMILAR_TRIPS_COUNT) {
-            return filteredSimilarTrips.subList(0, SIMILAR_TRIPS_COUNT);
-        }
-        return filteredSimilarTrips;
+        return getLimitedSimilarTrips(similarTrips);
     }
 
+    private List<Long> fetchSimilarTripContentIds(final Long contentId, long page) {
+        FindSimilarTripWithContentIdResponses response = externalSimilarTripModelClient.findSimilarTrips(contentId, page);
+        return response.getContentIds();
+    }
+
+    private List<Trip> filterTripsByLiveInformation(final Trip currentTrip, final List<Long> contentIds) {
+        return findFilteredTripsByLiveInformation(currentTrip, contentIds)
+                .stream()
+                .filter(trip -> !trip.getId().equals(currentTrip.getId()))
+                .collect(Collectors.toList());
+    }
+
+    private void addValidTrips(final List<Trip> similarTrips, final List<Trip> filteredTrips, final Trip originalTrip) {
+        similarTrips.addAll(filteredTrips.stream()
+                .filter(trip -> !trip.getId().equals(originalTrip.getId()))
+                .collect(Collectors.toList()));
+    }
+
+    private List<Trip> getLimitedSimilarTrips(final List<Trip> similarTrips) {
+        if (similarTrips.size() > SIMILAR_TRIPS_COUNT) {
+            return similarTrips.subList(0, SIMILAR_TRIPS_COUNT);
+        }
+        return similarTrips;
+    }
 
     private List<Trip> findFilteredTripsByLiveInformation(final Trip currentTrip, final List<Long> contentIds) {
         final List<LiveInformation> liveInformations = liveInformationRepository.findLiveInformationByTrip(currentTrip);
