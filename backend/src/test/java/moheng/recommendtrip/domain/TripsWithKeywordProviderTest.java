@@ -9,6 +9,7 @@ import moheng.keyword.domain.TripKeyword;
 import moheng.keyword.domain.repository.KeywordRepository;
 import moheng.keyword.domain.repository.TripKeywordRepository;
 import moheng.recommendtrip.domain.tripfilterstrategy.TripsWithKeywordProvider;
+import moheng.recommendtrip.exception.LackOfRecommendTripException;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.repository.TripRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -39,6 +40,7 @@ public class TripsWithKeywordProviderTest extends ServiceTestConfig {
     @DisplayName("여행지 10개를 키워드와 함께 반환한다.")
     @Test
     void 여행지를_키워드와_함께_반환한다() {
+        // given
         List<Trip> 여행지_리스트 = new ArrayList<>();
         Trip 여행지1 = tripRepository.save(여행지1_생성()); Trip 여행지2 = tripRepository.save(여행지2_생성());
         Trip 여행지3 = tripRepository.save(여행지3_생성()); Trip 여행지4 = tripRepository.save(여행지4_생성());
@@ -61,6 +63,19 @@ public class TripsWithKeywordProviderTest extends ServiceTestConfig {
         tripKeywordRepository.save(new TripKeyword(여행지7, 키워드7)); tripKeywordRepository.save(new TripKeyword(여행지8, 키워드8));
         tripKeywordRepository.save(new TripKeyword(여행지9, 키워드9)); tripKeywordRepository.save(new TripKeyword(여행지10, 키워드10));
 
+
+        // when, then
         assertEquals(tripsWithKeywordProvider.findWithKeywords(여행지_리스트).getFindTripResponses().size(), 10);
+    }
+
+    @DisplayName("전달받은 추천 여행지가 정확히 10개가 아니라면 예외가 발생한다.")
+    @Test
+    void 전달받은_추천_여행지가_정확히_10개가_아니라면_예외가_발생한다() {
+        // given
+        List<Trip> 여행지_리스트_크기_0 = new ArrayList<>();
+
+        // when, then
+        assertThatThrownBy(() -> tripsWithKeywordProvider.findWithKeywords(여행지_리스트_크기_0))
+                .isInstanceOf(LackOfRecommendTripException.class);
     }
 }
