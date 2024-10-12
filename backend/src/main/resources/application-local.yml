@@ -1,14 +1,19 @@
 server:
-  shutdown: graceful
+  tomcat:
+    accept-count: 30
+    max-connections: 8192
+    threads:
+      max: 30
 spring:
   application:
     name: moheng
   datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/moheng
     username: root
-    url: jdbc:h2:mem:~/moheng;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=FALSE
     password: 1234
     hikari:
-      maximum-pool-size: 21
+      maximum-pool-size: 5
       connection-timeout: 3000
   jpa:
     properties:
@@ -17,7 +22,8 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
+    open-in-view: false
 logging:
   level:
     org:
