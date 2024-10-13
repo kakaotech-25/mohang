@@ -35,7 +35,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ secrets.ORGANIZATION }} # organization username
-          password: ${{ secrets.GITHUB_TOKEN }} # classic token 필요
+          password: ${{ secrets.PAT_TOKEN }} # classic token 필요
 
       - name: Checkout code
         uses: actions/checkout@v4 # 코드 체크아웃
