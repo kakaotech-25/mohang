@@ -64,8 +64,9 @@ jobs:
         uses: sarisia/actions-status-discord@v1
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          status: ${{ needs.build-and-push.status }} # 수정된 부분
+          status: ${{ needs.build-and-push.conclusion }} # 수정된 부분
           title: "Docker Build 결과"
           description: |
-            ${{ needs.job.status != 'success' && format('실패 단계: {0}', needs.job.status) || '모든 빌드가 성공적으로 완료되었습니다.' }}
-          color: ${{ needs.job.status == 'success' && '0x00ff00' || '0xff0000' }}
+            ${{ needs.build-and-push.conclusion != 'success' && format('실패 단계: {0}', needs.build-and-push.conclusion) || '모든 빌드가 성공적으로 완료되었습니다.' }}
+          color: ${{ needs.build-and-push.conclusion == 'success' && '0x00ff00' || '0xff0000' }}
+
