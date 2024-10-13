@@ -48,6 +48,7 @@ jobs:
           password: ${{ secrets.PAT_TOKEN }} # classic token 필요
 
       - name: Build and Push Docker Image
+        id: build_push
         uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.context }}
@@ -55,18 +56,80 @@ jobs:
           push: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main') }}
           tags: ghcr.io/kakaotech-25/moheng-${{ matrix.service }}:latest # 이미지 태그
 
+      - name: Save Build Status
+        if: always()
+        run: |
+          echo "{\"service\":\"${{ matrix.service }}\", \"status\":\"${{ job.status }}\"}" > status.json
+        shell: bash
+
+      - name: Upload Build Status Artifact
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.service }}-status
+          path: status.json
+
   notify:
     if: always()
-    runs-on: ubuntu-latest
     needs: build-and-push
+    runs-on: ubuntu-latest
     steps:
+      - name: Download Build Status Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: '*-status' # Download all artifacts ending with -status
+
+      - name: Aggregate Build Results
+        id: aggregate
+        run: |
+          echo "{" > aggregated_status.json
+          echo "\"results\":[" >> aggregated_status.json
+          first=true
+          for file in *-status/status.json; do
+            if [ "$first" = true ]; then
+              first=false
+            else
+              echo "," >> aggregated_status.json
+            fi
+            cat "$file" >> aggregated_status.json
+          done
+          echo "]}" >> aggregated_status.json
+          cat aggregated_status.json
+        shell: bash
+
+      - name: Set Output for Discord Message
+        id: set_message
+        run: |
+          STATUS=$(jq -r '.results[] | "\(.service): \(.status)"' aggregated_status.json | paste -sd ", " -)
+          OVERALL_STATUS="success"
+          for row in $(jq -r '.results[] | @base64' aggregated_status.json); do
+            _jq() {
+              echo "$row" | base64 --decode | jq -r "$1"
+            }
+            STATUS_CHECK=$(_jq '.status')
+            if [ "$STATUS_CHECK" != "success" ]; then
+              OVERALL_STATUS="failure"
+              break
+            fi
+          done
+
+          if [ "$OVERALL_STATUS" = "success" ]; then
+            DESCRIPTION="All services built successfully: $STATUS"
+            COLOR="0x00ff00"
+          else
+            DESCRIPTION="Some services failed to build: $STATUS"
+            COLOR="0xff0000"
+          fi
+
+          echo "::set-output name=status::$OVERALL_STATUS"
+          echo "::set-output name=description::$DESCRIPTION"
+          echo "::set-output name=color::$COLOR"
+
       - name: Notify Discord
         uses: sarisia/actions-status-discord@v1
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          status: ${{ needs.build-and-push.conclusion }} # 수정된 부분
-          title: "Docker Build 결과"
-          description: |
-            ${{ needs.build-and-push.conclusion != 'success' && format('실패 단계: {0}', needs.build-and-push.conclusion) || '모든 빌드가 성공적으로 완료되었습니다.' }}
-          color: ${{ needs.build-and-push.conclusion == 'success' && '0x00ff00' || '0xff0000' }}
-
+          status: ${{ steps.set_message.outputs.status }}
+          title: "Docker Build Results"
+          description: ${{ steps.set_message.outputs.description }}
+          color: ${{ steps.set_message.outputs.color }}
