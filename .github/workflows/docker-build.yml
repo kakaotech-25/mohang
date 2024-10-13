@@ -47,26 +47,22 @@ jobs:
           username: ${{ secrets.ORGANIZATION }} # organization username
           password: ${{ secrets.PAT_TOKEN }} # classic token 필요
 
-      - name: tag naming
-        id: get_branch
-        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
           push: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main') }}
-          tags: ghcr.io/kakaotech-25/moheng-${{ matrix.service }}:${{ env.BRANCH_NAME }} # 이미지 태그
+          tags: ghcr.io/kakaotech-25/moheng-${{ matrix.service }}:latest # 이미지 태그
 
+      - name: Discord Notification
+        uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }} # 수정된 부분
+          title: "Docker Build 결과"
+          description: |
+            ${{ job.status != 'success' && format('실패 단계: {0}', job.status) || '모든 빌드가 성공적으로 완료되었습니다.' }}
+          color: ${{ job.status == 'success' && '0x00ff00' || '0xff0000' }}
 
-      # - name: Discord Notification
-      #   uses: sarisia/actions-status-discord@v1
-      #   if: always()
-      #   with:
-      #     webhook: ${{ secrets.DISCORD_WEBHOOK }}
-      #     status: ${{ job.status }} # 수정된 부분
-      #     title: "Docker Build 결과"
-      #     description: |
-      #       ${{ job.status != 'success' && format('실패 단계: {0}', job.status) || '모든 빌드가 성공적으로 완료되었습니다.' }}
-      #     color: ${{ job.status == 'success' && '0x00ff00' || '0xff0000' }}
