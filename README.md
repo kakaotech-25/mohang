@@ -1,5 +1,6 @@
-<div style="text-align: center;">
-  <h1>모두가 행복한 여행, 모행 ✈️</h1>
+# <div align="center">모두가 행복한 여행, 모행 </div>
+
+<div align="center">
   <a href="https://moheng.life/landing" target="_blank">
     <img alt="Gradle Play Publisher" src="https://img.shields.io/badge/moheng.me-orange.svg?&style=for-the-badge&logo=Gradle Play Publisher&logoColor=white"/>
   </a>
@@ -11,9 +12,10 @@
   </a>
 </div>
 
+<div align="center">
+  <img src="img.png" alt="Centered Image"/>
+</div>
 
-
-![img.png](img.png)
 
 ## 🌈 서비스 소개
 
