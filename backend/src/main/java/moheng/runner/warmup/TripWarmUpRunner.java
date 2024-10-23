@@ -1,4 +1,4 @@
-package moheng.applicationrunner.warmup;
+package moheng.runner.warmup;
 
 import moheng.trip.application.TripService;
 import org.slf4j.Logger;

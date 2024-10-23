@@ -1,8 +1,8 @@
-package moheng.applicationrunner.data.prod;
+package moheng.runner.data.prod;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import moheng.applicationrunner.data.dto.KeywordRunner;
+import moheng.runner.data.dto.KeywordRunner;
 import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.repository.KeywordRepository;
 import moheng.keyword.domain.TripKeyword;
