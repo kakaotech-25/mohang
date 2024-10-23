@@ -1,4 +1,4 @@
-package moheng.runner.data.prod;
+package moheng.runner.data;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,19 +22,19 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Profile("prod")
+@Profile({"local", "dev", "prod"})
 @Order(2)
 @Component
-public class LiveInformationProdApplicationRunner implements ApplicationRunner {
+public class LiveInformationDevApplicationRunner implements ApplicationRunner {
     private final TripRepository tripRepository;
     private final LiveInformationRepository liveInformationRepository;
     private final TripLiveInformationRepository tripLiveInformationRepository;
     private final JdbcTemplate jdbcTemplate;
 
-    public LiveInformationProdApplicationRunner(final TripRepository tripRepository,
-                                                final LiveInformationRepository liveInformationRepository,
-                                                final TripLiveInformationRepository tripLiveInformationRepository,
-                                                final JdbcTemplate jdbcTemplate) {
+    public LiveInformationDevApplicationRunner(final TripRepository tripRepository,
+                                               final LiveInformationRepository liveInformationRepository,
+                                               final TripLiveInformationRepository tripLiveInformationRepository,
+                                               final JdbcTemplate jdbcTemplate) {
         this.tripRepository = tripRepository;
         this.liveInformationRepository = liveInformationRepository;
         this.tripLiveInformationRepository = tripLiveInformationRepository;

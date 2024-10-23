@@ -1,35 +1,38 @@
-package moheng.runner.data.local;
+package moheng.runner.data;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import moheng.runner.data.dto.TripRunner;
-import moheng.trip.domain.Trip;
-import moheng.trip.domain.repository.TripRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Profile("local")
+@Profile({"local", "dev", "prod"})
 @Order(1)
 @Component
-public class TripLocalApplicationRunner implements ApplicationRunner {
-    private final TripRepository tripRepository;
+public class TripDevApplicationRunner implements ApplicationRunner {
+    private final JdbcTemplate jdbcTemplate;
 
-    public TripLocalApplicationRunner(final TripRepository tripRepository) {
-        this.tripRepository = tripRepository;
+    public TripDevApplicationRunner(final JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        if(tripRepository.count() == 0) {
+        String countQuery = "SELECT COUNT(*) FROM trip";
+        Long count = jdbcTemplate.queryForObject(countQuery, Long.class);
+
+        if (count == 0) {
             final Resource resource1 = new ClassPathResource("json/trip1.json");
             final Resource resource2 = new ClassPathResource("json/trip2.json");
             final ObjectMapper objectMapper = new ObjectMapper();
@@ -38,17 +41,25 @@ public class TripLocalApplicationRunner implements ApplicationRunner {
             tripRunners.addAll(findTripRunnersByResource(resource1, objectMapper));
             tripRunners.addAll(findTripRunnersByResource(resource2, objectMapper));
 
-            for(final TripRunner tripRunner : tripRunners) {
-                final Long contentId = tripRunner.getContentid();
-                final String title = tripRunner.getTitle();
-                final String placeName = tripRunner.getAddr1();
-                final String tripImageUrl = tripRunner.getFirstimage();
-                final Double mapX = tripRunner.getMapx();
-                final Double mapY = tripRunner.getMapy();
-                final String description = tripRunner.getOverview();
+            String sql = "INSERT INTO trip (name, place_name, content_id, description, trip_image_url, visited_count, coordinate_x, coordinate_y, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-                tripRepository.save(new Trip(title, placeName, contentId, description, tripImageUrl, mapX, mapY));
+            List<Object[]> batchArgs = new ArrayList<>();
+            for (final TripRunner tripRunner : tripRunners) {
+                batchArgs.add(new Object[]{
+                        tripRunner.getTitle(),
+                        tripRunner.getAddr1(),
+                        tripRunner.getContentid(),
+                        tripRunner.getOverview(),
+                        tripRunner.getFirstimage(),
+                        0L,
+                        tripRunner.getMapx(),
+                        tripRunner.getMapy(),
+                        LocalDate.now(),
+                        LocalDate.now()
+                });
             }
+
+            jdbcTemplate.batchUpdate(sql, batchArgs);
         }
     }
 
