@@ -91,7 +91,7 @@ jacocoTestReport {
 							'**/BaseEntity*',
 							'**/ControllerAdvice*',
 							'**/AuthorizationExtractor*',
-							'**/applicationrunner/**',
+							'**/runner/**',
 					])
 				})
 		)
@@ -121,7 +121,7 @@ jacocoTestCoverageVerification {
 					'*.BaseEntity',
 					'*.ControllerAdvice',
 					'*.AuthorizationExtractor',
-					'*.applicationrunner.*',
+					'*.runner.*',
 			]
 		}
 	}
