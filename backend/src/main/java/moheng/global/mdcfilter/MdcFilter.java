@@ -14,7 +14,6 @@ import java.util.UUID;
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class MdcFilter implements Filter {
-    private static final String REQUEST_ID = "REQUEST_ID";
 
     @Override
     public void doFilter(final ServletRequest servletRequest,
