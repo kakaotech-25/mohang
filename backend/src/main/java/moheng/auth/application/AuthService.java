@@ -7,13 +7,11 @@ import moheng.auth.domain.oauth.OAuthUriProvider;
 import moheng.auth.domain.token.MemberToken;
 import moheng.auth.domain.token.RenewalToken;
 import moheng.auth.domain.token.TokenManager;
-import moheng.auth.domain.token.TokenProvider;
 import moheng.auth.dto.LogoutRequest;
 import moheng.auth.dto.RenewalAccessTokenRequest;
 import moheng.auth.dto.RenewalAccessTokenResponse;
 import moheng.member.application.MemberService;
 import moheng.member.domain.Member;
-import moheng.member.domain.SocialType;
 import moheng.member.exception.NoExistMemberException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,14 +22,12 @@ public class AuthService {
     private final OAuthProvider oAuthProvider;
     private final MemberService memberService;
     private final TokenManager tokenManager;
-    private final TokenProvider tokenProvider;
 
     public AuthService(final OAuthProvider oAuthProvider, final MemberService memberService,
-                       final TokenManager tokenManager, final TokenProvider tokenProvider) {
+                       final TokenManager tokenManager) {
         this.oAuthProvider = oAuthProvider;
         this.memberService = memberService;
         this.tokenManager = tokenManager;
-        this.tokenProvider = tokenProvider;
     }
 
     @Transactional

@@ -1,8 +1,8 @@
-package moheng.applicationrunner.data.dev;
+package moheng.runner.data;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import moheng.applicationrunner.data.dto.LiveInformationRunner;
+import moheng.runner.data.dto.LiveInformationRunner;
 import moheng.liveinformation.domain.LiveInformation;
 import moheng.liveinformation.domain.repository.LiveInformationRepository;
 import moheng.liveinformation.domain.TripLiveInformation;
@@ -22,23 +22,20 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Profile("dev")
+@Profile({"local", "dev", "prod"})
 @Order(2)
 @Component
-public class LiveInformationDevApplicationRunner implements ApplicationRunner {
+public class InitLiveInformationApplicationRunner implements ApplicationRunner {
     private final TripRepository tripRepository;
     private final LiveInformationRepository liveInformationRepository;
     private final TripLiveInformationRepository tripLiveInformationRepository;
-    private final JdbcTemplate jdbcTemplate;
 
-    public LiveInformationDevApplicationRunner(final TripRepository tripRepository,
-                                               final LiveInformationRepository liveInformationRepository,
-                                               final TripLiveInformationRepository tripLiveInformationRepository,
-                                               final JdbcTemplate jdbcTemplate) {
+    public InitLiveInformationApplicationRunner(final TripRepository tripRepository,
+                                                final LiveInformationRepository liveInformationRepository,
+                                                final TripLiveInformationRepository tripLiveInformationRepository) {
         this.tripRepository = tripRepository;
         this.liveInformationRepository = liveInformationRepository;
         this.tripLiveInformationRepository = tripLiveInformationRepository;
-        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override

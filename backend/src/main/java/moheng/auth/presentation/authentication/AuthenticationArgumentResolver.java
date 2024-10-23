@@ -2,14 +2,8 @@ package moheng.auth.presentation.authentication;
 
 import jakarta.servlet.http.HttpServletRequest;
 import moheng.auth.application.AuthService;
-import moheng.auth.domain.oauth.Authority;
-import moheng.auth.domain.token.JwtTokenProvider;
 import moheng.auth.dto.Accessor;
 import moheng.auth.exception.BadRequestException;
-import moheng.auth.exception.InvalidRegularAuthorityException;
-import moheng.member.domain.Member;
-import moheng.member.domain.repository.MemberRepository;
-import moheng.member.exception.NoExistMemberException;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;

@@ -1,8 +1,8 @@
-package moheng.applicationrunner.data.local;
+package moheng.runner.data;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import moheng.applicationrunner.data.dto.TripRunner;
+import moheng.runner.data.dto.TripRunner;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.repository.TripRepository;
 import org.springframework.boot.ApplicationArguments;
@@ -11,20 +11,25 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Profile("local")
+@Profile({"local", "dev", "prod"})
 @Order(1)
 @Component
-public class TripLocalApplicationRunner implements ApplicationRunner {
+public class InitTripApplicationRunner implements ApplicationRunner {
     private final TripRepository tripRepository;
+    private final JdbcTemplate jdbcTemplate;
 
-    public TripLocalApplicationRunner(final TripRepository tripRepository) {
+    public InitTripApplicationRunner(final TripRepository tripRepository,
+                                     final JdbcTemplate jdbcTemplate) {
         this.tripRepository = tripRepository;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override

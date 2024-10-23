@@ -1,4 +1,4 @@
-package moheng.applicationrunner.data.dto;
+package moheng.runner.data.dto;
 
 public class TripRunner {
     private Long contentid;

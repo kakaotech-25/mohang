@@ -1,6 +1,5 @@
 package moheng.auth.domain.token;
 
-import io.jsonwebtoken.ExpiredJwtException;
 import moheng.auth.exception.InvalidTokenException;
 import moheng.auth.exception.NoExistMemberTokenException;
 import org.springframework.stereotype.Component;
@@ -8,10 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtTokenManager implements TokenManager {
     private final RefreshTokenRepository refreshTokenRepository;
-    private final TokenProvider tokenProvider;
+    private final TokenGenerator tokenProvider;
 
     public JwtTokenManager(final RefreshTokenRepository refreshTokenRepository,
-                           final TokenProvider tokenProvider) {
+                           final TokenGenerator tokenProvider) {
         this.refreshTokenRepository = refreshTokenRepository;
         this.tokenProvider = tokenProvider;
     }

@@ -11,12 +11,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
-public class JwtTokenProvider implements TokenProvider {
+public class JwtTokenGenerator implements TokenGenerator {
     private final SecretKey secretKey;
     private final long accessTokenValidityInSeconds;
     private final long refreshTokenValidityInSeconds;
 
-    public JwtTokenProvider(
+    public JwtTokenGenerator(
             @Value("${security.jwt.token.secret_key}") final String secretKey,
             @Value("${security.jwt.token.expire_length.access_token}") final long accessTokenValidityInSeconds,
             @Value("${security.jwt.token.expire_length.refresh_token}") final long refreshTokenValidityInSeconds) {

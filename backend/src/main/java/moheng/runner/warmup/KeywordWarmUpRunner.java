@@ -1,4 +1,4 @@
-package moheng.applicationrunner.warmup;
+package moheng.runner.warmup;
 
 import moheng.keyword.application.KeywordService;
 import moheng.keyword.dto.TripsByKeyWordsRequest;

@@ -1,13 +1,10 @@
 package moheng.config.slice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.HttpServletRequest;
 import moheng.auth.application.AuthService;
-import moheng.auth.domain.token.JwtTokenProvider;
+import moheng.auth.domain.token.JwtTokenGenerator;
 import moheng.auth.presentation.AuthController;
-import moheng.auth.presentation.authentication.AuthenticationArgumentResolver;
 import moheng.auth.presentation.authentication.AuthenticationBearerExtractor;
-import moheng.auth.presentation.initauthentication.InitAuthenticationArgumentResolver;
 import moheng.config.TestConfig;
 import moheng.keyword.application.KeywordService;
 import moheng.keyword.presentation.KeywordController;
@@ -27,23 +24,13 @@ import moheng.recommendtrip.domain.tripfilterstrategy.*;
 import moheng.recommendtrip.presentation.RecommendTripController;
 import moheng.trip.application.TripService;
 import moheng.trip.presentation.TripController;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static org.mockito.BDDMockito.given;
 
 @AutoConfigureRestDocs
 @WebMvcTest({
@@ -70,7 +57,7 @@ public abstract class ControllerTestConfig {
     protected AuthService authService;
 
     @MockBean
-    protected JwtTokenProvider jwtTokenProvider;
+    protected JwtTokenGenerator jwtTokenProvider;
 
     @MockBean
     protected MemberService memberService;

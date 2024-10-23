@@ -1,4 +1,4 @@
-package moheng.applicationrunner.warmup;
+package moheng.runner.warmup;
 
 import moheng.auth.application.AuthService;
 import moheng.auth.dto.RenewalAccessTokenRequest;
