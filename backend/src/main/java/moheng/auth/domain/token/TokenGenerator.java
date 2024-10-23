@@ -1,6 +1,6 @@
 package moheng.auth.domain.token;
 
-public interface TokenProvider {
+public interface TokenGenerator {
     String createAccessToken(final long memberId);
     String createRefreshToken(final long memberId);
     Long getMemberId(final String token);

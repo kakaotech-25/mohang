@@ -1,7 +1,6 @@
 package moheng.auth.domain;
 
 import static moheng.fixture.JwtTokenFixtures.*;
-import static moheng.fixture.JwtTokenFixtures.EXPIRED_TOKEN_TIME;
 import static moheng.fixture.MemberFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -17,7 +16,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 public class JwtTokenManagerTest {
     private final InMemoryRefreshTokenRepository refreshTokenRepository = new InMemoryRefreshTokenRepository();
-    private final JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(SECRET_KEY, ACCESS_TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME);
+    private final JwtTokenGenerator jwtTokenProvider = new JwtTokenGenerator(SECRET_KEY, ACCESS_TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME);
     private final JwtTokenManager jwtTokenManager = new JwtTokenManager(refreshTokenRepository, jwtTokenProvider);
 
     @DisplayName("memberId로 엑세스 토큰과 리프레시 토큰을 생성한다.")
@@ -99,8 +98,8 @@ public class JwtTokenManagerTest {
     @Test
     void 전달받은_리프레시_토큰이_만료되었다면_예외가_발생한다() {
         // given
-        JwtTokenProvider expiredJwtTokenProvider
-                = new JwtTokenProvider(SECRET_KEY, 0, 0);
+        JwtTokenGenerator expiredJwtTokenProvider
+                = new JwtTokenGenerator(SECRET_KEY, 0, 0);
         InMemoryRefreshTokenRepository testRefreshTokenRepository
                 = new InMemoryRefreshTokenRepository();
         JwtTokenManager testJwtTokenManager

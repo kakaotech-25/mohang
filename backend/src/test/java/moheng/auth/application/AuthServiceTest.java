@@ -10,7 +10,7 @@ import static moheng.fixture.AuthFixtures.AUHTORIZATION_CODE;
 import static moheng.fixture.AuthFixtures.KAKAO_PROVIDER_NAME;
 
 import moheng.auth.domain.token.JwtTokenManager;
-import moheng.auth.domain.token.JwtTokenProvider;
+import moheng.auth.domain.token.JwtTokenGenerator;
 import moheng.auth.domain.token.MemberToken;
 import moheng.auth.dto.RenewalAccessTokenRequest;
 import moheng.auth.dto.RenewalAccessTokenResponse;
@@ -37,7 +37,7 @@ class AuthServiceTest extends ServiceTestConfig {
     private JwtTokenManager jwtTokenManager;
 
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    private JwtTokenGenerator jwtTokenProvider;
 
 
     @DisplayName("카카오 로그인을 위한 링크를 생성한다.")

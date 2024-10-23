@@ -6,13 +6,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
-import moheng.auth.domain.token.JwtTokenProvider;
+import moheng.auth.domain.token.JwtTokenGenerator;
 import moheng.auth.exception.InvalidTokenException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class JwtTokenProviderTest {
-    private final JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(
+public class JwtTokenGeneratorTest {
+    private final JwtTokenGenerator jwtTokenProvider = new JwtTokenGenerator(
             SECRET_KEY, ACCESS_TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME
     );
 
@@ -63,7 +63,7 @@ public class JwtTokenProviderTest {
     @Test
     void 만료된_토큰을_전달받으면_예외가_발생한다() {
         // given
-        JwtTokenProvider expiredJwtTokenProvider = new JwtTokenProvider(
+        JwtTokenGenerator expiredJwtTokenProvider = new JwtTokenGenerator(
                 SECRET_KEY, ACCESS_TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME
         );
         String expiredToken = expiredJwtTokenProvider.createToken(PAYLOAD, EXPIRED_TOKEN_TIME);
@@ -77,7 +77,7 @@ public class JwtTokenProviderTest {
     @Test
     void 만료된_리프레시_토큰을_전달받으면_예외를_발생시킨다() {
         // given
-        JwtTokenProvider expiredJwtTokenProvider = new JwtTokenProvider(
+        JwtTokenGenerator expiredJwtTokenProvider = new JwtTokenGenerator(
                 SECRET_KEY, EXPIRED_TOKEN_TIME, EXPIRED_TOKEN_TIME
         );
         String expiredToken = expiredJwtTokenProvider.createRefreshToken(MEMBER_ID_4);
@@ -91,7 +91,7 @@ public class JwtTokenProviderTest {
     @Test
     void 만료된_엑세스_토큰을_전달받으면_예외를_발생시킨다() {
         // given
-        JwtTokenProvider expiredJwtTokenProvider = new JwtTokenProvider(
+        JwtTokenGenerator expiredJwtTokenProvider = new JwtTokenGenerator(
                 SECRET_KEY, EXPIRED_TOKEN_TIME, EXPIRED_TOKEN_TIME
         );
         String expiredToken = expiredJwtTokenProvider.createAccessToken(MEMBER_ID_5);
@@ -113,7 +113,7 @@ public class JwtTokenProviderTest {
     @Test
     void 리프레시_토큰_저장소에_유저의_토큰이_존재하면_이미_저장된_해당_토큰을_리턴한다() {
         // given
-        JwtTokenProvider tokenProvider = new JwtTokenProvider(
+        JwtTokenGenerator tokenProvider = new JwtTokenGenerator(
                 SECRET_KEY, ACCESS_TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME
         );
         String savedToken = tokenProvider.createRefreshToken(MEMBER_ID_6);
@@ -128,8 +128,8 @@ public class JwtTokenProviderTest {
     @DisplayName("리프레시 토큰이 만료되었다면 참을 리턴한다.")
     @Test
     void 리프레시_토큰이_만료되었다면_참을_리턴한다() {
-        JwtTokenProvider expiredJwtTokenProvider
-                = new JwtTokenProvider(SECRET_KEY, 0, 0);
+        JwtTokenGenerator expiredJwtTokenProvider
+                = new JwtTokenGenerator(SECRET_KEY, 0, 0);
         String expiredRefreshToken = expiredJwtTokenProvider.createRefreshToken(MEMBER_ID_1);
 
         assertTrue(jwtTokenProvider.isRefreshTokenExpired(expiredRefreshToken));
