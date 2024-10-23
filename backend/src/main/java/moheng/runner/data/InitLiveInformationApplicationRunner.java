@@ -25,20 +25,17 @@ import java.util.List;
 @Profile({"local", "dev", "prod"})
 @Order(2)
 @Component
-public class LiveInformationDevApplicationRunner implements ApplicationRunner {
+public class InitLiveInformationApplicationRunner implements ApplicationRunner {
     private final TripRepository tripRepository;
     private final LiveInformationRepository liveInformationRepository;
     private final TripLiveInformationRepository tripLiveInformationRepository;
-    private final JdbcTemplate jdbcTemplate;
 
-    public LiveInformationDevApplicationRunner(final TripRepository tripRepository,
-                                               final LiveInformationRepository liveInformationRepository,
-                                               final TripLiveInformationRepository tripLiveInformationRepository,
-                                               final JdbcTemplate jdbcTemplate) {
+    public InitLiveInformationApplicationRunner(final TripRepository tripRepository,
+                                                final LiveInformationRepository liveInformationRepository,
+                                                final TripLiveInformationRepository tripLiveInformationRepository) {
         this.tripRepository = tripRepository;
         this.liveInformationRepository = liveInformationRepository;
         this.tripLiveInformationRepository = tripLiveInformationRepository;
-        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override

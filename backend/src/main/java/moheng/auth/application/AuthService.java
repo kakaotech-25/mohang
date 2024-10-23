@@ -24,14 +24,12 @@ public class AuthService {
     private final OAuthProvider oAuthProvider;
     private final MemberService memberService;
     private final TokenManager tokenManager;
-    private final TokenProvider tokenProvider;
 
     public AuthService(final OAuthProvider oAuthProvider, final MemberService memberService,
-                       final TokenManager tokenManager, final TokenProvider tokenProvider) {
+                       final TokenManager tokenManager) {
         this.oAuthProvider = oAuthProvider;
         this.memberService = memberService;
         this.tokenManager = tokenManager;
-        this.tokenProvider = tokenProvider;
     }
 
     @Transactional
