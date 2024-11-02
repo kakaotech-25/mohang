@@ -18,7 +18,6 @@ public class KakaoOAuthMember implements OAuthMember {
         @JsonProperty("profile")
         private KakaoProfile kakaoProfile;
 
-        // Constructor to initialize KakaoProfile
         public KakaoAccount() {
             this.kakaoProfile = new KakaoProfile();
         }
