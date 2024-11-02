@@ -1,0 +1,22 @@
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-10-24 16:07:21.733
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-10-24 16:07:21.734
+
+                [REQUEST_IP] : NO REQUEST IP
