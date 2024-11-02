@@ -1,0 +1,47 @@
+services:
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    volumes:
+      - ./monitoring/prometheus/config:/etc/prometheus
+      - ./monitoring/prometheus/data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+    ports:
+      - 9090:9090
+    networks:
+      - moheng-network
+    restart: always
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    volumes:
+      - ./monitoring/grafana:/var/lib/grafana
+    env_file:
+      - .env
+    ports:
+      - 3231:3000
+    networks:
+      - moheng-network
+    restart: always
+
+  alertmanager:
+    container_name: alertmanager
+    image: prom/alertmanager:latest
+    volumes:
+      - ./monitoring/prometheus/alertmanager:/etc/alertmanager
+    command:
+      - "--config.file=/etc/alertmanager/alertmanager.yml"
+      - "--storage.path=/alertmanager"
+    ports:
+      - 9093:9093
+    networks:
+      - moheng-network
+    restart: always
+
+networks:
+  moheng-network:
+    name: moheng-network
+    driver: bridge

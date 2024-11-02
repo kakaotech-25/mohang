@@ -1,0 +1,15 @@
+FROM openjdk:22-slim
+
+WORKDIR /app
+
+# 실행권한 부여 & build.gradle 의존성 다운로드
+RUN  apt-get update && apt-get install -y dumb-init
+
+# 소스코드 복사
+COPY run_server.sh .
+RUN chmod +x run_server.sh
+
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+
+# CMD ["tail", "-f"]
+CMD ["./run_server.sh"]

@@ -1,0 +1,328 @@
+== ⛳️ 세부 여행 일정 (플래너내의 상세 여행 일정 관련)
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+
+=== 여행 일정 생성 API
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/create/success/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/create/success/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/create/success/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/create/success/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/create/success/response-body.adoc[]
+
+=== 여행 일정 생성 API 실패 (동일한 이름의 일정이 이미 존재하는 경우)
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/create/fail/alreadyExistTripSchedule/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/create/fail/alreadyExistTripSchedule/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/create/fail/alreadyExistTripSchedule/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/create/fail/alreadyExistTripSchedule/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/create/fail/alreadyExistTripSchedule/response-body.adoc[]
+
+=== 여행 일정 생성 API 실패 (일정 이름의 길이가 유효범위를 벗어난 경우)
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/create/fail/invalidName/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/create/fail/invalidName/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/create/fail/invalidName/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/create/fail/invalidName/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/create/fail/invalidName/response-body.adoc[]
+
+=== 여행 일정 생성 API 실패 (시작날짜보다 종료날짜가 늦는 경우)
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/create/fail/invalidDate/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/create/fail/invalidDate/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/create/fail/invalidDate/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/create/fail/invalidDate/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/create/fail/invalidDate/response-body.adoc[]
+
+=== 현재 여행지를 플래너 일정에 담는 API
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/trip/add/success/http-request.adoc[]
+
+===== Request Path Variable
+
+include::{snippets}/planner/schedule/trip/add/success/path-parameters.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/trip/add/success/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/trip/add/success/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/trip/add/success/http-response.adoc[]
+
+==== Response Body
+
+include::{snippets}/planner/schedule/trip/add/success/response-body.adoc[]
+
+=== 현재 여행지를 플래너 일정에 담는 API 실패 (존재하지 않는 여행지를 플래너에 담으려는 경우)
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/trip/add/fail/noExistTrip/http-request.adoc[]
+
+===== Request Path Variable
+
+include::{snippets}/planner/schedule/trip/add/fail/noExistTrip/path-parameters.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/trip/add/fail/noExistTrip/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/trip/add/fail/noExistTrip/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/trip/add/fail/noExistTrip/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/trip/add/fail/noExistTrip/response-body.adoc[]
+
+=== 현재 여행지를 플래너 일정에 담는 API 실패 (존재하지 않는 일정)
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/trip/add/fail/noExistSchedule/http-request.adoc[]
+
+===== Request Path Variable
+
+include::{snippets}/planner/schedule/trip/add/fail/noExistSchedule/path-parameters.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/trip/add/fail/noExistSchedule/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/trip/add/fail/noExistSchedule/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/trip/add/fail/noExistSchedule/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/trip/add/fail/noExistSchedule/response-body.adoc[]
+
+=== 세부 일정 정보 조회 API
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/find/success/http-request.adoc[]
+
+===== Request Path Variable
+
+include::{snippets}/planner/schedule/find/success/path-parameters.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/find/success/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/find/success/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/find/success/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/find/success/response-fields.adoc[]
+
+=== 세부 일정 정보 조회 API 실패 (존재하지 않는 일정 조회)
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/find/fail/http-request.adoc[]
+
+===== Request Path Variable
+
+include::{snippets}/planner/schedule/find/fail/path-parameters.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/find/fail/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/find/fail/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/find/fail/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/find/fail/response-body.adoc[]
+
+=== 세부 일정내의 여행지 리스트 순서 변경 API
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/order/update/success/http-request.adoc[]
+
+===== Request Path Variable
+
+include::{snippets}/planner/schedule/order/update/success/path-parameters.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/order/update/success/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/order/update/success/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/order/update/success/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/order/update/success/response-body.adoc[]
+
+=== 세부 일정내의 여행지 리스트 순서 변경 API 실패 (존재하지 않는 여행지에 대한 순서 변경 요청)
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/order/update/fail/http-request.adoc[]
+
+===== Request Path Variable
+
+include::{snippets}/planner/schedule/order/update/fail/path-parameters.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/order/update/fail/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/order/update/fail/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/order/update/fail/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/order/update/fail/response-body.adoc[]
+
+=== 세부 일정내의 특정 여행지 삭제 API
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/trip/delete/success/http-request.adoc[]
+
+===== Request Path Variable
+
+include::{snippets}/planner/schedule/trip/delete/success/path-parameters.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/trip/delete/success/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/trip/delete/success/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/trip/delete/success/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/trip/delete/success/response-body.adoc[]
+
+=== 세부 일정내의 특정 여행지 삭제 API 실패 (존재하지 않는 여행지를 삭제하려는 경우)
+
+==== HTTP Request
+
+include::{snippets}/planner/schedule/trip/delete/fail//http-request.adoc[]
+
+===== Request Path Variable
+
+include::{snippets}/planner/schedule/trip/delete/fail/path-parameters.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/schedule/trip/delete/fail/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/schedule/trip/delete/fail/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/schedule/trip/delete/fail/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/schedule/trip/delete/fail/response-body.adoc[]

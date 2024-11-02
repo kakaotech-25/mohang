@@ -1,0 +1,165 @@
+Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authService' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/application/AuthService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'OAuthClientProvider' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/domain/oauth/OAuthClientProvider.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'kakaoOAuthClient' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/infrastructure/KakaoOAuthClient.class]: Unexpected exception during bean creation
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-10-23 22:28:22.405
+
+                [REQUEST_IP] : NO REQUEST IP
+Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authService' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/application/AuthService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'OAuthClientProvider' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/domain/oauth/OAuthClientProvider.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'kakaoOAuthClient' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/infrastructure/KakaoOAuthClient.class]: Unexpected exception during bean creation
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-10-23 22:29:47.935
+
+                [REQUEST_IP] : NO REQUEST IP
+Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authService' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/application/AuthService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'OAuthClientProvider' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/domain/oauth/OAuthClientProvider.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'kakaoOAuthClient' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/infrastructure/KakaoOAuthClient.class]: Unexpected exception during bean creation
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-10-23 22:37:00.683
+
+                [REQUEST_IP] : NO REQUEST IP
+Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authService' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/application/AuthService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'OAuthClientProvider' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/domain/oauth/OAuthClientProvider.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'kakaoOAuthClient' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/infrastructure/KakaoOAuthClient.class]: Unexpected exception during bean creation
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-10-23 22:39:38.311
+
+                [REQUEST_IP] : NO REQUEST IP
+Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authService' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/application/AuthService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'OAuthClientProvider' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/domain/oauth/OAuthClientProvider.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'kakaoOAuthClient' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/infrastructure/KakaoOAuthClient.class]: Unexpected exception during bean creation
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-10-23 22:40:36.902
+
+                [REQUEST_IP] : NO REQUEST IP
+Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authService' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/application/AuthService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'OAuthClientProvider' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/domain/oauth/OAuthClientProvider.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'kakaoOAuthClient' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/infrastructure/KakaoOAuthClient.class]: Unexpected exception during bean creation
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-10-23 22:43:02.247
+
+                [REQUEST_IP] : NO REQUEST IP
+Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authService' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/application/AuthService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'OAuthClientProvider' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/domain/oauth/OAuthClientProvider.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'kakaoOAuthClient' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/infrastructure/KakaoOAuthClient.class]: Unexpected exception during bean creation
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-10-23 22:43:52.938
+
+                [REQUEST_IP] : NO REQUEST IP
+Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authService' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/application/AuthService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'OAuthClientProvider' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/domain/oauth/OAuthClientProvider.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'kakaoOAuthClient' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/infrastructure/KakaoOAuthClient.class]: Unexpected exception during bean creation
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-10-23 22:51:35.927
+
+                [REQUEST_IP] : NO REQUEST IP
+Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authService' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/application/AuthService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'OAuthClientProvider' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/domain/oauth/OAuthClientProvider.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'kakaoOAuthClient' defined in file [/Users/goorm/Desktop/moheng/backend/build/classes/java/main/moheng/auth/infrastructure/KakaoOAuthClient.class]: Unexpected exception during bean creation
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-10-23 22:51:42.382
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-10-23 22:52:00.187
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-10-23 22:52:00.188
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-10-23 22:52:43.839
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-10-23 22:52:43.839
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-10-23 23:03:43.118
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-10-23 23:03:43.118
+
+                [REQUEST_IP] : NO REQUEST IP

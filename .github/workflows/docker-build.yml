@@ -1,0 +1,67 @@
+name: Docker Build and Push
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+  pull_request:
+
+# Add permissions for packages
+permissions:
+  contents: read
+  packages: write
+
+env:
+  SCRIPTS_DIR: .github/scripts/build
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - service: nginx
+            dockerfile: nginx/Dockerfile.prod
+            context: .
+          - service: backend
+            dockerfile: backend/Dockerfile.prod
+            context: backend
+          - service: ai
+            dockerfile: ai/Dockerfile
+            context: ai
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4 # 코드 체크아웃
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3 # QEMU 설정
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3 # Buildx 설정
+
+      - name: Login to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.ORGANIZATION }} # organization username
+          password: ${{ secrets.PAT_TOKEN }} # classic token 필요
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          push: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main') }}
+          tags: ghcr.io/kakaotech-25/moheng-${{ matrix.service }}:latest # 이미지 태그
+
+      - name: Discord Notification
+        uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          title: ${{ matrix.service }}
+          webhook: ${{ secrets.DISCORD_WEBHOOK_CICD }}
+          status: ${{ job.status }} # 수정된 부분
+          description: |
+            ${{ job.status != 'success' && format('실패 단계: {0}', job.status) || '모든 빌드가 성공적으로 완료되었습니다.' }}
+          color: ${{ job.status == 'success' && '0x00ff00' || '0xff0000' }}

@@ -1,0 +1,231 @@
+.travel-details-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.details-upper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.travel-details-left {
+    width: 40%;
+    padding-right: 20px;
+}
+
+.travel-details-right {
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 20px;
+}
+
+.travel-image {
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+}
+
+.title-and-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.add-to-planner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.planner-button {
+    width: 70px;
+    height: 60px;
+    background-color: #ECE6F0;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.planner-button img {
+    width: 35px;
+    height: 35px;
+}
+
+.add-to-planner span {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #845EC2;
+}
+
+.location {
+    color: #845EC2;
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+.tags {
+    margin-bottom: 30px;
+}
+
+.tag {
+    background-color: #f0f0f0;
+    border-radius: 12px;
+    padding: 6px 12px;
+    margin-right: 5px;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.description {
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+.scrollable-description {
+    max-height: 400px;
+    overflow-y: scroll;
+    padding-right: 10px;
+    box-shadow: inset 0px -10px 10px -10px rgba(0, 0, 0, 0.1);
+}
+
+.similar-destinations {
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 2px solid #ECE6F0;
+    background-color: #f9f9f9;
+    padding-bottom: 40px;
+}
+
+.similar-destinations h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.similar-destinations .highlight {
+    color: #845EC2;
+    font-weight: bold;
+}
+
+.similar-place {
+    margin-left: 0;
+}
+
+
+.td-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.td-modal-content {
+    background-color: #FFFFEC;
+    border-radius: 10px;
+    width: 450px;
+    text-align: left;
+}
+
+.td-modal-header {
+    background-color: #C493FF;
+    color: white;
+    padding: 1px;
+    border-radius: 10px 10px 0 0;
+    text-align: center;
+}
+
+.td-modal-body {
+    padding: 20px;
+}
+
+.td-planner-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.td-planner-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ECE6F0;
+}
+
+.td-planner-title {
+    font-size: 20px;
+    color: #333;
+}
+
+.td-planner-checkbox {
+    transform: scale(2);
+}
+
+.td-modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.td-add-plan-button {
+    display: flex;
+    align-items: center;
+    background-color: #845EC2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.td-add-plan-button:hover {
+    background-color: #724BB7;
+}
+
+.td-save-cancel-group {
+    display: flex;
+    align-items: center;
+}
+
+.td-modal-save-button {
+    background-color: #845EC2;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.td-modal-cancel-button {
+    background-color: #ccc;
+    color: #333;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-icon {
+    width: 15px;
+    height: 15px;
+    margin-right: 8px;
+}

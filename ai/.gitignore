@@ -1,0 +1,35 @@
+# Python 관련
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.env
+*.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# 환경 설정 관련
+*.env
+
+# VSCode 관련
+.vscode/
+
+# PyCharm 관련
+.idea/
+
+# macOS 관련
+.DS_Store
+
+# Docker 관련
+docker-compose.yml
+docker-compose.override.yml
+
+# macOS 찌꺼기
+.DS_Store
+
+# 기타
+*.log
+*.sqlite3

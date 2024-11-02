@@ -3,6 +3,8 @@ plugins {
 	id 'org.springframework.boot' version '3.3.2'
 	id 'io.spring.dependency-management' version '1.1.6'
 	id 'org.asciidoctor.jvm.convert' version '3.3.2'
+	id 'jacoco'
+	id "org.sonarqube" version "5.1.0.4882"
 }
 
 group = 'mohang'
@@ -10,46 +12,150 @@ version = '0.0.1-SNAPSHOT'
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
+		languageVersion = JavaLanguageVersion.of(22)
 	}
 }
 
 configurations {
+	asciidoctorExtensions
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+}
+
+// 이 부분도 추가
+ext {
+	snippetsDir = file('build/generated-snippets')
 }
 
 repositories {
 	mavenCentral()
 }
 
-ext {
-	set('snippetsDir', file("build/generated-snippets"))
-}
-
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// flyway 를 위한 의존성
+	// implementation 'org.flywaydb:flyway-core'
+
+	// JWT 를 위한 의존성
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+	// 테스트 환경을 위한 의존성
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.rest-assured:rest-assured'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+
 }
 
-tasks.named('test') {
+test {
 	outputs.dir snippetsDir
 	useJUnitPlatform()
+	finalizedBy 'jacocoTestReport'
 }
 
-tasks.named('asciidoctor') {
+jacoco {
+	toolVersion = "0.8.11"
+}
+
+jacocoTestReport {
+	reports {
+		xml.required.set(true)
+		csv.required.set(true)
+		html.required.set(true)
+
+		xml.destination file(project.layout.buildDirectory.dir("jacoco/index.xml")) as File
+		csv.destination file(project.layout.buildDirectory.dir("jacoco/index.csv")) as File
+		html.destination file(project.layout.buildDirectory.dir("jacoco/index.html")) as File
+	}
+
+	afterEvaluate {
+		classDirectories.setFrom(
+				files(classDirectories.files.collect {
+					fileTree(dir: it, excludes: [
+							'**/*Application*',
+							'**/*Exception*',
+							'**/dto/**',
+							'**/infrastructure/**',
+							'**/global/**',
+							'**/BaseEntity*',
+							'**/ControllerAdvice*',
+							'**/AuthorizationExtractor*',
+							'**/runner/**',
+					])
+				})
+		)
+	}
+
+	finalizedBy(jacocoTestCoverageVerification)
+}
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			enabled = true
+			element = "CLASS"
+
+			limit {
+				counter = "LINE"
+				value = "COVEREDRATIO"
+				minimum = 0.85
+			}
+
+			excludes = [
+					'*.*Application',
+					'*.*Exception',
+					'*.dto.*',
+					'*.infrastructure.*',
+					'*.global.*',
+					'*.BaseEntity',
+					'*.ControllerAdvice',
+					'*.AuthorizationExtractor',
+					'*.runner.*',
+			]
+		}
+	}
+}
+
+
+
+asciidoctor {
+	configurations 'asciidoctorExtensions'
 	inputs.dir snippetsDir
 	dependsOn test
+	sources {
+		include("**/index.adoc")
+	}
+	baseDirFollowsSourceFile()
+}
+
+tasks.named('build') {
+	dependsOn asciidoctor
+}
+
+sonar {
+	properties {
+		property "sonar.projectKey", "moheng_backend"
+		property "sonar.projectName", "moheng-backend"
+		property "sonar.organization", "kakaotech-25"
+		property "sonar.host.url", "https://sonarcloud.io"
+		property "sonar.sources", "src"
+		property "sonar.java.binaries", "${buildDir}/classes"
+		property "sonar.language", "java"
+		property "sonar.sourceEncoding", "UTF-8"
+		property "sonar.test.inclusions", "**/*Test.java"
+		property 'sonar.exclusions', '**/jacoco/**'
+		property 'sonar.coverage.exclusions', '**/test/**/*, **/*Application*, **/global/**, **/dto/**, **/*Exception*, **/infrastructure/**, **/BaseEntity*, **/ControllerAdvice*, **/AuthorizationExtractor*'
+		property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/jacoco/index.xml"
+	}
 }

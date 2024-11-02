@@ -1,0 +1,12 @@
+@font-face {
+    font-family: "HBScript";
+    src: url("/KCC-Hanbit.ttf");
+}
+
+body * {
+    font-family: HBScript;
+}
+
+body {
+    margin: 0;
+}

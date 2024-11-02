@@ -1,9 +1,11 @@
 HELP.md
+log
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+.idea
 
 ### STS ###
 .apt_generated
@@ -18,6 +20,7 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
+log
 .idea
 *.iws
 *.iml

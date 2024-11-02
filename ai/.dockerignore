@@ -1,0 +1,38 @@
+# Git 관련
+.git
+.gitignore
+
+# Python 관련
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.env
+*.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# macOS 관련
+.DS_Store
+
+# VSCode 관련
+.vscode/
+
+# PyCharm 관련
+.idea/
+
+# Log 파일
+*.log
+
+# 환경 설정 파일 (필요한 경우 포함시키지 않음)
+*.env
+
+# Dockerfile (이미 도커 이미지 생성 중에는 필요하지 않음)
+Dockerfile
+
+# Docker Compose 파일
+docker-compose.yml
+docker-compose.override.yml

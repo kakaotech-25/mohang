@@ -1,0 +1,27 @@
+.user-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user-form > section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px 10px;
+    font-size: 20px;
+    width: 100%;
+    max-width: 450px;
+}
+
+.user-form > section > input,  .gender > label, .nickname-button {
+    margin-left: 20px;
+}
+
+.user-form > section > input {
+    width: 200px;
+    height: 30px;
+}
+
+

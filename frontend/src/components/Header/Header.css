@@ -1,0 +1,64 @@
+.header {
+    background-color: #C493FF;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.moheng {
+    font-size: xx-large;
+}
+
+.logo-img {
+    height: 70px;
+    width: 100px;
+}
+
+.login {
+    margin-left: auto;
+    margin-right: 20px;
+    font-size: x-large;
+    color: white;
+    text-decoration: none;
+}
+
+.profile-menu {
+    position: relative;
+    margin-left: auto;
+    margin-right: 10px;
+}
+
+.header-profile {
+    height: 55px !important;
+    width: 55px !important;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.profile-menu:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a,
+.logout-menu-item {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover,
+.logout-menu-item:hover {
+    background-color: #e0e0e0;
+}

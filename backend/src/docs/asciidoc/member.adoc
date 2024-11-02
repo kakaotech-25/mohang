@@ -1,0 +1,259 @@
+== ⛳️ Member (회원) 마이페이지 + Header 조회
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+
+=== 회원 권한과 프로필 이미지 경로 찾는 API (권한: 최초 회원가입 유저)
+
+==== HTTP Request
+
+include::{snippets}/member/find/authority/profile/success/init/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/member/find/authority/profile/success/init/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/member/find/authority/profile/success/init/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/member/find/authority/profile/success/init/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/member/find/authority/profile/success/init/response-fields.adoc[]
+
+=== 회원 권한과 프로필 이미지 경로 찾는 API (권한: 정규 유저)
+
+==== HTTP Request
+
+include::{snippets}/member/find/authority/profile/success/regular/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/member/find/authority/profile/success/regular/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/member/find/authority/profile/success/regular/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/member/find/authority/profile/success/regular/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/member/find/authority/profile/success/regular/response-fields.adoc[]
+
+=== 회원 권한과 프로필 이미지 경로 찾는 API (권한: 비회원)
+
+==== HTTP Request
+
+include::{snippets}/member/find/authority/profile/fail/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/member/find/authority/profile/fail/request-headers.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/member/find/authority/profile/fail/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/member/find/authority/profile/fail/response-body.adoc[]
+
+=== 회원 정보 조회(마이페이지) API
+
+==== HTTP Request
+
+include::{snippets}/member/me/success/http-request.adoc[]
+
+===== Request Header (Authorization)
+
+include::{snippets}/member/me/success/request-headers.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/member/me/success/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/member/me/success/response-fields.adoc[]
+
+=== 회원 정보 조회(마이페이지) API 실패 (존재하지 않는 회원 마이페이지 조회)
+
+==== HTTP Request
+
+include::{snippets}/member/me/fail/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/member/me/fail/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/member/me/fail/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/member/me/fail/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/member/me/fail/response-body.adoc[]
+
+=== 프로필 업데이트 API
+
+==== HTTP Request
+
+include::{snippets}/member/update/profile/success/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/member/update/profile/success/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/member/update/profile/success/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/member/update/profile/success/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/member/update/profile/success/response-body.adoc[]
+
+=== 프로필 업데이트 API 실패 (증복 닉네임이 이미 존재하는 경우)
+
+==== HTTP Request
+
+include::{snippets}/member/update/profile/fail/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/member/update/profile/fail/request-headers.adoc[]
+
+==== Request Body
+
+include::{snippets}/member/update/profile/fail/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/member/update/profile/fail/http-response.adoc[]
+
+==== Response Body
+
+include::{snippets}/member/update/profile/fail/response-body.adoc[]
+
+=== 회원의 생활정보 조회 (마이페이지) API
+
+==== HTTP Request
+
+include::{snippets}/live/info/member/find/success/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/live/info/member/find/success/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/live/info/member/find/success/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/live/info/member/find/success/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/live/info/member/find/success/response-fields.adoc[]
+
+=== 회원의 생활정보 조회 (마이페이지) API 실패 (존재하지 않는 회원 마이페이지 조회)
+
+==== HTTP Request
+
+include::{snippets}/live/info/member/find/fail/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/live/info/member/find/fail/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/live/info/member/find/fail/request-body.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/live/info/member/find/fail/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/live/info/member/find/fail/response-body.adoc[]
+
+=== 회원의 생활정보 수정 API
+
+==== HTTP Request
+
+include::{snippets}/live/info/member/update/success/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/live/info/member/update/success/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/live/info/member/update/success/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/live/info/member/update/success/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/live/info/member/update/success/response-body.adoc[]
+
+=== 회원의 생활정보 수정 API 실패 (요청받은 일부 생활정보가 존재하지 않는 경우)
+
+==== HTTP Request
+
+include::{snippets}/live/info/member/update/fail/noExistLiveInformation/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/live/info/member/update/fail/noExistLiveInformation/request-headers.adoc[]
+
+==== Request Body
+
+include::{snippets}/live/info/member/update/fail/noExistLiveInformation/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/live/info/member/update/fail/noExistLiveInformation/http-response.adoc[]
+
+=== 회원의 생활정보 수정 API 실패 (존재하지 않는 멤버의 생활정보 수정)
+
+==== HTTP Request
+
+include::{snippets}/live/info/member/update/fail/noExistMember/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/live/info/member/update/fail/noExistMember/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/live/info/member/update/fail/noExistMember/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/live/info/member/update/fail/noExistMember/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/live/info/member/update/fail/noExistMember/response-body.adoc[]
+

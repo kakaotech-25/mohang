@@ -1,0 +1,86 @@
+.my-page {
+    min-height: 70vh;
+    height: 100%;
+    width: 80%;
+    margin: 50px auto;
+    position: relative;
+    padding-top: 40px;
+}
+  
+.tabs {
+    display: flex;
+    position: absolute;
+    top: 0;
+    z-index: 2;
+}
+
+.tab-button {
+    background-color: #D5CABD;
+    border: 1px solid #D5CABD;
+    border-bottom: 1px solid #ccc;
+    padding: 9px 20px;
+    cursor: pointer;
+    font-size: 18px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    transition: background-color 0.3s;
+    width: 150px;
+    text-align: center;
+    z-index: 3;
+}
+
+.tab-button.active {
+    background-color: #F2EEEB;
+    border-bottom: none;
+}
+
+.tab-content {
+    padding: 20px;
+    border: 1px solid #D5CABD;
+    background-color: #F2EEEB;
+    border-radius: 0 8px 8px 8px;
+    position: relative;
+    margin-top: 0;
+    z-index: 1;
+}
+
+.mypage-img {
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    margin: 30px;
+}
+
+.user-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.change-btn {
+    opacity: 0.5;
+    width: 30px;
+    height: 30px;
+}
+
+.mypage-living {
+    margin: 20px auto;
+    padding: 50px;
+    border-radius: 10px;
+}
+
+.mypage-living > section {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px;
+    margin: 10%;
+}
+
+.mypage-btn {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 5%;
+}

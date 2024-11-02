@@ -1,0 +1,43 @@
+# 프로메테우스 관련
+/prometheus/data/
+/prometheus/wal/
+/prometheus/chunks_head/
+/prometheus/queries.active
+!/prometheus/data/.gitkeep
+
+# 임시 파일들
+*.tmp
+*.temp
+*.swp
+*.bak
+
+# 로그 파일
+*.log
+
+# 그라파나 관련
+/grafana/data/
+/grafana/plugins/
+/grafana/provisioning/datasources/
+/grafana/provisioning/dashboards/
+/grafana/grafana.db
+
+# 환경 변수 파일
+.env
+
+# 운영체제 관련 파일
+.DS_Store
+Thumbs.db
+
+# IDE 관련 파일
+.vscode/
+.idea/
+*.sublime-workspace
+
+# 컴파일된 바이너리
+*.exe
+*.out
+*.app
+
+# 기타 불필요한 파일
+*.pid
+*.retry

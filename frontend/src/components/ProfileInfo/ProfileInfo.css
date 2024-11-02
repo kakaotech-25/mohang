@@ -1,0 +1,15 @@
+.profile-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 20px;
+    font-size: 20px;
+}
+
+.profile-progressbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}

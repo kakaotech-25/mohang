@@ -1,0 +1,29 @@
+# Gradle build directory
+build/
+
+# Gradle caches
+.gradle/
+.gradle-cache/
+
+# IDE specific files
+*.idea/
+*.vscode/
+*.iml
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs and temp files
+*.log
+*.tmp
+*.bak
+
+# Git repository files
+.git/
+.gitignore
+
+# Docker specific files
+Dockerfile
+compose.yaml
+

@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: moheng
+  profiles:
+    active: test
+  datasource:
+    url: jdbc:h2:mem:~/moheng;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=FALSE
+    username: sa
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  main:
+    allow-bean-definition-overriding: true
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+oauth:
+  kakao:
+    authorize_uri: https://kauth.kakao.com/oauth/authorize
+    redirect_uri: http://localhost:3000
+    client_secret: 9j9MKkwn648WgRwP6UKl4X7tgbQdBoXQ
+    token_uri: https://kauth.kakao.com/oauth/token
+    user_uri: https://kapi.kakao.com/v2/user/me
+    client_id: 01bcd95738b16b4ab1a67945871afab7
+
+security:
+  jwt:
+    token:
+      secret_key: secretsecretsecretsecretsecretsecret
+      expire_length:
+        access_token: 3600
+        refresh_token: 3600
+
+

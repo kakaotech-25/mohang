@@ -1,0 +1,14 @@
+= ✈️ Moheng API 문서
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+
+include::auth.adoc[]
+include::signup.adoc[]
+include::member.adoc[]
+include::trip.adoc[]
+include::keyword.adoc[]
+include::planner.adoc[]
+include::tripschedule.adoc[]

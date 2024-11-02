@@ -1,0 +1,60 @@
+server:
+  shutdown: graceful
+  tomcat:
+    accept-count: 30
+    max-connections: 8192
+    threads:
+      max: 30
+spring:
+  application:
+    name: moheng
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    ### hard secrets ###
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    hikari:
+      maximum-pool-size: 5
+      connection-timeout: 3000
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  flyway:
+    enabled: true
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+oauth:
+  kakao:
+    ### hard secrets ###
+    client_id: ${KAKAO_CLIENT_ID}
+    client_secret: ${KAKAO_CLIENT_SECRET}
+
+    # soft secrets #
+    authorize_uri: ${KAKAO_AUTHORIZE_URI}
+    redirect_uri: ${KAKAO_REDIRECT_URI}
+    token_uri: ${KAKAO_TOKEN_URI}
+    user_uri: ${KAKAO_USER_URI}
+
+security:
+  jwt:
+    token:
+      ### hard secrets ###
+      secret_key: ${JWT_SECRET_KEY}
+      # soft secrets #
+      expire_length:
+        access_token: ${JWT_ACCESS_TOKEN_EXPIRE_LENGTH}
+        refresh_token: ${JWT_REFRESH_TOKEN_EXPIRE_LENGTH}

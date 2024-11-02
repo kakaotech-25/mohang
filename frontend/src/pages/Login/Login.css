@@ -1,0 +1,21 @@
+.login-page {
+    min-height: 72vh;
+    height:100%;
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+}
+
+.login-left {
+    width: 30%;
+}
+
+.kakao-login {
+    align-self: center;
+    width: 40%;
+    z-index: 999;
+}
+
+.login-right {
+    width: 30%;
+}

@@ -1,0 +1,85 @@
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:local
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.local
+    networks:
+      - moheng-network
+    ports:
+      - "80:80"
+    restart: always
+    volumes:
+      - ./nginx/srcs/:/etc/nginx/srcs
+      - ./nginx/tools/develop.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/nginx.conf/:/etc/nginx/nginx.conf
+
+  backend:
+    container_name: back
+    image: spring:local
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.local
+    networks:
+      - moheng-network
+    ports:
+      - 8080:8080
+    restart: always
+    environment:
+      - LOGGING_LEVEL_ROOT=ERROR
+    volumes:
+      - back-dir:/app
+
+  frontend:
+    container_name: front
+    image: react:local
+    build:
+      context: frontend/
+      dockerfile: Dockerfile.front
+    volumes:
+      - front-dir:/usr/app
+    networks:
+      - moheng-network
+    ports: # CORS 3000 allowed
+      - 3000:3000 # host:container
+    restart: always
+    environment:
+      - NODE_ENV=development
+
+  ai:
+    container_name: ai
+    image: fastapi:local
+    build: ./ai
+    volumes:
+      - ai-dir:/app
+    networks:
+      - moheng-network
+    ports:
+      - 8000:8000
+    restart: always
+
+volumes:
+  front-dir:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./frontend
+  ai-dir:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./ai
+  back-dir:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./backend
+
+networks:
+  moheng-network:
+    name: moheng-network
+    driver: bridge
