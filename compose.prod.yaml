@@ -1,7 +1,7 @@
 services:
   nginx:
     container_name: nginx
-    image: leovim5072/moheng-nginx:latest
+    image: ghcr.io/kakaotech-25/moheng-nginx:latest
     networks:
       - moheng-network
     ports:
@@ -18,7 +18,7 @@ services:
 
   backend:
     container_name: back
-    image: leovim5072/moheng-backend:latest
+    image: ghcr.io/kakaotech-25/moheng-backend:latest
     networks:
       - moheng-network
     expose:
@@ -31,7 +31,7 @@ services:
 
   ai:
     container_name: ai
-    image: leovim5072/moheng-ai:latest
+    image: ghcr.io/kakaotech-25/moheng-ai:latest
     networks:
       - moheng-network
     expose:
