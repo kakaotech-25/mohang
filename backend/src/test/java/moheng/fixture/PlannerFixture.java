@@ -13,8 +13,8 @@ public class PlannerFixture {
     // 플래너 요청
     public static FindPlannerOrderByDateBetweenRequest 플래너_날짜순_범위_조회_요청() {
         return new FindPlannerOrderByDateBetweenRequest(
-                LocalDateTime.of(2024, 1, 14),
-                LocalDateTime.of(2025, 6, 15)
+                LocalDate.of(2024, 1, 14),
+                LocalDate.of(2025, 6, 15)
         );
     }
 
