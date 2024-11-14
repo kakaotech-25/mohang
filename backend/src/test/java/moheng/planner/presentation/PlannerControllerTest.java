@@ -291,4 +291,38 @@ public class PlannerControllerTest extends ControllerTestConfig {
                 ))
                 .andExpect(status().isNotFound());
     }
+
+    @DisplayName("주어진 범위에 해당하는 플래너 여행 일정들을 내림차순으로 조회하고 상태코드 200을 리턴한다.")
+    @Test
+    void 주어진_범위에_해당하는_플래너_여행_일정들을_내림차순으로_조회하고_상태코드_200을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(plannerService.findPlannerOrderByDateAndRange(anyLong(), any())).willReturn(플래너_날짜순_범위_조회_응답());
+
+        // when, then
+        mockMvc.perform(get("/api/planner/range")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(플래너_날짜순_범위_조회_요청())))
+                .andDo(print())
+                .andDo(document("planner/find/range/date",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("startDate").description("일정 시작날짜"),
+                                fieldWithPath("endDate").description("일정 종료날짜")
+                        ),
+                        responseFields(
+                                fieldWithPath("tripScheduleResponses").description("여행 일정 리스트 : 범위내의 날짜순조회"),
+                                fieldWithPath("tripScheduleResponses[].scheduleId").description("여행 일정 고유 ID 값"),
+                                fieldWithPath("tripScheduleResponses[].scheduleName").description("여행 일정 이름"),
+                                fieldWithPath("tripScheduleResponses[].startTime").description("여행 일정 시작날짜"),
+                                fieldWithPath("tripScheduleResponses[].endTime").description("여행 일정 종료날짜")
+                        )))
+                .andExpect(status().isOk());
+    }
 }
