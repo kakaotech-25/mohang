@@ -430,7 +430,8 @@ public class MemberControllerTest extends ControllerTestConfig {
                                 fieldWithPath("nickname").description("닉네임")
                         ),
                         responseFields(
-                                fieldWithPath("message").description("중복되는 닉네임이 존재합니다.")
+                                fieldWithPath("message").description("중복되는 닉네임이 존재합니다."),
+                                fieldWithPath("description").description("")
                         )
                 )).andExpect(status().isUnauthorized());
     }

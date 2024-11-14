@@ -28,6 +28,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 @RestControllerAdvice
 public class ControllerAdvice {
     private static final Logger logger = LoggerFactory.getLogger(ControllerAdvice.class);
+    private static final String DESCRIPTION_DEFAULT = "";
 
     @ExceptionHandler({
             BadRequestException.class,
@@ -52,14 +53,14 @@ public class ControllerAdvice {
     })
     public ResponseEntity<ExceptionResponse> handleIBadRequestException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
-        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage());
+        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage(), DESCRIPTION_DEFAULT);
         return ResponseEntity.badRequest().body(exceptionResponse);
     }
 
     @ExceptionHandler(InvalidOAuthServiceException.class)
     public ResponseEntity<ExceptionResponse> handleOAuthException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
-        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage());
+        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage(), DESCRIPTION_DEFAULT);
         return ResponseEntity.internalServerError().body(exceptionResponse);
     }
 
@@ -68,7 +69,7 @@ public class ControllerAdvice {
     })
     public ResponseEntity<ExceptionResponse> handleAIServerException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
-        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage());
+        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage(), DESCRIPTION_DEFAULT);
         return ResponseEntity.internalServerError().body(exceptionResponse);
     }
 
@@ -80,7 +81,7 @@ public class ControllerAdvice {
     })
     public ResponseEntity<ExceptionResponse> handleUnAuthorizedException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
-        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
+        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage(), DESCRIPTION_DEFAULT);
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
@@ -90,7 +91,7 @@ public class ControllerAdvice {
     })
     public ResponseEntity<ExceptionResponse> handleForbiddenException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
-        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
+        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage(), DESCRIPTION_DEFAULT);
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
     }
@@ -107,7 +108,7 @@ public class ControllerAdvice {
     })
     public ResponseEntity<ExceptionResponse> handleNotFoundResourceException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
-        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
+        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage(), DESCRIPTION_DEFAULT);
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
@@ -117,7 +118,7 @@ public class ControllerAdvice {
     })
     public ResponseEntity<ExceptionResponse> handleNoResourceFoundException(final NoResourceFoundException e) {
         logger.error(e.getMessage(), e);
-        ExceptionResponse exceptionResponse = new ExceptionResponse("존재하지 않는 리소스 또는 URI 입니다.");
+        ExceptionResponse exceptionResponse = new ExceptionResponse("존재하지 않는 리소스 또는 URI 입니다.", e.getMessage());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse);
     }
@@ -129,7 +130,7 @@ public class ControllerAdvice {
     })
     public ResponseEntity<ExceptionResponse> handleUnprocessableEntityException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
-        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
+        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage(), DESCRIPTION_DEFAULT);
 
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
     }
@@ -139,26 +140,26 @@ public class ControllerAdvice {
     })
     public ResponseEntity<ExceptionResponse> handleConcurrencyIssue(final RuntimeException e) {
         logger.error(e.getMessage(), e);
-        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
+        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage(), DESCRIPTION_DEFAULT);
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ExceptionResponse> handleInvalidRequestBody() {
-        ExceptionResponse exceptionResponse = new ExceptionResponse("잘못된 Request Body 형식 입니다.");
+    public ResponseEntity<ExceptionResponse> handleInvalidRequestBody(final HttpMessageNotReadableException e) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse("잘못된 Request Body 형식 입니다.", e.getMessage());
         return ResponseEntity.badRequest().body(exceptionResponse);
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<ExceptionResponse> handleNotSupportedMethod() {
-        ExceptionResponse errorResponse = new ExceptionResponse("잘못된 HTTP 메소드 요청입니다.");
+    public ResponseEntity<ExceptionResponse> handleNotSupportedMethod(final HttpRequestMethodNotSupportedException e) {
+        ExceptionResponse errorResponse = new ExceptionResponse("잘못된 HTTP 메소드 요청입니다.", e.getMessage());
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(errorResponse);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<ExceptionResponse> handleTypeMismatch() {
-        ExceptionResponse exceptionResponse = new ExceptionResponse("잘못된 타입을 가진 데이터가 포함되어 있습니다.");
+    public ResponseEntity<ExceptionResponse> handleTypeMismatch(MethodArgumentTypeMismatchException e) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse("잘못된 타입을 가진 데이터가 포함되어 있습니다.", e.getMessage());
         return ResponseEntity.badRequest().body(exceptionResponse);
     }
 
@@ -167,6 +168,6 @@ public class ControllerAdvice {
         logger.error(e.getMessage(), e);
 
         return ResponseEntity.internalServerError()
-                .body(new ExceptionResponse("서버에 예기치 못한 오류가 발생했습니다. 관리자에게 문의하세요."));
+                .body(new ExceptionResponse("서버에 예기치 못한 오류가 발생했습니다. 관리자에게 문의하세요.", e.getMessage()));
     }
 }
