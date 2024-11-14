@@ -234,29 +234,4 @@ public class PlannerServiceTest extends ServiceTestConfig {
             assertThat(플래너_조회_응답.getTripScheduleResponses().get(3).getScheduleName()).isEqualTo("일정1");
         });
     }
-
-    @DisplayName("플래너 여행 일정을 주어진 범위 내에 포함되지 않는 생성날짜를 가진 여행지는 제외한다.")
-    @Test
-    void 플래너_여행_일정을_주어진_범위_내에_포함되지_않는_생성날짜를_가진_여행지는_제외한다() {
-        // given
-        Member 하온 = memberRepository.save(하온_기존());
-        tripScheduleRepository.save(여행_일정1_생성(하온)); tripScheduleRepository.save(여행_일정2_생성(하온));
-        tripScheduleRepository.save(여행_일정3_생성(하온)); tripScheduleRepository.save(여행_일정4_생성(하온));
-
-        LocalDate 시작날짜 = LocalDate.now().minusDays(1);
-        LocalDate 종료날짜 = LocalDate.now().plusDays(1);
-        FindPlannerOrderByDateBetweenRequest 플래너_조회_요청 = new FindPlannerOrderByDateBetweenRequest(시작날짜, 종료날짜);
-
-        // when
-        FindPlannerOrderByDateBetweenResponse 플래너_조회_응답 = plannerService.findPlannerOrderByDateAndRange(하온.getId(), 플래너_조회_요청);
-
-        // then
-        assertAll(() -> {
-            assertThat(플래너_조회_응답.getTripScheduleResponses()).hasSize(4);
-            assertThat(플래너_조회_응답.getTripScheduleResponses().get(0).getScheduleName()).isEqualTo("일정4");
-            assertThat(플래너_조회_응답.getTripScheduleResponses().get(1).getScheduleName()).isEqualTo("일정3");
-            assertThat(플래너_조회_응답.getTripScheduleResponses().get(2).getScheduleName()).isEqualTo("일정2");
-            assertThat(플래너_조회_응답.getTripScheduleResponses().get(3).getScheduleName()).isEqualTo("일정1");
-        });
-    }
 }

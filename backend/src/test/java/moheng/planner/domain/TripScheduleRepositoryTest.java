@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class TripScheduleRepositoryTest extends RepositoryTestConfig {
@@ -117,5 +118,29 @@ public class TripScheduleRepositoryTest extends RepositoryTestConfig {
 
         // then
         assertThat(trips.size()).isEqualTo(2);
+    }
+
+    @DisplayName("플래너 여행 일정을 주어진 범위 내에서 생성날짜를 기준으로 내림차순 정렬한다.")
+    @Test
+    void 플래너_여행_일정을_주어진_범위_내에서_생성날짜를_기준으로_내림차순_정렬한다() {
+        // given
+        Member 하온 = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(여행_일정1_생성(하온)); tripScheduleRepository.save(여행_일정2_생성(하온));
+        tripScheduleRepository.save(여행_일정3_생성(하온)); tripScheduleRepository.save(여행_일정4_생성(하온));
+
+        LocalDateTime 시작날짜 = LocalDate.now().minusDays(1).atStartOfDay();
+        LocalDateTime 종료날짜 = LocalDate.now().plusDays(1).atStartOfDay();
+
+        // when
+        List<TripSchedule> 플래너_일정_조회_결과 = tripScheduleRepository.findByMemberAndDateRangeOrderByCreatedAt(하온, 시작날짜, 종료날짜);
+
+        // then
+        assertAll(() -> {
+            assertEquals(플래너_일정_조회_결과.size(), 4);
+            assertThat(플래너_일정_조회_결과.get(0).getName()).isEqualTo("일정4");
+            assertThat(플래너_일정_조회_결과.get(1).getName()).isEqualTo("일정3");
+            assertThat(플래너_일정_조회_결과.get(2).getName()).isEqualTo("일정2");
+            assertThat(플래너_일정_조회_결과.get(3).getName()).isEqualTo("일정1");
+        });
     }
 }
