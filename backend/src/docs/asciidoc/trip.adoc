@@ -140,11 +140,11 @@ include::{snippets}/trip/find/current/fail/noExistRecommendTrip/request-body.ado
 
 ===== HTTP Response
 
-include::{snippets}/trip/find/current/http-response.adoc[]
+include::{snippets}/trip/find/current/fail/noExistRecommendTrip/http-response.adoc[]
 
-===== Response
+===== Response Body
 
-include::{snippets}/trip/find/current/fail/request-body.adoc[]
+include::{snippets}/trip/find/current/fail/noExistRecommendTrip/response-body.adoc[]
 
 === 상세 여행지 조회 with. 비슷한 여행지 API 실패 (AI 서버에 문제가 발생한 경우)
 
