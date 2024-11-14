@@ -28,6 +28,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 @RestControllerAdvice
 public class ControllerAdvice {
     private static final Logger logger = LoggerFactory.getLogger(ControllerAdvice.class);
+    private static final String DESCRIPTION_DEFAULT = "";
 
     @ExceptionHandler({
             BadRequestException.class,
@@ -52,14 +53,14 @@ public class ControllerAdvice {
     })
     public ResponseEntity<ExceptionResponse> handleIBadRequestException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
-        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage());
+        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage(), DESCRIPTION_DEFAULT);
         return ResponseEntity.badRequest().body(exceptionResponse);
     }
 
     @ExceptionHandler(InvalidOAuthServiceException.class)
     public ResponseEntity<ExceptionResponse> handleOAuthException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
-        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage());
+        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage(), DESCRIPTION_DEFAULT);
         return ResponseEntity.internalServerError().body(exceptionResponse);
     }
 
@@ -68,7 +69,7 @@ public class ControllerAdvice {
     })
     public ResponseEntity<ExceptionResponse> handleAIServerException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
-        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage());
+        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage(), DESCRIPTION_DEFAULT);
         return ResponseEntity.internalServerError().body(exceptionResponse);
     }
 
@@ -80,7 +81,7 @@ public class ControllerAdvice {
     })
     public ResponseEntity<ExceptionResponse> handleUnAuthorizedException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
-        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
+        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage(), DESCRIPTION_DEFAULT);
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
@@ -90,7 +91,7 @@ public class ControllerAdvice {
     })
     public ResponseEntity<ExceptionResponse> handleForbiddenException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
-        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
+        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage(), DESCRIPTION_DEFAULT);
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
     }
@@ -107,7 +108,7 @@ public class ControllerAdvice {
     })
     public ResponseEntity<ExceptionResponse> handleNotFoundResourceException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
-        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
+        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage(), DESCRIPTION_DEFAULT);
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
@@ -129,7 +130,7 @@ public class ControllerAdvice {
     })
     public ResponseEntity<ExceptionResponse> handleUnprocessableEntityException(final RuntimeException e) {
         logger.error(e.getMessage(), e);
-        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
+        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage(), DESCRIPTION_DEFAULT);
 
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
     }
@@ -139,7 +140,7 @@ public class ControllerAdvice {
     })
     public ResponseEntity<ExceptionResponse> handleConcurrencyIssue(final RuntimeException e) {
         logger.error(e.getMessage(), e);
-        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage());
+        ExceptionResponse errorResponse = new ExceptionResponse(e.getMessage(), DESCRIPTION_DEFAULT);
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
