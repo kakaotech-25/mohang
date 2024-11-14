@@ -3,13 +3,13 @@ package moheng.keyword.presentation;
 
 import moheng.auth.dto.Accessor;
 import moheng.auth.presentation.authentication.Authentication;
-import moheng.keyword.dto.FindAllKeywordResponses;
-import moheng.keyword.dto.FindTripsWithRandomKeywordResponse;
-import moheng.keyword.dto.KeywordCreateRequest;
-import moheng.keyword.dto.TripsByKeyWordsRequest;
+import moheng.keyword.dto.response.FindAllKeywordResponses;
+import moheng.keyword.dto.response.FindTripsWithRandomKeywordResponse;
+import moheng.keyword.dto.request.KeywordCreateRequest;
+import moheng.keyword.dto.request.TripsByKeyWordsRequest;
 import moheng.keyword.application.KeywordService;
-import moheng.trip.dto.FindTripsResponse;
-import moheng.trip.dto.TripKeywordCreateRequest;
+import moheng.trip.dto.response.FindTripsResponse;
+import moheng.trip.dto.request.TripKeywordCreateRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

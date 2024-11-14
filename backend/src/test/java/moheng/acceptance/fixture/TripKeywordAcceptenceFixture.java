@@ -3,7 +3,7 @@ package moheng.acceptance.fixture;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import moheng.trip.dto.TripKeywordCreateRequest;
+import moheng.trip.dto.request.TripKeywordCreateRequest;
 import org.springframework.http.MediaType;
 
 public class TripKeywordAcceptenceFixture {

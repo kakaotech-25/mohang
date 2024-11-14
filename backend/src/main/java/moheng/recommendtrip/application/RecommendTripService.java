@@ -5,19 +5,14 @@ import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
 import moheng.recommendtrip.domain.RecommendTrip;
-import moheng.recommendtrip.domain.filterinfo.PreferredLocationsFilterInfo;
-import moheng.recommendtrip.domain.tripfilterstrategy.TripFilterStrategy;
 import moheng.recommendtrip.domain.tripfilterstrategy.TripFilterStrategyProvider;
 import moheng.recommendtrip.domain.repository.RecommendTripRepository;
 import moheng.recommendtrip.dto.RecommendTripCreateRequest;
 import moheng.trip.domain.*;
 import moheng.trip.domain.repository.TripRepository;
-import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.exception.NoExistTripException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.*;
 
 @Transactional(readOnly = true)
 @Service

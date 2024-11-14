@@ -3,9 +3,9 @@ package moheng.trip.presentation;
 import moheng.auth.dto.Accessor;
 import moheng.auth.presentation.authentication.Authentication;
 import moheng.trip.application.TripService;
-import moheng.trip.dto.FindTripWithSimilarTripsResponse;
-import moheng.trip.dto.FindTripsResponse;
-import moheng.trip.dto.TripCreateRequest;
+import moheng.trip.dto.response.FindTripWithSimilarTripsResponse;
+import moheng.trip.dto.response.FindTripsResponse;
+import moheng.trip.dto.request.TripCreateRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

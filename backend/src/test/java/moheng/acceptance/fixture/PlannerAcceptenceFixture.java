@@ -3,14 +3,11 @@ package moheng.acceptance.fixture;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import moheng.auth.dto.AccessTokenResponse;
-import moheng.planner.dto.FindPlannerOrderByDateBetweenRequest;
-import moheng.planner.dto.UpdateTripScheduleRequest;
-import moheng.recommendtrip.dto.RecommendTripCreateRequest;
+import moheng.auth.dto.response.AccessTokenResponse;
+import moheng.planner.dto.request.FindPlannerOrderByDateBetweenRequest;
+import moheng.planner.dto.request.UpdateTripScheduleRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-
-import java.time.LocalDate;
 
 public class PlannerAcceptenceFixture {
     public static ExtractableResponse<Response> 플래너_여행지를_날짜순으로_조회한다(final AccessTokenResponse accessTokenResponse) {

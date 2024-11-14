@@ -1,10 +1,9 @@
 package moheng.recommendtrip.domain.tripfilterstrategy;
 
-import moheng.keyword.domain.TripKeyword;
 import moheng.keyword.domain.repository.TripKeywordRepository;
 import moheng.recommendtrip.exception.LackOfRecommendTripException;
 import moheng.trip.domain.Trip;
-import moheng.trip.dto.FindTripsResponse;
+import moheng.trip.dto.response.FindTripsResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

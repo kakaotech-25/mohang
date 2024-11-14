@@ -2,19 +2,15 @@ package moheng.recommendtrip.presentation;
 
 import moheng.auth.dto.Accessor;
 import moheng.auth.presentation.authentication.Authentication;
-import moheng.keyword.domain.TripKeyword;
 import moheng.recommendtrip.application.RecommendTripService;
 import moheng.recommendtrip.domain.filterinfo.PreferredLocationsFilterInfo;
 import moheng.recommendtrip.domain.tripfilterstrategy.TripFilterStrategy;
 import moheng.recommendtrip.domain.tripfilterstrategy.TripFilterStrategyProvider;
 import moheng.recommendtrip.domain.tripfilterstrategy.TripsWithKeywordProvider;
 import moheng.recommendtrip.dto.RecommendTripCreateRequest;
-import moheng.trip.domain.Trip;
-import moheng.trip.dto.FindTripsResponse;
+import moheng.trip.dto.response.FindTripsResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequestMapping("/api/recommend")
 @RestController

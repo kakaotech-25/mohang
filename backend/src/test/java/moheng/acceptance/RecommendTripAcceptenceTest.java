@@ -3,7 +3,6 @@ package moheng.acceptance;
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.*;
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.생활정보로_회원가입_한다;
 import static moheng.acceptance.fixture.KeywordAcceptenceFixture.키워드를_생성한다;
-import static moheng.acceptance.fixture.MemberLiveInfoAcceptenceFixture.회원의_생활정보를_수정한다;
 import static moheng.acceptance.fixture.RecommendTripAcceptenceFixture.선호_여행지를_선택한다;
 import static moheng.acceptance.fixture.RecommendTripAcceptenceFixture.AI_맞춤_추천_여행지를_조회한다;
 import static moheng.acceptance.fixture.TripAcceptenceFixture.여행지를_생성한다;
@@ -12,19 +11,15 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.assertj.core.api.Assertions.assertThat;
 import static moheng.acceptance.fixture.TripAcceptenceFixture.*;
 import static moheng.acceptance.fixture.LiveInfoAcceptenceFixture.*;
-import io.restassured.RestAssured;
+
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
-import moheng.auth.dto.AccessTokenResponse;
-import moheng.auth.dto.TokenRequest;
-import moheng.recommendtrip.dto.RecommendTripCreateRequest;
-import moheng.trip.dto.FindTripResponse;
-import moheng.trip.dto.FindTripsResponse;
+import moheng.auth.dto.response.AccessTokenResponse;
+import moheng.trip.dto.response.FindTripsResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 
 public class RecommendTripAcceptenceTest extends AcceptanceTestConfig {
 

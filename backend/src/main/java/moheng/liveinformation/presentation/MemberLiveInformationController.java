@@ -3,8 +3,8 @@ package moheng.liveinformation.presentation;
 import moheng.auth.dto.Accessor;
 import moheng.auth.presentation.authentication.Authentication;
 import moheng.liveinformation.application.MemberLiveInformationService;
-import moheng.liveinformation.dto.FindMemberLiveInformationResponses;
-import moheng.liveinformation.dto.UpdateMemberLiveInformationRequest;
+import moheng.liveinformation.dto.response.FindMemberLiveInformationResponses;
+import moheng.liveinformation.dto.request.UpdateMemberLiveInformationRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

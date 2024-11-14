@@ -2,13 +2,13 @@ package moheng.fixture;
 
 import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.TripKeyword;
-import moheng.keyword.dto.FindAllKeywordResponses;
-import moheng.keyword.dto.FindTripsWithRandomKeywordResponse;
-import moheng.keyword.dto.KeywordCreateRequest;
-import moheng.keyword.dto.TripsByKeyWordsRequest;
+import moheng.keyword.dto.response.FindAllKeywordResponses;
+import moheng.keyword.dto.response.FindTripsWithRandomKeywordResponse;
+import moheng.keyword.dto.request.KeywordCreateRequest;
+import moheng.keyword.dto.request.TripsByKeyWordsRequest;
 import moheng.trip.domain.Trip;
-import moheng.trip.dto.FindTripsResponse;
-import moheng.trip.dto.TripKeywordCreateRequest;
+import moheng.trip.dto.response.FindTripsResponse;
+import moheng.trip.dto.request.TripKeywordCreateRequest;
 
 import java.util.List;
 

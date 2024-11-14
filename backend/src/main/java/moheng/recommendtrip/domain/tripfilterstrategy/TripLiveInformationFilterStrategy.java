@@ -6,7 +6,7 @@ import moheng.recommendtrip.domain.filterinfo.FilterStandardInfo;
 import moheng.trip.domain.model.ExternalSimilarTripModelClient;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.repository.TripRepository;
-import moheng.trip.dto.FindSimilarTripWithContentIdResponses;
+import moheng.trip.dto.response.FindSimilarTripWithContentIdResponses;
 import moheng.trip.exception.NoExistTripException;
 import org.springframework.stereotype.Component;
 

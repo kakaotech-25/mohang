@@ -1,18 +1,10 @@
 package moheng.liveinformation.presentation;
 
-import moheng.auth.dto.Accessor;
-import moheng.auth.presentation.authentication.Authentication;
 import moheng.liveinformation.application.LiveInformationService;
-import moheng.liveinformation.application.MemberLiveInformationService;
-import moheng.liveinformation.domain.LiveInformation;
-import moheng.liveinformation.dto.FindAllLiveInformationResponse;
-import moheng.liveinformation.dto.FindMemberLiveInformationResponses;
-import moheng.liveinformation.dto.LiveInformationCreateRequest;
-import moheng.liveinformation.dto.LiveInformationResponse;
+import moheng.liveinformation.dto.response.FindAllLiveInformationResponse;
+import moheng.liveinformation.dto.request.LiveInformationCreateRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequestMapping("/api/live/info")
 @RestController

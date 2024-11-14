@@ -1,7 +1,6 @@
 package moheng.planner.presentation;
 
 import static moheng.fixture.PlannerFixture.*;
-import static moheng.fixture.MemberFixtures.*;
 import static moheng.fixture.TripScheduleFixtures.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
@@ -23,20 +22,12 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 
 import moheng.config.slice.ControllerTestConfig;
 import moheng.member.exception.NoExistMemberException;
-import moheng.planner.domain.TripSchedule;
-import moheng.planner.dto.FindPLannerOrderByNameResponse;
-import moheng.planner.dto.FindPlannerOrderByDateResponse;
-import moheng.planner.dto.FindPlannerOrderByRecentResponse;
-import moheng.planner.dto.UpdateTripScheduleRequest;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.planner.exception.NoExistTripScheduleException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
-
-import java.time.LocalDate;
-import java.util.List;
 
 public class PlannerControllerTest extends ControllerTestConfig {
 

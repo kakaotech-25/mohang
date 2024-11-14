@@ -3,8 +3,7 @@ package moheng.acceptance.fixture;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import moheng.liveinformation.dto.LiveInformationCreateRequest;
-import moheng.liveinformation.dto.UpdateMemberLiveInformationRequest;
+import moheng.liveinformation.dto.request.UpdateMemberLiveInformationRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 

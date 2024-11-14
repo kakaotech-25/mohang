@@ -1,6 +1,6 @@
 package moheng.recommendtrip.dto;
 
-import moheng.trip.dto.RecommendTripsByVisitedLogsRequest;
+import moheng.trip.dto.request.RecommendTripsByVisitedLogsRequest;
 
 import java.util.List;
 

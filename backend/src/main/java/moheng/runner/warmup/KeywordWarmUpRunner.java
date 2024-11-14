@@ -1,7 +1,7 @@
 package moheng.runner.warmup;
 
 import moheng.keyword.application.KeywordService;
-import moheng.keyword.dto.TripsByKeyWordsRequest;
+import moheng.keyword.dto.request.TripsByKeyWordsRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;

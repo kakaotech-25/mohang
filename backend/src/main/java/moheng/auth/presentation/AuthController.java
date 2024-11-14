@@ -3,11 +3,16 @@ package moheng.auth.presentation;
 import static org.springframework.http.HttpHeaders.SET_COOKIE;
 import static org.springframework.http.HttpStatus.CREATED;
 
-import jakarta.persistence.Access;
 import jakarta.servlet.http.HttpServletResponse;
 import moheng.auth.application.AuthService;
 import moheng.auth.domain.token.MemberToken;
 import moheng.auth.dto.*;
+import moheng.auth.dto.request.LogoutRequest;
+import moheng.auth.dto.request.RenewalAccessTokenRequest;
+import moheng.auth.dto.request.TokenRequest;
+import moheng.auth.dto.response.AccessTokenResponse;
+import moheng.auth.dto.response.OAuthUriResponse;
+import moheng.auth.dto.response.RenewalAccessTokenResponse;
 import moheng.auth.presentation.authentication.Authentication;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +34,8 @@ public class AuthController {
 
     @PostMapping("/{oAuthProvider}/login")
     public ResponseEntity<AccessTokenResponse> login(@PathVariable final String oAuthProvider,
-                                             @RequestBody final TokenRequest tokenRequest,
-                                             final HttpServletResponse httpServletResponse) {
+                                                     @RequestBody final TokenRequest tokenRequest,
+                                                     final HttpServletResponse httpServletResponse) {
         final MemberToken memberToken = authService.generateTokenWithCode(tokenRequest.getCode(), oAuthProvider);
         final ResponseCookie responseCookie = ResponseCookie.from("refresh-token", memberToken.getRefreshToken())
                 .maxAge(604800)

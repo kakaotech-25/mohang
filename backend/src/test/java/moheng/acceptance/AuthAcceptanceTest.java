@@ -10,7 +10,9 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
-import moheng.auth.dto.*;
+import moheng.auth.dto.response.AccessTokenResponse;
+import moheng.auth.dto.response.OAuthUriResponse;
+import moheng.auth.dto.response.RenewalAccessTokenResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

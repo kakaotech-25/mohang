@@ -2,43 +2,20 @@ package moheng.recommendtrip.application;
 
 import static moheng.fixture.RecommendTripFixture.*;
 import static moheng.fixture.TripFixture.*;
-import static moheng.fixture.KeywordFixture.*;
-import static moheng.fixture.MemberTripFixture.*;
-import static moheng.fixture.LiveInformationFixture.*;
 import static moheng.fixture.MemberFixtures.하온_기존;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import moheng.config.slice.ServiceTestConfig;
-import moheng.keyword.domain.Keyword;
-import moheng.keyword.domain.repository.KeywordRepository;
-import moheng.keyword.domain.TripKeyword;
-import moheng.keyword.domain.repository.TripKeywordRepository;
-import moheng.liveinformation.domain.*;
-import moheng.liveinformation.domain.repository.LiveInformationRepository;
-import moheng.liveinformation.domain.repository.MemberLiveInformationRepository;
-import moheng.liveinformation.domain.repository.TripLiveInformationRepository;
-import moheng.member.application.MemberService;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
-import moheng.member.dto.request.SignUpInterestTripsRequest;
 import moheng.member.exception.NoExistMemberException;
-import moheng.recommendtrip.domain.RecommendTrip;
-import moheng.recommendtrip.domain.repository.RecommendTripRepository;
-import moheng.recommendtrip.dto.RecommendTripCreateRequest;
-import moheng.recommendtrip.exception.LackOfRecommendTripException;
-import moheng.trip.domain.MemberTrip;
-import moheng.trip.domain.repository.MemberTripRepository;
 import moheng.trip.domain.Trip;
-import moheng.trip.dto.FindTripResponse;
-import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.exception.NoExistTripException;
 import moheng.trip.domain.repository.TripRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 public class RecommendTripServiceTest extends ServiceTestConfig {
     @Autowired

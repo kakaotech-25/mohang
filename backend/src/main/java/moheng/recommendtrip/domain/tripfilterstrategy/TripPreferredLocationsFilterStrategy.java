@@ -8,8 +8,8 @@ import moheng.recommendtrip.domain.filterinfo.FilterStandardInfo;
 import moheng.trip.domain.model.ExternalRecommendModelClient;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.repository.TripRepository;
-import moheng.trip.dto.RecommendTripsByVisitedLogsRequest;
-import moheng.trip.dto.RecommendTripsByVisitedLogsResponse;
+import moheng.trip.dto.request.RecommendTripsByVisitedLogsRequest;
+import moheng.trip.dto.response.RecommendTripsByVisitedLogsResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

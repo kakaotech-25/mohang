@@ -3,9 +3,9 @@ package moheng.acceptance.fixture;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import moheng.auth.dto.AccessTokenResponse;
-import moheng.keyword.dto.KeywordCreateRequest;
-import moheng.keyword.dto.TripsByKeyWordsRequest;
+import moheng.auth.dto.response.AccessTokenResponse;
+import moheng.keyword.dto.request.KeywordCreateRequest;
+import moheng.keyword.dto.request.TripsByKeyWordsRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
