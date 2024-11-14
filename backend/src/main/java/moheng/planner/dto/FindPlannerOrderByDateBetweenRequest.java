@@ -11,7 +11,7 @@ public class FindPlannerOrderByDateBetweenRequest {
     private FindPlannerOrderByDateBetweenRequest() {
     }
 
-    public FindPlannerOrderByDateBetweenRequest(LocalDate startDate, LocalDate endDate) {
+    public FindPlannerOrderByDateBetweenRequest(final LocalDate startDate, final LocalDate endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
     }
