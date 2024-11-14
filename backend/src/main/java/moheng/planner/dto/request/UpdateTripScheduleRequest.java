@@ -1,11 +1,22 @@
 package moheng.planner.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 
 public class UpdateTripScheduleRequest {
+
+    @NotNull(message = "Null 일 수 없습니다.")
     private Long scheduleId;
+
+    @NotBlank(message = "일정 이름은 공백일 수 없습니다.")
     private String scheduleName;
+
+    @NotBlank(message = "시작날짜는 공백일 수 없습니다.")
     private LocalDate startDate;
+
+    @NotBlank(message = "종료날짜는 공백일 수 없습니다.")
     private LocalDate endDate;
 
     private UpdateTripScheduleRequest() {
