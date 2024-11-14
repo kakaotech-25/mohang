@@ -36,8 +36,7 @@ public class PlannerService {
 
     public FindPlannerOrderByDateResponse findPlannerOrderByDateAsc(final long memberId) {
         final Member member = findMemberById(memberId);
-        // tripScheduleRepository.findByMemberOrderByStartDateAsc(member)
-        return new FindPlannerOrderByDateResponse(tripScheduleRepository.findByMemberAndCreatedAtBetweenOrderByCreatedAtDesc(member, LocalDateTime.of(2024, 1, 1, 0, 0), LocalDateTime.of(2024, 12, 31, 0, 0)));
+        return new FindPlannerOrderByDateResponse(tripScheduleRepository.findByMemberOrderByStartDateAsc(member));
     }
 
     public FindPLannerOrderByNameResponse findPlannerOrderByName(final long memberId) {
