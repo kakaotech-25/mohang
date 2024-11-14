@@ -45,7 +45,7 @@ public class PlannerController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/range")
+    @PostMapping("/range")
     public ResponseEntity<FindPlannerOrderByDateBetweenResponse> findPlannerOrderByDateAndRange(@Authentication final Accessor accessor,
                                                                @RequestBody final FindPlannerOrderByDateBetweenRequest findPlannerOrderByDateBetweenRequest) {
         return ResponseEntity.ok(plannerService.findPlannerOrderByDateAndRange(accessor.getId(), findPlannerOrderByDateBetweenRequest));
