@@ -1,8 +1,8 @@
 package moheng.config.stub;
 
 import moheng.trip.domain.model.ExternalRecommendModelClient;
-import moheng.trip.dto.RecommendTripsByVisitedLogsRequest;
-import moheng.trip.dto.RecommendTripsByVisitedLogsResponse;
+import moheng.trip.dto.request.RecommendTripsByVisitedLogsRequest;
+import moheng.trip.dto.response.RecommendTripsByVisitedLogsResponse;
 
 import java.util.List;
 

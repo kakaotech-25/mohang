@@ -1,7 +1,5 @@
 package moheng.trip.presentation;
 
-import static moheng.fixture.MemberFixtures.프로필_정보로_회원가입_요청;
-import static moheng.fixture.MemberFixtures.하온_신규;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static moheng.fixture.TripFixture.*;
@@ -22,10 +20,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import moheng.config.slice.ControllerTestConfig;
 import moheng.keyword.exception.InvalidAIServerException;
-import moheng.planner.exception.AlreadyExistTripScheduleException;
-import moheng.trip.domain.Trip;
-import moheng.trip.dto.FindTripWithSimilarTripsResponse;
-import moheng.trip.dto.FindTripsResponse;
 import moheng.trip.exception.NoExistRecommendTripException;
 import moheng.trip.exception.NoExistRecommendTripStrategyException;
 import moheng.trip.exception.NoExistTripException;
@@ -33,9 +27,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
-
-import java.util.List;
-import java.util.Optional;
 
 public class TripControllerTest extends ControllerTestConfig {
 

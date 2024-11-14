@@ -3,7 +3,11 @@ package moheng.fixture;
 import moheng.member.domain.Member;
 import moheng.planner.domain.TripSchedule;
 import moheng.planner.domain.TripScheduleRegistry;
-import moheng.planner.dto.*;
+import moheng.planner.dto.request.AddTripOnScheduleRequests;
+import moheng.planner.dto.request.CreateTripScheduleRequest;
+import moheng.planner.dto.request.UpdateTripOrdersRequest;
+import moheng.planner.dto.request.UpdateTripScheduleRequest;
+import moheng.planner.dto.response.FindTripsOnSchedule;
 import moheng.trip.domain.Trip;
 
 import java.time.LocalDate;

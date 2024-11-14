@@ -9,19 +9,15 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.assertj.core.api.Assertions.assertThat;
 import static moheng.acceptance.fixture.TripAcceptenceFixture.*;
 
-import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
-import moheng.auth.dto.AccessTokenResponse;
-import moheng.planner.dto.AddTripOnScheduleRequests;
-import moheng.planner.dto.CreateTripScheduleRequest;
-import moheng.planner.dto.FindTripsOnSchedule;
-import moheng.planner.dto.UpdateTripOrdersRequest;
+import moheng.auth.dto.response.AccessTokenResponse;
+import moheng.planner.dto.request.AddTripOnScheduleRequests;
+import moheng.planner.dto.request.CreateTripScheduleRequest;
+import moheng.planner.dto.response.FindTripsOnSchedule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 
 import java.time.LocalDate;
 import java.util.List;

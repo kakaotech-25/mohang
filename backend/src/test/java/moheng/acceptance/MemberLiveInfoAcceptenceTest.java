@@ -3,7 +3,7 @@ package moheng.acceptance;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
-import moheng.auth.dto.AccessTokenResponse;
+import moheng.auth.dto.response.AccessTokenResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

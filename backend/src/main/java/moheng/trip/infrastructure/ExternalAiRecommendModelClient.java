@@ -1,13 +1,10 @@
 package moheng.trip.infrastructure;
 
-import moheng.global.cache.CacheConfig;
 import moheng.keyword.exception.InvalidAIServerException;
 import moheng.recommendtrip.dto.PreferredLocationRequest;
 import moheng.trip.domain.model.ExternalRecommendModelClient;
-import moheng.trip.dto.RecommendTripsByVisitedLogsRequest;
-import moheng.trip.dto.RecommendTripsByVisitedLogsResponse;
-import moheng.trip.dto.RecommendTripsRequest;
-import org.springframework.cache.annotation.Cacheable;
+import moheng.trip.dto.request.RecommendTripsByVisitedLogsRequest;
+import moheng.trip.dto.response.RecommendTripsByVisitedLogsResponse;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;

@@ -6,8 +6,7 @@ import moheng.member.domain.Member;
 import moheng.recommendtrip.domain.RecommendTrip;
 import moheng.recommendtrip.dto.RecommendTripCreateRequest;
 import moheng.trip.domain.Trip;
-import moheng.trip.dto.FindTripsResponse;
-import moheng.trip.dto.TripCreateRequest;
+import moheng.trip.dto.response.FindTripsResponse;
 
 import java.util.List;
 

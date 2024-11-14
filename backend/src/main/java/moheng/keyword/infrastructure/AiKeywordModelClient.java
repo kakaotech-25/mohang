@@ -1,8 +1,8 @@
 package moheng.keyword.infrastructure;
 
-import moheng.keyword.dto.TripContentIdsByKeywordResponse;
+import moheng.keyword.dto.response.TripContentIdsByKeywordResponse;
 import moheng.keyword.exception.InvalidAIServerException;
-import moheng.keyword.dto.TripRecommendByKeywordRequest;
+import moheng.keyword.dto.request.TripRecommendByKeywordRequest;
 import moheng.keyword.domain.model.KeywordFilterModelClient;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;

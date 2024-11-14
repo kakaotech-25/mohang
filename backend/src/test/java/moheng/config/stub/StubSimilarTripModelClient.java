@@ -1,7 +1,7 @@
 package moheng.config.stub;
 
 import moheng.trip.domain.model.ExternalSimilarTripModelClient;
-import moheng.trip.dto.FindSimilarTripWithContentIdResponses;
+import moheng.trip.dto.response.FindSimilarTripWithContentIdResponses;
 
 import java.util.List;
 

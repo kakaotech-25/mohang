@@ -2,9 +2,8 @@ package moheng.fixture;
 
 import jakarta.servlet.http.Cookie;
 import moheng.auth.domain.token.MemberToken;
-import moheng.auth.dto.RenewalAccessTokenRequest;
-import moheng.auth.dto.RenewalAccessTokenResponse;
-import moheng.auth.dto.TokenRequest;
+import moheng.auth.dto.response.RenewalAccessTokenResponse;
+import moheng.auth.dto.request.TokenRequest;
 
 public class AuthFixtures {
     public static final String AUHTORIZATION_CODE = "authorization code";

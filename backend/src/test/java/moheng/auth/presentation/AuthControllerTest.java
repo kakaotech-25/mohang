@@ -21,7 +21,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import moheng.auth.dto.TokenRequest;
+import moheng.auth.dto.request.TokenRequest;
 import moheng.auth.exception.InvalidOAuthServiceException;
 import moheng.auth.exception.InvalidTokenException;
 import moheng.config.slice.ControllerTestConfig;

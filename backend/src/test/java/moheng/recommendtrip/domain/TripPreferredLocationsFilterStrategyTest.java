@@ -35,7 +35,6 @@ import moheng.trip.domain.MemberTrip;
 import moheng.trip.domain.repository.MemberTripRepository;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.repository.TripRepository;
-import moheng.trip.dto.FindTripsResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

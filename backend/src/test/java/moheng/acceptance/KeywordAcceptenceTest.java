@@ -9,19 +9,16 @@ import static moheng.acceptance.fixture.AuthAcceptanceFixture.자체_토큰을_�
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
-import moheng.auth.dto.AccessTokenResponse;
-import moheng.keyword.dto.FindAllKeywordResponses;
-import moheng.keyword.dto.FindTripsWithRandomKeywordResponse;
-import moheng.keyword.dto.TripsByKeyWordsRequest;
-import moheng.trip.dto.FindTripsResponse;
+import moheng.auth.dto.response.AccessTokenResponse;
+import moheng.keyword.dto.response.FindAllKeywordResponses;
+import moheng.keyword.dto.response.FindTripsWithRandomKeywordResponse;
+import moheng.keyword.dto.request.TripsByKeyWordsRequest;
+import moheng.trip.dto.response.FindTripsResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
 package moheng.fixture;
 
 import moheng.liveinformation.domain.LiveInformation;
-import moheng.liveinformation.dto.FindAllLiveInformationResponse;
-import moheng.liveinformation.dto.LiveInformationCreateRequest;
+import moheng.liveinformation.dto.response.FindAllLiveInformationResponse;
+import moheng.liveinformation.dto.request.LiveInformationCreateRequest;
 
 import java.util.List;
 

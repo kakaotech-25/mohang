@@ -2,14 +2,14 @@ package moheng.fixture;
 
 import moheng.keyword.domain.Keyword;
 import moheng.keyword.domain.TripKeyword;
-import moheng.keyword.dto.FindTripsWithRandomKeywordResponse;
-import moheng.keyword.dto.TripsByKeyWordsRequest;
-import moheng.member.domain.GenderType;
-import moheng.member.dto.request.SignUpProfileRequest;
+import moheng.keyword.dto.request.TripsByKeyWordsRequest;
 import moheng.trip.domain.Trip;
-import moheng.trip.dto.*;
+import moheng.trip.dto.request.TripCreateRequest;
+import moheng.trip.dto.request.TripKeywordCreateRequest;
+import moheng.trip.dto.response.FindTripWithSimilarTripsResponse;
+import moheng.trip.dto.response.FindTripsResponse;
+import moheng.trip.dto.response.SimilarTripResponses;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 

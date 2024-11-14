@@ -3,10 +3,10 @@ package moheng.acceptance.fixture;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import moheng.auth.dto.AccessTokenResponse;
-import moheng.planner.dto.AddTripOnScheduleRequests;
-import moheng.planner.dto.CreateTripScheduleRequest;
-import moheng.planner.dto.UpdateTripOrdersRequest;
+import moheng.auth.dto.response.AccessTokenResponse;
+import moheng.planner.dto.request.AddTripOnScheduleRequests;
+import moheng.planner.dto.request.CreateTripScheduleRequest;
+import moheng.planner.dto.request.UpdateTripOrdersRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 

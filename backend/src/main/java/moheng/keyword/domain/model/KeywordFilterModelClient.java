@@ -1,7 +1,7 @@
 package moheng.keyword.domain.model;
 
-import moheng.keyword.dto.TripContentIdsByKeywordResponse;
-import moheng.keyword.dto.TripRecommendByKeywordRequest;
+import moheng.keyword.dto.response.TripContentIdsByKeywordResponse;
+import moheng.keyword.dto.request.TripRecommendByKeywordRequest;
 
 
 public interface KeywordFilterModelClient {

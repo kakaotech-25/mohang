@@ -3,10 +3,10 @@ package moheng.planner.presentation;
 import moheng.auth.dto.Accessor;
 import moheng.auth.presentation.authentication.Authentication;
 import moheng.planner.application.TripScheduleService;
-import moheng.planner.dto.AddTripOnScheduleRequests;
-import moheng.planner.dto.CreateTripScheduleRequest;
-import moheng.planner.dto.FindTripsOnSchedule;
-import moheng.planner.dto.UpdateTripOrdersRequest;
+import moheng.planner.dto.request.AddTripOnScheduleRequests;
+import moheng.planner.dto.request.CreateTripScheduleRequest;
+import moheng.planner.dto.response.FindTripsOnSchedule;
+import moheng.planner.dto.request.UpdateTripOrdersRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,7 +1,7 @@
 package moheng.runner.warmup;
 
 import moheng.auth.application.AuthService;
-import moheng.auth.dto.RenewalAccessTokenRequest;
+import moheng.auth.dto.request.RenewalAccessTokenRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;

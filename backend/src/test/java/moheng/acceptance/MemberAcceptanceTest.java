@@ -11,23 +11,16 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
 import moheng.auth.domain.oauth.Authority;
-import moheng.auth.dto.AccessTokenResponse;
-import moheng.liveinformation.dto.FindMemberLiveInformationResponses;
-import moheng.member.domain.GenderType;
-import moheng.member.dto.request.UpdateProfileRequest;
+import moheng.auth.dto.response.AccessTokenResponse;
+import moheng.liveinformation.dto.response.FindMemberLiveInformationResponses;
 import moheng.member.dto.response.FindMemberAuthorityAndProfileResponse;
 import moheng.member.dto.response.MemberResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-
-import java.time.LocalDate;
 
 public class MemberAcceptanceTest extends AcceptanceTestConfig {
 

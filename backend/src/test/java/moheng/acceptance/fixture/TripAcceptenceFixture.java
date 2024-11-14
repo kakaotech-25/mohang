@@ -3,14 +3,9 @@ package moheng.acceptance.fixture;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import moheng.auth.dto.AccessTokenResponse;
-import moheng.member.dto.request.SignUpInterestTripsRequest;
-import moheng.member.dto.request.SignUpLiveInfoRequest;
-import moheng.trip.dto.TripCreateRequest;
+import moheng.trip.dto.request.TripCreateRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-
-import java.util.List;
 
 public class TripAcceptenceFixture {
     public static ExtractableResponse<Response> 여행지를_생성한다(final String name, final long contentId) {

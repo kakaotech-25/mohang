@@ -1,0 +1,56 @@
+package moheng.trip.dto.response;
+
+import moheng.trip.domain.Trip;
+
+import java.util.List;
+
+public class FindTripResponse {
+    private Long tripId;
+    private String name;
+    private String placeName;
+    private Long contentId;
+    private String tripImageUrl;
+    private String description;
+    private List<String> keywords;
+
+    private FindTripResponse() {
+    }
+
+    public FindTripResponse(final Trip trip, final List<String> keywords) {
+        this.tripId = trip.getId();
+        this.name = trip.getName();
+        this.placeName = trip.getPlaceName();
+        this.contentId = trip.getContentId();
+        this.tripImageUrl = trip.getTripImageUrl();
+        this.description = trip.getDescription();
+        this.keywords = keywords;
+    }
+
+    public Long getTripId() {
+        return tripId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPlaceName() {
+        return placeName;
+    }
+
+    public Long getContentId() {
+        return contentId;
+    }
+
+    public String getTripImageUrl() {
+        return tripImageUrl;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public List<String> getKeywords() {
+        return keywords;
+    }
+}

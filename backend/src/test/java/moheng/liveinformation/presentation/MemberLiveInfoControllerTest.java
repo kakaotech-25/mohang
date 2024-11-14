@@ -17,14 +17,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import moheng.config.slice.ControllerTestConfig;
-import moheng.liveinformation.dto.FindMemberLiveInformationResponses;
-import moheng.liveinformation.dto.LiveInfoResponse;
 import moheng.liveinformation.exception.NoExistLiveInformationException;
 import moheng.member.exception.NoExistMemberException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
-import java.util.List;
 
 public class MemberLiveInfoControllerTest extends ControllerTestConfig {
 
