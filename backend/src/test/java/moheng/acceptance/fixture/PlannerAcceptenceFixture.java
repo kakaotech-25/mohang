@@ -69,7 +69,7 @@ public class PlannerAcceptenceFixture {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(findPlannerOrderByDateBetweenRequest)
                 .auth().oauth2(accessTokenResponse.getAccessToken())
-                .when().post("/api/planner/range")
+                .when().get("/api/planner/range")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract();
