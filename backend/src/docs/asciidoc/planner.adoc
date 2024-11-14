@@ -207,3 +207,26 @@ include::{snippets}/planner/schedule/delete/fail/http-response.adoc[]
 ===== Response Body
 
 include::{snippets}/planner/schedule/delete/fail/response-body.adoc[]
+
+=== 플래너 범위 탐색 조회 (날짜순) API
+
+==== HTTP Request
+
+include::{snippets}/planner/find/range/date/success/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/planner/find/range/date/success/request-headers.adoc[]
+
+===== Request Body
+
+include::{snippets}/planner/find/range/date/success/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/planner/find/range/date/success/http-response.adoc[]
+
+===== Response Body
+
+include::{snippets}/planner/find/range/date/success/response-fields.adoc[]
+
