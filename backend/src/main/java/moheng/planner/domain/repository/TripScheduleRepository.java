@@ -4,6 +4,7 @@ import moheng.member.domain.Member;
 import moheng.planner.domain.TripSchedule;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TripScheduleRepository extends JpaRepository<TripSchedule, Long> {
@@ -11,4 +12,5 @@ public interface TripScheduleRepository extends JpaRepository<TripSchedule, Long
     List<TripSchedule> findByMemberOrderByCreatedAtDesc(final Member member);
     List<TripSchedule> findByMemberOrderByStartDateAsc(final Member member);
     List<TripSchedule> findByMemberOrderByNameAsc(final Member member);
+    List<TripSchedule> findByMemberAndCreatedAtBetweenOrderByCreatedAtDesc(Member member, LocalDateTime startOfYear, LocalDateTime endOfYear);
 }
