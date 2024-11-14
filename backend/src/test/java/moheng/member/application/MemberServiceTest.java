@@ -469,15 +469,13 @@ public class MemberServiceTest extends ServiceTestConfig {
         authService.generateTokenWithCode("code", "KAKAO");
         Member member = memberRepository.findByEmail("stub@kakao.com").get();
 
-        // 프로필 회원가입
+        // when
         memberService.signUpByProfile(member.getId(), 프로필_정보로_회원가입_요청());
 
-        // 생활정보 회원가입
         liveInformationRepository.save(new LiveInformation("생활정보1"));
         liveInformationRepository.save(new LiveInformation("생활정보2"));
         memberService.signUpByLiveInfo(member.getId(), 생활정보로_회원가입_요청());
 
-        // 프로필 수정
         memberService.updateByProfile(member.getId(), new UpdateProfileRequest("수정된 닉네임", LocalDate.of(2000, 1, 1), GenderType.MEN, "profile img url"));
 
         // then
