@@ -46,7 +46,7 @@ public class PlannerService {
 
     public FindPlannerOrderByDateBetweenResponse findPlannerOrderByDateAndRange(final long memberId, final FindPlannerOrderByDateBetweenRequest findPlannerOrderByDateBetweenRequest) {
         final Member member = findMemberById(memberId);
-        return new FindPlannerOrderByDateBetweenResponse(tripScheduleRepository.findByMemberAndCreatedAtBetweenOrderByCreatedAtDesc(
+        return new FindPlannerOrderByDateBetweenResponse(tripScheduleRepository.findByMemberAndDateRangeOrderByCreatedAt(
                 member, findPlannerOrderByDateBetweenRequest.getStartDateTime(), findPlannerOrderByDateBetweenRequest.getEndDateTime())
         );
     }
