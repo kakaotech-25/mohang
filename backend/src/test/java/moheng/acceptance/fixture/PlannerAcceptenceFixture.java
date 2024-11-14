@@ -4,6 +4,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.auth.dto.AccessTokenResponse;
+import moheng.planner.dto.FindPlannerOrderByDateBetweenRequest;
 import moheng.planner.dto.UpdateTripScheduleRequest;
 import moheng.recommendtrip.dto.RecommendTripCreateRequest;
 import org.springframework.http.HttpStatus;
@@ -60,6 +61,17 @@ public class PlannerAcceptenceFixture {
                 .when().delete("/api/planner/schedule/{scheduleId}", scheduleId)
                 .then().log().all()
                 .statusCode(HttpStatus.NO_CONTENT.value())
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 범위내의_플래너_여행지를_날짜순으로_조회한다(final AccessTokenResponse accessTokenResponse, final FindPlannerOrderByDateBetweenRequest findPlannerOrderByDateBetweenRequest) {
+        return RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(findPlannerOrderByDateBetweenRequest)
+                .auth().oauth2(accessTokenResponse.getAccessToken())
+                .when().get("/api/planner/range")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
                 .extract();
     }
 }

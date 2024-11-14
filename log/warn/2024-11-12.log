@@ -1,0 +1,88 @@
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h23m40s818ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-13 00:48:58.753
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h38m39s416ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-13 02:27:38.165
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h38m42s453ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-13 04:06:20.619
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h22m46s808ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-13 05:29:07.426
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h38m22s328ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-13 07:07:29.755
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h22m50s150ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-13 08:30:19.904
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=38m2s862ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-13 09:08:22.766
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=21m32s960ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-13 09:31:55.750
+
+                [REQUEST_IP] : NO REQUEST IP

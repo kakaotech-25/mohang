@@ -6,14 +6,13 @@ import moheng.member.exception.NoExistMemberException;
 import moheng.planner.domain.TripSchedule;
 import moheng.planner.domain.repository.TripScheduleRegistryRepository;
 import moheng.planner.domain.repository.TripScheduleRepository;
-import moheng.planner.dto.FindPLannerOrderByNameResponse;
-import moheng.planner.dto.FindPlannerOrderByDateResponse;
-import moheng.planner.dto.FindPlannerOrderByRecentResponse;
-import moheng.planner.dto.UpdateTripScheduleRequest;
+import moheng.planner.dto.*;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.planner.exception.NoExistTripScheduleException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 @Transactional(readOnly = true)
 @Service
@@ -43,6 +42,13 @@ public class PlannerService {
     public FindPLannerOrderByNameResponse findPlannerOrderByName(final long memberId) {
         final Member member = findMemberById(memberId);
         return new FindPLannerOrderByNameResponse(tripScheduleRepository.findByMemberOrderByNameAsc(member));
+    }
+
+    public FindPlannerOrderByDateBetweenResponse findPlannerOrderByDateAndRange(final long memberId, final FindPlannerOrderByDateBetweenRequest findPlannerOrderByDateBetweenRequest) {
+        final Member member = findMemberById(memberId);
+        return new FindPlannerOrderByDateBetweenResponse(tripScheduleRepository.findByMemberAndDateRangeOrderByCreatedAt(
+                member, findPlannerOrderByDateBetweenRequest.getStartDate(), findPlannerOrderByDateBetweenRequest.getEndDate())
+        );
     }
 
     @Transactional

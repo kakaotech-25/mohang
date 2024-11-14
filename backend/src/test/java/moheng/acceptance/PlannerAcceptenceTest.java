@@ -217,4 +217,47 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
             assertThat(sizeResponse.getTripScheduleResponses().size()).isEqualTo(0);
         });
     }
+
+    @DisplayName("주어진 범위에 해당하는 플래너 여행 일정들을 내림차순으로 조회하고 상태코드 200을 리턴한다.")
+    @Test
+    void 주어진_범위에_해당하는_플래너_여행_일정들을_내림차순으로_조회하고_상태코드_200을_리턴한다() {
+        // given
+        ExtractableResponse<Response> loginResponse = 자체_토큰을_생성한다("KAKAO", "authorization-code");
+        AccessTokenResponse accessTokenResponse = loginResponse.as(AccessTokenResponse.class);
+
+        여행지를_생성한다("여행지1", 1L);
+        여행지를_생성한다("여행지2", 2L);
+
+        플래너에_여행_일정을_생성한다(
+                accessTokenResponse,
+                new CreateTripScheduleRequest("가 일정",
+                        LocalDate.of(2000, 1, 1),
+                        LocalDate.of(2000, 9, 10)
+                ));
+
+        플래너에_여행_일정을_생성한다(
+                accessTokenResponse,
+                new CreateTripScheduleRequest("나 일정",
+                        LocalDate.of(2000, 1, 1),
+                        LocalDate.of(2030, 9, 10)
+                ));
+
+        플래너에_여행지를_담는다(accessTokenResponse, 1L, new AddTripOnScheduleRequests(List.of(1L)));
+        플래너에_여행지를_담는다(accessTokenResponse, 2L, new AddTripOnScheduleRequests(List.of(2L)));
+
+        LocalDate 시작날짜 = LocalDate.now().minusDays(1);
+        LocalDate 종료날짜 = LocalDate.now().plusDays(1);
+
+        // when
+        ExtractableResponse<Response> resultHttpResponse = 범위내의_플래너_여행지를_날짜순으로_조회한다(accessTokenResponse, new FindPlannerOrderByDateBetweenRequest(시작날짜, 종료날짜));
+        FindPlannerOrderByDateBetweenResponse findPlannerOrderByDateBetweenResponse = resultHttpResponse.as(FindPlannerOrderByDateBetweenResponse.class);
+
+        // then
+        assertAll(() -> {
+            assertThat(resultHttpResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+            assertThat(findPlannerOrderByDateBetweenResponse.getTripScheduleResponses().size()).isEqualTo(2);
+            assertThat(findPlannerOrderByDateBetweenResponse.getTripScheduleResponses().get(0).getScheduleName()).isEqualTo("나 일정");
+            assertThat(findPlannerOrderByDateBetweenResponse.getTripScheduleResponses().get(1).getScheduleName()).isEqualTo("가 일정");
+        });
+    }
 }
