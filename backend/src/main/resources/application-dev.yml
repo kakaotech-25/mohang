@@ -38,6 +38,8 @@ spring:
     hibernate:
       ddl-auto: update
     open-in-view: false
+  flyway:
+    enabled: false
 logging:
   level:
     org:
