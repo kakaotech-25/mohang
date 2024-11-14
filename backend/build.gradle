@@ -43,7 +43,8 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
 	// flyway 를 위한 의존성
-	// implementation 'org.flywaydb:flyway-core'
+	implementation 'org.flywaydb:flyway-core'
+	implementation 'org.flywaydb:flyway-mysql'
 
 	// JWT 를 위한 의존성
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'

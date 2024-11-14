@@ -20,3 +20,58 @@ HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLD
                 [REQUEST_TIME] : 2024-11-14 12:51:47.300
 
                 [REQUEST_IP] : NO REQUEST IP
+Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'flywayInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Unsupported Database: MySQL 9.1
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-14 21:58:22.409
+
+                [REQUEST_IP] : NO REQUEST IP
+Flyway upgrade recommended: MySQL 9.1 is newer than this version of Flyway and support has not been tested. The latest supported version of MySQL is 8.1.
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-14 22:00:27.139
+
+                [REQUEST_IP] : NO REQUEST IP
+Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'flywayInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Found non-empty schema(s) `moheng` but no schema history table. Use baseline() or set baselineOnMigrate to true to initialize the schema history table.
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-14 22:00:27.185
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-14 22:03:02.040
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-14 22:03:02.041
+
+                [REQUEST_IP] : NO REQUEST IP
