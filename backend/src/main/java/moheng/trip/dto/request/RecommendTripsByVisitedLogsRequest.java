@@ -1,9 +1,15 @@
 package moheng.trip.dto.request;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 import java.util.List;
 
 public class RecommendTripsByVisitedLogsRequest {
+    @NotEmpty(message = "선호 여행지 정보는 비어있을 수 없습니다.")
     private List<LocationPreference> preferredLocation;
+
+    @NotNull(message = "페이징을 위한 Page 값은 Null 일 수 없습니다.")
     private Long page;
 
     private RecommendTripsByVisitedLogsRequest() {
