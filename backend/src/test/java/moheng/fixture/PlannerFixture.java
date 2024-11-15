@@ -2,6 +2,7 @@ package moheng.fixture;
 
 import moheng.planner.domain.TripSchedule;
 import moheng.planner.dto.request.FindPlannerOrderByDateBetweenRequest;
+import moheng.planner.dto.request.FindPublicSchedulesForRangeRequest;
 import moheng.planner.dto.response.FindPLannerOrderByNameResponse;
 import moheng.planner.dto.response.FindPlannerOrderByDateBetweenResponse;
 import moheng.planner.dto.response.FindPlannerOrderByDateResponse;
@@ -56,5 +57,9 @@ public class PlannerFixture {
                 new TripSchedule("네이버 여행", LocalDate.of(2022, 1, 8), LocalDate.of(2030, 1, 10), false, 하온_기존()),
                 new TripSchedule("우주 여행", LocalDate.of(2021, 1, 1), LocalDate.of(2030, 1, 10), false, 하온_기존())
         ));
+    }
+
+    public static FindPublicSchedulesForRangeRequest 플래너_생성날짜_기준_범위_내의_공개된_여행지_조회_요청() {
+        return new FindPublicSchedulesForRangeRequest(LocalDate.of(2020, 1, 1), LocalDate.of(2020, 3, 10));
     }
 }
