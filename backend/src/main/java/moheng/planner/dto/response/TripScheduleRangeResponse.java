@@ -4,17 +4,19 @@ import moheng.planner.domain.TripSchedule;
 
 import java.time.LocalDate;
 
-public class TripScheduleResponse {
+public class TripScheduleRangeResponse {
     private Long scheduleId;
     private String scheduleName;
+    private String description;
     private LocalDate startTime;
     private LocalDate endTime;
 
-    private TripScheduleResponse() {
+    private TripScheduleRangeResponse() {
     }
 
-    public TripScheduleResponse(final TripSchedule tripSchedule) {
+    public TripScheduleRangeResponse(final TripSchedule tripSchedule) {
         this.scheduleId = tripSchedule.getId();
+        this.description = tripSchedule.getDescription();
         this.scheduleName = tripSchedule.getName();
         this.startTime = tripSchedule.getStartDate();
         this.endTime = tripSchedule.getEndDate();
@@ -34,5 +36,9 @@ public class TripScheduleResponse {
 
     public LocalDate getEndTime() {
         return endTime;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
