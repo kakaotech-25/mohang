@@ -19,6 +19,7 @@ import moheng.planner.domain.repository.TripScheduleRepository;
 import moheng.planner.dto.request.FindPlannerOrderByDateBetweenRequest;
 import moheng.planner.dto.response.*;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
+import moheng.planner.exception.InvalidDateSequenceException;
 import moheng.planner.exception.NoExistTripScheduleException;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.repository.TripRepository;
@@ -216,7 +217,7 @@ public class PlannerServiceTest extends ServiceTestConfig {
     void 플래너_여행_일정을_주어진_범위_내에서_생성날짜를_기준으로_내림차순_정렬한다() {
         // given
         Member 하온 = memberRepository.save(하온_기존());
-        TripSchedule s = tripScheduleRepository.save(여행_일정1_생성(하온)); tripScheduleRepository.save(여행_일정2_생성(하온));
+        tripScheduleRepository.save(여행_일정1_생성(하온)); tripScheduleRepository.save(여행_일정2_생성(하온));
         tripScheduleRepository.save(여행_일정3_생성(하온)); tripScheduleRepository.save(여행_일정4_생성(하온));
 
         LocalDate 시작날짜 = LocalDate.now().minusDays(1);
@@ -237,9 +238,21 @@ public class PlannerServiceTest extends ServiceTestConfig {
         });
     }
 
-    @DisplayName("")
+    @DisplayName("플래너 여행 일정을 주어진 범위 내에서 정렬시, 범위의 시작날짜가 종료날짜보다 이후라면 예외가 발생한다.")
     @Test
-    void a() {
+    void 플래너_여행_일정을_주어진_범위_내에서_정렬시_범위의_시작날짜가_종료날짜보다_이후라면_예외가_발생한다() {
+        // given
+        Member 하온 = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(여행_일정1_생성(하온)); tripScheduleRepository.save(여행_일정2_생성(하온));
+        tripScheduleRepository.save(여행_일정3_생성(하온)); tripScheduleRepository.save(여행_일정4_생성(하온));
 
+        LocalDate 종료날짜 = LocalDate.now().minusDays(1);
+        LocalDate 시작날짜 = LocalDate.now().plusDays(1);
+
+        FindPlannerOrderByDateBetweenRequest 플래너_조회_요청 = new FindPlannerOrderByDateBetweenRequest(시작날짜, 종료날짜);
+
+        // when, then
+        assertThatThrownBy(() -> plannerService.findPlannerOrderByDateAndRange(하온.getId(), 플래너_조회_요청))
+                .isInstanceOf(InvalidDateSequenceException.class);
     }
 }
