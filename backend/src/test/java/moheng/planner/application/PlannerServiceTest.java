@@ -1,13 +1,13 @@
 package moheng.planner.application;
 
 import static moheng.fixture.TripFixture.*;
-import static moheng.fixture.TripScheduleFixtures.*;
 import static moheng.fixture.MemberFixtures.*;
-import static moheng.fixture.TripScheduleFixtures.여행_일정_수정_요청;
+import static moheng.fixture.TripScheduleFixtures.*;
+import static moheng.fixture.TripScheduleFixtures.이번달_공개_여행_일정3_생성;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.*;
+
 import moheng.config.slice.ServiceTestConfig;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
@@ -17,8 +17,10 @@ import moheng.planner.domain.TripScheduleRegistry;
 import moheng.planner.domain.repository.TripScheduleRegistryRepository;
 import moheng.planner.domain.repository.TripScheduleRepository;
 import moheng.planner.dto.request.FindPlannerOrderByDateBetweenRequest;
+import moheng.planner.dto.request.FindPublicSchedulesForRangeRequest;
 import moheng.planner.dto.response.*;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
+import moheng.planner.exception.InvalidDateSequenceException;
 import moheng.planner.exception.NoExistTripScheduleException;
 import moheng.trip.domain.Trip;
 import moheng.trip.domain.repository.TripRepository;
@@ -221,6 +223,7 @@ public class PlannerServiceTest extends ServiceTestConfig {
 
         LocalDate 시작날짜 = LocalDate.now().minusDays(1);
         LocalDate 종료날짜 = LocalDate.now().plusDays(1);
+
         FindPlannerOrderByDateBetweenRequest 플래너_조회_요청 = new FindPlannerOrderByDateBetweenRequest(시작날짜, 종료날짜);
 
         // when
@@ -233,6 +236,105 @@ public class PlannerServiceTest extends ServiceTestConfig {
             assertThat(플래너_조회_응답.getTripScheduleResponses().get(1).getScheduleName()).isEqualTo("일정3");
             assertThat(플래너_조회_응답.getTripScheduleResponses().get(2).getScheduleName()).isEqualTo("일정2");
             assertThat(플래너_조회_응답.getTripScheduleResponses().get(3).getScheduleName()).isEqualTo("일정1");
+        });
+    }
+
+    @DisplayName("플래너 여행 일정을 주어진 범위 내에서 정렬시, 범위의 시작날짜가 종료날짜보다 이후라면 예외가 발생한다.")
+    @Test
+    void 플래너_여행_일정을_주어진_범위_내에서_정렬시_범위의_시작날짜가_종료날짜보다_이후라면_예외가_발생한다() {
+        // given
+        Member 하온 = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(여행_일정1_생성(하온)); tripScheduleRepository.save(여행_일정2_생성(하온));
+        tripScheduleRepository.save(여행_일정3_생성(하온)); tripScheduleRepository.save(여행_일정4_생성(하온));
+
+        LocalDate 종료날짜 = LocalDate.now().minusDays(1);
+        LocalDate 시작날짜 = LocalDate.now().plusDays(1);
+
+        FindPlannerOrderByDateBetweenRequest 플래너_조회_요청 = new FindPlannerOrderByDateBetweenRequest(시작날짜, 종료날짜);
+
+        // when, then
+        assertThatThrownBy(() -> plannerService.findPlannerOrderByDateAndRange(하온.getId(), 플래너_조회_요청))
+                .isInstanceOf(InvalidDateSequenceException.class);
+    }
+
+    @DisplayName("공개 상태인 이번달의 모든 멤버에 대한 여행 일정을 찾는다.")
+    @Test
+    void 공개_상태인_이번달의_모든_멤버에_대한_여행_일정을_찾는다() {
+        // given
+        Member 하온 = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(이번달_공개_여행_일정1_생성(하온)); tripScheduleRepository.save(이번달_공개_여행_일정2_생성(하온));
+        tripScheduleRepository.save(이번달_공개_여행_일정3_생성(하온)); tripScheduleRepository.save(이번달_공개_여행_일정4_생성(하온));
+
+        Member 리안 = memberRepository.save(리안_기존());
+        tripScheduleRepository.save(이번달_공개_여행_일정1_생성(리안)); tripScheduleRepository.save(이번달_공개_여행_일정2_생성(리안));
+        tripScheduleRepository.save(이번달_공개_여행_일정3_생성(리안)); tripScheduleRepository.save(이번달_공개_여행_일정4_생성(리안));
+
+        // when
+        List<TripScheduleResponse> actual = plannerService.findPublicSchedulesForCurrentMonth().getTripScheduleResponses();
+
+        // then
+        assertEquals(actual.size(), 8);
+    }
+
+    @DisplayName("비공개 상태인 여행 일정은 검색 대상에서 제외된다.")
+    @Test
+    void 비공개_상태인_여행_일정은_검색_대상에서_제외된다() {
+        // given
+        Member 하온 = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(이번달_공개_여행_일정1_생성(하온)); tripScheduleRepository.save(이번달_공개_여행_일정2_생성(하온));
+        tripScheduleRepository.save(이번달_비공개_여행_일정5_생성(하온)); tripScheduleRepository.save(이번달_비공개_여행_일정6_생성(하온));
+
+        Member 리안 = memberRepository.save(리안_기존());
+        tripScheduleRepository.save(이번달_공개_여행_일정1_생성(리안)); tripScheduleRepository.save(이번달_공개_여행_일정2_생성(리안));
+        tripScheduleRepository.save(이번달_비공개_여행_일정5_생성(리안)); tripScheduleRepository.save(이번달_비공개_여행_일정6_생성(리안));
+
+        // when
+        List<TripScheduleResponse> actual = plannerService.findPublicSchedulesForCurrentMonth().getTripScheduleResponses();
+
+        // then
+        assertEquals(actual.size(), 4);
+    }
+
+    @DisplayName("이번달에 해당하지 않는 여행 일정은 검색 대상에서 제외된다.")
+    @Test
+    void 이번달에_해당하지_않는_여행_일정은_검색_일정에서_제외된다() {
+        // given
+        Member 하온 = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(이번달_공개_여행_일정1_생성(하온)); tripScheduleRepository.save(이번달_공개_여행_일정2_생성(하온));
+        tripScheduleRepository.save(지난달_공개_여행_일정1_생성(하온)); tripScheduleRepository.save(지난달_공개_여행_일정2_생성(하온));
+
+        Member 리안 = memberRepository.save(리안_기존());
+        tripScheduleRepository.save(이번달_공개_여행_일정1_생성(리안)); tripScheduleRepository.save(이번달_공개_여행_일정2_생성(리안));
+        tripScheduleRepository.save(지난달_공개_여행_일정1_생성(리안)); tripScheduleRepository.save(지난달_공개_여행_일정2_생성(리안));
+
+        // when
+        List<TripScheduleResponse> actual = plannerService.findPublicSchedulesForCurrentMonth().getTripScheduleResponses();
+
+        // then
+        assertEquals(actual.size(), 4);
+    }
+
+    @DisplayName("공개된 여행지를 주어진 범위 내에서 생성날짜 기준으로 내림차순 정렬한다.")
+    @Test
+    void 공개된_여행지를_주어진_범위_내에서_생성날짜_기준으로_내림차순_정렬한다() {
+        // given
+        Member 하온 = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(여행_일정1_생성(하온)); tripScheduleRepository.save(여행_일정2_생성(하온));
+        tripScheduleRepository.save(여행_일정3_생성(하온)); tripScheduleRepository.save(여행_일정4_생성(하온));
+
+        LocalDate 시작날짜 = LocalDate.now().minusDays(1);
+        LocalDate 종료날짜 = LocalDate.now().plusDays(1);
+        FindPublicSchedulesForRangeRequest 플래너_조회_요청 = new FindPublicSchedulesForRangeRequest(시작날짜, 종료날짜);
+
+        // when
+        List<TripScheduleResponse> actual = plannerService.findPublicSchedulesForCreatedAtRange(플래너_조회_요청).getTripScheduleResponses();
+
+        assertAll(() -> {
+            assertEquals(actual.size(), 4);
+            assertEquals(actual.get(0).getScheduleName(), "일정4");
+            assertEquals(actual.get(1).getScheduleName(), "일정3");
+            assertEquals(actual.get(2).getScheduleName(), "일정2");
+            assertEquals(actual.get(3).getScheduleName(), "일정1");
         });
     }
 }

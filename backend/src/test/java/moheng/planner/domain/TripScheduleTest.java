@@ -23,6 +23,7 @@ public class TripScheduleTest {
         assertDoesNotThrow(() -> new TripSchedule("일정1",
                 LocalDate.of(2024, 8, 26),
                 LocalDate.of(2024, 8, 27),
+                false,
                 하온_기존()));
     }
 
@@ -32,7 +33,7 @@ public class TripScheduleTest {
     @ParameterizedTest
     void 플래너_일정의_이름이_유효하지_않다면_예외가_발생한다(final String planName) {
         assertThatThrownBy(() ->
-                new TripSchedule(planName, LocalDate.of(2024, 8, 26), LocalDate.of(2024, 8, 27), 하온_기존())
+                new TripSchedule(planName, LocalDate.of(2024, 8, 26), LocalDate.of(2024, 8, 27), false, 하온_기존())
         ).isInstanceOf(InvalidTripScheduleNameException.class);
     }
 
@@ -40,7 +41,7 @@ public class TripScheduleTest {
     @Test
     void 플래너_일정의_시작날짜가_종료날짜의_이후라면_예외가_발생한다() {
         assertThatThrownBy(() ->
-            new TripSchedule("일정", LocalDate.of(2024, 8, 26), LocalDate.of(1000, 1, 1), 하온_기존())
+            new TripSchedule("일정", LocalDate.of(2024, 8, 26), LocalDate.of(1000, 1, 1), false, 하온_기존())
         ).isInstanceOf(InvalidTripScheduleDateException.class);
     }
 
@@ -48,7 +49,7 @@ public class TripScheduleTest {
     @Test
     void 여행_일정_이름이_변경된_경우_참을_리턴한다() {
         // given
-        TripSchedule tripSchedule = new TripSchedule("기존 일정명", LocalDate.of(2024, 8, 26), LocalDate.of(2024, 8, 27), 하온_기존());
+        TripSchedule tripSchedule = new TripSchedule("기존 일정명", LocalDate.of(2024, 8, 26), LocalDate.of(2024, 8, 27), false, 하온_기존());
         String newName = "새로운 일정명";
 
         // when

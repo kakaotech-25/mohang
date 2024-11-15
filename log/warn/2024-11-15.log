@@ -1,0 +1,154 @@
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-15 01:12:35.819
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-15 01:12:35.820
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h14m41s832ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-15 03:02:18.027
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h22m55s545ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-15 05:02:13.851
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h38m1s288ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-15 06:40:15.138
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h37m34s138ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-15 08:17:49.276
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=50m51s411ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-15 09:08:40.687
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=32m46s893ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-15 10:15:57.912
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h26m35s109ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-15 11:42:33.019
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=21m40s19ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-15 12:05:13.047
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m55s921ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-15 12:08:08.966
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m8s136ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-15 12:09:17.103
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-15 12:23:38.964
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-15 12:23:38.964
+
+                [REQUEST_IP] : NO REQUEST IP

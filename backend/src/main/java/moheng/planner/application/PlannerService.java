@@ -3,19 +3,27 @@ package moheng.planner.application;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
+import moheng.planner.domain.Period;
 import moheng.planner.domain.TripSchedule;
 import moheng.planner.domain.repository.TripScheduleRegistryRepository;
 import moheng.planner.domain.repository.TripScheduleRepository;
 import moheng.planner.dto.request.FindPlannerOrderByDateBetweenRequest;
+import moheng.planner.dto.request.FindPublicSchedulesForCurrentMonthResponses;
+import moheng.planner.dto.request.FindPublicSchedulesForRangeRequest;
 import moheng.planner.dto.request.UpdateTripScheduleRequest;
 import moheng.planner.dto.response.FindPLannerOrderByNameResponse;
 import moheng.planner.dto.response.FindPlannerOrderByDateBetweenResponse;
 import moheng.planner.dto.response.FindPlannerOrderByDateResponse;
 import moheng.planner.dto.response.FindPlannerOrderByRecentResponse;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
+import moheng.planner.exception.InvalidPlannerSearchMonthException;
 import moheng.planner.exception.NoExistTripScheduleException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 
 @Transactional(readOnly = true)
 @Service
@@ -47,10 +55,33 @@ public class PlannerService {
         return new FindPLannerOrderByNameResponse(tripScheduleRepository.findByMemberOrderByNameAsc(member));
     }
 
-    public FindPlannerOrderByDateBetweenResponse findPlannerOrderByDateAndRange(final long memberId, final FindPlannerOrderByDateBetweenRequest findPlannerOrderByDateBetweenRequest) {
+    public FindPublicSchedulesForCurrentMonthResponses findPublicSchedulesForCurrentMonth() {
+        final LocalDate currentMonth = LocalDate.now();
+        final Period currentMonthPeriod = new Period(currentMonth.withDayOfMonth(1), currentMonth.withDayOfMonth(currentMonth.lengthOfMonth()));
+
+        if(currentMonthPeriod.isOtherMonthDate()) {
+            throw new InvalidPlannerSearchMonthException("이번달의 날짜를 조회할 수 없습니다.");
+        }
+
+        return new FindPublicSchedulesForCurrentMonthResponses(tripScheduleRepository.findPublicSchedulesForCurrentMonth(
+                currentMonthPeriod.getStartDate(), currentMonthPeriod.getEndDate())
+        );
+    }
+
+    public FindPlannerOrderByDateBetweenResponse findPublicSchedulesForCreatedAtRange(final FindPublicSchedulesForRangeRequest findPlannerBetweenRequest) {
+        final Period currentPeriod = new Period(findPlannerBetweenRequest.getStartDate(), findPlannerBetweenRequest.getEndDate());
+
+        return new FindPlannerOrderByDateBetweenResponse(tripScheduleRepository.findPublicSchedulesForCreatedAtRange(
+                currentPeriod.getStartDateOfMonth(), currentPeriod.getEndDateOfMonth())
+        );
+    }
+
+    public FindPlannerOrderByDateBetweenResponse findPlannerOrderByDateAndRange(final long memberId, final FindPlannerOrderByDateBetweenRequest findPlannerBetweenRequest) {
         final Member member = findMemberById(memberId);
+        final Period currentPeriod = new Period(findPlannerBetweenRequest.getStartDate(), findPlannerBetweenRequest.getEndDate());
+
         return new FindPlannerOrderByDateBetweenResponse(tripScheduleRepository.findByMemberAndDateRangeOrderByCreatedAt(
-                member, findPlannerOrderByDateBetweenRequest.getStartDate(), findPlannerOrderByDateBetweenRequest.getEndDate())
+                member, currentPeriod.getStartDateOfMonth(), currentPeriod.getEndDateOfMonth())
         );
     }
 
