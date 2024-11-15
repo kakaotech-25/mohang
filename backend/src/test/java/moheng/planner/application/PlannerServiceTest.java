@@ -1,9 +1,9 @@
 package moheng.planner.application;
 
 import static moheng.fixture.TripFixture.*;
-import static moheng.fixture.TripScheduleFixtures.*;
 import static moheng.fixture.MemberFixtures.*;
-import static moheng.fixture.TripScheduleFixtures.여행_일정_수정_요청;
+import static moheng.fixture.TripScheduleFixtures.*;
+import static moheng.fixture.TripScheduleFixtures.이번달_공개_여행_일정3_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
@@ -261,12 +261,12 @@ public class PlannerServiceTest extends ServiceTestConfig {
     void 공개_상태인_이번달의_모든_멤버에_대한_여행_일정을_찾는다() {
         // given
         Member 하온 = memberRepository.save(하온_기존());
-        tripScheduleRepository.save(이번달_여행_일정1_생성(하온)); tripScheduleRepository.save(이번달_여행_일정2_생성(하온));
-        tripScheduleRepository.save(이번달_여행_일정3_생성(하온)); tripScheduleRepository.save(이번달_여행_일정4_생성(하온));
+        tripScheduleRepository.save(이번달_공개_여행_일정1_생성(하온)); tripScheduleRepository.save(이번달_공개_여행_일정2_생성(하온));
+        tripScheduleRepository.save(이번달_공개_여행_일정3_생성(하온)); tripScheduleRepository.save(이번달_공개_여행_일정4_생성(하온));
 
         Member 리안 = memberRepository.save(리안_기존());
-        tripScheduleRepository.save(이번달_여행_일정1_생성(리안)); tripScheduleRepository.save(이번달_여행_일정2_생성(리안));
-        tripScheduleRepository.save(이번달_여행_일정3_생성(리안)); tripScheduleRepository.save(이번달_여행_일정4_생성(리안));
+        tripScheduleRepository.save(이번달_공개_여행_일정1_생성(리안)); tripScheduleRepository.save(이번달_공개_여행_일정2_생성(리안));
+        tripScheduleRepository.save(이번달_공개_여행_일정3_생성(리안)); tripScheduleRepository.save(이번달_공개_여행_일정4_생성(리안));
 
         // when
         List<TripSchedule> actual = plannerService.findPublicSchedulesForCurrentMonth();

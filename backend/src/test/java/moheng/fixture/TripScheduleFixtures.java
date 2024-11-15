@@ -54,22 +54,22 @@ public class TripScheduleFixtures {
     }
 
     // 같은 날짜 월별 일정 생성
-    public static TripSchedule 이번달_여행_일정1_생성(Member member) {
+    public static TripSchedule 이번달_공개_여행_일정1_생성(Member member) {
         LocalDate now = LocalDate.now();
         return new TripSchedule("일정1", now.withDayOfMonth(1), now.withDayOfMonth(now.lengthOfMonth()), false, member);
     }
 
-    public static TripSchedule 이번달_여행_일정2_생성(Member member) {
+    public static TripSchedule 이번달_공개_여행_일정2_생성(Member member) {
         LocalDate now = LocalDate.now();
         return new TripSchedule("일정2", now.withDayOfMonth(1), now.withDayOfMonth(now.lengthOfMonth()), false, member);
     }
 
-    public static TripSchedule 이번달_여행_일정3_생성(Member member) {
+    public static TripSchedule 이번달_공개_여행_일정3_생성(Member member) {
         LocalDate now = LocalDate.now();
         return new TripSchedule("일정3", now.withDayOfMonth(1), now.withDayOfMonth(now.lengthOfMonth()), false, member);
     }
 
-    public static TripSchedule 이번달_여행_일정4_생성(Member member) {
+    public static TripSchedule 이번달_공개_여행_일정4_생성(Member member) {
         LocalDate now = LocalDate.now();
         return new TripSchedule("일정4", now.withDayOfMonth(1), now.withDayOfMonth(now.lengthOfMonth()), false, member);
     }
