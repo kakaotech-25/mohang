@@ -293,4 +293,23 @@ public class PlannerServiceTest extends ServiceTestConfig {
         // then
         assertEquals(actual.size(), 4);
     }
+
+    @DisplayName("이번달에 해당하지 않는 여행 일정은 검색 대상에서 제외된다.")
+    @Test
+    void 이번달에_해당하지_않는_여행_일정은_검색_일정에서_제외된다() {
+        // given
+        Member 하온 = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(이번달_공개_여행_일정1_생성(하온)); tripScheduleRepository.save(이번달_공개_여행_일정2_생성(하온));
+        tripScheduleRepository.save(지난달_공개_여행_일정1_생성(하온)); tripScheduleRepository.save(지난달_공개_여행_일정2_생성(하온));
+
+        Member 리안 = memberRepository.save(리안_기존());
+        tripScheduleRepository.save(이번달_공개_여행_일정1_생성(리안)); tripScheduleRepository.save(이번달_공개_여행_일정2_생성(리안));
+        tripScheduleRepository.save(지난달_공개_여행_일정1_생성(리안)); tripScheduleRepository.save(지난달_공개_여행_일정2_생성(리안));
+
+        // when
+        List<TripSchedule> actual = plannerService.findPublicSchedulesForCurrentMonth();
+
+        // then
+        assertEquals(actual.size(), 4);
+    }
 }
