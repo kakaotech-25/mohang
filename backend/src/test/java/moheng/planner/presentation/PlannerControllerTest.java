@@ -345,4 +345,19 @@ public class PlannerControllerTest extends ControllerTestConfig {
                 ))
                 .andExpect(status().isNotFound());
     }
+
+    @DisplayName("이번달의 여행 일정을 조회하고 상태코드 200을 리턴한다.")
+    @Test
+    void 이번달의_여행_일정을_조회하고_상태코드_200을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+
+        // when, then
+        mockMvc.perform(get("/api/planner/month")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
 }
