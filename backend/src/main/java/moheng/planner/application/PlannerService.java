@@ -3,6 +3,7 @@ package moheng.planner.application;
 import moheng.member.domain.Member;
 import moheng.member.domain.repository.MemberRepository;
 import moheng.member.exception.NoExistMemberException;
+import moheng.planner.domain.Period;
 import moheng.planner.domain.TripSchedule;
 import moheng.planner.domain.repository.TripScheduleRegistryRepository;
 import moheng.planner.domain.repository.TripScheduleRepository;
@@ -53,11 +54,13 @@ public class PlannerService {
 
     public List<TripSchedule> findPublicSchedulesForCurrentMonth() {
         final LocalDate currentMonth = LocalDate.now();
+        final Period currentMonthPeriod = new Period(
+                currentMonth.withDayOfMonth(1), currentMonth.withDayOfMonth(currentMonth.lengthOfMonth())
+        );
 
         return tripScheduleRepository.findPublicSchedulesForCurrentMonth(
-                currentMonth.withDayOfMonth(1),
-                currentMonth.withDayOfMonth(currentMonth.lengthOfMonth()
-        ));
+                currentMonthPeriod.getStartDate(), currentMonthPeriod.getEndDate()
+        );
     }
 
     public FindPlannerOrderByDateBetweenResponse findPlannerOrderByDateAndRange(final long memberId, final FindPlannerOrderByDateBetweenRequest findPlannerOrderByDateBetweenRequest) {
