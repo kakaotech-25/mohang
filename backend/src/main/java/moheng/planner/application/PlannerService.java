@@ -14,6 +14,7 @@ import moheng.planner.dto.response.FindPlannerOrderByDateBetweenResponse;
 import moheng.planner.dto.response.FindPlannerOrderByDateResponse;
 import moheng.planner.dto.response.FindPlannerOrderByRecentResponse;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
+import moheng.planner.exception.InvalidPlannerSearchMonthException;
 import moheng.planner.exception.NoExistTripScheduleException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,8 +56,11 @@ public class PlannerService {
     public List<TripSchedule> findPublicSchedulesForCurrentMonth() {
         final LocalDate currentMonth = LocalDate.now();
         final Period currentMonthPeriod = new Period(
-                currentMonth.withDayOfMonth(1), currentMonth.withDayOfMonth(currentMonth.lengthOfMonth())
-        );
+                currentMonth.withDayOfMonth(1), currentMonth.withDayOfMonth(currentMonth.lengthOfMonth()));
+
+        if(currentMonthPeriod.isOtherMonthDate()) {
+            throw new InvalidPlannerSearchMonthException("이번달의 날짜를 조회할 수 없습니다.");
+        }
 
         return tripScheduleRepository.findPublicSchedulesForCurrentMonth(
                 currentMonthPeriod.getStartDate(), currentMonthPeriod.getEndDate()
