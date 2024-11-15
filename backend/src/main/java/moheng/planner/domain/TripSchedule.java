@@ -33,7 +33,7 @@ public class TripSchedule extends BaseEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 
     @Column(name = "is_private", nullable = false)
@@ -49,6 +49,16 @@ public class TripSchedule extends BaseEntity {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.member = member;
+    }
+
+    public TripSchedule(final String name, final LocalDate startDate, final LocalDate endDate, final boolean isPrivate, final Member member) {
+        validateName(name);
+        validateDate(startDate, endDate);
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.isPrivate = isPrivate;
         this.member = member;
     }
 
@@ -104,5 +114,9 @@ public class TripSchedule extends BaseEntity {
 
     public boolean getIsPrivate() {
         return isPrivate;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

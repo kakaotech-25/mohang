@@ -7,6 +7,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import moheng.planner.exception.InvalidTripScheduleDateException;
+import moheng.planner.exception.InvalidTripScheduleDescriptionException;
 import moheng.planner.exception.InvalidTripScheduleNameException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -57,5 +58,18 @@ public class TripScheduleTest {
 
         // then
         assertTrue(actual);
+    }
+
+    @DisplayName("여행 일정 설명이 30자를 초과하면 예외가 발생한다.")
+    @ValueSource(strings = {
+            "일이삼사오육칠팔구십 일이삼사오육칠팔구십 일이삼사오육칠팔구십",
+            "일이삼사오육칠팔구십 일이삼사오육칠팔구십 일이삼사오육칠팔구십 일이삼사오육칠팔구십 일이삼사오육칠팔구십 일이삼사오육칠팔구십 일이삼사오육칠팔구십 일이삼사오육칠팔구십 일이삼사오육칠팔구십 일이삼사오육칠팔구십 "})
+    @ParameterizedTest
+    void 여행_일정_설명이_30자를_초과하면_예외가_발생한다(final String description) {
+        // given, when, then
+        assertThatThrownBy(() -> new TripSchedule("일정명", description,
+                LocalDate.of(2024, 8, 26),
+                LocalDate.of(2024, 8, 27), false, 하온_기존())
+        ).isInstanceOf(InvalidTripScheduleDescriptionException.class);
     }
 }
