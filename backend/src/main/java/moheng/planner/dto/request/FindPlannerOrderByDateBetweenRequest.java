@@ -25,11 +25,11 @@ public class FindPlannerOrderByDateBetweenRequest {
         this.endDate = endDate;
     }
 
-    public LocalDateTime getStartDate() {
-        return startDate.atStartOfDay();
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public LocalDateTime getEndDate() {
-        return endDate.atTime(LocalTime.MAX);
+    public LocalDate getEndDate() {
+        return endDate;
     }
 }

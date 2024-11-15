@@ -55,8 +55,7 @@ public class PlannerService {
 
     public List<TripSchedule> findPublicSchedulesForCurrentMonth() {
         final LocalDate currentMonth = LocalDate.now();
-        final Period currentMonthPeriod = new Period(
-                currentMonth.withDayOfMonth(1), currentMonth.withDayOfMonth(currentMonth.lengthOfMonth()));
+        final Period currentMonthPeriod = new Period(currentMonth.withDayOfMonth(1), currentMonth.withDayOfMonth(currentMonth.lengthOfMonth()));
 
         if(currentMonthPeriod.isOtherMonthDate()) {
             throw new InvalidPlannerSearchMonthException("이번달의 날짜를 조회할 수 없습니다.");
@@ -69,10 +68,10 @@ public class PlannerService {
 
     public FindPlannerOrderByDateBetweenResponse findPlannerOrderByDateAndRange(final long memberId, final FindPlannerOrderByDateBetweenRequest findPlannerBetweenRequest) {
         final Member member = findMemberById(memberId);
-        final Period currentPeriod = new Period(findPlannerBetweenRequest.getEndDate().toLocalDate(), findPlannerBetweenRequest.getStartDate().toLocalDate());
+        final Period currentPeriod = new Period(findPlannerBetweenRequest.getEndDate(), findPlannerBetweenRequest.getStartDate());
 
         return new FindPlannerOrderByDateBetweenResponse(tripScheduleRepository.findByMemberAndDateRangeOrderByCreatedAt(
-                member, findPlannerBetweenRequest.getStartDate(), findPlannerBetweenRequest.getEndDate())
+                member, currentPeriod.getStartDateOfMonth(), currentPeriod.getStartDateOfMonth())
         );
     }
 
