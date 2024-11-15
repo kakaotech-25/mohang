@@ -17,6 +17,10 @@ import moheng.planner.exception.NoExistTripScheduleException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+
 @Transactional(readOnly = true)
 @Service
 public class PlannerService {
@@ -45,6 +49,15 @@ public class PlannerService {
     public FindPLannerOrderByNameResponse findPlannerOrderByName(final long memberId) {
         final Member member = findMemberById(memberId);
         return new FindPLannerOrderByNameResponse(tripScheduleRepository.findByMemberOrderByNameAsc(member));
+    }
+
+    public List<TripSchedule> findPublicSchedulesForCurrentMonth() {
+        final LocalDate currentMonth = LocalDate.now();
+
+        return tripScheduleRepository.findPublicSchedulesForCurrentMonth(
+                currentMonth.withDayOfMonth(1),
+                currentMonth.withDayOfMonth(currentMonth.lengthOfMonth()
+        ));
     }
 
     public FindPlannerOrderByDateBetweenResponse findPlannerOrderByDateAndRange(final long memberId, final FindPlannerOrderByDateBetweenRequest findPlannerOrderByDateBetweenRequest) {

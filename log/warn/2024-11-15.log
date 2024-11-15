@@ -130,3 +130,25 @@ HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m8s1
                 [REQUEST_TIME] : 2024-11-15 12:09:17.103
 
                 [REQUEST_IP] : NO REQUEST IP
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-15 12:23:38.964
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2024-11-15 12:23:38.964
+
+                [REQUEST_IP] : NO REQUEST IP
