@@ -9,6 +9,7 @@ import moheng.planner.domain.repository.TripScheduleRegistryRepository;
 import moheng.planner.domain.repository.TripScheduleRepository;
 import moheng.planner.dto.request.FindPlannerOrderByDateBetweenRequest;
 import moheng.planner.dto.request.FindPublicSchedulesForCurrentMonthResponses;
+import moheng.planner.dto.request.FindPublicSchedulesForRangeRequest;
 import moheng.planner.dto.request.UpdateTripScheduleRequest;
 import moheng.planner.dto.response.FindPLannerOrderByNameResponse;
 import moheng.planner.dto.response.FindPlannerOrderByDateBetweenResponse;
@@ -64,6 +65,14 @@ public class PlannerService {
 
         return new FindPublicSchedulesForCurrentMonthResponses(tripScheduleRepository.findPublicSchedulesForCurrentMonth(
                 currentMonthPeriod.getStartDate(), currentMonthPeriod.getEndDate())
+        );
+    }
+
+    public FindPlannerOrderByDateBetweenResponse findPublicSchedulesForCreatedAtRange(final FindPublicSchedulesForRangeRequest findPlannerBetweenRequest) {
+        final Period currentPeriod = new Period(findPlannerBetweenRequest.getStartDate(), findPlannerBetweenRequest.getEndDate());
+
+        return new FindPlannerOrderByDateBetweenResponse(tripScheduleRepository.findByIsPrivateAndCreatedAtDesc(
+                currentPeriod.getStartDateOfMonth(), currentPeriod.getEndDateOfMonth())
         );
     }
 
