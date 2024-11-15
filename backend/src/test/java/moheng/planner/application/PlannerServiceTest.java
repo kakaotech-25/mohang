@@ -17,6 +17,7 @@ import moheng.planner.domain.TripScheduleRegistry;
 import moheng.planner.domain.repository.TripScheduleRegistryRepository;
 import moheng.planner.domain.repository.TripScheduleRepository;
 import moheng.planner.dto.request.FindPlannerOrderByDateBetweenRequest;
+import moheng.planner.dto.request.FindPublicSchedulesForRangeRequest;
 import moheng.planner.dto.response.*;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.planner.exception.InvalidDateSequenceException;
@@ -311,5 +312,29 @@ public class PlannerServiceTest extends ServiceTestConfig {
 
         // then
         assertEquals(actual.size(), 4);
+    }
+
+    @DisplayName("공개된 여행지를 주어진 범위 내에서 생성날짜 기준으로 내림차순 정렬한다.")
+    @Test
+    void 공개된_여행지를_주어진_범위_내에서_생성날짜_기준으로_내림차순_정렬한다() {
+        // given
+        Member 하온 = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(여행_일정1_생성(하온)); tripScheduleRepository.save(여행_일정2_생성(하온));
+        tripScheduleRepository.save(여행_일정3_생성(하온)); tripScheduleRepository.save(여행_일정4_생성(하온));
+
+        LocalDate 시작날짜 = LocalDate.now().minusDays(1);
+        LocalDate 종료날짜 = LocalDate.now().plusDays(1);
+        FindPublicSchedulesForRangeRequest 플래너_조회_요청 = new FindPublicSchedulesForRangeRequest(시작날짜, 종료날짜);
+
+        // when
+        List<TripScheduleResponse> actual = plannerService.findPublicSchedulesForCreatedAtRange(플래너_조회_요청).getTripScheduleResponses();
+
+        assertAll(() -> {
+            assertEquals(actual.size(), 4);
+            assertEquals(actual.get(0).getScheduleName(), "일정4");
+            assertEquals(actual.get(1).getScheduleName(), "일정3");
+            assertEquals(actual.get(2).getScheduleName(), "일정2");
+            assertEquals(actual.get(3).getScheduleName(), "일정1");
+        });
     }
 }

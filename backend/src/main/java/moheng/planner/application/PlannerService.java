@@ -71,7 +71,7 @@ public class PlannerService {
     public FindPlannerOrderByDateBetweenResponse findPublicSchedulesForCreatedAtRange(final FindPublicSchedulesForRangeRequest findPlannerBetweenRequest) {
         final Period currentPeriod = new Period(findPlannerBetweenRequest.getStartDate(), findPlannerBetweenRequest.getEndDate());
 
-        return new FindPlannerOrderByDateBetweenResponse(tripScheduleRepository.findByIsPrivateAndCreatedAtDesc(
+        return new FindPlannerOrderByDateBetweenResponse(tripScheduleRepository.findPublicSchedulesForCreatedAtRange(
                 currentPeriod.getStartDateOfMonth(), currentPeriod.getEndDateOfMonth())
         );
     }
