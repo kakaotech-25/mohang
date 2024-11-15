@@ -8,6 +8,7 @@ import moheng.planner.domain.TripSchedule;
 import moheng.planner.domain.repository.TripScheduleRegistryRepository;
 import moheng.planner.domain.repository.TripScheduleRepository;
 import moheng.planner.dto.request.FindPlannerOrderByDateBetweenRequest;
+import moheng.planner.dto.request.FindPublicSchedulesForCurrentMonthResponses;
 import moheng.planner.dto.request.UpdateTripScheduleRequest;
 import moheng.planner.dto.response.FindPLannerOrderByNameResponse;
 import moheng.planner.dto.response.FindPlannerOrderByDateBetweenResponse;
@@ -53,7 +54,7 @@ public class PlannerService {
         return new FindPLannerOrderByNameResponse(tripScheduleRepository.findByMemberOrderByNameAsc(member));
     }
 
-    public List<TripSchedule> findPublicSchedulesForCurrentMonth() {
+    public FindPublicSchedulesForCurrentMonthResponses findPublicSchedulesForCurrentMonth() {
         final LocalDate currentMonth = LocalDate.now();
         final Period currentMonthPeriod = new Period(currentMonth.withDayOfMonth(1), currentMonth.withDayOfMonth(currentMonth.lengthOfMonth()));
 
@@ -61,8 +62,8 @@ public class PlannerService {
             throw new InvalidPlannerSearchMonthException("이번달의 날짜를 조회할 수 없습니다.");
         }
 
-        return tripScheduleRepository.findPublicSchedulesForCurrentMonth(
-                currentMonthPeriod.getStartDate(), currentMonthPeriod.getEndDate()
+        return new FindPublicSchedulesForCurrentMonthResponses(tripScheduleRepository.findPublicSchedulesForCurrentMonth(
+                currentMonthPeriod.getStartDate(), currentMonthPeriod.getEndDate())
         );
     }
 

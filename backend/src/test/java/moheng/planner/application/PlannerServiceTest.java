@@ -269,7 +269,7 @@ public class PlannerServiceTest extends ServiceTestConfig {
         tripScheduleRepository.save(이번달_공개_여행_일정3_생성(리안)); tripScheduleRepository.save(이번달_공개_여행_일정4_생성(리안));
 
         // when
-        List<TripSchedule> actual = plannerService.findPublicSchedulesForCurrentMonth();
+        List<TripScheduleResponse> actual = plannerService.findPublicSchedulesForCurrentMonth().getTripScheduleResponses();
 
         // then
         assertEquals(actual.size(), 8);
@@ -288,7 +288,7 @@ public class PlannerServiceTest extends ServiceTestConfig {
         tripScheduleRepository.save(이번달_비공개_여행_일정5_생성(리안)); tripScheduleRepository.save(이번달_비공개_여행_일정6_생성(리안));
 
         // when
-        List<TripSchedule> actual = plannerService.findPublicSchedulesForCurrentMonth();
+        List<TripScheduleResponse> actual = plannerService.findPublicSchedulesForCurrentMonth().getTripScheduleResponses();
 
         // then
         assertEquals(actual.size(), 4);
@@ -307,7 +307,7 @@ public class PlannerServiceTest extends ServiceTestConfig {
         tripScheduleRepository.save(지난달_공개_여행_일정1_생성(리안)); tripScheduleRepository.save(지난달_공개_여행_일정2_생성(리안));
 
         // when
-        List<TripSchedule> actual = plannerService.findPublicSchedulesForCurrentMonth();
+        List<TripScheduleResponse> actual = plannerService.findPublicSchedulesForCurrentMonth().getTripScheduleResponses();
 
         // then
         assertEquals(actual.size(), 4);
