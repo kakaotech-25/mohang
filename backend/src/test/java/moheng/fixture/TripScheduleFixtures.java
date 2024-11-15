@@ -9,7 +9,6 @@ import moheng.planner.dto.request.UpdateTripOrdersRequest;
 import moheng.planner.dto.request.UpdateTripScheduleRequest;
 import moheng.planner.dto.response.FindTripsOnSchedule;
 import moheng.trip.domain.Trip;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -33,6 +32,7 @@ public class TripScheduleFixtures {
         return new TripSchedule("일정4", LocalDate.of(2003, 1, 1), LocalDate.of(2020, 1, 10), member);
     }
 
+    // 이름별 여행 일정 생성
     public static TripSchedule 여행_일정_가_생성(Member member) {
         return new TripSchedule("가 일정", LocalDate.of(2000, 1, 1), LocalDate.of(2020, 1, 10), member);
     }
@@ -50,7 +50,40 @@ public class TripScheduleFixtures {
     }
 
     public static TripSchedule 여행_일정_중복_생성(Member member) {
-        return new TripSchedule("중복 일정", LocalDate.of(2003, 1, 1), LocalDate.of(2020, 1, 10), member);
+        return new TripSchedule("중복 일정", LocalDate.of(2024, 11, 1), LocalDate.of(2020, 1, 10), member);
+    }
+
+    // 같은 날짜 월별 일정 생성
+    public static TripSchedule 이번달_여행_일정1_생성(Member member) {
+        LocalDate now = LocalDate.now();
+        return new TripSchedule("일정1", now.withDayOfMonth(1), now.withDayOfMonth(now.lengthOfMonth()), member);
+    }
+
+    public static TripSchedule 이번달_여행_일정2_생성(Member member) {
+        LocalDate now = LocalDate.now();
+        return new TripSchedule("일정2", now.withDayOfMonth(1), now.withDayOfMonth(now.lengthOfMonth()), member);
+    }
+
+    public static TripSchedule 이번달_여행_일정3_생성(Member member) {
+        LocalDate now = LocalDate.now();
+        return new TripSchedule("일정3", now.withDayOfMonth(1), now.withDayOfMonth(now.lengthOfMonth()), member);
+    }
+
+    public static TripSchedule 이번달_여행_일정4_생성(Member member) {
+        LocalDate now = LocalDate.now();
+        return new TripSchedule("일정4", now.withDayOfMonth(1), now.withDayOfMonth(now.lengthOfMonth()), member);
+    }
+
+    public static TripSchedule 여행_일정2_2024년_11월_생성(Member member) {
+        return new TripSchedule("일정2", LocalDate.of(2024, 11, 1), LocalDate.of(2024, 11, 10), member);
+    }
+
+    public static TripSchedule 여행_일정3_2024년_11월_생성(Member member) {
+        return new TripSchedule("일정3", LocalDate.of(2024, 11, 1), LocalDate.of(2024, 11, 10), member);
+    }
+
+    public static TripSchedule 여행_일정4_2024년_11월_생성(Member member) {
+        return new TripSchedule("일정4", LocalDate.of(2000, 11, 1), LocalDate.of(2024, 11, 10), member);
     }
 
     // 여행지 일정 등록 생성

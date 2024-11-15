@@ -18,7 +18,7 @@ public interface TripScheduleRepository extends JpaRepository<TripSchedule, Long
 
     @Query("select t from TripSchedule t " +
             "where t.isPrivate = false " +
-            "and t.startDate >= :startOfMonth and t.startDate <= :endOfMonth " +
+            "and t.startDate >= :startOfMonth and t.endDate <= :endOfMonth " +
             "order by t.createdAt DESC")
     List<TripSchedule> findPublicSchedulesForCurrentMonth(final LocalDate startOfMonth, final LocalDate endOfMonth);
 
