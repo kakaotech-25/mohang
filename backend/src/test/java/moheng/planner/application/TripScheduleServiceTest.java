@@ -102,8 +102,8 @@ public class TripScheduleServiceTest extends ServiceTestConfig {
         // given
         long 존재하지_않는_여행지_ID = -1L;
         Member 하온 = memberRepository.save(하온_기존());
-        TripSchedule 여행_일정1 = tripScheduleRepository.save(new TripSchedule("여행 일정1", LocalDate.of(2024, 8, 1), LocalDate.of(2024, 8, 2), 하온));
-        TripSchedule 여행_일정2 = tripScheduleRepository.save(new TripSchedule("여행 일정2", LocalDate.of(2024, 8, 1), LocalDate.of(2024, 8, 2), 하온));
+        TripSchedule 여행_일정1 = tripScheduleRepository.save(new TripSchedule("여행 일정1", LocalDate.of(2024, 8, 1), LocalDate.of(2024, 8, 2), false, 하온));
+        TripSchedule 여행_일정2 = tripScheduleRepository.save(new TripSchedule("여행 일정2", LocalDate.of(2024, 8, 1), LocalDate.of(2024, 8, 2), false, 하온));
 
         // when, then
         assertThatThrownBy(() -> tripScheduleService.addCurrentTripOnPlannerSchedule(존재하지_않는_여행지_ID, 플래너에_여행지_담기_요청(List.of(여행_일정1.getId(), 여행_일정2.getId()))))

@@ -47,12 +47,13 @@ public class TripSchedule extends BaseEntity {
         this.member = member;
     }
 
-    public TripSchedule(final String name, final LocalDate startDate, final LocalDate endDate, final Member member) {
+    public TripSchedule(final String name, final LocalDate startDate, final LocalDate endDate, final boolean isPrivate, final Member member) {
         validateName(name);
         validateDate(startDate, endDate);
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.isPrivate = isPrivate;
         this.member = member;
     }
 
