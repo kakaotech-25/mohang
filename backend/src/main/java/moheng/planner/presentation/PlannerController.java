@@ -4,6 +4,7 @@ import moheng.auth.dto.Accessor;
 import moheng.auth.presentation.authentication.Authentication;
 import moheng.planner.application.PlannerService;
 import moheng.planner.dto.request.FindPlannerOrderByDateBetweenRequest;
+import moheng.planner.dto.request.FindPublicSchedulesForCurrentMonthResponses;
 import moheng.planner.dto.request.UpdateTripScheduleRequest;
 import moheng.planner.dto.response.FindPLannerOrderByNameResponse;
 import moheng.planner.dto.response.FindPlannerOrderByDateBetweenResponse;
@@ -54,5 +55,10 @@ public class PlannerController {
     public ResponseEntity<FindPlannerOrderByDateBetweenResponse> findPlannerOrderByDateAndRange(@Authentication final Accessor accessor,
                                                                                                 @RequestBody final FindPlannerOrderByDateBetweenRequest findPlannerOrderByDateBetweenRequest) {
         return ResponseEntity.ok(plannerService.findPlannerOrderByDateAndRange(accessor.getId(), findPlannerOrderByDateBetweenRequest));
+    }
+
+    @GetMapping("/month")
+    public ResponseEntity<FindPublicSchedulesForCurrentMonthResponses> findPublicSchedulesForCurrentMonth(@Authentication final Accessor accessor) {
+        return ResponseEntity.ok(plannerService.findPublicSchedulesForCurrentMonth());
     }
 }
