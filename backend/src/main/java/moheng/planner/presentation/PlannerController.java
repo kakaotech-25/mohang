@@ -7,10 +7,7 @@ import moheng.planner.dto.request.FindPlannerOrderByDateBetweenRequest;
 import moheng.planner.dto.request.FindPublicSchedulesForCurrentMonthResponses;
 import moheng.planner.dto.request.FindPublicSchedulesForRangeRequest;
 import moheng.planner.dto.request.UpdateTripScheduleRequest;
-import moheng.planner.dto.response.FindPLannerOrderByNameResponse;
-import moheng.planner.dto.response.FindPlannerOrderByDateBetweenResponse;
-import moheng.planner.dto.response.FindPlannerOrderByDateResponse;
-import moheng.planner.dto.response.FindPlannerOrderByRecentResponse;
+import moheng.planner.dto.response.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -68,9 +65,9 @@ public class PlannerController {
     }
 
     @GetMapping("/search/date")
-    public ResponseEntity<FindPlannerOrderByDateBetweenResponse> findPublicSchedulesForCreatedAtRange(@Authentication final Accessor accessor,
-                                                                                                      @RequestBody final FindPublicSchedulesForRangeRequest findPlannerOrderByDateBetweenRequest,
-                                                                                                      @PageableDefault(size = 30) final Pageable pageable) {
+    public ResponseEntity<FindPlannerPublicForCreatedAtRangeResponses> findPublicSchedulesForCreatedAtRange(@Authentication final Accessor accessor,
+                                                                                                            @RequestBody final FindPublicSchedulesForRangeRequest findPlannerOrderByDateBetweenRequest,
+                                                                                                            @PageableDefault(size = 30) final Pageable pageable) {
         return ResponseEntity.ok(plannerService.findPublicSchedulesForCreatedAtRange(findPlannerOrderByDateBetweenRequest, pageable));
     }
 }
