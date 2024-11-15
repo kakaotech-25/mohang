@@ -69,8 +69,8 @@ public class PlannerController {
 
     @GetMapping("/search/date")
     public ResponseEntity<FindPlannerOrderByDateBetweenResponse> findPublicSchedulesForCreatedAtRange(@Authentication final Accessor accessor,
-                                                                                                            @RequestBody final FindPublicSchedulesForRangeRequest findPlannerOrderByDateBetweenRequest,
-                                                                                                            @PageableDefault(size = 30) final Pageable pageable) {
+                                                                                                      @RequestBody final FindPublicSchedulesForRangeRequest findPlannerOrderByDateBetweenRequest,
+                                                                                                      @PageableDefault(size = 30) final Pageable pageable) {
         return ResponseEntity.ok(plannerService.findPublicSchedulesForCreatedAtRange(findPlannerOrderByDateBetweenRequest, pageable));
     }
 }

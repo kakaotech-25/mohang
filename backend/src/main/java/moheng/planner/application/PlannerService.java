@@ -11,10 +11,7 @@ import moheng.planner.dto.request.FindPlannerOrderByDateBetweenRequest;
 import moheng.planner.dto.request.FindPublicSchedulesForCurrentMonthResponses;
 import moheng.planner.dto.request.FindPublicSchedulesForRangeRequest;
 import moheng.planner.dto.request.UpdateTripScheduleRequest;
-import moheng.planner.dto.response.FindPLannerOrderByNameResponse;
-import moheng.planner.dto.response.FindPlannerOrderByDateBetweenResponse;
-import moheng.planner.dto.response.FindPlannerOrderByDateResponse;
-import moheng.planner.dto.response.FindPlannerOrderByRecentResponse;
+import moheng.planner.dto.response.*;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.planner.exception.InvalidPlannerSearchMonthException;
 import moheng.planner.exception.NoExistTripScheduleException;
@@ -69,11 +66,11 @@ public class PlannerService {
         );
     }
 
-    public FindPlannerOrderByDateBetweenResponse findPublicSchedulesForCreatedAtRange(final FindPublicSchedulesForRangeRequest findPlannerBetweenRequest,
-                                                                                      final Pageable pageable) {
+    public FindPlannerPublicForCreatedAtRangeResponses findPublicSchedulesForCreatedAtRange(final FindPublicSchedulesForRangeRequest findPlannerBetweenRequest,
+                                                                                            final Pageable pageable) {
         final Period currentPeriod = new Period(findPlannerBetweenRequest.getStartDate(), findPlannerBetweenRequest.getEndDate());
 
-        return new FindPlannerOrderByDateBetweenResponse(tripScheduleRepository.findPublicSchedulesForCreatedAtRange(
+        return new FindPlannerPublicForCreatedAtRangeResponses(tripScheduleRepository.findPublicSchedulesForCreatedAtRange(
                 currentPeriod.getStartDateOfMonth(), currentPeriod.getEndDateOfMonth(), pageable)
         );
     }

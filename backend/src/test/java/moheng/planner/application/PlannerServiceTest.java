@@ -331,7 +331,7 @@ public class PlannerServiceTest extends ServiceTestConfig {
         Pageable pageable = PageRequest.of(0, 100, Sort.by(Sort.Direction.DESC, "createdAt"));
 
         // when
-        List<TripScheduleResponse> actual = plannerService.findPublicSchedulesForCreatedAtRange(플래너_조회_요청, pageable).getTripScheduleResponses();
+        List<TripScheduleRangeResponse> actual = plannerService.findPublicSchedulesForCreatedAtRange(플래너_조회_요청, pageable).getTripScheduleResponses();
 
         assertAll(() -> {
             assertEquals(actual.size(), 4);
