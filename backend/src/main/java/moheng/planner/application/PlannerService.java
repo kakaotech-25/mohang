@@ -67,10 +67,12 @@ public class PlannerService {
         );
     }
 
-    public FindPlannerOrderByDateBetweenResponse findPlannerOrderByDateAndRange(final long memberId, final FindPlannerOrderByDateBetweenRequest findPlannerOrderByDateBetweenRequest) {
+    public FindPlannerOrderByDateBetweenResponse findPlannerOrderByDateAndRange(final long memberId, final FindPlannerOrderByDateBetweenRequest findPlannerBetweenRequest) {
         final Member member = findMemberById(memberId);
+        final Period currentPeriod = new Period(findPlannerBetweenRequest.getEndDate().toLocalDate(), findPlannerBetweenRequest.getStartDate().toLocalDate());
+
         return new FindPlannerOrderByDateBetweenResponse(tripScheduleRepository.findByMemberAndDateRangeOrderByCreatedAt(
-                member, findPlannerOrderByDateBetweenRequest.getStartDate(), findPlannerOrderByDateBetweenRequest.getEndDate())
+                member, findPlannerBetweenRequest.getStartDate(), findPlannerBetweenRequest.getEndDate())
         );
     }
 
