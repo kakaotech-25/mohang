@@ -216,11 +216,12 @@ public class PlannerServiceTest extends ServiceTestConfig {
     void 플래너_여행_일정을_주어진_범위_내에서_생성날짜를_기준으로_내림차순_정렬한다() {
         // given
         Member 하온 = memberRepository.save(하온_기존());
-        tripScheduleRepository.save(여행_일정1_생성(하온)); tripScheduleRepository.save(여행_일정2_생성(하온));
+        TripSchedule s = tripScheduleRepository.save(여행_일정1_생성(하온)); tripScheduleRepository.save(여행_일정2_생성(하온));
         tripScheduleRepository.save(여행_일정3_생성(하온)); tripScheduleRepository.save(여행_일정4_생성(하온));
 
         LocalDate 시작날짜 = LocalDate.now().minusDays(1);
         LocalDate 종료날짜 = LocalDate.now().plusDays(1);
+
         FindPlannerOrderByDateBetweenRequest 플래너_조회_요청 = new FindPlannerOrderByDateBetweenRequest(시작날짜, 종료날짜);
 
         // when
@@ -234,5 +235,11 @@ public class PlannerServiceTest extends ServiceTestConfig {
             assertThat(플래너_조회_응답.getTripScheduleResponses().get(2).getScheduleName()).isEqualTo("일정2");
             assertThat(플래너_조회_응답.getTripScheduleResponses().get(3).getScheduleName()).isEqualTo("일정1");
         });
+    }
+
+    @DisplayName("")
+    @Test
+    void a() {
+
     }
 }

@@ -13,6 +13,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class PeriodTest {
 
@@ -58,5 +59,4 @@ public class PeriodTest {
         // then
         assertEquals(expected, result);
     }
-
 }

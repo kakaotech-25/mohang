@@ -68,10 +68,10 @@ public class PlannerService {
 
     public FindPlannerOrderByDateBetweenResponse findPlannerOrderByDateAndRange(final long memberId, final FindPlannerOrderByDateBetweenRequest findPlannerBetweenRequest) {
         final Member member = findMemberById(memberId);
-        final Period currentPeriod = new Period(findPlannerBetweenRequest.getEndDate(), findPlannerBetweenRequest.getStartDate());
+        final Period currentPeriod = new Period(findPlannerBetweenRequest.getStartDate(), findPlannerBetweenRequest.getEndDate());
 
         return new FindPlannerOrderByDateBetweenResponse(tripScheduleRepository.findByMemberAndDateRangeOrderByCreatedAt(
-                member, currentPeriod.getStartDateOfMonth(), currentPeriod.getStartDateOfMonth())
+                member, currentPeriod.getStartDateOfMonth(), currentPeriod.getEndDateOfMonth())
         );
     }
 
