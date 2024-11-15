@@ -111,12 +111,4 @@ public class TripSchedule extends BaseEntity {
     public LocalDate getEndDate() {
         return endDate;
     }
-
-    public boolean getIsPrivate() {
-        return isPrivate;
-    }
-
-    public String getDescription() {
-        return description;
-    }
 }
