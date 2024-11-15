@@ -78,7 +78,6 @@ public class PlannerService {
         );
     }
 
-
     public FindPlannerOrderByDateBetweenResponse findPlannerOrderByDateAndRange(final long memberId, final FindPlannerOrderByDateBetweenRequest findPlannerBetweenRequest) {
         final Member member = findMemberById(memberId);
         final Period currentPeriod = new Period(findPlannerBetweenRequest.getStartDate(), findPlannerBetweenRequest.getEndDate());
