@@ -27,6 +27,9 @@ import moheng.trip.domain.repository.TripRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -325,9 +328,10 @@ public class PlannerServiceTest extends ServiceTestConfig {
         LocalDate 시작날짜 = LocalDate.now().minusDays(1);
         LocalDate 종료날짜 = LocalDate.now().plusDays(1);
         FindPublicSchedulesForRangeRequest 플래너_조회_요청 = new FindPublicSchedulesForRangeRequest(시작날짜, 종료날짜);
+        Pageable pageable = PageRequest.of(0, 100, Sort.by(Sort.Direction.DESC, "createdAt"));
 
         // when
-        List<TripScheduleResponse> actual = plannerService.findPublicSchedulesForCreatedAtRange(플래너_조회_요청).getTripScheduleResponses();
+        List<TripScheduleResponse> actual = plannerService.findPublicSchedulesForCreatedAtRange(플래너_조회_요청, pageable).getTripScheduleResponses();
 
         assertAll(() -> {
             assertEquals(actual.size(), 4);

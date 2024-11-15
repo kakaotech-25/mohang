@@ -2,6 +2,7 @@ package moheng.planner.domain.repository;
 
 import moheng.member.domain.Member;
 import moheng.planner.domain.TripSchedule;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -30,5 +31,5 @@ public interface TripScheduleRepository extends JpaRepository<TripSchedule, Long
     @Query("select t from TripSchedule t where t.isPrivate = false " +
             "and t.createdAt >= :startDate and t.createdAt <= :endDate " +
             "order by t.createdAt DESC")
-    List<TripSchedule> findPublicSchedulesForCreatedAtRange(final LocalDateTime startDate, final LocalDateTime endDate);
+    List<TripSchedule> findPublicSchedulesForCreatedAtRange(final LocalDateTime startDate, final LocalDateTime endDate, final Pageable pageable);
 }

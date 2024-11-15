@@ -11,8 +11,12 @@ import moheng.planner.dto.response.FindPLannerOrderByNameResponse;
 import moheng.planner.dto.response.FindPlannerOrderByDateBetweenResponse;
 import moheng.planner.dto.response.FindPlannerOrderByDateResponse;
 import moheng.planner.dto.response.FindPlannerOrderByRecentResponse;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/api/planner")
 @RestController
@@ -65,7 +69,8 @@ public class PlannerController {
 
     @GetMapping("/search/date")
     public ResponseEntity<FindPlannerOrderByDateBetweenResponse> findPublicSchedulesForCreatedAtRange(@Authentication final Accessor accessor,
-                                                                                                      @RequestBody final FindPublicSchedulesForRangeRequest findPlannerOrderByDateBetweenRequest) {
-        return ResponseEntity.ok(plannerService.findPublicSchedulesForCreatedAtRange(findPlannerOrderByDateBetweenRequest));
+                                                                                                            @RequestBody final FindPublicSchedulesForRangeRequest findPlannerOrderByDateBetweenRequest,
+                                                                                                            @PageableDefault(size = 100) final Pageable pageable) {
+        return ResponseEntity.ok(plannerService.findPublicSchedulesForCreatedAtRange(findPlannerOrderByDateBetweenRequest, pageable));
     }
 }

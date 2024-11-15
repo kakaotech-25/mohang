@@ -18,6 +18,7 @@ import moheng.planner.dto.response.FindPlannerOrderByRecentResponse;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.planner.exception.InvalidPlannerSearchMonthException;
 import moheng.planner.exception.NoExistTripScheduleException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -68,13 +69,15 @@ public class PlannerService {
         );
     }
 
-    public FindPlannerOrderByDateBetweenResponse findPublicSchedulesForCreatedAtRange(final FindPublicSchedulesForRangeRequest findPlannerBetweenRequest) {
+    public FindPlannerOrderByDateBetweenResponse findPublicSchedulesForCreatedAtRange(final FindPublicSchedulesForRangeRequest findPlannerBetweenRequest,
+                                                                                      final Pageable pageable) {
         final Period currentPeriod = new Period(findPlannerBetweenRequest.getStartDate(), findPlannerBetweenRequest.getEndDate());
 
         return new FindPlannerOrderByDateBetweenResponse(tripScheduleRepository.findPublicSchedulesForCreatedAtRange(
-                currentPeriod.getStartDateOfMonth(), currentPeriod.getEndDateOfMonth())
+                currentPeriod.getStartDateOfMonth(), currentPeriod.getEndDateOfMonth(), pageable)
         );
     }
+
 
     public FindPlannerOrderByDateBetweenResponse findPlannerOrderByDateAndRange(final long memberId, final FindPlannerOrderByDateBetweenRequest findPlannerBetweenRequest) {
         final Member member = findMemberById(memberId);
