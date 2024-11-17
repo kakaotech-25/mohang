@@ -378,9 +378,9 @@ public class PlannerControllerTest extends ControllerTestConfig {
                 .andExpect(status().isOk());
     }
 
-    @DisplayName("탐색 범위의 시작날짜가 종료날짜보다 이후라면 상태코드 400을 리턴한다.")
+    @DisplayName("모든 멤버의 공개된 여행지 탐색시 범위의 시작날짜가 종료날짜보다 이후라면 상태코드 400을 리턴한다.")
     @Test
-    void 공개된_여행지중에_탐색_범위내에_해당하는_여행_일정_리스트를_찾고_상태코드_200을_리턴한다() throws Exception {
+    void 모든_멤버의_공개된_여행지_탐색시_범위의_시작날짜가_종료날짜보다_이후라면_상태코드_400을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
         doThrow(new InvalidDateSequenceException("시작날짜는 종료날짜보다 더 이후일 수 없습니다."))
