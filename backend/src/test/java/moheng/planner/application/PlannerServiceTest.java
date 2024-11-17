@@ -279,9 +279,9 @@ public class PlannerServiceTest extends ServiceTestConfig {
         assertEquals(actual.size(), 8);
     }
 
-    @DisplayName("비공개 상태인 여행 일정은 검색 대상에서 제외된다.")
+    @DisplayName("이번달 여행 일정 조회시, 비공개 상태인 여행 일정은 검색 대상에서 제외된다.")
     @Test
-    void 비공개_상태인_여행_일정은_검색_대상에서_제외된다() {
+    void 이번달_여행_일정_조회시_비공개_상태인_여행_일정은_검색_대상에서_제외된다() {
         // given
         Member 하온 = memberRepository.save(하온_기존());
         tripScheduleRepository.save(이번달_공개_여행_일정1_생성(하온)); tripScheduleRepository.save(이번달_공개_여행_일정2_생성(하온));
@@ -340,5 +340,25 @@ public class PlannerServiceTest extends ServiceTestConfig {
             assertEquals(actual.get(2).getScheduleName(), "일정2");
             assertEquals(actual.get(3).getScheduleName(), "일정1");
         });
+    }
+
+    @DisplayName("등록날짜 기반 여행 일정을 검색할 때, 비공개 상태인 여행 일정은 검색 대상에서 제외된다.")
+    @Test
+    void 등록날짜_기반_여행_일정을_검색할_때_비공개_상태인_여행_일정은_검색_대상에서_제외된다() {
+        // given
+        Member 하온 = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(이번달_공개_여행_일정1_생성(하온)); tripScheduleRepository.save(이번달_공개_여행_일정2_생성(하온));
+        tripScheduleRepository.save(이번달_비공개_여행_일정5_생성(하온)); tripScheduleRepository.save(이번달_비공개_여행_일정6_생성(하온));
+
+        LocalDate 시작날짜 = LocalDate.now().minusDays(30);
+        LocalDate 종료날짜 = LocalDate.now().plusDays(30);
+        FindPublicSchedulesForRangeRequest 플래너_조회_요청 = new FindPublicSchedulesForRangeRequest(시작날짜, 종료날짜);
+        Pageable pageable = PageRequest.of(0, 30, Sort.by(Sort.Direction.DESC, "createdAt"));
+
+        // when
+        FindPlannerPublicForCreatedAtRangeResponses 플래너_조회_응답 = plannerService.findPublicSchedulesForCreatedAtRange(플래너_조회_요청, pageable);
+
+        // then
+        assertEquals(플래너_조회_응답.getTripScheduleResponses().size(), 2);
     }
 }
