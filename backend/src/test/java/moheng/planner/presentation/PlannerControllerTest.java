@@ -347,6 +347,35 @@ public class PlannerControllerTest extends ControllerTestConfig {
                 .andExpect(status().isNotFound());
     }
 
+    @DisplayName("멤버의 플래너 조회시 탐색 범위의 시작날짜가 종료날짜보다 이후라면 상태코드 400을 리턴한다.")
+    @Test
+    void 멤버의_플래너_조회시_탐색_범위의_시작날짜가_종료날짜보다_이후라면_상태코드_400을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new InvalidDateSequenceException("시작날짜는 종료날짜보다 더 이후일 수 없습니다."))
+                .when(plannerService).findPlannerOrderByDateAndRange(anyLong(), any());
+
+        // when, then
+        mockMvc.perform(get("/api/planner/range")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(플래너_날짜순_범위_조회_요청())))
+                .andDo(print())
+                .andDo(document("planner/find/range/date/fail",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("startDate").description("일정 시작날짜"),
+                                fieldWithPath("endDate").description("일정 종료날짜")
+                        )
+                ))
+                .andExpect(status().isBadRequest());
+    }
+
     @DisplayName("이번달의 여행 일정을 조회하고 상태코드 200을 리턴한다.")
     @Test
     void 이번달의_여행_일정을_조회하고_상태코드_200을_리턴한다() throws Exception {
