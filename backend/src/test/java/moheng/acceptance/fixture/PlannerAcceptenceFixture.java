@@ -61,7 +61,7 @@ public class PlannerAcceptenceFixture {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 범위내의_플래너_여행지를_날짜순으로_조회한다(final AccessTokenResponse accessTokenResponse, final FindPlannerOrderByDateBetweenRequest findPlannerOrderByDateBetweenRequest) {
+    public static ExtractableResponse<Response> 멤버의_범위내의_플래너_여행지를_날짜순으로_조회한다(final AccessTokenResponse accessTokenResponse, final FindPlannerOrderByDateBetweenRequest findPlannerOrderByDateBetweenRequest) {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(findPlannerOrderByDateBetweenRequest)

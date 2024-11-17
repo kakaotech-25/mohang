@@ -256,7 +256,7 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
         LocalDate 종료날짜 = LocalDate.now().plusDays(1);
 
         // when
-        ExtractableResponse<Response> resultHttpResponse = 범위내의_플래너_여행지를_날짜순으로_조회한다(accessTokenResponse, new FindPlannerOrderByDateBetweenRequest(시작날짜, 종료날짜));
+        ExtractableResponse<Response> resultHttpResponse = 멤버의_범위내의_플래너_여행지를_날짜순으로_조회한다(accessTokenResponse, new FindPlannerOrderByDateBetweenRequest(시작날짜, 종료날짜));
         FindPlannerOrderByDateBetweenResponse findPlannerOrderByDateBetweenResponse = resultHttpResponse.as(FindPlannerOrderByDateBetweenResponse.class);
 
         // then
@@ -266,5 +266,38 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
             assertThat(findPlannerOrderByDateBetweenResponse.getTripScheduleResponses().get(0).getScheduleName()).isEqualTo("나 일정");
             assertThat(findPlannerOrderByDateBetweenResponse.getTripScheduleResponses().get(1).getScheduleName()).isEqualTo("가 일정");
         });
+    }
+
+    @DisplayName("모든 멤버에 대한 공개된 여행 일정 리스트를 생성날짜를 기준으로 찾고 상태코드 200을 리턴한다.")
+    @Test
+    void 모든_멤버에_대한_공개된_여행_일정_리스트를_생성날짜를_기준으로_찾고_상태코두_200을_리턴한다() {
+        // given
+        ExtractableResponse<Response> loginResponse = 자체_토큰을_생성한다("KAKAO", "authorization-code");
+        AccessTokenResponse accessTokenResponse = loginResponse.as(AccessTokenResponse.class);
+
+        여행지를_생성한다("여행지1", 1L);
+        여행지를_생성한다("여행지2", 2L);
+
+        플래너에_여행_일정을_생성한다(
+                accessTokenResponse,
+                new CreateTripScheduleRequest("가 일정",
+                        LocalDate.of(2000, 1, 1),
+                        LocalDate.of(2000, 9, 10)
+                ));
+
+        플래너에_여행_일정을_생성한다(
+                accessTokenResponse,
+                new CreateTripScheduleRequest("나 일정",
+                        LocalDate.of(2000, 1, 1),
+                        LocalDate.of(2030, 9, 10)
+                ));
+
+        플래너에_여행지를_담는다(accessTokenResponse, 1L, new AddTripOnScheduleRequests(List.of(1L)));
+        플래너에_여행지를_담는다(accessTokenResponse, 2L, new AddTripOnScheduleRequests(List.of(2L)));
+
+        // when
+        ExtractableResponse<Response> resultHttpResponse = 모든_멤버의_공개된_범위내의_플래너_여행지를_날짜순으로_조회한다(accessTokenResponse, new FindPlannerOrderByDateBetweenRequest(시작날짜, 종료날짜));
+
+        // then
     }
 }
