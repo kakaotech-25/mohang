@@ -62,4 +62,8 @@ public class PlannerFixture {
     public static FindPublicSchedulesForRangeRequest 플래너_생성날짜_기준_범위_내의_공개된_여행지_조회_요청() {
         return new FindPublicSchedulesForRangeRequest(LocalDate.of(2020, 1, 1), LocalDate.of(2020, 3, 10));
     }
+
+    public static FindPublicSchedulesForRangeRequest 잘못된_시작날짜_종료날짜로_플래너_생성날짜_기준_범위_내의_공개된_여행지_조회_요청() {
+        return new FindPublicSchedulesForRangeRequest(LocalDate.of(2020, 3, 1), LocalDate.of(2020, 1, 10));
+    }
 }
