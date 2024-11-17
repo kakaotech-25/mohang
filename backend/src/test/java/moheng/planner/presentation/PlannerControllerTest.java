@@ -398,9 +398,9 @@ public class PlannerControllerTest extends ControllerTestConfig {
                 .andExpect(status().isOk());
     }
 
-    @DisplayName("생성날짜를 기준으로 범위에 해당하는 공개 여행지들을 찾고 상태코드 200을 리턴한다.")
+    @DisplayName("모든 멤버에 대한 생성날짜를 기준으로 범위에 해당하는 공개 여행지들을 찾고 상태코드 200을 리턴한다.")
     @Test
-    void 생성날짜를_기준으로_범위에_해당하는_공개_여행지들을_찾고_상태코드_200을_리턴한다() throws Exception {
+    void 모든_멤버에_대한_생성날짜를_기준으로_범위에_해당하는_공개_여행지들을_찾고_상태코드_200을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
 
@@ -411,6 +411,17 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(플래너_생성날짜_기준_범위_내의_공개된_여행지_조회_요청())))
                 .andDo(print())
+                .andDo(document("planner/find/range/date/fail",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("startDate").description("일정 시작날짜"),
+                                fieldWithPath("endDate").description("일정 종료날짜")
+                        )
+                ))
                 .andExpect(status().isOk());
     }
 
