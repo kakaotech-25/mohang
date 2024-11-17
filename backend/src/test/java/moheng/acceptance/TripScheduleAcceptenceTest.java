@@ -1,5 +1,7 @@
 package moheng.acceptance;
 
+import static moheng.acceptance.fixture.HttpStatusAcceptenceFixture.상태코드_200이_반환된다;
+import static moheng.acceptance.fixture.HttpStatusAcceptenceFixture.상태코드_204이_반환된다;
 import static moheng.acceptance.fixture.TripScheduleAcceptenceTestFixture.*;
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.자체_토큰을_생성한다;
 import static moheng.acceptance.fixture.TripScheduleAcceptenceTestFixture.세부_일정을_찾는다;
@@ -41,6 +43,7 @@ public class TripScheduleAcceptenceTest extends AcceptanceTestConfig {
 
         //  then
         assertAll(() -> {
+            상태코드_204이_반환된다(createScheduleResponse);
             assertThat(createScheduleResponse.statusCode()).isEqualTo(204);
         });
     }
@@ -64,7 +67,7 @@ public class TripScheduleAcceptenceTest extends AcceptanceTestConfig {
         ExtractableResponse<Response> resultResponse = 플래너에_여행지를_담는다(accessTokenResponse, 1L, new AddTripOnScheduleRequests(List.of(1L)));
 
         assertAll(() -> {
-            assertThat(resultResponse.statusCode()).isEqualTo(204);
+            상태코드_204이_반환된다(resultResponse);
         });
     }
 
@@ -95,7 +98,7 @@ public class TripScheduleAcceptenceTest extends AcceptanceTestConfig {
 
         // then
         assertAll(() -> {
-            assertThat(resultResponse.statusCode()).isEqualTo(200);
+            상태코드_200이_반환된다(resultResponse);
             assertThat(findTripsOnSchedule.getFindTripsOnSchedules()).hasSize(3);
         });
     }
@@ -128,7 +131,7 @@ public class TripScheduleAcceptenceTest extends AcceptanceTestConfig {
 
         // then
         assertAll(() -> {
-            assertThat(resultResponse.statusCode()).isEqualTo(204);
+            상태코드_204이_반환된다(resultResponse);
             assertThat(findTripsOnSchedule.getFindTripsOnSchedules()).hasSize(3);
             assertThat(findTripsOnSchedule.getFindTripsOnSchedules().get(0).getPlaceName()).isEqualTo("여행지3");
             assertThat(findTripsOnSchedule.getFindTripsOnSchedules().get(1).getPlaceName()).isEqualTo("여행지1");
@@ -167,7 +170,7 @@ public class TripScheduleAcceptenceTest extends AcceptanceTestConfig {
 
         // then
         assertAll(() -> {
-            assertThat(resultResponse.statusCode()).isEqualTo(204);
+            상태코드_204이_반환된다(resultResponse);
             assertThat(findTripsOnSchedule.getFindTripsOnSchedules()).hasSize(2);
         });
     }
