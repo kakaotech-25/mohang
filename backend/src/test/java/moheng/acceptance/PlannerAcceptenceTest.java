@@ -1,5 +1,7 @@
 package moheng.acceptance;
 
+import static moheng.acceptance.fixture.HttpStatusAcceptenceFixture.상태코드_200이_반환된다;
+import static moheng.acceptance.fixture.HttpStatusAcceptenceFixture.상태코드_204이_반환된다;
 import static moheng.acceptance.fixture.PlannerAcceptenceFixture.*;
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.자체_토큰을_생성한다;
 import static moheng.acceptance.fixture.PlannerAcceptenceFixture.플래너_여행지를_이름순으로_조회한다;
@@ -56,7 +58,7 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
         FindPlannerOrderByDateResponse resultResponse = findOrderByDateResponse.as(FindPlannerOrderByDateResponse.class);
 
         assertAll(() -> {
-            assertThat(findOrderByDateResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+            상태코드_200이_반환된다(findOrderByDateResponse);
             assertThat(resultResponse.getTripScheduleResponses()).hasSize(3);
             assertThat(resultResponse.getTripScheduleResponses().get(0).getScheduleName()).isEqualTo("여행 일정1");
             assertThat(resultResponse.getTripScheduleResponses().get(2).getScheduleName()).isEqualTo("여행 일정3");
@@ -92,7 +94,7 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
         FindPlannerOrderByRecentResponse resultResponse = findOrderByDateResponse.as(FindPlannerOrderByRecentResponse.class);
 
         assertAll(() -> {
-            assertThat(findOrderByDateResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+            상태코드_200이_반환된다(findOrderByDateResponse);
             assertThat(resultResponse.getTripScheduleResponses()).hasSize(3);
             assertThat(resultResponse.getTripScheduleResponses().get(0).getScheduleName()).isEqualTo("여행 일정3");
             assertThat(resultResponse.getTripScheduleResponses().get(2).getScheduleName()).isEqualTo("여행 일정1");
@@ -131,7 +133,7 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
 
         // then
         assertAll(() -> {
-            assertThat(findOrderByDateResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+            상태코드_200이_반환된다(findOrderByDateResponse);
             assertThat(resultResponse.getTripScheduleResponses()).hasSize(3);
             assertThat(resultResponse.getTripScheduleResponses().get(0).getScheduleName()).isEqualTo("가 일정");
             assertThat(resultResponse.getTripScheduleResponses().get(2).getScheduleName()).isEqualTo("다 일정");
@@ -160,7 +162,7 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
 
         // then
         assertAll(() -> {
-            assertThat(resultResponse.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+            상태코드_204이_반환된다(resultResponse);
         });
     }
 
@@ -183,7 +185,7 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
 
         // then
         assertAll(() -> {
-            assertThat(resultResponse.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+            상태코드_204이_반환된다(resultResponse);
         });
     }
 
@@ -215,7 +217,7 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
 
         // then
         assertAll(() -> {
-            assertThat(resultResponse.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+            상태코드_204이_반환된다(resultResponse);
             assertThat(sizeResponse.getTripScheduleResponses().size()).isEqualTo(0);
         });
     }
@@ -256,7 +258,7 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
 
         // then
         assertAll(() -> {
-            assertThat(resultHttpResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+            상태코드_200이_반환된다(resultHttpResponse);
             assertThat(findPlannerOrderByDateBetweenResponse.getTripScheduleResponses().size()).isEqualTo(2);
             assertThat(findPlannerOrderByDateBetweenResponse.getTripScheduleResponses().get(0).getScheduleName()).isEqualTo("나 일정");
             assertThat(findPlannerOrderByDateBetweenResponse.getTripScheduleResponses().get(1).getScheduleName()).isEqualTo("가 일정");
@@ -293,7 +295,7 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
 
         // then
         assertAll(() -> {
-            assertThat(resultHttpResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+            상태코드_200이_반환된다(resultHttpResponse);
             assertThat(findPlannerPublicForCreatedAtRangeResponses.getTripScheduleResponses().size()).isEqualTo(2);
         });
     }
