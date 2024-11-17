@@ -114,7 +114,7 @@ public class TripAcceptenceTest extends AcceptanceTestConfig {
         assertAll(() -> {
             assertThat(findTripWithSimilarTripsResponse.getSimilarTripResponses().getFindTripResponses()).hasSize(10);
             assertThat(findTripWithSimilarTripsResponse.getFindTripResponse()).isNotNull();
-            assertThat(resultResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+            상태코드_200이_반환된다(resultResponse);
         });
     }
 }
