@@ -376,4 +376,21 @@ public class PlannerControllerTest extends ControllerTestConfig {
                 .andDo(print())
                 .andExpect(status().isOk());
     }
+
+    @DisplayName("공개된 여행지중에 탐색 범위내에 해당하는 여행 일정 리스트를 찾고 상태코드 200을 리턴한다.")
+    @Test
+    void 공개된_여행지중에_탐색_범위내에_해당하는_여행_일정_리스트를_찾고_상태코드_200을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+
+        // when, then
+        mockMvc.perform(get("/api/planner/search/date")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(플래너_생성날짜_기준_범위_내의_공개된_여행지_조회_요청())))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
 }
+
