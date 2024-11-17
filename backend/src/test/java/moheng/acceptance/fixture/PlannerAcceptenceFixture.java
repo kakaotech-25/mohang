@@ -5,9 +5,12 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.auth.dto.response.AccessTokenResponse;
 import moheng.planner.dto.request.FindPlannerOrderByDateBetweenRequest;
+import moheng.planner.dto.request.FindPublicSchedulesForRangeRequest;
 import moheng.planner.dto.request.UpdateTripScheduleRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+
+import java.awt.print.Pageable;
 
 public class PlannerAcceptenceFixture {
     public static ExtractableResponse<Response> 플래너_여행지를_날짜순으로_조회한다(final AccessTokenResponse accessTokenResponse) {
@@ -67,6 +70,20 @@ public class PlannerAcceptenceFixture {
                 .body(findPlannerOrderByDateBetweenRequest)
                 .auth().oauth2(accessTokenResponse.getAccessToken())
                 .when().get("/api/planner/range")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 모든_멤버의_공개된_범위내의_플래너_여행지를_날짜순으로_조회한다(final AccessTokenResponse accessTokenResponse,
+                                                                             final FindPublicSchedulesForRangeRequest findPublicSchedulesForRangeRequest) {
+        return RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(findPublicSchedulesForRangeRequest)
+                .queryParam("page", 0)
+                .queryParam("size", 30)
+                .auth().oauth2(accessTokenResponse.getAccessToken())
+                .when().get("/api/planner/search/date")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract();

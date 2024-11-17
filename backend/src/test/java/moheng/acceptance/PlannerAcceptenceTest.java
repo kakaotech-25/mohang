@@ -6,6 +6,7 @@ import static moheng.acceptance.fixture.PlannerAcceptenceFixture.플래너_여�
 import static moheng.acceptance.fixture.TripAcceptenceFixture.여행지를_생성한다;
 import static moheng.acceptance.fixture.TripScheduleAcceptenceTestFixture.플래너에_여행_일정을_생성한다;
 import static moheng.acceptance.fixture.TripScheduleAcceptenceTestFixture.플래너에_여행지를_담는다;
+import static moheng.acceptance.fixture.PlannerAcceptenceFixture.모든_멤버의_공개된_범위내의_플래너_여행지를_날짜순으로_조회한다;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -15,14 +16,8 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
 import moheng.auth.dto.response.AccessTokenResponse;
-import moheng.planner.dto.request.AddTripOnScheduleRequests;
-import moheng.planner.dto.request.CreateTripScheduleRequest;
-import moheng.planner.dto.request.FindPlannerOrderByDateBetweenRequest;
-import moheng.planner.dto.request.UpdateTripScheduleRequest;
-import moheng.planner.dto.response.FindPLannerOrderByNameResponse;
-import moheng.planner.dto.response.FindPlannerOrderByDateBetweenResponse;
-import moheng.planner.dto.response.FindPlannerOrderByDateResponse;
-import moheng.planner.dto.response.FindPlannerOrderByRecentResponse;
+import moheng.planner.dto.request.*;
+import moheng.planner.dto.response.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -275,9 +270,6 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
         ExtractableResponse<Response> loginResponse = 자체_토큰을_생성한다("KAKAO", "authorization-code");
         AccessTokenResponse accessTokenResponse = loginResponse.as(AccessTokenResponse.class);
 
-        여행지를_생성한다("여행지1", 1L);
-        여행지를_생성한다("여행지2", 2L);
-
         플래너에_여행_일정을_생성한다(
                 accessTokenResponse,
                 new CreateTripScheduleRequest("가 일정",
@@ -292,12 +284,17 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
                         LocalDate.of(2030, 9, 10)
                 ));
 
-        플래너에_여행지를_담는다(accessTokenResponse, 1L, new AddTripOnScheduleRequests(List.of(1L)));
-        플래너에_여행지를_담는다(accessTokenResponse, 2L, new AddTripOnScheduleRequests(List.of(2L)));
+        LocalDate 시작날짜 = LocalDate.now().minusDays(10);
+        LocalDate 종료날짜 = LocalDate.now().plusDays(10);
 
         // when
-        ExtractableResponse<Response> resultHttpResponse = 모든_멤버의_공개된_범위내의_플래너_여행지를_날짜순으로_조회한다(accessTokenResponse, new FindPlannerOrderByDateBetweenRequest(시작날짜, 종료날짜));
+        ExtractableResponse<Response> resultHttpResponse = 모든_멤버의_공개된_범위내의_플래너_여행지를_날짜순으로_조회한다(accessTokenResponse, new FindPublicSchedulesForRangeRequest(시작날짜, 종료날짜));
+        FindPlannerPublicForCreatedAtRangeResponses findPlannerPublicForCreatedAtRangeResponses = resultHttpResponse.as(FindPlannerPublicForCreatedAtRangeResponses.class);
 
         // then
+        assertAll(() -> {
+            assertThat(resultHttpResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+            assertThat(findPlannerPublicForCreatedAtRangeResponses.getTripScheduleResponses().size()).isEqualTo(2);
+        });
     }
 }
