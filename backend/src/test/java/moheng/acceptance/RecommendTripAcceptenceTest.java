@@ -3,6 +3,7 @@ package moheng.acceptance;
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.*;
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.생활정보로_회원가입_한다;
 import static moheng.acceptance.fixture.HttpStatusAcceptenceFixture.상태코드_200이_반환된다;
+import static moheng.acceptance.fixture.HttpStatusAcceptenceFixture.상태코드_204이_반환된다;
 import static moheng.acceptance.fixture.KeywordAcceptenceFixture.키워드를_생성한다;
 import static moheng.acceptance.fixture.RecommendTripAcceptenceFixture.선호_여행지를_선택한다;
 import static moheng.acceptance.fixture.RecommendTripAcceptenceFixture.AI_맞춤_추천_여행지를_조회한다;
@@ -38,6 +39,7 @@ public class RecommendTripAcceptenceTest extends AcceptanceTestConfig {
         ExtractableResponse<Response> resultResponse = 선호_여행지를_선택한다(1L, accessTokenResponse.getAccessToken());
 
         assertAll(() -> {
+            상태코드_204이_반환된다(resultResponse);
             assertThat(resultResponse.statusCode()).isEqualTo(204);
         });
     }
