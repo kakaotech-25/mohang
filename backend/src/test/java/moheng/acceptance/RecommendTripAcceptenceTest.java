@@ -40,7 +40,6 @@ public class RecommendTripAcceptenceTest extends AcceptanceTestConfig {
 
         assertAll(() -> {
             상태코드_204이_반환된다(resultResponse);
-            assertThat(resultResponse.statusCode()).isEqualTo(204);
         });
     }
 
