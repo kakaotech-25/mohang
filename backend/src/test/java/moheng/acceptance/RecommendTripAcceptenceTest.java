@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.assertj.core.api.Assertions.assertThat;
 import static moheng.acceptance.fixture.TripAcceptenceFixture.*;
 import static moheng.acceptance.fixture.LiveInfoAcceptenceFixture.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -32,8 +33,13 @@ public class RecommendTripAcceptenceTest extends AcceptanceTestConfig {
         AccessTokenResponse accessTokenResponse = response.as(AccessTokenResponse.class);
 
         여행지를_생성한다("롯데월드1", 1L);
+        여행지를_생성한다("롯데월드2", 2L);
 
         ExtractableResponse<Response> resultResponse = 선호_여행지를_선택한다(1L, accessTokenResponse.getAccessToken());
+
+        assertAll(() -> {
+            assertThat(resultResponse.statusCode()).isEqualTo(204);
+        });
     }
 
     @DisplayName("AI 맞춤 추천 여행지를 조회하고 상태코드 200을 리턴한다.")
