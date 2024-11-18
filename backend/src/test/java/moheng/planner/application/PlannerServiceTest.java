@@ -18,6 +18,7 @@ import moheng.planner.domain.repository.TripScheduleRegistryRepository;
 import moheng.planner.domain.repository.TripScheduleRepository;
 import moheng.planner.dto.request.FindPlannerOrderByDateBetweenRequest;
 import moheng.planner.dto.request.FindPublicSchedulesForRangeRequest;
+import moheng.planner.dto.request.FindSchedulesByNameRequest;
 import moheng.planner.dto.response.*;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.planner.exception.InvalidDateSequenceException;
@@ -360,5 +361,22 @@ public class PlannerServiceTest extends ServiceTestConfig {
 
         // then
         assertEquals(플래너_조회_응답.getTripScheduleResponses().size(), 2);
+    }
+
+    @DisplayName("여행 일정 이름으로 여행 일정 리스트를 찾는다.")
+    @Test
+    void 여행_일정_이름으로_여행_일정_리스틀_찾는다() {
+        // given
+        Member 하온 = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(여행_일정1_생성(하온)); tripScheduleRepository.save(여행_일정2_생성(하온));
+        tripScheduleRepository.save(여행_일정3_생성(하온)); tripScheduleRepository.save(여행_일정4_생성(하온));
+
+        FindSchedulesByNameRequest 검색_이름 = new FindSchedulesByNameRequest("일정1");
+
+        // when
+        List<TripSchedule> 여행_일정_검색_결과 = plannerService.findSchedulesByName(검색_이름);
+
+        // then
+        assertEquals(여행_일정_검색_결과.size(),1);
     }
 }
