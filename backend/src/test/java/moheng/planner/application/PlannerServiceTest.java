@@ -387,6 +387,7 @@ public class PlannerServiceTest extends ServiceTestConfig {
         // given
         Member 하온 = memberRepository.save(하온_기존());
         tripScheduleRepository.save(이번달_비공개_여행_일정5_생성(하온));
+
         FindSchedulesByNameRequest 검색_이름_요청 = new FindSchedulesByNameRequest("일정5");
 
         // when
@@ -394,5 +395,23 @@ public class PlannerServiceTest extends ServiceTestConfig {
 
         // then
         assertEquals(여행_일정_검색_결과.getTripScheduleResponses().size(), 0);
+    }
+
+    @DisplayName("검색명을 포함하는 모든 일정을 찾는다.")
+    @Test
+    void 검색명을_포함하는_모든_일정을_찾는다() {
+        // given
+        Member 하온 = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(여행_일정_제주도_여행_생성(하온));
+        tripScheduleRepository.save(여행_일정_제주도_가자_생성(하온));
+
+        FindSchedulesByNameRequest 검색_이름_요청 = new FindSchedulesByNameRequest("제주도");
+
+        // when
+        FindSchedulesNameResponses 여행_일정_검색_결과 = plannerService.findSchedulesByName(검색_이름_요청);
+
+        // then
+        assertEquals(여행_일정_검색_결과.getTripScheduleResponses().size(), 2);
+
     }
 }
