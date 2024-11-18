@@ -151,7 +151,7 @@ public class MemberAcceptanceTest extends AcceptanceTestConfig {
             assertThat(resultResponse.getNickname()).isNotNull();
             assertThat(resultResponse.getProfileImageUrl()).isNotNull();
             assertThat(resultResponse.getGenderType()).isNotNull();
-            assertThat(memberResponse.statusCode()).isEqualTo(200);
+            상태코드_200이_반환된다(memberResponse);
         });
     }
 
@@ -183,6 +183,7 @@ public class MemberAcceptanceTest extends AcceptanceTestConfig {
             assertThat(profileResponse.getProfileImageUrl()).isNotNull();
             assertThat(profileResponse.getGenderType()).isNotNull();
             assertThat(memberLiveInformationResponses.getLiveInfoResponses()).hasSize(5);
+            상태코드_200이_반환된다(memberResponse);
         });
     }
 
@@ -200,7 +201,7 @@ public class MemberAcceptanceTest extends AcceptanceTestConfig {
         assertAll(() -> {
             assertThat(responseResult.getAuthority()).isEqualTo(Authority.INIT_MEMBER);
             assertThat(responseResult.getProfileImageUrl()).isNull();
-            assertThat(memberResponse.statusCode()).isEqualTo(200);
+            상태코드_200이_반환된다(memberResponse);
         });
     }
 }

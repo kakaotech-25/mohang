@@ -1,11 +1,14 @@
 package moheng.acceptance;
 
+import static moheng.acceptance.fixture.HttpStatusAcceptenceFixture.상태코드_200이_반환된다;
+import static moheng.acceptance.fixture.HttpStatusAcceptenceFixture.상태코드_204이_반환된다;
 import static moheng.acceptance.fixture.PlannerAcceptenceFixture.*;
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.자체_토큰을_생성한다;
 import static moheng.acceptance.fixture.PlannerAcceptenceFixture.플래너_여행지를_이름순으로_조회한다;
 import static moheng.acceptance.fixture.TripAcceptenceFixture.여행지를_생성한다;
 import static moheng.acceptance.fixture.TripScheduleAcceptenceTestFixture.플래너에_여행_일정을_생성한다;
 import static moheng.acceptance.fixture.TripScheduleAcceptenceTestFixture.플래너에_여행지를_담는다;
+import static moheng.acceptance.fixture.PlannerAcceptenceFixture.모든_멤버의_공개된_범위내의_플래너_여행지를_날짜순으로_조회한다;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -15,14 +18,8 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import moheng.acceptance.config.AcceptanceTestConfig;
 import moheng.auth.dto.response.AccessTokenResponse;
-import moheng.planner.dto.request.AddTripOnScheduleRequests;
-import moheng.planner.dto.request.CreateTripScheduleRequest;
-import moheng.planner.dto.request.FindPlannerOrderByDateBetweenRequest;
-import moheng.planner.dto.request.UpdateTripScheduleRequest;
-import moheng.planner.dto.response.FindPLannerOrderByNameResponse;
-import moheng.planner.dto.response.FindPlannerOrderByDateBetweenResponse;
-import moheng.planner.dto.response.FindPlannerOrderByDateResponse;
-import moheng.planner.dto.response.FindPlannerOrderByRecentResponse;
+import moheng.planner.dto.request.*;
+import moheng.planner.dto.response.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -61,7 +58,7 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
         FindPlannerOrderByDateResponse resultResponse = findOrderByDateResponse.as(FindPlannerOrderByDateResponse.class);
 
         assertAll(() -> {
-            assertThat(findOrderByDateResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+            상태코드_200이_반환된다(findOrderByDateResponse);
             assertThat(resultResponse.getTripScheduleResponses()).hasSize(3);
             assertThat(resultResponse.getTripScheduleResponses().get(0).getScheduleName()).isEqualTo("여행 일정1");
             assertThat(resultResponse.getTripScheduleResponses().get(2).getScheduleName()).isEqualTo("여행 일정3");
@@ -97,7 +94,7 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
         FindPlannerOrderByRecentResponse resultResponse = findOrderByDateResponse.as(FindPlannerOrderByRecentResponse.class);
 
         assertAll(() -> {
-            assertThat(findOrderByDateResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+            상태코드_200이_반환된다(findOrderByDateResponse);
             assertThat(resultResponse.getTripScheduleResponses()).hasSize(3);
             assertThat(resultResponse.getTripScheduleResponses().get(0).getScheduleName()).isEqualTo("여행 일정3");
             assertThat(resultResponse.getTripScheduleResponses().get(2).getScheduleName()).isEqualTo("여행 일정1");
@@ -136,7 +133,7 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
 
         // then
         assertAll(() -> {
-            assertThat(findOrderByDateResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+            상태코드_200이_반환된다(findOrderByDateResponse);
             assertThat(resultResponse.getTripScheduleResponses()).hasSize(3);
             assertThat(resultResponse.getTripScheduleResponses().get(0).getScheduleName()).isEqualTo("가 일정");
             assertThat(resultResponse.getTripScheduleResponses().get(2).getScheduleName()).isEqualTo("다 일정");
@@ -165,7 +162,7 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
 
         // then
         assertAll(() -> {
-            assertThat(resultResponse.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+            상태코드_204이_반환된다(resultResponse);
         });
     }
 
@@ -188,7 +185,7 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
 
         // then
         assertAll(() -> {
-            assertThat(resultResponse.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+            상태코드_204이_반환된다(resultResponse);
         });
     }
 
@@ -220,7 +217,7 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
 
         // then
         assertAll(() -> {
-            assertThat(resultResponse.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+            상태코드_204이_반환된다(resultResponse);
             assertThat(sizeResponse.getTripScheduleResponses().size()).isEqualTo(0);
         });
     }
@@ -256,15 +253,50 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
         LocalDate 종료날짜 = LocalDate.now().plusDays(1);
 
         // when
-        ExtractableResponse<Response> resultHttpResponse = 범위내의_플래너_여행지를_날짜순으로_조회한다(accessTokenResponse, new FindPlannerOrderByDateBetweenRequest(시작날짜, 종료날짜));
+        ExtractableResponse<Response> resultHttpResponse = 멤버의_범위내의_플래너_여행지를_날짜순으로_조회한다(accessTokenResponse, new FindPlannerOrderByDateBetweenRequest(시작날짜, 종료날짜));
         FindPlannerOrderByDateBetweenResponse findPlannerOrderByDateBetweenResponse = resultHttpResponse.as(FindPlannerOrderByDateBetweenResponse.class);
 
         // then
         assertAll(() -> {
-            assertThat(resultHttpResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+            상태코드_200이_반환된다(resultHttpResponse);
             assertThat(findPlannerOrderByDateBetweenResponse.getTripScheduleResponses().size()).isEqualTo(2);
             assertThat(findPlannerOrderByDateBetweenResponse.getTripScheduleResponses().get(0).getScheduleName()).isEqualTo("나 일정");
             assertThat(findPlannerOrderByDateBetweenResponse.getTripScheduleResponses().get(1).getScheduleName()).isEqualTo("가 일정");
+        });
+    }
+
+    @DisplayName("모든 멤버에 대한 공개된 여행 일정 리스트를 생성날짜를 기준으로 찾고 상태코드 200을 리턴한다.")
+    @Test
+    void 모든_멤버에_대한_공개된_여행_일정_리스트를_생성날짜를_기준으로_찾고_상태코두_200을_리턴한다() {
+        // given
+        ExtractableResponse<Response> loginResponse = 자체_토큰을_생성한다("KAKAO", "authorization-code");
+        AccessTokenResponse accessTokenResponse = loginResponse.as(AccessTokenResponse.class);
+
+        플래너에_여행_일정을_생성한다(
+                accessTokenResponse,
+                new CreateTripScheduleRequest("가 일정",
+                        LocalDate.of(2000, 1, 1),
+                        LocalDate.of(2000, 9, 10)
+                ));
+
+        플래너에_여행_일정을_생성한다(
+                accessTokenResponse,
+                new CreateTripScheduleRequest("나 일정",
+                        LocalDate.of(2000, 1, 1),
+                        LocalDate.of(2030, 9, 10)
+                ));
+
+        LocalDate 시작날짜 = LocalDate.now().minusDays(10);
+        LocalDate 종료날짜 = LocalDate.now().plusDays(10);
+
+        // when
+        ExtractableResponse<Response> resultHttpResponse = 모든_멤버의_공개된_범위내의_플래너_여행지를_날짜순으로_조회한다(accessTokenResponse, new FindPublicSchedulesForRangeRequest(시작날짜, 종료날짜));
+        FindPlannerPublicForCreatedAtRangeResponses findPlannerPublicForCreatedAtRangeResponses = resultHttpResponse.as(FindPlannerPublicForCreatedAtRangeResponses.class);
+
+        // then
+        assertAll(() -> {
+            상태코드_200이_반환된다(resultHttpResponse);
+            assertThat(findPlannerPublicForCreatedAtRangeResponses.getTripScheduleResponses().size()).isEqualTo(2);
         });
     }
 }

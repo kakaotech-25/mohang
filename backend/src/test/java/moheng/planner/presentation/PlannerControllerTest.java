@@ -23,6 +23,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import moheng.config.slice.ControllerTestConfig;
 import moheng.member.exception.NoExistMemberException;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
+import moheng.planner.exception.InvalidDateSequenceException;
 import moheng.planner.exception.NoExistTripScheduleException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -346,6 +347,35 @@ public class PlannerControllerTest extends ControllerTestConfig {
                 .andExpect(status().isNotFound());
     }
 
+    @DisplayName("멤버의 플래너 조회시 탐색 범위의 시작날짜가 종료날짜보다 이후라면 상태코드 400을 리턴한다.")
+    @Test
+    void 멤버의_플래너_조회시_탐색_범위의_시작날짜가_종료날짜보다_이후라면_상태코드_400을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new InvalidDateSequenceException("시작날짜는 종료날짜보다 더 이후일 수 없습니다."))
+                .when(plannerService).findPlannerOrderByDateAndRange(anyLong(), any());
+
+        // when, then
+        mockMvc.perform(get("/api/planner/range")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(플래너_날짜순_범위_조회_요청())))
+                .andDo(print())
+                .andDo(document("planner/find/range/date/fail",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("startDate").description("일정 시작날짜"),
+                                fieldWithPath("endDate").description("일정 종료날짜")
+                        )
+                ))
+                .andExpect(status().isBadRequest());
+    }
+
     @DisplayName("이번달의 여행 일정을 조회하고 상태코드 200을 리턴한다.")
     @Test
     void 이번달의_여행_일정을_조회하고_상태코드_200을_리턴한다() throws Exception {
@@ -358,12 +388,19 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
+                .andDo(document("planner/find/month/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        )
+                ))
                 .andExpect(status().isOk());
     }
 
-    @DisplayName("생성날짜를 기준으로 범위에 해당하는 공개 여행지들을 찾고 상태코드 200을 리턴한다.")
+    @DisplayName("모든 멤버에 대한 생성날짜를 기준으로 범위에 해당하는 공개 여행지들을 찾고 상태코드 200을 리턴한다.")
     @Test
-    void 생성날짜를_기준으로_범위에_해당하는_공개_여행지들을_찾고_상태코드_200을_리턴한다() throws Exception {
+    void 모든_멤버에_대한_생성날짜를_기준으로_범위에_해당하는_공개_여행지들을_찾고_상태코드_200을_리턴한다() throws Exception {
         // given
         given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
 
@@ -374,6 +411,63 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(플래너_생성날짜_기준_범위_내의_공개된_여행지_조회_요청())))
                 .andDo(print())
+                .andDo(document("planner/find/range/date/fail",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("startDate").description("일정 시작날짜"),
+                                fieldWithPath("endDate").description("일정 종료날짜")
+                        )
+                ))
+                .andExpect(status().isOk());
+    }
+
+    @DisplayName("모든 멤버의 공개된 여행 일정 탐색시 범위의 시작날짜가 종료날짜보다 이후라면 상태코드 400을 리턴한다.")
+    @Test
+    void 모든_멤버의_공개된_여행_일정_탐색시_범위의_시작날짜가_종료날짜보다_이후라면_상태코드_400을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        doThrow(new InvalidDateSequenceException("시작날짜는 종료날짜보다 더 이후일 수 없습니다."))
+                .when(plannerService).findPublicSchedulesForCreatedAtRange(any(), any());
+
+        // when, then
+        mockMvc.perform(get("/api/planner/search/date")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(잘못된_시작날짜_종료날짜로_플래너_생성날짜_기준_범위_내의_공개된_여행지_조회_요청())))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @DisplayName("모든 멤버에 대한 공개 여행지 중에 검색명에 해당하는 일정을 찾고 상태코드 200을 리턴한다.")
+    @Test
+    void 모든_멤버에_대한_공개_여행지_중에_검색명에_해당하는_일정을_찾고_상태코드_200을_리턴한다() throws Exception {
+        // given
+        given(jwtTokenProvider.getMemberId(anyString())).willReturn(1L);
+        given(plannerService.findSchedulesByName(any())).willReturn(여행_일정_검색명_조회_응답());
+
+        // when, then
+        mockMvc.perform(get("/api/planner/search/name")
+                        .header("Authorization", "Bearer aaaaaa.bbbbbb.cccccc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(여행_일정_검색명_조회_요청())))
+                .andDo(print())
+                .andDo(document("planner/find/search/name/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("name").description("검색명")
+                        )
+                ))
                 .andExpect(status().isOk());
     }
 }
+

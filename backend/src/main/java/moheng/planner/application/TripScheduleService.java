@@ -54,7 +54,7 @@ public class TripScheduleService {
                 createTripScheduleRequest.getScheduleName(),
                 createTripScheduleRequest.getStartDate(),
                 createTripScheduleRequest.getEndDate(),
-                true,
+                false,
                 member
         );
         tripScheduleRepository.save(tripSchedule);

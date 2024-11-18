@@ -2,6 +2,8 @@ package moheng.acceptance;
 
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.*;
 import static moheng.acceptance.fixture.AuthAcceptanceFixture.생활정보로_회원가입_한다;
+import static moheng.acceptance.fixture.HttpStatusAcceptenceFixture.상태코드_200이_반환된다;
+import static moheng.acceptance.fixture.HttpStatusAcceptenceFixture.상태코드_204이_반환된다;
 import static moheng.acceptance.fixture.KeywordAcceptenceFixture.키워드를_생성한다;
 import static moheng.acceptance.fixture.RecommendTripAcceptenceFixture.선호_여행지를_선택한다;
 import static moheng.acceptance.fixture.RecommendTripAcceptenceFixture.AI_맞춤_추천_여행지를_조회한다;
@@ -11,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.assertj.core.api.Assertions.assertThat;
 import static moheng.acceptance.fixture.TripAcceptenceFixture.*;
 import static moheng.acceptance.fixture.LiveInfoAcceptenceFixture.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -31,8 +34,13 @@ public class RecommendTripAcceptenceTest extends AcceptanceTestConfig {
         AccessTokenResponse accessTokenResponse = response.as(AccessTokenResponse.class);
 
         여행지를_생성한다("롯데월드1", 1L);
+        여행지를_생성한다("롯데월드2", 2L);
 
         ExtractableResponse<Response> resultResponse = 선호_여행지를_선택한다(1L, accessTokenResponse.getAccessToken());
+
+        assertAll(() -> {
+            상태코드_204이_반환된다(resultResponse);
+        });
     }
 
     @DisplayName("AI 맞춤 추천 여행지를 조회하고 상태코드 200을 리턴한다.")
@@ -78,7 +86,7 @@ public class RecommendTripAcceptenceTest extends AcceptanceTestConfig {
         FindTripsResponse findTripsResponse = resultResponse.as(FindTripsResponse.class);
 
         assertAll(() -> {
-            assertThat(resultResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+            상태코드_200이_반환된다(resultResponse);
             assertThat(findTripsResponse.getFindTripResponses()).hasSize(10);
         });
     }

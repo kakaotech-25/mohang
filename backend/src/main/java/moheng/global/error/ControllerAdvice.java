@@ -50,6 +50,7 @@ public class ControllerAdvice {
             InvalidTripScheduleNameException.class,
             InvalidTripNameException.class,
             InvalidTripDescriptionException.class,
+            InvalidDateSequenceException.class,
     })
     public ResponseEntity<ExceptionResponse> handleIBadRequestException(final RuntimeException e) {
         logger.error(e.getMessage(), e);

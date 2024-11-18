@@ -53,6 +53,14 @@ public class TripScheduleFixtures {
         return new TripSchedule("중복 일정", LocalDate.of(2003, 11, 1), LocalDate.of(2020, 1, 10), false, member);
     }
 
+    public static TripSchedule 여행_일정_제주도_여행_생성(Member member) {
+        return new TripSchedule("제주도 여행", LocalDate.of(2004, 1, 1), LocalDate.of(2020, 1, 10), false, member);
+    }
+
+    public static TripSchedule 여행_일정_제주도_가자_생성(Member member) {
+        return new TripSchedule("제주도 가자", LocalDate.of(2004, 1, 1), LocalDate.of(2020, 1, 10), false, member);
+    }
+
     // 같은 날짜 월별 일정 생성
     public static TripSchedule 이번달_공개_여행_일정1_생성(Member member) {
         LocalDate now = LocalDate.now();

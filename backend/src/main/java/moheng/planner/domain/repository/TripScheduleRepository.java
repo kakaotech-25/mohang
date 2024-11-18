@@ -32,4 +32,6 @@ public interface TripScheduleRepository extends JpaRepository<TripSchedule, Long
             "and t.createdAt >= :startDate and t.createdAt <= :endDate " +
             "order by t.createdAt DESC")
     List<TripSchedule> findPublicSchedulesForCreatedAtRange(final LocalDateTime startDate, final LocalDateTime endDate, final Pageable pageable);
+
+    List<TripSchedule> findByNameContainsAndIsPrivateFalse(final String name);
 }
