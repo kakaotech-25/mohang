@@ -457,6 +457,16 @@ public class PlannerControllerTest extends ControllerTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(여행_일정_검색명_조회_요청())))
                 .andDo(print())
+                .andDo(document("planner/find/search/name/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization").description("엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("name").description("검색명")
+                        )
+                ))
                 .andExpect(status().isOk());
     }
 }
