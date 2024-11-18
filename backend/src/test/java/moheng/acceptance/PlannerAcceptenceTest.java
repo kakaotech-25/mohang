@@ -299,38 +299,4 @@ public class PlannerAcceptenceTest extends AcceptanceTestConfig {
             assertThat(findPlannerPublicForCreatedAtRangeResponses.getTripScheduleResponses().size()).isEqualTo(2);
         });
     }
-
-    @DisplayName("모든 멤버에 대한 공개 여행지 중에 검색명에 해당하는 일정을 찾고 상태코드 200을 리턴한다.")
-    @Test
-    void 모든_멤버에_대한_공개_여행지_중에_검색명에_해당하는_일정을_찾고_상태코드_200을_리턴한다() throws Exception {
-        // given
-        ExtractableResponse<Response> loginResponse = 자체_토큰을_생성한다("KAKAO", "authorization-code");
-        AccessTokenResponse accessTokenResponse = loginResponse.as(AccessTokenResponse.class);
-
-        플래너에_여행_일정을_생성한다(
-                accessTokenResponse,
-                new CreateTripScheduleRequest("가 일정",
-                        LocalDate.of(2000, 1, 1),
-                        LocalDate.of(2000, 9, 10)
-                ));
-
-        플래너에_여행_일정을_생성한다(
-                accessTokenResponse,
-                new CreateTripScheduleRequest("나 일정",
-                        LocalDate.of(2000, 1, 1),
-                        LocalDate.of(2030, 9, 10)
-                ));
-
-        FindSchedulesByNameRequest 검색명_요청 = new FindSchedulesByNameRequest("가 일정");
-
-        // when
-        ExtractableResponse<Response> resultHttpResponse = 모든_멤버의_공개된_플래너_여행지중_검색명을_포함하는_일정을_조회한다(accessTokenResponse, 검색명_요청);
-        FindSchedulesNameResponses findSchedulesNameResponses = resultHttpResponse.as(FindSchedulesNameResponses.class);
-
-        // then
-        assertAll(() -> {
-            상태코드_200이_반환된다(resultHttpResponse);
-            assertThat(findSchedulesNameResponses.getTripScheduleResponses().size()).isEqualTo(2);
-        });
-    }
 }

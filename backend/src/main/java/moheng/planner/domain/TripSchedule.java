@@ -115,4 +115,8 @@ public class TripSchedule extends BaseEntity {
     public String getDescription() {
         return description;
     }
+
+    public boolean isPrivate() {
+        return isPrivate;
+    }
 }
