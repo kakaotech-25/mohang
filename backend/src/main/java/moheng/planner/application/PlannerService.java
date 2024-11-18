@@ -7,10 +7,7 @@ import moheng.planner.domain.Period;
 import moheng.planner.domain.TripSchedule;
 import moheng.planner.domain.repository.TripScheduleRegistryRepository;
 import moheng.planner.domain.repository.TripScheduleRepository;
-import moheng.planner.dto.request.FindPlannerOrderByDateBetweenRequest;
-import moheng.planner.dto.request.FindPublicSchedulesForCurrentMonthResponses;
-import moheng.planner.dto.request.FindPublicSchedulesForRangeRequest;
-import moheng.planner.dto.request.UpdateTripScheduleRequest;
+import moheng.planner.dto.request.*;
 import moheng.planner.dto.response.*;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.planner.exception.InvalidPlannerSearchMonthException;
@@ -82,6 +79,10 @@ public class PlannerService {
         return new FindPlannerOrderByDateBetweenResponse(tripScheduleRepository.findByMemberAndDateRangeOrderByCreatedAt(
                 member, currentPeriod.getStartDateOfMonth(), currentPeriod.getEndDateOfMonth())
         );
+    }
+
+    public List<TripSchedule> findSchedulesByName(final FindSchedulesByNameRequest findSchedulesByNameRequest) {
+        return tripScheduleRepository.findByNameContains(findSchedulesByNameRequest.getName());
     }
 
     @Transactional
