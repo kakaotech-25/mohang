@@ -371,12 +371,27 @@ public class PlannerServiceTest extends ServiceTestConfig {
         tripScheduleRepository.save(여행_일정1_생성(하온)); tripScheduleRepository.save(여행_일정2_생성(하온));
         tripScheduleRepository.save(여행_일정3_생성(하온)); tripScheduleRepository.save(여행_일정4_생성(하온));
 
-        FindSchedulesByNameRequest 검색_이름 = new FindSchedulesByNameRequest("일정1");
+        FindSchedulesByNameRequest 검색_이름_요청 = new FindSchedulesByNameRequest("일정1");
 
         // when
-        List<TripSchedule> 여행_일정_검색_결과 = plannerService.findSchedulesByName(검색_이름);
+        List<TripSchedule> 여행_일정_검색_결과 = plannerService.findSchedulesByName(검색_이름_요청);
 
         // then
         assertEquals(여행_일정_검색_결과.size(),1);
+    }
+
+    @DisplayName("비공개 여행 일정은 이름 검색 대상에서 제외된다.")
+    @Test
+    void 비공개_여행_일정은_이름_검색_대상에서_제외된다() {
+        // given
+        Member 하온 = memberRepository.save(하온_기존());
+        tripScheduleRepository.save(이번달_비공개_여행_일정5_생성(하온));
+        FindSchedulesByNameRequest 검색_이름_요청 = new FindSchedulesByNameRequest("일정5");
+
+        // when
+        List<TripSchedule> 여행_일정_검색_결과 = plannerService.findSchedulesByName(검색_이름_요청);
+
+        // then
+        assertEquals(여행_일정_검색_결과.size(), 0);
     }
 }
