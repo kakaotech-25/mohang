@@ -412,6 +412,5 @@ public class PlannerServiceTest extends ServiceTestConfig {
 
         // then
         assertEquals(여행_일정_검색_결과.getTripScheduleResponses().size(), 2);
-
     }
 }

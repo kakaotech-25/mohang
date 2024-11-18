@@ -6,6 +6,7 @@ import io.restassured.response.Response;
 import moheng.auth.dto.response.AccessTokenResponse;
 import moheng.planner.dto.request.FindPlannerOrderByDateBetweenRequest;
 import moheng.planner.dto.request.FindPublicSchedulesForRangeRequest;
+import moheng.planner.dto.request.FindSchedulesByNameRequest;
 import moheng.planner.dto.request.UpdateTripScheduleRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -84,6 +85,18 @@ public class PlannerAcceptenceFixture {
                 .queryParam("size", 30)
                 .auth().oauth2(accessTokenResponse.getAccessToken())
                 .when().get("/api/planner/search/date")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 모든_멤버의_공개된_플래너_여행지중_검색명을_포함하는_일정을_조회한다(final AccessTokenResponse accessTokenResponse,
+                                                                                       final FindSchedulesByNameRequest findSchedulesByNameRequest) {
+        return RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(findSchedulesByNameRequest)
+                .auth().oauth2(accessTokenResponse.getAccessToken())
+                .when().get("/api/planner/search/name")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract();
