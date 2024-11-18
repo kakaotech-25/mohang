@@ -82,7 +82,7 @@ public class PlannerService {
     }
 
     public List<TripSchedule> findSchedulesByName(final FindSchedulesByNameRequest findSchedulesByNameRequest) {
-        return tripScheduleRepository.findByNameContains(findSchedulesByNameRequest.getName());
+        return tripScheduleRepository.findByNameContainsAndPrivateIsFalse(findSchedulesByNameRequest.getName());
     }
 
     @Transactional
