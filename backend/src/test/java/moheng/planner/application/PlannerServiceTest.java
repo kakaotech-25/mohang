@@ -19,6 +19,7 @@ import moheng.planner.domain.repository.TripScheduleRepository;
 import moheng.planner.dto.request.FindPlannerOrderByDateBetweenRequest;
 import moheng.planner.dto.request.FindPublicSchedulesForRangeRequest;
 import moheng.planner.dto.request.FindSchedulesByNameRequest;
+import moheng.planner.dto.request.FindSchedulesNameResponses;
 import moheng.planner.dto.response.*;
 import moheng.planner.exception.AlreadyExistTripScheduleException;
 import moheng.planner.exception.InvalidDateSequenceException;
@@ -374,10 +375,10 @@ public class PlannerServiceTest extends ServiceTestConfig {
         FindSchedulesByNameRequest 검색_이름_요청 = new FindSchedulesByNameRequest("일정1");
 
         // when
-        List<TripSchedule> 여행_일정_검색_결과 = plannerService.findSchedulesByName(검색_이름_요청);
+        FindSchedulesNameResponses 여행_일정_검색_결과 = plannerService.findSchedulesByName(검색_이름_요청);
 
         // then
-        assertEquals(여행_일정_검색_결과.size(),1);
+        assertEquals(여행_일정_검색_결과.getTripScheduleResponses().size(),1);
     }
 
     @DisplayName("비공개 여행 일정은 이름 검색 대상에서 제외된다.")
@@ -389,9 +390,9 @@ public class PlannerServiceTest extends ServiceTestConfig {
         FindSchedulesByNameRequest 검색_이름_요청 = new FindSchedulesByNameRequest("일정5");
 
         // when
-        List<TripSchedule> 여행_일정_검색_결과 = plannerService.findSchedulesByName(검색_이름_요청);
+        FindSchedulesNameResponses 여행_일정_검색_결과 = plannerService.findSchedulesByName(검색_이름_요청);
 
         // then
-        assertEquals(여행_일정_검색_결과.size(), 0);
+        assertEquals(여행_일정_검색_결과.getTripScheduleResponses().size(), 0);
     }
 }
