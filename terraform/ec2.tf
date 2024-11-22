@@ -28,7 +28,18 @@ data "aws_ami" "ubuntu" {
   }
 }
 
+# 탄력적 IP 할당
+resource "aws_eip" "moheng_prod_eip" {
+  associate_with_private_ip = aws_instance.moheng_prod.private_ip
+}
+
+# 탄력적 IP를 EC2 인스턴스에 연결
+resource "aws_eip_association" "moheng_prod_eip_assoc" {
+  instance_id   = aws_instance.moheng_prod.id
+  allocation_id = aws_eip.moheng_prod_eip.id
+}
+
 # EC2 인스턴스의 공개 IP 출력
 output "ec2_public_ip" {
-  value = aws_instance.moheng_prod.public_ip
+  value = aws_eip.moheng_prod_eip.public_ip
 }
