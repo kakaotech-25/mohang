@@ -17,7 +17,7 @@ module "vpc" {
 # 보안 그룹 생성
 resource "aws_security_group" "web_sg" {
   name        = "web-sg"
-  description = "웹 서버를 위한 보안 그룹"
+  description = "SG for Web Servers"
   vpc_id      = module.vpc.vpc_id
 
   ingress {
