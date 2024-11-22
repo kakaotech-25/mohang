@@ -52,3 +52,26 @@ resource "aws_security_group" "web_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+# RDS 전용 보안 그룹 생성
+resource "aws_security_group" "rds_sg" {
+  name        = "rds-sg"
+  description = "RDS security group"
+  vpc_id      = module.vpc.vpc_id
+
+  ingress {
+    description     = "Allow MySQL inbound traffic"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = [aws_security_group.web_sg.id] # EC2 보안 그룹에서만 접근 허용
+  }
+
+  egress {
+    description = "Allow all outbound traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
