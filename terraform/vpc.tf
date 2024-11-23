@@ -11,10 +11,6 @@ module "vpc" {
   private_subnets      = ["192.168.0.64/26", "192.168.0.192/26"]
   enable_dns_hostnames = true
   enable_dns_support   = true
-
-  tags = {
-    Name = "moheng-vpc"
-  }
 }
 
 # 보안 그룹 생성

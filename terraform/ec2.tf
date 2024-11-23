@@ -7,6 +7,13 @@ resource "aws_instance" "moheng_prod" {
   vpc_security_group_ids      = [aws_security_group.web_sg.id]
   associate_public_ip_address = true
 
+  root_block_device {
+    volume_size           = 24              # 루트 볼륨 크기 (GiB)
+    volume_type           = "gp2"           # 볼륨 타입 (기본값: gp2)
+    delete_on_termination = true            # 인스턴스 종료 시 볼륨 삭제 여부 (기본값: true)
+    encrypted             = true            # 볼륨 암호화 여부 (선택 사항)
+  }
+
   tags = {
     Name = "moheng-prod"
   }
@@ -35,9 +42,9 @@ resource "aws_eip" "moheng_prod_eip" {
   }
 
   # EIP가 의도치 않게 삭제되지 않도록 보호
-  lifecycle {
-    prevent_destroy = true
-  }
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
 }
 
 # 탄력적 IP를 EC2 인스턴스에 연결
@@ -49,24 +56,4 @@ resource "aws_eip_association" "moheng_prod_eip_assoc" {
 # EC2 인스턴스의 공개 IP 출력
 output "ec2_public_ip" {
   value = aws_eip.moheng_prod_eip.public_ip
-}
-
-# gp3 EBS 볼륨 생성
-resource "aws_ebs_volume" "moheng_prod_volume" {
-  availability_zone = aws_instance.moheng_prod.availability_zone
-  size              = 16
-  type              = "gp3"
-
-  tags = {
-    Name = "moheng-prod-volume"
-  }
-}
-
-# EBS 볼륨을 EC2 인스턴스에 연결
-resource "aws_volume_attachment" "moheng_prod_volume_attach" {
-  device_name = "/dev/sdf" # Linux에서 사용할 장치 이름
-  volume_id   = aws_ebs_volume.moheng_prod_volume.id
-  instance_id = aws_instance.moheng_prod.id
-
-  depends_on = [aws_ebs_volume.moheng_prod_volume]
 }
