@@ -28,9 +28,16 @@ data "aws_ami" "ubuntu" {
   }
 }
 
-# 탄력적 IP 할당
+
 resource "aws_eip" "moheng_prod_eip" {
-  associate_with_private_ip = aws_instance.moheng_prod.private_ip
+  tags = {
+    Name = "moheng-prod-eip"
+  }
+
+  # EIP가 의도치 않게 삭제되지 않도록 보호
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 # 탄력적 IP를 EC2 인스턴스에 연결
