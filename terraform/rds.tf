@@ -24,9 +24,9 @@ module "rds" {
   password = var.db_password
 
   create_db_subnet_group = true
-  subnet_ids = module.vpc.private_subnets
+  subnet_ids             = module.vpc.private_subnets
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
-  availability_zone = module.vpc.azs[0]
+  availability_zone      = module.vpc.azs[0]
 
   publicly_accessible = false
   skip_final_snapshot = true

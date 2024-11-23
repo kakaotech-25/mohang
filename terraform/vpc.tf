@@ -4,12 +4,11 @@ module "vpc" {
   version = "5.16.0"
 
   name = "moheng"
-  cidr = "192.168.0.0/24"  # VPC 1의 CIDR 블록
+  cidr = "192.168.0.0/24" # VPC 1의 CIDR 블록
 
-  azs             = ["ap-northeast-2a", "ap-northeast-2b"]
-  public_subnets  = ["192.168.0.0/25", "192.168.0.128/25"]  # 두 개의 /25 퍼블릭 서브넷
-  private_subnets = ["192.168.0.64/26", "192.168.0.192/26"] # 두 개의 /26 프라이빗 서브넷
-
+  azs                  = ["ap-northeast-2a", "ap-northeast-2b"]
+  public_subnets       = ["192.168.0.0/26", "192.168.0.128/26"]
+  private_subnets      = ["192.168.0.64/26", "192.168.0.192/26"]
   enable_dns_hostnames = true
   enable_dns_support   = true
 

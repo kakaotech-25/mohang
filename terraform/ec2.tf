@@ -64,7 +64,7 @@ resource "aws_ebs_volume" "moheng_prod_volume" {
 
 # EBS 볼륨을 EC2 인스턴스에 연결
 resource "aws_volume_attachment" "moheng_prod_volume_attach" {
-  device_name = "/dev/sdf"  # Linux에서 사용할 장치 이름
+  device_name = "/dev/sdf" # Linux에서 사용할 장치 이름
   volume_id   = aws_ebs_volume.moheng_prod_volume.id
   instance_id = aws_instance.moheng_prod.id
 
