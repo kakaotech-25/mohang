@@ -2,7 +2,7 @@
 # EC2 인스턴스 생성
 resource "aws_instance" "moheng_prod" {
   ami                         = data.aws_ami.ubuntu.id
-  instance_type               = "t3.medium"
+  instance_type               = "t3.small"
   subnet_id                   = module.vpc.public_subnets[0]
   vpc_security_group_ids      = [aws_security_group.web_sg.id]
   associate_public_ip_address = true
@@ -42,4 +42,24 @@ resource "aws_eip_association" "moheng_prod_eip_assoc" {
 # EC2 인스턴스의 공개 IP 출력
 output "ec2_public_ip" {
   value = aws_eip.moheng_prod_eip.public_ip
+}
+
+# gp3 EBS 볼륨 생성
+resource "aws_ebs_volume" "moheng_prod_volume" {
+  availability_zone = aws_instance.moheng_prod.availability_zone
+  size              = 16
+  type              = "gp3"
+
+  tags = {
+    Name = "moheng-prod-volume"
+  }
+}
+
+# EBS 볼륨을 EC2 인스턴스에 연결
+resource "aws_volume_attachment" "moheng_prod_volume_attach" {
+  device_name = "/dev/sdf"  # Linux에서 사용할 장치 이름
+  volume_id   = aws_ebs_volume.moheng_prod_volume.id
+  instance_id = aws_instance.moheng_prod.id
+
+  depends_on = [aws_ebs_volume.moheng_prod_volume]
 }
