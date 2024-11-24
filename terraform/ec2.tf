@@ -42,9 +42,9 @@ resource "aws_eip" "moheng_prod_eip" {
   }
 
   # EIP가 의도치 않게 삭제되지 않도록 보호
-  # lifecycle {
-  #   prevent_destroy = true
-  # }
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 # 탄력적 IP를 EC2 인스턴스에 연결
