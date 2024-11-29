@@ -1,4 +1,3 @@
-
 # EC2 인스턴스 생성
 resource "aws_instance" "moheng_prod" {
   ami                         = data.aws_ami.ubuntu.id
@@ -8,10 +7,10 @@ resource "aws_instance" "moheng_prod" {
   associate_public_ip_address = true
 
   root_block_device {
-    volume_size           = 24              # 루트 볼륨 크기 (GiB)
-    volume_type           = "gp2"           # 볼륨 타입 (기본값: gp2)
-    delete_on_termination = true            # 인스턴스 종료 시 볼륨 삭제 여부 (기본값: true)
-    encrypted             = true            # 볼륨 암호화 여부 (선택 사항)
+    volume_size           = 24    # 루트 볼륨 크기 (GiB)
+    volume_type           = "gp3" # 볼륨 타입 (기본값: gp2)
+    delete_on_termination = true  # 인스턴스 종료 시 볼륨 삭제 여부 (기본값: true)
+    encrypted             = true  # 볼륨 암호화 여부 (선택 사항)
   }
 
   tags = {
