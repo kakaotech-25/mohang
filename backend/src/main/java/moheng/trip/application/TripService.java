@@ -23,10 +23,12 @@ import moheng.trip.exception.NoExistTripException;
 import moheng.trip.exception.NotAbleToAccessTripByPessimisticLockException;
 import org.hibernate.PessimisticLockException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 @Transactional(readOnly = true)
 @Service
@@ -56,21 +58,33 @@ public class TripService {
         this.saveRecommendTripStrategyProvider = saveRecommendTripStrategyProvider;
     }
 
-    @Transactional
     public FindTripWithSimilarTripsResponse findWithSimilarOtherTrips(final long tripId, final long memberId) {
+        final Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(NoExistTripException::new);
+
+        final TripFilterStrategy tripFilterStrategy = tripFilterStrategyProvider.findTripsByFilterStrategy(LIVE_INFO_STRATEGY);
+        final List<Trip> filteredSimilarTrips = tripFilterStrategy.execute(new LiveInformationFilterInfo(tripId));
+
+        return new FindTripWithSimilarTripsResponse(trip, findKeywordsByTrip(trip), findTripsWithKeywords(filteredSimilarTrips));
+    }
+
+    @Transactional
+    public void changeTripVisitedLogs(final long tripId, final long memberId) {
         try {
             final Trip trip = tripRepository.findByIdForUpdate(tripId)
                     .orElseThrow(NoExistTripException::new);
-            final TripFilterStrategy tripFilterStrategy = tripFilterStrategyProvider.findTripsByFilterStrategy(LIVE_INFO_STRATEGY);
-            final List<Trip> filteredSimilarTrips = tripFilterStrategy.execute(new LiveInformationFilterInfo(tripId));
-
             trip.incrementVisitedCount();
             saveRecommendTripByClickedLogs(memberId, trip);
-
-            return new FindTripWithSimilarTripsResponse(trip, findKeywordsByTrip(trip), findTripsWithKeywords(filteredSimilarTrips));
         } catch (PessimisticLockException e) {
             throw new NotAbleToAccessTripByPessimisticLockException("접속자 수가 많아 여행지 조회가 불가능합니다. 잠시 후에 시도해주세요.");
         }
+    }
+
+    @Transactional
+    public void decreaseTripVisitedLogsForRollback(final long tripId) {
+        final Trip trip = tripRepository.findByIdForUpdate(tripId)
+                .orElseThrow(NoExistTripException::new);
+        trip.decreaseVisitedCount();
     }
 
     private SimilarTripResponses findTripsWithKeywords(final List<Trip> trips) {

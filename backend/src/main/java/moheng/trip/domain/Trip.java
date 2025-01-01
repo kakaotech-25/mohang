@@ -109,6 +109,10 @@ public class Trip extends BaseEntity {
         this.visitedCount++;
     }
 
+    public void decreaseVisitedCount() {
+        this.visitedCount--;
+    }
+
     public String getName() {
         return name;
     }
