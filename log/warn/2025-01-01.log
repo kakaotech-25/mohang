@@ -1,0 +1,2164 @@
+Flyway upgrade recommended: H2 2.2.224 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220.
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 15:57:43.564
+
+                [REQUEST_IP] : NO REQUEST IP
+Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'flywayInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Migration V1__init.sql failed
+-----------------------------
+SQL State  : 42S02
+Error Code : 42102
+Message    : Table "MEMBER" not found; SQL statement:
+CREATE TABLE IF NOT EXISTS member_keyword (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    member_id BIGINT NOT NULL,
+    keyword_id BIGINT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (member_id) REFERENCES member(id),
+    FOREIGN KEY (keyword_id) REFERENCES keyword(id)
+) [42102-224]
+Location   : db/migration/V1__init.sql (/Users/iminseong/Desktop/moheng/backend/build/resources/main/db/migration/V1__init.sql)
+Line       : 8
+Statement  : CREATE TABLE IF NOT EXISTS member_keyword (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    member_id BIGINT NOT NULL,
+    keyword_id BIGINT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (member_id) REFERENCES member(id),
+    FOREIGN KEY (keyword_id) REFERENCES keyword(id)
+)
+
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 15:57:43.639
+
+                [REQUEST_IP] : NO REQUEST IP
+Flyway upgrade recommended: H2 2.2.224 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220.
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 15:58:53.341
+
+                [REQUEST_IP] : NO REQUEST IP
+Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'flywayInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Migration V1__init.sql failed
+-----------------------------
+SQL State  : 42S02
+Error Code : 42102
+Message    : Table "MEMBER" not found; SQL statement:
+CREATE TABLE IF NOT EXISTS member_keyword (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    member_id BIGINT NOT NULL,
+    keyword_id BIGINT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (member_id) REFERENCES member(id),
+    FOREIGN KEY (keyword_id) REFERENCES keyword(id)
+) [42102-224]
+Location   : db/migration/V1__init.sql (/Users/iminseong/Desktop/moheng/backend/build/resources/main/db/migration/V1__init.sql)
+Line       : 8
+Statement  : CREATE TABLE IF NOT EXISTS member_keyword (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    member_id BIGINT NOT NULL,
+    keyword_id BIGINT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (member_id) REFERENCES member(id),
+    FOREIGN KEY (keyword_id) REFERENCES keyword(id)
+)
+
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 15:58:53.415
+
+                [REQUEST_IP] : NO REQUEST IP
+Flyway upgrade recommended: H2 2.2.224 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220.
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:00:16.095
+
+                [REQUEST_IP] : NO REQUEST IP
+Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'flywayInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Migration V1__init.sql failed
+-----------------------------
+SQL State  : 42S02
+Error Code : 42102
+Message    : Table "MEMBER" not found; SQL statement:
+CREATE TABLE IF NOT EXISTS member_keyword (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    member_id BIGINT NOT NULL,
+    keyword_id BIGINT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (member_id) REFERENCES member(id),
+    FOREIGN KEY (keyword_id) REFERENCES keyword(id)
+) [42102-224]
+Location   : db/migration/V1__init.sql (/Users/iminseong/Desktop/moheng/backend/build/resources/main/db/migration/V1__init.sql)
+Line       : 8
+Statement  : CREATE TABLE IF NOT EXISTS member_keyword (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    member_id BIGINT NOT NULL,
+    keyword_id BIGINT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (member_id) REFERENCES member(id),
+    FOREIGN KEY (keyword_id) REFERENCES keyword(id)
+)
+
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:00:16.168
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH000342: Could not obtain connection to query metadata
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:11:33.733
+
+                [REQUEST_IP] : NO REQUEST IP
+java.lang.IllegalArgumentException: jdbcUrl is required with driverClassName.
+	at com.zaxxer.hikari.HikariConfig.validate(HikariConfig.java:1028)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:108)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:89)
+	at moheng.global.aopquery.QueryCounterAop.captureConnection(QueryCounterAop.java:28)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:637)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:627)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:71)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+	at com.zaxxer.hikari.HikariDataSource$$SpringCGLIB$$0.getConnection(<generated>)
+	at org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource.getConnection(AbstractRoutingDataSource.java:213)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:89)
+	at moheng.global.aopquery.QueryCounterAop.captureConnection(QueryCounterAop.java:28)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:637)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:627)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:71)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+	at moheng.global.replication.RoutingDataSource$$SpringCGLIB$$0.getConnection(<generated>)
+	at org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy.checkDefaultConnectionProperties(LazyConnectionDataSourceProxy.java:212)
+	at org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy.getConnection(LazyConnectionDataSourceProxy.java:265)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:89)
+	at moheng.global.aopquery.QueryCounterAop.captureConnection(QueryCounterAop.java:28)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:637)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:627)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:71)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+	at org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy$$SpringCGLIB$$0.getConnection(<generated>)
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:437)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcIsolationDelegate.delegateWork(JdbcIsolationDelegate.java:61)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.getJdbcEnvironmentUsingJdbcMetadata(JdbcEnvironmentInitiator.java:290)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:123)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:77)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:130)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:238)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:215)
+	at org.hibernate.boot.model.relational.Database.<init>(Database.java:45)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.getDatabase(InFlightMetadataCollectorImpl.java:221)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:189)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:171)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1431)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1502)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:75)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1853)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1802)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:954)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:625)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352)
+	at moheng.MohengApplication.main(MohengApplication.java:10)
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:11:33.747
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:11:33.748
+
+                [REQUEST_IP] : NO REQUEST IP
+Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is java.lang.IllegalArgumentException: jdbcUrl is required with driverClassName.
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:11:35.032
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH000342: Could not obtain connection to query metadata
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:12:44.541
+
+                [REQUEST_IP] : NO REQUEST IP
+java.lang.RuntimeException: Driver com.mysql.cj.jdbc.Driver claims to not accept jdbcUrl, jdbc:h2:mem:~/moheng;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=FALSE
+	at com.zaxxer.hikari.util.DriverDataSource.<init>(DriverDataSource.java:109)
+	at com.zaxxer.hikari.pool.PoolBase.initializeDataSource(PoolBase.java:327)
+	at com.zaxxer.hikari.pool.PoolBase.<init>(PoolBase.java:113)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:91)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:111)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:89)
+	at moheng.global.aopquery.QueryCounterAop.captureConnection(QueryCounterAop.java:28)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:637)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:627)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:71)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+	at com.zaxxer.hikari.HikariDataSource$$SpringCGLIB$$0.getConnection(<generated>)
+	at org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource.getConnection(AbstractRoutingDataSource.java:213)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:89)
+	at moheng.global.aopquery.QueryCounterAop.captureConnection(QueryCounterAop.java:28)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:637)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:627)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:71)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+	at moheng.global.replication.RoutingDataSource$$SpringCGLIB$$0.getConnection(<generated>)
+	at org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy.checkDefaultConnectionProperties(LazyConnectionDataSourceProxy.java:212)
+	at org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy.getConnection(LazyConnectionDataSourceProxy.java:265)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:89)
+	at moheng.global.aopquery.QueryCounterAop.captureConnection(QueryCounterAop.java:28)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:637)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:627)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:71)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+	at org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy$$SpringCGLIB$$0.getConnection(<generated>)
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:437)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcIsolationDelegate.delegateWork(JdbcIsolationDelegate.java:61)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.getJdbcEnvironmentUsingJdbcMetadata(JdbcEnvironmentInitiator.java:290)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:123)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:77)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:130)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:238)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:215)
+	at org.hibernate.boot.model.relational.Database.<init>(Database.java:45)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.getDatabase(InFlightMetadataCollectorImpl.java:221)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:189)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:171)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1431)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1502)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:75)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1853)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1802)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:954)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:625)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352)
+	at moheng.MohengApplication.main(MohengApplication.java:10)
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:12:44.554
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:12:44.555
+
+                [REQUEST_IP] : NO REQUEST IP
+Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is java.lang.RuntimeException: Driver com.mysql.cj.jdbc.Driver claims to not accept jdbcUrl, jdbc:h2:mem:~/moheng;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=FALSE
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:12:45.302
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH000342: Could not obtain connection to query metadata
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:13:02.651
+
+                [REQUEST_IP] : NO REQUEST IP
+java.lang.RuntimeException: Driver com.mysql.cj.jdbc.Driver claims to not accept jdbcUrl, jdbc:h2:mem:~/moheng;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=FALSE
+	at com.zaxxer.hikari.util.DriverDataSource.<init>(DriverDataSource.java:109)
+	at com.zaxxer.hikari.pool.PoolBase.initializeDataSource(PoolBase.java:327)
+	at com.zaxxer.hikari.pool.PoolBase.<init>(PoolBase.java:113)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:91)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:111)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:89)
+	at moheng.global.aopquery.QueryCounterAop.captureConnection(QueryCounterAop.java:28)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:637)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:627)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:71)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+	at com.zaxxer.hikari.HikariDataSource$$SpringCGLIB$$0.getConnection(<generated>)
+	at org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource.getConnection(AbstractRoutingDataSource.java:213)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:89)
+	at moheng.global.aopquery.QueryCounterAop.captureConnection(QueryCounterAop.java:28)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:637)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:627)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:71)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+	at moheng.global.replication.RoutingDataSource$$SpringCGLIB$$0.getConnection(<generated>)
+	at org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy.checkDefaultConnectionProperties(LazyConnectionDataSourceProxy.java:212)
+	at org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy.getConnection(LazyConnectionDataSourceProxy.java:265)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:89)
+	at moheng.global.aopquery.QueryCounterAop.captureConnection(QueryCounterAop.java:28)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:637)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:627)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:71)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+	at org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy$$SpringCGLIB$$0.getConnection(<generated>)
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:437)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcIsolationDelegate.delegateWork(JdbcIsolationDelegate.java:61)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.getJdbcEnvironmentUsingJdbcMetadata(JdbcEnvironmentInitiator.java:290)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:123)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:77)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:130)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:238)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:215)
+	at org.hibernate.boot.model.relational.Database.<init>(Database.java:45)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.getDatabase(InFlightMetadataCollectorImpl.java:221)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:189)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:171)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1431)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1502)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:75)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1853)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1802)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:954)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:625)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352)
+	at moheng.MohengApplication.main(MohengApplication.java:10)
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:13:02.669
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:13:02.670
+
+                [REQUEST_IP] : NO REQUEST IP
+Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is java.lang.RuntimeException: Driver com.mysql.cj.jdbc.Driver claims to not accept jdbcUrl, jdbc:h2:mem:~/moheng;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=FALSE
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:13:03.477
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:13:18.197
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:13:18.197
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:13:50.428
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:47:32.179
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:47:32.180
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:48:10.386
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:52:49.775
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:52:49.775
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:53:25.083
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:54:32.840
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:54:32.841
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:55:14.756
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:56:36.398
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:56:36.399
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:57:10.942
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:58:52.399
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:58:52.400
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 16:59:28.235
+
+                [REQUEST_IP] : NO REQUEST IP
+[1f315d18-2492-4ecc-818b-0f4035ccf63e] count: 19
+
+                [REQUEST_ID] : [1f315d18-2492-4ecc-818b-0f4035ccf63e]
+
+                [REQUEST_METHOD] : POST
+
+                [REQUEST_URI] : /api/member/signup/trip
+
+                [REQUEST_TIME] : 2025-01-01 17:02:46.053
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [cdc3b444-d2e4-49d0-b552-e4daaa356057]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:03:22.965
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+[cdc3b444-d2e4-49d0-b552-e4daaa356057] count: 7
+
+                [REQUEST_ID] : [cdc3b444-d2e4-49d0-b552-e4daaa356057]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:03:23.013
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 17:19:52.890
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 17:19:52.892
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 17:20:31.348
+
+                [REQUEST_IP] : NO REQUEST IP
+[9ce06e1f-272b-4535-aad1-8eeafb39fd56] count: 19
+
+                [REQUEST_ID] : [9ce06e1f-272b-4535-aad1-8eeafb39fd56]
+
+                [REQUEST_METHOD] : POST
+
+                [REQUEST_URI] : /api/member/signup/trip
+
+                [REQUEST_TIME] : 2025-01-01 17:20:57.252
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [a75fac1f-12a3-43ae-8d8a-2ae1a0fb31a5]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:21:01.688
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+[a75fac1f-12a3-43ae-8d8a-2ae1a0fb31a5] count: 22
+
+                [REQUEST_ID] : [a75fac1f-12a3-43ae-8d8a-2ae1a0fb31a5]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:21:01.760
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [8e7e4778-00af-47e3-b8e7-8db7a5cd9908]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:21:12.216
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+[8e7e4778-00af-47e3-b8e7-8db7a5cd9908] count: 22
+
+                [REQUEST_ID] : [8e7e4778-00af-47e3-b8e7-8db7a5cd9908]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:21:12.295
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [c25e5e07-e2a8-4102-a92d-a8eb4dca06af]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:23:57.658
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+[c25e5e07-e2a8-4102-a92d-a8eb4dca06af] count: 22
+
+                [REQUEST_ID] : [c25e5e07-e2a8-4102-a92d-a8eb4dca06af]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:23:57.900
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 17:28:26.462
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 17:28:26.463
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 17:29:06.366
+
+                [REQUEST_IP] : NO REQUEST IP
+[09d341f1-c155-4b7b-9004-e1c0ccd60dae] count: 19
+
+                [REQUEST_ID] : [09d341f1-c155-4b7b-9004-e1c0ccd60dae]
+
+                [REQUEST_METHOD] : POST
+
+                [REQUEST_URI] : /api/member/signup/trip
+
+                [REQUEST_TIME] : 2025-01-01 17:29:10.949
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [c178ec3e-cece-4148-8099-00c3d2ba89d0]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:29:15.748
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+[c178ec3e-cece-4148-8099-00c3d2ba89d0] count: 24
+
+                [REQUEST_ID] : [c178ec3e-cece-4148-8099-00c3d2ba89d0]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:29:15.859
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [ae427a43-4734-44dc-814e-920e4e889c19]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:29:29.292
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+[ae427a43-4734-44dc-814e-920e4e889c19] count: 24
+
+                [REQUEST_ID] : [ae427a43-4734-44dc-814e-920e4e889c19]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:29:29.414
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 17:32:11.558
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 17:32:11.559
+
+                [REQUEST_IP] : NO REQUEST IP
+[ff57c9a8-94e8-4c7c-a6d7-43a88df35ada] count: 19
+
+                [REQUEST_ID] : [ff57c9a8-94e8-4c7c-a6d7-43a88df35ada]
+
+                [REQUEST_METHOD] : POST
+
+                [REQUEST_URI] : /api/member/signup/trip
+
+                [REQUEST_TIME] : 2025-01-01 17:32:43.735
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 17:32:54.033
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [93b5de6a-7894-49c3-99a8-0d777e5578e3]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:32:54.332
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+[93b5de6a-7894-49c3-99a8-0d777e5578e3] count: 24
+
+                [REQUEST_ID] : [93b5de6a-7894-49c3-99a8-0d777e5578e3]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:32:54.389
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [4c456c77-b9cf-429f-b0ed-50f370e146ef]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:33:02.579
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+[4c456c77-b9cf-429f-b0ed-50f370e146ef] count: 24
+
+                [REQUEST_ID] : [4c456c77-b9cf-429f-b0ed-50f370e146ef]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:33:02.674
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [d87ae2c0-baad-4e1a-9954-d60af4b51d4d]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:34:27.615
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+[d87ae2c0-baad-4e1a-9954-d60af4b51d4d] count: 24
+
+                [REQUEST_ID] : [d87ae2c0-baad-4e1a-9954-d60af4b51d4d]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:34:27.697
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 17:35:54.571
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 17:35:54.572
+
+                [REQUEST_IP] : NO REQUEST IP
+[46f92e24-302c-437a-a2ab-bc87bec51804] count: 19
+
+                [REQUEST_ID] : [46f92e24-302c-437a-a2ab-bc87bec51804]
+
+                [REQUEST_METHOD] : POST
+
+                [REQUEST_URI] : /api/member/signup/trip
+
+                [REQUEST_TIME] : 2025-01-01 17:36:15.690
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [11fd4379-0ac7-45db-ab1a-69d87641e6d7]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:36:18.985
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+[11fd4379-0ac7-45db-ab1a-69d87641e6d7] count: 19
+
+                [REQUEST_ID] : [11fd4379-0ac7-45db-ab1a-69d87641e6d7]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:36:19.318
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 17:36:36.566
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [f1e6b442-ba37-4b81-a21f-c9b3af959877]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:37:00.561
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+[f1e6b442-ba37-4b81-a21f-c9b3af959877] count: 24
+
+                [REQUEST_ID] : [f1e6b442-ba37-4b81-a21f-c9b3af959877]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:37:00.646
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 17:41:55.731
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 17:41:55.731
+
+                [REQUEST_IP] : NO REQUEST IP
+[bfa70ec7-d79e-4c78-8508-f2ba35e9425e] count: 19
+
+                [REQUEST_ID] : [bfa70ec7-d79e-4c78-8508-f2ba35e9425e]
+
+                [REQUEST_METHOD] : POST
+
+                [REQUEST_URI] : /api/member/signup/trip
+
+                [REQUEST_TIME] : 2025-01-01 17:42:31.753
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [ed1ca856-fc6a-4188-8ff0-50b6c5a9de77]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:42:35.188
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+[ed1ca856-fc6a-4188-8ff0-50b6c5a9de77] count: 19
+
+                [REQUEST_ID] : [ed1ca856-fc6a-4188-8ff0-50b6c5a9de77]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:42:35.365
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 17:42:38.646
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [e7f6a925-3bed-4b1b-a547-4ac952333196]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:42:50.570
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+[e7f6a925-3bed-4b1b-a547-4ac952333196] count: 24
+
+                [REQUEST_ID] : [e7f6a925-3bed-4b1b-a547-4ac952333196]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:42:50.869
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 17:48:00.007
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 17:48:00.008
+
+                [REQUEST_IP] : NO REQUEST IP
+[ad2bcd14-014c-409a-b790-fee1219c82ac] count: 19
+
+                [REQUEST_ID] : [ad2bcd14-014c-409a-b790-fee1219c82ac]
+
+                [REQUEST_METHOD] : POST
+
+                [REQUEST_URI] : /api/member/signup/trip
+
+                [REQUEST_TIME] : 2025-01-01 17:48:30.790
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [857d79f5-8ca0-4ca0-9925-126365515a85]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:48:36.297
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+[857d79f5-8ca0-4ca0-9925-126365515a85] count: 19
+
+                [REQUEST_ID] : [857d79f5-8ca0-4ca0-9925-126365515a85]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:48:36.506
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 17:48:41.214
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [6c154922-5c64-41df-8c55-46e7ee2786d8]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:49:29.206
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+[6c154922-5c64-41df-8c55-46e7ee2786d8] count: 24
+
+                [REQUEST_ID] : [6c154922-5c64-41df-8c55-46e7ee2786d8]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:49:29.298
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [bd5f634a-9a11-4460-8640-e9698b8f2896]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:50:06.153
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+[bd5f634a-9a11-4460-8640-e9698b8f2896] count: 24
+
+                [REQUEST_ID] : [bd5f634a-9a11-4460-8640-e9698b8f2896]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:50:06.381
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 17:58:55.623
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 17:58:55.624
+
+                [REQUEST_IP] : NO REQUEST IP
+[1660c380-e18d-4082-bab8-1510b4143c38] count: 19
+
+                [REQUEST_ID] : [1660c380-e18d-4082-bab8-1510b4143c38]
+
+                [REQUEST_METHOD] : POST
+
+                [REQUEST_URI] : /api/member/signup/trip
+
+                [REQUEST_TIME] : 2025-01-01 17:59:24.900
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 17:59:34.353
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [35730c6e-317d-4e64-a715-e978fa7ef9ef]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:59:46.285
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+[35730c6e-317d-4e64-a715-e978fa7ef9ef] count: 24
+
+                [REQUEST_ID] : [35730c6e-317d-4e64-a715-e978fa7ef9ef]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 17:59:46.334
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:17:54.378
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:17:54.379
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:18:28.211
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:20:41.286
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:20:41.287
+
+                [REQUEST_IP] : NO REQUEST IP
+[f3d78673-b4b4-47ee-b85b-bd4b4923e75b] count: 19
+
+                [REQUEST_ID] : [f3d78673-b4b4-47ee-b85b-bd4b4923e75b]
+
+                [REQUEST_METHOD] : POST
+
+                [REQUEST_URI] : /api/member/signup/trip
+
+                [REQUEST_TIME] : 2025-01-01 18:21:03.559
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:21:22.992
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [b007d13b-8a8c-48c5-8974-98cd132d1122]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 18:21:37.759
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+[b007d13b-8a8c-48c5-8974-98cd132d1122] count: 24
+
+                [REQUEST_ID] : [b007d13b-8a8c-48c5-8974-98cd132d1122]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 18:21:37.972
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:25:58.095
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:25:58.096
+
+                [REQUEST_IP] : NO REQUEST IP
+[2501835d-235a-48a3-819a-678c612601e9] count: 19
+
+                [REQUEST_ID] : [2501835d-235a-48a3-819a-678c612601e9]
+
+                [REQUEST_METHOD] : POST
+
+                [REQUEST_URI] : /api/member/signup/trip
+
+                [REQUEST_TIME] : 2025-01-01 18:26:30.387
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:26:47.098
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [3d7bfdde-24d8-4d25-ba46-12f1a83fe8d9]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 18:27:01.738
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+[3d7bfdde-24d8-4d25-ba46-12f1a83fe8d9] count: 24
+
+                [REQUEST_ID] : [3d7bfdde-24d8-4d25-ba46-12f1a83fe8d9]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 18:27:01.926
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [70e95f8c-d33f-4ae5-8572-6b3ced328092]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 18:27:19.930
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+[70e95f8c-d33f-4ae5-8572-6b3ced328092] count: 24
+
+                [REQUEST_ID] : [70e95f8c-d33f-4ae5-8572-6b3ced328092]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 18:27:20.102
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m36s353ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:32:04.469
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=3m41s70ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:32:12.104
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=3m41s69ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:32:14.373
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=54s35ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:32:58.503
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=49s317ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:33:01.420
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=49s307ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:33:03.681
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=55s719ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:33:54.222
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=55s723ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:33:57.143
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=55s723ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:33:59.403
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=2m1s724ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:36:01.128
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m52s530ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:37:31.042
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=3m2s724ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:37:44.158
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=1m45s293ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:37:46.420
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m36s658ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:39:07.701
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=1m26s468ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:39:10.626
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=1m26s466ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:39:12.886
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m58s520ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:42:06.220
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=2m58s521ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:42:09.148
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=3m15s399ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:42:28.285
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m52s85ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:43:58.305
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=2m8s115ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:44:17.263
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=1m51s235ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:44:19.520
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m50s289ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:46:48.595
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=2m34s245ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:46:51.507
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=2m34s245ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:46:53.765
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m41s571ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:49:30.166
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=2m41s512ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:49:33.019
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=2m41s503ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:49:35.268
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4m11s84ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:53:41.248
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=4m11s84ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:53:44.103
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=6m41s592ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:56:16.860
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m517ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:56:41.766
+
+                [REQUEST_IP] : NO REQUEST IP
+HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=3m516ms).
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 18:56:44.620
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 19:01:36.827
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 19:01:36.828
+
+                [REQUEST_IP] : NO REQUEST IP
+[c9de6e2c-96fe-417f-8e2d-15112aaafc5f] count: 19
+
+                [REQUEST_ID] : [c9de6e2c-96fe-417f-8e2d-15112aaafc5f]
+
+                [REQUEST_METHOD] : POST
+
+                [REQUEST_URI] : /api/member/signup/trip
+
+                [REQUEST_TIME] : 2025-01-01 19:02:35.769
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [ae14d470-b245-4bf0-b419-58cd87f465fa]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 19:02:41.959
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+[ae14d470-b245-4bf0-b419-58cd87f465fa] count: 25
+
+                [REQUEST_ID] : [ae14d470-b245-4bf0-b419-58cd87f465fa]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 19:02:42.015
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 19:31:16.809
+
+                [REQUEST_IP] : NO REQUEST IP
+HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+
+                [REQUEST_ID] : [NO REQUEST ID]
+
+                [REQUEST_METHOD] : NO REQUEST METHOD
+
+                [REQUEST_URI] : NO REQUEST URI
+
+                [REQUEST_TIME] : 2025-01-01 19:31:16.810
+
+                [REQUEST_IP] : NO REQUEST IP
+[b7baa44f-663f-4968-a34b-a2604093e604] count: 19
+
+                [REQUEST_ID] : [b7baa44f-663f-4968-a34b-a2604093e604]
+
+                [REQUEST_METHOD] : POST
+
+                [REQUEST_URI] : /api/member/signup/trip
+
+                [REQUEST_TIME] : 2025-01-01 19:31:45.228
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [732456e3-800f-4261-be50-9a7c0aba0206]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 19:32:42.432
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+[732456e3-800f-4261-be50-9a7c0aba0206] count: 25
+
+                [REQUEST_ID] : [732456e3-800f-4261-be50-9a7c0aba0206]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 19:32:42.522
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+HHH90000021: Encountered deprecated setting [javax.persistence.lock.timeout], use [jakarta.persistence.lock.timeout] instead
+
+                [REQUEST_ID] : [ff74088e-5c15-442d-be22-499245766a66]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 19:32:56.388
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1
+[ff74088e-5c15-442d-be22-499245766a66] count: 25
+
+                [REQUEST_ID] : [ff74088e-5c15-442d-be22-499245766a66]
+
+                [REQUEST_METHOD] : GET
+
+                [REQUEST_URI] : /api/trip/find/1
+
+                [REQUEST_TIME] : 2025-01-01 19:32:56.569
+
+                [REQUEST_IP] : 0:0:0:0:0:0:0:1

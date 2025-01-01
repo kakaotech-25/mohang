@@ -32,7 +32,16 @@ public class TripController {
     @GetMapping("/find/{tripId}")
     public ResponseEntity<FindTripWithSimilarTripsResponse> findTripWithSimilarTrips(@PathVariable("tripId") final long tripId,
                                                                                      @Authentication final Accessor accessor) {
-        return ResponseEntity.ok(tripService.findWithSimilarOtherTrips(tripId , accessor.getId()));
+        tripService.changeTripVisitedLogs(tripId, accessor.getId());
+        FindTripWithSimilarTripsResponse findTripWithSimilarTripsResponse = null;
+
+        try {
+            findTripWithSimilarTripsResponse = tripService.findWithSimilarOtherTrips(tripId , accessor.getId());
+        } catch (Exception e) {
+            tripService.decreaseTripVisitedLogsForRollback(tripId);
+        }
+
+        return ResponseEntity.ok(findTripWithSimilarTripsResponse);
     }
 
     @PostMapping("/member/{tripId}")
